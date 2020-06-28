@@ -3,9 +3,11 @@
 #define _CRT_SECURE_NO_DEPRECATE
 #define WIN32_LEAN_AND_MEAN
 
+#include <stdio.h>
 #include <windows.h>
 
 static int base;
+static FILE *logfile;
 
 /***********************************************************************************************
 UTILS
@@ -54,6 +56,14 @@ void initConsolePOC()
 SOME HASH FUNCTIONS
 */
 
+/*
+When not defining HASH_HOOKS_TO_LOGFILE, it will be passed to OutputDebugString (use a debug
+viewer like sysinternal's Dbgview.exe).
+Outputing to logfile seems to be a thousand times faster, or I'm doing something wrong with
+Dbgview.
+*/
+#define HASH_HOOKS_TO_LOGFILE
+
 static char buf[1024];
 
 static
@@ -62,9 +72,13 @@ void SomeHash43DB50Print(char *arg, int *result)
 	if (arg == NULL) {
 		//OutputDebugString("43DB50: hashing nullptr\n");
 	} else {
+#ifdef HASH_HOOKS_TO_LOGFILE
+		fwrite(buf, sprintf(buf, "hash\t43DB50\t%s\t%p\n", arg, *result), 1, logfile);
+#else
 		sprintf(buf, "hash\t43DB50\t%s\t%p\n", arg, *result);
 		OutputDebugString(buf);
-		
+#endif
+
 		if (strcmp(arg, "FIRETRUCK") == 0) {
 			//*result = 0x83FBE66E;
 		}
@@ -131,8 +145,12 @@ void SomeHash505450Print(char *arg, int *result)
 	if (arg == NULL) {
 		//OutputDebugString("50540: hashing nullptr\n");
 	} else {
+#ifdef HASH_HOOKS_TO_LOGFILE
+		fwrite(buf, sprintf(buf, "hash\t50540\t%s\t%p\n", arg, *result), 1, logfile);
+#else
 		sprintf(buf, "hash\t50540\t%s\t%p\n", arg, *result);
 		OutputDebugString(buf);
+#endif
 	}
 }
 
@@ -174,9 +192,9 @@ static
 void initHashHooks()
 {
 	// called very often, but doesn't slow down too much
-	//mkjmp(0x105450, &SomeHash505450HookPre);
+	mkjmp(0x105450, &SomeHash505450HookPre);
 	// this one is called waaaay too much, will make startup time much longer
-	//mkjmp(0x3DB50, &SomeHash43DB50HookPre);
+	mkjmp(0x3DB50, &SomeHash43DB50HookPre);
 }
 
 /***********************************************************************************************
@@ -191,8 +209,13 @@ BOOL APIENTRY DllMain(HMODULE hModule, DWORD reason_for_call, LPVOID lpResrvd)
 		base = (int) GetModuleHandle(NULL);
 		VirtualProtect((LPVOID) base, 280000, PAGE_EXECUTE_READWRITE, &oldvp);
 
+		logfile = fopen("log.txt", "wb");
 		initHashHooks();
 		initConsolePOC();
+	} else if (reason_for_call == DLL_PROCESS_DETACH) {
+		if (logfile) {
+			fclose(logfile);
+		}
 	}
 
 	return 1;
