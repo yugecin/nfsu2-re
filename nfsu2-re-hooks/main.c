@@ -63,7 +63,7 @@ Outputing to logfile seems to be a thousand times faster, or I'm doing something
 Dbgview.
 */
 #define HASH_HOOKS_TO_LOGFILE
-#define NO_HASH_HOOKS
+//#define ENABLE_HASH_HOOKS
 
 static char buf[1024];
 
@@ -130,12 +130,12 @@ __declspec(naked) void SomeHashCS43DB50HookPre()
 	_asm {
 		//; the overwritten instruction for our jump
 		mov edx, [esp+0x4]
-		or eax, 0xFFFFFFFF
+		mov cl, [edx]
 		//; not pushing the arg because it's only used in the lines above
 		//; ret to SomeHashHookPost
 		push SomeHashCS43DB50HookPost
 		//; call the actual function (using ret...)
-		push 0x505457
+		push 0x43DB56
 		ret
 	}
 }
@@ -192,7 +192,7 @@ __declspec(naked) void SomeHashCI505450HookPre()
 static
 void initHashHooks()
 {
-#ifndef NO_HASH_HOOKS
+#ifdef ENABLE_HASH_HOOKS
 	// called very often, but doesn't slow down too much
 	mkjmp(0x105450, &SomeHashCI505450HookPre);
 	// this one is called waaaay too much, will make startup time much longer
