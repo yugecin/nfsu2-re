@@ -63,6 +63,7 @@ Outputing to logfile seems to be a thousand times faster, or I'm doing something
 Dbgview.
 */
 #define HASH_HOOKS_TO_LOGFILE
+#define NO_HASH_HOOKS
 
 static char buf[1024];
 
@@ -146,9 +147,9 @@ void SomeHash505450Print(char *arg, int *result)
 		//OutputDebugString("50540: hashing nullptr\n");
 	} else {
 #ifdef HASH_HOOKS_TO_LOGFILE
-		fwrite(buf, sprintf(buf, "hash\t50540\t%s\t%p\n", arg, *result), 1, logfile);
+		fwrite(buf, sprintf(buf, "hash\t505450\t%s\t%p\n", arg, *result), 1, logfile);
 #else
-		sprintf(buf, "hash\t50540\t%s\t%p\n", arg, *result);
+		sprintf(buf, "hash\t505450\t%s\t%p\n", arg, *result);
 		OutputDebugString(buf);
 #endif
 	}
@@ -191,10 +192,12 @@ __declspec(naked) void SomeHash505450HookPre()
 static
 void initHashHooks()
 {
+#ifndef NO_HASH_HOOKS
 	// called very often, but doesn't slow down too much
 	mkjmp(0x105450, &SomeHash505450HookPre);
 	// this one is called waaaay too much, will make startup time much longer
 	mkjmp(0x3DB50, &SomeHash43DB50HookPre);
+#endif
 }
 
 /***********************************************************************************************
