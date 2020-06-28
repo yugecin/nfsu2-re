@@ -68,15 +68,15 @@ Dbgview.
 static char buf[1024];
 
 static
-void SomeHash43DB50Print(char *arg, int *result)
+void SomeHashCS43DB50Print(char *arg, int *result)
 {
 	if (arg == NULL) {
 		//OutputDebugString("43DB50: hashing nullptr\n");
 	} else {
 #ifdef HASH_HOOKS_TO_LOGFILE
-		fwrite(buf, sprintf(buf, "hash\t43DB50\t%s\t%p\n", arg, *result), 1, logfile);
+		fwrite(buf, sprintf(buf, "hash\t%s\t%p\t43DB50\n", arg, *result), 1, logfile);
 #else
-		sprintf(buf, "hash\t43DB50\t%s\t%p\n", arg, *result);
+		sprintf(buf, "hash\t%s\t%p\t43DB50\n", arg, *result);
 		OutputDebugString(buf);
 #endif
 
@@ -103,7 +103,7 @@ void SomeHash43DB50Print(char *arg, int *result)
 }
 
 static
-__declspec(naked) void SomeHash43DB50HookPost()
+__declspec(naked) void SomeHashCS43DB50HookPost()
 {
 	_asm {
 		mov edx, [esp+0x4]
@@ -115,7 +115,7 @@ __declspec(naked) void SomeHash43DB50HookPost()
 		push ecx
 		//; the original arg
 		push edx
-		call SomeHash43DB50Print
+		call SomeHashCS43DB50Print
 		add esp, 0x8
 		popad
 		//; get result back (in case we modified it)
@@ -125,7 +125,7 @@ __declspec(naked) void SomeHash43DB50HookPost()
 }
 
 static
-__declspec(naked) void SomeHash43DB50HookPre()
+__declspec(naked) void SomeHashCS43DB50HookPre()
 {
 	_asm {
 		//; the overwritten instruction for our jump
@@ -133,7 +133,7 @@ __declspec(naked) void SomeHash43DB50HookPre()
 		or eax, 0xFFFFFFFF
 		//; not pushing the arg because it's only used in the lines above
 		//; ret to SomeHashHookPost
-		push SomeHash43DB50HookPost
+		push SomeHashCS43DB50HookPost
 		//; call the actual function (using ret...)
 		push 0x505457
 		ret
@@ -141,22 +141,22 @@ __declspec(naked) void SomeHash43DB50HookPre()
 }
 
 static
-void SomeHash505450Print(char *arg, int *result)
+void SomeHashCI505450Print(char *arg, int *result)
 {
 	if (arg == NULL) {
 		//OutputDebugString("50540: hashing nullptr\n");
 	} else {
 #ifdef HASH_HOOKS_TO_LOGFILE
-		fwrite(buf, sprintf(buf, "hash\t505450\t%s\t%p\n", arg, *result), 1, logfile);
+		fwrite(buf, sprintf(buf, "hash\t%s\t%p\t505450\n", arg, *result), 1, logfile);
 #else
-		sprintf(buf, "hash\t505450\t%s\t%p\n", arg, *result);
+		sprintf(buf, "hash\t%s\t%p\t505450\n", arg, *result);
 		OutputDebugString(buf);
 #endif
 	}
 }
 
 static
-__declspec(naked) void SomeHash505450HookPost()
+__declspec(naked) void SomeHashCI505450HookPost()
 {
 	_asm {
 		mov edx, [esp+0x4]
@@ -165,7 +165,7 @@ __declspec(naked) void SomeHash505450HookPost()
 		lea ecx, [esp+0x4*8]
 		push ecx // ptr to result
 		push edx // the arg
-		call SomeHash505450Print
+		call SomeHashCI505450Print
 		add esp, 0x8
 		popad
 		pop eax // get result back (in case we modified it)
@@ -174,7 +174,7 @@ __declspec(naked) void SomeHash505450HookPost()
 }
 
 static
-__declspec(naked) void SomeHash505450HookPre()
+__declspec(naked) void SomeHashCI505450HookPre()
 {
 	_asm {
 		//; the overwritten instruction for our jump
@@ -182,7 +182,7 @@ __declspec(naked) void SomeHash505450HookPre()
 		or eax, 0xFFFFFFFF
 		//; not pushing the arg because it's only used in the lines above
 		//; ret to SomeHashHookPost
-		push SomeHash505450HookPost
+		push SomeHashCI505450HookPost
 		//; call the actual function (using ret...)
 		push 0x505457
 		ret
@@ -194,9 +194,9 @@ void initHashHooks()
 {
 #ifndef NO_HASH_HOOKS
 	// called very often, but doesn't slow down too much
-	mkjmp(0x105450, &SomeHash505450HookPre);
+	mkjmp(0x105450, &SomeHashCI505450HookPre);
 	// this one is called waaaay too much, will make startup time much longer
-	mkjmp(0x3DB50, &SomeHash43DB50HookPre);
+	mkjmp(0x3DB50, &SomeHashCS43DB50HookPre);
 #endif
 }
 
