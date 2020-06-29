@@ -63,7 +63,7 @@ Outputing to logfile seems to be a thousand times faster, or I'm doing something
 Dbgview.
 */
 #define HASH_HOOKS_TO_LOGFILE
-//#define ENABLE_HASH_HOOKS
+#define ENABLE_HASH_HOOKS
 
 static char buf[1024];
 
@@ -84,7 +84,10 @@ void SomeHashCS43DB50Print(char *arg, int *result)
 			//*result = 0x83FBE66E;
 		}
 		if (strcmp(arg, "TAXI") == 0) {
-			//*result = 0x001D1775;
+			//*result = 0x001D1775
+
+			// use ambulance for taxi
+			//*result = 0x43A98EA7;
 		}
 		if (strcmp(arg, "240SX") == 0) {
 			//*result = 0x0150FB80;
@@ -95,9 +98,8 @@ void SomeHashCS43DB50Print(char *arg, int *result)
 			// use taxi for 240sx
 			//*result = 0x001D1775;
 
-			// - other car shows when customizing (but not when browsing, empty spot shows)
-			// - crash when exit customizing
-			// - crash when choosing it for a race
+			// use mustang for 240sx
+			//*result = 0x35165819;
 		}
 	}
 }
