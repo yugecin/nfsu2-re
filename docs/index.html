@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+body {
+	font-family: Arial,Tahoma,sans-serif;
+}
+td {
+	padding: 1em;
+}
+code {
+	display: inline-block;
+	background: #dfdfdf;
+	padding: .2em;
+	margin: 0 .2em;
+	border-radius: 2px;
+}
+pre {
+	border:2px solid #CDCDCD;
+	padding: 0.5em;
+}
+pre.ida {
+	background:#fff;
+	color:#000080;
+}
+pre.ida span.t {
+	color:#000;
+}
+pre.ida span.c {
+	color:#808080;
+}
+pre.ida span.i {
+	color:#0000FF;
+}
+pre.ida span.n {
+	color:#008000;
+}
+pre.ida span.hi {
+	background:#FFFF00;
+}
+h2 a, h3 a {
+	color: #A0A0A0;
+}
+</style>
+</head>
+<body>
+<table border="1" bordercolor="#EFEFEF" style="margin:auto;max-width:50em">
+	<tr style="background:#ABABAB"><td>
+		<h1>nfsu2-re</h1>
+	</td></tr>
+	<tr><td>
+		<h2 id="prologue">Prologue</h2>
+		<p>
+			This is just me documenting while I have fun attempting to reverse-engineer the game
+			Need For Speed Underground 2, or nfsu2.
+		</p>
+	</td></tr>
+	<tr><td>
+		<h2 id="index">Index</h2>
+		<ul>
+			<li><a href="#prologue">Prologue</a></li>
+			<li><a href="#index">Index</a></li>
+			<li><a href="#injectedcode">Injected code</a></li>
+			<li><a href="#hashfuncs">Hash functions</a></li>
+			<li><a href="#hashmess">Messing with the hash results</a></li>
+		</ul>
+	</td></tr>
+	<tr><td>
+		<h2 id="injectedcode">Injected code <a href="#injectedcode">#</a></h2>
+		<p>
+			The code for all injected things I did can be found in <code>nfsu2-re-hooks/main.c</code>.
+			It's configured as a VC2005 project in a VC2005 solution. The project emits a compiled file
+			to <code>..\NeedForSpeed U2\scripts\nfsu2-re-hooks.asi</code>. I'm using the
+			<a href="https://github.com/ThirteenAG/Ultimate-ASI-Loader/releases">Ultimate ASI Loader by
+			ThirteenAG</a>, which loads the library nicely for me (download the ZIP and place the dll
+			in the game folder, name it <code>dinput8.dll</code>).
+		</p>
+		<p><a href="#index">Index</a></p>
+	</td></tr>
+	<tr><td>
+		<h2 id="hashfuncs">Hash functions <a href="#hashfuncs">#</a></h2>
+		<p>
+			While scrolling and looking at references to some strings, I found some parts that look like
+			following excerpt:
+		</p>
+		<pre class="ida">
+<span class="t">.text:005121AE</span>     push    offset <span class="i">aGenericdialo_2</span> <span class="c">; "GenericDialog_Animate_SMALL.fng"</span>
+<span class="t">.text:005121B3</span>     call    <span class="hi">sub_505450</span>
+<span class="t">.text:005121B8</span>     add     esp, <num>4</num>
+<span class="t">.text:005121BB</span>     cmp     esi, eax
+<span class="t">.text:005121BD</span>     jz      short loc_512218
+<span class="t">.text:005121BF</span>     push    offset <span class="i">aGenericdialog_</span> <span class="c">; "GenericDialog_SMALL.fng"</span>
+<span class="t">.text:005121C4</span>     call    <span class="hi">sub_505450</span>
+<span class="t">.text:005121C9</span>     add     esp, <num>4</num>
+<span class="t">.text:005121CC</span>     cmp     esi, eax
+<span class="t">.text:005121CE</span>     jz      short loc_512218
+<span class="t">.text:005121D0</span>     push    offset <span class="i">aGenericdialo_3</span> <span class="c">; "GenericDialog_Animate_MED.fng"</span>
+<span class="t">.text:005121D5</span>     call    <span class="hi">sub_505450</span>
+<span class="t">.text:005121DA</span>     add     esp, <num>4</num>
+<span class="t">.text:005121DD</span>     cmp     esi, eax
+<span class="t">.text:005121DF</span>     jz      short loc_512218
+<span class="t">.text:005121E1</span>     push    offset <span class="i">aGenericdialo_4</span> <span class="c">; "GenericDialog_MED.fng"</span>
+<span class="t">.text:005121E6</span>     call    <span class="hi">sub_505450</span>
+<span class="t">.text:005121EB</span>     add     esp, <num>4</num>
+<span class="t">.text:005121EE</span>     cmp     esi, eax
+<span class="t">.text:005121F0</span>     jz      short loc_512218
+<span class="t">.text:005121F2</span>     push    offset <span class="i">aGenericdialo_5</span> <span class="c">; "GenericDialog_Animate_LARGE.fng"</span>
+<span class="t">.text:005121F7</span>     call    <span class="hi">sub_505450</span>
+<span class="t">.text:005121FC</span>     add     esp, <num>4</num>
+<span class="t">.text:005121FF</span>     cmp     esi, eax
+<span class="t">.text:00512201</span>     jz      short loc_512218
+<span class="t">.text:00512203</span>     push    offset <span class="i">aGenericdialo_0</span> <span class="c">; "GenericDialog_LARGE.fng"</span>
+<span class="t">.text:00512208</span>     call    <span class="hi">sub_505450</span>
+<span class="t">.text:0051220D</span>     add     esp, <num>4</num>
+<span class="t">.text:00512210</span>     cmp     esi, eax
+<span class="t">.text:00512212</span>     jz      short loc_512218</pre>
+		<p>
+			The proc at <code>0x505450</code> doesn't look very complicated; it has one argument and
+			doesn't perform any calls. It dereferences the given argument and increment its position,
+			until a zero has been found. While it's doing that, eax is modified based on the read value.
+			So I assumed it is some hashing function and hooked it to see what kind of things are passed
+			through it.
+		</p>
+		<p>
+			As it turns out, it gets called many, many times.
+		</p>
+		<pre>
+<strong>time        input result</strong>
+53.42743683 GenericDialog_SMALL.fng 6962C0CD
+53.42753220 UI_PC_Help_Bar.fng 33AC1CB4
+53.42756271 OL_ICON_GROUP 2BAC0CEE
+53.42758179 UI_PC_Help_Bar.fng 33AC1CB4
+53.42760086 Hide 0016A259
+53.42761993 UI_Main.fng C343126A
+53.42766190 GarageMain.fng 4CDD8B14
+53.42769241 GarageMain.fng 4CDD8B14
+53.42771149 GarageMain.fng 4CDD8B14
+53.42773056 GenericDialog.fng F68A7675
+53.42774963 UI_GenericParts_Browser.fng AF09F84F
+53.42776871 GenericDialog.fng F68A7675
+53.42779160 GenericDialog_SMALL.fng 6962C0CD
+53.42781067 UI_PC_Help_Bar.fng 33AC1CB4
+53.42782974 UI_Main.fng C343126A
+53.42784882 GarageMain.fng 4CDD8B14
+53.42790222 UI_MagazineBack.fng FA8CC482
+53.42796707 GenericDialog_SMALL.fng 6962C0CD
+53.42798615 UI_PC_Help_Bar.fng 33AC1CB4
+53.42800522 UI_Main.fng C343126A
+53.42802429 GarageMain.fng 4CDD8B14
+53.42922211 GenericDialog_SMALL.fng 6962C0CD
+53.42924881 UI_PC_Help_Bar.fng 33AC1CB4
+53.42926788 UI_Main.fng C343126A
+53.42928696 GarageMain.fng 4CDD8B14</pre>
+		<p>
+			The excerpt above is probably from one cycle in the update loop, and is repeated a lot.
+		</p>
+		<p>
+			Some time later I found a very similar looking proc at <code>0x43DB50</code>, so I copied
+			the previous hook for this function. This one gets called many times seemingly at startup
+			and when car parts or maps get loaded.
+		</p>
+		<p>
+			When writing this I took a better look at the procedures and saw that the only difference
+			really is that the first one is case insensitive while the second one is case sensitive.
+			In the <code>0x505450</code> one, it checks for every character if it is in the range
+			<code>'a'-'z'</code> and subtracts <code>0x20</code> if so, making the character uppercase
+			before updating the hash.
+		</p>
+		<p>
+			See <a href="hashes.txt">hashes.txt</a> (~227KB) for list of hashes, each line is formatted
+			as <code>hash\tinput\tresult\tproc\n</code>. It is the result of a dump of short 8 minute
+			menu browsing/driving. This output was piped to <code>sort | uniq</code>, the original output
+			was 277MB. I thought a tab character was a good separator but the first two entries have tab
+			characters...
+		</p>
+		<p>
+			How I collected these can be seen in <code>nfsu2-re-hooks/main.c</code>, starting
+			from functions <code>SomeHashCI505450HookPre</code> and
+			<code>SomeHashCS43DB50HookPre</code>.
+		</p>
+		<p><a href="#index">Index</a></p>
+		<hr/>
+		<h3 id="hashmess">Messing with hash results <a href="#hashmess">#</a></h3>
+		<p>
+			I had an impulse to try to return different results for certain hashes. For example, return
+			the result of <code>FIRETRUCK</code> when the input is <code>240SX</code>. The result is ..
+			difficult to describe. Here's some short points:
+		</p>
+		<ul>
+			<li>Browsing to the stock 240sx to customize shows an empty spot, no car</li>
+			<li>Selecting the stock car to customize will suddenly swap to the firetruck model</li>
+			<li>I can modify the firetruck, I can't select any bumpers but I can choose spoilers,
+			although it does nothing</li>
+			<li>Changing wheels/spinners/hydraulics does show</li>
+			<li>Then going out of the customization menu crashes the game
+			(this includes going to performance tuning)</li>
+		</ul>
+		<p>
+			<center><img src="FIRETRUCK.GIF"/><br/>Hop hop skippity hop</center>
+		</p>
+		<ul>
+			<li>Browsing a previously customized 240sx only shows the wheels of the car</li>
+			<li>If the wheels were not customized, it shows black rectangles as wheels and the game
+			crashes when I try to customize the wheels/spinners</li>
+			<li>Selecting the customized car to customize doesn't change anything special, still only wheels</li>
+			<li>Only the firetruck customization options can be selected</li>
+			<li>Choosing a spoiler shows the spoiler in the center of the car</li>
+			<li>When going out of a category (like Body parts), the car switches to the same car but the wheels
+			at the position where they should be for the firetruck</li>
+			<li>When going outside the customize menu now, the car's brand is a <code>*</code> symbol</li>
+			<li>When going to a different car and back, the firetruck model shows</li>
+			<li>Entering customization again hides the firetruck, only showing the wheels
+			(the spoiler is gone?)</li>
+			<li>After saving and undoing the swap, the saved car stays a firetruck (but the behavior is still
+			the same as described above)</li>
+			<li>Using the car to race makes the framerate go down significantly, except when in nose camera</li>
+			<li>It doesn't lag at all in the performance tuning</li>
+		</ul>
+		<p>
+			<center><img src="FIRETRUCK-DYNO.JPG"/><br/>Here's a dyno chart of the firetruck</center>
+		</p>
+		<p>
+			While the firetruck is unused in the game, I also tried to do this with the taxi, but it gave the
+			same results. Then I tried to replace it with a "normal" car, the Mustang.
+		</p>
+		<ul>
+			<li>Browsing a stock 240sx only shows black rectangles for wheels</li>
+			<li>When selecting the car, it gets replaced with a mustang, and now I'm customizing a mustang</li>
+			<li>The only change I can see is that there are no headlights or taillights</li>
+			<li>Going ingame now only shows the front bumper of the car, which is the thing I customized</li>
+			<li>Going back to the menu now shows the car with stock headlights and taillights</li>
+			<li>Going ingame again now shows the car fully as it should</li>
+			<li>Selecting a customized 240sx now shows the doors of a mustang</li>
+		</ul>
+		<p>
+			<center><img src="MUSTANG.JPG"/><br/>Car?</center>
+		</p>
+		<p>
+			The behavior isn't always the same, just give it a try and see for yourself. Replacing the taxi
+			with the ambulance just lags out the game whenever a taxi comes in sight.
+		</p>
+		<p>
+			Check the function <code>SomeHashCS43DB50Print</code> in the file
+			<code>nfsu2-re-hooks/main.c</code> to see how I did this, the code is in comments.
+		</p>
+		<p><a href="#index">Index</a></p>
+	</td></tr>
+</table>
+</body>
+</html>
