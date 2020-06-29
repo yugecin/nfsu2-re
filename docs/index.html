@@ -61,8 +61,13 @@ h2 a, h3 a {
 			<li><a href="#prologue">Prologue</a></li>
 			<li><a href="#index">Index</a></li>
 			<li><a href="#injectedcode">Injected code</a></li>
-			<li><a href="#hashfuncs">Hash functions</a></li>
-			<li><a href="#hashmess">Messing with the hash results</a></li>
+			<li><a href="#consoleleftover">Console leftovers</a></li>
+			<li>
+				<a href="#hashfuncs">Hash functions</a>
+				<ul>
+					<li><a href="#hashmess">Messing with the hash results</a></li>
+				</ul>
+			</li>
 		</ul>
 	</td></tr>
 	<tr><td>
@@ -74,6 +79,116 @@ h2 a, h3 a {
 			<a href="https://github.com/ThirteenAG/Ultimate-ASI-Loader/releases">Ultimate ASI Loader by
 			ThirteenAG</a>, which loads the library nicely for me (download the ZIP and place the dll
 			in the game folder, name it <code>dinput8.dll</code>).
+		</p>
+		<p><a href="#index">Index</a></p>
+	</td></tr>
+	<tr><td>
+		<h2 id="consoleleftover">Console leftovers <a href="#consoleleftover">#</a></h2>
+		<p>
+			<em>Note: console as in somewhere you type in, not a videogame console</em>
+		</p>
+		<p>
+			In the hooks project, I "enabled" this console in the functions <code>initConsolePOC</code>
+			in the file <code>nfsu2-re-hooks/main.c</code>. As it doesn't seem to be used anywhere, the
+			only effect you can see is that whatever you type is written into the
+			<code>console_real_text</code> buffer.
+		</p>
+		<p>
+			All names below were chosen by me.
+		</p>
+		<h3>ConsoleConsumeKey - 0x5C8320</h3>
+		<p>
+			When looking at the <code>MainWndProc</code> (which is not to hard too find because it's
+			passed in a struct to <code>RegisterClassExA</code>), I saw a call to a function that
+			is called on every <code>WM_CHAR</code> event. The function does nothing when the value
+			in <code>0x8709BC</code> is zero, and there are no write references to it, so it seems
+			like it will always be zero. I called this <code>consoleEnabledFlag</code>.
+		</p>
+		<p>
+			First it seems like the input is dropped if it's a <code>CR</code> (carriage return) and
+			when the value at <code>0x8709C4</code> is non-zero. Again, this is always zero so CR's
+			are never dropped. I called this <code>consoleIgnoreNextCR</code>.
+		</p>
+		<p>
+			Then it has four different handlers. The first one handles a backspace character, second
+			one does escape, third one does tab and CR, and the last one does everything else. Basically
+			one character is deleted when pressing backspace and one character is added in all other
+			cases. I named following variables:
+		</p>
+		<ul>
+			<li><code>0x8709B8 - consoleTextCaretPosition - int</code></li>
+			<li><code>0x8709C0 - consoleTextStringMaxLength - int</code></li>
+			<li><code>0x8709B0 - consoleTextString - char*</code></li>
+			<li><code>0x8709B4 - consoleTextStringLength - int</code></li>
+			<li><code>0x8709BC - consoleEnabledFlag - int</code></li>
+		</ul>
+		<p>
+			Basically, on backspace it checks if <code>consoleTextCaretPosition</code> is bigger than
+			zero, copies everything in <code>consoleTextString</code> starting from
+			<code>consoleTextCaretPosition</code> to a zero byte into a newly allocated buffer,
+			decrements <code>consoleTextCaretPosition</code> and <code>consoleTextStringLength</code>,
+			and copies everything from the allocated buffer back into <code>consoleTextString</code> at
+			position <code>consoleTextCaretPosition</code>.
+		</p>
+		<p>
+			When inserting, it checks if <code>consoleTextStringLength</code> is less than
+			<code>consoleTextStringMaxLength</code>, copies everything in
+			<code>consoleTextString</code> starting from <code>consoleTextCaretPosition</code>
+			to a zero byte into a newly allocated buffer, inserts the character in
+			<code>consoleTextString</code> at position <code>consoleTextCaretPosition</code>, increments
+			<code>consoleTextCaretPosition</code> and <code>consoleTextStringLength</code> by one,
+			and copies everything from the allocated buffer back into <code>consoleTextString</code>
+			at position <code>consoleTextCaretPosition</code>.
+		</p>
+		<ul>
+			<li>Backspace: delete character before caret</li>
+			<li>Escape: insert zero byte</li>
+			<li>Tab and CR: insert LF</li>
+			<li>Other: insert char if it's <code>a-z</code> or <code>A-Z</code> or <code>0-9</code> or,
+			if <code>0x80057E</code> is zero, <code>_</code> or <code>@</code> or <code>.</code> or
+			<code>-</code>. If none of these pass, do a check for more keys as described below</li>
+		</ul>
+		<h4>A hardcoded key check - 0x5BF260</h4>
+		<p>
+			At the end of looking if a character is valid, when it hasn't passed any of the criteria
+			above, it checks one last function if <code>0x8709C7</code> is <code>1</code>. The function
+			seems to check if the key is one of 55 configured values and if so, the char is accepted.
+			The C-ified code looks like this:
+		</p>
+		<pre>
+int ConsoleIsCharOneOfTheseHardcodedValues(unsigned char value)
+{
+	unsigned char values[55] = {
+		' ', '.', ',', '_', '@', '-', '`', '=', '[', ']', '\\',
+		';', '\'', '/', '&lt;', '&gt;', '?', ':', '"', '{', '}', '|',
+		'+', '(', ')', '*', '&amp;', '%', '#', '!', '~', 0xE5, 0xE4,
+		0xE0, 0xE2, 0xEB, 0xE8, 0xE9, 0xEA, 0xEF, 0xEE, 0xF6,
+		0xF4, 0xFC, 0xF9, 0xFB, 0xE7, 0x9C, 0xF2, 0xEC, 0xC5,
+		0xC4, 0xD6, 0xDC, 0xA7
+	};
+	int i;
+
+	for (i = 0; i < 55; i++) {
+		if (values[i] == value) {
+			return 1;
+		}
+	}
+	return 0;
+}</pre>
+		<h3>ConsoleMoveCaret - 0x5BF3A0</h3>
+		<p>
+			This function is also called from <code>MainWndProc</code>, this time when a
+			<code>WM_KEYDOWN</code> message is received. One parameter is passed based on the keycode
+			of the event:
+		</p>
+		<ul>
+			<li><code>VK_LEFT</code>: <code>-1</code></li>
+			<li><code>VK_RIGHT</code>: <code>1</code></li>
+			<li><code>VK_HOME</code>: <code>-consoleTextStringMaxLength</code></li>
+			<li><code>VK_END</code>: <code>consoleTextStringMaxLength</code></li>
+		</ul>
+		<p>
+			This is the only other function that checks if <code>consoleEnabledFlag</code> is non-zero.
 		</p>
 		<p><a href="#index">Index</a></p>
 	</td></tr>
