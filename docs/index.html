@@ -1,12 +1,20 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+<title>nfsu2-re</title>
 <style>
 body {
 	font-family: Arial,Tahoma,sans-serif;
 }
-td {
+table td {
 	padding: 1em;
+}
+/*for all tablecells except in main table*/
+table table td {
+	padding: .4em;
+}
+.center {
+	text-align: center;
 }
 code {
 	display: inline-block;
@@ -44,6 +52,7 @@ h2 a, h3 a {
 </style>
 </head>
 <body>
+<!-- using tables for layout COME AT ME BRUH -->
 <table border="1" bordercolor="#EFEFEF" style="margin:auto;max-width:50em">
 	<tr style="background:#ABABAB"><td>
 		<h1>nfsu2-re</h1>
@@ -54,6 +63,10 @@ h2 a, h3 a {
 			This is just me documenting while I have fun attempting to reverse-engineer the game
 			Need For Speed Underground 2, or nfsu2.
 		</p>
+		<p>
+			This normally belongs to
+			<a href="https://github.com/yugecin/nfsu2-re">https://github.com/yugecin/nfsu2-re</a>
+		</p>
 	</td></tr>
 	<tr><td>
 		<h2 id="index">Index</h2>
@@ -61,6 +74,19 @@ h2 a, h3 a {
 			<li><a href="#prologue">Prologue</a></li>
 			<li><a href="#index">Index</a></li>
 			<li><a href="#injectedcode">Injected code</a></li>
+			<li><a href="#registry">Registry</a></li>
+			<li>
+				<a href="#language">Language</a>
+				<ul>
+					<li><a href="#language_metadata">Language metadata</a></li>
+				</ul>
+			</li>
+			<li>
+				<a href="#displaysettings">Display settings</a>
+				<ul>
+					<li><a href="#displaysettingstodo">Todo</a></li>
+				</ul>
+			</li>
 			<li><a href="#consoleleftover">Console leftovers</a></li>
 			<li>
 				<a href="#hashfuncs">Hash functions</a>
@@ -83,6 +109,305 @@ h2 a, h3 a {
 		<p><a href="#index">Index</a></p>
 	</td></tr>
 	<tr><td>
+		<h2 id="registry">Registry <a href="#registry">#</a></h2>
+		<p>
+			Many values (mainly display settings are loaded/saved in procs: (TODO check the XREFs on these)
+		</p>
+		<ul>
+			<li><code>0x5BEA20 - LoadDisplaySettings</code> only called once, at boot</li>
+			<li><code>0x5BEEA0 - SaveDisplaySettings</code> called multiple times, TODO</li>
+		</ul>
+		<p>
+			They are saved in key <code>Software\EA Games\Need for Speed Underground 2</code> in
+			<code>HKEY_CURRENT_USER</code>.
+			On my machine this translates to:
+			<code>HKEY_CURRENT_USER\Software\Classes\VirtualStore\MACHINE\SOFTWARE\Wow6432Node\EA
+			Games\Need for Speed Underground 2</code>
+			I'm guessing the extra path in between is because of WOW64.
+			<table border="1">
+			<thead>
+			<tr><th>Variable address</th><th>Key</th><th>Notes</th></tr>
+			</thead>
+			<tbody>
+			<tr>
+				<td><code>0x870CB0</code></td>
+				<td><code>VERSION</code>
+				</td><td>Not a display setting</td>
+			</tr>
+			<tr>
+				<td><code>0x870CB4</code></td>
+				<td><code>SIZE</code></td>
+				<td>Not a display setting. Seems unused (no XREFs other than save/load procs),
+				ALTHOUGH its value is set (to 120)? TODO INVESTIGATE!</td>
+			</tr>
+			<tr>
+				<td><code>0x870CB8</code></td>
+				<td><code>g_CarEnvironmentMapEnable</code></td>
+				<td><code>_optCarReflectionUpdateRate</code></td>
+			</tr>
+			<tr>
+				<td><code>0x870CBC</code></td>
+				<td><code>g_CarEnvironmentMapUpdateData</code></td>
+				<td><code>_optCarReflectionDetail</code></td>
+			</tr>
+			<tr>
+				<td><code>0x870CC0</code></td>
+				<td><code>g_CarShadowEnable</code></td>
+				<td><code>_optCarShadowNeon</code></td>
+			</tr>
+			<tr>
+				<td><code>0x870CC4</code></td>
+				<td><code>g_CarHeadlightEnable</code></td>
+				<td><code>_optCarHeadlight</code></td>
+			</tr>
+			<tr>
+				<td><code>0x870CC8</code></td>
+				<td><code>g_CarLightingEnable</code></td>
+				<td>Seemingly unused? TODO</td>
+			</tr>
+			<tr>
+				<td><code>0x870CCC</code></td>
+				<td><code>g_CarDamageEnable</code></td>
+				<td>Seemingly unused? TODO</td>
+			</tr>
+			<tr>
+				<td><code>0x870CD0</code></td>
+				<td><code>g_CrowdEnable</code></td>
+				<td><code>_optCrowds</code></td>
+			</tr>
+			<tr>
+				<td><code>0x870CD4</code></td>
+				<td><code>g_RoadReflectionEnable</code></td>
+				<td><code>_optWorldReflectionDetail</code></td>
+			</tr>
+			<tr>
+				<td><code>0x870CD8</code></td>
+				<td><code>g_FogEnable</code></td>
+				<td><code>_optFog</code></td>
+			</tr>
+			<tr>
+				<td><code>0x870CDC</code></td>
+				<td><code>g_MotionBlurEnable</code></td>
+				<td><code>_optMotionBlur</code></td>
+			</tr>
+			<tr>
+				<td><code>0x870CE0</code></td>
+				<td><code>g_LightStreaksEnable</code></td>
+				<td><code>_optLightTrails</code></td>
+			</tr>
+			<tr>
+				<td><code>0x870CE4</code></td>
+				<td><code>g_LightGlowEnable</code></td>
+				<td><code>_optLightGlow</code></td>
+			</tr>
+			<tr>
+				<td><code>0x870CE8</code></td>
+				<td><code>g_AnimatedTextureEnable</code></td>
+				<td><code>_optAnimatedTextureEnable</code><br/>
+				doesn't seem to be in display menu</td>
+			</tr>
+			<tr>
+				<td><code>0x870CEC</code></td>
+				<td><code>g_ParticleSystemEnable</code></td>
+				<td><code>_optParticleSystem</code></td>
+			</tr>
+			<tr>
+				<td><code>0x870CF0</code></td>
+				<td><code>g_DepthOfFieldEnable</code></td>
+				<td><code>_optDepthOfField</code></td>
+			</tr>
+			<tr>
+				<td><code>0x870CF4</code></td>
+				<td><code>g_WorldLodLevel</code></td>
+				<td><code>_optWorldDetail</code></td>
+			</tr>
+			<tr>
+				<td><code>0x870CF8</code></td>
+				<td><code>g_CarLodLevel</code></td>
+				<td><code>_optCarGeometryDetail</code></td>
+			</tr>
+			<tr>
+				<td><code>0x870CFC</code></td>
+				<td><code>g_OverBrightEnable</code></td>
+				<td><code>_optOverBright</code></td>
+			</tr>
+			<tr>
+				<td><code>0x870D00</code></td>
+				<td><code>g_BleachByPassEnable</code></td>
+				<td><code>_optEnchancedContrast</code></td>
+			</tr>
+			<tr>
+				<td><code>0x870D04</code></td>
+				<td><code>g_TintingEnable</code></td>
+				<td><code>_optTinting</code></td>
+			</tr>
+			<tr>
+				<td><code>0x870D08</code></td>
+				<td><code>g_FSAALevel</code></td>
+				<td><code>_optFSAALevel</code></td>
+			</tr>
+			<tr>
+				<td><code>0x870D0C</code></td>
+				<td><code>g_HorizonFogEnable</code></td>
+				<td><code>_optHorizonFog</code></td>
+			</tr>
+			<tr>
+				<td><code>0x870D10</code></td>
+				<td><code>g_RainEnable</code></td>
+				<td><code>_optRainSplatter</code></td>
+			</tr>
+			<tr>
+				<td><code>0x870D18</code></td>
+				<td><code>g_TextureFiltering</code></td>
+				<td><code>_optTextureFiltering</code></td>
+			</tr>
+			<tr>
+				<td><code>0x870D1C</code></td>
+				<td><code>g_RacingResolution</code></td>
+				<td><code>_optRacingResolutionIdx</code></td>
+			</tr>
+			<tr>
+				<td><code>0x87099C</code></td>
+				<td><code>g_PerformanceLevel</code></td>
+				<td><code>_optLevelOfDetail</code></td>
+			</tr>
+			<tr>
+				<td><code>0x870D24</code></td>
+				<td><code>g_VSyncOn</code></td>
+				<td><code>_optVsync</code></td>
+			</tr>
+			</tbody>
+			</table>
+		</p>
+		<hr/>
+		<h3>SomethingReadSpecialRegistrySettings - 0x5B76F0</h3>
+		<p>
+			This one is invoked on boot, and seems to load a special key that I haven't seen before:
+			<code>Software\Electronic Arts\EA Games\Need for Speed Underground 2\er</code>. This key
+			is not present on my system, so this seems interesting.
+		</p>
+		<pre>
+HKEY key;
+DWORD type, lenData;
+if (RegOpenKeyExA(HKEY_LOCAL_MACHINE, "Software\\E...2\\er", 0, KEY_READ, &amp;key)) {
+	type = 1; // REG_SZ, a null-terminated string
+	lenData = 21;
+	if (RegQueryValueExA(key, 0, 0, &amp;type, &amp;buf_86FF8C, &amp;lenData)) {
+		buf_86FF8C[20] = 0;
+	} else {
+		buf_86FF8C[0] = 0;
+	}
+}
+RegCloseKey(&amp;key);
+// buf_86FF8C is only used at sub_588770, 0x58887A, TODO!</pre>
+	<p>
+		Then it loads more stuff from the normal key:
+	</p>
+	<p>
+		<code>Install Dir</code> is read. If set, passed to (winapi) <code>GetLongPathNameA</code>,
+		and if that succeeds, the value is copied to buffer at <code>0x86E9B4</code>. There are no
+		XREFs, so it's unused?
+	</p>
+	<p>
+		<code>CD Drive</code> is read. If set, passed to (winapi) <code>GetLongPathNameA</code>,
+		passed to (winapi) <code>GetLastError</code> and if that succeeds, the value is copied to
+		buffer at <code>86E8B0</code>. That one is used, TODO.
+	</p>
+	<p>
+		<code>NotFirstTime</code> is read. If set, DWORD at <code>0x870D20</code> gets set to 1,
+		otherwise 0. It doesn't check the value in the register key. Then 1 is written to the
+		register key. TODO this is used in one place.
+	</p>
+	<p>
+		<code>CacheSize</code> is read. If set, proc at <code>0x75D65B</code> is called with the
+		value. TODO what is this? proc has plenty XREFs and is just a jmp to another proc that
+		has even more XREFs.
+	</p>
+	<p>
+		<code>SwapSize</code> is read. If set, proc at <code>0x75D65B</code> is called with the
+		value. TODO what is this? proc has plenty XREFs and is just a jmp to another proc that
+		has even more XREFs.
+	</p>
+	<p>
+		<code>Language</code> is read. Then it does something with looping through a language.
+		This took some deciphering but I found out that there is some struct with language
+		information and associated data. See <a href="#language_metadata">Language metadata</a>.
+	</p>
+	<p>
+		<code>StreamingInstall</code> is read. This one seems weird, as it seems like it passes
+		the value and the offset to a random location in the code segment to a proc that looks
+		like a strcmp function? TODO.
+	</p>
+		<p><a href="#index">Index</a></p>
+	</td></tr>
+	<tr><td>
+		<h2 id="language">Language <a href="#language">#</a></h2>
+		<p>
+			There seems to be no way to change the language, except for changing the value
+			in the registry? See <a href="#registry">Registry</a>. Perhaps it is only set
+			when the game is installed?
+		</p>
+		<hr/>
+		<h3 id="language_metadata">Language metadata <a href="#language_metadata">#</a></h3>
+		<p>
+			Thanks to code where it reads the Registry, I found following data:
+		</p>
+	<pre>
+struct LanguageData {
+	char *pName;
+	int val1; //??
+	int val2; //??
+};</pre>
+	<p>
+		Data can be found at <code>0x7FCA08</code>:
+	</p>
+	<pre>
+struct LanguageData languageData[] = {
+/*0x7FCA08*/ { "English US",		0,	0 },
+/*0x7FCA14*/ { "English UK",		0,	5 },
+/*0x7FCA20*/ { "French",		1,	6 },
+/*0x7FCA2C*/ { "German",		2,	7 },
+/*0x7FCA38*/ { "Italian",		3,	8 },
+/*0x7FCA44*/ { "Spanish",		4,	9 },
+/*0x7FCA50*/ { "Swedish",		6,	5 },
+/*0x7FCA5C*/ { "Danish",		7,	5 },
+/*0x7FCA68*/ { "Dutch",			5,	5 },
+/*0x7FCA74*/ { "Korean",		8,	2 },
+/*0x7FCA80*/ { "Chinese (Traditional)",	9,	4 },
+/*0x7FCA8C*/ { "English China",		9,	11 },
+/*0x7FCA98*/ { "Japanese",		10,	3 },
+/*0x7FCAA4*/ { "Thai",			11,	12 },
+/*0x7FCAB0*/ { 0,			0,	0 },
+};</pre>
+		<p>
+
+		</p>
+		<p>
+			Whatever language is loaded, its <code>val1</code> gets stored in
+			<code>0x7FCA00</code> (TODO), or 0 when the name stored in the registry
+			didn't match any names.
+		</p>
+		<p><strong>07983D0 aLanguageselect db 'LanguageSelectScreen',0 TODO</strong></p>
+		<p><a href="#index">Index</a></p>
+	</td></tr>
+	<tr><td>
+		<h2 id="displaysettings">Display settings <a href="#displaysettings">#</a></h2>
+		<p>
+			TODO. I was writing thing when I got distracted by the language stuff.
+		</p>
+		<hr/>
+		<h3 id="displaysettingstodo">Todo <a href="#displaysettingstodo">#</a></h3>
+		<p>
+			Where are these used:
+		</p>
+		<ul>
+			<li><code>0x5BE190 StoreOptLightGlowSetToZero</code> 1 XREF</li>
+			<li><code>0x5BE1B0 RestoreOptLightGlow</code>: 1 XREF</li>
+			<li><code>0x5BE1C0 GetWorldDetailClampBetween0And2</code>: 1 XREF</li>
+		</ul>
+		<p><a href="#index">Index</a></p>
+	</td></tr>
+	<tr><td>
 		<h2 id="consoleleftover">Console leftovers <a href="#consoleleftover">#</a></h2>
 		<p>
 			<em>Note: console as in somewhere you type in, not a videogame console</em>
@@ -91,7 +416,7 @@ h2 a, h3 a {
 			In the hooks project, I "enabled" this console in the functions <code>initConsolePOC</code>
 			in the file <code>nfsu2-re-hooks/main.c</code>. As it doesn't seem to be used anywhere, the
 			only effect you can see is that whatever you type is written into the
-			<code>console_real_text</code> buffer.
+			<code>console_real_text</code> buffer (use CheatEngine or something you like to inspect it).
 		</p>
 		<p>
 			All names below were chosen by me.
@@ -310,8 +635,8 @@ int ConsoleIsCharOneOfTheseHardcodedValues(unsigned char value)
 			<li>Then going out of the customization menu crashes the game
 			(this includes going to performance tuning)</li>
 		</ul>
-		<p>
-			<center><img src="FIRETRUCK.GIF"/><br/>Hop hop skippity hop</center>
+		<p class="center">
+			<img src="FIRETRUCK.GIF"/><br/>Hop hop skippity hop
 		</p>
 		<ul>
 			<li>Browsing a previously customized 240sx only shows the wheels of the car</li>
@@ -326,13 +651,14 @@ int ConsoleIsCharOneOfTheseHardcodedValues(unsigned char value)
 			<li>When going to a different car and back, the firetruck model shows</li>
 			<li>Entering customization again hides the firetruck, only showing the wheels
 			(the spoiler is gone?)</li>
-			<li>After saving and undoing the swap, the saved car stays a firetruck (but the behavior is still
-			the same as described above)</li>
-			<li>Using the car to race makes the framerate go down significantly, except when in nose camera</li>
+			<li>After saving and undoing the swap and restarting the game, the saved car stays a firetruck
+			(but the behavior is still the same as described above)</li>
+			<li>Using the car to race makes the framerate go down significantly, except when in nose camera
+			(you just see headlights driving without a vehicle body)</li>
 			<li>It doesn't lag at all in the performance tuning</li>
 		</ul>
-		<p>
-			<center><img src="FIRETRUCK-DYNO.JPG"/><br/>Here's a dyno chart of the firetruck</center>
+		<p class="center">
+			<img src="FIRETRUCK-DYNO.JPG"/><br/>Here's a dyno chart of the firetruck
 		</p>
 		<p>
 			While the firetruck is unused in the game, I also tried to do this with the taxi, but it gave the
@@ -347,8 +673,8 @@ int ConsoleIsCharOneOfTheseHardcodedValues(unsigned char value)
 			<li>Going ingame again now shows the car fully as it should</li>
 			<li>Selecting a customized 240sx now shows the doors of a mustang</li>
 		</ul>
-		<p>
-			<center><img src="MUSTANG.JPG"/><br/>Car?</center>
+		<p class="center">
+			<img src="MUSTANG.JPG" alt="driving invisible mustang"/><br/>Car?
 		</p>
 		<p>
 			The behavior isn't always the same, just give it a try and see for yourself. Replacing the taxi
@@ -356,7 +682,7 @@ int ConsoleIsCharOneOfTheseHardcodedValues(unsigned char value)
 		</p>
 		<p>
 			Check the function <code>SomeHashCS43DB50Print</code> in the file
-			<code>nfsu2-re-hooks/main.c</code> to see how I did this, the code is in comments.
+			<code>nfsu2-re-hooks/main.c</code> to see how I did this, the code to replace cars is in comments.
 		</p>
 		<p><a href="#index">Index</a></p>
 	</td></tr>
