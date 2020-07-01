@@ -8,6 +8,16 @@
 
 static int base;
 static FILE *logfile;
+static char buf[1024], buf2[1024];
+
+/*general note: using debugstring might slow down the game by a lot (esp with hash hooks)*/
+#define HASH_HOOKS_TO_LOGFILE
+//#define HASH_HOOKS_TO_DEBUGSTRING
+//#define ENABLE_HASH_HOOK_505450
+//#define ENABLE_HASH_HOOK_43DB50
+#define DEBUGSTRING_TO_LOGFILE
+//#define DEBUGSTRING_TO_DEBUGSTRING
+#define ENABLE_DEBUGSTRING_50D510
 
 /***********************************************************************************************
 UTILS
@@ -20,6 +30,74 @@ void mkjmp(int at, void *to)
 	*((unsigned char*) at) = 0xE9;
 	at++;
 	*((int*) at) = (int) to - (at + 4);
+}
+
+static
+int isprocstaticmem(int loc)
+{
+	return base < loc && loc < base + 0x4BB000;
+}
+
+/***********************************************************************************************
+50D512 DEBUG PRINT
+
+Some proc that seems to get debug string passed, sometimes with placeholders. The proc is now
+a nullsub (xor eax, eax; retn), so sometimes non-strings get passed too.
+*/
+
+static
+void do50D510Print(int *esp)
+{
+	int from;
+	char *format;
+	int b, c, d, e, f, g, h, i;
+	int len;
+
+	from = *esp;
+	format = (char*) *(esp+1);
+	b = *(esp+2);
+	c = *(esp+3);
+	d = *(esp+4);
+	e = *(esp+5);
+	f = *(esp+6);
+	g = *(esp+7);
+	h = *(esp+8);
+	i = *(esp+9);
+	if (isprocstaticmem((int) format)) {
+		sprintf(buf2, format, b, c, d, e, f, g, h, i);
+		len = strlen(buf2);
+		if (len && buf2[len - 1] == '\n') {
+			buf2[len - 1] = 0;
+		}
+#ifdef DEBUGSTRING_TO_LOGFILE
+		fwrite(buf, sprintf(buf, "debugstr\t50D510\t%p\t%s\n", from, buf2), 1, logfile);
+#endif
+#ifdef DEBUGSTRING_TO_DEBUGSTRING
+		sprintf(buf, "debugstr\t50D510\t%p\t%s\n", from, buf2);
+		OutputDebugString(buf);
+#endif
+	}
+}
+
+static
+__declspec(naked) void hook50D510Print()
+{
+	_asm {
+		mov eax, esp
+		pushad
+		push eax
+		call do50D510Print
+		add esp, 0x4
+		popad
+		xor eax, eax
+		ret
+	}
+}
+
+static
+void initHook50D510Print()
+{
+	mkjmp(0x10D510, &hook50D510Print); // jmp
 }
 
 /***********************************************************************************************
@@ -56,17 +134,6 @@ void initConsolePOC()
 SOME HASH FUNCTIONS
 */
 
-/*
-When not defining HASH_HOOKS_TO_LOGFILE, it will be passed to OutputDebugString (use a debug
-viewer like sysinternal's Dbgview.exe).
-Outputing to logfile seems to be a thousand times faster, or I'm doing something wrong with
-Dbgview.
-*/
-#define HASH_HOOKS_TO_LOGFILE
-#define ENABLE_HASH_HOOKS
-
-static char buf[1024];
-
 static
 void SomeHashCS43DB50Print(char *arg, int *result)
 {
@@ -75,7 +142,8 @@ void SomeHashCS43DB50Print(char *arg, int *result)
 	} else {
 #ifdef HASH_HOOKS_TO_LOGFILE
 		fwrite(buf, sprintf(buf, "hash\t%s\t%p\t43DB50\n", arg, *result), 1, logfile);
-#else
+#endif
+#ifdef HASH_HOOKS_TO_DEBUGSTRING
 		sprintf(buf, "hash\t%s\t%p\t43DB50\n", arg, *result);
 		OutputDebugString(buf);
 #endif
@@ -194,9 +262,11 @@ __declspec(naked) void SomeHashCI505450HookPre()
 static
 void initHashHooks()
 {
-#ifdef ENABLE_HASH_HOOKS
+#ifdef ENABLE_HASH_HOOK_505450
 	// called very often, but doesn't slow down too much
 	mkjmp(0x105450, &SomeHashCI505450HookPre);
+#endif
+#ifdef ENABLE_HASH_HOOK_43DB50
 	// this one is called waaaay too much, will make startup time much longer
 	mkjmp(0x3DB50, &SomeHashCS43DB50HookPre);
 #endif
@@ -217,6 +287,7 @@ BOOL APIENTRY DllMain(HMODULE hModule, DWORD reason_for_call, LPVOID lpResrvd)
 		logfile = fopen("log.txt", "wb");
 		initHashHooks();
 		initConsolePOC();
+		initHook50D510Print();
 	} else if (reason_for_call == DLL_PROCESS_DETACH) {
 		if (logfile) {
 			fclose(logfile);

@@ -26,10 +26,12 @@ code {
 pre {
 	border:2px solid #CDCDCD;
 	padding: 0.5em;
+	white-space: pre-wrap;
 }
 pre.ida {
 	background:#fff;
 	color:#000080;
+	font-weight: bold;
 }
 pre.ida span.t {
 	color:#000;
@@ -53,7 +55,7 @@ h2 a, h3 a {
 </head>
 <body>
 <!-- using tables for layout COME AT ME BRUH -->
-<table border="1" bordercolor="#EFEFEF" style="margin:auto;max-width:50em">
+<table border="1" bordercolor="#EFEFEF" style="margin:auto;max-width:55em">
 	<tr style="background:#ABABAB"><td>
 		<h1>nfsu2-re</h1>
 	</td></tr>
@@ -79,6 +81,7 @@ h2 a, h3 a {
 				<a href="#language">Language</a>
 				<ul>
 					<li><a href="#language_metadata">Language metadata</a></li>
+					<li><a href="#language_files">Language files</a></li>
 				</ul>
 			</li>
 			<li>
@@ -94,6 +97,7 @@ h2 a, h3 a {
 					<li><a href="#hashmess">Messing with the hash results</a></li>
 				</ul>
 			</li>
+			<li><a href="#debugprint">Debug print</a></li>
 		</ul>
 	</td></tr>
 	<tr><td>
@@ -352,6 +356,10 @@ RegCloseKey(&amp;key);
 		<p>
 			Thanks to code where it reads the Registry, I found following data:
 		</p>
+		<h3 id="language_files">Language files <a href="#language_files">#</a></h3>
+		<p>
+			Files
+		</p>
 	<pre>
 struct LanguageData {
 	char *pName;
@@ -387,6 +395,7 @@ struct LanguageData languageData[] = {
 			<code>0x7FCA00</code> (TODO), or 0 when the name stored in the registry
 			didn't match any names.
 		</p>
+		<p><strong>00512520 LoadLanguageAtBoot TODO</strong></p>
 		<p><strong>07983D0 aLanguageselect db 'LanguageSelectScreen',0 TODO</strong></p>
 		<p><a href="#index">Index</a></p>
 	</td></tr>
@@ -683,6 +692,80 @@ int ConsoleIsCharOneOfTheseHardcodedValues(unsigned char value)
 		<p>
 			Check the function <code>SomeHashCS43DB50Print</code> in the file
 			<code>nfsu2-re-hooks/main.c</code> to see how I did this, the code to replace cars is in comments.
+		</p>
+		<p><a href="#index">Index</a></p>
+	</td></tr>
+	<tr><td>
+		<h2 id="debugprint">Debug print <a href="#debugprint">#</a></h2>
+		<p>
+			While scrolling through the data segment, I found these interesting strings:
+		</p>
+		<pre class="ida">
+<span class="c">.rdata:0079B160</span> <span class="i">aDeletingPackag</span> <!--
+-->db <span class="n">'Deleting package [%s]'</span>,<span class="n">0Ah</span>,<span class="n">0</span>
+<span class="c">.rdata:0079B177</span>                 align <span class="n">4</span>
+<span class="c">.rdata:0079B178</span> <span class="i">aUnActivateXX</span>   <!--
+-->db <span class="n">'Un-Activate!!! %x %x'</span>,<span class="n">0Ah</span>,<span class="n">0</span>
+<span class="c">.rdata:0079B18E</span>                 db <span class="n">2</span> dup(<span class="n">0</span>)
+<span class="c">.rdata:0079B190</span> <span class="i">aWillBeUnloaded</span> <!--
+-->db <span class="n">'Will be unloaded [%s]'</span>,<span class="n">0Ah</span>,<span class="n">0</span></pre>
+		<p>
+			Even more interesting is that these strings are using by pushing them on to the stack,
+			followed by a call to a specific proc that looks like this:
+		</p>
+		<pre class="ida">
+<span class="t">.text:0050D510</span> <span class="i">sub_50D510  proc near</span>
+<span class="t">.text:0050D510</span>                 xor     eax, eax
+<span class="t">.text:0050D512</span>                 retn
+<span class="t">.text:0050D512</span> <span class="i">sub_50D510  endp</span> </pre>
+		<p>
+			It appears as if this used to be some kind of debug printf function, so I named it
+			<code>SomeDebugPrint</code>. I hooked the function and made it output to a log file,
+			see <code>initHook50D510Print</code> in <code>nfsu2-re-hooks/main.c</code>.
+		</p>
+		<p>
+			It also seems to pass data that is not a pointer to a string. I'm guessing since the
+			implementation of this function was removed (and now just returns zero), and there
+			were probably other removed functions, so some calls that are supposed to be done
+			to different functions may now all point to this one function that also happened to
+			be used for the debug print stuff. My simple solution is to check if the first passed
+			argument points to memory in the data section, and print if so.
+		</p>
+		<p>
+			I did a short session browsing customization options and performance tuning with this
+			enabled, the results can be seen in the log file
+			<a href="debugstring50D510.txt">debugstring50D510.txt</a>. Each line is formatted as
+			<code>debugstr\t50D510\tcallee\tstring\n</code>. Here is a 'small' excerpt:
+		</p>
+		<pre>
+DIALOG :: --------- ShowDialog -----------
+DIALOG :: |_ Do you want to convert your trunk to carbon fiber?
+DIALOG :: Oh shit - the control mask is zero.  This is bad.  Try to use Top Package's control mask.
+DIALOG ::  |_ TopPackage = UI_GenericParts_Browser.fng, mask = 0.
+DIALOG ::    |_ Crap - mask is zero, forcing to 0xff.
+DIALOG :: Success : Control mask = 255, Handle = 2
+DIALOG :: --------- ShowDialog Finished -----------
+Init Package GenericDialog_SMALL.fng
+DIALOG :: Constructor
+Joy Event: FEPad_Accept[0]
+Joy Event: FEPad_Accept[0]
+Joy Event: FEPad_Back[1]
+Joy Event: FEPad_Back[1]
+DIALOG :: Tick, ReturnWithMessage Set, Dismissing: [GenericDialog_SMALL.fng] [b4623f67]
+DIALOG :: DismissDialog.  Handle(2).  Current handle(2)
+DIALOG ::  |_ Found, popping.
+Queue popping GenericDialog_SMALL.fng
+Will unload -----------GenericDialog_SMALL.fng------------------
+Will be unloaded [GenericDialog_SMALL.fng]
+DIALOG :: Closing, sending message (b4623f67) to (UI_GenericParts_Browser.fng).
+Send message[b4623f67] to package [UI_GenericParts_Browser.fng]
+Message was queued
+Un-Activate!!! 37a52f0 37e69c0
+Deleting package [GenericDialog_SMALL.fng]
+package[GenericDialog_SMALL.fng] will unload</pre>
+		<p>
+			Most of the messages seem to be about dialogs, joy (keyboard) events,
+			FEng/fng packages (I'm guessing those are ui resources/designs?).
 		</p>
 		<p><a href="#index">Index</a></p>
 	</td></tr>

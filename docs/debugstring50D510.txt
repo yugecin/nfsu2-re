@@ -1,0 +1,2575 @@
+debugstr	50D510	0054E4CF	Init Package PC_Loading.fng
+debugstr	50D510	0052CE0E	Add Joy handler: FEPad_Up
+debugstr	50D510	0052CE0E	Add Joy handler: FEPad_Down
+debugstr	50D510	0052CE0E	Add Joy handler: FEPad_Left
+debugstr	50D510	0052CE0E	Add Joy handler: FEPad_Right
+debugstr	50D510	0052CE0E	Add Joy handler: FEPad_Up
+debugstr	50D510	0052CE0E	Add Joy handler: FEPad_Down
+debugstr	50D510	0052CE0E	Add Joy handler: FEPad_Left
+debugstr	50D510	0052CE0E	Add Joy handler: FEPad_Right
+debugstr	50D510	0052CE0E	Add Joy handler: FEPad_Accept
+debugstr	50D510	0052CE0E	Add Joy handler: FEPad_Accept
+debugstr	50D510	0052CE0E	Add Joy handler: FEPad_Back
+debugstr	50D510	0052CE0E	Add Joy handler: FEPad_Back
+debugstr	50D510	0052CE0E	Add Joy handler: FEPad_Start
+debugstr	50D510	0052CE0E	Add Joy handler: FEPad_Button0
+debugstr	50D510	0052CE0E	Add Joy handler: FEPad_Button1
+debugstr	50D510	0052CE0E	Add Joy handler: FEPad_Button2
+debugstr	50D510	0052CE0E	Add Joy handler: FEPad_Button3
+debugstr	50D510	0052CE0E	Add Joy handler: FEPad_Button4
+debugstr	50D510	0052CE0E	Add Joy handler: FEPad_LeftTrigger
+debugstr	50D510	0052CE0E	Add Joy handler: FEPad_RightTrigger
+debugstr	50D510	0052CE0E	Add Joy handler: FEPad_Button1
+debugstr	50D510	0054E4CF	Init Package UI_PC_Help_Bar.fng
+debugstr	50D510	0053760A	Direct Pop---------------------PC_Loading.fng------------------
+debugstr	50D510	0051C930	Will unload -----------PC_Loading.fng------------------
+debugstr	50D510	0051C94D	Will be unloaded [PC_Loading.fng]
+debugstr	50D510	0051BA85	Un-Activate!!! 37a5170 37a64a0
+debugstr	50D510	0051BA9D	Deleting package [PC_Loading.fng]
+debugstr	50D510	0051C977	package[PC_Loading.fng] will unload
+debugstr	50D510	0054E4CF	Init Package MC_Bootup.fng
+debugstr	50D510	0052CE0E	Add Joy handler: FEPad_Up
+debugstr	50D510	0052CE0E	Add Joy handler: FEPad_Down
+debugstr	50D510	0052CE0E	Add Joy handler: FEPad_Left
+debugstr	50D510	0052CE0E	Add Joy handler: FEPad_Right
+debugstr	50D510	0052CE0E	Add Joy handler: FEPad_Up
+debugstr	50D510	0052CE0E	Add Joy handler: FEPad_Down
+debugstr	50D510	0052CE0E	Add Joy handler: FEPad_Left
+debugstr	50D510	0052CE0E	Add Joy handler: FEPad_Right
+debugstr	50D510	0052CE0E	Add Joy handler: FEPad_Accept
+debugstr	50D510	0052CE0E	Add Joy handler: FEPad_Accept
+debugstr	50D510	0052CE0E	Add Joy handler: FEPad_Back
+debugstr	50D510	0052CE0E	Add Joy handler: FEPad_Back
+debugstr	50D510	0052CE0E	Add Joy handler: FEPad_Start
+debugstr	50D510	0052CE0E	Add Joy handler: FEPad_Button0
+debugstr	50D510	0052CE0E	Add Joy handler: FEPad_Button1
+debugstr	50D510	0052CE0E	Add Joy handler: FEPad_Button2
+debugstr	50D510	0052CE0E	Add Joy handler: FEPad_Button3
+debugstr	50D510	0052CE0E	Add Joy handler: FEPad_Button4
+debugstr	50D510	0052CE0E	Add Joy handler: FEPad_LeftTrigger
+debugstr	50D510	0052CE0E	Add Joy handler: FEPad_RightTrigger
+debugstr	50D510	0052CE0E	Add Joy handler: FEPad_Button1
+debugstr	50D510	0051CBDF	SwitchFEngPackages from MC_Bootup.fng to LS_BlankMovie.fng
+debugstr	50D510	0051C930	Will unload -----------MC_Bootup.fng------------------
+debugstr	50D510	0051C94D	Will be unloaded [MC_Bootup.fng]
+debugstr	50D510	0051BA85	Un-Activate!!! 37b9640 37bad20
+debugstr	50D510	0051BA9D	Deleting package [MC_Bootup.fng]
+debugstr	50D510	0051C977	package[MC_Bootup.fng] will unload
+debugstr	50D510	0054E4CF	Init Package LS_BlankMovie.fng
+debugstr	50D510	0050C666	Joy Event: FEPad_Up[0]
+debugstr	50D510	0050C666	Joy Event: FEPad_Down[0]
+debugstr	50D510	0050C666	Joy Event: FEPad_Left[0]
+debugstr	50D510	0050C666	Joy Event: FEPad_Right[0]
+debugstr	50D510	0050C666	Joy Event: FEPad_Accept[0]
+debugstr	50D510	0050C666	Joy Event: FEPad_Accept[0]
+debugstr	50D510	0050C666	Joy Event: FEPad_Back[0]
+debugstr	50D510	0050C666	Joy Event: FEPad_Start[0]
+debugstr	50D510	0050C666	Joy Event: FEPad_Button0[0]
+debugstr	50D510	0050C666	Joy Event: FEPad_Button1[0]
+debugstr	50D510	0050C666	Joy Event: FEPad_Button2[0]
+debugstr	50D510	0050C666	Joy Event: FEPad_Button3[0]
+debugstr	50D510	0050C666	Joy Event: FEPad_LeftTrigger[0]
+debugstr	50D510	0050C666	Joy Event: FEPad_RightTrigger[0]
+debugstr	50D510	0050C666	Joy Event: FEPad_Up[0]
+debugstr	50D510	0050C666	Joy Event: FEPad_Down[0]
+debugstr	50D510	0050C666	Joy Event: FEPad_Left[0]
+debugstr	50D510	0050C666	Joy Event: FEPad_Right[0]
+debugstr	50D510	0050C666	Joy Event: FEPad_Accept[0]
+debugstr	50D510	0050C666	Joy Event: FEPad_Accept[0]
+debugstr	50D510	0050C666	Joy Event: FEPad_Back[0]
+debugstr	50D510	0050C666	Joy Event: FEPad_Start[0]
+debugstr	50D510	0050C666	Joy Event: FEPad_Button0[0]
+debugstr	50D510	0050C666	Joy Event: FEPad_Button1[0]
+debugstr	50D510	0050C666	Joy Event: FEPad_Button2[0]
+debugstr	50D510	0050C666	Joy Event: FEPad_Button3[0]
+debugstr	50D510	0050C666	Joy Event: FEPad_LeftTrigger[0]
+debugstr	50D510	0050C666	Joy Event: FEPad_RightTrigger[0]
+debugstr	50D510	0051CBDF	SwitchFEngPackages from LS_BlankMovie.fng to LS_EAlogo.fng
+debugstr	50D510	0051C930	Will unload -----------LS_BlankMovie.fng------------------
+debugstr	50D510	0051C94D	Will be unloaded [LS_BlankMovie.fng]
+debugstr	50D510	0051BA85	Un-Activate!!! 37b8d60 37a6120
+debugstr	50D510	0051BA9D	Deleting package [LS_BlankMovie.fng]
+debugstr	50D510	0051C977	package[LS_BlankMovie.fng] will unload
+debugstr	50D510	0054E4CF	Init Package LS_EAlogo.fng
+debugstr	50D510	0051CBDF	SwitchFEngPackages from LS_EALogo.fng to LS_THXMovie.fng
+debugstr	50D510	0051C930	Will unload -----------LS_EAlogo.fng------------------
+debugstr	50D510	0051C94D	Will be unloaded [LS_EAlogo.fng]
+debugstr	50D510	0051BA85	Un-Activate!!! 37b8dc0 37a6120
+debugstr	50D510	0051BA9D	Deleting package [LS_EAlogo.fng]
+debugstr	50D510	0051C977	package[LS_EAlogo.fng] will unload
+debugstr	50D510	0054E4CF	Init Package LS_THXMovie.fng
+debugstr	50D510	0051CBDF	SwitchFEngPackages from LS_THXMovie.fng to LS_PSAMovie.fng
+debugstr	50D510	0051C930	Will unload -----------LS_THXMovie.fng------------------
+debugstr	50D510	0051C94D	Will be unloaded [LS_THXMovie.fng]
+debugstr	50D510	0051BA85	Un-Activate!!! 37b8b80 37a6120
+debugstr	50D510	0051BA9D	Deleting package [LS_THXMovie.fng]
+debugstr	50D510	0051C977	package[LS_THXMovie.fng] will unload
+debugstr	50D510	0054E4CF	Init Package LS_PSAMovie.fng
+debugstr	50D510	0051CBDF	SwitchFEngPackages from LS_PSAMovie.fng to UG_LS_IntroFMV.fng
+debugstr	50D510	0051C930	Will unload -----------LS_PSAMovie.fng------------------
+debugstr	50D510	0051C94D	Will be unloaded [LS_PSAMovie.fng]
+debugstr	50D510	0051BA85	Un-Activate!!! 37b8b20 37a6120
+debugstr	50D510	0051BA9D	Deleting package [LS_PSAMovie.fng]
+debugstr	50D510	0051C977	package[LS_PSAMovie.fng] will unload
+debugstr	50D510	0054E4CF	Init Package UG_LS_IntroFMV.fng
+debugstr	50D510	0051CBDF	SwitchFEngPackages from UG_LS_IntroFMV.fng to UG_LS_Splash.fng
+debugstr	50D510	0051C930	Will unload -----------UG_LS_IntroFMV.fng------------------
+debugstr	50D510	0051C94D	Will be unloaded [UG_LS_IntroFMV.fng]
+debugstr	50D510	0051BA85	Un-Activate!!! 37b8c40 37a6120
+debugstr	50D510	0051BA9D	Deleting package [UG_LS_IntroFMV.fng]
+debugstr	50D510	0051C977	package[UG_LS_IntroFMV.fng] will unload
+debugstr	50D510	0054E4CF	Init Package UG_LS_Splash.fng
+debugstr	50D510	0054E4CF	Init Package Chyron_FE.fng
+debugstr	50D510	0050C666	Joy Event: FEPad_Accept[1]
+debugstr	50D510	0050C666	Joy Event: FEPad_Accept[1]
+debugstr	50D510	0050C666	Joy Event: FEPad_Accept[0]
+debugstr	50D510	0050C666	Joy Event: FEPad_Accept[0]
+debugstr	50D510	0050C666	Joy Event: FEPad_Accept[1]
+debugstr	50D510	0050C666	Joy Event: FEPad_Accept[1]
+debugstr	50D510	0050C666	Joy Event: FEPad_Accept[0]
+debugstr	50D510	0050C666	Joy Event: FEPad_Accept[0]
+debugstr	50D510	0050C666	Joy Event: FEPad_Accept[1]
+debugstr	50D510	0050C666	Joy Event: FEPad_Accept[1]
+debugstr	50D510	0050C666	Joy Event: FEPad_Accept[0]
+debugstr	50D510	0050C666	Joy Event: FEPad_Accept[0]
+debugstr	50D510	0050C666	Joy Event: FEPad_Accept[1]
+debugstr	50D510	0050C666	Joy Event: FEPad_Accept[1]
+debugstr	50D510	0050C666	Joy Event: FEPad_Accept[0]
+debugstr	50D510	0050C666	Joy Event: FEPad_Accept[0]
+debugstr	50D510	0050C666	Joy Event: FEPad_Accept[1]
+debugstr	50D510	0050C666	Joy Event: FEPad_Accept[1]
+debugstr	50D510	0050C666	Joy Event: FEPad_Accept[0]
+debugstr	50D510	0050C666	Joy Event: FEPad_Accept[0]
+debugstr	50D510	0050C666	Joy Event: FEPad_Accept[1]
+debugstr	50D510	0050C666	Joy Event: FEPad_Accept[1]
+debugstr	50D510	0051CBDF	SwitchFEngPackages from UG_LS_Splash.fng to MC_Background.fng
+debugstr	50D510	0051C930	Will unload -----------UG_LS_Splash.fng------------------
+debugstr	50D510	0051C94D	Will be unloaded [UG_LS_Splash.fng]
+debugstr	50D510	0051BA85	Un-Activate!!! 37b8be0 37a64a0
+debugstr	50D510	0051BA9D	Deleting package [UG_LS_Splash.fng]
+debugstr	50D510	0051C977	package[UG_LS_Splash.fng] will unload
+debugstr	50D510	0054E4CF	Init Package MC_Background.fng
+debugstr	50D510	0054E4CF	Init Package MC_Main.fng
+debugstr	50D510	0054E4CF	Init Package MC_List.fng
+debugstr	50D510	0050C666	Joy Event: FEPad_Accept[0]
+debugstr	50D510	0050C666	Joy Event: FEPad_Accept[0]
+debugstr	50D510	0050C666	Joy Event: FEPad_Down[1]
+debugstr	50D510	0050C666	Joy Event: FEPad_Down[1]
+debugstr	50D510	0050C666	Joy Event: FEPad_Down[0]
+debugstr	50D510	0050C666	Joy Event: FEPad_Down[0]
+debugstr	50D510	0050C666	Joy Event: FEPad_Accept[1]
+debugstr	50D510	0050C666	Joy Event: FEPad_Accept[1]
+debugstr	50D510	0051CC3A	Queue popping MC_List.fng
+debugstr	50D510	0051C930	Will unload -----------MC_List.fng------------------
+debugstr	50D510	0051C94D	Will be unloaded [MC_List.fng]
+debugstr	50D510	0051BA85	Un-Activate!!! 37b95e0 37a7640
+debugstr	50D510	0051BA9D	Deleting package [MC_List.fng]
+debugstr	50D510	0051C977	package[MC_List.fng] will unload
+debugstr	50D510	0050C666	Joy Event: FEPad_Accept[0]
+debugstr	50D510	0050C666	Joy Event: FEPad_Accept[0]
+debugstr	50D510	0050C666	Joy Event: FEPad_Accept[1]
+debugstr	50D510	0050C666	Joy Event: FEPad_Accept[1]
+debugstr	50D510	0051CBDF	SwitchFEngPackages from MC_Background.fng to UI_Main.fng
+debugstr	50D510	0051CC3A	Queue popping MC_Main.fng
+debugstr	50D510	0051C930	Will unload -----------MC_Background.fng------------------
+debugstr	50D510	0051C94D	Will be unloaded [MC_Background.fng]
+debugstr	50D510	0051BA85	Un-Activate!!! 37b9520 37bf9a0
+debugstr	50D510	0051BA9D	Deleting package [MC_Background.fng]
+debugstr	50D510	0051C977	package[MC_Background.fng] will unload
+debugstr	50D510	0054E4CF	Init Package UI_Main.fng
+debugstr	50D510	0054E4CF	Init Package GarageMain.fng
+debugstr	50D510	0051C930	Will unload -----------MC_Main.fng------------------
+debugstr	50D510	0051C94D	Will be unloaded [MC_Main.fng]
+debugstr	50D510	0051BA85	Un-Activate!!! 37b9580 37bf5a0
+debugstr	50D510	0051BA9D	Deleting package [MC_Main.fng]
+debugstr	50D510	0051C977	package[MC_Main.fng] will unload
+debugstr	50D510	0050C666	Joy Event: FEPad_Accept[0]
+debugstr	50D510	0050C666	Joy Event: FEPad_Accept[0]
+debugstr	50D510	0050C666	Joy Event: FEPad_Left[1]
+debugstr	50D510	0050C666	Joy Event: FEPad_Left[1]
+debugstr	50D510	0050C666	Joy Event: FEPad_Left[0]
+debugstr	50D510	0050C666	Joy Event: FEPad_Left[0]
+debugstr	50D510	0050C666	Joy Event: FEPad_Right[1]
+debugstr	50D510	0050C666	Joy Event: FEPad_Right[1]
+debugstr	50D510	0050C666	Joy Event: FEPad_Right[0]
+debugstr	50D510	0050C666	Joy Event: FEPad_Right[0]
+debugstr	50D510	0050C666	Joy Event: FEPad_Left[1]
+debugstr	50D510	0050C666	Joy Event: FEPad_Left[1]
+debugstr	50D510	0050C666	Joy Event: FEPad_Left[0]
+debugstr	50D510	0050C666	Joy Event: FEPad_Left[0]
+debugstr	50D510	0050C666	Joy Event: FEPad_Accept[1]
+debugstr	50D510	0050C666	Joy Event: FEPad_Accept[1]
+debugstr	50D510	0052FC17	IconScrollerMenu : StopInput (UI_Main.fng, 37cdec0).  Mask (255) to (0).
+debugstr	50D510	0050C666	Joy Event: FEPad_Accept[0]
+debugstr	50D510	0050C666	Joy Event: FEPad_Accept[0]
+debugstr	50D510	005440D5	IconScrollerMenu : EXIT/INIT_COMPLETE called on me (0xe1fde1d1).
+debugstr	50D510	0052FBD7	IconScrollerMenu : StartInput (UI_Main.fng, 37cdec0).  Mask (0) to (255).
+debugstr	50D510	00544133	IconScrollerMenu : Switch/Pop/Direct Pop called on me (0x5eca113d).
+debugstr	50D510	0051CBDF	SwitchFEngPackages from UI_Main.fng to UI_QRCarSelect.fng
+debugstr	50D510	0051C930	Will unload -----------UI_Main.fng------------------
+debugstr	50D510	0051C94D	Will be unloaded [UI_Main.fng]
+debugstr	50D510	0051BA85	Un-Activate!!! 37b6220 37cdec0
+debugstr	50D510	0051BA9D	Deleting package [UI_Main.fng]
+debugstr	50D510	0051C977	package[UI_Main.fng] will unload
+debugstr	50D510	0054E4CF	Init Package UI_QRCarSelect.fng
+debugstr	50D510	0050C666	Joy Event: FEPad_Left[1]
+debugstr	50D510	0050C666	Joy Event: FEPad_Left[1]
+debugstr	50D510	0050C666	Joy Event: FEPad_Left[0]
+debugstr	50D510	0050C666	Joy Event: FEPad_Left[0]
+debugstr	50D510	0050C666	Joy Event: FEPad_Accept[1]
+debugstr	50D510	0050C666	Joy Event: FEPad_Accept[1]
+debugstr	50D510	0051CBDF	SwitchFEngPackages from UI_QRCarSelect.fng to UI_ChooseCustomizeCategory.fng
+debugstr	50D510	0051C930	Will unload -----------UI_QRCarSelect.fng------------------
+debugstr	50D510	0051C94D	Will be unloaded [UI_QRCarSelect.fng]
+debugstr	50D510	0051BA85	Un-Activate!!! 37b76a0 37a76b0
+debugstr	50D510	0051BA9D	Deleting package [UI_QRCarSelect.fng]
+debugstr	50D510	0051C977	package[UI_QRCarSelect.fng] will unload
+debugstr	50D510	0054E4CF	Init Package UI_ChooseCustomizeCategory.fng
+debugstr	50D510	0050C666	Joy Event: FEPad_Accept[0]
+debugstr	50D510	0050C666	Joy Event: FEPad_Accept[0]
+debugstr	50D510	0050C666	Joy Event: FEPad_Accept[1]
+debugstr	50D510	0050C666	Joy Event: FEPad_Accept[1]
+debugstr	50D510	0050C666	Joy Event: FEPad_Accept[0]
+debugstr	50D510	0050C666	Joy Event: FEPad_Accept[0]
+debugstr	50D510	005440D5	IconScrollerMenu : EXIT/INIT_COMPLETE called on me (0xe1fde1d1).
+debugstr	50D510	00544133	IconScrollerMenu : Switch/Pop/Direct Pop called on me (0x5eca113d).
+debugstr	50D510	0051CBDF	SwitchFEngPackages from UI_ChooseCustomizeCategory.fng to UI_GenericParts_Browser.fng
+debugstr	50D510	0054E4CF	Init Package UI_Menu_Asset_Reputation.fng
+debugstr	50D510	0051C930	Will unload -----------UI_ChooseCustomizeCategory.fng------------------
+debugstr	50D510	0051C94D	Will be unloaded [UI_ChooseCustomizeCategory.fng]
+debugstr	50D510	0051BA85	Un-Activate!!! 37b7520 37cf300
+debugstr	50D510	0051BA9D	Deleting package [UI_ChooseCustomizeCategory.fng]
+debugstr	50D510	0051C977	package[UI_ChooseCustomizeCategory.fng] will unload
+debugstr	50D510	0054E4CF	Init Package UI_GenericParts_Browser.fng
+debugstr	50D510	0050C666	Joy Event: FEPad_Right[1]
+debugstr	50D510	0050C666	Joy Event: FEPad_Right[1]
+debugstr	50D510	0053760A	Direct Pop---------------------Chyron_FE.fng------------------
+debugstr	50D510	0051C930	Will unload -----------Chyron_FE.fng------------------
+debugstr	50D510	0051C94D	Will be unloaded [Chyron_FE.fng]
+debugstr	50D510	0051BA85	Un-Activate!!! 37b93a0 37a7290
+debugstr	50D510	0051BA9D	Deleting package [Chyron_FE.fng]
+debugstr	50D510	0051C977	package[Chyron_FE.fng] will unload
+debugstr	50D510	0050C666	Joy Event: FEPad_Right[0]
+debugstr	50D510	0050C666	Joy Event: FEPad_Right[0]
+debugstr	50D510	0050C666	Joy Event: FEPad_Right[1]
+debugstr	50D510	0050C666	Joy Event: FEPad_Right[1]
+debugstr	50D510	0050C666	Joy Event: FEPad_Right[0]
+debugstr	50D510	0050C666	Joy Event: FEPad_Right[0]
+debugstr	50D510	0050C666	Joy Event: FEPad_Accept[1]
+debugstr	50D510	0050C666	Joy Event: FEPad_Accept[1]
+debugstr	50D510	0050C666	Joy Event: FEPad_Accept[0]
+debugstr	50D510	0050C666	Joy Event: FEPad_Accept[0]
+debugstr	50D510	0050C666	Joy Event: FEPad_Right[1]
+debugstr	50D510	0050C666	Joy Event: FEPad_Right[1]
+debugstr	50D510	0050C666	Joy Event: FEPad_Right[0]
+debugstr	50D510	0050C666	Joy Event: FEPad_Right[0]
+debugstr	50D510	0050C666	Joy Event: FEPad_Accept[1]
+debugstr	50D510	0050C666	Joy Event: FEPad_Accept[1]
+debugstr	50D510	0055802E	DIALOG :: --------- ShowDialog -----------
+debugstr	50D510	0055803D	DIALOG :: |_ Do you want to convert any installed Front/Rear Bumper, Side Skirts and Widebody Kits on this car to
+debugstr	50D510	00558199	DIALOG :: Oh shit - the control mask is zero.  This is bad.  Try to use Top Package's control mask.
+debugstr	50D510	005581FB	DIALOG ::  |_ TopPackage = UI_GenericParts_Browser.fng, mask = 0.
+debugstr	50D510	00558213	DIALOG ::    |_ Crap - mask is zero, forcing to 0xff.
+debugstr	50D510	00558282	DIALOG :: Success : Control mask = 255, Handle = 1
+debugstr	50D510	0055828C	DIALOG :: --------- ShowDialog Finished -----------
+debugstr	50D510	0054E4CF	Init Package GenericDialog_MED.fng
+debugstr	50D510	0055420B	DIALOG :: Constructor
+debugstr	50D510	0050C666	Joy Event: FEPad_Accept[0]
+debugstr	50D510	0050C666	Joy Event: FEPad_Accept[0]
+debugstr	50D510	0050C666	Joy Event: FEPad_Left[1]
+debugstr	50D510	0050C666	Joy Event: FEPad_Left[1]
+debugstr	50D510	0050C666	Joy Event: FEPad_Left[0]
+debugstr	50D510	0050C666	Joy Event: FEPad_Left[0]
+debugstr	50D510	0050C666	Joy Event: FEPad_Accept[1]
+debugstr	50D510	0050C666	Joy Event: FEPad_Accept[1]
+debugstr	50D510	0054C28D	DIALOG :: Button 1 Pressed, msg = 1360147858
+debugstr	50D510	0054C10A	DIALOG :: Tick, ReturnWithMessage Set, Dismissing: [GenericDialog_MED.fng] [51123592]
+debugstr	50D510	00540A75	DIALOG :: DismissDialog.  Handle(1).  Current handle(1)
+debugstr	50D510	00540A8B	DIALOG ::  |_ Found, popping.
+debugstr	50D510	0051CC3A	Queue popping GenericDialog_MED.fng
+debugstr	50D510	0051C930	Will unload -----------GenericDialog_MED.fng------------------
+debugstr	50D510	0051C94D	Will be unloaded [GenericDialog_MED.fng]
+debugstr	50D510	00551225	DIALOG :: Closing, sending message (51123592) to (UI_GenericParts_Browser.fng).
+debugstr	50D510	0051CE05	Send message[51123592] to package [UI_GenericParts_Browser.fng]
+debugstr	50D510	0051CE39	Message was queued
+debugstr	50D510	0051BA85	Un-Activate!!! 37a5350 37e0760
+debugstr	50D510	0051BA9D	Deleting package [GenericDialog_MED.fng]
+debugstr	50D510	0051C977	package[GenericDialog_MED.fng] will unload
+debugstr	50D510	0050C666	Joy Event: FEPad_Accept[0]
+debugstr	50D510	0050C666	Joy Event: FEPad_Accept[0]
+debugstr	50D510	0050C666	Joy Event: FEPad_Left[1]
+debugstr	50D510	0050C666	Joy Event: FEPad_Left[1]
+debugstr	50D510	0050C666	Joy Event: FEPad_Left[0]
+debugstr	50D510	0050C666	Joy Event: FEPad_Left[0]
+debugstr	50D510	0050C666	Joy Event: FEPad_Accept[1]
+debugstr	50D510	0050C666	Joy Event: FEPad_Accept[1]
+debugstr	50D510	0055802E	DIALOG :: --------- ShowDialog -----------
+debugstr	50D510	0055803D	DIALOG :: |_ Do you want to convert your trunk to carbon fiber?
+debugstr	50D510	00558199	DIALOG :: Oh shit - the control mask is zero.  This is bad.  Try to use Top Package's control mask.
+debugstr	50D510	005581FB	DIALOG ::  |_ TopPackage = UI_GenericParts_Browser.fng, mask = 0.
+debugstr	50D510	00558213	DIALOG ::    |_ Crap - mask is zero, forcing to 0xff.
+debugstr	50D510	00558282	DIALOG :: Success : Control mask = 255, Handle = 2
+debugstr	50D510	0055828C	DIALOG :: --------- ShowDialog Finished -----------
+debugstr	50D510	0054E4CF	Init Package GenericDialog_SMALL.fng
+debugstr	50D510	0055420B	DIALOG :: Constructor
+debugstr	50D510	0050C666	Joy Event: FEPad_Accept[0]
+debugstr	50D510	0050C666	Joy Event: FEPad_Accept[0]
+debugstr	50D510	0050C666	Joy Event: FEPad_Back[1]
+debugstr	50D510	0050C666	Joy Event: FEPad_Back[1]
+debugstr	50D510	0054C10A	DIALOG :: Tick, ReturnWithMessage Set, Dismissing: [GenericDialog_SMALL.fng] [b4623f67]
+debugstr	50D510	00540A75	DIALOG :: DismissDialog.  Handle(2).  Current handle(2)
+debugstr	50D510	00540A8B	DIALOG ::  |_ Found, popping.
+debugstr	50D510	0051CC3A	Queue popping GenericDialog_SMALL.fng
+debugstr	50D510	0051C930	Will unload -----------GenericDialog_SMALL.fng------------------
+debugstr	50D510	0051C94D	Will be unloaded [GenericDialog_SMALL.fng]
+debugstr	50D510	00551225	DIALOG :: Closing, sending message (b4623f67) to (UI_GenericParts_Browser.fng).
+debugstr	50D510	0051CE05	Send message[b4623f67] to package [UI_GenericParts_Browser.fng]
+debugstr	50D510	0051CE39	Message was queued
+debugstr	50D510	0051BA85	Un-Activate!!! 37a52f0 37e69c0
+debugstr	50D510	0051BA9D	Deleting package [GenericDialog_SMALL.fng]
+debugstr	50D510	0051C977	package[GenericDialog_SMALL.fng] will unload
+debugstr	50D510	0050C666	Joy Event: FEPad_Back[0]
+debugstr	50D510	0050C666	Joy Event: FEPad_Back[0]
+debugstr	50D510	0050C666	Joy Event: FEPad_Right[1]
+debugstr	50D510	0050C666	Joy Event: FEPad_Right[1]
+debugstr	50D510	0050C666	Joy Event: FEPad_Right[0]
+debugstr	50D510	0050C666	Joy Event: FEPad_Right[0]
+debugstr	50D510	0050C666	Joy Event: FEPad_Accept[1]
+debugstr	50D510	0050C666	Joy Event: FEPad_Accept[1]
+debugstr	50D510	0055802E	DIALOG :: --------- ShowDialog -----------
+debugstr	50D510	0055803D	DIALOG :: |_ Do you want to revert your carbon fiber body kit back to stock?
+debugstr	50D510	00558199	DIALOG :: Oh shit - the control mask is zero.  This is bad.  Try to use Top Package's control mask.
+debugstr	50D510	005581FB	DIALOG ::  |_ TopPackage = UI_GenericParts_Browser.fng, mask = 0.
+debugstr	50D510	00558213	DIALOG ::    |_ Crap - mask is zero, forcing to 0xff.
+debugstr	50D510	00558282	DIALOG :: Success : Control mask = 255, Handle = 3
+debugstr	50D510	0055828C	DIALOG :: --------- ShowDialog Finished -----------
+debugstr	50D510	0054E4CF	Init Package GenericDialog_SMALL.fng
+debugstr	50D510	0055420B	DIALOG :: Constructor
+debugstr	50D510	0050C666	Joy Event: FEPad_Accept[0]
+debugstr	50D510	0050C666	Joy Event: FEPad_Accept[0]
+debugstr	50D510	0050C666	Joy Event: FEPad_Left[1]
+debugstr	50D510	0050C666	Joy Event: FEPad_Left[1]
+debugstr	50D510	0050C666	Joy Event: FEPad_Left[0]
+debugstr	50D510	0050C666	Joy Event: FEPad_Left[0]
+debugstr	50D510	0050C666	Joy Event: FEPad_Accept[1]
+debugstr	50D510	0050C666	Joy Event: FEPad_Accept[1]
+debugstr	50D510	0054C28D	DIALOG :: Button 1 Pressed, msg = 1360147858
+debugstr	50D510	0054C10A	DIALOG :: Tick, ReturnWithMessage Set, Dismissing: [GenericDialog_SMALL.fng] [51123592]
+debugstr	50D510	00540A75	DIALOG :: DismissDialog.  Handle(3).  Current handle(3)
+debugstr	50D510	00540A8B	DIALOG ::  |_ Found, popping.
+debugstr	50D510	0051CC3A	Queue popping GenericDialog_SMALL.fng
+debugstr	50D510	0051C930	Will unload -----------GenericDialog_SMALL.fng------------------
+debugstr	50D510	0051C94D	Will be unloaded [GenericDialog_SMALL.fng]
+debugstr	50D510	00551225	DIALOG :: Closing, sending message (51123592) to (UI_GenericParts_Browser.fng).
+debugstr	50D510	0051CE05	Send message[51123592] to package [UI_GenericParts_Browser.fng]
+debugstr	50D510	0051CE39	Message was queued
+debugstr	50D510	0051BA85	Un-Activate!!! 37a52f0 37e0ef0
+debugstr	50D510	0051BA9D	Deleting package [GenericDialog_SMALL.fng]
+debugstr	50D510	0051C977	package[GenericDialog_SMALL.fng] will unload
+debugstr	50D510	0050C666	Joy Event: FEPad_Accept[0]
+debugstr	50D510	0050C666	Joy Event: FEPad_Accept[0]
+debugstr	50D510	0050C666	Joy Event: FEPad_Back[1]
+debugstr	50D510	0050C666	Joy Event: FEPad_Back[1]
+debugstr	50D510	0050C666	Joy Event: FEPad_Back[0]
+debugstr	50D510	0050C666	Joy Event: FEPad_Back[0]
+debugstr	50D510	0050C666	Joy Event: FEPad_Back[1]
+debugstr	50D510	0050C666	Joy Event: FEPad_Back[1]
+debugstr	50D510	0051CBDF	SwitchFEngPackages from UI_GenericParts_Browser.fng to UI_ChooseCustomizeCategory.fng
+debugstr	50D510	0053760A	Direct Pop---------------------UI_Menu_Asset_Reputation.fng------------------
+debugstr	50D510	0051C930	Will unload -----------UI_Menu_Asset_Reputation.fng------------------
+debugstr	50D510	0051C94D	Will be unloaded [UI_Menu_Asset_Reputation.fng]
+debugstr	50D510	0051BA85	Un-Activate!!! 37b6280 37cd0e0
+debugstr	50D510	0051BA9D	Deleting package [UI_Menu_Asset_Reputation.fng]
+debugstr	50D510	0051C977	package[UI_Menu_Asset_Reputation.fng] will unload
+debugstr	50D510	0051C930	Will unload -----------UI_GenericParts_Browser.fng------------------
+debugstr	50D510	0051C94D	Will be unloaded [UI_GenericParts_Browser.fng]
+debugstr	50D510	0051BA85	Un-Activate!!! 37b7580 37bf8d0
+debugstr	50D510	0051BA9D	Deleting package [UI_GenericParts_Browser.fng]
+debugstr	50D510	0051C977	package[UI_GenericParts_Browser.fng] will unload
+debugstr	50D510	0054E4CF	Init Package UI_ChooseCustomizeCategory.fng
+debugstr	50D510	0050C666	Joy Event: FEPad_Back[0]
+debugstr	50D510	0050C666	Joy Event: FEPad_Back[0]
+debugstr	50D510	0050C666	Joy Event: FEPad_Right[1]
+debugstr	50D510	0050C666	Joy Event: FEPad_Right[1]
+debugstr	50D510	0050C666	Joy Event: FEPad_Right[0]
+debugstr	50D510	0050C666	Joy Event: FEPad_Right[0]
+debugstr	50D510	0050C666	Joy Event: FEPad_Right[1]
+debugstr	50D510	0050C666	Joy Event: FEPad_Right[1]
+debugstr	50D510	0050C666	Joy Event: FEPad_Right[0]
+debugstr	50D510	0050C666	Joy Event: FEPad_Right[0]
+debugstr	50D510	0050C666	Joy Event: FEPad_Accept[1]
+debugstr	50D510	0050C666	Joy Event: FEPad_Accept[1]
+debugstr	50D510	0050C666	Joy Event: FEPad_Accept[0]
+debugstr	50D510	0050C666	Joy Event: FEPad_Accept[0]
+debugstr	50D510	005440D5	IconScrollerMenu : EXIT/INIT_COMPLETE called on me (0xe1fde1d1).
+debugstr	50D510	00544133	IconScrollerMenu : Switch/Pop/Direct Pop called on me (0x5eca113d).
+debugstr	50D510	0051CBDF	SwitchFEngPackages from UI_ChooseCustomizeCategory.fng to UI_ChoosePaintCategory.fng
+debugstr	50D510	0054E4CF	Init Package UI_Menu_Asset_Reputation.fng
+debugstr	50D510	0051C930	Will unload -----------UI_ChooseCustomizeCategory.fng------------------
+debugstr	50D510	0051C94D	Will be unloaded [UI_ChooseCustomizeCategory.fng]
+debugstr	50D510	0051BA85	Un-Activate!!! 37b7520 37e6f40
+debugstr	50D510	0051BA9D	Deleting package [UI_ChooseCustomizeCategory.fng]
+debugstr	50D510	0051C977	package[UI_ChooseCustomizeCategory.fng] will unload
+debugstr	50D510	0054E4CF	Init Package UI_ChoosePaintCategory.fng
+debugstr	50D510	0050C666	Joy Event: FEPad_Right[1]
+debugstr	50D510	0050C666	Joy Event: FEPad_Right[1]
+debugstr	50D510	0050C666	Joy Event: FEPad_Right[0]
+debugstr	50D510	0050C666	Joy Event: FEPad_Right[0]
+debugstr	50D510	0050C666	Joy Event: FEPad_Accept[1]
+debugstr	50D510	0050C666	Joy Event: FEPad_Accept[1]
+debugstr	50D510	0052FC17	IconScrollerMenu : StopInput (UI_ChoosePaintCategory.fng, 37a8f40).  Mask (255) to (0).
+debugstr	50D510	0050C666	Joy Event: FEPad_Accept[0]
+debugstr	50D510	0050C666	Joy Event: FEPad_Accept[0]
+debugstr	50D510	005440D5	IconScrollerMenu : EXIT/INIT_COMPLETE called on me (0xe1fde1d1).
+debugstr	50D510	0052FBD7	IconScrollerMenu : StartInput (UI_ChoosePaintCategory.fng, 37a8f40).  Mask (0) to (255).
+debugstr	50D510	00544133	IconScrollerMenu : Switch/Pop/Direct Pop called on me (0x5eca113d).
+debugstr	50D510	0051CBDF	SwitchFEngPackages from UI_ChoosePaintCategory.fng to UI_ChooseVinylLayer.fng
+debugstr	50D510	0053760A	Direct Pop---------------------UI_Menu_Asset_Reputation.fng------------------
+debugstr	50D510	0051C930	Will unload -----------UI_Menu_Asset_Reputation.fng------------------
+debugstr	50D510	0051C94D	Will be unloaded [UI_Menu_Asset_Reputation.fng]
+debugstr	50D510	0051BA85	Un-Activate!!! 37b6280 37e73a0
+debugstr	50D510	0051BA9D	Deleting package [UI_Menu_Asset_Reputation.fng]
+debugstr	50D510	0051C977	package[UI_Menu_Asset_Reputation.fng] will unload
+debugstr	50D510	0051C930	Will unload -----------UI_ChoosePaintCategory.fng------------------
+debugstr	50D510	0051C94D	Will be unloaded [UI_ChoosePaintCategory.fng]
+debugstr	50D510	0051BA85	Un-Activate!!! 37b72e0 37a8f40
+debugstr	50D510	0051BA9D	Deleting package [UI_ChoosePaintCategory.fng]
+debugstr	50D510	0051C977	package[UI_ChoosePaintCategory.fng] will unload
+debugstr	50D510	0054E4CF	Init Package UI_ChooseVinylLayer.fng
+debugstr	50D510	0050C666	Joy Event: FEPad_Accept[1]
+debugstr	50D510	0050C666	Joy Event: FEPad_Accept[1]
+debugstr	50D510	0050C666	Joy Event: FEPad_Accept[0]
+debugstr	50D510	0050C666	Joy Event: FEPad_Accept[0]
+debugstr	50D510	005440D5	IconScrollerMenu : EXIT/INIT_COMPLETE called on me (0xe1fde1d1).
+debugstr	50D510	00544133	IconScrollerMenu : Switch/Pop/Direct Pop called on me (0x5eca113d).
+debugstr	50D510	0051CBDF	SwitchFEngPackages from UI_ChooseVinylLayer.fng to UI_GenericParts_Browser.fng
+debugstr	50D510	0054E4CF	Init Package UI_Menu_Asset_Reputation.fng
+debugstr	50D510	0051C930	Will unload -----------UI_ChooseVinylLayer.fng------------------
+debugstr	50D510	0051C94D	Will be unloaded [UI_ChooseVinylLayer.fng]
+debugstr	50D510	0051BA85	Un-Activate!!! 37b7220 37bb110
+debugstr	50D510	0051BA9D	Deleting package [UI_ChooseVinylLayer.fng]
+debugstr	50D510	0051C977	package[UI_ChooseVinylLayer.fng] will unload
+debugstr	50D510	0054E4CF	Init Package UI_GenericParts_Browser.fng
+debugstr	50D510	0050C666	Joy Event: FEPad_Right[1]
+debugstr	50D510	0050C666	Joy Event: FEPad_Right[1]
+debugstr	50D510	0050C666	Joy Event: FEPad_Right[0]
+debugstr	50D510	0050C666	Joy Event: FEPad_Right[0]
+debugstr	50D510	0050C666	Joy Event: FEPad_Accept[1]
+debugstr	50D510	0050C666	Joy Event: FEPad_Accept[1]
+debugstr	50D510	0050C666	Joy Event: FEPad_Accept[0]
+debugstr	50D510	0050C666	Joy Event: FEPad_Accept[0]
+debugstr	50D510	0050C666	Joy Event: FEPad_Down[1]
+debugstr	50D510	0050C666	Joy Event: FEPad_Down[1]
+debugstr	50D510	0050C666	Joy Event: FEPad_Down[0]
+debugstr	50D510	0050C666	Joy Event: FEPad_Down[0]
+debugstr	50D510	0050C666	Joy Event: FEPad_Accept[1]
+debugstr	50D510	0050C666	Joy Event: FEPad_Accept[1]
+debugstr	50D510	0055802E	DIALOG :: --------- ShowDialog -----------
+debugstr	50D510	0055803D	DIALOG :: |_ Would you like to add this vinyl to your setup?
+debugstr	50D510	00558199	DIALOG :: Oh shit - the control mask is zero.  This is bad.  Try to use Top Package's control mask.
+debugstr	50D510	005581FB	DIALOG ::  |_ TopPackage = UI_GenericParts_Browser.fng, mask = 0.
+debugstr	50D510	00558213	DIALOG ::    |_ Crap - mask is zero, forcing to 0xff.
+debugstr	50D510	00558282	DIALOG :: Success : Control mask = 255, Handle = 4
+debugstr	50D510	0055828C	DIALOG :: --------- ShowDialog Finished -----------
+debugstr	50D510	0054E4CF	Init Package GenericDialog_MED.fng
+debugstr	50D510	0055420B	DIALOG :: Constructor
+debugstr	50D510	0050C666	Joy Event: FEPad_Accept[0]
+debugstr	50D510	0050C666	Joy Event: FEPad_Accept[0]
+debugstr	50D510	0050C666	Joy Event: FEPad_Left[1]
+debugstr	50D510	0050C666	Joy Event: FEPad_Left[1]
+debugstr	50D510	0050C666	Joy Event: FEPad_Left[0]
+debugstr	50D510	0050C666	Joy Event: FEPad_Left[0]
+debugstr	50D510	0050C666	Joy Event: FEPad_Accept[1]
+debugstr	50D510	0050C666	Joy Event: FEPad_Accept[1]
+debugstr	50D510	0054C28D	DIALOG :: Button 1 Pressed, msg = 1360147858
+debugstr	50D510	0054C10A	DIALOG :: Tick, ReturnWithMessage Set, Dismissing: [GenericDialog_MED.fng] [51123592]
+debugstr	50D510	00540A75	DIALOG :: DismissDialog.  Handle(4).  Current handle(4)
+debugstr	50D510	00540A8B	DIALOG ::  |_ Found, popping.
+debugstr	50D510	0051CC3A	Queue popping GenericDialog_MED.fng
+debugstr	50D510	0051C930	Will unload -----------GenericDialog_MED.fng------------------
+debugstr	50D510	0051C94D	Will be unloaded [GenericDialog_MED.fng]
+debugstr	50D510	00551225	DIALOG :: Closing, sending message (51123592) to (UI_GenericParts_Browser.fng).
+debugstr	50D510	0051CE05	Send message[51123592] to package [UI_GenericParts_Browser.fng]
+debugstr	50D510	0051CE39	Message was queued
+debugstr	50D510	0051BA85	Un-Activate!!! 37a5350 37d4630
+debugstr	50D510	0051BA9D	Deleting package [GenericDialog_MED.fng]
+debugstr	50D510	0051C977	package[GenericDialog_MED.fng] will unload
+debugstr	50D510	0051CBDF	SwitchFEngPackages from UI_GenericParts_Browser.fng to UI_ChooseVinylLayer.fng
+debugstr	50D510	0053760A	Direct Pop---------------------UI_Menu_Asset_Reputation.fng------------------
+debugstr	50D510	0051C930	Will unload -----------UI_Menu_Asset_Reputation.fng------------------
+debugstr	50D510	0051C94D	Will be unloaded [UI_Menu_Asset_Reputation.fng]
+debugstr	50D510	0051BA85	Un-Activate!!! 37b6280 37a7d60
+debugstr	50D510	0051BA9D	Deleting package [UI_Menu_Asset_Reputation.fng]
+debugstr	50D510	0051C977	package[UI_Menu_Asset_Reputation.fng] will unload
+debugstr	50D510	0051C930	Will unload -----------UI_GenericParts_Browser.fng------------------
+debugstr	50D510	0051C94D	Will be unloaded [UI_GenericParts_Browser.fng]
+debugstr	50D510	0051BA85	Un-Activate!!! 37b7580 37a9c10
+debugstr	50D510	0051BA9D	Deleting package [UI_GenericParts_Browser.fng]
+debugstr	50D510	0051C977	package[UI_GenericParts_Browser.fng] will unload
+debugstr	50D510	0054E4CF	Init Package UI_ChooseVinylLayer.fng
+debugstr	50D510	0050C666	Joy Event: FEPad_Accept[0]
+debugstr	50D510	0050C666	Joy Event: FEPad_Accept[0]
+debugstr	50D510	0050C666	Joy Event: FEPad_Accept[1]
+debugstr	50D510	0050C666	Joy Event: FEPad_Accept[1]
+debugstr	50D510	0055802E	DIALOG :: --------- ShowDialog -----------
+debugstr	50D510	0055803D	DIALOG :: |_ Would you like to change or remove this vinyl?
+debugstr	50D510	00558282	DIALOG :: Success : Control mask = 255, Handle = 5
+debugstr	50D510	0055828C	DIALOG :: --------- ShowDialog Finished -----------
+debugstr	50D510	0054E4CF	Init Package GenericDialog_SMALL.fng
+debugstr	50D510	0055420B	DIALOG :: Constructor
+debugstr	50D510	0050C666	Joy Event: FEPad_Accept[0]
+debugstr	50D510	0050C666	Joy Event: FEPad_Accept[0]
+debugstr	50D510	0050C666	Joy Event: FEPad_Left[1]
+debugstr	50D510	0050C666	Joy Event: FEPad_Left[1]
+debugstr	50D510	0050C666	Joy Event: FEPad_Left[0]
+debugstr	50D510	0050C666	Joy Event: FEPad_Left[0]
+debugstr	50D510	0050C666	Joy Event: FEPad_Accept[1]
+debugstr	50D510	0050C666	Joy Event: FEPad_Accept[1]
+debugstr	50D510	0054C28D	DIALOG :: Button 1 Pressed, msg = 1360147858
+debugstr	50D510	0054C10A	DIALOG :: Tick, ReturnWithMessage Set, Dismissing: [GenericDialog_SMALL.fng] [51123592]
+debugstr	50D510	00540A75	DIALOG :: DismissDialog.  Handle(5).  Current handle(5)
+debugstr	50D510	00540A8B	DIALOG ::  |_ Found, popping.
+debugstr	50D510	0051CC3A	Queue popping GenericDialog_SMALL.fng
+debugstr	50D510	0051C930	Will unload -----------GenericDialog_SMALL.fng------------------
+debugstr	50D510	0051C94D	Will be unloaded [GenericDialog_SMALL.fng]
+debugstr	50D510	00551225	DIALOG :: Closing, sending message (51123592) to (UI_ChooseVinylLayer.fng).
+debugstr	50D510	0051CE05	Send message[51123592] to package [UI_ChooseVinylLayer.fng]
+debugstr	50D510	0051CE39	Message was queued
+debugstr	50D510	0051BA85	Un-Activate!!! 37a52f0 37e2980
+debugstr	50D510	0051BA9D	Deleting package [GenericDialog_SMALL.fng]
+debugstr	50D510	0051C977	package[GenericDialog_SMALL.fng] will unload
+debugstr	50D510	00544133	IconScrollerMenu : Switch/Pop/Direct Pop called on me (0x5eca113d).
+debugstr	50D510	0051CBDF	SwitchFEngPackages from UI_ChooseVinylLayer.fng to UI_GenericParts_Browser.fng
+debugstr	50D510	0054E4CF	Init Package UI_Menu_Asset_Reputation.fng
+debugstr	50D510	0051C930	Will unload -----------UI_ChooseVinylLayer.fng------------------
+debugstr	50D510	0051C94D	Will be unloaded [UI_ChooseVinylLayer.fng]
+debugstr	50D510	0051BA85	Un-Activate!!! 37b7220 37e7f40
+debugstr	50D510	0051BA9D	Deleting package [UI_ChooseVinylLayer.fng]
+debugstr	50D510	0051C977	package[UI_ChooseVinylLayer.fng] will unload
+debugstr	50D510	0054E4CF	Init Package UI_GenericParts_Browser.fng
+debugstr	50D510	0050C666	Joy Event: FEPad_Accept[0]
+debugstr	50D510	0050C666	Joy Event: FEPad_Accept[0]
+debugstr	50D510	0050C666	Joy Event: FEPad_Left[1]
+debugstr	50D510	0050C666	Joy Event: FEPad_Left[1]
+debugstr	50D510	0050C666	Joy Event: FEPad_Left[0]
+debugstr	50D510	0050C666	Joy Event: FEPad_Left[0]
+debugstr	50D510	0050C666	Joy Event: FEPad_Left[1]
+debugstr	50D510	0050C666	Joy Event: FEPad_Left[1]
+debugstr	50D510	0050C666	Joy Event: FEPad_Left[0]
+debugstr	50D510	0050C666	Joy Event: FEPad_Left[0]
+debugstr	50D510	0050C666	Joy Event: FEPad_Left[1]
+debugstr	50D510	0050C666	Joy Event: FEPad_Left[1]
+debugstr	50D510	0050C666	Joy Event: FEPad_Left[0]
+debugstr	50D510	0050C666	Joy Event: FEPad_Left[0]
+debugstr	50D510	0050C666	Joy Event: FEPad_Left[1]
+debugstr	50D510	0050C666	Joy Event: FEPad_Left[1]
+debugstr	50D510	0050C666	Joy Event: FEPad_Left[0]
+debugstr	50D510	0050C666	Joy Event: FEPad_Left[0]
+debugstr	50D510	0050C666	Joy Event: FEPad_Right[1]
+debugstr	50D510	0050C666	Joy Event: FEPad_Right[1]
+debugstr	50D510	0050C666	Joy Event: FEPad_Right[0]
+debugstr	50D510	0050C666	Joy Event: FEPad_Right[0]
+debugstr	50D510	0050C666	Joy Event: FEPad_Left[1]
+debugstr	50D510	0050C666	Joy Event: FEPad_Left[1]
+debugstr	50D510	0050C666	Joy Event: FEPad_Left[0]
+debugstr	50D510	0050C666	Joy Event: FEPad_Left[0]
+debugstr	50D510	0050C666	Joy Event: FEPad_Accept[1]
+debugstr	50D510	0050C666	Joy Event: FEPad_Accept[1]
+debugstr	50D510	0050C666	Joy Event: FEPad_Accept[0]
+debugstr	50D510	0050C666	Joy Event: FEPad_Accept[0]
+debugstr	50D510	0050C666	Joy Event: FEPad_Down[1]
+debugstr	50D510	0050C666	Joy Event: FEPad_Down[1]
+debugstr	50D510	0050C666	Joy Event: FEPad_Down[0]
+debugstr	50D510	0050C666	Joy Event: FEPad_Down[0]
+debugstr	50D510	0050C666	Joy Event: FEPad_Down[1]
+debugstr	50D510	0050C666	Joy Event: FEPad_Down[1]
+debugstr	50D510	0050C666	Joy Event: FEPad_Down[0]
+debugstr	50D510	0050C666	Joy Event: FEPad_Down[0]
+debugstr	50D510	0050C666	Joy Event: FEPad_Accept[1]
+debugstr	50D510	0050C666	Joy Event: FEPad_Accept[1]
+debugstr	50D510	0055802E	DIALOG :: --------- ShowDialog -----------
+debugstr	50D510	0055803D	DIALOG :: |_ Unique vinyls require all four vinyl layers^when applied to your vehicle.  All other ^vinyls that ar
+debugstr	50D510	00558199	DIALOG :: Oh shit - the control mask is zero.  This is bad.  Try to use Top Package's control mask.
+debugstr	50D510	005581FB	DIALOG ::  |_ TopPackage = UI_GenericParts_Browser.fng, mask = 0.
+debugstr	50D510	00558213	DIALOG ::    |_ Crap - mask is zero, forcing to 0xff.
+debugstr	50D510	00558282	DIALOG :: Success : Control mask = 255, Handle = 6
+debugstr	50D510	0055828C	DIALOG :: --------- ShowDialog Finished -----------
+debugstr	50D510	0054E4CF	Init Package GenericDialog_MED.fng
+debugstr	50D510	0055420B	DIALOG :: Constructor
+debugstr	50D510	0050C666	Joy Event: FEPad_Accept[0]
+debugstr	50D510	0050C666	Joy Event: FEPad_Accept[0]
+debugstr	50D510	0050C666	Joy Event: FEPad_Left[1]
+debugstr	50D510	0050C666	Joy Event: FEPad_Left[1]
+debugstr	50D510	0050C666	Joy Event: FEPad_Left[0]
+debugstr	50D510	0050C666	Joy Event: FEPad_Left[0]
+debugstr	50D510	0050C666	Joy Event: FEPad_Accept[1]
+debugstr	50D510	0050C666	Joy Event: FEPad_Accept[1]
+debugstr	50D510	0054C28D	DIALOG :: Button 1 Pressed, msg = 1360147858
+debugstr	50D510	0054C10A	DIALOG :: Tick, ReturnWithMessage Set, Dismissing: [GenericDialog_MED.fng] [51123592]
+debugstr	50D510	00540A75	DIALOG :: DismissDialog.  Handle(6).  Current handle(6)
+debugstr	50D510	00540A8B	DIALOG ::  |_ Found, popping.
+debugstr	50D510	0051CC3A	Queue popping GenericDialog_MED.fng
+debugstr	50D510	0051C930	Will unload -----------GenericDialog_MED.fng------------------
+debugstr	50D510	0051C94D	Will be unloaded [GenericDialog_MED.fng]
+debugstr	50D510	00551225	DIALOG :: Closing, sending message (51123592) to (UI_GenericParts_Browser.fng).
+debugstr	50D510	0051CE05	Send message[51123592] to package [UI_GenericParts_Browser.fng]
+debugstr	50D510	0051CE39	Message was queued
+debugstr	50D510	0051BA85	Un-Activate!!! 37a5350 37dc350
+debugstr	50D510	0051BA9D	Deleting package [GenericDialog_MED.fng]
+debugstr	50D510	0051C977	package[GenericDialog_MED.fng] will unload
+debugstr	50D510	0051CBDF	SwitchFEngPackages from UI_GenericParts_Browser.fng to UI_ChooseVinylLayer.fng
+debugstr	50D510	0053760A	Direct Pop---------------------UI_Menu_Asset_Reputation.fng------------------
+debugstr	50D510	0051C930	Will unload -----------UI_Menu_Asset_Reputation.fng------------------
+debugstr	50D510	0051C94D	Will be unloaded [UI_Menu_Asset_Reputation.fng]
+debugstr	50D510	0051BA85	Un-Activate!!! 37b6280 37abee0
+debugstr	50D510	0051BA9D	Deleting package [UI_Menu_Asset_Reputation.fng]
+debugstr	50D510	0051C977	package[UI_Menu_Asset_Reputation.fng] will unload
+debugstr	50D510	0051C930	Will unload -----------UI_GenericParts_Browser.fng------------------
+debugstr	50D510	0051C94D	Will be unloaded [UI_GenericParts_Browser.fng]
+debugstr	50D510	0051BA85	Un-Activate!!! 37b7580 37a86a0
+debugstr	50D510	0051BA9D	Deleting package [UI_GenericParts_Browser.fng]
+debugstr	50D510	0051C977	package[UI_GenericParts_Browser.fng] will unload
+debugstr	50D510	0054E4CF	Init Package UI_ChooseVinylLayer.fng
+debugstr	50D510	0050C666	Joy Event: FEPad_Accept[0]
+debugstr	50D510	0050C666	Joy Event: FEPad_Accept[0]
+debugstr	50D510	0050C666	Joy Event: FEPad_Accept[1]
+debugstr	50D510	0050C666	Joy Event: FEPad_Accept[1]
+debugstr	50D510	0055802E	DIALOG :: --------- ShowDialog -----------
+debugstr	50D510	0055803D	DIALOG :: |_ Unique vinyls require all four vinyl layers^when applied to your vehicle. All other ^vinyls that are
+debugstr	50D510	00558282	DIALOG :: Success : Control mask = 255, Handle = 7
+debugstr	50D510	0055828C	DIALOG :: --------- ShowDialog Finished -----------
+debugstr	50D510	0054E4CF	Init Package GenericDialog_LARGE.fng
+debugstr	50D510	0055420B	DIALOG :: Constructor
+debugstr	50D510	0050C666	Joy Event: FEPad_Accept[0]
+debugstr	50D510	0050C666	Joy Event: FEPad_Accept[0]
+debugstr	50D510	0050C666	Joy Event: FEPad_Left[1]
+debugstr	50D510	0050C666	Joy Event: FEPad_Left[1]
+debugstr	50D510	0050C666	Joy Event: FEPad_Left[0]
+debugstr	50D510	0050C666	Joy Event: FEPad_Left[0]
+debugstr	50D510	0050C666	Joy Event: FEPad_Accept[1]
+debugstr	50D510	0050C666	Joy Event: FEPad_Accept[1]
+debugstr	50D510	0054C28D	DIALOG :: Button 1 Pressed, msg = 1360147858
+debugstr	50D510	0054C10A	DIALOG :: Tick, ReturnWithMessage Set, Dismissing: [GenericDialog_LARGE.fng] [51123592]
+debugstr	50D510	00540A75	DIALOG :: DismissDialog.  Handle(7).  Current handle(7)
+debugstr	50D510	00540A8B	DIALOG ::  |_ Found, popping.
+debugstr	50D510	0051CC3A	Queue popping GenericDialog_LARGE.fng
+debugstr	50D510	0051C930	Will unload -----------GenericDialog_LARGE.fng------------------
+debugstr	50D510	0051C94D	Will be unloaded [GenericDialog_LARGE.fng]
+debugstr	50D510	00551225	DIALOG :: Closing, sending message (51123592) to (UI_ChooseVinylLayer.fng).
+debugstr	50D510	0051CE05	Send message[51123592] to package [UI_ChooseVinylLayer.fng]
+debugstr	50D510	0051CE39	Message was queued
+debugstr	50D510	0051BA85	Un-Activate!!! 37a53b0 37ee160
+debugstr	50D510	0051BA9D	Deleting package [GenericDialog_LARGE.fng]
+debugstr	50D510	0051C977	package[GenericDialog_LARGE.fng] will unload
+debugstr	50D510	00544133	IconScrollerMenu : Switch/Pop/Direct Pop called on me (0x5eca113d).
+debugstr	50D510	0051CBDF	SwitchFEngPackages from UI_ChooseVinylLayer.fng to UI_GenericParts_Browser.fng
+debugstr	50D510	0054E4CF	Init Package UI_Menu_Asset_Reputation.fng
+debugstr	50D510	0051C930	Will unload -----------UI_ChooseVinylLayer.fng------------------
+debugstr	50D510	0051C94D	Will be unloaded [UI_ChooseVinylLayer.fng]
+debugstr	50D510	0051BA85	Un-Activate!!! 37b7220 37e8ed0
+debugstr	50D510	0051BA9D	Deleting package [UI_ChooseVinylLayer.fng]
+debugstr	50D510	0051C977	package[UI_ChooseVinylLayer.fng] will unload
+debugstr	50D510	0054E4CF	Init Package UI_GenericParts_Browser.fng
+debugstr	50D510	0050C666	Joy Event: FEPad_Accept[0]
+debugstr	50D510	0050C666	Joy Event: FEPad_Accept[0]
+debugstr	50D510	0050C666	Joy Event: FEPad_Right[1]
+debugstr	50D510	0050C666	Joy Event: FEPad_Right[1]
+debugstr	50D510	0050C666	Joy Event: FEPad_Right[0]
+debugstr	50D510	0050C666	Joy Event: FEPad_Right[0]
+debugstr	50D510	0050C666	Joy Event: FEPad_Accept[1]
+debugstr	50D510	0050C666	Joy Event: FEPad_Accept[1]
+debugstr	50D510	0050C666	Joy Event: FEPad_Accept[0]
+debugstr	50D510	0050C666	Joy Event: FEPad_Accept[0]
+debugstr	50D510	0050C666	Joy Event: FEPad_Down[1]
+debugstr	50D510	0050C666	Joy Event: FEPad_Down[1]
+debugstr	50D510	0050C666	Joy Event: FEPad_Down[0]
+debugstr	50D510	0050C666	Joy Event: FEPad_Down[0]
+debugstr	50D510	0050C666	Joy Event: FEPad_Accept[1]
+debugstr	50D510	0050C666	Joy Event: FEPad_Accept[1]
+debugstr	50D510	0055802E	DIALOG :: --------- ShowDialog -----------
+debugstr	50D510	0055803D	DIALOG :: |_ Would you like to add this vinyl to your setup?
+debugstr	50D510	00558199	DIALOG :: Oh shit - the control mask is zero.  This is bad.  Try to use Top Package's control mask.
+debugstr	50D510	005581FB	DIALOG ::  |_ TopPackage = UI_GenericParts_Browser.fng, mask = 0.
+debugstr	50D510	00558213	DIALOG ::    |_ Crap - mask is zero, forcing to 0xff.
+debugstr	50D510	00558282	DIALOG :: Success : Control mask = 255, Handle = 8
+debugstr	50D510	0055828C	DIALOG :: --------- ShowDialog Finished -----------
+debugstr	50D510	0054E4CF	Init Package GenericDialog_MED.fng
+debugstr	50D510	0055420B	DIALOG :: Constructor
+debugstr	50D510	0050C666	Joy Event: FEPad_Accept[0]
+debugstr	50D510	0050C666	Joy Event: FEPad_Accept[0]
+debugstr	50D510	0050C666	Joy Event: FEPad_Left[1]
+debugstr	50D510	0050C666	Joy Event: FEPad_Left[1]
+debugstr	50D510	0050C666	Joy Event: FEPad_Left[0]
+debugstr	50D510	0050C666	Joy Event: FEPad_Left[0]
+debugstr	50D510	0050C666	Joy Event: FEPad_Accept[1]
+debugstr	50D510	0050C666	Joy Event: FEPad_Accept[1]
+debugstr	50D510	0054C28D	DIALOG :: Button 1 Pressed, msg = 1360147858
+debugstr	50D510	0054C10A	DIALOG :: Tick, ReturnWithMessage Set, Dismissing: [GenericDialog_MED.fng] [51123592]
+debugstr	50D510	00540A75	DIALOG :: DismissDialog.  Handle(8).  Current handle(8)
+debugstr	50D510	00540A8B	DIALOG ::  |_ Found, popping.
+debugstr	50D510	0051CC3A	Queue popping GenericDialog_MED.fng
+debugstr	50D510	0051C930	Will unload -----------GenericDialog_MED.fng------------------
+debugstr	50D510	0051C94D	Will be unloaded [GenericDialog_MED.fng]
+debugstr	50D510	00551225	DIALOG :: Closing, sending message (51123592) to (UI_GenericParts_Browser.fng).
+debugstr	50D510	0051CE05	Send message[51123592] to package [UI_GenericParts_Browser.fng]
+debugstr	50D510	0051CE39	Message was queued
+debugstr	50D510	0051BA85	Un-Activate!!! 37a5350 37e91b0
+debugstr	50D510	0051BA9D	Deleting package [GenericDialog_MED.fng]
+debugstr	50D510	0051C977	package[GenericDialog_MED.fng] will unload
+debugstr	50D510	0051CBDF	SwitchFEngPackages from UI_GenericParts_Browser.fng to UI_Paint.fng
+debugstr	50D510	0051C930	Will unload -----------UI_GenericParts_Browser.fng------------------
+debugstr	50D510	0051C94D	Will be unloaded [UI_GenericParts_Browser.fng]
+debugstr	50D510	0051BA85	Un-Activate!!! 37b7580 37a8df0
+debugstr	50D510	0051BA9D	Deleting package [UI_GenericParts_Browser.fng]
+debugstr	50D510	0051C977	package[UI_GenericParts_Browser.fng] will unload
+debugstr	50D510	0054E4CF	Init Package UI_Paint.fng
+debugstr	50D510	0050C666	Joy Event: FEPad_Accept[0]
+debugstr	50D510	0050C666	Joy Event: FEPad_Accept[0]
+debugstr	50D510	0050C666	Joy Event: FEPad_Back[1]
+debugstr	50D510	0050C666	Joy Event: FEPad_Back[1]
+debugstr	50D510	0052FC17	IconScrollerMenu : StopInput (UI_Paint.fng, 37c0ed0).  Mask (255) to (0).
+debugstr	50D510	00544133	IconScrollerMenu : Switch/Pop/Direct Pop called on me (0x5eca113d).
+debugstr	50D510	0052FBD7	IconScrollerMenu : StartInput (UI_Paint.fng, 37c0ed0).  Mask (0) to (255).
+debugstr	50D510	0051CBDF	SwitchFEngPackages from UI_Paint.fng to UI_ChooseVinylLayer.fng
+debugstr	50D510	0053760A	Direct Pop---------------------UI_Menu_Asset_Reputation.fng------------------
+debugstr	50D510	0051C930	Will unload -----------UI_Menu_Asset_Reputation.fng------------------
+debugstr	50D510	0051C94D	Will be unloaded [UI_Menu_Asset_Reputation.fng]
+debugstr	50D510	0051BA85	Un-Activate!!! 37b6280 37abee0
+debugstr	50D510	0051BA9D	Deleting package [UI_Menu_Asset_Reputation.fng]
+debugstr	50D510	0051C977	package[UI_Menu_Asset_Reputation.fng] will unload
+debugstr	50D510	0051C930	Will unload -----------UI_Paint.fng------------------
+debugstr	50D510	0051C94D	Will be unloaded [UI_Paint.fng]
+debugstr	50D510	0051BA85	Un-Activate!!! 37b7280 37c0ed0
+debugstr	50D510	0051BA9D	Deleting package [UI_Paint.fng]
+debugstr	50D510	0051C977	package[UI_Paint.fng] will unload
+debugstr	50D510	0054E4CF	Init Package UI_ChooseVinylLayer.fng
+debugstr	50D510	0050C666	Joy Event: FEPad_Back[0]
+debugstr	50D510	0050C666	Joy Event: FEPad_Back[0]
+debugstr	50D510	0050C666	Joy Event: FEPad_Back[1]
+debugstr	50D510	0050C666	Joy Event: FEPad_Back[1]
+debugstr	50D510	0052FC17	IconScrollerMenu : StopInput (UI_ChooseVinylLayer.fng, 37ce710).  Mask (255) to (0).
+debugstr	50D510	0050C666	Joy Event: FEPad_Back[0]
+debugstr	50D510	0050C666	Joy Event: FEPad_Back[0]
+debugstr	50D510	005440D5	IconScrollerMenu : EXIT/INIT_COMPLETE called on me (0xe1fde1d1).
+debugstr	50D510	0052FBD7	IconScrollerMenu : StartInput (UI_ChooseVinylLayer.fng, 37ce710).  Mask (0) to (255).
+debugstr	50D510	00544133	IconScrollerMenu : Switch/Pop/Direct Pop called on me (0x5eca113d).
+debugstr	50D510	0051CBDF	SwitchFEngPackages from UI_ChooseVinylLayer.fng to UI_ChoosePaintCategory.fng
+debugstr	50D510	0054E4CF	Init Package UI_Menu_Asset_Reputation.fng
+debugstr	50D510	0051C930	Will unload -----------UI_ChooseVinylLayer.fng------------------
+debugstr	50D510	0051C94D	Will be unloaded [UI_ChooseVinylLayer.fng]
+debugstr	50D510	0051BA85	Un-Activate!!! 37b7220 37ce710
+debugstr	50D510	0051BA9D	Deleting package [UI_ChooseVinylLayer.fng]
+debugstr	50D510	0051C977	package[UI_ChooseVinylLayer.fng] will unload
+debugstr	50D510	0054E4CF	Init Package UI_ChoosePaintCategory.fng
+debugstr	50D510	0050C666	Joy Event: FEPad_Back[1]
+debugstr	50D510	0050C666	Joy Event: FEPad_Back[1]
+debugstr	50D510	0052FC17	IconScrollerMenu : StopInput (UI_ChoosePaintCategory.fng, 37a8ae0).  Mask (255) to (0).
+debugstr	50D510	0055802E	DIALOG :: --------- ShowDialog -----------
+debugstr	50D510	0055803D	DIALOG :: |_ The graphics setup on your car has changed.^Would you like to install your new graphics setup?
+debugstr	50D510	00558199	DIALOG :: Oh shit - the control mask is zero.  This is bad.  Try to use Top Package's control mask.
+debugstr	50D510	005581FB	DIALOG ::  |_ TopPackage = UI_ChoosePaintCategory.fng, mask = 0.
+debugstr	50D510	00558213	DIALOG ::    |_ Crap - mask is zero, forcing to 0xff.
+debugstr	50D510	00558282	DIALOG :: Success : Control mask = 255, Handle = 9
+debugstr	50D510	0055828C	DIALOG :: --------- ShowDialog Finished -----------
+debugstr	50D510	00538C0E	IconScrollerMenu : StartDim.
+debugstr	50D510	0054E4CF	Init Package GenericDialog_SMALL.fng
+debugstr	50D510	0055420B	DIALOG :: Constructor
+debugstr	50D510	0050C666	Joy Event: FEPad_Back[0]
+debugstr	50D510	0050C666	Joy Event: FEPad_Back[0]
+debugstr	50D510	0050C666	Joy Event: FEPad_Accept[1]
+debugstr	50D510	0050C666	Joy Event: FEPad_Accept[1]
+debugstr	50D510	0054C24B	DIALOG :: Button 2 pressed, msg = 1445944748
+debugstr	50D510	0054C10A	DIALOG :: Tick, ReturnWithMessage Set, Dismissing: [GenericDialog_SMALL.fng] [562f5dac]
+debugstr	50D510	00540A75	DIALOG :: DismissDialog.  Handle(9).  Current handle(9)
+debugstr	50D510	00540A8B	DIALOG ::  |_ Found, popping.
+debugstr	50D510	0051CC3A	Queue popping GenericDialog_SMALL.fng
+debugstr	50D510	0051C930	Will unload -----------GenericDialog_SMALL.fng------------------
+debugstr	50D510	0051C94D	Will be unloaded [GenericDialog_SMALL.fng]
+debugstr	50D510	00551225	DIALOG :: Closing, sending message (562f5dac) to (UI_ChoosePaintCategory.fng).
+debugstr	50D510	0051CE05	Send message[562f5dac] to package [UI_ChoosePaintCategory.fng]
+debugstr	50D510	0051CE39	Message was queued
+debugstr	50D510	0051BA85	Un-Activate!!! 37a52f0 37bcc40
+debugstr	50D510	0051BA9D	Deleting package [GenericDialog_SMALL.fng]
+debugstr	50D510	0051C977	package[GenericDialog_SMALL.fng] will unload
+debugstr	50D510	00544133	IconScrollerMenu : Switch/Pop/Direct Pop called on me (0x5eca113d).
+debugstr	50D510	0052FBD7	IconScrollerMenu : StartInput (UI_ChoosePaintCategory.fng, 37a8ae0).  Mask (255) to (255).
+debugstr	50D510	0051CBDF	SwitchFEngPackages from UI_ChoosePaintCategory.fng to UI_ChooseCustomizeCategory.fng
+debugstr	50D510	0053760A	Direct Pop---------------------UI_Menu_Asset_Reputation.fng------------------
+debugstr	50D510	0051C930	Will unload -----------UI_Menu_Asset_Reputation.fng------------------
+debugstr	50D510	0051C94D	Will be unloaded [UI_Menu_Asset_Reputation.fng]
+debugstr	50D510	0051BA85	Un-Activate!!! 37b6280 3787010
+debugstr	50D510	0051BA9D	Deleting package [UI_Menu_Asset_Reputation.fng]
+debugstr	50D510	0051C977	package[UI_Menu_Asset_Reputation.fng] will unload
+debugstr	50D510	0051C930	Will unload -----------UI_ChoosePaintCategory.fng------------------
+debugstr	50D510	0051C94D	Will be unloaded [UI_ChoosePaintCategory.fng]
+debugstr	50D510	0051BA85	Un-Activate!!! 37b72e0 37a8ae0
+debugstr	50D510	0051BA9D	Deleting package [UI_ChoosePaintCategory.fng]
+debugstr	50D510	0051C977	package[UI_ChoosePaintCategory.fng] will unload
+debugstr	50D510	0054E4CF	Init Package UI_ChooseCustomizeCategory.fng
+debugstr	50D510	0050C666	Joy Event: FEPad_Accept[0]
+debugstr	50D510	0050C666	Joy Event: FEPad_Accept[0]
+debugstr	50D510	0050C666	Joy Event: FEPad_Right[1]
+debugstr	50D510	0050C666	Joy Event: FEPad_Right[1]
+debugstr	50D510	0050C666	Joy Event: FEPad_Right[0]
+debugstr	50D510	0050C666	Joy Event: FEPad_Right[0]
+debugstr	50D510	0050C666	Joy Event: FEPad_Right[1]
+debugstr	50D510	0050C666	Joy Event: FEPad_Right[1]
+debugstr	50D510	0050C666	Joy Event: FEPad_Right[0]
+debugstr	50D510	0050C666	Joy Event: FEPad_Right[0]
+debugstr	50D510	0050C666	Joy Event: FEPad_Right[1]
+debugstr	50D510	0050C666	Joy Event: FEPad_Right[1]
+debugstr	50D510	0050C666	Joy Event: FEPad_Right[0]
+debugstr	50D510	0050C666	Joy Event: FEPad_Right[0]
+debugstr	50D510	0050C666	Joy Event: FEPad_Accept[1]
+debugstr	50D510	0050C666	Joy Event: FEPad_Accept[1]
+debugstr	50D510	0055802E	DIALOG :: --------- ShowDialog -----------
+debugstr	50D510	0055803D	DIALOG :: |_ Do you want to enter the Performance Tuning / Dyno track?
+debugstr	50D510	00558282	DIALOG :: Success : Control mask = 255, Handle = 10
+debugstr	50D510	0055828C	DIALOG :: --------- ShowDialog Finished -----------
+debugstr	50D510	00538C0E	IconScrollerMenu : StartDim.
+debugstr	50D510	0054E4CF	Init Package GenericDialog_MED.fng
+debugstr	50D510	0055420B	DIALOG :: Constructor
+debugstr	50D510	0050C666	Joy Event: FEPad_Accept[0]
+debugstr	50D510	0050C666	Joy Event: FEPad_Accept[0]
+debugstr	50D510	0050C666	Joy Event: FEPad_Left[1]
+debugstr	50D510	0050C666	Joy Event: FEPad_Left[1]
+debugstr	50D510	0050C666	Joy Event: FEPad_Left[0]
+debugstr	50D510	0050C666	Joy Event: FEPad_Left[0]
+debugstr	50D510	0050C666	Joy Event: FEPad_Accept[1]
+debugstr	50D510	0050C666	Joy Event: FEPad_Accept[1]
+debugstr	50D510	0054C28D	DIALOG :: Button 1 Pressed, msg = 886840300
+debugstr	50D510	0054C10A	DIALOG :: Tick, ReturnWithMessage Set, Dismissing: [GenericDialog_MED.fng] [34dc1bec]
+debugstr	50D510	00540A75	DIALOG :: DismissDialog.  Handle(10).  Current handle(10)
+debugstr	50D510	00540A8B	DIALOG ::  |_ Found, popping.
+debugstr	50D510	0051CC3A	Queue popping GenericDialog_MED.fng
+debugstr	50D510	0051C930	Will unload -----------GenericDialog_MED.fng------------------
+debugstr	50D510	0051C94D	Will be unloaded [GenericDialog_MED.fng]
+debugstr	50D510	00551225	DIALOG :: Closing, sending message (34dc1bec) to (UI_ChooseCustomizeCategory.fng).
+debugstr	50D510	0051CE05	Send message[34dc1bec] to package [UI_ChooseCustomizeCategory.fng]
+debugstr	50D510	0051CE39	Message was queued
+debugstr	50D510	0051BA85	Un-Activate!!! 37a5350 37c7840
+debugstr	50D510	0051BA9D	Deleting package [GenericDialog_MED.fng]
+debugstr	50D510	0051C977	package[GenericDialog_MED.fng] will unload
+debugstr	50D510	00538C0E	IconScrollerMenu : StartDim.
+debugstr	50D510	0054E4CF	Init Package MC_Main.fng
+debugstr	50D510	0050C666	Joy Event: FEPad_Accept[0]
+debugstr	50D510	0050C666	Joy Event: FEPad_Accept[0]
+debugstr	50D510	0050C666	Joy Event: FEPad_Accept[1]
+debugstr	50D510	0050C666	Joy Event: FEPad_Accept[1]
+debugstr	50D510	00538CAE	IconScrollerMenu : StopDim.
+debugstr	50D510	0051CC3A	Queue popping MC_Main.fng
+debugstr	50D510	0051C930	Will unload -----------MC_Main.fng------------------
+debugstr	50D510	0051C94D	Will be unloaded [MC_Main.fng]
+debugstr	50D510	0051BA85	Un-Activate!!! 37b9580 37abf20
+debugstr	50D510	0051BA9D	Deleting package [MC_Main.fng]
+debugstr	50D510	0051C977	package[MC_Main.fng] will unload
+debugstr	50D510	0054242A	Calling close ...37b9580 0
+debugstr	50D510	0054242A	Calling close ...37b7520 37c74e0
+debugstr	50D510	0050C5A8	------------Clear cache---------UI_ChooseCustomizeCategory.fng------------------
+debugstr	50D510	00542488	CAlling the pop in [UI_ChooseCustomizeCategory.fng]
+debugstr	50D510	00544133	IconScrollerMenu : Switch/Pop/Direct Pop called on me (0xd9ca113d).
+debugstr	50D510	0053760A	Direct Pop---------------------UI_ChooseCustomizeCategory.fng------------------
+debugstr	50D510	0051C930	Will unload -----------UI_ChooseCustomizeCategory.fng------------------
+debugstr	50D510	0051C94D	Will be unloaded [UI_ChooseCustomizeCategory.fng]
+debugstr	50D510	0051BA85	Un-Activate!!! 37b7520 37c74e0
+debugstr	50D510	0051BA9D	Deleting package [UI_ChooseCustomizeCategory.fng]
+debugstr	50D510	0051C977	package[UI_ChooseCustomizeCategory.fng] will unload
+debugstr	50D510	005424D0	Un-Activate!!! 37b7520 0
+debugstr	50D510	0054242A	Calling close ...37b7e80 37ce470
+debugstr	50D510	0050C5A8	------------Clear cache---------GarageMain.fng------------------
+debugstr	50D510	00542488	CAlling the pop in [GarageMain.fng]
+debugstr	50D510	0053760A	Direct Pop---------------------GarageMain.fng------------------
+debugstr	50D510	0051C930	Will unload -----------GarageMain.fng------------------
+debugstr	50D510	0051C94D	Will be unloaded [GarageMain.fng]
+debugstr	50D510	0051BA85	Un-Activate!!! 37b7e80 37ce470
+debugstr	50D510	0051BA9D	Deleting package [GarageMain.fng]
+debugstr	50D510	0051C977	package[GarageMain.fng] will unload
+debugstr	50D510	005424D0	Un-Activate!!! 37b7e80 0
+debugstr	50D510	0054242A	Calling close ...37a5110 37abd30
+debugstr	50D510	0050C5A8	------------Clear cache---------UI_PC_Help_Bar.fng------------------
+debugstr	50D510	00542488	CAlling the pop in [UI_PC_Help_Bar.fng]
+debugstr	50D510	0053760A	Direct Pop---------------------UI_PC_Help_Bar.fng------------------
+debugstr	50D510	0051C930	Will unload -----------UI_PC_Help_Bar.fng------------------
+debugstr	50D510	0051C94D	Will be unloaded [UI_PC_Help_Bar.fng]
+debugstr	50D510	0051BA85	Un-Activate!!! 37a5110 37abd30
+debugstr	50D510	0051BA9D	Deleting package [UI_PC_Help_Bar.fng]
+debugstr	50D510	0051C977	package[UI_PC_Help_Bar.fng] will unload
+debugstr	50D510	005424D0	Un-Activate!!! 37a5110 0
+debugstr	50D510	0054242A	Calling close ...37a5350 0
+debugstr	50D510	0054242A	Calling close ...37b72e0 0
+debugstr	50D510	0054242A	Calling close ...37b6280 0
+debugstr	50D510	0054242A	Calling close ...37a52f0 0
+debugstr	50D510	0054242A	Calling close ...37b7220 0
+debugstr	50D510	0054242A	Calling close ...37b7280 0
+debugstr	50D510	0054242A	Calling close ...37b7580 0
+debugstr	50D510	0054242A	Calling close ...37a53b0 0
+debugstr	50D510	0054242A	Calling close ...37b93a0 0
+debugstr	50D510	0054242A	Calling close ...37b76a0 0
+debugstr	50D510	0054242A	Calling close ...37b6220 0
+debugstr	50D510	0054242A	Calling close ...37b9520 0
+debugstr	50D510	0054242A	Calling close ...37b95e0 0
+debugstr	50D510	0054242A	Calling close ...37b79a0 0
+debugstr	50D510	0054242A	Calling close ...37b7a00 0
+debugstr	50D510	0054242A	Calling close ...37b8be0 0
+debugstr	50D510	0054242A	Calling close ...37b8c40 0
+debugstr	50D510	0054242A	Calling close ...37b8b20 0
+debugstr	50D510	0054242A	Calling close ...37b8b80 0
+debugstr	50D510	0054242A	Calling close ...37b8dc0 0
+debugstr	50D510	0054242A	Calling close ...37b8d60 0
+debugstr	50D510	0054242A	Calling close ...37b9640 0
+debugstr	50D510	0054242A	Calling close ...37a5520 0
+debugstr	50D510	0054242A	Calling close ...37a54c0 0
+debugstr	50D510	0054242A	Calling close ...37a5410 0
+debugstr	50D510	0054242A	Calling close ...37a5290 0
+debugstr	50D510	0054242A	Calling close ...37a5230 0
+debugstr	50D510	0054242A	Calling close ...37a51d0 0
+debugstr	50D510	0054242A	Calling close ...37a50b0 0
+debugstr	50D510	0054242A	Calling close ...37a5050 0
+debugstr	50D510	0054242A	Calling close ...37a6fa0 0
+debugstr	50D510	0054242A	Calling close ...37a6f40 0
+debugstr	50D510	0054242A	Calling close ...37a6ee0 0
+debugstr	50D510	0054242A	Calling close ...37a6e80 0
+debugstr	50D510	0054242A	Calling close ...37a6e20 0
+debugstr	50D510	0054242A	Calling close ...37a6dc0 0
+debugstr	50D510	0054242A	Calling close ...37a6d60 0
+debugstr	50D510	0054242A	Calling close ...37a6d00 0
+debugstr	50D510	0054242A	Calling close ...37b66a0 0
+debugstr	50D510	0054242A	Calling close ...37b6640 0
+debugstr	50D510	0054242A	Calling close ...37b65e0 0
+debugstr	50D510	0054242A	Calling close ...37b6580 0
+debugstr	50D510	0054242A	Calling close ...37b6520 0
+debugstr	50D510	0054242A	Calling close ...37b64c0 0
+debugstr	50D510	0054242A	Calling close ...37b6460 0
+debugstr	50D510	0054242A	Calling close ...37b6400 0
+debugstr	50D510	0054242A	Calling close ...37b63a0 0
+debugstr	50D510	0054242A	Calling close ...37b6340 0
+debugstr	50D510	0054242A	Calling close ...37b62e0 0
+debugstr	50D510	0054242A	Calling close ...37b61c0 0
+debugstr	50D510	0054242A	Calling close ...37b6160 0
+debugstr	50D510	0054242A	Calling close ...37b6100 0
+debugstr	50D510	0054242A	Calling close ...37b60a0 0
+debugstr	50D510	0054242A	Calling close ...37b6040 0
+debugstr	50D510	0054242A	Calling close ...37b7fa0 0
+debugstr	50D510	0054242A	Calling close ...37b7f40 0
+debugstr	50D510	0054242A	Calling close ...37b7ee0 0
+debugstr	50D510	0054242A	Calling close ...37b7e20 0
+debugstr	50D510	0054242A	Calling close ...37b7dc0 0
+debugstr	50D510	0054242A	Calling close ...37b7d60 0
+debugstr	50D510	0054242A	Calling close ...37b7d00 0
+debugstr	50D510	0054242A	Calling close ...37b7ca0 0
+debugstr	50D510	0054242A	Calling close ...37b7c40 0
+debugstr	50D510	0054242A	Calling close ...37b7be0 0
+debugstr	50D510	0054242A	Calling close ...37b7b80 0
+debugstr	50D510	0054242A	Calling close ...37b7b20 0
+debugstr	50D510	0054242A	Calling close ...37b7ac0 0
+debugstr	50D510	0054242A	Calling close ...37b7a60 0
+debugstr	50D510	0054242A	Calling close ...37b7940 0
+debugstr	50D510	0054242A	Calling close ...37b78e0 0
+debugstr	50D510	0054242A	Calling close ...37b7880 0
+debugstr	50D510	0054242A	Calling close ...37b7820 0
+debugstr	50D510	0054242A	Calling close ...37b77c0 0
+debugstr	50D510	0054242A	Calling close ...37b7760 0
+debugstr	50D510	0054242A	Calling close ...37b7700 0
+debugstr	50D510	0054242A	Calling close ...37b7640 0
+debugstr	50D510	0054242A	Calling close ...37b75e0 0
+debugstr	50D510	0054242A	Calling close ...37b74c0 0
+debugstr	50D510	0054242A	Calling close ...37b7460 0
+debugstr	50D510	0054242A	Calling close ...37b7400 0
+debugstr	50D510	0054242A	Calling close ...37b73a0 0
+debugstr	50D510	0054242A	Calling close ...37b7340 0
+debugstr	50D510	0054242A	Calling close ...37b71c0 0
+debugstr	50D510	0054242A	Calling close ...37b7160 0
+debugstr	50D510	0054242A	Calling close ...37b7100 0
+debugstr	50D510	0054242A	Calling close ...37b70a0 0
+debugstr	50D510	0054242A	Calling close ...37b7040 0
+debugstr	50D510	0054242A	Calling close ...37a7020 0
+debugstr	50D510	0054242A	Calling close ...37af020 0
+debugstr	50D510	0054242A	Calling close ...37b8fa0 0
+debugstr	50D510	0054242A	Calling close ...37b8f40 0
+debugstr	50D510	0054242A	Calling close ...37b8ee0 0
+debugstr	50D510	0054242A	Calling close ...37b8e80 0
+debugstr	50D510	0054242A	Calling close ...37b8e20 0
+debugstr	50D510	0054242A	Calling close ...37b8d00 0
+debugstr	50D510	0054242A	Calling close ...37b8ca0 0
+debugstr	50D510	0054242A	Calling close ...37b8ac0 0
+debugstr	50D510	0054242A	Calling close ...37b8a60 0
+debugstr	50D510	0054242A	Calling close ...37b8a00 0
+debugstr	50D510	0054242A	Calling close ...37b89a0 0
+debugstr	50D510	0054242A	Calling close ...37b8940 0
+debugstr	50D510	0054242A	Calling close ...37b88e0 0
+debugstr	50D510	0054242A	Calling close ...37b8880 0
+debugstr	50D510	0054242A	Calling close ...37b8820 0
+debugstr	50D510	0054242A	Calling close ...37b87c0 0
+debugstr	50D510	0054242A	Calling close ...37b8760 0
+debugstr	50D510	0054242A	Calling close ...37b8700 0
+debugstr	50D510	0054242A	Calling close ...37b86a0 0
+debugstr	50D510	0054242A	Calling close ...37b8640 0
+debugstr	50D510	0054242A	Calling close ...37b85e0 0
+debugstr	50D510	0054242A	Calling close ...37b8580 0
+debugstr	50D510	0054242A	Calling close ...37b8520 0
+debugstr	50D510	0054242A	Calling close ...37b84c0 0
+debugstr	50D510	0054242A	Calling close ...37b8460 0
+debugstr	50D510	0054242A	Calling close ...37b8400 0
+debugstr	50D510	0054242A	Calling close ...37b83a0 0
+debugstr	50D510	0054242A	Calling close ...37b8340 0
+debugstr	50D510	0054242A	Calling close ...37b82e0 0
+debugstr	50D510	0054242A	Calling close ...37b8280 0
+debugstr	50D510	0054242A	Calling close ...37b8220 0
+debugstr	50D510	0054242A	Calling close ...37b81c0 0
+debugstr	50D510	0054242A	Calling close ...37b8160 0
+debugstr	50D510	0054242A	Calling close ...37b8100 0
+debugstr	50D510	0054242A	Calling close ...37b80a0 0
+debugstr	50D510	0054242A	Calling close ...37b8040 0
+debugstr	50D510	0054242A	Calling close ...37b9fa0 0
+debugstr	50D510	0054242A	Calling close ...37b9f40 0
+debugstr	50D510	0054242A	Calling close ...37b9ee0 0
+debugstr	50D510	0054242A	Calling close ...37b9e80 0
+debugstr	50D510	0054242A	Calling close ...37b9e20 0
+debugstr	50D510	0054242A	Calling close ...37b9dc0 0
+debugstr	50D510	0054242A	Calling close ...37b9d60 0
+debugstr	50D510	0054242A	Calling close ...37b9d00 0
+debugstr	50D510	0054242A	Calling close ...37b9ca0 0
+debugstr	50D510	0054242A	Calling close ...37b9c40 0
+debugstr	50D510	0054242A	Calling close ...37b9be0 0
+debugstr	50D510	0054242A	Calling close ...37b9b80 0
+debugstr	50D510	0054242A	Calling close ...37b9b20 0
+debugstr	50D510	0054242A	Calling close ...37b9ac0 0
+debugstr	50D510	0054242A	Calling close ...37b9a60 0
+debugstr	50D510	0054242A	Calling close ...37b9a00 0
+debugstr	50D510	0054242A	Calling close ...37b99a0 0
+debugstr	50D510	0054242A	Calling close ...37b9940 0
+debugstr	50D510	0054242A	Calling close ...37b98e0 0
+debugstr	50D510	0054242A	Calling close ...37b9880 0
+debugstr	50D510	0054242A	Calling close ...37b9820 0
+debugstr	50D510	0054242A	Calling close ...37b97c0 0
+debugstr	50D510	0054242A	Calling close ...37b9760 0
+debugstr	50D510	0054242A	Calling close ...37b9700 0
+debugstr	50D510	0054242A	Calling close ...37b96a0 0
+debugstr	50D510	0054242A	Calling close ...37b94c0 0
+debugstr	50D510	0054242A	Calling close ...37b9460 0
+debugstr	50D510	0054242A	Calling close ...37b9400 0
+debugstr	50D510	0054253D	UNLOADER!!!
+debugstr	50D510	00542569	UNLOAD PACKAGE(1f457265)
+debugstr	50D510	00542352	Calling close ...37b93a0 0
+debugstr	50D510	00542597	Done the unload
+debugstr	50D510	0054253D	UNLOADER!!!
+debugstr	50D510	00542569	UNLOAD PACKAGE(e5fe9776)
+debugstr	50D510	00542352	Calling close ...37b9400 0
+debugstr	50D510	00542597	Done the unload
+debugstr	50D510	0054253D	UNLOADER!!!
+debugstr	50D510	00542569	UNLOAD PACKAGE(69528469)
+debugstr	50D510	00542352	Calling close ...37b9460 0
+debugstr	50D510	00542597	Done the unload
+debugstr	50D510	0054253D	UNLOADER!!!
+debugstr	50D510	00542569	UNLOAD PACKAGE(6f122951)
+debugstr	50D510	00542352	Calling close ...37b94c0 0
+debugstr	50D510	00542597	Done the unload
+debugstr	50D510	0054253D	UNLOADER!!!
+debugstr	50D510	00542569	UNLOAD PACKAGE(f774ed37)
+debugstr	50D510	00542352	Calling close ...37b9520 0
+debugstr	50D510	00542597	Done the unload
+debugstr	50D510	0054253D	UNLOADER!!!
+debugstr	50D510	00542569	UNLOAD PACKAGE(801e019c)
+debugstr	50D510	00542352	Calling close ...37b9580 0
+debugstr	50D510	00542597	Done the unload
+debugstr	50D510	0054253D	UNLOADER!!!
+debugstr	50D510	00542569	UNLOAD PACKAGE(136e3c13)
+debugstr	50D510	00542352	Calling close ...37b95e0 0
+debugstr	50D510	00542597	Done the unload
+debugstr	50D510	0054253D	UNLOADER!!!
+debugstr	50D510	00542569	UNLOAD PACKAGE(e503d390)
+debugstr	50D510	00542352	Calling close ...37b9640 0
+debugstr	50D510	00542597	Done the unload
+debugstr	50D510	0054253D	UNLOADER!!!
+debugstr	50D510	00542569	UNLOAD PACKAGE(7594f52a)
+debugstr	50D510	00542352	Calling close ...37b96a0 0
+debugstr	50D510	00542597	Done the unload
+debugstr	50D510	0054253D	UNLOADER!!!
+debugstr	50D510	00542569	UNLOAD PACKAGE(cc18fb33)
+debugstr	50D510	00542352	Calling close ...37b9700 0
+debugstr	50D510	00542597	Done the unload
+debugstr	50D510	0054253D	UNLOADER!!!
+debugstr	50D510	00542569	UNLOAD PACKAGE(62873328)
+debugstr	50D510	00542352	Calling close ...37b9760 0
+debugstr	50D510	00542597	Done the unload
+debugstr	50D510	0054253D	UNLOADER!!!
+debugstr	50D510	00542569	UNLOAD PACKAGE(75eefe12)
+debugstr	50D510	00542352	Calling close ...37b97c0 0
+debugstr	50D510	00542597	Done the unload
+debugstr	50D510	0054253D	UNLOADER!!!
+debugstr	50D510	00542569	UNLOAD PACKAGE(5413474b)
+debugstr	50D510	00542352	Calling close ...37b9820 0
+debugstr	50D510	00542597	Done the unload
+debugstr	50D510	0054253D	UNLOADER!!!
+debugstr	50D510	00542569	UNLOAD PACKAGE(18db914c)
+debugstr	50D510	00542352	Calling close ...37b9880 0
+debugstr	50D510	00542597	Done the unload
+debugstr	50D510	0054253D	UNLOADER!!!
+debugstr	50D510	00542569	UNLOAD PACKAGE(50a8f20d)
+debugstr	50D510	00542352	Calling close ...37b98e0 0
+debugstr	50D510	00542597	Done the unload
+debugstr	50D510	0054253D	UNLOADER!!!
+debugstr	50D510	00542569	UNLOAD PACKAGE(a27cc251)
+debugstr	50D510	00542352	Calling close ...37b9940 0
+debugstr	50D510	00542597	Done the unload
+debugstr	50D510	0054253D	UNLOADER!!!
+debugstr	50D510	00542569	UNLOAD PACKAGE(6857a709)
+debugstr	50D510	00542352	Calling close ...37b99a0 0
+debugstr	50D510	00542597	Done the unload
+debugstr	50D510	0054253D	UNLOADER!!!
+debugstr	50D510	00542569	UNLOAD PACKAGE(1ec5c905)
+debugstr	50D510	00542352	Calling close ...37b9a00 0
+debugstr	50D510	00542597	Done the unload
+debugstr	50D510	0054253D	UNLOADER!!!
+debugstr	50D510	00542569	UNLOAD PACKAGE(75d5f4f4)
+debugstr	50D510	00542352	Calling close ...37b9a60 0
+debugstr	50D510	00542597	Done the unload
+debugstr	50D510	0054253D	UNLOADER!!!
+debugstr	50D510	00542569	UNLOAD PACKAGE(ed560791)
+debugstr	50D510	00542352	Calling close ...37b9ac0 0
+debugstr	50D510	00542597	Done the unload
+debugstr	50D510	0054253D	UNLOADER!!!
+debugstr	50D510	00542569	UNLOAD PACKAGE(857e9f82)
+debugstr	50D510	00542352	Calling close ...37b9b20 0
+debugstr	50D510	00542597	Done the unload
+debugstr	50D510	0054253D	UNLOADER!!!
+debugstr	50D510	00542569	UNLOAD PACKAGE(8e04f50f)
+debugstr	50D510	00542352	Calling close ...37b9b80 0
+debugstr	50D510	00542597	Done the unload
+debugstr	50D510	0054253D	UNLOADER!!!
+debugstr	50D510	00542569	UNLOAD PACKAGE(51594430)
+debugstr	50D510	00542352	Calling close ...37b9be0 0
+debugstr	50D510	00542597	Done the unload
+debugstr	50D510	0054253D	UNLOADER!!!
+debugstr	50D510	00542569	UNLOAD PACKAGE(e41adad6)
+debugstr	50D510	00542352	Calling close ...37b9c40 0
+debugstr	50D510	00542597	Done the unload
+debugstr	50D510	0054253D	UNLOADER!!!
+debugstr	50D510	00542569	UNLOAD PACKAGE(40abca3f)
+debugstr	50D510	00542352	Calling close ...37b9ca0 0
+debugstr	50D510	00542597	Done the unload
+debugstr	50D510	0054253D	UNLOADER!!!
+debugstr	50D510	00542569	UNLOAD PACKAGE(d2389d2a)
+debugstr	50D510	00542352	Calling close ...37b9d00 0
+debugstr	50D510	00542597	Done the unload
+debugstr	50D510	0054253D	UNLOADER!!!
+debugstr	50D510	00542569	UNLOAD PACKAGE(24ba27dd)
+debugstr	50D510	00542352	Calling close ...37b9d60 0
+debugstr	50D510	00542597	Done the unload
+debugstr	50D510	0054253D	UNLOADER!!!
+debugstr	50D510	00542569	UNLOAD PACKAGE(f8ff59dc)
+debugstr	50D510	00542352	Calling close ...37b9dc0 0
+debugstr	50D510	00542597	Done the unload
+debugstr	50D510	0054253D	UNLOADER!!!
+debugstr	50D510	00542569	UNLOAD PACKAGE(611345c1)
+debugstr	50D510	00542352	Calling close ...37b9e20 0
+debugstr	50D510	00542597	Done the unload
+debugstr	50D510	0054253D	UNLOADER!!!
+debugstr	50D510	00542569	UNLOAD PACKAGE(a55d0264)
+debugstr	50D510	00542352	Calling close ...37b9e80 0
+debugstr	50D510	00542597	Done the unload
+debugstr	50D510	0054253D	UNLOADER!!!
+debugstr	50D510	00542569	UNLOAD PACKAGE(ccae6ab5)
+debugstr	50D510	00542352	Calling close ...37b9ee0 0
+debugstr	50D510	00542597	Done the unload
+debugstr	50D510	0054253D	UNLOADER!!!
+debugstr	50D510	00542569	UNLOAD PACKAGE(3e8ab0cf)
+debugstr	50D510	00542352	Calling close ...37b9f40 0
+debugstr	50D510	00542597	Done the unload
+debugstr	50D510	0054253D	UNLOADER!!!
+debugstr	50D510	00542569	UNLOAD PACKAGE(f6cc705c)
+debugstr	50D510	00542352	Calling close ...37b9fa0 0
+debugstr	50D510	00542597	Done the unload
+debugstr	50D510	0054253D	UNLOADER!!!
+debugstr	50D510	00542569	UNLOAD PACKAGE(b18c16e5)
+debugstr	50D510	00542352	Calling close ...37b8040 0
+debugstr	50D510	00542597	Done the unload
+debugstr	50D510	0054253D	UNLOADER!!!
+debugstr	50D510	00542569	UNLOAD PACKAGE(4b2d2359)
+debugstr	50D510	00542352	Calling close ...37b80a0 0
+debugstr	50D510	00542597	Done the unload
+debugstr	50D510	0054253D	UNLOADER!!!
+debugstr	50D510	00542569	UNLOAD PACKAGE(de9623a7)
+debugstr	50D510	00542352	Calling close ...37b8100 0
+debugstr	50D510	00542597	Done the unload
+debugstr	50D510	0054253D	UNLOADER!!!
+debugstr	50D510	00542569	UNLOAD PACKAGE(f8f2fb71)
+debugstr	50D510	00542352	Calling close ...37b8160 0
+debugstr	50D510	00542597	Done the unload
+debugstr	50D510	0054253D	UNLOADER!!!
+debugstr	50D510	00542569	UNLOAD PACKAGE(841a8160)
+debugstr	50D510	00542352	Calling close ...37b81c0 0
+debugstr	50D510	00542597	Done the unload
+debugstr	50D510	0054253D	UNLOADER!!!
+debugstr	50D510	00542569	UNLOAD PACKAGE(2b783218)
+debugstr	50D510	00542352	Calling close ...37b8220 0
+debugstr	50D510	00542597	Done the unload
+debugstr	50D510	0054253D	UNLOADER!!!
+debugstr	50D510	00542569	UNLOAD PACKAGE(c34df7f8)
+debugstr	50D510	00542352	Calling close ...37b8280 0
+debugstr	50D510	00542597	Done the unload
+debugstr	50D510	0054253D	UNLOADER!!!
+debugstr	50D510	00542569	UNLOAD PACKAGE(1bb72367)
+debugstr	50D510	00542352	Calling close ...37b82e0 0
+debugstr	50D510	00542597	Done the unload
+debugstr	50D510	0054253D	UNLOADER!!!
+debugstr	50D510	00542569	UNLOAD PACKAGE(7c9654d6)
+debugstr	50D510	00542352	Calling close ...37b8340 0
+debugstr	50D510	00542597	Done the unload
+debugstr	50D510	0054253D	UNLOADER!!!
+debugstr	50D510	00542569	UNLOAD PACKAGE(af7cbbce)
+debugstr	50D510	00542352	Calling close ...37b83a0 0
+debugstr	50D510	00542597	Done the unload
+debugstr	50D510	0054253D	UNLOADER!!!
+debugstr	50D510	00542569	UNLOAD PACKAGE(4e8f3e91)
+debugstr	50D510	00542352	Calling close ...37b8400 0
+debugstr	50D510	00542597	Done the unload
+debugstr	50D510	0054253D	UNLOADER!!!
+debugstr	50D510	00542569	UNLOAD PACKAGE(8cce4dff)
+debugstr	50D510	00542352	Calling close ...37b8460 0
+debugstr	50D510	00542597	Done the unload
+debugstr	50D510	0054253D	UNLOADER!!!
+debugstr	50D510	00542569	UNLOAD PACKAGE(505ea573)
+debugstr	50D510	00542352	Calling close ...37b84c0 0
+debugstr	50D510	00542597	Done the unload
+debugstr	50D510	0054253D	UNLOADER!!!
+debugstr	50D510	00542569	UNLOAD PACKAGE(5f511518)
+debugstr	50D510	00542352	Calling close ...37b8520 0
+debugstr	50D510	00542597	Done the unload
+debugstr	50D510	0054253D	UNLOADER!!!
+debugstr	50D510	00542569	UNLOAD PACKAGE(9e21315)
+debugstr	50D510	00542352	Calling close ...37b8580 0
+debugstr	50D510	00542597	Done the unload
+debugstr	50D510	0054253D	UNLOADER!!!
+debugstr	50D510	00542569	UNLOAD PACKAGE(70d1f9b4)
+debugstr	50D510	00542352	Calling close ...37b85e0 0
+debugstr	50D510	00542597	Done the unload
+debugstr	50D510	0054253D	UNLOADER!!!
+debugstr	50D510	00542569	UNLOAD PACKAGE(f8d75837)
+debugstr	50D510	00542352	Calling close ...37b8640 0
+debugstr	50D510	00542597	Done the unload
+debugstr	50D510	0054253D	UNLOADER!!!
+debugstr	50D510	00542569	UNLOAD PACKAGE(81cbc155)
+debugstr	50D510	00542352	Calling close ...37b86a0 0
+debugstr	50D510	00542597	Done the unload
+debugstr	50D510	0054253D	UNLOADER!!!
+debugstr	50D510	00542569	UNLOAD PACKAGE(ceac20e)
+debugstr	50D510	00542352	Calling close ...37b8700 0
+debugstr	50D510	00542597	Done the unload
+debugstr	50D510	0054253D	UNLOADER!!!
+debugstr	50D510	00542569	UNLOAD PACKAGE(4c69a781)
+debugstr	50D510	00542352	Calling close ...37b8760 0
+debugstr	50D510	00542597	Done the unload
+debugstr	50D510	0054253D	UNLOADER!!!
+debugstr	50D510	00542569	UNLOAD PACKAGE(11d2dd8f)
+debugstr	50D510	00542352	Calling close ...37b87c0 0
+debugstr	50D510	00542597	Done the unload
+debugstr	50D510	0054253D	UNLOADER!!!
+debugstr	50D510	00542569	UNLOAD PACKAGE(94f3f49)
+debugstr	50D510	00542352	Calling close ...37b8820 0
+debugstr	50D510	00542597	Done the unload
+debugstr	50D510	0054253D	UNLOADER!!!
+debugstr	50D510	00542569	UNLOAD PACKAGE(8fa8b831)
+debugstr	50D510	00542352	Calling close ...37b8880 0
+debugstr	50D510	00542597	Done the unload
+debugstr	50D510	0054253D	UNLOADER!!!
+debugstr	50D510	00542569	UNLOAD PACKAGE(d2b1db3a)
+debugstr	50D510	00542352	Calling close ...37b88e0 0
+debugstr	50D510	00542597	Done the unload
+debugstr	50D510	0054253D	UNLOADER!!!
+debugstr	50D510	00542569	UNLOAD PACKAGE(16ae66a8)
+debugstr	50D510	00542352	Calling close ...37b8940 0
+debugstr	50D510	00542597	Done the unload
+debugstr	50D510	0054253D	UNLOADER!!!
+debugstr	50D510	00542569	UNLOAD PACKAGE(73931ac0)
+debugstr	50D510	00542352	Calling close ...37b89a0 0
+debugstr	50D510	00542597	Done the unload
+debugstr	50D510	0054253D	UNLOADER!!!
+debugstr	50D510	00542569	UNLOAD PACKAGE(3e011936)
+debugstr	50D510	00542352	Calling close ...37b8a00 0
+debugstr	50D510	00542597	Done the unload
+debugstr	50D510	0054253D	UNLOADER!!!
+debugstr	50D510	00542569	UNLOAD PACKAGE(b43ca24e)
+debugstr	50D510	00542352	Calling close ...37b8a60 0
+debugstr	50D510	00542597	Done the unload
+debugstr	50D510	0054253D	UNLOADER!!!
+debugstr	50D510	00542569	UNLOAD PACKAGE(f2ed82ef)
+debugstr	50D510	00542352	Calling close ...37b8ac0 0
+debugstr	50D510	00542597	Done the unload
+debugstr	50D510	0054253D	UNLOADER!!!
+debugstr	50D510	00542569	UNLOAD PACKAGE(23f4270a)
+debugstr	50D510	00542352	Calling close ...37b8b20 0
+debugstr	50D510	00542597	Done the unload
+debugstr	50D510	0054253D	UNLOADER!!!
+debugstr	50D510	00542569	UNLOAD PACKAGE(89b8dcba)
+debugstr	50D510	00542352	Calling close ...37b8b80 0
+debugstr	50D510	00542597	Done the unload
+debugstr	50D510	0054253D	UNLOADER!!!
+debugstr	50D510	00542569	UNLOAD PACKAGE(d9285cac)
+debugstr	50D510	00542352	Calling close ...37b8be0 0
+debugstr	50D510	00542597	Done the unload
+debugstr	50D510	0054253D	UNLOADER!!!
+debugstr	50D510	00542569	UNLOAD PACKAGE(ab7351f6)
+debugstr	50D510	00542352	Calling close ...37b8c40 0
+debugstr	50D510	00542597	Done the unload
+debugstr	50D510	0054253D	UNLOADER!!!
+debugstr	50D510	00542569	UNLOAD PACKAGE(abf609b4)
+debugstr	50D510	00542352	Calling close ...37b8ca0 0
+debugstr	50D510	00542597	Done the unload
+debugstr	50D510	0054253D	UNLOADER!!!
+debugstr	50D510	00542569	UNLOAD PACKAGE(686060fe)
+debugstr	50D510	00542352	Calling close ...37b8d00 0
+debugstr	50D510	00542597	Done the unload
+debugstr	50D510	0054253D	UNLOADER!!!
+debugstr	50D510	00542569	UNLOAD PACKAGE(ca50d06e)
+debugstr	50D510	00542352	Calling close ...37b8d60 0
+debugstr	50D510	00542597	Done the unload
+debugstr	50D510	0054253D	UNLOADER!!!
+debugstr	50D510	00542569	UNLOAD PACKAGE(ebc925bd)
+debugstr	50D510	00542352	Calling close ...37b8dc0 0
+debugstr	50D510	00542597	Done the unload
+debugstr	50D510	0054253D	UNLOADER!!!
+debugstr	50D510	00542569	UNLOAD PACKAGE(ed844d63)
+debugstr	50D510	00542352	Calling close ...37b8e20 0
+debugstr	50D510	00542597	Done the unload
+debugstr	50D510	0054253D	UNLOADER!!!
+debugstr	50D510	00542569	UNLOAD PACKAGE(c05ac341)
+debugstr	50D510	00542352	Calling close ...37b8e80 0
+debugstr	50D510	00542597	Done the unload
+debugstr	50D510	0054253D	UNLOADER!!!
+debugstr	50D510	00542569	UNLOAD PACKAGE(f69e6bb5)
+debugstr	50D510	00542352	Calling close ...37b8ee0 0
+debugstr	50D510	00542597	Done the unload
+debugstr	50D510	0054253D	UNLOADER!!!
+debugstr	50D510	00542569	UNLOAD PACKAGE(b587ffa2)
+debugstr	50D510	00542352	Calling close ...37b8f40 0
+debugstr	50D510	00542597	Done the unload
+debugstr	50D510	0054253D	UNLOADER!!!
+debugstr	50D510	00542569	UNLOAD PACKAGE(9c70215b)
+debugstr	50D510	00542352	Calling close ...37b8fa0 0
+debugstr	50D510	00542597	Done the unload
+debugstr	50D510	0054253D	UNLOADER!!!
+debugstr	50D510	00542569	UNLOAD PACKAGE(c0114f3c)
+debugstr	50D510	00542352	Calling close ...37af020 0
+debugstr	50D510	00542597	Done the unload
+debugstr	50D510	0054253D	UNLOADER!!!
+debugstr	50D510	00542569	UNLOAD PACKAGE(d0dc9293)
+debugstr	50D510	00542352	Calling close ...37a7020 0
+debugstr	50D510	00542597	Done the unload
+debugstr	50D510	0054253D	UNLOADER!!!
+debugstr	50D510	00542569	UNLOAD PACKAGE(1bf6d703)
+debugstr	50D510	00542352	Calling close ...37b7040 0
+debugstr	50D510	00542597	Done the unload
+debugstr	50D510	0054253D	UNLOADER!!!
+debugstr	50D510	00542569	UNLOAD PACKAGE(86b0e485)
+debugstr	50D510	00542352	Calling close ...37b70a0 0
+debugstr	50D510	00542597	Done the unload
+debugstr	50D510	0054253D	UNLOADER!!!
+debugstr	50D510	00542569	UNLOAD PACKAGE(95f0aa95)
+debugstr	50D510	00542352	Calling close ...37b7100 0
+debugstr	50D510	00542597	Done the unload
+debugstr	50D510	0054253D	UNLOADER!!!
+debugstr	50D510	00542569	UNLOAD PACKAGE(6683a43)
+debugstr	50D510	00542352	Calling close ...37b7160 0
+debugstr	50D510	00542597	Done the unload
+debugstr	50D510	0054253D	UNLOADER!!!
+debugstr	50D510	00542569	UNLOAD PACKAGE(448e9c14)
+debugstr	50D510	00542352	Calling close ...37b71c0 0
+debugstr	50D510	00542597	Done the unload
+debugstr	50D510	0054253D	UNLOADER!!!
+debugstr	50D510	00542569	UNLOAD PACKAGE(5ec517b5)
+debugstr	50D510	00542352	Calling close ...37b7220 0
+debugstr	50D510	00542597	Done the unload
+debugstr	50D510	0054253D	UNLOADER!!!
+debugstr	50D510	00542569	UNLOAD PACKAGE(8bbd0be1)
+debugstr	50D510	00542352	Calling close ...37b7280 0
+debugstr	50D510	00542597	Done the unload
+debugstr	50D510	0054253D	UNLOADER!!!
+debugstr	50D510	00542569	UNLOAD PACKAGE(b3142ec0)
+debugstr	50D510	00542352	Calling close ...37b72e0 0
+debugstr	50D510	00542597	Done the unload
+debugstr	50D510	0054253D	UNLOADER!!!
+debugstr	50D510	00542569	UNLOAD PACKAGE(d0c504be)
+debugstr	50D510	00542352	Calling close ...37b7340 0
+debugstr	50D510	00542597	Done the unload
+debugstr	50D510	0054253D	UNLOADER!!!
+debugstr	50D510	00542569	UNLOAD PACKAGE(f799e091)
+debugstr	50D510	00542352	Calling close ...37b73a0 0
+debugstr	50D510	00542597	Done the unload
+debugstr	50D510	0054253D	UNLOADER!!!
+debugstr	50D510	00542569	UNLOAD PACKAGE(ea588a04)
+debugstr	50D510	00542352	Calling close ...37b7400 0
+debugstr	50D510	00542597	Done the unload
+debugstr	50D510	0054253D	UNLOADER!!!
+debugstr	50D510	00542569	UNLOAD PACKAGE(5583d0f6)
+debugstr	50D510	00542352	Calling close ...37b7460 0
+debugstr	50D510	00542597	Done the unload
+debugstr	50D510	0054253D	UNLOADER!!!
+debugstr	50D510	00542569	UNLOAD PACKAGE(72b301e2)
+debugstr	50D510	00542352	Calling close ...37b74c0 0
+debugstr	50D510	00542597	Done the unload
+debugstr	50D510	0054253D	UNLOADER!!!
+debugstr	50D510	00542569	UNLOAD PACKAGE(887bbea7)
+debugstr	50D510	00542352	Calling close ...37b7520 0
+debugstr	50D510	00542597	Done the unload
+debugstr	50D510	0054253D	UNLOADER!!!
+debugstr	50D510	00542569	UNLOAD PACKAGE(af09f84f)
+debugstr	50D510	00542352	Calling close ...37b7580 0
+debugstr	50D510	00542597	Done the unload
+debugstr	50D510	0054253D	UNLOADER!!!
+debugstr	50D510	00542569	UNLOAD PACKAGE(a00a3025)
+debugstr	50D510	00542352	Calling close ...37b75e0 0
+debugstr	50D510	00542597	Done the unload
+debugstr	50D510	0054253D	UNLOADER!!!
+debugstr	50D510	00542569	UNLOAD PACKAGE(71fa0324)
+debugstr	50D510	00542352	Calling close ...37b7640 0
+debugstr	50D510	00542597	Done the unload
+debugstr	50D510	0054253D	UNLOADER!!!
+debugstr	50D510	00542569	UNLOAD PACKAGE(8e2b101e)
+debugstr	50D510	00542352	Calling close ...37b76a0 0
+debugstr	50D510	00542597	Done the unload
+debugstr	50D510	0054253D	UNLOADER!!!
+debugstr	50D510	00542569	UNLOAD PACKAGE(a419e049)
+debugstr	50D510	00542352	Calling close ...37b7700 0
+debugstr	50D510	00542597	Done the unload
+debugstr	50D510	0054253D	UNLOADER!!!
+debugstr	50D510	00542569	UNLOAD PACKAGE(71b17fbd)
+debugstr	50D510	00542352	Calling close ...37b7760 0
+debugstr	50D510	00542597	Done the unload
+debugstr	50D510	0054253D	UNLOADER!!!
+debugstr	50D510	00542569	UNLOAD PACKAGE(cc35f1d9)
+debugstr	50D510	00542352	Calling close ...37b77c0 0
+debugstr	50D510	00542597	Done the unload
+debugstr	50D510	0054253D	UNLOADER!!!
+debugstr	50D510	00542569	UNLOAD PACKAGE(f6c99f4d)
+debugstr	50D510	00542352	Calling close ...37b7820 0
+debugstr	50D510	00542597	Done the unload
+debugstr	50D510	0054253D	UNLOADER!!!
+debugstr	50D510	00542569	UNLOAD PACKAGE(e76b2ac3)
+debugstr	50D510	00542352	Calling close ...37b7880 0
+debugstr	50D510	00542597	Done the unload
+debugstr	50D510	0054253D	UNLOADER!!!
+debugstr	50D510	00542569	UNLOAD PACKAGE(627531cc)
+debugstr	50D510	00542352	Calling close ...37b78e0 0
+debugstr	50D510	00542597	Done the unload
+debugstr	50D510	0054253D	UNLOADER!!!
+debugstr	50D510	00542569	UNLOAD PACKAGE(3ca57fcb)
+debugstr	50D510	00542352	Calling close ...37b7940 0
+debugstr	50D510	00542597	Done the unload
+debugstr	50D510	0054253D	UNLOADER!!!
+debugstr	50D510	00542569	UNLOAD PACKAGE(ec017b16)
+debugstr	50D510	00542352	Calling close ...37b79a0 0
+debugstr	50D510	00542597	Done the unload
+debugstr	50D510	0054253D	UNLOADER!!!
+debugstr	50D510	00542569	UNLOAD PACKAGE(6eacff39)
+debugstr	50D510	00542352	Calling close ...37b7a00 0
+debugstr	50D510	00542597	Done the unload
+debugstr	50D510	0054253D	UNLOADER!!!
+debugstr	50D510	00542569	UNLOAD PACKAGE(d53e4a88)
+debugstr	50D510	00542352	Calling close ...37b7a60 0
+debugstr	50D510	00542597	Done the unload
+debugstr	50D510	0054253D	UNLOADER!!!
+debugstr	50D510	00542569	UNLOAD PACKAGE(866f8dfd)
+debugstr	50D510	00542352	Calling close ...37b7ac0 0
+debugstr	50D510	00542597	Done the unload
+debugstr	50D510	0054253D	UNLOADER!!!
+debugstr	50D510	00542569	UNLOAD PACKAGE(b72e54c8)
+debugstr	50D510	00542352	Calling close ...37b7b20 0
+debugstr	50D510	00542597	Done the unload
+debugstr	50D510	0054253D	UNLOADER!!!
+debugstr	50D510	00542569	UNLOAD PACKAGE(b8770d6b)
+debugstr	50D510	00542352	Calling close ...37b7b80 0
+debugstr	50D510	00542597	Done the unload
+debugstr	50D510	0054253D	UNLOADER!!!
+debugstr	50D510	00542569	UNLOAD PACKAGE(375b415f)
+debugstr	50D510	00542352	Calling close ...37b7be0 0
+debugstr	50D510	00542597	Done the unload
+debugstr	50D510	0054253D	UNLOADER!!!
+debugstr	50D510	00542569	UNLOAD PACKAGE(c971c7aa)
+debugstr	50D510	00542352	Calling close ...37b7c40 0
+debugstr	50D510	00542597	Done the unload
+debugstr	50D510	0054253D	UNLOADER!!!
+debugstr	50D510	00542569	UNLOAD PACKAGE(6962c0cd)
+debugstr	50D510	00542352	Calling close ...37b7ca0 0
+debugstr	50D510	00542597	Done the unload
+debugstr	50D510	0054253D	UNLOADER!!!
+debugstr	50D510	00542569	UNLOAD PACKAGE(f68a7675)
+debugstr	50D510	00542352	Calling close ...37b7d00 0
+debugstr	50D510	00542597	Done the unload
+debugstr	50D510	0054253D	UNLOADER!!!
+debugstr	50D510	00542569	UNLOAD PACKAGE(4677789d)
+debugstr	50D510	00542352	Calling close ...37b7d60 0
+debugstr	50D510	00542597	Done the unload
+debugstr	50D510	0054253D	UNLOADER!!!
+debugstr	50D510	00542569	UNLOAD PACKAGE(6796bb48)
+debugstr	50D510	00542352	Calling close ...37b7dc0 0
+debugstr	50D510	00542597	Done the unload
+debugstr	50D510	0054253D	UNLOADER!!!
+debugstr	50D510	00542569	UNLOAD PACKAGE(32c21f7)
+debugstr	50D510	00542352	Calling close ...37b7e20 0
+debugstr	50D510	00542597	Done the unload
+debugstr	50D510	0054253D	UNLOADER!!!
+debugstr	50D510	00542569	UNLOAD PACKAGE(4cdd8b14)
+debugstr	50D510	00542352	Calling close ...37b7e80 0
+debugstr	50D510	00542597	Done the unload
+debugstr	50D510	0054253D	UNLOADER!!!
+debugstr	50D510	00542569	UNLOAD PACKAGE(57608f53)
+debugstr	50D510	00542352	Calling close ...37b7ee0 0
+debugstr	50D510	00542597	Done the unload
+debugstr	50D510	0054253D	UNLOADER!!!
+debugstr	50D510	00542569	UNLOAD PACKAGE(f0a3d2d5)
+debugstr	50D510	00542352	Calling close ...37b7f40 0
+debugstr	50D510	00542597	Done the unload
+debugstr	50D510	0054253D	UNLOADER!!!
+debugstr	50D510	00542569	UNLOAD PACKAGE(320bfc0b)
+debugstr	50D510	00542352	Calling close ...37b7fa0 0
+debugstr	50D510	00542597	Done the unload
+debugstr	50D510	0054253D	UNLOADER!!!
+debugstr	50D510	00542569	UNLOAD PACKAGE(e0ee65e6)
+debugstr	50D510	00542352	Calling close ...37b6040 0
+debugstr	50D510	00542597	Done the unload
+debugstr	50D510	0054253D	UNLOADER!!!
+debugstr	50D510	00542569	UNLOAD PACKAGE(c4acc9a5)
+debugstr	50D510	00542352	Calling close ...37b60a0 0
+debugstr	50D510	00542597	Done the unload
+debugstr	50D510	0054253D	UNLOADER!!!
+debugstr	50D510	00542569	UNLOAD PACKAGE(cc2fdca5)
+debugstr	50D510	00542352	Calling close ...37b6100 0
+debugstr	50D510	00542597	Done the unload
+debugstr	50D510	0054253D	UNLOADER!!!
+debugstr	50D510	00542569	UNLOAD PACKAGE(551ca351)
+debugstr	50D510	00542352	Calling close ...37b6160 0
+debugstr	50D510	00542597	Done the unload
+debugstr	50D510	0054253D	UNLOADER!!!
+debugstr	50D510	00542569	UNLOAD PACKAGE(1e74c936)
+debugstr	50D510	00542352	Calling close ...37b61c0 0
+debugstr	50D510	00542597	Done the unload
+debugstr	50D510	0054253D	UNLOADER!!!
+debugstr	50D510	00542569	UNLOAD PACKAGE(c343126a)
+debugstr	50D510	00542352	Calling close ...37b6220 0
+debugstr	50D510	00542597	Done the unload
+debugstr	50D510	0054253D	UNLOADER!!!
+debugstr	50D510	00542569	UNLOAD PACKAGE(df3d7763)
+debugstr	50D510	00542352	Calling close ...37b6280 0
+debugstr	50D510	00542597	Done the unload
+debugstr	50D510	0054253D	UNLOADER!!!
+debugstr	50D510	00542569	UNLOAD PACKAGE(72d53145)
+debugstr	50D510	00542352	Calling close ...37b62e0 0
+debugstr	50D510	00542597	Done the unload
+debugstr	50D510	0054253D	UNLOADER!!!
+debugstr	50D510	00542569	UNLOAD PACKAGE(68c6961d)
+debugstr	50D510	00542352	Calling close ...37b6340 0
+debugstr	50D510	00542597	Done the unload
+debugstr	50D510	0054253D	UNLOADER!!!
+debugstr	50D510	00542569	UNLOAD PACKAGE(271c4dfc)
+debugstr	50D510	00542352	Calling close ...37b63a0 0
+debugstr	50D510	00542597	Done the unload
+debugstr	50D510	0054253D	UNLOADER!!!
+debugstr	50D510	00542569	UNLOAD PACKAGE(d2b843f1)
+debugstr	50D510	00542352	Calling close ...37b6400 0
+debugstr	50D510	00542597	Done the unload
+debugstr	50D510	0054253D	UNLOADER!!!
+debugstr	50D510	00542569	UNLOAD PACKAGE(dd06c36c)
+debugstr	50D510	00542352	Calling close ...37b6460 0
+debugstr	50D510	00542597	Done the unload
+debugstr	50D510	0054253D	UNLOADER!!!
+debugstr	50D510	00542569	UNLOAD PACKAGE(99d089d1)
+debugstr	50D510	00542352	Calling close ...37b64c0 0
+debugstr	50D510	00542597	Done the unload
+debugstr	50D510	0054253D	UNLOADER!!!
+debugstr	50D510	00542569	UNLOAD PACKAGE(aa8d04b6)
+debugstr	50D510	00542352	Calling close ...37b6520 0
+debugstr	50D510	00542597	Done the unload
+debugstr	50D510	0054253D	UNLOADER!!!
+debugstr	50D510	00542569	UNLOAD PACKAGE(fa8cc482)
+debugstr	50D510	00542352	Calling close ...37b6580 0
+debugstr	50D510	00542597	Done the unload
+debugstr	50D510	0054253D	UNLOADER!!!
+debugstr	50D510	00542569	UNLOAD PACKAGE(5d9a506d)
+debugstr	50D510	00542352	Calling close ...37b65e0 0
+debugstr	50D510	00542597	Done the unload
+debugstr	50D510	0054253D	UNLOADER!!!
+debugstr	50D510	00542569	UNLOAD PACKAGE(b886401b)
+debugstr	50D510	00542352	Calling close ...37b6640 0
+debugstr	50D510	00542597	Done the unload
+debugstr	50D510	0054253D	UNLOADER!!!
+debugstr	50D510	00542569	UNLOAD PACKAGE(c2f18417)
+debugstr	50D510	00542352	Calling close ...37b66a0 0
+debugstr	50D510	00542597	Done the unload
+debugstr	50D510	0054E4CF	Init Package PC_Loading.fng
+debugstr	50D510	0052CE0E	Add Joy handler: FEPad_Up
+debugstr	50D510	0052CE0E	Add Joy handler: FEPad_Down
+debugstr	50D510	0052CE0E	Add Joy handler: FEPad_Left
+debugstr	50D510	0052CE0E	Add Joy handler: FEPad_Right
+debugstr	50D510	0052CE0E	Add Joy handler: FEPad_Up
+debugstr	50D510	0052CE0E	Add Joy handler: FEPad_Down
+debugstr	50D510	0052CE0E	Add Joy handler: FEPad_Left
+debugstr	50D510	0052CE0E	Add Joy handler: FEPad_Right
+debugstr	50D510	0052CE0E	Add Joy handler: FEPad_Accept
+debugstr	50D510	0052CE0E	Add Joy handler: FEPad_Accept
+debugstr	50D510	0052CE0E	Add Joy handler: FEPad_Back
+debugstr	50D510	0052CE0E	Add Joy handler: FEPad_Back
+debugstr	50D510	0052CE0E	Add Joy handler: FEPad_Start
+debugstr	50D510	0052CE0E	Add Joy handler: FEPad_Button0
+debugstr	50D510	0052CE0E	Add Joy handler: FEPad_Button1
+debugstr	50D510	0052CE0E	Add Joy handler: FEPad_Button2
+debugstr	50D510	0052CE0E	Add Joy handler: FEPad_Button3
+debugstr	50D510	0052CE0E	Add Joy handler: FEPad_Button4
+debugstr	50D510	0052CE0E	Add Joy handler: FEPad_LeftTrigger
+debugstr	50D510	0052CE0E	Add Joy handler: FEPad_RightTrigger
+debugstr	50D510	0052CE0E	Add Joy handler: FEPad_Button1
+debugstr	50D510	0050C666	Joy Event: FEPad_Up[0]
+debugstr	50D510	0050C666	Joy Event: FEPad_Down[0]
+debugstr	50D510	0050C666	Joy Event: FEPad_Left[0]
+debugstr	50D510	0050C666	Joy Event: FEPad_Right[0]
+debugstr	50D510	0050C666	Joy Event: FEPad_Accept[1]
+debugstr	50D510	0050C666	Joy Event: FEPad_Accept[0]
+debugstr	50D510	0050C666	Joy Event: FEPad_Back[0]
+debugstr	50D510	0050C666	Joy Event: FEPad_Start[0]
+debugstr	50D510	0050C666	Joy Event: FEPad_Button0[0]
+debugstr	50D510	0050C666	Joy Event: FEPad_Button1[0]
+debugstr	50D510	0050C666	Joy Event: FEPad_Button2[0]
+debugstr	50D510	0050C666	Joy Event: FEPad_Button3[0]
+debugstr	50D510	0050C666	Joy Event: FEPad_LeftTrigger[0]
+debugstr	50D510	0050C666	Joy Event: FEPad_RightTrigger[0]
+debugstr	50D510	0050C666	Joy Event: FEPad_Up[0]
+debugstr	50D510	0050C666	Joy Event: FEPad_Down[0]
+debugstr	50D510	0050C666	Joy Event: FEPad_Left[0]
+debugstr	50D510	0050C666	Joy Event: FEPad_Right[0]
+debugstr	50D510	0050C666	Joy Event: FEPad_Accept[1]
+debugstr	50D510	0050C666	Joy Event: FEPad_Accept[0]
+debugstr	50D510	0050C666	Joy Event: FEPad_Back[0]
+debugstr	50D510	0050C666	Joy Event: FEPad_Start[0]
+debugstr	50D510	0050C666	Joy Event: FEPad_Button0[0]
+debugstr	50D510	0050C666	Joy Event: FEPad_Button1[0]
+debugstr	50D510	0050C666	Joy Event: FEPad_Button2[0]
+debugstr	50D510	0050C666	Joy Event: FEPad_Button3[0]
+debugstr	50D510	0050C666	Joy Event: FEPad_LeftTrigger[0]
+debugstr	50D510	0050C666	Joy Event: FEPad_RightTrigger[0]
+debugstr	50D510	0050C666	Joy Event: FEPad_Accept[0]
+debugstr	50D510	0050C666	Joy Event: FEPad_Accept[0]
+debugstr	50D510	0054E4CF	Init Package HUD_SingleRace.fng
+debugstr	50D510	0053760A	Direct Pop---------------------PC_Loading.fng------------------
+debugstr	50D510	0051C930	Will unload -----------PC_Loading.fng------------------
+debugstr	50D510	0051C94D	Will be unloaded [PC_Loading.fng]
+debugstr	50D510	0051BA85	Un-Activate!!! 37a5170 3787010
+debugstr	50D510	0051BA9D	Deleting package [PC_Loading.fng]
+debugstr	50D510	0051C977	package[PC_Loading.fng] will unload
+debugstr	50D510	0054E4CF	Init Package Chyron_IG.fng
+debugstr	50D510	0054E4CF	Init Package UI_PerformanceTuning_Setting.fng
+debugstr	50D510	0054E4CF	Init Package UI_PC_Help_Bar.fng
+debugstr	50D510	0052CE0E	Add Joy handler: FEPad_Up
+debugstr	50D510	0052CE0E	Add Joy handler: FEPad_Down
+debugstr	50D510	0052CE0E	Add Joy handler: FEPad_Left
+debugstr	50D510	0052CE0E	Add Joy handler: FEPad_Right
+debugstr	50D510	0052CE0E	Add Joy handler: FEPad_Up
+debugstr	50D510	0052CE0E	Add Joy handler: FEPad_Down
+debugstr	50D510	0052CE0E	Add Joy handler: FEPad_Left
+debugstr	50D510	0052CE0E	Add Joy handler: FEPad_Right
+debugstr	50D510	0052CE0E	Add Joy handler: FEPad_Accept
+debugstr	50D510	0052CE0E	Add Joy handler: FEPad_Accept
+debugstr	50D510	0052CE0E	Add Joy handler: FEPad_Back
+debugstr	50D510	0052CE0E	Add Joy handler: FEPad_Back
+debugstr	50D510	0052CE0E	Add Joy handler: FEPad_Start
+debugstr	50D510	0052CE0E	Add Joy handler: FEPad_Button0
+debugstr	50D510	0052CE0E	Add Joy handler: FEPad_Button1
+debugstr	50D510	0052CE0E	Add Joy handler: FEPad_Button2
+debugstr	50D510	0052CE0E	Add Joy handler: FEPad_Button3
+debugstr	50D510	0052CE0E	Add Joy handler: FEPad_Button4
+debugstr	50D510	0052CE0E	Add Joy handler: FEPad_LeftTrigger
+debugstr	50D510	0052CE0E	Add Joy handler: FEPad_RightTrigger
+debugstr	50D510	0052CE0E	Add Joy handler: FEPad_Button1
+debugstr	50D510	0050C666	Joy Event: FEPad_Up[0]
+debugstr	50D510	0050C666	Joy Event: FEPad_Down[0]
+debugstr	50D510	0050C666	Joy Event: FEPad_Left[0]
+debugstr	50D510	0050C666	Joy Event: FEPad_Right[0]
+debugstr	50D510	0050C666	Joy Event: FEPad_Accept[1]
+debugstr	50D510	0050C666	Joy Event: FEPad_Accept[0]
+debugstr	50D510	0050C666	Joy Event: FEPad_Back[0]
+debugstr	50D510	0050C666	Joy Event: FEPad_Start[0]
+debugstr	50D510	0050C666	Joy Event: FEPad_Button0[0]
+debugstr	50D510	0050C666	Joy Event: FEPad_Button1[0]
+debugstr	50D510	0050C666	Joy Event: FEPad_Button2[0]
+debugstr	50D510	0050C666	Joy Event: FEPad_Button3[0]
+debugstr	50D510	0050C666	Joy Event: FEPad_LeftTrigger[0]
+debugstr	50D510	0050C666	Joy Event: FEPad_RightTrigger[0]
+debugstr	50D510	0050C666	Joy Event: FEPad_Up[0]
+debugstr	50D510	0050C666	Joy Event: FEPad_Down[0]
+debugstr	50D510	0050C666	Joy Event: FEPad_Left[0]
+debugstr	50D510	0050C666	Joy Event: FEPad_Right[0]
+debugstr	50D510	0050C666	Joy Event: FEPad_Accept[1]
+debugstr	50D510	0050C666	Joy Event: FEPad_Accept[0]
+debugstr	50D510	0050C666	Joy Event: FEPad_Back[0]
+debugstr	50D510	0050C666	Joy Event: FEPad_Start[0]
+debugstr	50D510	0050C666	Joy Event: FEPad_Button0[0]
+debugstr	50D510	0050C666	Joy Event: FEPad_Button1[0]
+debugstr	50D510	0050C666	Joy Event: FEPad_Button2[0]
+debugstr	50D510	0050C666	Joy Event: FEPad_Button3[0]
+debugstr	50D510	0050C666	Joy Event: FEPad_LeftTrigger[0]
+debugstr	50D510	0050C666	Joy Event: FEPad_RightTrigger[0]
+debugstr	50D510	0055802E	DIALOG :: --------- ShowDialog -----------
+debugstr	50D510	0055803D	DIALOG :: |_ Tune settings for this race mode?
+debugstr	50D510	00558282	DIALOG :: Success : Control mask = 255, Handle = 11
+debugstr	50D510	0055828C	DIALOG :: --------- ShowDialog Finished -----------
+debugstr	50D510	00538C0E	IconScrollerMenu : StartDim.
+debugstr	50D510	0054E4CF	Init Package GenericDialog_SMALL.fng
+debugstr	50D510	0055420B	DIALOG :: Constructor
+debugstr	50D510	0050C666	Joy Event: FEPad_Accept[0]
+debugstr	50D510	0050C666	Joy Event: FEPad_Accept[0]
+debugstr	50D510	0050C666	Joy Event: FEPad_Left[1]
+debugstr	50D510	0050C666	Joy Event: FEPad_Left[1]
+debugstr	50D510	0050C666	Joy Event: FEPad_Left[0]
+debugstr	50D510	0050C666	Joy Event: FEPad_Left[0]
+debugstr	50D510	0050C666	Joy Event: FEPad_Accept[1]
+debugstr	50D510	0050C666	Joy Event: FEPad_Accept[1]
+debugstr	50D510	0054C28D	DIALOG :: Button 1 Pressed, msg = -799030365
+debugstr	50D510	0054C10A	DIALOG :: Tick, ReturnWithMessage Set, Dismissing: [GenericDialog_SMALL.fng] [d05fc3a3]
+debugstr	50D510	00540A75	DIALOG :: DismissDialog.  Handle(11).  Current handle(11)
+debugstr	50D510	00540A8B	DIALOG ::  |_ Found, popping.
+debugstr	50D510	0051CC3A	Queue popping GenericDialog_SMALL.fng
+debugstr	50D510	0051C930	Will unload -----------GenericDialog_SMALL.fng------------------
+debugstr	50D510	0051C94D	Will be unloaded [GenericDialog_SMALL.fng]
+debugstr	50D510	00551225	DIALOG :: Closing, sending message (d05fc3a3) to (UI_PerformanceTuning_Setting.fng).
+debugstr	50D510	0051CE05	Send message[d05fc3a3] to package [UI_PerformanceTuning_Setting.fng]
+debugstr	50D510	0051CE39	Message was queued
+debugstr	50D510	0051BA85	Un-Activate!!! 37a52f0 37d62c0
+debugstr	50D510	0051BA9D	Deleting package [GenericDialog_SMALL.fng]
+debugstr	50D510	0051C977	package[GenericDialog_SMALL.fng] will unload
+debugstr	50D510	00544133	IconScrollerMenu : Switch/Pop/Direct Pop called on me (0x5eca113d).
+debugstr	50D510	0051CBDF	SwitchFEngPackages from UI_PerformanceTuning_Setting.fng to UI_PerformanceDyno_Chart.fng
+debugstr	50D510	0051C930	Will unload -----------UI_PerformanceTuning_Setting.fng------------------
+debugstr	50D510	0051C94D	Will be unloaded [UI_PerformanceTuning_Setting.fng]
+debugstr	50D510	0051BA85	Un-Activate!!! 37b57c0 37b7aa0
+debugstr	50D510	0051BA9D	Deleting package [UI_PerformanceTuning_Setting.fng]
+debugstr	50D510	0051C977	package[UI_PerformanceTuning_Setting.fng] will unload
+debugstr	50D510	0054E4CF	Init Package UI_PerformanceDyno_Chart.fng
+debugstr	50D510	0050C666	Joy Event: FEPad_Accept[0]
+debugstr	50D510	0050C666	Joy Event: FEPad_Accept[0]
+debugstr	50D510	0050C666	Joy Event: FEPad_Accept[1]
+debugstr	50D510	0050C666	Joy Event: FEPad_Accept[1]
+debugstr	50D510	0050C666	Joy Event: FEPad_Accept[0]
+debugstr	50D510	0050C666	Joy Event: FEPad_Accept[0]
+debugstr	50D510	0051CBDF	SwitchFEngPackages from UI_PerformanceDyno_Chart.fng to UI_PerformanceDyno_Results.fng
+debugstr	50D510	0051C930	Will unload -----------UI_PerformanceDyno_Chart.fng------------------
+debugstr	50D510	0051C94D	Will be unloaded [UI_PerformanceDyno_Chart.fng]
+debugstr	50D510	0051BA85	Un-Activate!!! 37b5700 37da1f0
+debugstr	50D510	0051BA9D	Deleting package [UI_PerformanceDyno_Chart.fng]
+debugstr	50D510	0051C977	package[UI_PerformanceDyno_Chart.fng] will unload
+debugstr	50D510	0054E4CF	Init Package UI_PerformanceDyno_Results.fng
+debugstr	50D510	0050C666	Joy Event: FEPad_Accept[1]
+debugstr	50D510	0050C666	Joy Event: FEPad_Accept[1]
+debugstr	50D510	0053760A	Direct Pop---------------------UI_PC_Help_Bar.fng------------------
+debugstr	50D510	0051C930	Will unload -----------UI_PC_Help_Bar.fng------------------
+debugstr	50D510	0051C94D	Will be unloaded [UI_PC_Help_Bar.fng]
+debugstr	50D510	0051BA85	Un-Activate!!! 37a5110 37cbb90
+debugstr	50D510	0051BA9D	Deleting package [UI_PC_Help_Bar.fng]
+debugstr	50D510	0051C977	package[UI_PC_Help_Bar.fng] will unload
+debugstr	50D510	0053643A	Unload Package : There is a message in the queue for an object in the package being unloaded.  This is unsafe - deleting message.
+debugstr	50D510	0050C666	Joy Event: FEPad_Accept[0]
+debugstr	50D510	0050C666	Joy Event: FEPad_Accept[0]
+debugstr	50D510	0051CBDF	SwitchFEngPackages from UI_PerformanceDyno_Results.fng to UI_PerformanceDyno_MAIN.fng
+debugstr	50D510	0051C930	Will unload -----------UI_PerformanceDyno_Results.fng------------------
+debugstr	50D510	0051C94D	Will be unloaded [UI_PerformanceDyno_Results.fng]
+debugstr	50D510	0051BA85	Un-Activate!!! 37b56a0 37de070
+debugstr	50D510	0051BA9D	Deleting package [UI_PerformanceDyno_Results.fng]
+debugstr	50D510	0051C977	package[UI_PerformanceDyno_Results.fng] will unload
+debugstr	50D510	0054E4CF	Init Package UI_PerformanceDyno_MAIN.fng
+debugstr	50D510	0054E4CF	Init Package UI_PC_Help_Bar.fng
+debugstr	50D510	0050C666	Joy Event: FEPad_Right[1]
+debugstr	50D510	0050C666	Joy Event: FEPad_Right[1]
+debugstr	50D510	0050C666	Joy Event: FEPad_Right[0]
+debugstr	50D510	0050C666	Joy Event: FEPad_Right[0]
+debugstr	50D510	0053760A	Direct Pop---------------------Chyron_IG.fng------------------
+debugstr	50D510	0051C930	Will unload -----------Chyron_IG.fng------------------
+debugstr	50D510	0051C94D	Will be unloaded [Chyron_IG.fng]
+debugstr	50D510	0051BA85	Un-Activate!!! 37b43b0 37c7410
+debugstr	50D510	0051BA9D	Deleting package [Chyron_IG.fng]
+debugstr	50D510	0051C977	package[Chyron_IG.fng] will unload
+debugstr	50D510	0050C666	Joy Event: FEPad_Right[1]
+debugstr	50D510	0050C666	Joy Event: FEPad_Right[1]
+debugstr	50D510	0050C666	Joy Event: FEPad_Right[0]
+debugstr	50D510	0050C666	Joy Event: FEPad_Right[0]
+debugstr	50D510	0050C666	Joy Event: FEPad_Left[1]
+debugstr	50D510	0050C666	Joy Event: FEPad_Left[1]
+debugstr	50D510	0050C666	Joy Event: FEPad_Left[0]
+debugstr	50D510	0050C666	Joy Event: FEPad_Left[0]
+debugstr	50D510	0050C666	Joy Event: FEPad_Left[1]
+debugstr	50D510	0050C666	Joy Event: FEPad_Left[1]
+debugstr	50D510	0050C666	Joy Event: FEPad_Left[0]
+debugstr	50D510	0050C666	Joy Event: FEPad_Left[0]
+debugstr	50D510	0050C666	Joy Event: FEPad_Accept[1]
+debugstr	50D510	0050C666	Joy Event: FEPad_Accept[1]
+debugstr	50D510	0052FC17	IconScrollerMenu : StopInput (UI_PerformanceDyno_MAIN.fng, 37de050).  Mask (255) to (0).
+debugstr	50D510	0053760A	Direct Pop---------------------UI_PC_Help_Bar.fng------------------
+debugstr	50D510	0051C930	Will unload -----------UI_PC_Help_Bar.fng------------------
+debugstr	50D510	0051C94D	Will be unloaded [UI_PC_Help_Bar.fng]
+debugstr	50D510	0051BA85	Un-Activate!!! 37a5110 37dd060
+debugstr	50D510	0051BA9D	Deleting package [UI_PC_Help_Bar.fng]
+debugstr	50D510	0051C977	package[UI_PC_Help_Bar.fng] will unload
+debugstr	50D510	0050C666	Joy Event: FEPad_Accept[0]
+debugstr	50D510	0050C666	Joy Event: FEPad_Accept[0]
+debugstr	50D510	005440D5	IconScrollerMenu : EXIT/INIT_COMPLETE called on me (0xe1fde1d1).
+debugstr	50D510	0052FBD7	IconScrollerMenu : StartInput (UI_PerformanceDyno_MAIN.fng, 37de050).  Mask (0) to (255).
+debugstr	50D510	00544133	IconScrollerMenu : Switch/Pop/Direct Pop called on me (0x5eca113d).
+debugstr	50D510	0051CBDF	SwitchFEngPackages from UI_PerformanceDyno_MAIN.fng to UI_PerformanceTuning_Master.fng
+debugstr	50D510	0051C930	Will unload -----------UI_PerformanceDyno_MAIN.fng------------------
+debugstr	50D510	0051C94D	Will be unloaded [UI_PerformanceDyno_MAIN.fng]
+debugstr	50D510	0051BA85	Un-Activate!!! 37b59a0 37de050
+debugstr	50D510	0051BA9D	Deleting package [UI_PerformanceDyno_MAIN.fng]
+debugstr	50D510	0051C977	package[UI_PerformanceDyno_MAIN.fng] will unload
+debugstr	50D510	0054E4CF	Init Package UI_PerformanceTuning_Master.fng
+debugstr	50D510	0054E4CF	Init Package UI_PC_Help_Bar.fng
+debugstr	50D510	0050C666	Joy Event: FEPad_Accept[1]
+debugstr	50D510	0050C666	Joy Event: FEPad_Accept[1]
+debugstr	50D510	0054E4CF	Init Package UI_PerformanceTuning_Sliders.fng
+debugstr	50D510	0050C666	Joy Event: FEPad_Accept[0]
+debugstr	50D510	0050C666	Joy Event: FEPad_Accept[0]
+debugstr	50D510	0050C666	Joy Event: FEPad_Down[1]
+debugstr	50D510	0050C666	Joy Event: FEPad_Down[1]
+debugstr	50D510	0050C666	Joy Event: FEPad_Down[0]
+debugstr	50D510	0050C666	Joy Event: FEPad_Down[0]
+debugstr	50D510	0055BBE1	--- MenuScreen::BaseNotify Pad_Button4 Start ---
+debugstr	50D510	0055BC40	--- MenuScreen::BaseNotify Pad_Button4 End ---
+debugstr	50D510	0055802E	DIALOG :: --------- ShowDialog -----------
+debugstr	50D510	0055803D	DIALOG :: |_ Steering ratio determines how quickly the wheels of car respond to steering input. Use the slider to
+debugstr	50D510	00558282	DIALOG :: Success : Control mask = 255, Handle = 12
+debugstr	50D510	0055828C	DIALOG :: --------- ShowDialog Finished -----------
+debugstr	50D510	0054E4CF	Init Package GenericDialog_LARGE.fng
+debugstr	50D510	0055420B	DIALOG :: Constructor
+debugstr	50D510	0054C209	DIALOG :: Button 3 pressed, msg = 886840300
+debugstr	50D510	0054C10A	DIALOG :: Tick, ReturnWithMessage Set, Dismissing: [GenericDialog_LARGE.fng] [34dc1bec]
+debugstr	50D510	00540A75	DIALOG :: DismissDialog.  Handle(12).  Current handle(12)
+debugstr	50D510	00540A8B	DIALOG ::  |_ Found, popping.
+debugstr	50D510	0051CC3A	Queue popping GenericDialog_LARGE.fng
+debugstr	50D510	0051C930	Will unload -----------GenericDialog_LARGE.fng------------------
+debugstr	50D510	0051C94D	Will be unloaded [GenericDialog_LARGE.fng]
+debugstr	50D510	00551225	DIALOG :: Closing, sending message (34dc1bec) to (UI_PerformanceTuning_Sliders.fng).
+debugstr	50D510	0051CE05	Send message[34dc1bec] to package [UI_PerformanceTuning_Sliders.fng]
+debugstr	50D510	0051CE39	Message was queued
+debugstr	50D510	0051BA85	Un-Activate!!! 37a53b0 37f7400
+debugstr	50D510	0051BA9D	Deleting package [GenericDialog_LARGE.fng]
+debugstr	50D510	0051C977	package[GenericDialog_LARGE.fng] will unload
+debugstr	50D510	0050C666	Joy Event: FEPad_Right[1]
+debugstr	50D510	0050C666	Joy Event: FEPad_Right[1]
+debugstr	50D510	0050C666	Joy Event: FEPad_Right[0]
+debugstr	50D510	0050C666	Joy Event: FEPad_Right[0]
+debugstr	50D510	0050C666	Joy Event: FEPad_Back[1]
+debugstr	50D510	0050C666	Joy Event: FEPad_Back[1]
+debugstr	50D510	0050C666	Joy Event: FEPad_Back[0]
+debugstr	50D510	0050C666	Joy Event: FEPad_Back[0]
+debugstr	50D510	0053760A	Direct Pop---------------------UI_PerformanceTuning_Sliders.fng------------------
+debugstr	50D510	0051C930	Will unload -----------UI_PerformanceTuning_Sliders.fng------------------
+debugstr	50D510	0051C94D	Will be unloaded [UI_PerformanceTuning_Sliders.fng]
+debugstr	50D510	0051BA85	Un-Activate!!! 37b5880 37db190
+debugstr	50D510	0051BA9D	Deleting package [UI_PerformanceTuning_Sliders.fng]
+debugstr	50D510	0051C977	package[UI_PerformanceTuning_Sliders.fng] will unload
+debugstr	50D510	0050C666	Joy Event: FEPad_Right[1]
+debugstr	50D510	0050C666	Joy Event: FEPad_Right[1]
+debugstr	50D510	0050C666	Joy Event: FEPad_Right[0]
+debugstr	50D510	0050C666	Joy Event: FEPad_Right[0]
+debugstr	50D510	0050C666	Joy Event: FEPad_Accept[1]
+debugstr	50D510	0050C666	Joy Event: FEPad_Accept[1]
+debugstr	50D510	0054E4CF	Init Package UI_PerformanceTuning_Drivetrain.fng
+debugstr	50D510	0050C666	Joy Event: FEPad_Accept[0]
+debugstr	50D510	0050C666	Joy Event: FEPad_Accept[0]
+debugstr	50D510	0050C666	Joy Event: FEPad_Back[1]
+debugstr	50D510	0050C666	Joy Event: FEPad_Back[1]
+debugstr	50D510	0053760A	Direct Pop---------------------UI_PerformanceTuning_Drivetrain.fng------------------
+debugstr	50D510	0051C930	Will unload -----------UI_PerformanceTuning_Drivetrain.fng------------------
+debugstr	50D510	0051C94D	Will be unloaded [UI_PerformanceTuning_Drivetrain.fng]
+debugstr	50D510	0051BA85	Un-Activate!!! 37b5820 37db1c0
+debugstr	50D510	0051BA9D	Deleting package [UI_PerformanceTuning_Drivetrain.fng]
+debugstr	50D510	0051C977	package[UI_PerformanceTuning_Drivetrain.fng] will unload
+debugstr	50D510	0050C666	Joy Event: FEPad_Back[0]
+debugstr	50D510	0050C666	Joy Event: FEPad_Back[0]
+debugstr	50D510	0050C666	Joy Event: FEPad_Right[1]
+debugstr	50D510	0050C666	Joy Event: FEPad_Right[1]
+debugstr	50D510	0050C666	Joy Event: FEPad_Right[0]
+debugstr	50D510	0050C666	Joy Event: FEPad_Right[0]
+debugstr	50D510	0050C666	Joy Event: FEPad_Accept[1]
+debugstr	50D510	0050C666	Joy Event: FEPad_Accept[1]
+debugstr	50D510	0050C666	Joy Event: FEPad_Accept[0]
+debugstr	50D510	0050C666	Joy Event: FEPad_Accept[0]
+debugstr	50D510	0050C666	Joy Event: FEPad_Back[1]
+debugstr	50D510	0050C666	Joy Event: FEPad_Back[1]
+debugstr	50D510	0052FC17	IconScrollerMenu : StopInput (UI_PerformanceTuning_Master.fng, 37ca520).  Mask (255) to (0).
+debugstr	50D510	0053760A	Direct Pop---------------------UI_PC_Help_Bar.fng------------------
+debugstr	50D510	0051C930	Will unload -----------UI_PC_Help_Bar.fng------------------
+debugstr	50D510	0051C94D	Will be unloaded [UI_PC_Help_Bar.fng]
+debugstr	50D510	0051BA85	Un-Activate!!! 37a5110 37c98a0
+debugstr	50D510	0051BA9D	Deleting package [UI_PC_Help_Bar.fng]
+debugstr	50D510	0051C977	package[UI_PC_Help_Bar.fng] will unload
+debugstr	50D510	005440D5	IconScrollerMenu : EXIT/INIT_COMPLETE called on me (0xe1fde1d1).
+debugstr	50D510	0052FBD7	IconScrollerMenu : StartInput (UI_PerformanceTuning_Master.fng, 37ca520).  Mask (0) to (255).
+debugstr	50D510	00544133	IconScrollerMenu : Switch/Pop/Direct Pop called on me (0x5eca113d).
+debugstr	50D510	0051CBDF	SwitchFEngPackages from UI_PerformanceTuning_Master.fng to UI_PerformanceDyno_MAIN.fng
+debugstr	50D510	0051C930	Will unload -----------UI_PerformanceTuning_Master.fng------------------
+debugstr	50D510	0051C94D	Will be unloaded [UI_PerformanceTuning_Master.fng]
+debugstr	50D510	0051BA85	Un-Activate!!! 37b5940 37ca520
+debugstr	50D510	0051BA9D	Deleting package [UI_PerformanceTuning_Master.fng]
+debugstr	50D510	0051C977	package[UI_PerformanceTuning_Master.fng] will unload
+debugstr	50D510	0054E4CF	Init Package UI_PerformanceDyno_MAIN.fng
+debugstr	50D510	0054E4CF	Init Package UI_PC_Help_Bar.fng
+debugstr	50D510	0050C666	Joy Event: FEPad_Back[0]
+debugstr	50D510	0050C666	Joy Event: FEPad_Back[0]
+debugstr	50D510	0050C666	Joy Event: FEPad_Accept[1]
+debugstr	50D510	0050C666	Joy Event: FEPad_Accept[1]
+debugstr	50D510	0052FC17	IconScrollerMenu : StopInput (UI_PerformanceDyno_MAIN.fng, 37e4ec0).  Mask (255) to (0).
+debugstr	50D510	0053760A	Direct Pop---------------------UI_PC_Help_Bar.fng------------------
+debugstr	50D510	0051C930	Will unload -----------UI_PC_Help_Bar.fng------------------
+debugstr	50D510	0051C94D	Will be unloaded [UI_PC_Help_Bar.fng]
+debugstr	50D510	0051BA85	Un-Activate!!! 37a5110 37e6de0
+debugstr	50D510	0051BA9D	Deleting package [UI_PC_Help_Bar.fng]
+debugstr	50D510	0051C977	package[UI_PC_Help_Bar.fng] will unload
+debugstr	50D510	005440D5	IconScrollerMenu : EXIT/INIT_COMPLETE called on me (0xe1fde1d1).
+debugstr	50D510	0052FBD7	IconScrollerMenu : StartInput (UI_PerformanceDyno_MAIN.fng, 37e4ec0).  Mask (0) to (255).
+debugstr	50D510	00544133	IconScrollerMenu : Switch/Pop/Direct Pop called on me (0x5eca113d).
+debugstr	50D510	0051CBDF	SwitchFEngPackages from UI_PerformanceDyno_MAIN.fng to UI_PerformanceTuning_Master.fng
+debugstr	50D510	0051C930	Will unload -----------UI_PerformanceDyno_MAIN.fng------------------
+debugstr	50D510	0051C94D	Will be unloaded [UI_PerformanceDyno_MAIN.fng]
+debugstr	50D510	0051BA85	Un-Activate!!! 37b59a0 37e4ec0
+debugstr	50D510	0051BA9D	Deleting package [UI_PerformanceDyno_MAIN.fng]
+debugstr	50D510	0051C977	package[UI_PerformanceDyno_MAIN.fng] will unload
+debugstr	50D510	0054E4CF	Init Package UI_PerformanceTuning_Master.fng
+debugstr	50D510	0054E4CF	Init Package UI_PC_Help_Bar.fng
+debugstr	50D510	0050C666	Joy Event: FEPad_Accept[0]
+debugstr	50D510	0050C666	Joy Event: FEPad_Accept[0]
+debugstr	50D510	0050C666	Joy Event: FEPad_Right[1]
+debugstr	50D510	0050C666	Joy Event: FEPad_Right[1]
+debugstr	50D510	0050C666	Joy Event: FEPad_Right[0]
+debugstr	50D510	0050C666	Joy Event: FEPad_Right[0]
+debugstr	50D510	0050C666	Joy Event: FEPad_Right[1]
+debugstr	50D510	0050C666	Joy Event: FEPad_Right[1]
+debugstr	50D510	0050C666	Joy Event: FEPad_Right[0]
+debugstr	50D510	0050C666	Joy Event: FEPad_Right[0]
+debugstr	50D510	0050C666	Joy Event: FEPad_Right[1]
+debugstr	50D510	0050C666	Joy Event: FEPad_Right[1]
+debugstr	50D510	0050C666	Joy Event: FEPad_Right[0]
+debugstr	50D510	0050C666	Joy Event: FEPad_Right[0]
+debugstr	50D510	0050C666	Joy Event: FEPad_Accept[1]
+debugstr	50D510	0050C666	Joy Event: FEPad_Accept[1]
+debugstr	50D510	0054E4CF	Init Package UI_PerformanceTuning_Sliders.fng
+debugstr	50D510	0050C666	Joy Event: FEPad_Accept[0]
+debugstr	50D510	0050C666	Joy Event: FEPad_Accept[0]
+debugstr	50D510	0050C666	Joy Event: FEPad_Back[1]
+debugstr	50D510	0050C666	Joy Event: FEPad_Back[1]
+debugstr	50D510	0050C666	Joy Event: FEPad_Back[0]
+debugstr	50D510	0050C666	Joy Event: FEPad_Back[0]
+debugstr	50D510	0053760A	Direct Pop---------------------UI_PerformanceTuning_Sliders.fng------------------
+debugstr	50D510	0051C930	Will unload -----------UI_PerformanceTuning_Sliders.fng------------------
+debugstr	50D510	0051C94D	Will be unloaded [UI_PerformanceTuning_Sliders.fng]
+debugstr	50D510	0051BA85	Un-Activate!!! 37b5880 37e2190
+debugstr	50D510	0051BA9D	Deleting package [UI_PerformanceTuning_Sliders.fng]
+debugstr	50D510	0051C977	package[UI_PerformanceTuning_Sliders.fng] will unload
+debugstr	50D510	0050C666	Joy Event: FEPad_Right[1]
+debugstr	50D510	0050C666	Joy Event: FEPad_Right[1]
+debugstr	50D510	0050C666	Joy Event: FEPad_Right[0]
+debugstr	50D510	0050C666	Joy Event: FEPad_Right[0]
+debugstr	50D510	0050C666	Joy Event: FEPad_Accept[1]
+debugstr	50D510	0050C666	Joy Event: FEPad_Accept[1]
+debugstr	50D510	0054E4CF	Init Package UI_PerformanceTuning_Graph.fng
+debugstr	50D510	0050C666	Joy Event: FEPad_Accept[0]
+debugstr	50D510	0050C666	Joy Event: FEPad_Accept[0]
+debugstr	50D510	0055BBE1	--- MenuScreen::BaseNotify Pad_Button4 Start ---
+debugstr	50D510	0055BC40	--- MenuScreen::BaseNotify Pad_Button4 End ---
+debugstr	50D510	0055802E	DIALOG :: --------- ShowDialog -----------
+debugstr	50D510	0055803D	DIALOG :: |_ The ECU torque curve is a graph that shows the amount of power that the engine produces over the RPM
+debugstr	50D510	00558282	DIALOG :: Success : Control mask = 255, Handle = 13
+debugstr	50D510	0055828C	DIALOG :: --------- ShowDialog Finished -----------
+debugstr	50D510	0054E4CF	Init Package GenericDialog_LARGE.fng
+debugstr	50D510	0055420B	DIALOG :: Constructor
+debugstr	50D510	0054C209	DIALOG :: Button 3 pressed, msg = 886840300
+debugstr	50D510	0054C10A	DIALOG :: Tick, ReturnWithMessage Set, Dismissing: [GenericDialog_LARGE.fng] [34dc1bec]
+debugstr	50D510	00540A75	DIALOG :: DismissDialog.  Handle(13).  Current handle(13)
+debugstr	50D510	00540A8B	DIALOG ::  |_ Found, popping.
+debugstr	50D510	0051CC3A	Queue popping GenericDialog_LARGE.fng
+debugstr	50D510	0051C930	Will unload -----------GenericDialog_LARGE.fng------------------
+debugstr	50D510	0051C94D	Will be unloaded [GenericDialog_LARGE.fng]
+debugstr	50D510	00551225	DIALOG :: Closing, sending message (34dc1bec) to (UI_PerformanceTuning_Graph.fng).
+debugstr	50D510	0051CE05	Send message[34dc1bec] to package [UI_PerformanceTuning_Graph.fng]
+debugstr	50D510	0051CE39	Message was queued
+debugstr	50D510	0051BA85	Un-Activate!!! 37a53b0 37f78c0
+debugstr	50D510	0051BA9D	Deleting package [GenericDialog_LARGE.fng]
+debugstr	50D510	0051C977	package[GenericDialog_LARGE.fng] will unload
+debugstr	50D510	0050C666	Joy Event: FEPad_Back[1]
+debugstr	50D510	0050C666	Joy Event: FEPad_Back[1]
+debugstr	50D510	0050C666	Joy Event: FEPad_Back[0]
+debugstr	50D510	0050C666	Joy Event: FEPad_Back[0]
+debugstr	50D510	0053760A	Direct Pop---------------------UI_PerformanceTuning_Graph.fng------------------
+debugstr	50D510	0051C930	Will unload -----------UI_PerformanceTuning_Graph.fng------------------
+debugstr	50D510	0051C94D	Will be unloaded [UI_PerformanceTuning_Graph.fng]
+debugstr	50D510	0051BA85	Un-Activate!!! 37b58e0 37f5eb0
+debugstr	50D510	0051BA9D	Deleting package [UI_PerformanceTuning_Graph.fng]
+debugstr	50D510	0051C977	package[UI_PerformanceTuning_Graph.fng] will unload
+debugstr	50D510	0050C666	Joy Event: FEPad_Right[1]
+debugstr	50D510	0050C666	Joy Event: FEPad_Right[1]
+debugstr	50D510	0050C666	Joy Event: FEPad_Right[0]
+debugstr	50D510	0050C666	Joy Event: FEPad_Right[0]
+debugstr	50D510	0050C666	Joy Event: FEPad_Accept[1]
+debugstr	50D510	0050C666	Joy Event: FEPad_Accept[1]
+debugstr	50D510	0054E4CF	Init Package UI_PerformanceTuning_Graph.fng
+debugstr	50D510	0050C666	Joy Event: FEPad_Accept[0]
+debugstr	50D510	0050C666	Joy Event: FEPad_Accept[0]
+debugstr	50D510	0050C666	Joy Event: FEPad_Back[1]
+debugstr	50D510	0050C666	Joy Event: FEPad_Back[1]
+debugstr	50D510	0050C666	Joy Event: FEPad_Back[0]
+debugstr	50D510	0050C666	Joy Event: FEPad_Back[0]
+debugstr	50D510	0053760A	Direct Pop---------------------UI_PerformanceTuning_Graph.fng------------------
+debugstr	50D510	0051C930	Will unload -----------UI_PerformanceTuning_Graph.fng------------------
+debugstr	50D510	0051C94D	Will be unloaded [UI_PerformanceTuning_Graph.fng]
+debugstr	50D510	0051BA85	Un-Activate!!! 37b58e0 37e2190
+debugstr	50D510	0051BA9D	Deleting package [UI_PerformanceTuning_Graph.fng]
+debugstr	50D510	0051C977	package[UI_PerformanceTuning_Graph.fng] will unload
+debugstr	50D510	0050C666	Joy Event: FEPad_Right[1]
+debugstr	50D510	0050C666	Joy Event: FEPad_Right[1]
+debugstr	50D510	0050C666	Joy Event: FEPad_Right[0]
+debugstr	50D510	0050C666	Joy Event: FEPad_Right[0]
+debugstr	50D510	0050C666	Joy Event: FEPad_Accept[1]
+debugstr	50D510	0050C666	Joy Event: FEPad_Accept[1]
+debugstr	50D510	0054E4CF	Init Package UI_PerformanceTuning_NOS.fng
+debugstr	50D510	0050C666	Joy Event: FEPad_Accept[0]
+debugstr	50D510	0050C666	Joy Event: FEPad_Accept[0]
+debugstr	50D510	0050C666	Joy Event: FEPad_Right[1]
+debugstr	50D510	0050C666	Joy Event: FEPad_Right[1]
+debugstr	50D510	0050C666	Joy Event: FEPad_Right[0]
+debugstr	50D510	0050C666	Joy Event: FEPad_Right[0]
+debugstr	50D510	0050C666	Joy Event: FEPad_Left[1]
+debugstr	50D510	0050C666	Joy Event: FEPad_Left[1]
+debugstr	50D510	0050C666	Joy Event: FEPad_Left[0]
+debugstr	50D510	0050C666	Joy Event: FEPad_Left[0]
+debugstr	50D510	0055BBE1	--- MenuScreen::BaseNotify Pad_Button4 Start ---
+debugstr	50D510	0055BC40	--- MenuScreen::BaseNotify Pad_Button4 End ---
+debugstr	50D510	0055802E	DIALOG :: --------- ShowDialog -----------
+debugstr	50D510	0055803D	DIALOG :: |_ Nitrous Oxide provides a brief burst of power to your car. Adjust the slider to tune your Nitrous to
+debugstr	50D510	00558282	DIALOG :: Success : Control mask = 255, Handle = 14
+debugstr	50D510	0055828C	DIALOG :: --------- ShowDialog Finished -----------
+debugstr	50D510	0054E4CF	Init Package GenericDialog_LARGE.fng
+debugstr	50D510	0055420B	DIALOG :: Constructor
+debugstr	50D510	0054C209	DIALOG :: Button 3 pressed, msg = 886840300
+debugstr	50D510	0054C10A	DIALOG :: Tick, ReturnWithMessage Set, Dismissing: [GenericDialog_LARGE.fng] [34dc1bec]
+debugstr	50D510	00540A75	DIALOG :: DismissDialog.  Handle(14).  Current handle(14)
+debugstr	50D510	00540A8B	DIALOG ::  |_ Found, popping.
+debugstr	50D510	0051CC3A	Queue popping GenericDialog_LARGE.fng
+debugstr	50D510	0051C930	Will unload -----------GenericDialog_LARGE.fng------------------
+debugstr	50D510	0051C94D	Will be unloaded [GenericDialog_LARGE.fng]
+debugstr	50D510	00551225	DIALOG :: Closing, sending message (34dc1bec) to (UI_PerformanceTuning_NOS.fng).
+debugstr	50D510	0051CE05	Send message[34dc1bec] to package [UI_PerformanceTuning_NOS.fng]
+debugstr	50D510	0051CE39	Message was queued
+debugstr	50D510	0051BA85	Un-Activate!!! 37a53b0 37f4200
+debugstr	50D510	0051BA9D	Deleting package [GenericDialog_LARGE.fng]
+debugstr	50D510	0051C977	package[GenericDialog_LARGE.fng] will unload
+debugstr	50D510	0050C666	Joy Event: FEPad_Back[1]
+debugstr	50D510	0050C666	Joy Event: FEPad_Back[1]
+debugstr	50D510	0050C666	Joy Event: FEPad_Back[0]
+debugstr	50D510	0050C666	Joy Event: FEPad_Back[0]
+debugstr	50D510	0053760A	Direct Pop---------------------UI_PerformanceTuning_NOS.fng------------------
+debugstr	50D510	0051C930	Will unload -----------UI_PerformanceTuning_NOS.fng------------------
+debugstr	50D510	0051C94D	Will be unloaded [UI_PerformanceTuning_NOS.fng]
+debugstr	50D510	0051BA85	Un-Activate!!! 37b5760 37f1eb0
+debugstr	50D510	0051BA9D	Deleting package [UI_PerformanceTuning_NOS.fng]
+debugstr	50D510	0051C977	package[UI_PerformanceTuning_NOS.fng] will unload
+debugstr	50D510	0050C666	Joy Event: FEPad_Back[1]
+debugstr	50D510	0050C666	Joy Event: FEPad_Back[1]
+debugstr	50D510	0052FC17	IconScrollerMenu : StopInput (UI_PerformanceTuning_Master.fng, 37ca540).  Mask (255) to (0).
+debugstr	50D510	0053760A	Direct Pop---------------------UI_PC_Help_Bar.fng------------------
+debugstr	50D510	0051C930	Will unload -----------UI_PC_Help_Bar.fng------------------
+debugstr	50D510	0051C94D	Will be unloaded [UI_PC_Help_Bar.fng]
+debugstr	50D510	0051BA85	Un-Activate!!! 37a5110 37c8650
+debugstr	50D510	0051BA9D	Deleting package [UI_PC_Help_Bar.fng]
+debugstr	50D510	0051C977	package[UI_PC_Help_Bar.fng] will unload
+debugstr	50D510	005440D5	IconScrollerMenu : EXIT/INIT_COMPLETE called on me (0xe1fde1d1).
+debugstr	50D510	0052FBD7	IconScrollerMenu : StartInput (UI_PerformanceTuning_Master.fng, 37ca540).  Mask (0) to (255).
+debugstr	50D510	00544133	IconScrollerMenu : Switch/Pop/Direct Pop called on me (0x5eca113d).
+debugstr	50D510	0051CBDF	SwitchFEngPackages from UI_PerformanceTuning_Master.fng to UI_PerformanceDyno_MAIN.fng
+debugstr	50D510	0051C930	Will unload -----------UI_PerformanceTuning_Master.fng------------------
+debugstr	50D510	0051C94D	Will be unloaded [UI_PerformanceTuning_Master.fng]
+debugstr	50D510	0051BA85	Un-Activate!!! 37b5940 37ca540
+debugstr	50D510	0051BA9D	Deleting package [UI_PerformanceTuning_Master.fng]
+debugstr	50D510	0051C977	package[UI_PerformanceTuning_Master.fng] will unload
+debugstr	50D510	0054E4CF	Init Package UI_PerformanceDyno_MAIN.fng
+debugstr	50D510	0054E4CF	Init Package UI_PC_Help_Bar.fng
+debugstr	50D510	0050C666	Joy Event: FEPad_Back[0]
+debugstr	50D510	0050C666	Joy Event: FEPad_Back[0]
+debugstr	50D510	0050C666	Joy Event: FEPad_Back[1]
+debugstr	50D510	0050C666	Joy Event: FEPad_Back[1]
+debugstr	50D510	0050C666	Joy Event: FEPad_Back[0]
+debugstr	50D510	0050C666	Joy Event: FEPad_Back[0]
+debugstr	50D510	0050C666	Joy Event: FEPad_Accept[1]
+debugstr	50D510	0050C666	Joy Event: FEPad_Accept[1]
+debugstr	50D510	0052FC17	IconScrollerMenu : StopInput (UI_PerformanceDyno_MAIN.fng, 37e23e0).  Mask (255) to (0).
+debugstr	50D510	0053760A	Direct Pop---------------------UI_PC_Help_Bar.fng------------------
+debugstr	50D510	0051C930	Will unload -----------UI_PC_Help_Bar.fng------------------
+debugstr	50D510	0051C94D	Will be unloaded [UI_PC_Help_Bar.fng]
+debugstr	50D510	0051BA85	Un-Activate!!! 37a5110 37e7de0
+debugstr	50D510	0051BA9D	Deleting package [UI_PC_Help_Bar.fng]
+debugstr	50D510	0051C977	package[UI_PC_Help_Bar.fng] will unload
+debugstr	50D510	005440D5	IconScrollerMenu : EXIT/INIT_COMPLETE called on me (0xe1fde1d1).
+debugstr	50D510	0052FBD7	IconScrollerMenu : StartInput (UI_PerformanceDyno_MAIN.fng, 37e23e0).  Mask (0) to (255).
+debugstr	50D510	00544133	IconScrollerMenu : Switch/Pop/Direct Pop called on me (0x5eca113d).
+debugstr	50D510	0051CBDF	SwitchFEngPackages from UI_PerformanceDyno_MAIN.fng to UI_PerformanceTuning_Master.fng
+debugstr	50D510	0051C930	Will unload -----------UI_PerformanceDyno_MAIN.fng------------------
+debugstr	50D510	0051C94D	Will be unloaded [UI_PerformanceDyno_MAIN.fng]
+debugstr	50D510	0051BA85	Un-Activate!!! 37b59a0 37e23e0
+debugstr	50D510	0051BA9D	Deleting package [UI_PerformanceDyno_MAIN.fng]
+debugstr	50D510	0051C977	package[UI_PerformanceDyno_MAIN.fng] will unload
+debugstr	50D510	0054E4CF	Init Package UI_PerformanceTuning_Master.fng
+debugstr	50D510	0054E4CF	Init Package UI_PC_Help_Bar.fng
+debugstr	50D510	0050C666	Joy Event: FEPad_Accept[0]
+debugstr	50D510	0050C666	Joy Event: FEPad_Accept[0]
+debugstr	50D510	0050C666	Joy Event: FEPad_Accept[1]
+debugstr	50D510	0050C666	Joy Event: FEPad_Accept[1]
+debugstr	50D510	0054E4CF	Init Package UI_PerformanceTuning_Sliders.fng
+debugstr	50D510	0050C666	Joy Event: FEPad_Accept[0]
+debugstr	50D510	0050C666	Joy Event: FEPad_Accept[0]
+debugstr	50D510	0050C666	Joy Event: FEPad_Back[1]
+debugstr	50D510	0050C666	Joy Event: FEPad_Back[1]
+debugstr	50D510	0050C666	Joy Event: FEPad_Back[0]
+debugstr	50D510	0050C666	Joy Event: FEPad_Back[0]
+debugstr	50D510	0053760A	Direct Pop---------------------UI_PerformanceTuning_Sliders.fng------------------
+debugstr	50D510	0051C930	Will unload -----------UI_PerformanceTuning_Sliders.fng------------------
+debugstr	50D510	0051C94D	Will be unloaded [UI_PerformanceTuning_Sliders.fng]
+debugstr	50D510	0051BA85	Un-Activate!!! 37b5880 37e0190
+debugstr	50D510	0051BA9D	Deleting package [UI_PerformanceTuning_Sliders.fng]
+debugstr	50D510	0051C977	package[UI_PerformanceTuning_Sliders.fng] will unload
+debugstr	50D510	0050C666	Joy Event: FEPad_Back[1]
+debugstr	50D510	0050C666	Joy Event: FEPad_Back[1]
+debugstr	50D510	0052FC17	IconScrollerMenu : StopInput (UI_PerformanceTuning_Master.fng, 37ca4f0).  Mask (255) to (0).
+debugstr	50D510	0053760A	Direct Pop---------------------UI_PC_Help_Bar.fng------------------
+debugstr	50D510	0051C930	Will unload -----------UI_PC_Help_Bar.fng------------------
+debugstr	50D510	0051C94D	Will be unloaded [UI_PC_Help_Bar.fng]
+debugstr	50D510	0051BA85	Un-Activate!!! 37a5110 37c98a0
+debugstr	50D510	0051BA9D	Deleting package [UI_PC_Help_Bar.fng]
+debugstr	50D510	0051C977	package[UI_PC_Help_Bar.fng] will unload
+debugstr	50D510	005440D5	IconScrollerMenu : EXIT/INIT_COMPLETE called on me (0xe1fde1d1).
+debugstr	50D510	0052FBD7	IconScrollerMenu : StartInput (UI_PerformanceTuning_Master.fng, 37ca4f0).  Mask (0) to (255).
+debugstr	50D510	00544133	IconScrollerMenu : Switch/Pop/Direct Pop called on me (0x5eca113d).
+debugstr	50D510	0051CBDF	SwitchFEngPackages from UI_PerformanceTuning_Master.fng to UI_PerformanceDyno_MAIN.fng
+debugstr	50D510	0051C930	Will unload -----------UI_PerformanceTuning_Master.fng------------------
+debugstr	50D510	0051C94D	Will be unloaded [UI_PerformanceTuning_Master.fng]
+debugstr	50D510	0051BA85	Un-Activate!!! 37b5940 37ca4f0
+debugstr	50D510	0051BA9D	Deleting package [UI_PerformanceTuning_Master.fng]
+debugstr	50D510	0051C977	package[UI_PerformanceTuning_Master.fng] will unload
+debugstr	50D510	0054E4CF	Init Package UI_PerformanceDyno_MAIN.fng
+debugstr	50D510	0054E4CF	Init Package UI_PC_Help_Bar.fng
+debugstr	50D510	0050C666	Joy Event: FEPad_Back[0]
+debugstr	50D510	0050C666	Joy Event: FEPad_Back[0]
+debugstr	50D510	0050C666	Joy Event: FEPad_Back[1]
+debugstr	50D510	0050C666	Joy Event: FEPad_Back[1]
+debugstr	50D510	0050C666	Joy Event: FEPad_Back[0]
+debugstr	50D510	0050C666	Joy Event: FEPad_Back[0]
+debugstr	50D510	0050C666	Joy Event: FEPad_Back[1]
+debugstr	50D510	0050C666	Joy Event: FEPad_Back[1]
+debugstr	50D510	0050C666	Joy Event: FEPad_Back[0]
+debugstr	50D510	0050C666	Joy Event: FEPad_Back[0]
+debugstr	50D510	0050C666	Joy Event: FEPad_Back[1]
+debugstr	50D510	0050C666	Joy Event: FEPad_Back[1]
+debugstr	50D510	0050C666	Joy Event: FEPad_Back[0]
+debugstr	50D510	0050C666	Joy Event: FEPad_Back[0]
+debugstr	50D510	0050C666	Joy Event: FEPad_Right[1]
+debugstr	50D510	0050C666	Joy Event: FEPad_Right[1]
+debugstr	50D510	0050C666	Joy Event: FEPad_Right[0]
+debugstr	50D510	0050C666	Joy Event: FEPad_Right[0]
+debugstr	50D510	0050C666	Joy Event: FEPad_Right[1]
+debugstr	50D510	0050C666	Joy Event: FEPad_Right[1]
+debugstr	50D510	0050C666	Joy Event: FEPad_Right[0]
+debugstr	50D510	0050C666	Joy Event: FEPad_Right[0]
+debugstr	50D510	0050C666	Joy Event: FEPad_Accept[1]
+debugstr	50D510	0050C666	Joy Event: FEPad_Accept[1]
+debugstr	50D510	0055802E	DIALOG :: --------- ShowDialog -----------
+debugstr	50D510	0055803D	DIALOG :: |_ Are you sure you want to quit tuning?
+debugstr	50D510	00558282	DIALOG :: Success : Control mask = 255, Handle = 15
+debugstr	50D510	0055828C	DIALOG :: --------- ShowDialog Finished -----------
+debugstr	50D510	00538C0E	IconScrollerMenu : StartDim.
+debugstr	50D510	0053760A	Direct Pop---------------------UI_PC_Help_Bar.fng------------------
+debugstr	50D510	0051C930	Will unload -----------UI_PC_Help_Bar.fng------------------
+debugstr	50D510	0051C94D	Will be unloaded [UI_PC_Help_Bar.fng]
+debugstr	50D510	0051BA85	Un-Activate!!! 37a5110 37f6de0
+debugstr	50D510	0051BA9D	Deleting package [UI_PC_Help_Bar.fng]
+debugstr	50D510	0051C977	package[UI_PC_Help_Bar.fng] will unload
+debugstr	50D510	0054E4CF	Init Package GenericDialog_SMALL.fng
+debugstr	50D510	0055420B	DIALOG :: Constructor
+debugstr	50D510	005440D5	IconScrollerMenu : EXIT/INIT_COMPLETE called on me (0xe1fde1d1).
+debugstr	50D510	0050C666	Joy Event: FEPad_Accept[0]
+debugstr	50D510	0050C666	Joy Event: FEPad_Accept[0]
+debugstr	50D510	0050C666	Joy Event: FEPad_Left[1]
+debugstr	50D510	0050C666	Joy Event: FEPad_Left[1]
+debugstr	50D510	0050C666	Joy Event: FEPad_Left[0]
+debugstr	50D510	0050C666	Joy Event: FEPad_Left[0]
+debugstr	50D510	0050C666	Joy Event: FEPad_Accept[1]
+debugstr	50D510	0050C666	Joy Event: FEPad_Accept[1]
+debugstr	50D510	0054C28D	DIALOG :: Button 1 Pressed, msg = 820847464
+debugstr	50D510	0054C10A	DIALOG :: Tick, ReturnWithMessage Set, Dismissing: [GenericDialog_SMALL.fng] [30ed2368]
+debugstr	50D510	00540A75	DIALOG :: DismissDialog.  Handle(15).  Current handle(15)
+debugstr	50D510	00540A8B	DIALOG ::  |_ Found, popping.
+debugstr	50D510	0051CC3A	Queue popping GenericDialog_SMALL.fng
+debugstr	50D510	0051C930	Will unload -----------GenericDialog_SMALL.fng------------------
+debugstr	50D510	0051C94D	Will be unloaded [GenericDialog_SMALL.fng]
+debugstr	50D510	00551225	DIALOG :: Closing, sending message (30ed2368) to (UI_PerformanceDyno_MAIN.fng).
+debugstr	50D510	0051CE05	Send message[30ed2368] to package [UI_PerformanceDyno_MAIN.fng]
+debugstr	50D510	0051CE39	Message was queued
+debugstr	50D510	0051BA85	Un-Activate!!! 37a52f0 37ca540
+debugstr	50D510	0051BA9D	Deleting package [GenericDialog_SMALL.fng]
+debugstr	50D510	0051C977	package[GenericDialog_SMALL.fng] will unload
+debugstr	50D510	0055802E	DIALOG :: --------- ShowDialog -----------
+debugstr	50D510	0055803D	DIALOG :: |_ One of your custom-tuned setups has changed. Would you like to save your profile now?
+debugstr	50D510	00558282	DIALOG :: Success : Control mask = 255, Handle = 16
+debugstr	50D510	0055828C	DIALOG :: --------- ShowDialog Finished -----------
+debugstr	50D510	00538C0E	IconScrollerMenu : StartDim.
+debugstr	50D510	0054E4CF	Init Package GenericDialog_MED.fng
+debugstr	50D510	0055420B	DIALOG :: Constructor
+debugstr	50D510	0050C666	Joy Event: FEPad_Accept[0]
+debugstr	50D510	0050C666	Joy Event: FEPad_Accept[0]
+debugstr	50D510	0050C666	Joy Event: FEPad_Accept[1]
+debugstr	50D510	0050C666	Joy Event: FEPad_Accept[1]
+debugstr	50D510	0054C24B	DIALOG :: Button 2 pressed, msg = 531323288
+debugstr	50D510	0054C10A	DIALOG :: Tick, ReturnWithMessage Set, Dismissing: [GenericDialog_MED.fng] [1fab5998]
+debugstr	50D510	00540A75	DIALOG :: DismissDialog.  Handle(16).  Current handle(16)
+debugstr	50D510	00540A8B	DIALOG ::  |_ Found, popping.
+debugstr	50D510	0051CC3A	Queue popping GenericDialog_MED.fng
+debugstr	50D510	0051C930	Will unload -----------GenericDialog_MED.fng------------------
+debugstr	50D510	0051C94D	Will be unloaded [GenericDialog_MED.fng]
+debugstr	50D510	00551225	DIALOG :: Closing, sending message (1fab5998) to (UI_PerformanceDyno_MAIN.fng).
+debugstr	50D510	0051CE05	Send message[1fab5998] to package [UI_PerformanceDyno_MAIN.fng]
+debugstr	50D510	0051CE39	Message was queued
+debugstr	50D510	0051BA85	Un-Activate!!! 37a5350 37ca540
+debugstr	50D510	0051BA9D	Deleting package [GenericDialog_MED.fng]
+debugstr	50D510	0051C977	package[GenericDialog_MED.fng] will unload
+debugstr	50D510	00544133	IconScrollerMenu : Switch/Pop/Direct Pop called on me (0xd9ca113d).
+debugstr	50D510	0053760A	Direct Pop---------------------UI_PerformanceDyno_MAIN.fng------------------
+debugstr	50D510	0051C930	Will unload -----------UI_PerformanceDyno_MAIN.fng------------------
+debugstr	50D510	0051C94D	Will be unloaded [UI_PerformanceDyno_MAIN.fng]
+debugstr	50D510	0051BA85	Un-Activate!!! 37b59a0 37f5ec0
+debugstr	50D510	0051BA9D	Deleting package [UI_PerformanceDyno_MAIN.fng]
+debugstr	50D510	0051C977	package[UI_PerformanceDyno_MAIN.fng] will unload
+debugstr	50D510	0053760A	Direct Pop---------------------HUD_SingleRace.fng------------------
+debugstr	50D510	0051C930	Will unload -----------HUD_SingleRace.fng------------------
+debugstr	50D510	0051C94D	Will be unloaded [HUD_SingleRace.fng]
+debugstr	50D510	0051BA85	Un-Activate!!! 37b5220 37ac270
+debugstr	50D510	0051BA9D	Deleting package [HUD_SingleRace.fng]
+debugstr	50D510	0051C977	package[HUD_SingleRace.fng] will unload
+debugstr	50D510	0054253D	UNLOADER!!!
+debugstr	50D510	00542569	UNLOAD PACKAGE(a435e5cc)
+debugstr	50D510	00542352	Calling close ...37b51c0 0
+debugstr	50D510	00542597	Done the unload
+debugstr	50D510	0054253D	UNLOADER!!!
+debugstr	50D510	00542569	UNLOAD PACKAGE(eb1f7e5)
+debugstr	50D510	00542352	Calling close ...37b5220 0
+debugstr	50D510	00542597	Done the unload
+debugstr	50D510	0054253D	UNLOADER!!!
+debugstr	50D510	00542569	UNLOAD PACKAGE(2e5d8b8)
+debugstr	50D510	00542352	Calling close ...37b5280 0
+debugstr	50D510	00542597	Done the unload
+debugstr	50D510	0054253D	UNLOADER!!!
+debugstr	50D510	00542569	UNLOAD PACKAGE(a78253cc)
+debugstr	50D510	00542352	Calling close ...37b52e0 0
+debugstr	50D510	00542597	Done the unload
+debugstr	50D510	0054253D	UNLOADER!!!
+debugstr	50D510	00542569	UNLOAD PACKAGE(59e6c7e6)
+debugstr	50D510	00542352	Calling close ...37b5340 0
+debugstr	50D510	00542597	Done the unload
+debugstr	50D510	0054253D	UNLOADER!!!
+debugstr	50D510	00542569	UNLOAD PACKAGE(c1e9fad5)
+debugstr	50D510	00542352	Calling close ...37b53a0 0
+debugstr	50D510	00542597	Done the unload
+debugstr	50D510	0054253D	UNLOADER!!!
+debugstr	50D510	00542569	UNLOAD PACKAGE(4d927bd6)
+debugstr	50D510	00542352	Calling close ...37b5400 0
+debugstr	50D510	00542597	Done the unload
+debugstr	50D510	0054253D	UNLOADER!!!
+debugstr	50D510	00542569	UNLOAD PACKAGE(3e30e4ad)
+debugstr	50D510	00542352	Calling close ...37b5460 0
+debugstr	50D510	00542597	Done the unload
+debugstr	50D510	0054253D	UNLOADER!!!
+debugstr	50D510	00542569	UNLOAD PACKAGE(be1596cb)
+debugstr	50D510	00542352	Calling close ...37b54c0 0
+debugstr	50D510	00542597	Done the unload
+debugstr	50D510	0054253D	UNLOADER!!!
+debugstr	50D510	00542569	UNLOAD PACKAGE(53a5e008)
+debugstr	50D510	00542352	Calling close ...37b5520 0
+debugstr	50D510	00542597	Done the unload
+debugstr	50D510	0054253D	UNLOADER!!!
+debugstr	50D510	00542569	UNLOAD PACKAGE(8f1791cf)
+debugstr	50D510	00542352	Calling close ...37b5580 0
+debugstr	50D510	00542597	Done the unload
+debugstr	50D510	0054253D	UNLOADER!!!
+debugstr	50D510	00542569	UNLOAD PACKAGE(7e00abf8)
+debugstr	50D510	00542352	Calling close ...37b55e0 0
+debugstr	50D510	00542597	Done the unload
+debugstr	50D510	0054253D	UNLOADER!!!
+debugstr	50D510	00542569	UNLOAD PACKAGE(e950e970)
+debugstr	50D510	00542352	Calling close ...37b5640 0
+debugstr	50D510	00542597	Done the unload
+debugstr	50D510	0054253D	UNLOADER!!!
+debugstr	50D510	00542569	UNLOAD PACKAGE(1994cbc2)
+debugstr	50D510	00542352	Calling close ...37b56a0 0
+debugstr	50D510	00542597	Done the unload
+debugstr	50D510	0054253D	UNLOADER!!!
+debugstr	50D510	00542569	UNLOAD PACKAGE(c20a5cc2)
+debugstr	50D510	00542352	Calling close ...37b5700 0
+debugstr	50D510	00542597	Done the unload
+debugstr	50D510	0054253D	UNLOADER!!!
+debugstr	50D510	00542569	UNLOAD PACKAGE(c13155bb)
+debugstr	50D510	00542352	Calling close ...37b5760 0
+debugstr	50D510	00542597	Done the unload
+debugstr	50D510	0054253D	UNLOADER!!!
+debugstr	50D510	00542569	UNLOAD PACKAGE(e0bcc869)
+debugstr	50D510	00542352	Calling close ...37b57c0 0
+debugstr	50D510	00542597	Done the unload
+debugstr	50D510	0054253D	UNLOADER!!!
+debugstr	50D510	00542569	UNLOAD PACKAGE(738fe043)
+debugstr	50D510	00542352	Calling close ...37b5820 0
+debugstr	50D510	00542597	Done the unload
+debugstr	50D510	0054253D	UNLOADER!!!
+debugstr	50D510	00542569	UNLOAD PACKAGE(dd56cc1)
+debugstr	50D510	00542352	Calling close ...37b5880 0
+debugstr	50D510	00542597	Done the unload
+debugstr	50D510	0054253D	UNLOADER!!!
+debugstr	50D510	00542569	UNLOAD PACKAGE(4e05e2dd)
+debugstr	50D510	00542352	Calling close ...37b58e0 0
+debugstr	50D510	00542597	Done the unload
+debugstr	50D510	0054253D	UNLOADER!!!
+debugstr	50D510	00542569	UNLOAD PACKAGE(36c6bd57)
+debugstr	50D510	00542352	Calling close ...37b5940 0
+debugstr	50D510	00542597	Done the unload
+debugstr	50D510	0054253D	UNLOADER!!!
+debugstr	50D510	00542569	UNLOAD PACKAGE(3faa5455)
+debugstr	50D510	00542352	Calling close ...37b59a0 0
+debugstr	50D510	00542597	Done the unload
+debugstr	50D510	0054253D	UNLOADER!!!
+debugstr	50D510	00542569	UNLOAD PACKAGE(26691d4a)
+debugstr	50D510	00542352	Calling close ...37b43b0 0
+debugstr	50D510	00542597	Done the unload
+debugstr	50D510	0054253D	UNLOADER!!!
+debugstr	50D510	00542569	UNLOAD PACKAGE(73f51c74)
+debugstr	50D510	00542352	Calling close ...37b4410 0
+debugstr	50D510	00542597	Done the unload
+debugstr	50D510	0054253D	UNLOADER!!!
+debugstr	50D510	00542569	UNLOAD PACKAGE(aea9078f)
+debugstr	50D510	00542352	Calling close ...37b4470 0
+debugstr	50D510	00542597	Done the unload
+debugstr	50D510	0054253D	UNLOADER!!!
+debugstr	50D510	00542569	UNLOAD PACKAGE(c5040108)
+debugstr	50D510	00542352	Calling close ...37b44d0 0
+debugstr	50D510	00542597	Done the unload
+debugstr	50D510	0054253D	UNLOADER!!!
+debugstr	50D510	00542569	UNLOAD PACKAGE(801e019c)
+debugstr	50D510	00542352	Calling close ...37b4530 0
+debugstr	50D510	00542597	Done the unload
+debugstr	50D510	0054253D	UNLOADER!!!
+debugstr	50D510	00542569	UNLOAD PACKAGE(9f0d0d93)
+debugstr	50D510	00542352	Calling close ...37b4590 0
+debugstr	50D510	00542597	Done the unload
+debugstr	50D510	0054253D	UNLOADER!!!
+debugstr	50D510	00542569	UNLOAD PACKAGE(6a4d7065)
+debugstr	50D510	00542352	Calling close ...37b45f0 0
+debugstr	50D510	00542597	Done the unload
+debugstr	50D510	0054253D	UNLOADER!!!
+debugstr	50D510	00542569	UNLOAD PACKAGE(ffe06cda)
+debugstr	50D510	00542352	Calling close ...37b4650 0
+debugstr	50D510	00542597	Done the unload
+debugstr	50D510	0054253D	UNLOADER!!!
+debugstr	50D510	00542569	UNLOAD PACKAGE(83366ea3)
+debugstr	50D510	00542352	Calling close ...37b46b0 0
+debugstr	50D510	00542597	Done the unload
+debugstr	50D510	0054253D	UNLOADER!!!
+debugstr	50D510	00542569	UNLOAD PACKAGE(c6be90ad)
+debugstr	50D510	00542352	Calling close ...37b4710 0
+debugstr	50D510	00542597	Done the unload
+debugstr	50D510	0054253D	UNLOADER!!!
+debugstr	50D510	00542569	UNLOAD PACKAGE(40b784f6)
+debugstr	50D510	00542352	Calling close ...37b4770 0
+debugstr	50D510	00542597	Done the unload
+debugstr	50D510	0054253D	UNLOADER!!!
+debugstr	50D510	00542569	UNLOAD PACKAGE(5cec041)
+debugstr	50D510	00542352	Calling close ...37b47d0 0
+debugstr	50D510	00542597	Done the unload
+debugstr	50D510	0054253D	UNLOADER!!!
+debugstr	50D510	00542569	UNLOAD PACKAGE(82a9eda3)
+debugstr	50D510	00542352	Calling close ...37b4830 0
+debugstr	50D510	00542597	Done the unload
+debugstr	50D510	0054253D	UNLOADER!!!
+debugstr	50D510	00542569	UNLOAD PACKAGE(d379de77)
+debugstr	50D510	00542352	Calling close ...37b4890 0
+debugstr	50D510	00542597	Done the unload
+debugstr	50D510	0054253D	UNLOADER!!!
+debugstr	50D510	00542569	UNLOAD PACKAGE(17bdba5e)
+debugstr	50D510	00542352	Calling close ...37b48f0 0
+debugstr	50D510	00542597	Done the unload
+debugstr	50D510	0054253D	UNLOADER!!!
+debugstr	50D510	00542569	UNLOAD PACKAGE(c4acc9a5)
+debugstr	50D510	00542352	Calling close ...37b4950 0
+debugstr	50D510	00542597	Done the unload
+debugstr	50D510	0054253D	UNLOADER!!!
+debugstr	50D510	00542569	UNLOAD PACKAGE(207415ed)
+debugstr	50D510	00542352	Calling close ...37b49b0 0
+debugstr	50D510	00542597	Done the unload
+debugstr	50D510	0054253D	UNLOADER!!!
+debugstr	50D510	00542569	UNLOAD PACKAGE(17b0719c)
+debugstr	50D510	00542352	Calling close ...37b4a10 0
+debugstr	50D510	00542597	Done the unload
+debugstr	50D510	0054253D	UNLOADER!!!
+debugstr	50D510	00542569	UNLOAD PACKAGE(7e67096a)
+debugstr	50D510	00542352	Calling close ...37b4a70 0
+debugstr	50D510	00542597	Done the unload
+debugstr	50D510	0054253D	UNLOADER!!!
+debugstr	50D510	00542569	UNLOAD PACKAGE(15be6570)
+debugstr	50D510	00542352	Calling close ...37b4ad0 0
+debugstr	50D510	00542597	Done the unload
+debugstr	50D510	0054253D	UNLOADER!!!
+debugstr	50D510	00542569	UNLOAD PACKAGE(7f0e48fe)
+debugstr	50D510	00542352	Calling close ...37b4b30 0
+debugstr	50D510	00542597	Done the unload
+debugstr	50D510	0054253D	UNLOADER!!!
+debugstr	50D510	00542569	UNLOAD PACKAGE(32124083)
+debugstr	50D510	00542352	Calling close ...37b4b90 0
+debugstr	50D510	00542597	Done the unload
+debugstr	50D510	0054253D	UNLOADER!!!
+debugstr	50D510	00542569	UNLOAD PACKAGE(e712d82e)
+debugstr	50D510	00542352	Calling close ...37b4bf0 0
+debugstr	50D510	00542597	Done the unload
+debugstr	50D510	0054253D	UNLOADER!!!
+debugstr	50D510	00542569	UNLOAD PACKAGE(a5675eb9)
+debugstr	50D510	00542352	Calling close ...37b4c50 0
+debugstr	50D510	00542597	Done the unload
+debugstr	50D510	0054253D	UNLOADER!!!
+debugstr	50D510	00542569	UNLOAD PACKAGE(191a579c)
+debugstr	50D510	00542352	Calling close ...37b4cb0 0
+debugstr	50D510	00542597	Done the unload
+debugstr	50D510	0054253D	UNLOADER!!!
+debugstr	50D510	00542569	UNLOAD PACKAGE(aa469286)
+debugstr	50D510	00542352	Calling close ...37b4d10 0
+debugstr	50D510	00542597	Done the unload
+debugstr	50D510	0054253D	UNLOADER!!!
+debugstr	50D510	00542569	UNLOAD PACKAGE(eda455b3)
+debugstr	50D510	00542352	Calling close ...37b4d70 0
+debugstr	50D510	00542597	Done the unload
+debugstr	50D510	0054E4CF	Init Package PC_Loading.fng
+debugstr	50D510	0052CE0E	Add Joy handler: FEPad_Up
+debugstr	50D510	0052CE0E	Add Joy handler: FEPad_Down
+debugstr	50D510	0052CE0E	Add Joy handler: FEPad_Left
+debugstr	50D510	0052CE0E	Add Joy handler: FEPad_Right
+debugstr	50D510	0052CE0E	Add Joy handler: FEPad_Up
+debugstr	50D510	0052CE0E	Add Joy handler: FEPad_Down
+debugstr	50D510	0052CE0E	Add Joy handler: FEPad_Left
+debugstr	50D510	0052CE0E	Add Joy handler: FEPad_Right
+debugstr	50D510	0052CE0E	Add Joy handler: FEPad_Accept
+debugstr	50D510	0052CE0E	Add Joy handler: FEPad_Accept
+debugstr	50D510	0052CE0E	Add Joy handler: FEPad_Back
+debugstr	50D510	0052CE0E	Add Joy handler: FEPad_Back
+debugstr	50D510	0052CE0E	Add Joy handler: FEPad_Start
+debugstr	50D510	0052CE0E	Add Joy handler: FEPad_Button0
+debugstr	50D510	0052CE0E	Add Joy handler: FEPad_Button1
+debugstr	50D510	0052CE0E	Add Joy handler: FEPad_Button2
+debugstr	50D510	0052CE0E	Add Joy handler: FEPad_Button3
+debugstr	50D510	0052CE0E	Add Joy handler: FEPad_Button4
+debugstr	50D510	0052CE0E	Add Joy handler: FEPad_LeftTrigger
+debugstr	50D510	0052CE0E	Add Joy handler: FEPad_RightTrigger
+debugstr	50D510	0052CE0E	Add Joy handler: FEPad_Button1
+debugstr	50D510	0054E4CF	Init Package UI_PC_Help_Bar.fng
+debugstr	50D510	0050C666	Joy Event: FEPad_Up[0]
+debugstr	50D510	0050C666	Joy Event: FEPad_Down[0]
+debugstr	50D510	0050C666	Joy Event: FEPad_Left[0]
+debugstr	50D510	0050C666	Joy Event: FEPad_Right[0]
+debugstr	50D510	0050C666	Joy Event: FEPad_Accept[1]
+debugstr	50D510	0050C666	Joy Event: FEPad_Accept[0]
+debugstr	50D510	0050C666	Joy Event: FEPad_Back[0]
+debugstr	50D510	0050C666	Joy Event: FEPad_Start[0]
+debugstr	50D510	0050C666	Joy Event: FEPad_Button0[0]
+debugstr	50D510	0050C666	Joy Event: FEPad_Button1[0]
+debugstr	50D510	0050C666	Joy Event: FEPad_Button2[0]
+debugstr	50D510	0050C666	Joy Event: FEPad_Button3[0]
+debugstr	50D510	0050C666	Joy Event: FEPad_LeftTrigger[0]
+debugstr	50D510	0050C666	Joy Event: FEPad_RightTrigger[0]
+debugstr	50D510	0050C666	Joy Event: FEPad_Up[0]
+debugstr	50D510	0050C666	Joy Event: FEPad_Down[0]
+debugstr	50D510	0050C666	Joy Event: FEPad_Left[0]
+debugstr	50D510	0050C666	Joy Event: FEPad_Right[0]
+debugstr	50D510	0050C666	Joy Event: FEPad_Accept[1]
+debugstr	50D510	0050C666	Joy Event: FEPad_Accept[0]
+debugstr	50D510	0050C666	Joy Event: FEPad_Back[0]
+debugstr	50D510	0050C666	Joy Event: FEPad_Start[0]
+debugstr	50D510	0050C666	Joy Event: FEPad_Button0[0]
+debugstr	50D510	0050C666	Joy Event: FEPad_Button1[0]
+debugstr	50D510	0050C666	Joy Event: FEPad_Button2[0]
+debugstr	50D510	0050C666	Joy Event: FEPad_Button3[0]
+debugstr	50D510	0050C666	Joy Event: FEPad_LeftTrigger[0]
+debugstr	50D510	0050C666	Joy Event: FEPad_RightTrigger[0]
+debugstr	50D510	0050C666	Joy Event: FEPad_Accept[0]
+debugstr	50D510	0050C666	Joy Event: FEPad_Accept[0]
+debugstr	50D510	0053760A	Direct Pop---------------------PC_Loading.fng------------------
+debugstr	50D510	0051C930	Will unload -----------PC_Loading.fng------------------
+debugstr	50D510	0051C94D	Will be unloaded [PC_Loading.fng]
+debugstr	50D510	0051BA85	Un-Activate!!! 37a5170 3787010
+debugstr	50D510	0051BA9D	Deleting package [PC_Loading.fng]
+debugstr	50D510	0051C977	package[PC_Loading.fng] will unload
+debugstr	50D510	0054E4CF	Init Package UI_ChooseCustomizeCategory.fng
+debugstr	50D510	0054E4CF	Init Package GarageMain.fng
+debugstr	50D510	0052CE0E	Add Joy handler: FEPad_Up
+debugstr	50D510	0052CE0E	Add Joy handler: FEPad_Down
+debugstr	50D510	0052CE0E	Add Joy handler: FEPad_Left
+debugstr	50D510	0052CE0E	Add Joy handler: FEPad_Right
+debugstr	50D510	0052CE0E	Add Joy handler: FEPad_Up
+debugstr	50D510	0052CE0E	Add Joy handler: FEPad_Down
+debugstr	50D510	0052CE0E	Add Joy handler: FEPad_Left
+debugstr	50D510	0052CE0E	Add Joy handler: FEPad_Right
+debugstr	50D510	0052CE0E	Add Joy handler: FEPad_Accept
+debugstr	50D510	0052CE0E	Add Joy handler: FEPad_Accept
+debugstr	50D510	0052CE0E	Add Joy handler: FEPad_Back
+debugstr	50D510	0052CE0E	Add Joy handler: FEPad_Back
+debugstr	50D510	0052CE0E	Add Joy handler: FEPad_Start
+debugstr	50D510	0052CE0E	Add Joy handler: FEPad_Button0
+debugstr	50D510	0052CE0E	Add Joy handler: FEPad_Button1
+debugstr	50D510	0052CE0E	Add Joy handler: FEPad_Button2
+debugstr	50D510	0052CE0E	Add Joy handler: FEPad_Button3
+debugstr	50D510	0052CE0E	Add Joy handler: FEPad_Button4
+debugstr	50D510	0052CE0E	Add Joy handler: FEPad_LeftTrigger
+debugstr	50D510	0052CE0E	Add Joy handler: FEPad_RightTrigger
+debugstr	50D510	0052CE0E	Add Joy handler: FEPad_Button1
+debugstr	50D510	0050C666	Joy Event: FEPad_Up[0]
+debugstr	50D510	0050C666	Joy Event: FEPad_Down[0]
+debugstr	50D510	0050C666	Joy Event: FEPad_Left[0]
+debugstr	50D510	0050C666	Joy Event: FEPad_Right[0]
+debugstr	50D510	0050C666	Joy Event: FEPad_Accept[0]
+debugstr	50D510	0050C666	Joy Event: FEPad_Accept[0]
+debugstr	50D510	0050C666	Joy Event: FEPad_Back[0]
+debugstr	50D510	0050C666	Joy Event: FEPad_Start[0]
+debugstr	50D510	0050C666	Joy Event: FEPad_Button0[0]
+debugstr	50D510	0050C666	Joy Event: FEPad_Button1[0]
+debugstr	50D510	0050C666	Joy Event: FEPad_Button2[0]
+debugstr	50D510	0050C666	Joy Event: FEPad_Button3[0]
+debugstr	50D510	0050C666	Joy Event: FEPad_LeftTrigger[0]
+debugstr	50D510	0050C666	Joy Event: FEPad_RightTrigger[0]
+debugstr	50D510	0050C666	Joy Event: FEPad_Up[0]
+debugstr	50D510	0050C666	Joy Event: FEPad_Down[0]
+debugstr	50D510	0050C666	Joy Event: FEPad_Left[0]
+debugstr	50D510	0050C666	Joy Event: FEPad_Right[0]
+debugstr	50D510	0050C666	Joy Event: FEPad_Accept[0]
+debugstr	50D510	0050C666	Joy Event: FEPad_Accept[0]
+debugstr	50D510	0050C666	Joy Event: FEPad_Back[0]
+debugstr	50D510	0050C666	Joy Event: FEPad_Start[0]
+debugstr	50D510	0050C666	Joy Event: FEPad_Button0[0]
+debugstr	50D510	0050C666	Joy Event: FEPad_Button1[0]
+debugstr	50D510	0050C666	Joy Event: FEPad_Button2[0]
+debugstr	50D510	0050C666	Joy Event: FEPad_Button3[0]
+debugstr	50D510	0050C666	Joy Event: FEPad_LeftTrigger[0]
+debugstr	50D510	0050C666	Joy Event: FEPad_RightTrigger[0]
+debugstr	50D510	0054E4CF	Init Package Chyron_FE.fng
+debugstr	50D510	0055802E	DIALOG :: --------- ShowDialog -----------
+debugstr	50D510	0055803D	DIALOG :: |_ Are you sure you want to quit?
+debugstr	50D510	00558282	DIALOG :: Success : Control mask = 255, Handle = 17
+debugstr	50D510	0055828C	DIALOG :: --------- ShowDialog Finished -----------
+debugstr	50D510	0054E4CF	Init Package GenericDialog_SMALL.fng
+debugstr	50D510	0055420B	DIALOG :: Constructor
+debugstr	50D510	0054C28D	DIALOG :: Button 1 Pressed, msg = -1852105255
+debugstr	50D510	0054C10A	DIALOG :: Tick, ReturnWithMessage Set, Dismissing: [GenericDialog_SMALL.fng] [919b1dd9]
+debugstr	50D510	00540A75	DIALOG :: DismissDialog.  Handle(17).  Current handle(17)
+debugstr	50D510	00540A8B	DIALOG ::  |_ Found, popping.
+debugstr	50D510	0051CC3A	Queue popping GenericDialog_SMALL.fng
+debugstr	50D510	0051C930	Will unload -----------GenericDialog_SMALL.fng------------------
+debugstr	50D510	0051C94D	Will be unloaded [GenericDialog_SMALL.fng]
+debugstr	50D510	00551225	DIALOG :: Closing, sending message (919b1dd9) to (UI_PC_Help_Bar.fng).
+debugstr	50D510	0051CE05	Send message[919b1dd9] to package [UI_PC_Help_Bar.fng]
+debugstr	50D510	0051CE39	Message was queued
+debugstr	50D510	0051BA85	Un-Activate!!! 37a52f0 37b4190
+debugstr	50D510	0051BA9D	Deleting package [GenericDialog_SMALL.fng]
+debugstr	50D510	0051C977	package[GenericDialog_SMALL.fng] will unload
