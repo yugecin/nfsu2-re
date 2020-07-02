@@ -7,11 +7,17 @@ body {
 	font-family: Arial,Tahoma,sans-serif;
 }
 table td {
-	padding: 1em;
-}
-/*for all tablecells except in main table*/
-table table td {
 	padding: .4em;
+}
+body > div {
+	padding: 1em;
+	border: 1px solid #efefef;
+	outline: 1px solid #d0d0d0;
+	max-width: 60em;
+	margin: auto;
+}
+body > div + div {
+	margin-top: 1em;
 }
 .center {
 	text-align: center;
@@ -54,23 +60,21 @@ h2 a, h3 a {
 </style>
 </head>
 <body>
-<!-- using tables for layout COME AT ME BRUH -->
-<table border="1" bordercolor="#EFEFEF" style="margin:auto;max-width:55em">
-	<tr style="background:#ABABAB"><td>
+	<div style="background:#ABABAB">
 		<h1>nfsu2-re</h1>
-	</td></tr>
-	<tr><td>
+	</div>
+	<div>
 		<h2 id="prologue">Prologue</h2>
 		<p>
 			This is just me documenting while I have fun attempting to reverse-engineer the game
-			Need For Speed Underground 2, or nfsu2.
+			Need For Speed Underground 2, otherwise knows as nfsu2.
 		</p>
 		<p>
 			This normally belongs to
 			<a href="https://github.com/yugecin/nfsu2-re">https://github.com/yugecin/nfsu2-re</a>
 		</p>
-	</td></tr>
-	<tr><td>
+	</div>
+	<div>
 		<h2 id="index">Index</h2>
 		<ul>
 			<li><a href="#prologue">Prologue</a></li>
@@ -98,9 +102,15 @@ h2 a, h3 a {
 				</ul>
 			</li>
 			<li><a href="#debugprint">Debug print</a></li>
+			<li>
+				<a href="#ui">UI</a>
+				<ul>
+					<li><a href="#ui_dialog">Dialogs</a></li>
+				</ul>
+			</li>
 		</ul>
-	</td></tr>
-	<tr><td>
+	</div>
+	<div>
 		<h2 id="injectedcode">Injected code <a href="#injectedcode">#</a></h2>
 		<p>
 			The code for all injected things I did can be found in <code>nfsu2-re-hooks/main.c</code>.
@@ -111,8 +121,8 @@ h2 a, h3 a {
 			in the game folder, name it <code>dinput8.dll</code>).
 		</p>
 		<p><a href="#index">Index</a></p>
-	</td></tr>
-	<tr><td>
+	</div>
+	<div>
 		<h2 id="registry">Registry <a href="#registry">#</a></h2>
 		<p>
 			Many values (mainly display settings are loaded/saved in procs: (TODO check the XREFs on these)
@@ -304,47 +314,47 @@ if (RegOpenKeyExA(HKEY_LOCAL_MACHINE, "Software\\E...2\\er", 0, KEY_READ, &amp;k
 }
 RegCloseKey(&amp;key);
 // buf_86FF8C is only used at sub_588770, 0x58887A, TODO!</pre>
-	<p>
-		Then it loads more stuff from the normal key:
-	</p>
-	<p>
-		<code>Install Dir</code> is read. If set, passed to (winapi) <code>GetLongPathNameA</code>,
-		and if that succeeds, the value is copied to buffer at <code>0x86E9B4</code>. There are no
-		XREFs, so it's unused?
-	</p>
-	<p>
-		<code>CD Drive</code> is read. If set, passed to (winapi) <code>GetLongPathNameA</code>,
-		passed to (winapi) <code>GetLastError</code> and if that succeeds, the value is copied to
-		buffer at <code>86E8B0</code>. That one is used, TODO.
-	</p>
-	<p>
-		<code>NotFirstTime</code> is read. If set, DWORD at <code>0x870D20</code> gets set to 1,
-		otherwise 0. It doesn't check the value in the register key. Then 1 is written to the
-		register key. TODO this is used in one place.
-	</p>
-	<p>
-		<code>CacheSize</code> is read. If set, proc at <code>0x75D65B</code> is called with the
-		value. TODO what is this? proc has plenty XREFs and is just a jmp to another proc that
-		has even more XREFs.
-	</p>
-	<p>
-		<code>SwapSize</code> is read. If set, proc at <code>0x75D65B</code> is called with the
-		value. TODO what is this? proc has plenty XREFs and is just a jmp to another proc that
-		has even more XREFs.
-	</p>
-	<p>
-		<code>Language</code> is read. Then it does something with looping through a language.
-		This took some deciphering but I found out that there is some struct with language
-		information and associated data. See <a href="#language_metadata">Language metadata</a>.
-	</p>
-	<p>
-		<code>StreamingInstall</code> is read. This one seems weird, as it seems like it passes
-		the value and the offset to a random location in the code segment to a proc that looks
-		like a strcmp function? TODO.
-	</p>
+		<p>
+			Then it loads more stuff from the normal key:
+		</p>
+		<p>
+			<code>Install Dir</code> is read. If set, passed to (winapi) <code>GetLongPathNameA</code>,
+			and if that succeeds, the value is copied to buffer at <code>0x86E9B4</code>. There are no
+			XREFs, so it's unused?
+		</p>
+		<p>
+			<code>CD Drive</code> is read. If set, passed to (winapi) <code>GetLongPathNameA</code>,
+			passed to (winapi) <code>GetLastError</code> and if that succeeds, the value is copied to
+			buffer at <code>86E8B0</code>. That one is used, TODO.
+		</p>
+		<p>
+			<code>NotFirstTime</code> is read. If set, DWORD at <code>0x870D20</code> gets set to 1,
+			otherwise 0. It doesn't check the value in the register key. Then 1 is written to the
+			register key. TODO this is used in one place.
+		</p>
+		<p>
+			<code>CacheSize</code> is read. If set, proc at <code>0x75D65B</code> is called with the
+			value. TODO what is this? proc has plenty XREFs and is just a jmp to another proc that
+			has even more XREFs.
+		</p>
+		<p>
+			<code>SwapSize</code> is read. If set, proc at <code>0x75D65B</code> is called with the
+			value. TODO what is this? proc has plenty XREFs and is just a jmp to another proc that
+			has even more XREFs.
+		</p>
+		<p>
+			<code>Language</code> is read. Then it does something with looping through a language.
+			This took some deciphering but I found out that there is some struct with language
+			information and associated data. See <a href="#language_metadata">Language metadata</a>.
+		</p>
+		<p>
+			<code>StreamingInstall</code> is read. This one seems weird, as it seems like it passes
+			the value and the offset to a random location in the code segment to a proc that looks
+			like a strcmp function? TODO.
+		</p>
 		<p><a href="#index">Index</a></p>
-	</td></tr>
-	<tr><td>
+	</div>
+	<div>
 		<h2 id="language">Language <a href="#language">#</a></h2>
 		<p>
 			There seems to be no way to change the language, except for changing the value
@@ -356,20 +366,16 @@ RegCloseKey(&amp;key);
 		<p>
 			Thanks to code where it reads the Registry, I found following data:
 		</p>
-		<h3 id="language_files">Language files <a href="#language_files">#</a></h3>
-		<p>
-			Files
-		</p>
-	<pre>
+		<pre>
 struct LanguageData {
 	char *pName;
 	int val1; //??
 	int val2; //??
 };</pre>
-	<p>
-		Data can be found at <code>0x7FCA08</code>:
-	</p>
-	<pre>
+		<p>
+			Data can be found at <code>0x7FCA08</code>:
+		</p>
+		<pre>
 struct LanguageData languageData[] = {
 /*0x7FCA08*/ { "English US",		0,	0 },
 /*0x7FCA14*/ { "English UK",		0,	5 },
@@ -391,18 +397,23 @@ struct LanguageData languageData[] = {
 
 		</p>
 		<p>
-			Whatever language is loaded, its <code>val1</code> gets stored in
-			<code>0x7FCA00</code> (TODO), or 0 when the name stored in the registry
-			didn't match any names.
+			The value stored in the registry for <code>Language</code> is checked against
+			all language strings in the above data. The matching language's
+			<code>val1</code> gets stored in <code>0x7FCA00</code> (TODO), or 0 when the
+			name stored in the registry didn't match any names.
 		</p>
 		<p><strong>00512520 LoadLanguageAtBoot TODO</strong></p>
 		<p><strong>07983D0 aLanguageselect db 'LanguageSelectScreen',0 TODO</strong></p>
+		<h3 id="language_files">Language files <a href="#language_files">#</a></h3>
+		<p>
+			Files
+		</p>
 		<p><a href="#index">Index</a></p>
-	</td></tr>
-	<tr><td>
+	</div>
+	<div>
 		<h2 id="displaysettings">Display settings <a href="#displaysettings">#</a></h2>
 		<p>
-			TODO. I was writing thing when I got distracted by the language stuff.
+			TODO. I was writing this when I got distracted by the language stuff.
 		</p>
 		<hr/>
 		<h3 id="displaysettingstodo">Todo <a href="#displaysettingstodo">#</a></h3>
@@ -415,8 +426,8 @@ struct LanguageData languageData[] = {
 			<li><code>0x5BE1C0 GetWorldDetailClampBetween0And2</code>: 1 XREF</li>
 		</ul>
 		<p><a href="#index">Index</a></p>
-	</td></tr>
-	<tr><td>
+	</div>
+	<div>
 		<h2 id="consoleleftover">Console leftovers <a href="#consoleleftover">#</a></h2>
 		<p>
 			<em>Note: console as in somewhere you type in, not a videogame console</em>
@@ -502,7 +513,7 @@ int ConsoleIsCharOneOfTheseHardcodedValues(unsigned char value)
 	};
 	int i;
 
-	for (i = 0; i < 55; i++) {
+	for (i = 0; i &lt; 55; i++) {
 		if (values[i] == value) {
 			return 1;
 		}
@@ -694,8 +705,8 @@ int ConsoleIsCharOneOfTheseHardcodedValues(unsigned char value)
 			<code>nfsu2-re-hooks/main.c</code> to see how I did this, the code to replace cars is in comments.
 		</p>
 		<p><a href="#index">Index</a></p>
-	</td></tr>
-	<tr><td>
+	</div>
+	<div>
 		<h2 id="debugprint">Debug print <a href="#debugprint">#</a></h2>
 		<p>
 			While scrolling through the data segment, I found these interesting strings:
@@ -768,7 +779,36 @@ package[GenericDialog_SMALL.fng] will unload</pre>
 			FEng/fng packages (I'm guessing those are ui resources/designs?).
 		</p>
 		<p><a href="#index">Index</a></p>
-	</td></tr>
-</table>
+	</div>
+	<div>
+		<h2 id="ui">UI <a href="#ui">#</a></h2>
+		<p>
+			Names with <code>.FNG</code> seem to be occuring a lot, it seems like that are UI
+			resources or some kind of UI widget descriptors.
+		</p>
+		<p><a href="#index">Index</a></p>
+		<hr/>
+		<h3 id="ui_dialog">Dialogs <a href="#ui_dialog">#</a></h3>
+		<p>
+			Thanks to the <a href="#debugprint">debugprint</a> discovery, my attention got grabbed
+			by something that looked like dialog code. These leftover debug strings helped so much.
+		</p>
+		<p>
+			<code>0x558020 ShowDialog?</code> seems to be the function to show dialogs.
+		</p>
+		<p>
+			One of the first thing <code>ShowDialog</code> does is calling <code>0x526C40</code>,
+			which looks like initializes the dialog maybe? One argument is passed, seemingly the
+			dialog name. But then it checks an int at the passed dialog name +324h. Conclusion:
+			it's passing a struct with dialog info, of which the first member is the name.
+		</p>
+		<p>
+			The value at +324h is a pointer to a string, looks like maybe a type of dialog? In
+			<code>0x526C40</code>, that value in the passed dialog struct is checked and the
+			function only continues if that value is either <code>NULL</code> or equal to
+			<code>animating</code> or <code>3button</code>.
+		</p>
+		<p><a href="#index">Index</a></p>
+	</div>
 </body>
 </html>
