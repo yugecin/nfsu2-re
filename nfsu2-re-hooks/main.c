@@ -19,13 +19,13 @@ static char buf[1024], buf2[1024];
 OPTS
 */
 
-//#define ENABLE_HASH_HOOK_505450
-//#define ENABLE_HASH_HOOK_43DB50
+#define ENABLE_HASH_HOOK_505450
+#define ENABLE_HASH_HOOK_43DB50
 #define HASH_HOOKS_TO_LOGFILE
 /*note: hash hooks can get called A LOT so this may slow down the game*/
 //#define HASH_HOOKS_TO_DEBUGSTRING
 
-#define ENABLE_DEBUGSTRING_50D510
+//#define ENABLE_DEBUGSTRING_50D510
 //#define DEBUGSTRING_TO_LOGFILE
 #define DEBUGSTRING_TO_DEBUGSTRING
 
@@ -36,12 +36,26 @@ OPTS
 #pragma pack(push,1)
 
 struct DialogInfo {
-	char text[0x324];
+	char text[768];
+	int unused300;
+	int unused304;
+	int unused308;
+	int unused30C;
+	int unused310;
+	int unused314;
+	int unused318;
+	int unused31C;
+	int something320; /*read in 5580EB*/
 	char *pTypeName;
-	void *unused_328;
+	int unused_328;
 	char unused_32C;
 	char isHelpDialog;
+	char unused_32E;
+	char something32F; /*set to 0 in 55806D*/
+	int something330; /*set to 0 in 558074*/
+	int unused334;
 };
+EXPECT_SIZE(struct DialogInfo, 0x338);
 ASSERT_OFFSET(struct DialogInfo, pTypeName, 0x324);
 ASSERT_OFFSET(struct DialogInfo, isHelpDialog, 0x32D);
 
@@ -86,6 +100,8 @@ void* do526C40getFNGforDialog(struct DialogInfo *dialog)
 	int tmp;
 	float text_width;
 
+	sprintf(buf, "dialog %p: %s", dialog, dialog->text);
+	OutputDebugString(buf);
 	if (dialog->pTypeName && dialog->pTypeName[0]) {
 		if (strcmp(dialog->pTypeName, "animating") || strcmp(dialog->pTypeName, "3button")) {
 			return dialog->pTypeName;
@@ -147,23 +163,6 @@ nextchar:		{
 		return "GenericDialog_LARGE.fng";
 	} else {
 		return "GenericDialog_Animate_LARGE.fng";
-	}
-}
-
-static
-__declspec(naked) void SAFEdo526C40getFNGforDialog()
-{
-	_asm {
-		mov eax, [esp+0x4]
-		sub esp, 0x4 //; space for return value
-		pushad
-		push eax
-		call do526C40getFNGforDialog
-		add esp, 0x4
-		mov [esp+0x4*8], eax
-		popad
-		pop eax
-		ret
 	}
 }
 

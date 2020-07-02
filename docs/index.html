@@ -798,9 +798,18 @@ package[GenericDialog_SMALL.fng] will unload</pre>
 			Thanks to the <a href="#debugprint">debugprint</a> discovery, my attention got grabbed
 			by something that looked like dialog code. These leftover debug strings helped so much.
 		</p>
+		<ul>
+			<li><code>0x558020 ShowDialog?</code> seems to be the function to show dialogs.</li>
+			<li><code>0x4FF250 Dialog__ctor??</code> initializes memory that was allocated to be a
+			dialog, found by XREFing from <code>ShowDialog</code></li>
+		</ul>
 		<p>
-			<code>0x558020 ShowDialog?</code> seems to be the function to show dialogs.
+			Someone left a trace here:
 		</p>
+		<pre class="ida">
+<span class="t">.text:005541FC</span>                 call    <span class="i">Dialog__ctor??</span>
+<span class="t">.text:00554201</span>                 push    offset <span class="i">aDialogConstruc</span> ; <span class="n">"DIALOG :: Constructor\n"</span>
+<span class="t">.text:00554206</span>                 call    <span class="i">SomeDebugPrint</span></pre>
 		<p>
 			One of the first thing <code>ShowDialog</code> does is calling <code>0x526C40</code>,
 			which looks like initializes the dialog maybe? One argument is passed, seemingly the
@@ -867,6 +876,39 @@ package[GenericDialog_SMALL.fng] will unload</pre>
 		<p class="center">
 			<img src="dialoggenericpartsbrowser.jpg" alt="dialog"/><br/>:)</code>
 		</p>
+		<p>
+			Printing the dialog info struct address sadly showed that it wasn't stored in the
+			executable itself so it's probably somewhere deep in a bin file.
+		</p>
+		<hr/>
+		<p>
+			DialogInfo struct made by looking at all of the above and more:
+			(Especially <code>Dialog__ctor</code> at <code>0x4FF250</code> helped here.)
+		</p>
+		<pre>
+struct DialogInfo {
+	char text[768];
+	int unused300;
+	int unused304;
+	int unused308;
+	int unused30C;
+	int unused310;
+	int unused314;
+	int unused318;
+	int unused31C;
+	int something320; /*read in 5580EB*/
+	char *pTypeName;
+	int unused_328;
+	char unused_32C;
+	char isHelpDialog;
+	char unused_32E;
+	char something32F; /*set to 0 in 55806D*/
+	int something330; /*set to 0 in 558074*/
+	int unused334;
+};
+EXPECT_SIZE(struct DialogInfo, 0x338);
+ASSERT_OFFSET(struct DialogInfo, pTypeName, 0x324);
+ASSERT_OFFSET(struct DialogInfo, isHelpDialog, 0x32D);</pre>
 		<p><a href="#index">Index</a></p>
 	</div>
 </body>
