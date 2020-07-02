@@ -6,18 +6,46 @@
 #include <stdio.h>
 #include <windows.h>
 
+#define STATIC_ASSERT(E) typedef char __static_assert_[(E)?1:-1]
+#define EXPECT_SIZE(S,SIZE) STATIC_ASSERT(sizeof(S)==(SIZE))
+#define MEMBER_OFFSET(S,M) (int)&((S*)NULL)->M
+#define ASSERT_OFFSET(STRUCT,MEMBER,OFFSET) STATIC_ASSERT(MEMBER_OFFSET(STRUCT,MEMBER)==OFFSET)
+
 static int base;
 static FILE *logfile;
 static char buf[1024], buf2[1024];
 
-/*general note: using debugstring might slow down the game by a lot (esp with hash hooks)*/
-#define HASH_HOOKS_TO_LOGFILE
-//#define HASH_HOOKS_TO_DEBUGSTRING
+/************
+OPTS
+*/
+
 //#define ENABLE_HASH_HOOK_505450
 //#define ENABLE_HASH_HOOK_43DB50
-#define DEBUGSTRING_TO_LOGFILE
-//#define DEBUGSTRING_TO_DEBUGSTRING
+#define HASH_HOOKS_TO_LOGFILE
+/*note: hash hooks can get called A LOT so this may slow down the game*/
+//#define HASH_HOOKS_TO_DEBUGSTRING
+
 #define ENABLE_DEBUGSTRING_50D510
+//#define DEBUGSTRING_TO_LOGFILE
+#define DEBUGSTRING_TO_DEBUGSTRING
+
+#define REPLACE_PROC_DIALOG_GETFNG
+
+//************
+
+#pragma pack(push,1)
+
+struct DialogInfo {
+	char text[0x324];
+	char *pTypeName;
+	void *unused_328;
+	char unused_32C;
+	char isHelpDialog;
+};
+ASSERT_OFFSET(struct DialogInfo, pTypeName, 0x324);
+ASSERT_OFFSET(struct DialogInfo, isHelpDialog, 0x32D);
+
+#pragma pack(pop,1)
 
 /***********************************************************************************************
 UTILS
@@ -36,6 +64,119 @@ static
 int isprocstaticmem(int loc)
 {
 	return base < loc && loc < base + 0x4BB000;
+}
+
+static
+void stub()
+{
+}
+#define INIT_FUNC stub
+
+/***********************************************************************************************
+526C40 GETFNGFORDIALOG
+
+Decides the FNG to display for passed dialog.
+*/
+
+static
+void* do526C40getFNGforDialog(struct DialogInfo *dialog)
+{
+	int num_lines;
+	int i;
+	int tmp;
+	float text_width;
+
+	if (dialog->pTypeName && dialog->pTypeName[0]) {
+		if (strcmp(dialog->pTypeName, "animating") || strcmp(dialog->pTypeName, "3button")) {
+			return dialog->pTypeName;
+		}
+	}
+
+	/*526C80*/
+	if (dialog->isHelpDialog) {
+		if (dialog->text[0]) {
+			num_lines = 1;
+			i = 0;
+nextchar:		{
+				switch (dialog->text[i]) {
+				case '\n':
+				case '^': num_lines++;
+				default:
+					i++;
+					goto nextchar;
+				case 0: break;
+				}
+			}
+			if (num_lines > 4) {
+				return "HelpDialog_MED.fng";
+			}
+		}
+		return "HelpDialog_SMALL.fng";
+	}
+
+	/*526CBF*/
+	tmp = ((int(__cdecl *)(char*))0x43DB50)("CONDUITMDITC_TT21I"); /*SomeHashCS43DB50*/
+	((void(__cdecl*)(int))0x51BD70)(tmp);
+	_asm { mov eax, [eax+0x24] }
+	_asm { mov text_width, eax }
+
+	text_width *= strlen(dialog->text);
+
+	if (strcmp(dialog->pTypeName, "3button") == 0) {
+		return "GenericDialog_ThreeButton.fng";
+	}
+
+	/*526D07*/
+	if (text_width < 2561.0f) {
+		if (strcmp(dialog->pTypeName, "animating")) {
+			return "GenericDialog_SMALL.fng";
+		} else {
+			return "GenericDialog_Animate_SMALL.fng";
+		}
+	}
+
+	if (text_width < 5122.0f) {
+		if (strcmp(dialog->pTypeName, "animating")) {
+			return "GenericDialog_MED.fng";
+		} else {
+			return "GenericDialog_Animate_MED.fng";
+		}
+	}
+
+	if (strcmp(dialog->pTypeName, "animating")) {
+		return "GenericDialog_LARGE.fng";
+	} else {
+		return "GenericDialog_Animate_LARGE.fng";
+	}
+}
+
+static
+__declspec(naked) void SAFEdo526C40getFNGforDialog()
+{
+	_asm {
+		mov eax, [esp+0x4]
+		sub esp, 0x4 //; space for return value
+		pushad
+		push eax
+		call do526C40getFNGforDialog
+		add esp, 0x4
+		mov [esp+0x4*8], eax
+		popad
+		pop eax
+		ret
+	}
+}
+
+static
+void initHook526C40getFNGforDialog()
+{
+#ifdef REPLACE_PROC_DIALOG_GETFNG
+	mkjmp(0x126C40, &do526C40getFNGforDialog);
+#endif
+
+	INIT_FUNC();
+#undef INIT_FUNC
+#define INIT_FUNC initHook526C40getFNGforDialog
 }
 
 /***********************************************************************************************
@@ -97,7 +238,11 @@ __declspec(naked) void hook50D510Print()
 static
 void initHook50D510Print()
 {
-	mkjmp(0x10D510, &hook50D510Print); // jmp
+	mkjmp(0x10D510, &hook50D510Print);
+
+	INIT_FUNC();
+#undef INIT_FUNC
+#define INIT_FUNC initHook50D510Print
 }
 
 /***********************************************************************************************
@@ -128,6 +273,10 @@ void initConsolePOC()
 	*console_text_string = console_real_text;
 	*console_text_string_max_length = sizeof(console_real_text);
 	*console_enabled = 1;
+
+	INIT_FUNC();
+#undef INIT_FUNC
+#define INIT_FUNC initConsolePOC
 } 
 
 /***********************************************************************************************
@@ -270,6 +419,10 @@ void initHashHooks()
 	// this one is called waaaay too much, will make startup time much longer
 	mkjmp(0x3DB50, &SomeHashCS43DB50HookPre);
 #endif
+
+	INIT_FUNC();
+#undef INIT_FUNC
+#define INIT_FUNC initHashHooks
 }
 
 /***********************************************************************************************
@@ -285,9 +438,7 @@ BOOL APIENTRY DllMain(HMODULE hModule, DWORD reason_for_call, LPVOID lpResrvd)
 		VirtualProtect((LPVOID) base, 280000, PAGE_EXECUTE_READWRITE, &oldvp);
 
 		logfile = fopen("log.txt", "wb");
-		initHashHooks();
-		initConsolePOC();
-		initHook50D510Print();
+		INIT_FUNC();
 	} else if (reason_for_call == DLL_PROCESS_DETACH) {
 		if (logfile) {
 			fclose(logfile);

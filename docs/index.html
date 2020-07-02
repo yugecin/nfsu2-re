@@ -105,7 +105,12 @@ h2 a, h3 a {
 			<li>
 				<a href="#ui">UI</a>
 				<ul>
-					<li><a href="#ui_dialog">Dialogs</a></li>
+					<li>
+						<a href="#ui_dialog">Dialogs</a>
+						<ul>
+							<li><a href="#ui_dialog_getfngfordialog">GetFNGForDialog</a></li>
+						</ul>
+					</li>
 				</ul>
 			</li>
 		</ul>
@@ -802,11 +807,65 @@ package[GenericDialog_SMALL.fng] will unload</pre>
 			dialog name. But then it checks an int at the passed dialog name +324h. Conclusion:
 			it's passing a struct with dialog info, of which the first member is the name.
 		</p>
+		<p><a href="#index">Index</a></p>
+		<hr/>
+		<h4 id="ui_dialog_getfngfordialog">GetFNGForDialog <a href="#ui_dialog_getfngfordialog">#</a></h4>
 		<p>
-			The value at +324h is a pointer to a string, looks like maybe a type of dialog? In
-			<code>0x526C40</code>, that value in the passed dialog struct is checked and the
-			function only continues if that value is either <code>NULL</code> or equal to
-			<code>animating</code> or <code>3button</code>.
+			This function is only used once, by the <code>ShowDialog</code> function. It checks the
+			value at +324h, which seems to be a pointer to a string, looks like maybe a type of dialog?
+			It's checked if that value is either <code>NULL</code> or empty string or equal to
+			<code>animating</code> or <code>3button</code>. I decided to reimplement that function.
+			Fun fact: while doing this I managed to write an infinite loop which caused a BSOD.
+		</p>
+		<p>
+			At the end I decided upon the name <code>GetFNGForDialog</code>. It returns a pointer
+			to a string that says what FNG to display for the dialog that was passed. Some values
+			are:
+		</p>
+		<ul>
+			<li><code>HelpDialog_SMALL.fng</code> when help dialog flag? and text has less than
+			5 linebreaks</li>
+			<li><code>HelpDialog_MED.fng</code> when help dialog flag? and not small</li>
+			<li><code>GenericDialog_ThreeButton.fng</code> when <code>dialog-&gt;pTypeName</code>
+			is <code>3button</code></li>
+			<li><code>GenericDialog_SMALL.fng</code></li>
+			<li><code>GenericDialog_Animate_SMALL.fng</code></li>
+			<li><code>GenericDialog_MED.fng</code></li>
+			<li><code>GenericDialog_Animate_MED.fng</code></li>
+			<li><code>GenericDialog_LARGE.fng</code></li>
+			<li><code>GenericDialog_Animate_LARGE.fng</code></li>
+		</ul>
+		<p>
+			See the <code>do526C40getFNGforDialog</code> function for the complete reimplementation.
+		</p>
+		<p>
+			Here's me messing with the returned value:
+		</p>
+		<p class="center">
+			<img src="dialoghelp.jpg" alt="dialog"/><br/><code>HelpDialog_SMALL.fng</code>
+		</p>
+		<p class="center">
+			<img src="dialoggenericmed.jpg" alt="dialog"/><br/><code>GenericDialog_MED.fng</code>
+		</p>
+		<p class="center">
+			<img src="dialog3button.jpg" alt="dialog"/><br/><code>GenericDialog_ThreeButton.fng</code>
+		</p>
+		<p class="center">
+			<img src="dialoganimate.gif" alt="dialog"/><br/><code>GenericDialog_Animate_SMALL.fng</code>
+		</p>
+		<p>
+			I can't remember seeing this animate style dialog... But when adding some debug prints,
+			it seems like the online/LAN play uses this: <code>dialog 'Retrieving updated games
+			list^from the server...' has type 'animating'</code> but that dialog disappears so fast
+			I probably never noticed it.
+		</p>
+		<p>
+			Then I tried replacing it with something totally different,
+			<code>UI_GenericParts_Browser.fng</code>. I half expected the game to crash, so I was
+			surprised when it showed me this:
+		</p>
+		<p class="center">
+			<img src="dialoggenericpartsbrowser.jpg" alt="dialog"/><br/>:)</code>
 		</p>
 		<p><a href="#index">Index</a></p>
 	</div>

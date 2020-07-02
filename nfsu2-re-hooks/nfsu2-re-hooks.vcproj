@@ -37,7 +37,9 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
+				Optimization="0"
 				AdditionalIncludeDirectories="&quot;c:\Program Files (x86)\Windows Kits\8.0\Include\shared&quot;;&quot;c:\Program Files (x86)\Windows Kits\8.0\Include\um&quot;"
+				DebugInformationFormat="4"
 				CompileAs="1"
 			/>
 			<Tool
@@ -53,6 +55,7 @@
 				Name="VCLinkerTool"
 				OutputFile="$(SolutionDir)\..\NeedForSpeed U2\scripts\$(ProjectName).asi"
 				IgnoreDefaultLibraryNames="uuid.lib"
+				GenerateDebugInformation="true"
 			/>
 			<Tool
 				Name="VCALinkTool"
