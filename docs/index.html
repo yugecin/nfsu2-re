@@ -88,6 +88,7 @@ h2 a, h3 a {
 					<li><a href="#language_files">Language files</a></li>
 				</ul>
 			</li>
+			<li><a href="#speedyboot">Speedy boot</a></li>
 			<li>
 				<a href="#displaysettings">Display settings</a>
 				<ul>
@@ -413,6 +414,118 @@ struct LanguageData languageData[] = {
 		<p>
 			Files
 		</p>
+		<p><a href="#index">Index</a></p>
+	</div>
+	<div>
+		<h2 id="speedyboot">Speedy boot <a href="#speedyboot">#</a></h2>
+		<p>
+			<em>I want a fast startup because I'm booting the game so many times
+			(not to mention the numerious crashes)</em>
+		</p>
+		<p>
+			During startup, with the debug string output enabled, there are a few entries
+			showing loading and unloading states, such as <code>LS_THXMovie.fng</code>.
+			I already sped up boot by replacing the <code>MOVIES/THX_logo.vp6</code> with
+			<code>MOVIES/blank.vp6</code>. While that skips the unskippable intro logos,
+			it still takes some time because it switches to a state where it tries loading
+			and it takes slightly under a second to switch to the next state.
+		</p>
+		<p>
+			So by following the debug prints, I found following section:
+		</p>
+		<pre class="ida">
+<span class="c">.data:007F65E8</span> off_7F65E8  dd offset <span class="i">aDiscerrorpc_fn</span>
+<span class="c">.data:007F65EC</span>             dd offset byte_783FE5
+<span class="c">.data:007F65F0</span>             dd offset <span class="i">aMc_bootup_fng</span> ; <span class="n">"MC_Bootup.fng"</span>
+<span class="c">.data:007F65F4</span>             dd offset byte_783FE5
+<span class="c">.data:007F65F8</span>             dd offset byte_783FE5
+<span class="c">.data:007F65FC</span>             dd offset <span class="i">aLs_blankmovie_</span> ; <span class="n">"LS_BlankMovie.fng"</span>
+<span class="c">.data:007F6600</span>             dd offset <span class="i">aLs_ealogo_fng</span> ; <span class="n">"LS_EAlogo.fng"</span>
+<span class="c">.data:007F6604</span>             dd offset byte_783FE5
+<span class="c">.data:007F6608</span>             dd offset <span class="i">aLs_thxmovie_fn</span> ; <span class="n">"LS_THXMovie.fng"</span>
+<span class="c">.data:007F660C</span>             dd offset <span class="i">aLs_psamovie_fn</span> ; <span class="n">"LS_PSAMovie.fng"</span>
+<span class="c">.data:007F6610</span>             dd offset <span class="i">aUg_ls_introfmv</span> ; <span class="n">"UG_LS_IntroFMV.fng"</span>
+<span class="c">.data:007F6614</span>             dd offset <span class="i">aUg_ls_splash_f</span> ; <span class="n">"UG_LS_Splash.fng"</span>
+<span class="c">.data:007F6618</span>             dd offset <span class="i">aMc_background_</span> ; <span class="n">"MC_Background.fng"</span>
+<span class="c">.data:007F661C</span>             dd offset <span class="i">aUi_main_fng</span>  ; <span class="n">"UI_Main.fng"</span></pre>
+		<p>
+			This very much looks like the boot states the game goes through.
+			<code>byte_783FE5</code> is basically an empty string, so maybe there used to
+			be more states, or some are for different game versions?
+		</p>
+		<p>
+			Putting all of them to a reference to an empty string makes the boot pretty speedy
+			but then it doesn't do much. After initial boot, there's a black screen for a
+			short moment, then the basic loading progressbar screen with the cars and Rachel
+			shows, then it goes to a black screen and you can move the cursor. So the game is
+			running but nothing of UI is running so you can't do much.
+		</p>
+		<p>
+			Only leaving <code>UG_LS_Splash.fng</code> shows the splash screen with Rachel and
+			the cars, the famous music starts playing and when the beat drops the EA TRAX message
+			shows and "Press enter" shows. When pressing enter, we're back to the black screen
+			with a moveable cursor.
+		</p>
+		<p>
+			Only leaving <code>MC_BACKGROUND.fng</code> shows the splash screen with Rachel and
+			the cars and the prompt if I want to create a new profile. When pressing 'no', we're
+			back to the black screen. When pressing 'yes' I get to enter a name but when it then
+			asks to save the profile, it says 'Unable to save profile' so I have to choose 'no'.
+			Then black screen again.
+		</p>
+		<p>
+			Only leaving <code>UI_MAIN.fng</code> directly jumps to the main menu where you see
+			Rachel's car after a short moment after the loading screen showed. It didn't ask
+			for a profile to load and when I try to load a profile it says that no profiles
+			were found. Scary. I can create a new profile but it says 'Unable to save'. There
+			is no music in the menu. Music does start when starting a race but going back to
+			the menus stops the music again. Going to EA TRAX in the option does suddenly
+			start the music in the menus.
+		</p>
+		<p>
+			When only leaving <code>LS_EALogo.fng</code>, the ea logo movie sound starts to play
+			while the 'loading' screen is still showing, then there's one frame of the logo movie
+			when it's about halfway the sound of the movie and then it goes to black screen with
+			cursor. Leaving <code>LS_BlankMovie.fng</code> in as well fixes that problem.
+		</p>
+		<p>
+			Leaving just <code>MC_Bootup.fng</code> doesn't seem to change much, not even timing
+			wise. It does sound important, so I tried this in combination with
+			<code>UI_MAIN.fng</code>. It jumps into the main menu, but when I go to the profile
+			manager now, I can load my profiles. Nice. The main menu music still doesn't load
+			without going to EA TRAX, but I'm okay with that. One weird thing is that the Q button
+			doesn't show the 'quit game' dialog. After searching a bit, it seems like
+			<code>LS_PSAMovie.fng</code> is the one that makes the Q to quit keybind happen. That's
+			quite interesting, definitely something to research when/if I get more into the workings
+			of the UI.
+		</p>
+		<p>
+			So my final setup is to only leave in <code>MC_Bootup</code> (because it makes profiles
+			work), <code>LS_PSAMovie</code> (because I like the Q button and it can be a good dialog
+			test), <code>MC_Background</code> (so I can load a profile at start) and
+			<code>UI_Main</code> (obviously). Code can be found in the <code>speedyboot</code>
+			function.
+		</p>
+		<pre>
+static int zero = 0;
+static
+void speedyboot()
+{
+	*(int**) (0x7F65E8) = &zero; /*discerrorpc*/
+	*(int**) (0x7F65EC) = &zero; /*??nothing*/
+	//*(int**) (0x7F65F0) = &zero; /*mc_bootup*/
+	*(int**) (0x7F65F4) = &zero; /*??nothing*/
+	*(int**) (0x7F65F8) = &zero; /*??nothing*/
+	*(int**) (0x7F65FC) = &zero; /*blankmovie*/
+	*(int**) (0x7F6600) = &zero; /*ealogo*/
+	*(int**) (0x7F6604) = &zero; /*??nothing*/
+	*(int**) (0x7F6608) = &zero; /*thxmovie*/
+	//*(int**) (0x7F660C) = &zero; /*psamovie*/
+	*(int**) (0x7F6610) = &zero; /*introfmv*/
+	*(int**) (0x7F6614) = &zero; /*splash*/
+	//*(int**) (0x7F6618) = &zero; /*mc_background*/
+	//*(int**) (0x7F661C) = &zero; /*ui_main*/
+}</pre>
 		<p><a href="#index">Index</a></p>
 	</div>
 	<div>
