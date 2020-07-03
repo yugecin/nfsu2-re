@@ -31,6 +31,8 @@ OPTS
 
 #define REPLACE_PROC_DIALOG_GETFNG
 
+#define HOOK_CAR_MODEL_GET_LOGO
+
 //************
 
 #pragma pack(push,1)
@@ -59,6 +61,23 @@ EXPECT_SIZE(struct DialogInfo, 0x338);
 ASSERT_OFFSET(struct DialogInfo, pTypeName, 0x324);
 ASSERT_OFFSET(struct DialogInfo, isHelpDialog, 0x32D);
 
+struct CarModelInfo {
+	char brand[0x20];
+	char brand2[0x20];
+	char geometry_bin[0x20];
+	char geometry_lzc[0x20];
+	char unk80[0x20];
+	char unkA0[0x20];
+	char manufacturer[0x40];
+	char pad[0x790];
+};
+EXPECT_SIZE(struct CarModelInfo, 0x890);
+ASSERT_OFFSET(struct CarModelInfo, manufacturer, 0xC0);
+
+struct CarModelInfo **_car_model_infos = (void*) 0x8A1CCC;
+int *_game_region = (int*) 0x864F24;
+int *_current_loaded_language = (int*) 0x7F70D0;
+
 #pragma pack(pop,1)
 
 /***********************************************************************************************
@@ -85,6 +104,73 @@ void stub()
 {
 }
 #define INIT_FUNC stub
+
+/***********************************************************************************************
+Short reimplemented functions that are not replaced
+*/
+
+/*570A40*/
+static
+int UseCarUKNames()
+{
+	if (*_game_region == 1) {
+		return 1;
+	}
+	if (*_game_region <= 4) {
+		return 0;
+	}
+	if (*_game_region <= 9) {
+		return 1;
+	}
+	return 0;
+}
+
+/***********************************************************************************************
+511E60 GetLogoForCarModel
+
+why not
+*/
+
+static
+void GetLogoForCarModel(int car_model_index)
+{
+	struct CarModelInfo *car_model_info;
+
+	car_model_info = (*_car_model_infos) + car_model_index;
+	sprintf(buf,
+		"car idx %d at %p brand %s manufacturer %s",
+		car_model_index,
+		car_model_info,
+		car_model_info->brand,
+		car_model_info->manufacturer);
+	OutputDebugString(buf);
+}
+
+static
+__declspec(naked) int GetLogoForCarModelHook(int car_model_index, char get_manufacturer)
+{
+	_asm {
+		push [esp+0x4]
+		call GetLogoForCarModel
+		add esp, 0x4
+		mov edx, 0x8A1CCC
+		mov edx, [edx]
+		push 0x511E66
+		ret
+	}
+}
+
+static
+void initReplaceGetLogoForCarModel()
+{
+#ifdef HOOK_CAR_MODEL_GET_LOGO
+	mkjmp(0x111E60, &GetLogoForCarModelHook);
+#endif
+
+	INIT_FUNC();
+#undef INIT_FUNC
+#define INIT_FUNC initReplaceGetLogoForCarModel
+}
 
 /***********************************************************************************************
 SPEEDYBOOT
@@ -124,7 +210,7 @@ Decides the FNG to display for passed dialog.
 */
 
 static
-void* do526C40getFNGforDialog(struct DialogInfo *dialog)
+char* do526C40getFNGforDialog(struct DialogInfo *dialog)
 {
 	int num_lines;
 	int i;
@@ -266,7 +352,9 @@ __declspec(naked) void hook50D510Print()
 static
 void initHook50D510Print()
 {
+#ifdef ENABLE_DEBUGSTRING_50D510
 	mkjmp(0x10D510, &hook50D510Print);
+#endif
 
 	INIT_FUNC();
 #undef INIT_FUNC

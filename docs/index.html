@@ -114,6 +114,7 @@ h2 a, h3 a {
 					</li>
 				</ul>
 			</li>
+			<li><a href="#carmodeldata">Car model data</a></li>
 		</ul>
 	</div>
 	<div>
@@ -1030,6 +1031,32 @@ struct DialogInfo {
 EXPECT_SIZE(struct DialogInfo, 0x338);
 ASSERT_OFFSET(struct DialogInfo, pTypeName, 0x324);
 ASSERT_OFFSET(struct DialogInfo, isHelpDialog, 0x32D);</pre>
+		<p><a href="#index">Index</a></p>
+	</div>
+	<div>
+		<h2 id="carmodeldata">Car model data <a href="#carmodeldata">#</a></h2>
+		<p>
+			When jumping around XREFs I stumbled upon a function that I named
+			<code>GetLogoForCarModel</code>. It uses a lot of strings that are manufacturers
+			and stuff like <code>CARSELECT_MANUFACTURER_%s</code>. There are two parameters,
+			the first seems to be the index of the car and the second is if the caller wants
+			the manufacturer logo or the brand logo. The function gave some nice information:
+		</p>
+		<ul>
+			<li><code>0x8A1CCC</code> is a pointer to something that's probably car model data</li>
+			<li>That data is an array with component size <code>0x890</code></li>
+			<li>At <code>+0x0</code>, there is a brand name</li>
+			<li>At <code>+0xC0</code>, there is a manufacturer name</li>
+			<li>(returning zero from this func will show a star image for the manufacturer/brand)</li>
+		</ul>
+		<p>
+			After hooking and printing addresses, some more obvious data could be seen:
+		</p>
+		<ul>
+			<li>At <code>+0x20</code> is a the brand name again</li>
+			<li>At <code>+0x40</code> is a geometry path <code>CARS\A3\GEOMETRY.BIN</code></li>
+			<li>At <code>+0x60</code> is a geometry path <code>CARS\A3\GEOMETRY.LZC</code></li>
+		</ul>
 		<p><a href="#index">Index</a></p>
 	</div>
 </body>
