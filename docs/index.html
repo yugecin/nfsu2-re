@@ -401,13 +401,131 @@ struct LanguageData languageData[] = {
 /*0x7FCAB0*/ { 0,			0,	0 },
 };</pre>
 		<p>
-
-		</p>
-		<p>
 			The value stored in the registry for <code>Language</code> is checked against
 			all language strings in the above data. The matching language's
 			<code>val1</code> gets stored in <code>0x7FCA00</code> (TODO), or 0 when the
 			name stored in the registry didn't match any names.
+		</p>
+		<p>
+			After chasing usages of a region related proc, I found more language data.
+			Used in <code>0x4FF680</code> which I conveniently called
+			<code>LoadLanguageSomething</code>. I found about three more structs that
+			seem language or font related.
+		</p>
+		<pre>
+/*from hashes, prefixed with FONTHASH_*/
+#define FONTHASH_CONDUITMDITC_TT21I 0x5B9D88B9
+#define FONTHASH_font_impact36 0x0920075C
+#define FONTHASH_CONDUITMDITC_TT14I 0x5B9D84DB
+#define FONTHASH_FONT_CONDUITMDITCTT38BI 0x9583AA1A
+#define FONTHASH_arial 0xA87927BE
+#define FONTHASH_arial12 0xAB6215C1
+#define FONTHASH_lcd_let48 0xBBBA71C2
+#define FONTHASH_conduitmditc_tt14i_korean 0xDCA5485A
+#define FONTHASH_conduitmditc_tt21i_korean 0x833A8678
+#define FONTHASH_conduitmditc_tt14i_chinese 0xF88A75F9
+#define FONTHASH_conduitmditc_tt21i_chinese 0x71C777D7
+#define FONTHASH_conduitmditc_tt14i_japanese 0x743BF1C1
+#define FONTHASH_conduitmditc_tt21i_japanese 0x15192F5F
+#define FONTHASH_conduitmditc_tt14i_thailand 0xA73823FF
+#define FONTHASH_conduitmditc_tt21i_thailand 0x4815619D
+
+struct LanguageStruct7F6DE8 {
+	int field_0;
+	int field_1;
+};
+
+struct LanguageStruct7F6E60 {
+	int data[28];
+};
+
+struct LanguageFileData {
+	int id;
+	char *filecode;
+	char *binfile;
+	struct LanguageStruct7F6E60 *pStruct7F6E60;
+};
+
+/*0x7F6DE8*/
+struct LanguageStruct7F6DE8 struct7F6DE8[] = {
+	{ FONTHASH_CONDUITMDITC_TT21I,		0x0 },
+	{ FONTHASH_font_impact36,		0x40000 },
+	{ FONTHASH_CONDUITMDITC_TT14I,		0x10000 },
+	{ FONTHASH_FONT_CONDUITMDITCTT38BI,	0x100000 },
+	{ FONTHASH_arial,			0x10000 },
+	{ FONTHASH_arial12,			0x10000 },
+	{ FONTHASH_lcd_let48,			0x4000 },
+	{ FONTHASH_conduitmditc_tt14i_korean,	0x40000 },
+	{ FONTHASH_conduitmditc_tt21i_korean,	0x80000 },
+	{ FONTHASH_conduitmditc_tt14i_chinese,	0x40000 },
+	{ FONTHASH_conduitmditc_tt21i_chinese,	0x80000 },
+	{ FONTHASH_conduitmditc_tt14i_japanese,	0x40000 },
+	{ FONTHASH_conduitmditc_tt21i_japanese,	0x80000 },
+	{ FONTHASH_conduitmditc_tt14i_thailand, 0x40000 },
+	{ FONTHASH_conduitmditc_tt21i_thailand,	0x80000 },
+};
+
+/*0x7F6E60*/
+struct LanguageStruct7F6E60 struct7F6E60[4];
+struct7F6E60[0][0] = FONTHASH_CONDUITMDITC_TT21I;
+struct7F6E60[0][1] = FONTHASH_arial;
+struct7F6E60[0][2] = FONTHASH_CONDUITMDITC_TT14I;
+struct7F6E60[0][3] = FONTHASH_lcd_let48;
+struct7F6E60[0][8] = FONTHASH_FONT_CONDUITMDITCTT38BI;
+struct7F6E60[0][16] = FONTHASH_arial12;
+struct7F6E60[0][17] = FONTHASH_font_impact36;
+struct7F6E60[1][0] = FONTHASH_conduitmditc_tt21i_korean;
+struct7F6E60[1][1] = FONTHASH_arial;
+struct7F6E60[1][2] = FONTHASH_conduitmditc_tt14i_korean;
+struct7F6E60[1][3] = FONTHASH_lcd_let48;
+struct7F6E60[1][16] = FONTHASH_arial12;
+struct7F6E60[1][17] = FONTHASH_font_impact36;
+struct7F6E60[2][0] = FONTHASH_conduitmditc_tt21i_japanese;
+struct7F6E60[2][1] = FONTHASH_arial;
+struct7F6E60[2][2] = FONTHASH_conduitmditc_tt14i_japanese;
+struct7F6E60[2][3] = FONTHASH_lcd_let48;
+struct7F6E60[2][8] = FONTHASH_FONT_CONDUITMDITCTT38BI;
+struct7F6E60[2][16] = FONTHASH_arial12;
+struct7F6E60[2][17] = FONTHASH_font_impact36;
+struct7F6E60[3][0] = FONTHASH_conduitmditc_tt21i_chinese;
+struct7F6E60[3][1] = FONTHASH_arial;
+struct7F6E60[3][2] = FONTHASH_conduitmditc_tt14i_chinese;
+struct7F6E60[3][3] = FONTHASH_lcd_let48;
+struct7F6E60[3][16] = FONTHASH_arial12;
+struct7F6E60[3][17] = FONTHASH_font_impact36;
+
+/*0x7F7020*/
+struct LanguageFileData languageFileData[] = {
+	{  0, "ENGLISH", "LANGUAGES\\ENGLISH.BIN", struct7F6E60 + 0 },
+	{  1, "FRENCH", "LANGUAGES\\FRENCH.BIN", struct7F6E60 + 0 },
+	{  2, "GERMAN", "LANGUAGES\\GERMAN.BIN", struct7F6E60 + 0 },
+	{  3, "ITALIAN", "LANGUAGES\\ITALIAN.BIN", struct7F6E60 + 0 },
+	{  4, "SPANISH", "LANGUAGES\\SPANISH.BIN", struct7F6E60 + 0 },
+	{  5, "DUTCH", "LANGUAGES\\DUTCH.BIN", struct7F6E60 + 0 },
+	{  6, "SWEDISH", "LANGUAGES\\SWEDISH.BIN", struct7F6E60 + 0 },
+	{  7, "DANISH", "LANGUAGES\\DANISH.BIN", struct7F6E60 + 0 },
+	{  8, "KOREAN", "LANGUAGES\\KOREAN.BIN", struct7F6E60 + 1 },
+	{  9, "CHINESE", "LANGUAGES\\CHINESE.BIN", struct7F6E60 + 3 },
+	{ 10, "JAPANESE", "LANGUAGES\\JAPANESE.BIN", struct7F6E60 + 2 },
+	/*there is no Thai entry here?*/
+};</pre>
+		<p>
+			In <code>LoadLanguageSomething</code>, <code>languageFileData</code> is searched.
+			If <code>GetGameRegion</code> is 2, the entry with id 8 is searched, otherwise
+			id 0 is searched. When it's not found the game will segfault because of the code
+			below:
+		</p>
+		<pre class="ida">
+<span class="t">.text:004FF6A2</span>                 jl      short loc_4FF693
+<span class="t">.text:004FF6A4</span> loc_4FF6A4:
+<span class="t">.text:004FF6A4</span>                 xor     edx, edx
+<span class="t">.text:004FF6A6</span> loc_4FF6A6:
+<span class="t">.text:004FF6A6</span>                 mov     ecx, [edx+<span class="n">0Ch</span>]</pre>
+		<p>
+			Then <code>LanguageFileData::pStruct7F6E60</code> is read. Its <code>data[0]</code>
+			value is read and then a matching entry in <code>struct7F6DE8[]</code> is searched.
+			More stuff is read is a loop and reset and I lost track. Eventually something is
+			called with string <code>LanguageMemoryPool</code>.
 		</p>
 		<p><strong>00512520 LoadLanguageAtBoot TODO</strong></p>
 		<p><strong>07983D0 aLanguageselect db 'LanguageSelectScreen',0 TODO</strong></p>
@@ -746,11 +864,12 @@ int ConsoleIsCharOneOfTheseHardcodedValues(unsigned char value)
 			before updating the hash.
 		</p>
 		<p>
-			See <a href="hashes.txt">hashes.txt</a> (~227KB) for list of hashes, each line is formatted
+			See <a href="hashes.txt">hashes.txt</a> (&lt; 1MB) for list of hashes, each line is formatted
 			as <code>hash\tinput\tresult\tproc\n</code>. It is the result of a dump of short 8 minute
 			menu browsing/driving. This output was piped to <code>sort | uniq</code>, the original output
 			was 277MB. I thought a tab character was a good separator but the first two entries have tab
-			characters...
+			characters... Edit: I've been updating this file at random times. Loaded more font hashes by
+			forcing different languages etc.
 		</p>
 		<p>
 			How I collected these can be seen in <code>nfsu2-re-hooks/main.c</code>, starting

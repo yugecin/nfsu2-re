@@ -178,7 +178,6 @@ SPEEDYBOOT
 speed
 */
 
-static char *ok = "UI_GenericParts_Browser.fng";
 static int zero = 0;
 static
 void speedyboot()
