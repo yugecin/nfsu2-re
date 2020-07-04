@@ -21,6 +21,7 @@ OPTS
 
 #define ENABLE_HASH_HOOK_505450
 #define ENABLE_HASH_HOOK_43DB50
+#define ENABLE_HASH_HOOK_50B9C0
 #define HASH_HOOKS_TO_LOGFILE
 /*note: hash hooks can get called A LOT so this may slow down the game*/
 //#define HASH_HOOKS_TO_DEBUGSTRING
@@ -31,7 +32,7 @@ OPTS
 
 #define REPLACE_PROC_DIALOG_GETFNG
 
-#define HOOK_CAR_MODEL_GET_LOGO
+//#define HOOK_CAR_MODEL_GET_LOGO
 
 //************
 
@@ -482,7 +483,8 @@ void SomeHashCI505450Print(char *arg, int *result)
 	} else {
 #ifdef HASH_HOOKS_TO_LOGFILE
 		fwrite(buf, sprintf(buf, "hash\t%s\t%p\t505450\n", arg, *result), 1, logfile);
-#else
+#endif
+#ifdef HASH_HOOKS_TO_DEBUGSTRING
 		sprintf(buf, "hash\t%s\t%p\t505450\n", arg, *result);
 		OutputDebugString(buf);
 #endif
@@ -524,15 +526,47 @@ __declspec(naked) void SomeHashCI505450HookPre()
 }
 
 static
+void PrintHashCI50B9C0Hook(
+	/*pushad*/ int a, int b, int c, int d, int e, int f, int g, int h,
+	int *result, int ignore, char *str)
+{
+	if (str != NULL) {
+#ifdef HASH_HOOKS_TO_LOGFILE
+		fwrite(buf, sprintf(buf, "hash\t%s\t%p\t50B9C0\n", str, ignore), 1, logfile);
+#endif
+#ifdef HASH_HOOKS_TO_DEBUGSTRING
+		sprintf(buf, "hash\t%s\t%p\t50B9C0\n", str, ignore);
+		OutputDebugString(buf);
+#endif
+	}
+}
+
+static
+__declspec(naked) void SomeHashCI50B9C0Hook()
+{
+	_asm {
+		push esp
+		push eax
+		push esp
+		pushad
+		call PrintHashCI50B9C0Hook
+		popad
+		add esp, 0x10C
+		ret
+	}
+}
+
+static
 void initHashHooks()
 {
 #ifdef ENABLE_HASH_HOOK_505450
-	// called very often, but doesn't slow down too much
 	mkjmp(0x105450, &SomeHashCI505450HookPre);
 #endif
 #ifdef ENABLE_HASH_HOOK_43DB50
-	// this one is called waaaay too much, will make startup time much longer
 	mkjmp(0x3DB50, &SomeHashCS43DB50HookPre);
+#endif
+#ifdef ENABLE_HASH_HOOK_50B9C0
+	mkjmp(0x10BA0D, &SomeHashCI50B9C0Hook);
 #endif
 
 	INIT_FUNC();
