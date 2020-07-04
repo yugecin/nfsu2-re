@@ -17,11 +17,11 @@ int main()
 			c = buf[i];
 			cs *= 33;
 			ci *= 33;
-			ci += c;
+			cs += c;
 			if (c < 'a' || 'z' < c) {
-				cs += c;
+				ci += c;
 			} else {
-				cs += c - 0x20;
+				ci += c - 0x20;
 			}
 		}
 		printf("cs %08X ci %08X\n", cs, ci);
