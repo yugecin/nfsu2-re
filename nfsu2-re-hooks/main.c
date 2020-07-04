@@ -26,13 +26,16 @@ OPTS
 /*note: hash hooks can get called A LOT so this may slow down the game*/
 //#define HASH_HOOKS_TO_DEBUGSTRING
 
-//#define ENABLE_DEBUGSTRING_50D510
+#define ENABLE_DEBUGSTRING_50D510
 //#define DEBUGSTRING_TO_LOGFILE
-#define DEBUGSTRING_TO_DEBUGSTRING
+//#define DEBUGSTRING_TO_DEBUGSTRING
 
 #define REPLACE_PROC_DIALOG_GETFNG
 
 //#define HOOK_CAR_MODEL_GET_LOGO
+
+//#define REPLACE_SHOWFNG
+//#define SHOWFNG_DEBUGPRINT
 
 //************
 
@@ -75,7 +78,41 @@ struct CarModelInfo {
 EXPECT_SIZE(struct CarModelInfo, 0x890);
 ASSERT_OFFSET(struct CarModelInfo, manufacturer, 0xC0);
 
+typedef int (fnginithandler)(struct FNGShowData *msg);
+
+struct FNGData {
+	char *name;
+	fnginithandler *initializeHandler;
+	int field_8;
+	int field_C;
+	int field_10;
+	int field_14;
+	int field_18;
+};
+EXPECT_SIZE(struct FNGData, 0x1C);
+
+struct FNGShowData {
+	char *fngname;
+	int arg1;
+	int fngdata_field8;
+	int fngdata_fieldC;
+	int arg2;
+};
+EXPECT_SIZE(struct FNGShowData, 0x14);
+
+struct FNGInfo {
+	int field_0;
+	int field_4;
+	int field_8;
+	int field_C;
+	int field_10;
+	int field_14;
+	int field_18;
+	int controlMask;
+};
+
 struct CarModelInfo **_car_model_infos = (void*) 0x8A1CCC;
+struct FNGData *fngdata = (struct FNGData*) 0x7F7DC8;
 int *_game_region = (int*) 0x864F24;
 int *_current_loaded_language = (int*) 0x7F70D0;
 
@@ -98,6 +135,60 @@ static
 int isprocstaticmem(int loc)
 {
 	return base < loc && loc < base + 0x4BB000;
+}
+
+static
+__declspec(naked) int nfsu2_stricmp(char *a, char *b)
+{
+	_asm {
+		mov eax, 0x43DCC0
+		jmp eax
+	}
+}
+
+static
+int cshash(char *input)
+{
+	unsigned int result;
+	char c;
+	int i, j;
+
+	if (input == NULL) {
+		return -1;
+	}
+	result = -1;
+	i = strlen(input);
+	j = 0;
+	while (j < i) {
+		result *= 33;
+		result += input[j++];
+	}
+	return result;
+}
+
+static
+int cihash(char *input)
+{
+	unsigned int result;
+	char c;
+	int i, j;
+
+	if (input == NULL) {
+		return -1;
+	}
+	result = -1;
+	i = strlen(input);
+	j = 0;
+	while (j < i) {
+		result *= 33;
+		c = input[j++];
+		if (c < 'a' || 'z' < c) {
+			result += c;
+		} else {
+			result += c - 0x20;
+		}
+	}
+	return result;
 }
 
 static
@@ -124,6 +215,62 @@ int UseCarUKNames()
 		return 1;
 	}
 	return 0;
+}
+
+/***********************************************************************************************
+50B790 SendMessageToFNG
+
+why not
+*/
+
+static
+int ShowFNG(int fnghash, int arg1, int arg2)
+{
+	struct FNGShowData data;
+	struct FNGData *fng;
+	int result;
+	int i;
+
+	fng = NULL;
+	result = 0;
+	for (i = 0; i < 180; i++) {
+		if (cihash(fngdata[i].name) == fnghash) {
+			fng = fngdata + i;
+			if (fng->initializeHandler) {
+				data.fngname = fngdata[i].name;
+				data.arg1 = arg1;
+				data.fngdata_field8 = fng->field_8;
+				data.fngdata_fieldC = fng->field_C;
+				data.arg2 = arg2;
+				result = fng->initializeHandler(&data);
+			}
+			break;
+		}
+	}
+
+#ifdef SHOWFNG_DEBUGPRINT
+	sprintf(buf,
+		"ShowFNG(%p (\"%s\"), %p, %p) = %p",
+		fnghash,
+		fng == NULL ? "" : fng->name,
+		arg1,
+		arg2,
+		result);
+	OutputDebugString(buf);
+#endif
+	return result;
+}
+
+static
+void initReplaceShowFNG()
+{
+#ifdef REPLACE_SHOWFNG
+	mkjmp(0x10B790, &ShowFNG);
+#endif
+
+	INIT_FUNC();
+#undef INIT_FUNC
+#define INIT_FUNC initReplaceShowFNG
 }
 
 /***********************************************************************************************
