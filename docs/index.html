@@ -115,6 +115,7 @@ h2 a, h3 a {
 					</li>
 				</ul>
 			</li>
+			<li><a href="#cheats">Cheats</a></li>
 			<li><a href="#carmodeldata">Car model data</a></li>
 		</ul>
 	</div>
@@ -1448,6 +1449,15 @@ struct FNGData fngdata[] = {
 			int data)</code> called when menus change</li>
 			<li><code>0x50B790 ShowFNG(int fnghash, int arg1, int arg2)</code> see
 			<code>ShowFNG</code> for a reimplementation</li>
+			<li><code>0x55DBD0 void UIHandleKey(int keyCode)</code> called from <code>WM_CHAR</code>
+			messages, only used to type/press enter in a textbox and Q to quit. Navigating menus
+			seems unaffected</li>
+			<li><code>0x558B70 void __thiscall UIConsumeKey(void *this, int keyCode)</code>
+			not sure what this is</li>
+			<li><code>0x57B8B0 void __thiscall CheatCheck(void *this, int keyCode)</code> see
+			<a href="#cheats">Cheats</a></li>
+			<li><code>0x83A9C0 isTextboxFocused</code></li>
+			<li><code>0x83A9C4 focusedTextbox</code> ptr to some struct</li>
 		</ul>
 		<p>
 			Short excerpt from hooking <code>ShowFNG</code>. <code>arg2</code> for the dialogs
@@ -1490,6 +1500,137 @@ ShowFNG(AA469286 ("UI_InGameDialog.fng"), 037C1120, 00838640) = 037C2AB0</pre>
 		<p><a href="#index">Index</a></p>
 	</div>
 	<div>
+		<h2 id="cheats">Cheats <a href="#cheats">#</a></h2>
+		<pre>
+struct CheatScreenData {
+	void **ppFunc;
+	char doCheatCheck; // only 1 when in the 'press enter key' screen
+	char field5;
+	char field6;
+	char field7;
+	int field8;
+	struct CheatData *cheats; /*0x7FB960*/
+	int numCheats; // 20
+	char cheatString[32]; // typed string
+	int typedCheatLength; // characters typed
+	int field38;
+};
+
+#define CHEAT_TYPE_VISUALS 1
+#define CHEAT_TYPE_PERFORMANCE 2
+#define CHEAT_TYPE_CAREER 5
+#define CHEAT_TYPE_SPONSOR_CAR 6 // shows up when doing quick race
+#define CHEAT_TYPE_VINYL 7
+
+struct CheatData {
+	char cheat[32];
+	int cheatType;
+	int cheatData; // hash when cheatType is sponsor car or vinyl
+	int field28;
+	int field2C;
+	char hasBeenTriggered;
+	char field31;
+	char cheatEnabled;
+	char field33;
+};
+EXPECT_SIZE(struct CheatData, 0x34);
+
+/*0x865930*/
+struct CheatScreenData cheatScreenData; // partially initialized by InitCheats_
+/*0x7FB960*/
+struct CheatData cheatData[20] = {
+	{ "needperformance1",	2, 1, 0, 0, 0, 1, 1, 0 }, // 0
+	{ "needperformance2",	2, 2, 0, 0, 0, 1, 1, 0 }, // 1
+	{ "gimmevisual1",	1, 2, 0, 0, 0, 1, 1, 0 }, // 2
+	{ "gimmevisual2"	1, 2, 0, 0, 0, 1, 1, 0 }, // 3
+	{ "gimmechingy"		6, 0, 0, 0, 0, 0, 0, 0 }, // 4
+	{ ""			0, 0, 0, 0, 0, 0, 0, 0 }, // 5
+	{ ""			0, 0, 0, 0, 0, 0, 0, 0 }, // 6
+	{ ""			0, 0, 0, 0, 0, 0, 0, 0 }, // 7
+	{ ""			0, 0, 0, 0, 0, 0, 0, 0 }, // 8
+	{ ""			0, 0, 0, 0, 0, 0, 0, 0 }, // 9
+	{ ""			0, 0, 0, 0, 0, 0, 0, 0 }, // 10
+	{ ""			0, 0, 0, 0, 0, 0, 0, 0 }, // 11
+	{ ""			0, 0, 0, 0, 0, 0, 0, 0 }, // 12
+	{ ""			0, 0, 0, 0, 0, 0, 0, 0 }, // 13
+	{ ""			0, 0, 0, 0, 0, 0, 0, 0 }, // 14
+	{ ""			0, 0, 0, 0, 0, 0, 0, 0 }, // 15
+	{ ""			0, 0, 0, 0, 0, 0, 0, 0 }, // 16
+	{ ""			0, 0, 0, 0, 0, 0, 0, 0 }, // 17
+	{ ""			0, 0, 0, 0, 0, 0, 0, 0 }, // 18
+	{ ""			0, 0, 0, 0, 0, 0, 0, 0 }, // 19
+};
+// after InitCheats_ was called, it looks like this:
+// hashes are done with case sensitive hash
+struct CheatData cheatData[20] = {
+	{ "needperformance1",	2, 0x00000001, 0, 0, 0, 1, 1, 0 }, //
+	{ "needperformance2",	2, 0x00000002, 0, 0, 0, 1, 1, 0 }, //
+	{ "gimmevisual1",	1, 0x00000002, 0, 0, 0, 1, 1, 0 }, //
+	{ "gimmevisual2"	1, 0x00000002, 0, 0, 0, 1, 1, 0 }, //
+	{ "gimmechingy"		6, 0x3EE7D094, 0, 0, 0, 1, 1, 0 }, // "SPONSOR_CHINGY"
+	{ "wannacapone"		6, 0x3E6D00C8, 0, 0, 0, 1, 1, 0 }, // "SPONSOR_CAPONE"
+	{ "wantmyd3"		6, 0x54E32D29, 0, 0, 0, 1, 1, 0 }, // "SPONSOR_D3"
+	{ "shinestreetbright"	6, 0xE57B6400, 0, 0, 0, 1, 1, 0 }, // "SPONSOR_SHINESTREET"
+	{ "davidchoeart"	6, 0x7760C479, 0, 0, 0, 1, 1, 0 }, // "SPONSOR_DAVIDCHOE"
+	{ "tunejapantuning"	6, 0x002F98F1, 0, 0, 0, 1, 1, 0 }, // "SPONSOR_JAPANTUNING"
+	{ "yodogg"		6, 0x007090A1, 0, 0, 0, 1, 1, 0 }, // "SPONSOR_SNOOP_DOGG"
+	{ "opendoors"		6, 0x4BAECE79, 0, 0, 0, 1, 1, 0 }, // "SPONSOR_THE_DOORS"
+	{ "needmybestbuy"	7, 0x9E52EAC1, 0, 0, 0, 1, 1, 0 }, // "AD_BESTBUY"
+	{ "goforoldspice"	7, 0x5FD7B956, 0, 0, 0, 1, 1, 0 }, // "AD_OLDSPICE"
+	{ "gottaedge"		7, 0x44C47B98, 0, 0, 0, 1, 1, 0 }, // "AD_EDGE"
+	{ "gottahavebk"		7, 0xCF5F6873, 0, 0, 0, 1, 1, 0 }, // "AD_BURGERKING"
+	{ "gotmycingular"	7, 0x7C504338, 0, 0, 0, 1, 1, 0 }, // "AD_CINGULAR"
+	{ "regmybank"		5, 0x00000002, 0, 0, 0, 1, 1, 0 }, //
+	{ "regmebaby"		5, 0x00000003, 0, 0, 0, 1, 1, 0 }, //
+	{ "ordermebaby"		5, 0x00000004, 0, 0, 0, 1, 1, 0 }, //
+};
+
+void __thiscall InitCheats(struct CheatScreenData *data)
+{
+	int i;
+
+	cheatScreenData.ppFunc = (void*) 0x7A0604;
+	cheatScreenData.doCheatCheck = 0;
+	cheatScreenData.cheats = cheatData;
+	cheatScreenData.numCheats = 20;
+	cheatScreenData.typedCheatLength = 0;
+	cheatScreenData.field38 = 0;
+
+	for (i = 0; i &lt; 20; i++) {
+		if (cheatData[i].cheatType == CHEAT_TYPE_VINYL &amp;&amp;
+			cheatData[i].someHash == hashCS43DB50("AD_BESTBUY") &amp;&amp;
+			_gameRegion != 0 /*REGION_US*/)
+		{
+			cheatData[i].cheatEnabled = 0;
+		}
+	}
+}</pre>
+		<p>
+			Cheats can only be inserted at the 'press enter key' screen at boot. (I remember
+			this from looking up cheats in my childhood), but toggling sponsor car cheats when
+			ingame has immediate effect.
+		</p>
+		<ul>
+			<li><code>0x57B8B0 void __thiscall CheatCheck(void *this, int keyCode)</code> called
+			from <code>UIHandleKey</code> when <code>cheatScreenData.doCheatCheck</code> is
+			non-zero</li>
+			<li><code>579CB0 void __thiscall CheatMatched(struct CheatScreenData *this,
+			int cheat_index)</code> called from <code>CheatCheck</code> when a cheat matched</li>
+			<li><code>0x575770 void __thiscall InitCheats_(struct CheatScreenData *this)</code>
+			initializes <code>cheatScreenData</code> and <code>cheatData</code></li>
+			<li><code>0x576050 void __thiscall UndoCheat__(struct CheatScreenData *this,
+			int cheatdata_field28)</code> weird one, is called on each cheat entry and all
+			cheats with a matching field28 has zero written to its <code>hasBeenTriggered</code>
+			field</li>
+			<li><code>0x5760A0 int __thiscall DoCareerCheat(struct CheatScreenData *this,
+			int careerCheatIdx)</code> TODO</li>
+			<li><code>0x865930 struct CheatScreenData cheatScreenData</code></li>
+			<li><code>0x7FB960 struct CheatData cheatData[20]</code></li>
+			<strong>TODO</strong></li>
+		</ul>
+		<p><a href="#index">Index</a></p>
+	</div>
+	<div>
 		<h2 id="carmodeldata">Car model data <a href="#carmodeldata">#</a></h2>
 		<p>
 			When jumping around XREFs I stumbled upon a function that I named
@@ -1512,6 +1653,17 @@ ShowFNG(AA469286 ("UI_InGameDialog.fng"), 037C1120, 00838640) = 037C2AB0</pre>
 			<li>At <code>+0x20</code> is a the brand name again</li>
 			<li>At <code>+0x40</code> is a geometry path <code>CARS\A3\GEOMETRY.BIN</code></li>
 			<li>At <code>+0x60</code> is a geometry path <code>CARS\A3\GEOMETRY.LZC</code></li>
+		</ul>
+		<p><a href="#index">Index</a></p>
+	</div>
+	<div>
+		<h2 id="sound">Sound <a href="#sound">#</a></h2>
+		<ul>
+			<li><code>0x51DE60 int PlayUISoundEffect(void *unknownUnused, int soundID)</code>
+			discovered when looking at cheats. 8 is some choose sound, 9 too, .. TODO other IDs</li>
+			<li><code>0x458520 void __thiscall PlaySound_(void *this, void *sound)</code></li>
+			<li><code>0x82B884 pSoundEffectSystem?</code> pointer to what is used as "this" for
+			calls to <code>PlaySound?</code></li>
 		</ul>
 		<p><a href="#index">Index</a></p>
 	</div>

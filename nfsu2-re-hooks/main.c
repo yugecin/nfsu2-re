@@ -19,6 +19,8 @@ static char buf[1024], buf2[1024];
 OPTS
 */
 
+//#define SPEEDY_BOOT
+
 #define ENABLE_HASH_HOOK_505450
 #define ENABLE_HASH_HOOK_43DB50
 #define ENABLE_HASH_HOOK_50B9C0
@@ -36,6 +38,8 @@ OPTS
 
 //#define REPLACE_SHOWFNG
 //#define SHOWFNG_DEBUGPRINT
+
+#define SENDSOMETHINGTOFNG_DEBUGLOG
 
 //************
 
@@ -218,27 +222,28 @@ int UseCarUKNames()
 }
 
 /***********************************************************************************************
-55DC20 MaybeSendMessageToFNG?
+55DC20 SendSomethingToFNG?
 */
 
 static
-int a(
+void SendSomethingToFNG(
       int a, int b, int c, int d,
       int e, int f, int g, int h,
       int ignore_ret_adds,
       char *fng, int message)
 {
-	sprintf(buf, "msg %s: %p", fng, message);
+#ifdef SENDSOMETHINGTOFNG_DEBUGLOG
+	sprintf(buf, "SendSomethingToFNG \"%s\", %p", fng, message);
 	OutputDebugString(buf);
-	return 0;
+#endif
 }
 
 static
-__declspec(naked) void aa()
+__declspec(naked) void SendSomethingToFNGHook()
 {
 	_asm {
 		pushad
-		call a
+		call SendSomethingToFNG
 		popad
 		mov eax, [esp+4]
 		push eax
@@ -248,13 +253,13 @@ __declspec(naked) void aa()
 }
 
 static
-void aaa()
+void initSendSomethingToFNGHook()
 {
-	mkjmp(0x15DC20, &aa);
+	mkjmp(0x15DC20, &SendSomethingToFNGHook);
 
 	INIT_FUNC();
 #undef INIT_FUNC
-#define INIT_FUNC aaa
+#define INIT_FUNC initSendSomethingToFNGHook
 }
 
 /***********************************************************************************************
@@ -368,6 +373,7 @@ static int zero = 0;
 static
 void speedyboot()
 {
+#ifdef SPEEDY_BOOT
 	*(int**) (0x7F65E8) = &zero; /*discerrorpc*/
 	*(int**) (0x7F65EC) = &zero; /*??nothing*/
 	//*(int**) (0x7F65F0) = &zero; /*mc_bootup*/
@@ -380,8 +386,10 @@ void speedyboot()
 	//*(int**) (0x7F660C) = &zero; /*psamovie*/
 	*(int**) (0x7F6610) = &zero; /*introfmv*/
 	*(int**) (0x7F6614) = &zero; /*splash*/
+
 	//*(int**) (0x7F6618) = &zero; /*mc_background*/
 	//*(int**) (0x7F661C) = &zero; /*ui_main*/
+#endif
 
 	INIT_FUNC();
 #undef INIT_FUNC
