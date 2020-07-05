@@ -218,9 +218,47 @@ int UseCarUKNames()
 }
 
 /***********************************************************************************************
-50B790 SendMessageToFNG
+55DC20 MaybeSendMessageToFNG?
+*/
 
-why not
+static
+int a(
+      int a, int b, int c, int d,
+      int e, int f, int g, int h,
+      int ignore_ret_adds,
+      char *fng, int message)
+{
+	sprintf(buf, "msg %s: %p", fng, message);
+	OutputDebugString(buf);
+	return 0;
+}
+
+static
+__declspec(naked) void aa()
+{
+	_asm {
+		pushad
+		call a
+		popad
+		mov eax, [esp+4]
+		push eax
+		push 0x55DC25
+		ret
+	}
+}
+
+static
+void aaa()
+{
+	mkjmp(0x15DC20, &aa);
+
+	INIT_FUNC();
+#undef INIT_FUNC
+#define INIT_FUNC aaa
+}
+
+/***********************************************************************************************
+50B790 ShowFNG
 */
 
 static

@@ -81,6 +81,7 @@ h2 a, h3 a {
 			<li><a href="#index">Index</a></li>
 			<li><a href="#injectedcode">Injected code</a></li>
 			<li><a href="#registry">Registry</a></li>
+			<li><a href="#gameregion">Game region</a></li>
 			<li>
 				<a href="#language">Language</a>
 				<ul>
@@ -362,6 +363,58 @@ RegCloseKey(&amp;key);
 		<p><a href="#index">Index</a></p>
 	</div>
 	<div>
+		<h2 id="gameregion">Game region <a href="#gameregion">#</a></h2>
+		<p>
+			This proc at <code>0x5B7C40</code> certainly helped to know what the region numbers
+			represent.
+		</p>
+		<pre>
+/*No idea where this is used, TODO*/
+int OpenPatchesWebsite()
+{
+	char *url;
+
+	switch (GetGameRegion()) {
+	case 0: url = "http://patches.ea.com/nfs_underground2/EN-US/home.html"; break;
+	case 2: url = "http://patches.ea.com/nfs_underground2/KO/home.html"; break;
+	case 3: url = "http://patches.ea.com/nfs_underground2/JP/home.html"; break;
+	case 4: url = "http://patches.ea.com/nfs_underground2/TW/home.html"; break;
+	case 5:
+		switch (GetCurrentLoadedLanguage()) {
+		case 0: url = "http://patches.ea.com/nfs_underground2/EN-UK/home.html"; break;
+		case 4: url = "http://patches.ea.com/nfs_underground2/NL/home.html"; break;
+		case 6: url = "http://patches.ea.com/nfs_underground2/SV/home.html"; break;
+		case 7: url = "http://patches.ea.com/nfs_underground2/DA/home.html"; break;
+		default: goto def;
+		}
+		break;
+	case 6: url = "http://patches.ea.com/nfs_underground2/FR/home.html"; break;
+	case 7: url = "http://patches.ea.com/nfs_underground2/DE/home.html"; break;
+	case 8: url = "http://patches.ea.com/nfs_underground2/IT/home.html"; break;
+	case 9: url = "http://patches.ea.com/nfs_underground2/ES/home.html"; break;
+	case 11: url = "http://patches.ea.com/nfs_underground2/ZH/home.html"; break;
+	case 12: url = "http://patches.ea.com/nfs_underground2/TH/home.html"; break;
+def:
+	default: /*ecx??*/ break;
+	}
+	return ShellExecuteA(NULL, "open", url, NULL, NULL, SW_SHOWNORMAL);
+}</pre>
+	<ul>
+		<li>0: US</li>
+		<li>2: Korea</li>
+		<li>3: Japan</li>
+		<li>4: Taiwan</li>
+		<li>5: UK/Netherlands/Sweden/Denmark</li>
+		<li>6: France</li>
+		<li>7: Germany</li>
+		<li>8: Italy</li>
+		<li>9: Spain</li>
+		<li>11: China</li>
+		<li>12: Thailand</li>
+	</ul>
+	<p><a href="#index">Index</a></p>
+	</div>
+	<div>
 		<h2 id="language">Language <a href="#language">#</a></h2>
 		<p>
 			There seems to be no way to change the language, except for changing the value
@@ -377,7 +430,7 @@ RegCloseKey(&amp;key);
 struct LanguageData {
 	char *pName;
 	int val1; //??
-	int val2; //??
+	int region;
 };</pre>
 		<p>
 			Data can be found at <code>0x7FCA08</code>:
@@ -1391,8 +1444,8 @@ struct FNGData fngdata[] = {
 			matching fng names</li>
 			<li><code>0x50B840 struct FNGData* GetFNGDataForHash(int hash)</code> goes through
 			all the fng data above and returns the one with matching hash</li>
-			<li><code>0x55DC20 __thiscall void MaybeSendMessageToFNG?(void *this, char *fng,
-			int message)</code></li>
+			<li><code>0x55DC20 __thiscall void SendSomethingToFNG?(void *this, char *fng,
+			int data)</code> called when menus change</li>
 			<li><code>0x50B790 ShowFNG(int fnghash, int arg1, int arg2)</code> see
 			<code>ShowFNG</code> for a reimplementation</li>
 		</ul>
