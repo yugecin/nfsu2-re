@@ -117,6 +117,8 @@ h2 a, h3 a {
 			</li>
 			<li><a href="#cheats">Cheats</a></li>
 			<li><a href="#carmodeldata">Car model data</a></li>
+			<li><a href="#sound">Sound</a></li>
+			<li><a href="#career">Career</a></li>
 		</ul>
 	</div>
 	<div>
@@ -1453,7 +1455,7 @@ struct FNGData fngdata[] = {
 			messages, only used to type/press enter in a textbox and Q to quit. Navigating menus
 			seems unaffected</li>
 			<li><code>0x558B70 void __thiscall UIConsumeKey(void *this, int keyCode)</code>
-			not sure what this is</li>
+			probably used for Q, but what else?</li>
 			<li><code>0x57B8B0 void __thiscall CheatCheck(void *this, int keyCode)</code> see
 			<a href="#cheats">Cheats</a></li>
 			<li><code>0x83A9C0 isTextboxFocused</code></li>
@@ -1508,7 +1510,7 @@ struct CheatScreenData {
 	char field5;
 	char field6;
 	char field7;
-	int field8;
+	int field2CofLastCheatActivated;
 	struct CheatData *cheats; /*0x7FB960*/
 	int numCheats; // 20
 	char cheatString[32]; // typed string
@@ -1585,6 +1587,7 @@ struct CheatData cheatData[20] = {
 	{ "ordermebaby"		5, 0x00000004, 0, 0, 0, 1, 1, 0 }, //
 };
 
+/*0x575770*/
 void __thiscall InitCheats(struct CheatScreenData *data)
 {
 	int i;
@@ -1624,8 +1627,17 @@ void __thiscall InitCheats(struct CheatScreenData *data)
 			field</li>
 			<li><code>0x5760A0 int __thiscall DoCareerCheat(struct CheatScreenData *this,
 			int careerCheatIdx)</code> TODO</li>
+			<li><code>0x576090 GetExtraCheatedCareerMoney</code> basically
+			<code>return cheatExtraCareerMoney200 + cheatExtraCareerMoney1000;</code></li>
 			<li><code>0x865930 struct CheatScreenData cheatScreenData</code></li>
 			<li><code>0x7FB960 struct CheatData cheatData[20]</code></li>
+			<li><code>0x86512C cheatExtraCareerMoney200</code> set to 200 when the
+			<code>regmybank</code> cheat was entered</li>
+			<li><code>0x865130 cheatExtraCareerMoney1000</code> set to 1000 when the
+			<code>ordermebaby</code> cheat was entered</li>
+			<li><code>0x8383C8 cheatCareerNeverPossible</code> this gets only set to one when
+			a career cheat with <code>cheatData</code> zero is entered, but all career cheats
+			have a value of 2-4. It has one XREF, surrounded by some language stuff? TODO</li>
 			<strong>TODO</strong></li>
 		</ul>
 		<p><a href="#index">Index</a></p>
@@ -1665,6 +1677,51 @@ void __thiscall InitCheats(struct CheatScreenData *data)
 			<li><code>0x82B884 pSoundEffectSystem?</code> pointer to what is used as "this" for
 			calls to <code>PlaySound?</code></li>
 		</ul>
+		<p><a href="#index">Index</a></p>
+	</div>
+	<div>
+		<h2 id="career">Career <a href="#career">#</a></h2>
+		<pre>
+struct CareerData {
+	int money;
+};
+
+/*0x861E74*/
+struct CareerData careerData;
+</pre>
+		<ul>
+			<li><code>0x576090 GetExtraCheatedCareerMoney</code></li>
+			<li><code>0x532830 MaybeStartCareer?</code> it's the only func that calls
+			<code>GetExtraCheatedCareerMoney</code></li>
+			<li><code>0x86347C isProfileWithStartedCareerLoaded</code> fun fact: when creating a
+			new profile, this value is set to 0 when the textbox to enter a name appears. When
+			canceling at that point, it's set back to 1 (if the loaded profile already had
+			career started)</li>
+			<li><code>0x500F90 int __thiscall CareerGetMoney(struct CareerData *this)</code>
+			TODO has one other XREF: where money is drawn?</li>
+			<li><code>0x500F80 void __thiscall CareerGiveMoney(struct CareerData *this,
+			int amount)</code> only used in the career money cheats</li>
+			<li><code>0x861E74 careerData</code></li>
+		</ul>
+		<p>
+			The career money cheat is mildly interesting, as it seems to work in two different
+			ways. It adds the amount to a variable that is used when a new career is started and
+			it adds the amount to the current career data if the loaded profile didn't start
+			career yet.
+		</p>
+		<pre>
+/*from DoCareerCheat*/
+/*ordermebaby ($1000 career start bonus)*/
+cheatExtraCareerMoney1000 = 1000;
+// ^ used when starting a new career from a profile that
+// was loaded from the profile menu
+if (!isPofileWithStartedCareerLoaded) {
+	if (CareerGetMoney() == 0) {
+		CareerSetMoney(1000);
+		// ^ This only has an effect when the profile was
+		// loaded from the loading screen
+	}
+}</pre>
 		<p><a href="#index">Index</a></p>
 	</div>
 </body>
