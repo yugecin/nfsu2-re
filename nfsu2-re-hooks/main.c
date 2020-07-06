@@ -19,7 +19,7 @@ static char buf[1024], buf2[1024];
 OPTS
 */
 
-//#define SPEEDY_BOOT
+#define SPEEDY_BOOT
 
 #define ENABLE_HASH_HOOK_505450
 #define ENABLE_HASH_HOOK_43DB50

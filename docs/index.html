@@ -587,8 +587,22 @@ struct LanguageFileData languageFileData[] = {
 		<p><strong>07983D0 aLanguageselect db 'LanguageSelectScreen',0 TODO</strong></p>
 		<h3 id="language_files">Language files <a href="#language_files">#</a></h3>
 		<p>
-			Files
+			Files. Have to still figure that out. <a href="language.txt">language.txt</a>
+			How do the hashes relate to the entries?
 		</p>
+		<pre>
+table idx 1408 | 5D10F6AF 8E 43 00 00
+// somehow ^ is the hash for v
+value idx  607 | len 000C: Bank Reward:</pre>
+		<ul>
+			<li><code>0x4FFA50 char* GetLanguageString1?(int unk, int hash)</code> uses
+			<code>0xC01A6F63</code> as fallback</li>
+			<li><code>0x4FFA80 char* GetLanguageString2?(int hash)</code> uses
+			<code>0xC01A6F63</code> is used (TODO).</li>
+			<li><code>0x4FFAA0 char* GetlanguageString3?(int index)</code> uses
+			<code>0xC01A6F63</code> as fallback, also a table at <code>0x7F70D8</code> with
+			10 entries</li>
+		</ul>
 		<p><a href="#index">Index</a></p>
 	</div>
 	<div>
