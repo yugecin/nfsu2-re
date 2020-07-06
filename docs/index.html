@@ -921,11 +921,8 @@ int ConsoleIsCharOneOfTheseHardcodedValues(unsigned char value)
 		</p>
 		<p>
 			See <a href="hashes.txt">hashes.txt</a> (&lt; 1MB) for list of hashes, each line is formatted
-			as <code>hash\tinput\tresult\tproc\n</code>. It is the result of a dump of short 8 minute
-			menu browsing/driving. This output was piped to <code>sort | uniq</code>, the original output
-			was 277MB. I thought a tab character was a good separator but the first two entries have tab
-			characters... Edit: I've been updating this file at random times. Loaded more font hashes by
-			forcing different languages etc.
+			as <code>hash\tinput\tresult\tproc\n</code>. This file is updated at random times. 8 minutes
+			of playing gives about a 277MB file, all output was piped to <code>sort | uniq</code>.
 		</p>
 		<p>
 			How I collected these can be seen in <code>nfsu2-re-hooks/main.c</code>, starting
@@ -1626,7 +1623,7 @@ void __thiscall InitCheats(struct CheatScreenData *data)
 			cheats with a matching field28 has zero written to its <code>hasBeenTriggered</code>
 			field</li>
 			<li><code>0x5760A0 int __thiscall DoCareerCheat(struct CheatScreenData *this,
-			int careerCheatIdx)</code> TODO</li>
+			int careerCheatIdx)</code></li>
 			<li><code>0x576090 GetExtraCheatedCareerMoney</code> basically
 			<code>return cheatExtraCareerMoney200 + cheatExtraCareerMoney1000;</code></li>
 			<li><code>0x865930 struct CheatScreenData cheatScreenData</code></li>
@@ -1690,7 +1687,6 @@ struct CareerData {
 struct CareerData careerData;
 </pre>
 		<ul>
-			<li><code>0x576090 GetExtraCheatedCareerMoney</code></li>
 			<li><code>0x532830 MaybeStartCareer?</code> it's the only func that calls
 			<code>GetExtraCheatedCareerMoney</code></li>
 			<li><code>0x86347C isProfileWithStartedCareerLoaded</code> fun fact: when creating a
