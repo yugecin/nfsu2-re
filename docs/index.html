@@ -594,14 +594,51 @@ struct LanguageFileData languageFileData[] = {
 table idx 1408 | 5D10F6AF 8E 43 00 00
 // somehow ^ is the hash for v
 value idx  607 | len 000C: Bank Reward:</pre>
+		<p>
+			Once it's loaded ingame, it looks like this:
+		</p>
+<pre>
+struct LanguageTable {
+	int hash;
+	char *string;
+};
+
+struct SomeLanguageStruct {
+	int field0; // ?? checked against 0x39000
+	int numLoadedStrings;
+	char **table;
+	char **strings;
+};
+
+struct SomeLanguageStruct0 {
+	int field0;
+	int field4;
+	struct SomeLanguageStruct struct8;
+};
+
+/*0x8383D8*/
+struct LanguageTable *languageTable;
+/*0x8383D4*/
+char *languageStrings;
+</pre>
 		<ul>
-			<li><code>0x4FFA50 char* GetLanguageString1?(int unk, int hash)</code> uses
-			<code>0xC01A6F63</code> as fallback</li>
-			<li><code>0x4FFA80 char* GetLanguageString2?(int hash)</code> uses
-			<code>0xC01A6F63</code> is used (TODO).</li>
-			<li><code>0x4FFAA0 char* GetlanguageString3?(int index)</code> uses
-			<code>0xC01A6F63</code> as fallback, also a table at <code>0x7F70D8</code> with
-			10 entries</li>
+			<li><code>0x4FF9D0 char* GetLanguageStringOrNull()</code> returns a string ptr
+			or NULL for given hash (which is passed through edx). Does a binary search over
+			the data at <code>languageTableStart</code></li>
+			<li><code>0x4FFA50 void GetLanguageStringIntoBuf(char *dst, int dstlen, int hash)</code>
+			same as <code>GetLanguageString</code> but copy it into a buffer</li>
+			<li><code>0x4FFA80 char* GetLanguageString(int hash)</code> calls
+			<code>GetLanguageStringOrNull</code> and when it returns NULL, call it again but with
+			<code>0xC01A6F63</code> as fallback (which results in
+			<code>FENG: Default string error.</code></li>
+			<li><code>0x4FFAA0 char* GetNumberSuffix(int index)</code> returns, based on
+			passed index, one of: <code>th, st, nd, rd, th, th, th, th, th, th</code>, use
+			default string as fallback</li>
+			<li><code>0x5125B0 int FinalizeLoadLanguages(struct LanguageLoadStruct0 *data);</code>
+			fills in the variables below, returns 1 on success TODO who calls this?</li>
+			<li><code>0x8383D0 languageNumLoadedStrings</code></li>
+			<li><code>0x8383D4 languageStrings</code></li>
+			<li><code>0x8383D8 languageTable</code></li>
 		</ul>
 		<p><a href="#index">Index</a></p>
 	</div>
@@ -843,8 +880,8 @@ int ConsoleIsCharOneOfTheseHardcodedValues(unsigned char value)
 			This is the only other function that checks if <code>consoleEnabledFlag</code> is non-zero.
 		</p>
 		<p><a href="#index">Index</a></p>
-	</td></tr>
-	<tr><td>
+	</div>
+	<div>
 		<h2 id="hashfuncs">Hash functions <a href="#hashfuncs">#</a></h2>
 		<p>
 			While scrolling and looking at references to some strings, I found some parts that look like
