@@ -610,16 +610,18 @@ struct SomeLanguageStruct {
 	char **strings;
 };
 
-struct SomeLanguageStruct0 {
+struct LanguageLoadStruct {
 	int field0;
 	int field4;
 	struct SomeLanguageStruct struct8;
 };
 
-/*0x8383D8*/
-struct LanguageTable *languageTable;
+/*0x8383D0*/
+int languageNumLoadedStrings;
 /*0x8383D4*/
 char *languageStrings;
+/*0x8383D8*/
+struct LanguageTable *languageTable;
 </pre>
 		<ul>
 			<li><code>0x4FF9D0 char* GetLanguageStringOrNull()</code> returns a string ptr
@@ -630,15 +632,15 @@ char *languageStrings;
 			<li><code>0x4FFA80 char* GetLanguageString(int hash)</code> calls
 			<code>GetLanguageStringOrNull</code> and when it returns NULL, call it again but with
 			<code>0xC01A6F63</code> as fallback (which results in
-			<code>FENG: Default string error.</code></li>
+			<code>FENG: Default string error.</code>)</li>
 			<li><code>0x4FFAA0 char* GetNumberSuffix(int index)</code> returns, based on
 			passed index, one of: <code>th, st, nd, rd, th, th, th, th, th, th</code>, use
 			default string as fallback</li>
-			<li><code>0x5125B0 int FinalizeLoadLanguages(struct LanguageLoadStruct0 *data);</code>
+			<li><code>0x5125B0 int FinalizeLoadLanguages(struct LanguageLoadStruct *data);</code>
 			fills in the variables below, returns 1 on success TODO who calls this?</li>
-			<li><code>0x8383D0 languageNumLoadedStrings</code></li>
-			<li><code>0x8383D4 languageStrings</code></li>
-			<li><code>0x8383D8 languageTable</code></li>
+			<li><code>0x8383D0 int languageNumLoadedStrings</code></li>
+			<li><code>0x8383D4 char *languageStrings</code></li>
+			<li><code>0x8383D8 struct LanguageTable *languageTable</code></li>
 		</ul>
 		<p><a href="#index">Index</a></p>
 	</div>
@@ -1675,7 +1677,7 @@ void __thiscall InitCheats(struct CheatScreenData *data)
 			field</li>
 			<li><code>0x5760A0 int __thiscall DoCareerCheat(struct CheatScreenData *this,
 			int careerCheatIdx)</code></li>
-			<li><code>0x576090 GetExtraCheatedCareerMoney</code> basically
+			<li><code>0x576090 int GetExtraCheatedCareerMoney()</code> basically
 			<code>return cheatExtraCareerMoney200 + cheatExtraCareerMoney1000;</code></li>
 			<li><code>0x865930 struct CheatScreenData cheatScreenData</code></li>
 			<li><code>0x7FB960 struct CheatData cheatData[20]</code></li>
@@ -1748,7 +1750,7 @@ struct CareerData careerData;
 			TODO has one other XREF: where money is drawn?</li>
 			<li><code>0x500F80 void __thiscall CareerGiveMoney(struct CareerData *this,
 			int amount)</code> only used in the career money cheats</li>
-			<li><code>0x861E74 careerData</code></li>
+			<li><code>0x861E74 struct CareerData careerData</code></li>
 		</ul>
 		<p>
 			The career money cheat is mildly interesting, as it seems to work in two different
