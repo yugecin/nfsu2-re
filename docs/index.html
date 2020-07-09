@@ -637,7 +637,10 @@ struct LanguageTable *languageTable;
 			passed index, one of: <code>th, st, nd, rd, th, th, th, th, th, th</code>, use
 			default string as fallback</li>
 			<li><code>0x5125B0 int FinalizeLoadLanguages(struct LanguageLoadStruct *data);</code>
-			fills in the variables below, returns 1 on success TODO who calls this?</li>
+			fills in the variables below, returns 1 on success. Called by something that
+			calls a lot of functions until one returns non-zero. This func checks if
+			<code>data-&gt;field0</code> is <code>0x00039000</code>. The first four bytes of the
+			language bin files also start with <code>0x00039000</code>.</li>
 			<li><code>0x8383D0 int languageNumLoadedStrings</code></li>
 			<li><code>0x8383D4 char *languageStrings</code></li>
 			<li><code>0x8383D8 struct LanguageTable *languageTable</code></li>
