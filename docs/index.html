@@ -89,6 +89,7 @@ h2 a, h3 a {
 					<li><a href="#language_files">Language files</a></li>
 				</ul>
 			</li>
+			<li><a href="#pools">Pools</a></li>
 			<li><a href="#speedyboot">Speedy boot</a></li>
 			<li>
 				<a href="#displaysettings">Display settings</a>
@@ -644,6 +645,22 @@ struct LanguageTable *languageTable;
 			<li><code>0x8383D0 int languageNumLoadedStrings</code></li>
 			<li><code>0x8383D4 char *languageStrings</code></li>
 			<li><code>0x8383D8 struct LanguageTable *languageTable</code></li>
+		</ul>
+		<p><a href="#index">Index</a></p>
+	</div>
+	<div>
+		<h2 id="pools">Pools <a href="#pools">#</a></h2>
+		<pre>
+struct bFilePoolEntry {
+
+};</pre>
+		<ul>
+			<li><code>0x440DF0 ??CreatePool(int maybeElementSize, int maybeElementAmount,
+			char *name, int unknown)</code> TODO</li>
+			<li><code>0x440D40 int __thiscall PoolGetNextFreeItem_(void *this)</code> TODO</li>
+			<li><code>0x440E50 int PoolGetNextFreeItem?stdcallwrapper(void *pool)</code> same as
+			the one above, but wrapped in an stdcall</li>
+			<li><code>0x865104 p_bFileSystemPool</code></li>
 		</ul>
 		<p><a href="#index">Index</a></p>
 	</div>
@@ -1270,7 +1287,7 @@ ASSERT_OFFSET(struct DialogInfo, isHelpDialog, 0x32D);</pre>
 			<li><code>0x7F6DE0 int nextDialogId</code> when <code>ShowDialog</code> is called,
 			value is put into <code>shownDialogId</code> and incremented</li>
 			<li><code>0x838640 struct DialogInfo shownDialogData</code> dialog info passed to
-			<code>ShowDialog</code> is copied into here</li>
+			<code>ShowDialog</code> is copied into here, TODO xrefs</li>
 		</ul>
 		<hr/>
 		<p>
@@ -1495,7 +1512,7 @@ struct FNGData fngdata[] = {
 };
 </pre>
 		<ul>
-			<li><code>0x50B8E0 int SetInitializeHandlerForFNG(char *fng, msghandler *func)</code>
+			<li><code>0x50B8E0 int SetInitializeHandlerForFNG(char *fng, fnginithandler *func)</code>
 			goes through all the fng data above and set the handler for <code>stricmp</code>
 			matching fng names</li>
 			<li><code>0x50B840 struct FNGData* GetFNGDataForHash(int hash)</code> goes through
