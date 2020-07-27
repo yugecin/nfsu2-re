@@ -650,16 +650,45 @@ struct LanguageTable *languageTable;
 	</div>
 	<div>
 		<h2 id="pools">Pools <a href="#pools">#</a></h2>
+		<p>
+			I hooked <code>??CreatePoolReally</code> and collected some output:
+			<a href="createpoollog.txt">createpoollog.txt</a>. This will probably help a lot when
+			trying to figure out other things. Note that the first time the
+			<code>AUD: NFS3DMixCtl Pool</code> is made, it has an element amount of zero. The dump
+			is from just starting the game and starting a circuit race.
+		</p>
 		<pre>
-struct bFilePoolEntry {
+struct PoolHeader {
+	int field_0;
+	int field_4;
+	struct PoolHeader *nextLinkedPool;
+	char* pName;
+	int field_10;
+	int field_14;
+	int allocatedElements;
+	int maxAllocatedElements?;
+	int field_20;
+	int elementAmount;
+	int elementSize;
+	int elementAmountOverAllLinkedPools;
+	// here comes pool data
+};
+
+struct bFileSystemPoolEntry {
 
 };</pre>
 		<ul>
-			<li><code>0x440DF0 ??CreatePool(int maybeElementSize, int maybeElementAmount,
+			<li><code>0x440B40 ??CreatePoolReally(int maybeElementSize, int maybeElementAmount,
 			char *name, int unknown)</code> TODO</li>
+			<li><code>0x440DF0 ??CreatePool(int maybeElementSize, int maybeElementAmount,
+			char *name, int unknown)</code> TODO, does something after calling
+			<code>??CreatePoolReally</code></li>
 			<li><code>0x440D40 int __thiscall PoolGetNextFreeItem_(void *this)</code> TODO</li>
 			<li><code>0x440E50 int PoolGetNextFreeItem?stdcallwrapper(void *pool)</code> same as
 			the one above, but wrapped in an stdcall</li>
+			<li><code>0x440BB0 int __thiscall PoolExtend(struct Pool *this,
+			int maybeElementAmount)</code> TODO, basically allocates another pool (with bigger
+			size? TODO) and link it to this</li>
 			<li><code>0x865104 p_bFileSystemPool</code></li>
 		</ul>
 		<p><a href="#index">Index</a></p>
