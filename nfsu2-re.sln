@@ -7,6 +7,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "nfsu2-re-hash", "nfsu2-re-h
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "nfsu2-re-language", "nfsu2-re-language\nfsu2-re-language.vcproj", "{CB5A234E-0954-480E-9678-E8FA00212AD2}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "nfsu2-re-hooks-sourcefiles", "nfsu2-re-hooks\nfsu2-re-hooks-sourcefiles.vcproj", "{CCC8E640-3F99-4234-8765-9F51938F7819}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
@@ -25,6 +27,10 @@ Global
 		{CB5A234E-0954-480E-9678-E8FA00212AD2}.Debug|Win32.Build.0 = Debug|Win32
 		{CB5A234E-0954-480E-9678-E8FA00212AD2}.Release|Win32.ActiveCfg = Release|Win32
 		{CB5A234E-0954-480E-9678-E8FA00212AD2}.Release|Win32.Build.0 = Release|Win32
+		{CCC8E640-3F99-4234-8765-9F51938F7819}.Debug|Win32.ActiveCfg = Debug|Win32
+		{CCC8E640-3F99-4234-8765-9F51938F7819}.Debug|Win32.Build.0 = Debug|Win32
+		{CCC8E640-3F99-4234-8765-9F51938F7819}.Release|Win32.ActiveCfg = Release|Win32
+		{CCC8E640-3F99-4234-8765-9F51938F7819}.Release|Win32.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

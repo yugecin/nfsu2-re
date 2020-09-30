@@ -612,7 +612,7 @@ struct SomeLanguageStruct {
 };
 
 struct LanguageLoadStruct {
-	int field0;
+	int binFileMagic;
 	int field4;
 	struct SomeLanguageStruct struct8;
 };
@@ -627,7 +627,7 @@ struct LanguageTable *languageTable;
 		<ul>
 			<li><code>0x4FF9D0 char* GetLanguageStringOrNull()</code> returns a string ptr
 			or NULL for given hash (which is passed through edx). Does a binary search over
-			the data at <code>languageTableStart</code></li>
+			the data at <code>languageTable</code></li>
 			<li><code>0x4FFA50 void GetLanguageStringIntoBuf(char *dst, int dstlen, int hash)</code>
 			same as <code>GetLanguageString</code> but copy it into a buffer</li>
 			<li><code>0x4FFA80 char* GetLanguageString(int hash)</code> calls
@@ -637,11 +637,15 @@ struct LanguageTable *languageTable;
 			<li><code>0x4FFAA0 char* GetNumberSuffix(int index)</code> returns, based on
 			passed index, one of: <code>th, st, nd, rd, th, th, th, th, th, th</code>, use
 			default string as fallback</li>
-			<li><code>0x5125B0 int FinalizeLoadLanguages(struct LanguageLoadStruct *data);</code>
-			fills in the variables below, returns 1 on success. Called by something that
-			calls a lot of functions until one returns non-zero. This func checks if
-			<code>data-&gt;field0</code> is <code>0x00039000</code>. The first four bytes of the
-			language bin files also start with <code>0x00039000</code>.</li>
+			<li><code>0x5125B0 int FinalizeLoadLanguageFile(struct LanguageLoadStruct *data);</code>
+
+			fills in the variables below from passed data, returns 1 on success.
+			Called by something that calls a lot of functions until one returns non-zero.
+			This func checks if <code>data-&gt;field0</code> is <code>0x00039000</code>.
+			The first four bytes of the language bin files also start with <code>0x00039000</code>.</li>
+			<li><code>0x4FFAE0 int InitializeLoadLanguageFile(void *data);</code>
+			same as above, checks <code>binFileMagic</code> for being <code>0x00039000</code>,
+			then sets some language relates variables to zero.</li>
 			<li><code>0x8383D0 int languageNumLoadedStrings</code></li>
 			<li><code>0x8383D4 char *languageStrings</code></li>
 			<li><code>0x8383D8 struct LanguageTable *languageTable</code></li>
@@ -659,7 +663,7 @@ struct LanguageTable *languageTable;
 		</p>
 		<pre>
 struct PoolHeader {
-	int field_0;
+	int field_0; // ptr
 	int field_4;
 	struct PoolHeader *nextLinkedPool;
 	char* pName;
@@ -676,7 +680,8 @@ struct PoolHeader {
 
 struct bFileSystemPoolEntry {
 
-};</pre>
+};
+EXPECT_SIZE(struct bFileSystemPoolEntry, 0xF0);</pre>
 		<ul>
 			<li><code>0x440B40 ??CreatePoolReally(int maybeElementSize, int maybeElementAmount,
 			char *name, int unknown)</code> TODO</li>
@@ -1178,6 +1183,9 @@ package[GenericDialog_SMALL.fng] will unload</pre>
 		<p>
 			Names with <code>.FNG</code> seem to be occuring a lot, it seems like that are UI
 			resources or some kind of UI widget descriptors.
+		</p>
+		<p>
+			In text strings, <code>^</code> is a line feed.
 		</p>
 		<p><a href="#index">Index</a></p>
 		<hr/>
