@@ -194,6 +194,38 @@ int cihash(char *input)
 	return result;
 }
 
+static
+void hash_func_log(char *arg, int result, int address)
+{
+	if (arg != NULL) {
+		log(buf, sprintf(buf, "hash\t%s\t%p\t%X", arg, result, address));
+	}
+}
+
+static
+void logvalue(char *lineprefix, char *varname, int value)
+{
+	float floatval;
+	int derefval;
+
+	floatval = *((float*) &value);
+	log(buf, sprintf(buf, "%s   value '%s'", lineprefix, varname));
+	log(buf, sprintf(buf, "%s     char %d 0x%X short 0x%d %X int %d 0x%X float %.1f",
+		lineprefix, value & 0xFF, value & 0xFF, value & 0xFFFF, value & 0xFFFF,
+		value, value, floatval));
+	if (!IsBadReadPtr((void*) value, 4)) {
+		log(buf, sprintf(buf, "%s      is valid pointer to:", lineprefix));
+		derefval = *((int*) value);
+		floatval = *((float*) &derefval);
+		log(buf, sprintf(buf, "%s        char %d 0x%X short %d 0x%X int %d 0x%X float %.1f",
+			lineprefix, value & 0xFF, value & 0xFF, value & 0xFFFF, value & 0xFFFF,
+			value, value, floatval));
+	}
+	if (!IsBadStringPtrA((char*) value, sizeof(buf) - 10)) {
+		log(buf, sprintf(buf, "%s      strptr: '%s'", lineprefix, value));
+	}
+}
+
 /***********************************************************************************************
 Short reimplemented functions that are not replaced
 */
@@ -222,31 +254,18 @@ void stub()
 }
 #define INIT_FUNC stub
 
-static
-void hash_func_log(char *arg, int result, int address)
-{
-	if (arg != NULL) {
-		log(buf, sprintf(buf, "hash\t%s\t%p\t%X", arg, result, address));
-	}
-}
-
 /*note: hash hooks can get called A LOT so this may slow down the game*/
-#define PRINT_HASHES
 
 #include "faux-enable-console.c"
-#ifdef PRINT_HASHES
-#include "hook-43DB50-hash-cs.c"
-#endif
-#include "hook-440B96-CreatePool.c"
-#ifdef PRINT_HASHES
-#include "hook-505450-hash-ci.c"
-#include "hook-50B9C0-hash-ci.c"
-#endif
-#include "hook-55DC20-SendSomethingToFNG.c"
+//#include "hook-43DB50-hash-cs.c"
+//#include "hook-440B96-CreatePool.c"
+//#include "hook-505450-hash-ci.c"
+//#include "hook-50B9C0-hash-ci.c"
+//#include "hook-55DC20-SendSomethingToFNG.c"
 #include "replace-50B790-ShowFNG.c"
-#include "replace-50D510-DebugPrint.c"
-#include "replace-511E60-GetLogoForCarModel.c"
-#include "replace-526C40-GetFNGForDialog.c"
+//#include "replace-50D510-DebugPrint.c"
+//#include "replace-511E60-GetLogoForCarModel.c"
+//#include "replace-526C40-GetFNGForDialog.c"
 #include "speedyboot.c"
 
 BOOL APIENTRY DllMain(HMODULE hModule, DWORD reason_for_call, LPVOID lpResrvd)
