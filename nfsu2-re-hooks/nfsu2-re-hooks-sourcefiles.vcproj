@@ -171,6 +171,10 @@
 			>
 		</File>
 		<File
+			RelativePath=".\hook-57CAC0-SomethingWithAFile.c"
+			>
+		</File>
+		<File
 			RelativePath=".\replace-50B790-ShowFNG.c"
 			>
 		</File>
