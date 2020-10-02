@@ -13,7 +13,7 @@
 
 static int base;
 static FILE *logfile;
-static char buf[1024], buf2[1024];
+static char buf[4096], buf2[4096];
 
 #define LOG_TO_LOGFILE
 //#define LOG_TO_DEBUGSTRING
@@ -262,7 +262,8 @@ void stub()
 //#include "hook-505450-hash-ci.c"
 //#include "hook-50B9C0-hash-ci.c"
 //#include "hook-55DC20-SendSomethingToFNG.c"
-#include "hook-57CAC0-SomethingWithABinFile.c"
+//#include "hook-57CAC0-SomethingWithABinFile.c"
+#include "hook-realcore-filesystem.c"
 //#include "replace-50B790-ShowFNG.c"
 //#include "replace-50D510-DebugPrint.c"
 //#include "replace-511E60-GetLogoForCarModel.c"

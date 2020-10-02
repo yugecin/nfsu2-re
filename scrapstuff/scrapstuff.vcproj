@@ -2,9 +2,10 @@
 <VisualStudioProject
 	ProjectType="Visual C++"
 	Version="8,00"
-	Name="nfsu2-re-hooks-sourcefiles"
-	ProjectGUID="{CCC8E640-3F99-4234-8765-9F51938F7819}"
-	RootNamespace="nfsu2-re-hooks-sourcefiles"
+	Name="scrapstuff"
+	ProjectGUID="{C25F5B19-62E4-48CC-9307-BBEDFB5733B3}"
+	RootNamespace="scrapstuff"
+	Keyword="Win32Proj"
 	>
 	<Platforms>
 		<Platform
@@ -18,7 +19,8 @@
 			Name="Debug|Win32"
 			OutputDirectory="$(SolutionDir)$(ConfigurationName)"
 			IntermediateDirectory="$(ConfigurationName)"
-			ConfigurationType="2"
+			ConfigurationType="1"
+			CharacterSet="1"
 			>
 			<Tool
 				Name="VCPreBuildEventTool"
@@ -38,7 +40,13 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="&quot;c:\Program Files (x86)\Windows Kits\8.0\Include\shared&quot;;&quot;c:\Program Files (x86)\Windows Kits\8.0\Include\um&quot;"
+				PreprocessorDefinitions="WIN32;_DEBUG;_CONSOLE"
+				MinimalRebuild="true"
+				BasicRuntimeChecks="3"
+				RuntimeLibrary="3"
+				UsePrecompiledHeader="0"
+				WarningLevel="3"
+				Detect64BitPortabilityProblems="true"
 				DebugInformationFormat="4"
 				CompileAs="1"
 			/>
@@ -53,9 +61,10 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				OutputFile="$(SolutionDir)\..\NeedForSpeed U2\scripts\$(ProjectName).asi"
-				IgnoreDefaultLibraryNames="uuid.lib"
+				LinkIncremental="2"
 				GenerateDebugInformation="true"
+				SubSystem="1"
+				TargetMachine="1"
 			/>
 			<Tool
 				Name="VCALinkTool"
@@ -84,8 +93,11 @@
 		</Configuration>
 		<Configuration
 			Name="Release|Win32"
+			OutputDirectory="$(SolutionDir)$(ConfigurationName)"
 			IntermediateDirectory="$(ConfigurationName)"
 			ConfigurationType="1"
+			CharacterSet="1"
+			WholeProgramOptimization="1"
 			>
 			<Tool
 				Name="VCPreBuildEventTool"
@@ -104,6 +116,12 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
+				PreprocessorDefinitions="WIN32;NDEBUG;_CONSOLE"
+				RuntimeLibrary="2"
+				UsePrecompiledHeader="0"
+				WarningLevel="3"
+				Detect64BitPortabilityProblems="true"
+				DebugInformationFormat="3"
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"
@@ -116,6 +134,12 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
+				LinkIncremental="1"
+				GenerateDebugInformation="true"
+				SubSystem="1"
+				OptimizeReferences="2"
+				EnableCOMDATFolding="2"
+				TargetMachine="1"
 			/>
 			<Tool
 				Name="VCALinkTool"
@@ -147,55 +171,7 @@
 	</References>
 	<Files>
 		<File
-			RelativePath=".\faux-enable-console.c"
-			>
-		</File>
-		<File
-			RelativePath=".\hook-43DB50-hash-cs.c"
-			>
-		</File>
-		<File
-			RelativePath=".\hook-440B96-CreatePool.c"
-			>
-		</File>
-		<File
-			RelativePath=".\hook-505450-hash-ci.c"
-			>
-		</File>
-		<File
-			RelativePath=".\hook-50B9C0-hash-ci.c"
-			>
-		</File>
-		<File
-			RelativePath=".\hook-55DC20-SendSomethingToFNG.c"
-			>
-		</File>
-		<File
-			RelativePath=".\hook-57CAC0-SomethingWithABinFile.c"
-			>
-		</File>
-		<File
-			RelativePath=".\hook-realcore-filesystem.c"
-			>
-		</File>
-		<File
-			RelativePath=".\replace-50B790-ShowFNG.c"
-			>
-		</File>
-		<File
-			RelativePath=".\replace-50D510-DebugPrint.c"
-			>
-		</File>
-		<File
-			RelativePath=".\replace-511E60-GetLogoForCarModel.c"
-			>
-		</File>
-		<File
-			RelativePath=".\replace-526C40-GetFNGForDialog.c"
-			>
-		</File>
-		<File
-			RelativePath=".\speedyboot.c"
+			RelativePath=".\main.c"
 			>
 		</File>
 	</Files>
