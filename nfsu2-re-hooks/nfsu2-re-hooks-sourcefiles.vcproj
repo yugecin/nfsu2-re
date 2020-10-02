@@ -175,6 +175,10 @@
 			>
 		</File>
 		<File
+			RelativePath=".\hook-fileapi.c"
+			>
+		</File>
+		<File
 			RelativePath=".\hook-realcore-filesystem.c"
 			>
 		</File>
