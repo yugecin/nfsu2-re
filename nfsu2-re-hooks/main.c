@@ -269,6 +269,7 @@ void stub()
 //#include "replace-50D510-DebugPrint.c"
 //#include "replace-511E60-GetLogoForCarModel.c"
 //#include "replace-526C40-GetFNGForDialog.c"
+#include "runwindowed.c"
 #include "speedyboot.c"
 
 BOOL APIENTRY DllMain(HMODULE hModule, DWORD reason_for_call, LPVOID lpResrvd)

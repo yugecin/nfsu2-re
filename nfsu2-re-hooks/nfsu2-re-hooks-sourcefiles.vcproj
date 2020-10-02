@@ -199,6 +199,10 @@
 			>
 		</File>
 		<File
+			RelativePath=".\runwindowed.c"
+			>
+		</File>
+		<File
 			RelativePath=".\speedyboot.c"
 			>
 		</File>
