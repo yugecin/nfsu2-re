@@ -132,6 +132,10 @@ struct FNGData *fngdata = (struct FNGData*) 0x7F7DC8;
 int *_game_region = (int*) 0x864F24;
 int *_current_loaded_language = (int*) 0x7F70D0;
 HWND *hwnd = (HWND*) 0x870990;
+float *canvasWidth = (float*) 0x797D58;
+float *canvasHeight = (float*) 0x797D54;
+float *canvasWidth_2 = (float*) 0x797D50;
+float *canvasHeight_2 = (float*) 0x78DA30;
 
 #pragma pack(pop,1)
 
@@ -292,13 +296,16 @@ void stub()
 #include "hook-fileapi.c"
 //#include "hook-realcore-filesystem.c"
 //#include "replace-50B790-ShowFNG.c"
+//#include "replace-50CD00-IsPointInRect.c"
+//#include "replace-50CDB0-DidCursorPressInRect.c"
 //#include "replace-50D510-DebugPrint.c"
 //#include "replace-511E60-GetLogoForCarModel.c"
+//#include "replace-51D9F0-GetUIElementSize-Maybe-TODO.c"
 //#include "replace-526C40-GetFNGForDialog.c"
-#include "replace-5BF750-UpdateCursorPosition.c"
-#include "replace-5BF860-UpdateMouseState.c"
-#include "replace-5BF940-HaveCursorActivity.c"
-#include "replace-5C8600-MouseData__ctor.c"
+//#include "replace-5BF750-UpdateCursorPosition.c"
+//#include "replace-5BF860-UpdateMouseState.c"
+//#include "replace-5BF940-HaveCursorActivity.c"
+//#include "replace-5C8600-MouseData__ctor.c"
 #include "speedyboot.c"
 
 BOOL APIENTRY DllMain(HMODULE hModule, DWORD reason_for_call, LPVOID lpResrvd)

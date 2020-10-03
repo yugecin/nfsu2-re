@@ -73,6 +73,9 @@ h2 a, h3 a {
 			This normally belongs to
 			<a href="https://github.com/yugecin/nfsu2-re">https://github.com/yugecin/nfsu2-re</a>
 		</p>
+		<p>
+			Other pages: <a href="cheatsheet.html">(fpu) cheatsheet</a>
+		</p>
 	</div>
 	<div>
 		<h2 id="index">Index</h2>
@@ -114,19 +117,19 @@ h2 a, h3 a {
 							<li><a href="#ui_dialog_getfngfordialog">GetFNGForDialog</a></li>
 						</ul>
 					</li>
+					<li><a href="#mouseinput">Mouse input</a></li>
 				</ul>
 			</li>
 			<li><a href="#cheats">Cheats</a></li>
 			<li><a href="#carmodeldata">Car model data</a></li>
 			<li><a href="#sound">Sound</a></li>
 			<li><a href="#career">Career</a></li>
-			<li><a href="#mouseinput">Mouse input</a></li>
 		</ul>
 	</div>
 	<div>
 		<h2 id="injectedcode">Injected code <a href="#injectedcode">#</a></h2>
 		<p>
-			The code for all injected things I did can be found in <code>nfsu2-re-hooks/main.c</code>.
+			The code for all injected things I did can be found in <code>nfsu2-re-hooks/*.c</code>.
 			It's configured as a VC2005 project in a VC2005 solution. The project emits a compiled file
 			to <code>..\NeedForSpeed U2\scripts\nfsu2-re-hooks.asi</code>. I'm using the
 			<a href="https://github.com/ThirteenAG/Ultimate-ASI-Loader/releases">Ultimate ASI Loader by
@@ -835,9 +838,10 @@ void speedyboot()
 		</p>
 		<p>
 			In the hooks project, I "enabled" this console in the functions <code>initConsolePOC</code>
-			in the file <code>nfsu2-re-hooks/main.c</code>. As it doesn't seem to be used anywhere, the
-			only effect you can see is that whatever you type is written into the
-			<code>console_real_text</code> buffer (use CheatEngine or something you like to inspect it).
+			in the file <code>nfsu2-re-hooks/faux-enable-console.c</code>.
+			As it doesn't seem to be used anywhere, the only effect you can see is that whatever you
+			type is written into the <code>console_real_text</code> buffer (use CheatEngine or something
+			you like to inspect it).
 		</p>
 		<p>
 			All names below were chosen by me.
@@ -1033,9 +1037,7 @@ int ConsoleIsCharOneOfTheseHardcodedValues(unsigned char value)
 			of playing gives about a 277MB file, all output was piped to <code>sort | uniq</code>.
 		</p>
 		<p>
-			How I collected these can be seen in <code>nfsu2-re-hooks/main.c</code>, starting
-			from functions <code>SomeHashCI505450HookPre</code> and
-			<code>SomeHashCS43DB50HookPre</code>.
+			How I collected these can be seen in the <code>nfsu2-re-hooks/hook-*-hash-*.c</code> files.
 		</p>
 		<p><a href="#index">Index</a></p>
 		<hr/>
@@ -1188,6 +1190,20 @@ package[GenericDialog_SMALL.fng] will unload</pre>
 		<p>
 			In text strings, <code>^</code> is a line feed.
 		</p>
+		<p>
+			UI things seem to work on a <code>640x480</code> canvas.
+			Most things (especially when mouse is involved) seem to be positioned
+			<code>([-320,+320],[-240,+240])</code>.
+		</p>
+		<ul>
+			<li><code>50B460 int RenderCursor(int x, int y)</code></li>
+			<li><code>50CD00 int IsPointInRect(float x, float y, struct { float x; float y} *pos,
+			struct { float width; float height; } *size)</code>
+			Only seen this being called when there's a list on screen so far.</li>
+			<li><code>52D020 int IsPointIn??SomethingUI(float x, float y, void *somethingui)</code>
+			something ui is something ui. Calculating the area goes through lots of functions, TODO
+			</li>
+		</ul>
 		<p><a href="#index">Index</a></p>
 		<hr/>
 		<h3 id="ui_dialog">Dialogs <a href="#ui_dialog">#</a></h3>
@@ -1608,6 +1624,72 @@ ShowFNG(33AC1CB4 ("UI_PC_Help_Bar.fng"), 037DFF40, 00000000) = 03D7EB60
 ShowFNG(32124083 ("UI_Pause.fng"), 037DDF40, 00000000) = 037DE2B0
 ShowFNG(AA469286 ("UI_InGameDialog.fng"), 037C1120, 00838640) = 037C2AB0</pre>
 		<p><a href="#index">Index</a></p>
+		<hr/>
+		<h3 id="mouseinput">Mouse input <a href="#mouseinput">#</a></h3>
+		<p>
+			While the canvas is <code>640x480</code>, mouse position seems to be handled mostly
+			as <code>([-320,+320],[-240,+240])</code>.
+		</p>
+		<pre>
+struct MouseData {
+	void /*DInputDevice8*/ *dinputdevice;
+	int cursorX; // on 640x480 canvas
+	int cursorY; // on 640x480 canvas
+	int previousCursorX; // on 640x480 canvas
+	int previousCursorY; // on 640x480 canvas
+	int deltaCursorX; // on 640x480 canvas
+	int deltaCursorY; // on 640x480 canvas
+	int mousestate_lZ; // scrollwheel data
+	char areMouseButtonsSwapped; // result of GetSystemMetrics(SM_SWAPBUTTON);
+	char button0State; // left mouse button
+	char button0JustPressed;
+	char button0JustReleased;
+	char button1State; // right mouse button
+	char button1JustPressed;
+	char button1JustReleased;
+	char button2State; // middle mouse button
+	char button2JustPressed;
+	char button2JustReleased;
+};
+
+struct MouseData *_mouseData = (struct MouseData*) 0x8763D0;</pre>
+		<ul>
+			<li><code>5BF6E0 int __thiscall CreateDinputDevice(struct MouseData *this)</code>
+			Creates and sets <code>dinputdevice</code></li>
+			<li><code>5C8600 int __thiscall MouseData::ctor(struct MouseData *this)</code>
+			called once, from <code>init_function_77E580</code></li>
+			<li><code>5BF860 void __thiscall UpdateMouseState(struct MouseData *this)</code>
+			Calls <code>UpdateCursorPosition</code> and then updates button states.</li>
+			<li><code>5BF750 int __thiscall UpdateCursorPosition(struct MouseData *this)</code></li>
+			<li><code>5BF940 int __thiscall HaveCursorActivity(struct MouseData *this)</code>
+			called once, from <code>5663F9 DoUI</code>. returns 1 if position deltas or scrollwheel or
+			any of the JustPressed/JustReleased fields are not zero. Always returning 0 here has the
+			effect that ui hover does not work, left click acts as right click (go back) except when
+			clicking on the active ui element (like main menu bar). Dialog box buttons still work
+			somehow. The car showroom can still be rotated with mmb. Mouse still moves.</li>
+			<li><code>50C860 void StoreMousePosButtonsIntoArg(void *arg)</code>
+			<pre>
+*((short*) arg_0 + 0) = _mouseData.cursorX - canvasWidth / 2;
+*((short*) arg_0 + 1) = _mouseData.cursorY - canvasHeight / 2;
+*((short*) arg_0 + 2) = _mouseData.button0State &lt;&lt; 1 | _mouseData.button1State; (or swapped)</pre></li>
+			<li><code>50CD70 void GetMousePositionFromMiddle(float *cursorX, float *cursorY)</code>
+			<pre>
+*cursorX = _mouseData.cursorX - canvasWidth/2;
+*cursorY = _mouseData.cursorY - canvasHeight/2;</pre>
+			</li>
+			<li><code>50CDA0 void GetMouseWheel(float *mouseWheelData)</code>
+<pre>*mouseWheelData = _mouseData.mousestate.lz;</pre>
+			</li>
+			<li><code>50CDB0 int DidCursorPressInRect(struct { float x; float y; } *pos,
+			struct { float width; float height; } *size)</code>
+			Gets called in one location, but still haven't actually seen it being called. TODO</li>
+			<li><code>52D090 DidCursorPressIn??SomethingUI(void *somethingui)</code>
+			Delegates to <code>52D020 int IsPointIn??SomethingUI</code></li>
+			<li><code>52D100 DidCursorPressIn??SomethingUI_2(void *something2)</code>
+			same as above, probably for some other type UI element</li>
+			<li><code>8763D0 struct MouseData _mouseData</code></li>
+		</ul>
+		<p><a href="#index">Index</a></p>
 	</div>
 	<div>
 		<h2 id="cheats">Cheats <a href="#cheats">#</a></h2>
@@ -1829,49 +1911,6 @@ if (!isPofileWithStartedCareerLoaded) {
 		// loaded from the loading screen
 	}
 }</pre>
-		<p><a href="#index">Index</a></p>
-	</div>
-	<div>
-		<h2 id="mouseinput">Mouse input <a href="#mouseinput">#</a></h2>
-		<pre>
-struct MouseData {
-	void /*DInputDevice8*/ *dinputdevice;
-	int cursorX; // on 640x480 canvas
-	int cursorY; // on 640x480 canvas
-	int previousCursorX; // on 640x480 canvas
-	int previousCursorY; // on 640x480 canvas
-	int deltaCursorX; // on 640x480 canvas
-	int deltaCursorY; // on 640x480 canvas
-	int mousestate_lZ; // scrollwheel data
-	char areMouseButtonsSwapped; // result of GetSystemMetrics(SM_SWAPBUTTON);
-	char button0State; // left mouse button
-	char button0JustPressed;
-	char button0JustReleased;
-	char button1State; // right mouse button
-	char button1JustPressed;
-	char button1JustReleased;
-	char button2State; // middle mouse button
-	char button2JustPressed;
-	char button2JustReleased;
-};
-
-struct MouseData *_mouseData = (struct MouseData*) 0x8763D0;</pre>
-		<ul>
-			<li><code>5BF6E0 int __thiscall CreateDinputDevice(struct MouseData *this)</code>
-			Creates and sets <code>dinputdevice</code></li>
-			<li><code>5C8600 int __thiscall MouseData::ctor(struct MouseData *this)</code>
-			called once, from <code>init_function_77E580</code></li>
-			<li><code>5BF860 void __thiscall UpdateMouseState(struct MouseData *this)</code>
-			Calls <code>UpdateCursorPosition</code> and then updates button states.</li>
-			<li><code>5BF750 int __thiscall UpdateCursorPosition(struct MouseData *this)</code></li>
-			<li><code>5BF940 int __thiscall HaveCursorActivity(struct MouseData *this)</code>
-			called once, from <code>5663F9 DoUI</code>. returns 1 if position deltas or scrollwheel or
-			any of the JustPressed/JustReleased fields are not zero. Always returning 0 here has the
-			effect that ui hover does not work, left click acts as right click (go back) except when
-			clicking on the active ui element (like mean menu bar). Dialog box buttons still work
-			somehow. The car showroom can still be rotated with mmb. Mouse still moves.</li>
-			<li><code>8763D0 struct MouseData _mouseData</code></li>
-		</ul>
 		<p><a href="#index">Index</a></p>
 	</div>
 </body>

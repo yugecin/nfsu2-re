@@ -187,11 +187,23 @@
 			>
 		</File>
 		<File
+			RelativePath=".\replace-50CD00-IsPointInRect.c"
+			>
+		</File>
+		<File
+			RelativePath=".\replace-50CDB0-DidCursorPressInRect.c"
+			>
+		</File>
+		<File
 			RelativePath=".\replace-50D510-DebugPrint.c"
 			>
 		</File>
 		<File
 			RelativePath=".\replace-511E60-GetLogoForCarModel.c"
+			>
+		</File>
+		<File
+			RelativePath=".\replace-51D9F0-GetUIElementSize-Maybe-TODO.c"
 			>
 		</File>
 		<File
