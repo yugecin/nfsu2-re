@@ -211,6 +211,10 @@
 			>
 		</File>
 		<File
+			RelativePath=".\replace-5C8600-MouseData__ctor.c"
+			>
+		</File>
+		<File
 			RelativePath=".\runwindowed.c"
 			>
 		</File>
