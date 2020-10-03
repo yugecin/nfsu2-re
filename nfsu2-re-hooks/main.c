@@ -105,10 +105,33 @@ struct FNGInfo {
 	int controlMask;
 };
 
+struct MouseData {
+	void /*DInputDevice8*/ *dinputdevice;
+	int cursorX; // on 640x480 canvas
+	int cursorY; // on 640x480 canvas
+	int previousCursorX; // on 640x480 canvas
+	int previousCursorY; // on 640x480 canvas
+	int deltaCursorX; // on 640x480 canvas
+	int deltaCursorY; // on 640x480 canvas
+	int mousestate_lZ; // scrollwheel data
+	char areMouseButtonsSwapped; // result of GetSystemMetrics(SM_SWAPBUTTON);
+	char button0State; // left mouse button
+	char button0JustPressed;
+	char button0JustReleased;
+	char button1State; // right mouse button
+	char button1JustPressed;
+	char button1JustReleased;
+	char button2State; // middle mouse button
+	char button2JustPressed;
+	char button2JustReleased;
+};
+
+struct MouseData *_mouseData = (struct MouseData*) 0x8763D0;
 struct CarModelInfo **_car_model_infos = (void*) 0x8A1CCC;
 struct FNGData *fngdata = (struct FNGData*) 0x7F7DC8;
 int *_game_region = (int*) 0x864F24;
 int *_current_loaded_language = (int*) 0x7F70D0;
+HWND *hwnd = (HWND*) 0x870990;
 
 #pragma pack(pop,1)
 
@@ -256,6 +279,9 @@ void stub()
 
 /*note: hash hooks can get called A LOT so this may slow down the game*/
 
+#define WIDESCREEN_MOD /*define when external widescreen mod is active*/
+
+#include "runwindowed.c" // must be on top for NFSU2_RUN_WINDOWED define, needed for mouse stuff
 #include "faux-enable-console.c"
 //#include "hook-43DB50-hash-cs.c"
 //#include "hook-440B96-CreatePool.c"
@@ -269,7 +295,9 @@ void stub()
 //#include "replace-50D510-DebugPrint.c"
 //#include "replace-511E60-GetLogoForCarModel.c"
 //#include "replace-526C40-GetFNGForDialog.c"
-#include "runwindowed.c"
+#include "replace-5BF750-UpdateCursorPosition.c"
+#include "replace-5BF860-UpdateMouseState.c"
+#include "replace-5BF940-HaveCursorActivity.c"
 #include "speedyboot.c"
 
 BOOL APIENTRY DllMain(HMODULE hModule, DWORD reason_for_call, LPVOID lpResrvd)

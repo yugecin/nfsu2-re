@@ -120,6 +120,7 @@ h2 a, h3 a {
 			<li><a href="#carmodeldata">Car model data</a></li>
 			<li><a href="#sound">Sound</a></li>
 			<li><a href="#career">Career</a></li>
+			<li><a href="#mouseinput">Mouse input</a></li>
 		</ul>
 	</div>
 	<div>
@@ -1828,6 +1829,49 @@ if (!isPofileWithStartedCareerLoaded) {
 		// loaded from the loading screen
 	}
 }</pre>
+		<p><a href="#index">Index</a></p>
+	</div>
+	<div>
+		<h2 id="mouseinput">Mouse input <a href="#mouseinput">#</a></h2>
+		<pre>
+struct MouseData {
+	void /*DInputDevice8*/ *dinputdevice;
+	int cursorX; // on 640x480 canvas
+	int cursorY; // on 640x480 canvas
+	int previousCursorX; // on 640x480 canvas
+	int previousCursorY; // on 640x480 canvas
+	int deltaCursorX; // on 640x480 canvas
+	int deltaCursorY; // on 640x480 canvas
+	int mousestate_lZ; // scrollwheel data
+	char areMouseButtonsSwapped; // result of GetSystemMetrics(SM_SWAPBUTTON);
+	char button0State; // left mouse button
+	char button0JustPressed;
+	char button0JustReleased;
+	char button1State; // right mouse button
+	char button1JustPressed;
+	char button1JustReleased;
+	char button2State; // middle mouse button
+	char button2JustPressed;
+	char button2JustReleased;
+};
+
+struct MouseData *_mouseData = (struct MouseData*) 0x8763D0;</pre>
+		<ul>
+			<li><code>5BF6E0 int __thiscall CreateDinputDevice(struct MouseData *this)</code>
+			Creates and sets <code>dinputdevice</code></li>
+			<li><code>5C8600 int __thiscall MouseData::ctor(struct MouseData *this)</code>
+			called once, from <code>init_function_77E580</code></li>
+			<li><code>5BF860 void __thiscall UpdateMouseState(struct MouseData *this)</code>
+			Calls <code>UpdateCursorPosition</code> and then updates button states.</li>
+			<li><code>5BF750 int __thiscall UpdateCursorPosition(struct MouseData *this)</code></li>
+			<li><code>5BF940 int __thiscall HaveCursorActivity(struct MouseData *this)</code>
+			called once, from <code>5663F9 DoUI</code>. returns 1 if position deltas or scrollwheel or
+			any of the JustPressed/JustReleased fields are not zero. Always returning 0 here has the
+			effect that ui hover does not work, left click acts as right click (go back) except when
+			clicking on the active ui element (like mean menu bar). Dialog box buttons still work
+			somehow. The car showroom can still be rotated with mmb. Mouse still moves.</li>
+			<li><code>8763D0 struct MouseData _mouseData</code></li>
+		</ul>
 		<p><a href="#index">Index</a></p>
 	</div>
 </body>

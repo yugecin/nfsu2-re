@@ -1,16 +1,16 @@
-static int yoffset;
-static int ywidth;
-static int xoffset;
-static int xwidth;
+#define NFSU2_RUN_WINDOWED
+
+static int ytopoffset, ybotoffset;
+static int xleftoffset, xrightoffset;
 
 static
 void loadMetrics(HWND hWnd)
 {
-	xoffset = GetSystemMetrics(SM_CXEDGE);
-	xwidth = xoffset * 2;
-	yoffset = GetSystemMetrics(SM_CYEDGE);
-	ywidth = yoffset * 2;
-	yoffset += GetSystemMetrics(SM_CYCAPTION);
+	xleftoffset = GetSystemMetrics(SM_CXEDGE);
+	xrightoffset = -xleftoffset;
+	ytopoffset = GetSystemMetrics(SM_CYEDGE);
+	ybotoffset = -ytopoffset;
+	ytopoffset += GetSystemMetrics(SM_CYCAPTION);
 }
 
 static
@@ -42,7 +42,7 @@ __declspec(naked) int GetWindowRectPatched(HWND hWnd, LPRECT lpRect)
 		push eax
 		push esi
 
-		mov eax, yoffset
+		mov eax, ytopoffset
 		test eax, eax
 		jnz already_have_sizes
 		pushad
@@ -52,16 +52,16 @@ already_have_sizes:
 
 		mov esi, [esp+0x10]
 		mov eax, [esi] // left
-		add eax, xoffset
+		add eax, xleftoffset
 		mov [esi], eax
 		mov eax, [esi+0x4] // top
-		add eax, yoffset
+		add eax, ytopoffset
 		mov [esi+0x4], eax
 		mov eax, [esi+0x8] // right
-		sub eax, xwidth
+		add eax, xrightoffset
 		mov [esi+0x8], eax
 		mov eax, [esi+0xC] // bottom
-		sub eax, ywidth
+		add eax, ybotoffset
 		mov [esi+0xC], eax
 
 		mov eax, [esp+0x8]

@@ -11,6 +11,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "nfsu2-re-hooks-sourcefiles"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "scrapstuff", "scrapstuff\scrapstuff.vcproj", "{C25F5B19-62E4-48CC-9307-BBEDFB5733B3}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "d3d9-dinput-stuff", "d3d9-dinput-stuff\d3d9-dinput-stuff.vcproj", "{6D617C20-E5E5-45C4-A525-63773B21002A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
@@ -37,6 +39,10 @@ Global
 		{C25F5B19-62E4-48CC-9307-BBEDFB5733B3}.Debug|Win32.Build.0 = Debug|Win32
 		{C25F5B19-62E4-48CC-9307-BBEDFB5733B3}.Release|Win32.ActiveCfg = Release|Win32
 		{C25F5B19-62E4-48CC-9307-BBEDFB5733B3}.Release|Win32.Build.0 = Release|Win32
+		{6D617C20-E5E5-45C4-A525-63773B21002A}.Debug|Win32.ActiveCfg = Debug|Win32
+		{6D617C20-E5E5-45C4-A525-63773B21002A}.Debug|Win32.Build.0 = Debug|Win32
+		{6D617C20-E5E5-45C4-A525-63773B21002A}.Release|Win32.ActiveCfg = Release|Win32
+		{6D617C20-E5E5-45C4-A525-63773B21002A}.Release|Win32.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
