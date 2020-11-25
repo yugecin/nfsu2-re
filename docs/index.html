@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+<meta charset="utf-8"/>
 <title>nfsu2-re</title>
 <style>
 body {
@@ -9,15 +10,23 @@ body {
 table td {
 	padding: .4em;
 }
-body > div {
+div, h1 {
 	padding: 1em;
 	border: 1px solid #efefef;
 	outline: 1px solid #d0d0d0;
-	max-width: 60em;
-	margin: auto;
+	max-width: 50em;
 }
-body > div + div {
-	margin-top: 1em;
+h1 {
+	background:#ABABAB;
+}
+h1,h2,h3,h4,h5,h6 {
+        margin-top: 0.2em;
+}
+h2 a,h3 a,h4 a,h5 a,h6 a{
+	color: #A0A0A0;
+}
+body > div {
+	margin-bottom: 1em;
 }
 .center {
 	text-align: center;
@@ -39,288 +48,91 @@ pre.ida {
 	color:#000080;
 	font-weight: bold;
 }
-pre.ida span.t {
+pre.ida span.text {
 	color:#000;
 }
-pre.ida span.c {
+pre.ida span.comment {
 	color:#808080;
 }
-pre.ida span.i {
+pre.ida span.ident {
 	color:#0000FF;
 }
-pre.ida span.n {
+pre.ida span.num,pre.ida span.str {
 	color:#008000;
 }
 pre.ida span.hi {
 	background:#FFFF00;
 }
-h2 a, h3 a {
-	color: #A0A0A0;
-}
 </style>
 </head>
 <body>
-	<div style="background:#ABABAB">
-		<h1>nfsu2-re</h1>
-	</div>
-	<div>
-		<h2 id="prologue">Prologue</h2>
-		<p>
-			This is just me documenting while I have fun attempting to reverse-engineer the game
-			Need For Speed Underground 2, otherwise knows as nfsu2.
-		</p>
-		<p>
-			This normally belongs to
-			<a href="https://github.com/yugecin/nfsu2-re">https://github.com/yugecin/nfsu2-re</a>
-		</p>
-		<p>
-			Other pages: <a href="cheatsheet.html">(fpu) cheatsheet</a>
-		</p>
-	</div>
-	<div>
-		<h2 id="index">Index</h2>
-		<ul>
-			<li><a href="#prologue">Prologue</a></li>
-			<li><a href="#index">Index</a></li>
-			<li><a href="#injectedcode">Injected code</a></li>
-			<li><a href="#registry">Registry</a></li>
-			<li><a href="#gameregion">Game region</a></li>
-			<li>
-				<a href="#language">Language</a>
-				<ul>
-					<li><a href="#language_metadata">Language metadata</a></li>
-					<li><a href="#language_files">Language files</a></li>
-				</ul>
-			</li>
-			<li><a href="#pools">Pools</a></li>
-			<li><a href="#speedyboot">Speedy boot</a></li>
-			<li>
-				<a href="#displaysettings">Display settings</a>
-				<ul>
-					<li><a href="#displaysettingstodo">Todo</a></li>
-				</ul>
-			</li>
-			<li><a href="#consoleleftover">Console leftovers</a></li>
-			<li>
-				<a href="#hashfuncs">Hash functions</a>
-				<ul>
-					<li><a href="#hashmess">Messing with the hash results</a></li>
-				</ul>
-			</li>
-			<li><a href="#debugprint">Debug print</a></li>
-			<li>
-				<a href="#ui">UI</a>
-				<ul>
-					<li>
-						<a href="#ui_dialog">Dialogs</a>
-						<ul>
-							<li><a href="#ui_dialog_getfngfordialog">GetFNGForDialog</a></li>
-						</ul>
-					</li>
-					<li><a href="#mouseinput">Mouse input</a></li>
-				</ul>
-			</li>
-			<li><a href="#cheats">Cheats</a></li>
-			<li><a href="#carmodeldata">Car model data</a></li>
-			<li><a href="#sound">Sound</a></li>
-			<li><a href="#career">Career</a></li>
-		</ul>
-	</div>
-	<div>
-		<h2 id="injectedcode">Injected code <a href="#injectedcode">#</a></h2>
-		<p>
-			The code for all injected things I did can be found in <code>nfsu2-re-hooks/*.c</code>.
-			It's configured as a VC2005 project in a VC2005 solution. The project emits a compiled file
-			to <code>..\NeedForSpeed U2\scripts\nfsu2-re-hooks.asi</code>. I'm using the
-			<a href="https://github.com/ThirteenAG/Ultimate-ASI-Loader/releases">Ultimate ASI Loader by
-			ThirteenAG</a>, which loads the library nicely for me (download the ZIP and place the dll
-			in the game folder, name it <code>dinput8.dll</code>).
-		</p>
-		<p><a href="#index">Index</a></p>
-	</div>
-	<div>
-		<h2 id="registry">Registry <a href="#registry">#</a></h2>
-		<p>
-			Many values (mainly display settings are loaded/saved in procs: (TODO check the XREFs on these)
-		</p>
-		<ul>
-			<li><code>0x5BEA20 - LoadDisplaySettings</code> only called once, at boot</li>
-			<li><code>0x5BEEA0 - SaveDisplaySettings</code> called multiple times, TODO</li>
-		</ul>
-		<p>
-			They are saved in key <code>Software\EA Games\Need for Speed Underground 2</code> in
-			<code>HKEY_CURRENT_USER</code>.
-			On my machine this translates to:
-			<code>HKEY_CURRENT_USER\Software\Classes\VirtualStore\MACHINE\SOFTWARE\Wow6432Node\EA
-			Games\Need for Speed Underground 2</code>
-			I'm guessing the extra path in between is because of WOW64.
-			<table border="1">
-			<thead>
-			<tr><th>Variable address</th><th>Key</th><th>Notes</th></tr>
-			</thead>
-			<tbody>
-			<tr>
-				<td><code>0x870CB0</code></td>
-				<td><code>VERSION</code>
-				</td><td>Not a display setting</td>
-			</tr>
-			<tr>
-				<td><code>0x870CB4</code></td>
-				<td><code>SIZE</code></td>
-				<td>Not a display setting. Seems unused (no XREFs other than save/load procs),
-				ALTHOUGH its value is set (to 120)? TODO INVESTIGATE!</td>
-			</tr>
-			<tr>
-				<td><code>0x870CB8</code></td>
-				<td><code>g_CarEnvironmentMapEnable</code></td>
-				<td><code>_optCarReflectionUpdateRate</code></td>
-			</tr>
-			<tr>
-				<td><code>0x870CBC</code></td>
-				<td><code>g_CarEnvironmentMapUpdateData</code></td>
-				<td><code>_optCarReflectionDetail</code></td>
-			</tr>
-			<tr>
-				<td><code>0x870CC0</code></td>
-				<td><code>g_CarShadowEnable</code></td>
-				<td><code>_optCarShadowNeon</code></td>
-			</tr>
-			<tr>
-				<td><code>0x870CC4</code></td>
-				<td><code>g_CarHeadlightEnable</code></td>
-				<td><code>_optCarHeadlight</code></td>
-			</tr>
-			<tr>
-				<td><code>0x870CC8</code></td>
-				<td><code>g_CarLightingEnable</code></td>
-				<td>Seemingly unused? TODO</td>
-			</tr>
-			<tr>
-				<td><code>0x870CCC</code></td>
-				<td><code>g_CarDamageEnable</code></td>
-				<td>Seemingly unused? TODO</td>
-			</tr>
-			<tr>
-				<td><code>0x870CD0</code></td>
-				<td><code>g_CrowdEnable</code></td>
-				<td><code>_optCrowds</code></td>
-			</tr>
-			<tr>
-				<td><code>0x870CD4</code></td>
-				<td><code>g_RoadReflectionEnable</code></td>
-				<td><code>_optWorldReflectionDetail</code></td>
-			</tr>
-			<tr>
-				<td><code>0x870CD8</code></td>
-				<td><code>g_FogEnable</code></td>
-				<td><code>_optFog</code></td>
-			</tr>
-			<tr>
-				<td><code>0x870CDC</code></td>
-				<td><code>g_MotionBlurEnable</code></td>
-				<td><code>_optMotionBlur</code></td>
-			</tr>
-			<tr>
-				<td><code>0x870CE0</code></td>
-				<td><code>g_LightStreaksEnable</code></td>
-				<td><code>_optLightTrails</code></td>
-			</tr>
-			<tr>
-				<td><code>0x870CE4</code></td>
-				<td><code>g_LightGlowEnable</code></td>
-				<td><code>_optLightGlow</code></td>
-			</tr>
-			<tr>
-				<td><code>0x870CE8</code></td>
-				<td><code>g_AnimatedTextureEnable</code></td>
-				<td><code>_optAnimatedTextureEnable</code><br/>
-				doesn't seem to be in display menu</td>
-			</tr>
-			<tr>
-				<td><code>0x870CEC</code></td>
-				<td><code>g_ParticleSystemEnable</code></td>
-				<td><code>_optParticleSystem</code></td>
-			</tr>
-			<tr>
-				<td><code>0x870CF0</code></td>
-				<td><code>g_DepthOfFieldEnable</code></td>
-				<td><code>_optDepthOfField</code></td>
-			</tr>
-			<tr>
-				<td><code>0x870CF4</code></td>
-				<td><code>g_WorldLodLevel</code></td>
-				<td><code>_optWorldDetail</code></td>
-			</tr>
-			<tr>
-				<td><code>0x870CF8</code></td>
-				<td><code>g_CarLodLevel</code></td>
-				<td><code>_optCarGeometryDetail</code></td>
-			</tr>
-			<tr>
-				<td><code>0x870CFC</code></td>
-				<td><code>g_OverBrightEnable</code></td>
-				<td><code>_optOverBright</code></td>
-			</tr>
-			<tr>
-				<td><code>0x870D00</code></td>
-				<td><code>g_BleachByPassEnable</code></td>
-				<td><code>_optEnchancedContrast</code></td>
-			</tr>
-			<tr>
-				<td><code>0x870D04</code></td>
-				<td><code>g_TintingEnable</code></td>
-				<td><code>_optTinting</code></td>
-			</tr>
-			<tr>
-				<td><code>0x870D08</code></td>
-				<td><code>g_FSAALevel</code></td>
-				<td><code>_optFSAALevel</code></td>
-			</tr>
-			<tr>
-				<td><code>0x870D0C</code></td>
-				<td><code>g_HorizonFogEnable</code></td>
-				<td><code>_optHorizonFog</code></td>
-			</tr>
-			<tr>
-				<td><code>0x870D10</code></td>
-				<td><code>g_RainEnable</code></td>
-				<td><code>_optRainSplatter</code></td>
-			</tr>
-			<tr>
-				<td><code>0x870D18</code></td>
-				<td><code>g_TextureFiltering</code></td>
-				<td><code>_optTextureFiltering</code></td>
-			</tr>
-			<tr>
-				<td><code>0x870D1C</code></td>
-				<td><code>g_RacingResolution</code></td>
-				<td><code>_optRacingResolutionIdx</code></td>
-			</tr>
-			<tr>
-				<td><code>0x87099C</code></td>
-				<td><code>g_PerformanceLevel</code></td>
-				<td><code>_optLevelOfDetail</code></td>
-			</tr>
-			<tr>
-				<td><code>0x870D24</code></td>
-				<td><code>g_VSyncOn</code></td>
-				<td><code>_optVsync</code></td>
-			</tr>
-			</tbody>
-			</table>
-		</p>
-		<hr/>
-		<h3>SomethingReadSpecialRegistrySettings - 0x5B76F0</h3>
-		<p>
-			This one is invoked on boot, and seems to load a special key that I haven't seen before:
-			<code>Software\Electronic Arts\EA Games\Need for Speed Underground 2\er</code>. This key
-			is not present on my system, so this seems interesting.
-		</p>
-		<pre>
-HKEY key;
+<h1>nfsu2-re</h1>
+<span id='prologue'></span><div><h2>Prologue <a href="#prologue">#</a></h2>
+<p>This is just me documenting while I have fun attempting to reverse-engineer the game
+Need For Speed Underground 2, otherwise knows as nfsu2.
+</p><p>This normally belongs to <a href="https://github.com/yugecin/nfsu2-re">https://github.com/yugecin/nfsu2-re</a>.
+</p><p>Other pages: <a href="cheatsheet.html">(fpu) cheatsheet</a>
+</p><p style='margin-bottom:0'><a href='#index'>Index</a></p></div><span id='index'></span><div><h2>Index <a href="#index">#</a></h2>
+<ul><li><a href="#prologue">Prologue</a></li><li><a href="#index">Index</a></li><li><a href="#injectedcode">Injected code</a></li><li><a href="#registry">Registry</a><ul><li><a href="#5B76F0">5B76F0 SomethingReadSpecialRegistrySettings</a></li></ul></li><li><a href="#gameregion">Game region</a></li><li><a href="#language">Language</a><ul><li><a href="#language_metadata">Language metadata</a></li><li><a href="#language_files">Language files</a></li></ul></li><li><a href="#pools">Pools</a></li><li><a href="#speedyboot">Speedy boot</a></li><li><a href="#displaysettings">Display settings</a></li><li><a href="#consoleleftover">Console leftovers</a><ul><li><a href="#console_consume_key">ConsoleConsumeKey - 0x5C8320</a><ul><li><a href="#console_consume_key_check">A hardcoded key check - 0x5BF260</a></li></ul></li><li><a href="#console_move_caret">ConsoleMoveCaret - 0x5BF3A0</a></li></ul></li><li><a href="#hashfuncs">Hash functions</a><ul><li><a href="#hashmess">Messing with hash results</a></li></ul></li><li><a href="#debugprint">Debug print</a></li><li><a href="#ui">UI</a><ul><li><a href="#ui_dialog">Dialogs</a><ul><li><a href="#ui_dialog_getfngfordialog">GetFNGForDialog</a></li></ul></li></ul></li><li><a href="#mouseinput">Mouse input</a></li><li><a href="#cheats">Cheats</a></li><li><a href="#carmodeldata">Car model data</a></li><li><a href="#sound">Sound</a></li><li><a href="#career">Career</a></ul><p style='margin-bottom:0'><a href='#index'>Index</a></p></div><span id='injectedcode'></span><div><h2>Injected code <a href="#injectedcode">#</a></h2>
+<p>The code for all injected things I did can be found in <code>nfsu2-re-hooks/*.c</code>.
+It's configured as a VC2005 project in a VC2005 solution.
+The project emits a compiled file to <code>..\NeedForSpeed U2\scripts\nfsu2-re-hooks.asi</code>.
+I'm using the <a href="https://github.com/ThirteenAG/Ultimate-ASI-Loader/releases">Ultimate ASI Loader by ThirteenAG</a>,
+which loads the library nicely for me (download the ZIP and place the dll in the game folder,
+name it <code>dinput8.dll</code>).
+</p><p style='margin-bottom:0'><a href='#index'>Index</a></p></div><span id='registry'></span><div><h2>Registry <a href="#registry">#</a></h2>
+<p>Many values (mainly display settings are loaded/saved in procs: (TODO check the XREFs on these)
+</p><ul><li><code>5BEA20 - LoadDisplaySettings</code> only called once, at boot
+</li><li><code>5BEEA0 - SaveDisplaySettings</code> called multiple times, TODO
+</li></ul><p>They are saved in key <code>Software\EA Games\Need for Speed Underground 2</code> in <code>HKEY_CURRENT_USER</code>.
+On my machine this translates to:
+<code>HKEY_CURRENT_USER\Software\Classes\VirtualStore\MACHINE\SOFTWARE\Wow6432Node\EA
+Games\Need for Speed Underground 2</code>.
+I'm guessing the extra path in between is because of WOW64.
+</p><table border=1>
+<thead><tr><th>Variable address</th><th>Key</th><th>Notes</th></tr></thead>
+<tbody>
+<tr><td><code>0x870CB0</code></td>   <td><code>VERSION</code></td><td>Not a display setting</td></tr>
+<tr><td><code>0x870CB4</code></td>   <td><code>SIZE</code></td>                                <td>Not a display setting. Seems unused
+                                                         (no XREFs other than save/load procs),
+                                                         although its value is set (to 120)? TODO!</td></tr>
+<tr><td><code>0x870CB8</code></td>   <td><code>g_CarEnvironmentMapEnable</code></td>           <td><code>_optCarReflectionUpdateRate</code></td></tr>
+<tr><td><code>0x870CBC</code></td>   <td><code>g_CarEnvironmentMapUpdateData</code></td>       <td><code>_optCarReflectionDetail</code></td></tr>
+<tr><td><code>0x870CC0</code></td>   <td><code>g_CarShadowEnable</code></td>                   <td><code>_optCarShadowNeon</code></td></tr>
+<tr><td><code>0x870CC4</code></td>   <td><code>g_CarHeadlightEnable</code></td>                <td><code>_optCarHeadlight</code></td></tr>
+<tr><td><code>0x870CC8</code></td>   <td><code>g_CarLightingEnable</code></td>                 <td>Seemingly unused? TODO</td></tr>
+<tr><td><code>0x870CCC</code></td>   <td><code>g_CarDamageEnable</code></td>                   <td>Seemingly unused? TODO</td></tr>
+<tr><td><code>0x870CD0</code></td>   <td><code>g_CrowdEnable</code></td>                       <td><code>_optCrowds</code></td></tr>
+<tr><td><code>0x870CD4</code></td>   <td><code>g_RoadReflectionEnable</code></td>              <td><code>_optWorldReflectionDetail</code></td></tr>
+<tr><td><code>0x870CD8</code></td>   <td><code>g_FogEnable</code></td>                         <td><code>_optFog</code></td></tr>
+<tr><td><code>0x870CDC</code></td>   <td><code>g_MotionBlurEnable</code></td>                  <td><code>_optMotionBlur</code></td></tr>
+<tr><td><code>0x870CE0</code></td>   <td><code>g_LightStreaksEnable</code></td>                <td><code>_optLightTrails</code></td></tr>
+<tr><td><code>0x870CE4</code></td>   <td><code>g_LightGlowEnable</code></td>                   <td><code>_optLightGlow</code></td></tr>
+<tr><td><code>0x870CE8</code></td>   <td><code>g_AnimatedTextureEnable</code></td>             <td><code>_optAnimatedTextureEnable</code> doesn't seem to be in display menu</td></tr>
+<tr><td><code>0x870CEC</code></td>   <td><code>g_ParticleSystemEnable</code></td>              <td><code>_optParticleSystem</code></td></tr>
+<tr><td><code>0x870CF0</code></td>   <td><code>g_DepthOfFieldEnable</code></td>                <td><code>_optDepthOfField</code></td></tr>
+<tr><td><code>0x870CF4</code></td>   <td><code>g_WorldLodLevel</code></td>                     <td><code>_optWorldDetail</code></td></tr>
+<tr><td><code>0x870CF8</code></td>   <td><code>g_CarLodLevel</code></td>                       <td><code>_optCarGeometryDetail</code></td></tr>
+<tr><td><code>0x870CFC</code></td>   <td><code>g_OverBrightEnable</code></td>                  <td><code>_optOverBright</code></td></tr>
+<tr><td><code>0x870D00</code></td>   <td><code>g_BleachByPassEnable</code></td>                <td><code>_optEnchancedContrast</code></td></tr>
+<tr><td><code>0x870D04</code></td>   <td><code>g_TintingEnable</code></td>                     <td><code>_optTinting</code></td></tr>
+<tr><td><code>0x870D08</code></td>   <td><code>g_FSAALevel</code></td>                         <td><code>_optFSAALevel</code></td></tr>
+<tr><td><code>0x870D0C</code></td>   <td><code>g_HorizonFogEnable</code></td>                  <td><code>_optHorizonFog</code></td></tr>
+<tr><td><code>0x870D10</code></td>   <td><code>g_RainEnable</code></td>                        <td><code>_optRainSplatter</code></td></tr>
+<tr><td><code>0x870D18</code></td>   <td><code>g_TextureFiltering</code></td>                  <td><code>_optTextureFiltering</code></td></tr>
+<tr><td><code>0x870D1C</code></td>   <td><code>g_RacingResolution</code></td>                  <td><code>_optRacingResolutionIdx</code></td></tr>
+<tr><td><code>0x87099C</code></td>   <td><code>g_PerformanceLevel</code></td>                  <td><code>_optLevelOfDetail</code></td></tr>
+<tr><td><code>0x870D24</code></td>   <td><code>g_VSyncOn</code></td>                           <td><code>_optVsync</code></td></tr>
+</tbody>
+</table>
+<p style='margin-bottom:0'><a href='#index'>Index</a></p></div><span id='5B76F0'></span><div class='indent' style='margin-left:5em'><p style='margin-top:0'><small><a href='#registry'>Registry</a> &gt; 5B76F0 SomethingReadSpecialRegistrySettings</small></p><h3>5B76F0 SomethingReadSpecialRegistrySettings <a href="#5B76F0">#</a></h3>
+<p>This one is invoked on boot, and seems to load a special key that I haven't seen before:
+<code>Software\Electronic Arts\EA Games\Need for Speed Underground 2\er</code>. This key
+is not present on my system, so this seems interesting.
+</p><pre>HKEY key;
 DWORD type, lenData;
 if (RegOpenKeyExA(HKEY_LOCAL_MACHINE, "Software\\E...2\\er", 0, KEY_READ, &amp;key)) {
-	type = 1; // REG_SZ, a null-terminated string
+	type = REG_SZ; // a null-terminated string
 	lenData = 21;
 	if (RegQueryValueExA(key, 0, 0, &amp;type, &amp;buf_86FF8C, &amp;lenData)) {
 		buf_86FF8C[20] = 0;
@@ -329,59 +141,36 @@ if (RegOpenKeyExA(HKEY_LOCAL_MACHINE, "Software\\E...2\\er", 0, KEY_READ, &amp;k
 	}
 }
 RegCloseKey(&amp;key);
-// buf_86FF8C is only used at sub_588770, 0x58887A, TODO!</pre>
-		<p>
-			Then it loads more stuff from the normal key:
-		</p>
-		<p>
-			<code>Install Dir</code> is read. If set, passed to (winapi) <code>GetLongPathNameA</code>,
-			and if that succeeds, the value is copied to buffer at <code>0x86E9B4</code>. There are no
-			XREFs, so it's unused?
-		</p>
-		<p>
-			<code>CD Drive</code> is read. If set, passed to (winapi) <code>GetLongPathNameA</code>,
-			passed to (winapi) <code>GetLastError</code> and if that succeeds, the value is copied to
-			buffer at <code>86E8B0</code>. That one is used, TODO.
-		</p>
-		<p>
-			<code>NotFirstTime</code> is read. If set, DWORD at <code>0x870D20</code> gets set to 1,
-			otherwise 0. It doesn't check the value in the register key. Then 1 is written to the
-			register key. TODO this is used in one place.
-		</p>
-		<p>
-			<code>CacheSize</code> is read. If set, proc at <code>0x75D65B</code> is called with the
-			value. TODO what is this? proc has plenty XREFs and is just a jmp to another proc that
-			has even more XREFs.
-		</p>
-		<p>
-			<code>SwapSize</code> is read. If set, proc at <code>0x75D65B</code> is called with the
-			value. TODO what is this? proc has plenty XREFs and is just a jmp to another proc that
-			has even more XREFs.
-		</p>
-		<p>
-			<code>Language</code> is read. Then it does something with looping through a language.
-			This took some deciphering but I found out that there is some struct with language
-			information and associated data. See <a href="#language_metadata">Language metadata</a>.
-		</p>
-		<p>
-			<code>StreamingInstall</code> is read. This one seems weird, as it seems like it passes
-			the value and the offset to a random location in the code segment to a proc that looks
-			like a strcmp function? TODO.
-		</p>
-		<p><a href="#index">Index</a></p>
-	</div>
-	<div>
-		<h2 id="gameregion">Game region <a href="#gameregion">#</a></h2>
-		<p>
-			This proc at <code>0x5B7C40</code> certainly helped to know what the region numbers
-			represent.
-		</p>
-		<pre>
-/*No idea where this is used, TODO*/
+// buf_86FF8C is only used at sub_588770, 0x58887A, TODO!
+</pre><p>Then it loads more stuff from the normal key:
+</p><p><code>Install Dir</code> is read. If set, passed to (winapi) <code>GetLongPathNameA</code>.
+and if that succeeds, the value is copied to buffer at <code>86E9B4</code>. There are no
+XREFs, so it's unused?
+</p><p><code>CD Drive</code> is read. If set, passed to (winapi) <code>GetLongPathNameA</code>.
+passed to (winapi) <code>GetLastError</code> and if that succeeds, the value is copied to
+buffer at <code>86E8B0</code>. That one is used, TODO.
+</p><p><code>NotFirstTime</code> is read. If set, DWORD at <code>870D20</code> gets set to 1,
+otherwise 0. It doesn't check the value in the register key. Then 1 is written to the
+register key. TODO this is used in one place.
+</p><p><code>CacheSize</code> is read. If set, proc at <code>75D65B</code> is called with the
+value. TODO what is this? proc has plenty XREFs and is just a jmp to another proc that
+has even more XREFs.
+</p><p><code>SwapSize</code> is read. If set, proc at <code>75D65B</code> is called with the
+value. TODO what is this? proc has plenty XREFs and is just a jmp to another proc that
+has even more XREFs.
+</p><p><code>Language</code> is read. Then it does something with looping through a language.
+This took some deciphering but I found out that there is some struct with language
+information and associated data. See <a href="#language_metadata">Language metadata</a>.
+</p><p><code>StreamingInstall</code> is read. This one seems weird, as it seems like it passes
+the value and the offset to a random location in the code segment to a proc that looks
+like a strcmp function? TODO.
+</p><p style='margin-bottom:0'><a href='#index'>Index</a></p></div><span id='gameregion'></span><div><h2>Game region <a href="#gameregion">#</a></h2>
+<p>This proc at <code>0x5B7C40</code> certainly helped to know what the region numbers
+represent.
+</p><pre>/*No idea where this is used, TODO*/
 int OpenPatchesWebsite()
 {
 	char *url;
-
 	switch (GetGameRegion()) {
 	case 0: url = "http://patches.ea.com/nfs_underground2/EN-US/home.html"; break;
 	case 2: url = "http://patches.ea.com/nfs_underground2/KO/home.html"; break;
@@ -390,7 +179,7 @@ int OpenPatchesWebsite()
 	case 5:
 		switch (GetCurrentLoadedLanguage()) {
 		case 0: url = "http://patches.ea.com/nfs_underground2/EN-UK/home.html"; break;
-		case 4: url = "http://patches.ea.com/nfs_underground2/NL/home.html"; break;
+		case 5: url = "http://patches.ea.com/nfs_underground2/NL/home.html"; break;
 		case 6: url = "http://patches.ea.com/nfs_underground2/SV/home.html"; break;
 		case 7: url = "http://patches.ea.com/nfs_underground2/DA/home.html"; break;
 		default: goto def;
@@ -403,48 +192,34 @@ int OpenPatchesWebsite()
 	case 11: url = "http://patches.ea.com/nfs_underground2/ZH/home.html"; break;
 	case 12: url = "http://patches.ea.com/nfs_underground2/TH/home.html"; break;
 def:
-	default: /*ecx??*/ break;
+	default: /*eax??*/ break;
 	}
 	return ShellExecuteA(NULL, "open", url, NULL, NULL, SW_SHOWNORMAL);
-}</pre>
-	<ul>
-		<li>0: US</li>
-		<li>2: Korea</li>
-		<li>3: Japan</li>
-		<li>4: Taiwan</li>
-		<li>5: UK/Netherlands/Sweden/Denmark</li>
-		<li>6: France</li>
-		<li>7: Germany</li>
-		<li>8: Italy</li>
-		<li>9: Spain</li>
-		<li>11: China</li>
-		<li>12: Thailand</li>
-	</ul>
-	<p><a href="#index">Index</a></p>
-	</div>
-	<div>
-		<h2 id="language">Language <a href="#language">#</a></h2>
-		<p>
-			There seems to be no way to change the language, except for changing the value
-			in the registry? See <a href="#registry">Registry</a>. Perhaps it is only set
-			when the game is installed?
-		</p>
-		<hr/>
-		<h3 id="language_metadata">Language metadata <a href="#language_metadata">#</a></h3>
-		<p>
-			Thanks to code where it reads the Registry, I found following data:
-		</p>
-		<pre>
-struct LanguageData {
+}
+</pre><ul><li>0: US
+</li><li>2: Korea
+</li><li>3: Japan
+</li><li>4: Taiwan
+</li><li>5: UK/Netherlands/Sweden/Denmark
+</li><li>6: France
+</li><li>7: Germany
+</li><li>8: Italy
+</li><li>9: Spain
+</li><li>11: China
+</li><li>12: Thailand
+</li></ul><p style='margin-bottom:0'><a href='#index'>Index</a></p></div><span id='language'></span><div><h2>Language <a href="#language">#</a></h2>
+<p>There seems to be no way to change the language, except for changing the value
+in the registry? See <a href='#registry'>Registry</a>. Perhaps it is only set
+when the game is installed?
+</p><p style='margin-bottom:0'><a href='#index'>Index</a></p></div><span id='language_metadata'></span><div class='indent' style='margin-left:5em'><p style='margin-top:0'><small><a href='#language'>Language</a> &gt; Language metadata</small></p><h3>Language metadata <a href="#language_metadata">#</a></h3>
+<p>Thanks to code where it reads the Registry, I found following data:
+</p><pre>struct LanguageData {
 	char *pName;
 	int val1; //??
 	int region;
-};</pre>
-		<p>
-			Data can be found at <code>0x7FCA08</code>:
-		</p>
-		<pre>
-struct LanguageData languageData[] = {
+};
+</pre><p>Data can be found at <code>0x7FCA08</code>:
+</p><pre>struct LanguageData languageData[] = {
 /*0x7FCA08*/ { "English US",		0,	0 },
 /*0x7FCA14*/ { "English UK",		0,	5 },
 /*0x7FCA20*/ { "French",		1,	6 },
@@ -460,21 +235,15 @@ struct LanguageData languageData[] = {
 /*0x7FCA98*/ { "Japanese",		10,	3 },
 /*0x7FCAA4*/ { "Thai",			11,	12 },
 /*0x7FCAB0*/ { 0,			0,	0 },
-};</pre>
-		<p>
-			The value stored in the registry for <code>Language</code> is checked against
-			all language strings in the above data. The matching language's
-			<code>val1</code> gets stored in <code>0x7FCA00</code> (TODO), or 0 when the
-			name stored in the registry didn't match any names.
-		</p>
-		<p>
-			After chasing usages of a region related proc, I found more language data.
-			Used in <code>0x4FF680</code> which I conveniently called
-			<code>LoadLanguageSomething</code>. I found about three more structs that
-			seem language or font related.
-		</p>
-		<pre>
-/*from hashes, prefixed with FONTHASH_*/
+};
+</pre><p>The value stored in the registry for <code>Language</code> is checked against
+all language strings in the above data. The matching language's
+<code>val1</code> gets stored in <code>0x7FCA00</code> (TODO), or 0 when the
+name stored in the registry didn't match any names.
+</p><p>After chasing usages of a region related proc, I found more language data.
+Used in <code>0x4FF680</code> which I conveniently called <code>LoadLanguageSomething</code>.
+I found about three more structs that seem language or font related.
+</p><pre>/*from hashes, prefixed with FONTHASH_*/
 #define FONTHASH_CONDUITMDITC_TT21I 0x5B9D88B9
 #define FONTHASH_font_impact36 0x0920075C
 #define FONTHASH_CONDUITMDITC_TT14I 0x5B9D84DB
@@ -490,23 +259,19 @@ struct LanguageData languageData[] = {
 #define FONTHASH_conduitmditc_tt21i_japanese 0x15192F5F
 #define FONTHASH_conduitmditc_tt14i_thailand 0xA73823FF
 #define FONTHASH_conduitmditc_tt21i_thailand 0x4815619D
-
 struct LanguageStruct7F6DE8 {
 	int field_0;
 	int field_1;
 };
-
 struct LanguageStruct7F6E60 {
 	int data[28];
 };
-
 struct LanguageFileData {
 	int id;
 	char *filecode;
 	char *binfile;
 	struct LanguageStruct7F6E60 *pStruct7F6E60;
 };
-
 /*0x7F6DE8*/
 struct LanguageStruct7F6DE8 struct7F6DE8[] = {
 	{ FONTHASH_CONDUITMDITC_TT21I,		0x0 },
@@ -525,7 +290,6 @@ struct LanguageStruct7F6DE8 struct7F6DE8[] = {
 	{ FONTHASH_conduitmditc_tt14i_thailand, 0x40000 },
 	{ FONTHASH_conduitmditc_tt21i_thailand,	0x80000 },
 };
-
 /*0x7F6E60*/
 struct LanguageStruct7F6E60 struct7F6E60[4];
 struct7F6E60[0][0] = FONTHASH_CONDUITMDITC_TT21I;
@@ -554,7 +318,6 @@ struct7F6E60[3][2] = FONTHASH_conduitmditc_tt14i_chinese;
 struct7F6E60[3][3] = FONTHASH_lcd_let48;
 struct7F6E60[3][16] = FONTHASH_arial12;
 struct7F6E60[3][17] = FONTHASH_font_impact36;
-
 /*0x7F7020*/
 struct LanguageFileData languageFileData[] = {
 	{  0, "ENGLISH", "LANGUAGES\\ENGLISH.BIN", struct7F6E60 + 0 },
@@ -569,104 +332,79 @@ struct LanguageFileData languageFileData[] = {
 	{  9, "CHINESE", "LANGUAGES\\CHINESE.BIN", struct7F6E60 + 3 },
 	{ 10, "JAPANESE", "LANGUAGES\\JAPANESE.BIN", struct7F6E60 + 2 },
 	/*there is no Thai entry here?*/
-};</pre>
-		<p>
-			In <code>LoadLanguageSomething</code>, <code>languageFileData</code> is searched.
-			If <code>GetGameRegion</code> is 2, the entry with id 8 is searched, otherwise
-			id 0 is searched. When it's not found the game will segfault because of the code
-			below:
-		</p>
-		<pre class="ida">
-<span class="t">.text:004FF6A2</span>                 jl      short loc_4FF693
-<span class="t">.text:004FF6A4</span> loc_4FF6A4:
-<span class="t">.text:004FF6A4</span>                 xor     edx, edx
-<span class="t">.text:004FF6A6</span> loc_4FF6A6:
-<span class="t">.text:004FF6A6</span>                 mov     ecx, [edx+<span class="n">0Ch</span>]</pre>
-		<p>
-			Then <code>LanguageFileData::pStruct7F6E60</code> is read. Its <code>data[0]</code>
-			value is read and then a matching entry in <code>struct7F6DE8[]</code> is searched.
-			More stuff is read is a loop and reset and I lost track. Eventually something is
-			called with string <code>LanguageMemoryPool</code>.
-		</p>
-		<p><strong>00512520 LoadLanguageAtBoot TODO</strong></p>
-		<p><strong>07983D0 aLanguageselect db 'LanguageSelectScreen',0 TODO</strong></p>
-		<h3 id="language_files">Language files <a href="#language_files">#</a></h3>
-		<p>
-			Files. Have to still figure that out. <a href="language.txt">language.txt</a>
-			How do the hashes relate to the entries?
-		</p>
-		<pre>
-table idx 1408 | 5D10F6AF 8E 43 00 00
+};
+</pre><p>In <code>LoadLanguageSomething</code>, <code>languageFileData</code> is searched.
+If <code>GetGameRegion</code> is 2, the entry with id 8 is searched,
+otherwise id 0 is searched.
+When it's not found the game will segfault because of the code below:
+</p><pre class='ida'><span class='text'>.text:004FF6A2</span>                 jl      short loc_4FF693
+<span class='text'>.text:004FF6A4</span> loc_4FF6A4:
+<span class='text'>.text:004FF6A4</span>                 xor     edx, edx
+<span class='text'>.text:004FF6A6</span> loc_4FF6A6:
+<span class='text'>.text:004FF6A6</span>                 mov     ecx, [edx+<span class='num'>0Ch</span>]
+</pre><p>Then <code>LanguageFileData::pStruct7F6E60</code> is read. Its <code>data[0]</code>
+value is read and then a matching entry in <code>struct7F6DE8[]</code> is searched.
+More stuff is read is a loop and reset and I lost track.
+Eventually something is called with string <code>LanguageMemoryPool</code>.
+</p><p><strong>00512520 LoadLanguageAtBoot TODO</strong>
+</p><p><strong>07983D0 aLanguageselect db 'LanguageSelectScreen',0 TODO</strong>
+</p><p style='margin-bottom:0'><a href='#index'>Index</a></p></div><span id='language_files'></span><div class='indent' style='margin-left:5em'><p style='margin-top:0'><small><a href='#language'>Language</a> &gt; Language files</small></p><h3>Language files <a href="#language_files">#</a></h3>
+<p>Files. Have to still figure that out. <a href="language.txt">language.txt</a>
+How do the hashes relate to the entries?
+</p><pre>table idx 1408 | 5D10F6AF 8E 43 00 00
 // somehow ^ is the hash for v
-value idx  607 | len 000C: Bank Reward:</pre>
-		<p>
-			Once it's loaded ingame, it looks like this:
-		</p>
-<pre>
-struct LanguageTable {
+value idx  607 | len 000C: Bank Reward:
+</pre><p>Once it's loaded ingame, it looks like this:
+</p><pre>struct LanguageTable {
 	int hash;
 	char *string;
 };
-
 struct SomeLanguageStruct {
 	int field0; // ?? checked against 0x39000
 	int numLoadedStrings;
 	char **table;
 	char **strings;
 };
-
 struct LanguageLoadStruct {
 	int binFileMagic;
 	int field4;
 	struct SomeLanguageStruct struct8;
 };
-
 /*0x8383D0*/
 int languageNumLoadedStrings;
 /*0x8383D4*/
 char *languageStrings;
 /*0x8383D8*/
 struct LanguageTable *languageTable;
-</pre>
-		<ul>
-			<li><code>0x4FF9D0 char* GetLanguageStringOrNull()</code> returns a string ptr
-			or NULL for given hash (which is passed through edx). Does a binary search over
-			the data at <code>languageTable</code></li>
-			<li><code>0x4FFA50 void GetLanguageStringIntoBuf(char *dst, int dstlen, int hash)</code>
-			same as <code>GetLanguageString</code> but copy it into a buffer</li>
-			<li><code>0x4FFA80 char* GetLanguageString(int hash)</code> calls
-			<code>GetLanguageStringOrNull</code> and when it returns NULL, call it again but with
-			<code>0xC01A6F63</code> as fallback (which results in
-			<code>FENG: Default string error.</code>)</li>
-			<li><code>0x4FFAA0 char* GetNumberSuffix(int index)</code> returns, based on
-			passed index, one of: <code>th, st, nd, rd, th, th, th, th, th, th</code>, use
-			default string as fallback</li>
-			<li><code>0x5125B0 int FinalizeLoadLanguageFile(struct LanguageLoadStruct *data);</code>
-
-			fills in the variables below from passed data, returns 1 on success.
-			Called by something that calls a lot of functions until one returns non-zero.
-			This func checks if <code>data-&gt;field0</code> is <code>0x00039000</code>.
-			The first four bytes of the language bin files also start with <code>0x00039000</code>.</li>
-			<li><code>0x4FFAE0 int InitializeLoadLanguageFile(void *data);</code>
-			same as above, checks <code>binFileMagic</code> for being <code>0x00039000</code>,
-			then sets some language relates variables to zero.</li>
-			<li><code>0x8383D0 int languageNumLoadedStrings</code></li>
-			<li><code>0x8383D4 char *languageStrings</code></li>
-			<li><code>0x8383D8 struct LanguageTable *languageTable</code></li>
-		</ul>
-		<p><a href="#index">Index</a></p>
-	</div>
-	<div>
-		<h2 id="pools">Pools <a href="#pools">#</a></h2>
-		<p>
-			I hooked <code>??CreatePoolReally</code> and collected some output:
-			<a href="createpoollog.txt">createpoollog.txt</a>. This will probably help a lot when
-			trying to figure out other things. Note that the first time the
-			<code>AUD: NFS3DMixCtl Pool</code> is made, it has an element amount of zero. The dump
-			is from just starting the game and starting a circuit race.
-		</p>
-		<pre>
-struct PoolHeader {
+</pre><ul><li><code>0x4FF9D0 char* GetLanguageStringOrNull()</code> returns a string ptr
+  or NULL for given hash (which is passed through edx). Does a binary search over
+  the data at <code>languageTable</code>
+</li><li><code>0x4FFA50 void GetLanguageStringIntoBuf(char *dst, int dstlen, int hash)</code>
+  same as <code>GetLanguageString</code> but copy it into a buffer
+</li><li><code>0x4FFA80 char* GetLanguageString(int hash)</code> calls
+  <code>GetLanguageStringOrNull</code> and when it returns NULL, call it again but with
+  <code>0xC01A6F63</code> as fallback (which results in <code>FENG: Default string error.</code>)
+</li><li><code>0x4FFAA0 char* GetNumberSuffix(int index)</code> returns, based on
+  passed index, one of: <code>th, st, nd, rd, th, th, th, th, th, th</code>, use
+  default string as fallback
+</li><li><code>0x5125B0 int FinalizeLoadLanguageFile(struct LanguageLoadStruct *data);</code>
+  fills in the variables below from passed data, returns 1 on success.
+  Called by something that calls a lot of functions until one returns non-zero.
+  This func checks if <code>data-&gt;field0</code> is <code>0x00039000</code>.
+  The first four bytes of the language bin files also start with <code>0x00039000</code>.
+</li><li><code>0x4FFAE0 int InitializeLoadLanguageFile(void *data);</code>
+  same as above, checks <code>binFileMagic</code> for being <code>0x00039000</code>,
+  then sets some language relates variables to zero.
+</li><li><code>0x8383D0 int languageNumLoadedStrings</code>
+</li><li><code>0x8383D4 char *languageStrings</code>
+</li><li><code>0x8383D8 struct LanguageTable *languageTable</code>
+</li></ul><p style='margin-bottom:0'><a href='#index'>Index</a></p></div><span id='pools'></span><div><h2>Pools <a href="#pools">#</a></h2>
+<p>I hooked <code>??CreatePoolReally</code> and collected some output:
+<a href="createpoollog.txt">createpoollog.txt</a>. This will probably help a lot when
+trying to figure out other things. Note that the first time the
+<code>AUD: NFS3DMixCtl Pool</code> is made, it has an element amount of zero. The dump
+is from just starting the game and starting a circuit race.
+</p><pre>struct PoolHeader {
 	int field_0; // ptr
 	int field_4;
 	struct PoolHeader *nextLinkedPool;
@@ -681,232 +419,164 @@ struct PoolHeader {
 	int elementAmountOverAllLinkedPools;
 	// here comes pool data
 };
-
 struct bFileSystemPoolEntry {
-
 };
-EXPECT_SIZE(struct bFileSystemPoolEntry, 0xF0);</pre>
-		<ul>
-			<li><code>0x440B40 ??CreatePoolReally(int maybeElementSize, int maybeElementAmount,
-			char *name, int unknown)</code> TODO</li>
-			<li><code>0x440DF0 ??CreatePool(int maybeElementSize, int maybeElementAmount,
-			char *name, int unknown)</code> TODO, does something after calling
-			<code>??CreatePoolReally</code></li>
-			<li><code>0x440D40 int __thiscall PoolGetNextFreeItem_(void *this)</code> TODO</li>
-			<li><code>0x440E50 int PoolGetNextFreeItem?stdcallwrapper(void *pool)</code> same as
-			the one above, but wrapped in an stdcall</li>
-			<li><code>0x440BB0 int __thiscall PoolExtend(struct Pool *this,
-			int maybeElementAmount)</code> TODO, basically allocates another pool (with bigger
-			size? TODO) and link it to this</li>
-			<li><code>0x865104 p_bFileSystemPool</code></li>
-		</ul>
-		<p><a href="#index">Index</a></p>
-	</div>
-	<div>
-		<h2 id="speedyboot">Speedy boot <a href="#speedyboot">#</a></h2>
-		<p>
-			<em>I want a fast startup because I'm booting the game so many times
-			(not to mention the numerious crashes)</em>
-		</p>
-		<p>
-			During startup, with the debug string output enabled, there are a few entries
-			showing loading and unloading states, such as <code>LS_THXMovie.fng</code>.
-			I already sped up boot by replacing the <code>MOVIES/THX_logo.vp6</code> with
-			<code>MOVIES/blank.vp6</code>. While that skips the unskippable intro logos,
-			it still takes some time because it switches to a state where it tries loading
-			and it takes slightly under a second to switch to the next state.
-		</p>
-		<p>
-			So by following the debug prints, I found following section:
-		</p>
-		<pre class="ida">
-<span class="c">.data:007F65E8</span> off_7F65E8  dd offset <span class="i">aDiscerrorpc_fn</span>
-<span class="c">.data:007F65EC</span>             dd offset byte_783FE5
-<span class="c">.data:007F65F0</span>             dd offset <span class="i">aMc_bootup_fng</span> ; <span class="n">"MC_Bootup.fng"</span>
-<span class="c">.data:007F65F4</span>             dd offset byte_783FE5
-<span class="c">.data:007F65F8</span>             dd offset byte_783FE5
-<span class="c">.data:007F65FC</span>             dd offset <span class="i">aLs_blankmovie_</span> ; <span class="n">"LS_BlankMovie.fng"</span>
-<span class="c">.data:007F6600</span>             dd offset <span class="i">aLs_ealogo_fng</span> ; <span class="n">"LS_EAlogo.fng"</span>
-<span class="c">.data:007F6604</span>             dd offset byte_783FE5
-<span class="c">.data:007F6608</span>             dd offset <span class="i">aLs_thxmovie_fn</span> ; <span class="n">"LS_THXMovie.fng"</span>
-<span class="c">.data:007F660C</span>             dd offset <span class="i">aLs_psamovie_fn</span> ; <span class="n">"LS_PSAMovie.fng"</span>
-<span class="c">.data:007F6610</span>             dd offset <span class="i">aUg_ls_introfmv</span> ; <span class="n">"UG_LS_IntroFMV.fng"</span>
-<span class="c">.data:007F6614</span>             dd offset <span class="i">aUg_ls_splash_f</span> ; <span class="n">"UG_LS_Splash.fng"</span>
-<span class="c">.data:007F6618</span>             dd offset <span class="i">aMc_background_</span> ; <span class="n">"MC_Background.fng"</span>
-<span class="c">.data:007F661C</span>             dd offset <span class="i">aUi_main_fng</span>  ; <span class="n">"UI_Main.fng"</span></pre>
-		<p>
-			This very much looks like the boot states the game goes through.
-			<code>byte_783FE5</code> is basically an empty string, so maybe there used to
-			be more states, or some are for different game versions?
-		</p>
-		<p>
-			Putting all of them to a reference to an empty string makes the boot pretty speedy
-			but then it doesn't do much. After initial boot, there's a black screen for a
-			short moment, then the basic loading progressbar screen with the cars and Rachel
-			shows, then it goes to a black screen and you can move the cursor. So the game is
-			running but nothing of UI is running so you can't do much.
-		</p>
-		<p>
-			Only leaving <code>UG_LS_Splash.fng</code> shows the splash screen with Rachel and
-			the cars, the famous music starts playing and when the beat drops the EA TRAX message
-			shows and "Press enter" shows. When pressing enter, we're back to the black screen
-			with a moveable cursor.
-		</p>
-		<p>
-			Only leaving <code>MC_BACKGROUND.fng</code> shows the splash screen with Rachel and
-			the cars and the prompt if I want to create a new profile. When pressing 'no', we're
-			back to the black screen. When pressing 'yes' I get to enter a name but when it then
-			asks to save the profile, it says 'Unable to save profile' so I have to choose 'no'.
-			Then black screen again.
-		</p>
-		<p>
-			Only leaving <code>UI_MAIN.fng</code> directly jumps to the main menu where you see
-			Rachel's car after a short moment after the loading screen showed. It didn't ask
-			for a profile to load and when I try to load a profile it says that no profiles
-			were found. Scary. I can create a new profile but it says 'Unable to save'. There
-			is no music in the menu. Music does start when starting a race but going back to
-			the menus stops the music again. Going to EA TRAX in the option does suddenly
-			start the music in the menus.
-		</p>
-		<p>
-			When only leaving <code>LS_EALogo.fng</code>, the ea logo movie sound starts to play
-			while the 'loading' screen is still showing, then there's one frame of the logo movie
-			when it's about halfway the sound of the movie and then it goes to black screen with
-			cursor. Leaving <code>LS_BlankMovie.fng</code> in as well fixes that problem.
-		</p>
-		<p>
-			Leaving just <code>MC_Bootup.fng</code> doesn't seem to change much, not even timing
-			wise. It does sound important, so I tried this in combination with
-			<code>UI_MAIN.fng</code>. It jumps into the main menu, but when I go to the profile
-			manager now, I can load my profiles. Nice. The main menu music still doesn't load
-			without going to EA TRAX, but I'm okay with that. One weird thing is that the Q button
-			doesn't show the 'quit game' dialog. After searching a bit, it seems like
-			<code>LS_PSAMovie.fng</code> is the one that makes the Q to quit keybind happen. That's
-			quite interesting, definitely something to research when/if I get more into the workings
-			of the UI.
-		</p>
-		<p>
-			So my final setup is to only leave in <code>MC_Bootup</code> (because it makes profiles
-			work), <code>LS_PSAMovie</code> (because I like the Q button and it can be a good dialog
-			test), <code>MC_Background</code> (so I can load a profile at start) and
-			<code>UI_Main</code> (obviously). Code can be found in the <code>speedyboot</code>
-			function.
-		</p>
-		<pre>
-static int zero = 0;
+EXPECT_SIZE(struct bFileSystemPoolEntry, 0xF0);
+</pre><ul><li><code>0x440B40 ??CreatePoolReally(int maybeElementSize, int maybeElementAmount,
+  char *name, int unknown)</code> TODO
+</li><li><code>0x440DF0 ??CreatePool(int maybeElementSize, int maybeElementAmount,
+  char *name, int unknown)</code> TODO, does something after calling
+  <code>??CreatePoolReally</code>
+</li><li><code>0x440D40 int __thiscall PoolGetNextFreeItem_(void *this)</code> TODO
+</li><li><code>0x440E50 int PoolGetNextFreeItem?stdcallwrapper(void *pool)</code> same as
+  the one above, but wrapped in an stdcall
+</li><li><code>0x440BB0 int __thiscall PoolExtend(struct Pool *this,
+  int maybeElementAmount)</code> TODO, basically allocates another pool (with bigger
+  size? TODO) and link it to this
+</li><li><code>0x865104 p_bFileSystemPool</code>
+</li></ul><p style='margin-bottom:0'><a href='#index'>Index</a></p></div><span id='speedyboot'></span><div><h2>Speedy boot <a href="#speedyboot">#</a></h2>
+<p><em>I want a fast startup because I'm booting the game so many times
+(not to mention the numerious crashes)</em>
+</p><p>During startup, with the debug string output enabled, there are a few entries
+showing loading and unloading states, such as <code>LS_THXMovie.fng</code>.
+I already sped up boot by replacing the <code>MOVIES/THX_logo.vp6</code> with
+<code>MOVIES/blank.vp6</code>. While that skips the unskippable intro logos,
+it still takes some time because it switches to a state where it tries loading
+and it takes slightly under a second to switch to the next state.
+</p><p>So by following the debug prints, I found following section:
+</p><pre class='ida'><span class='comment'>.data:007F65E8</span> off_7F65E8  dd offset <span class='ident'>aDiscerrorpc_fn</span>
+<span class='comment'>.data:007F65EC</span>             dd offset byte_783FE5
+<span class='comment'>.data:007F65F0</span>             dd offset <span class='ident'>aMc_bootup_fng</span> <span class='comment'>; "MC_Bootup.fng"</span>
+<span class='comment'>.data:007F65F4</span>             dd offset byte_783FE5
+<span class='comment'>.data:007F65F8</span>             dd offset byte_783FE5
+<span class='comment'>.data:007F65FC</span>             dd offset <span class='ident'>aLs_blankmovie_</span> <span class='comment'>; "LS_BlankMovie.fng"</span>
+<span class='comment'>.data:007F6600</span>             dd offset <span class='ident'>aLs_ealogo_fng</span> <span class='comment'>; "LS_EAlogo.fng"</span>
+<span class='comment'>.data:007F6604</span>             dd offset byte_783FE5
+<span class='comment'>.data:007F6608</span>             dd offset <span class='ident'>aLs_thxmovie_fn</span> <span class='comment'>; "LS_THXMovie.fng"</span>
+<span class='comment'>.data:007F660C</span>             dd offset <span class='ident'>aLs_psamovie_fn</span> <span class='comment'>; "LS_PSAMovie.fng"</span>
+<span class='comment'>.data:007F6610</span>             dd offset <span class='ident'>aUg_ls_introfmv</span> <span class='comment'>; "UG_LS_IntroFMV.fng"</span>
+<span class='comment'>.data:007F6614</span>             dd offset <span class='ident'>aUg_ls_splash_f</span> <span class='comment'>; "UG_LS_Splash.fng"</span>
+<span class='comment'>.data:007F6618</span>             dd offset <span class='ident'>aMc_background_</span> <span class='comment'>; "MC_Background.fng"</span>
+<span class='comment'>.data:007F661C</span>             dd offset <span class='ident'>aUi_main_fng</span>  <span class='comment'>; "UI_Main.fng"</span>
+</pre><p>This very much looks like the boot states the game goes through.
+<code>byte_783FE5</code> is basically an empty string, so maybe there used to
+be more states, or some are for different game versions?
+</p><p>Putting all of them to a reference to an empty string makes the boot pretty speedy
+but then it doesn't do much. After initial boot, there's a black screen for a
+short moment, then the basic loading progressbar screen with the cars and Rachel
+shows, then it goes to a black screen and you can move the cursor. So the game is
+running but nothing of UI is running so you can't do much.
+</p><p>Only leaving <code>UG_LS_Splash.fng</code> shows the splash screen with Rachel and
+the cars, the famous music starts playing and when the beat drops the EA TRAX message
+shows and "Press enter" shows. When pressing enter, we're back to the black screen
+with a moveable cursor.
+</p><p>Only leaving <code>MC_BACKGROUND.fng</code> shows the splash screen with Rachel and
+the cars and the prompt if I want to create a new profile. When pressing 'no', we're
+back to the black screen. When pressing 'yes' I get to enter a name but when it then
+asks to save the profile, it says 'Unable to save profile' so I have to choose 'no'.
+Then black screen again.
+</p><p>Only leaving <code>UI_MAIN.fng</code> directly jumps to the main menu where you see
+Rachel's car after a short moment after the loading screen showed. It didn't ask
+for a profile to load and when I try to load a profile it says that no profiles
+were found. Scary. I can create a new profile but it says 'Unable to save'. There
+is no music in the menu. Music does start when starting a race but going back to
+the menus stops the music again. Going to EA TRAX in the option does suddenly
+start the music in the menus.
+</p><p>When only leaving <code>LS_EALogo.fng</code>, the ea logo movie sound starts to play
+while the 'loading' screen is still showing, then there's one frame of the logo movie
+when it's about halfway the sound of the movie and then it goes to black screen with
+cursor. Leaving <code>LS_BlankMovie.fng</code> in as well fixes that problem.
+</p><p>Leaving just <code>MC_Bootup.fng</code> doesn't seem to change much, not even timing
+wise. It does sound important, so I tried this in combination with
+<code>UI_MAIN.fng</code>. It jumps into the main menu, but when I go to the profile
+manager now, I can load my profiles. Nice. The main menu music still doesn't load
+without going to EA TRAX, but I'm okay with that. One weird thing is that the Q button
+doesn't show the 'quit game' dialog. After searching a bit, it seems like
+<code>LS_PSAMovie.fng</code> is the one that makes the Q to quit keybind happen. That's
+quite interesting, definitely something to research when/if I get more into the workings
+of the UI.
+</p><p>So my final setup is to only leave in <code>MC_Bootup</code> (because it makes profiles
+work), <code>LS_PSAMovie</code> (because I like the Q button and it can be a good dialog
+test, it means I still need to skip the PSA movie but I can handle that),
+<code>MC_Background</code> (so I can load a profile at start) and
+<code>UI_Main</code> (obviously). Code can be found in the <code>speedyboot</code> function.
+</p><pre>static int zero = 0;
 static
 void speedyboot()
 {
-	*(int**) (0x7F65E8) = &zero; /*discerrorpc*/
-	*(int**) (0x7F65EC) = &zero; /*??nothing*/
-	//*(int**) (0x7F65F0) = &zero; /*mc_bootup*/
-	*(int**) (0x7F65F4) = &zero; /*??nothing*/
-	*(int**) (0x7F65F8) = &zero; /*??nothing*/
-	*(int**) (0x7F65FC) = &zero; /*blankmovie*/
-	*(int**) (0x7F6600) = &zero; /*ealogo*/
-	*(int**) (0x7F6604) = &zero; /*??nothing*/
-	*(int**) (0x7F6608) = &zero; /*thxmovie*/
-	//*(int**) (0x7F660C) = &zero; /*psamovie*/
-	*(int**) (0x7F6610) = &zero; /*introfmv*/
-	*(int**) (0x7F6614) = &zero; /*splash*/
-	//*(int**) (0x7F6618) = &zero; /*mc_background*/
-	//*(int**) (0x7F661C) = &zero; /*ui_main*/
-}</pre>
-		<p><a href="#index">Index</a></p>
-	</div>
-	<div>
-		<h2 id="displaysettings">Display settings <a href="#displaysettings">#</a></h2>
-		<p>
-			TODO. I was writing this when I got distracted by the language stuff.
-		</p>
-		<hr/>
-		<h3 id="displaysettingstodo">Todo <a href="#displaysettingstodo">#</a></h3>
-		<p>
-			Where are these used:
-		</p>
-		<ul>
-			<li><code>0x5BE190 StoreOptLightGlowSetToZero</code> 1 XREF</li>
-			<li><code>0x5BE1B0 RestoreOptLightGlow</code>: 1 XREF</li>
-			<li><code>0x5BE1C0 GetWorldDetailClampBetween0And2</code>: 1 XREF</li>
-		</ul>
-		<p><a href="#index">Index</a></p>
-	</div>
-	<div>
-		<h2 id="consoleleftover">Console leftovers <a href="#consoleleftover">#</a></h2>
-		<p>
-			<em>Note: console as in somewhere you type in, not a videogame console</em>
-		</p>
-		<p>
-			In the hooks project, I "enabled" this console in the functions <code>initConsolePOC</code>
-			in the file <code>nfsu2-re-hooks/faux-enable-console.c</code>.
-			As it doesn't seem to be used anywhere, the only effect you can see is that whatever you
-			type is written into the <code>console_real_text</code> buffer (use CheatEngine or something
-			you like to inspect it).
-		</p>
-		<p>
-			All names below were chosen by me.
-		</p>
-		<h3>ConsoleConsumeKey - 0x5C8320</h3>
-		<p>
-			When looking at the <code>MainWndProc</code> (which is not to hard too find because it's
-			passed in a struct to <code>RegisterClassExA</code>), I saw a call to a function that
-			is called on every <code>WM_CHAR</code> event. The function does nothing when the value
-			in <code>0x8709BC</code> is zero, and there are no write references to it, so it seems
-			like it will always be zero. I called this <code>consoleEnabledFlag</code>.
-		</p>
-		<p>
-			First it seems like the input is dropped if it's a <code>CR</code> (carriage return) and
-			when the value at <code>0x8709C4</code> is non-zero. Again, this is always zero so CR's
-			are never dropped. I called this <code>consoleIgnoreNextCR</code>.
-		</p>
-		<p>
-			Then it has four different handlers. The first one handles a backspace character, second
-			one does escape, third one does tab and CR, and the last one does everything else. Basically
-			one character is deleted when pressing backspace and one character is added in all other
-			cases. I named following variables:
-		</p>
-		<ul>
-			<li><code>0x8709B8 - consoleTextCaretPosition - int</code></li>
-			<li><code>0x8709C0 - consoleTextStringMaxLength - int</code></li>
-			<li><code>0x8709B0 - consoleTextString - char*</code></li>
-			<li><code>0x8709B4 - consoleTextStringLength - int</code></li>
-			<li><code>0x8709BC - consoleEnabledFlag - int</code></li>
-		</ul>
-		<p>
-			Basically, on backspace it checks if <code>consoleTextCaretPosition</code> is bigger than
-			zero, copies everything in <code>consoleTextString</code> starting from
-			<code>consoleTextCaretPosition</code> to a zero byte into a newly allocated buffer,
-			decrements <code>consoleTextCaretPosition</code> and <code>consoleTextStringLength</code>,
-			and copies everything from the allocated buffer back into <code>consoleTextString</code> at
-			position <code>consoleTextCaretPosition</code>.
-		</p>
-		<p>
-			When inserting, it checks if <code>consoleTextStringLength</code> is less than
-			<code>consoleTextStringMaxLength</code>, copies everything in
-			<code>consoleTextString</code> starting from <code>consoleTextCaretPosition</code>
-			to a zero byte into a newly allocated buffer, inserts the character in
-			<code>consoleTextString</code> at position <code>consoleTextCaretPosition</code>, increments
-			<code>consoleTextCaretPosition</code> and <code>consoleTextStringLength</code> by one,
-			and copies everything from the allocated buffer back into <code>consoleTextString</code>
-			at position <code>consoleTextCaretPosition</code>.
-		</p>
-		<ul>
-			<li>Backspace: delete character before caret</li>
-			<li>Escape: insert zero byte</li>
-			<li>Tab and CR: insert LF</li>
-			<li>Other: insert char if it's <code>a-z</code> or <code>A-Z</code> or <code>0-9</code> or,
-			if <code>0x80057E</code> is zero, <code>_</code> or <code>@</code> or <code>.</code> or
-			<code>-</code>. If none of these pass, do a check for more keys as described below</li>
-		</ul>
-		<h4>A hardcoded key check - 0x5BF260</h4>
-		<p>
-			At the end of looking if a character is valid, when it hasn't passed any of the criteria
-			above, it checks one last function if <code>0x8709C7</code> is <code>1</code>. The function
-			seems to check if the key is one of 55 configured values and if so, the char is accepted.
-			The C-ified code looks like this:
-		</p>
-		<pre>
-int ConsoleIsCharOneOfTheseHardcodedValues(unsigned char value)
+	*(int**) (0x7F65E8) = &amp;zero; /*discerrorpc*/
+	*(int**) (0x7F65EC) = &amp;zero; /*??nothing*/
+	//*(int**) (0x7F65F0) = &amp;zero; /*mc_bootup*/
+	*(int**) (0x7F65F4) = &amp;zero; /*??nothing*/
+	*(int**) (0x7F65F8) = &amp;zero; /*??nothing*/
+	*(int**) (0x7F65FC) = &amp;zero; /*blankmovie*/
+	*(int**) (0x7F6600) = &amp;zero; /*ealogo*/
+	*(int**) (0x7F6604) = &amp;zero; /*??nothing*/
+	*(int**) (0x7F6608) = &amp;zero; /*thxmovie*/
+	//*(int**) (0x7F660C) = &amp;zero; /*psamovie*/
+	*(int**) (0x7F6610) = &amp;zero; /*introfmv*/
+	*(int**) (0x7F6614) = &amp;zero; /*splash*/
+	//*(int**) (0x7F6618) = &amp;zero; /*mc_background*/
+	//*(int**) (0x7F661C) = &amp;zero; /*ui_main*/
+}
+</pre><p style='margin-bottom:0'><a href='#index'>Index</a></p></div><span id='displaysettings'></span><div><h2>Display settings <a href="#displaysettings">#</a></h2>
+<p>TODO. I was writing this when I got distracted by the language stuff.
+</p><p>Where are these used:
+</p><ul><li><code>0x5BE190 StoreOptLightGlowSetToZero</code> 1 XREF
+</li><li><code>0x5BE1B0 RestoreOptLightGlow</code>: 1 XREF
+</li><li><code>0x5BE1C0 GetWorldDetailClampBetween0And2</code>: 1 XREF
+</li></ul><p style='margin-bottom:0'><a href='#index'>Index</a></p></div><span id='consoleleftover'></span><div><h2>Console leftovers <a href="#consoleleftover">#</a></h2>
+<p><em>Note: console as in somewhere you type in, not a videogame console</em>
+</p><p>In the hooks project, I "enabled" this console in the functions <code>initConsolePOC</code>
+in the file <code>nfsu2-re-hooks/faux-enable-console.c</code>.
+As it doesn't seem to be used anywhere, the only effect you can see is that whatever you
+type is written into the <code>console_real_text</code> buffer (use CheatEngine or something
+you like to inspect it).
+</p><p>All names below were chosen by me.
+</p><p style='margin-bottom:0'><a href='#index'>Index</a></p></div><span id='console_consume_key'></span><div class='indent' style='margin-left:5em'><p style='margin-top:0'><small><a href='#consoleleftover'>Console leftovers</a> &gt; ConsoleConsumeKey - 0x5C8320</small></p><h3>ConsoleConsumeKey - 0x5C8320 <a href="#console_consume_key">#</a></h3>
+<p>When looking at the <code>MainWndProc</code> (which is not to hard too find because it's
+passed in a struct to <code>RegisterClassExA</code>), I saw a call to a function that
+is called on every <code>WM_CHAR</code> event. The function does nothing when the value
+in <code>0x8709BC</code> is zero, and there are no write references to it, so it seems
+like it will always be zero. I called this <code>consoleEnabledFlag</code>.
+</p><p>First it seems like the input is dropped if it's a <code>CR</code> (carriage return) and
+when the value at <code>0x8709C4</code> is non-zero. Again, this is always zero so CR's
+are never dropped. I called this <code>consoleIgnoreNextCR</code>.
+</p><p>Then it has four different handlers. The first one handles a backspace character, second
+one does escape, third one does tab and CR, and the last one does everything else. Basically
+one character is deleted when pressing backspace and one character is added in all other
+cases. I named following variables:
+</p><ul><li><code>0x8709B8 - consoleTextCaretPosition - int</code>
+</li><li><code>0x8709C0 - consoleTextStringMaxLength - int</code>
+</li><li><code>0x8709B0 - consoleTextString - char*</code>
+</li><li><code>0x8709B4 - consoleTextStringLength - int</code>
+</li><li><code>0x8709BC - consoleEnabledFlag - int</code>
+</li></ul><p>Basically, on backspace it checks if <code>consoleTextCaretPosition</code> is bigger than
+zero, copies everything in <code>consoleTextString</code> starting from
+<code>consoleTextCaretPosition</code> to a zero byte into a newly allocated buffer,
+decrements <code>consoleTextCaretPosition</code> and <code>consoleTextStringLength</code>,
+and copies everything from the allocated buffer back into <code>consoleTextString</code> at
+position <code>consoleTextCaretPosition</code>.
+</p><p>When inserting, it checks if <code>consoleTextStringLength</code> is less than
+<code>consoleTextStringMaxLength</code>, copies everything in
+<code>consoleTextString</code> starting from <code>consoleTextCaretPosition</code>
+to a zero byte into a newly allocated buffer, inserts the character in
+<code>consoleTextString</code> at position <code>consoleTextCaretPosition</code>, increments
+<code>consoleTextCaretPosition</code> and <code>consoleTextStringLength</code> by one,
+and copies everything from the allocated buffer back into <code>consoleTextString</code>
+at position <code>consoleTextCaretPosition</code>.
+</p><ul><li>Backspace: delete character before caret
+</li><li>Escape: insert zero byte
+</li><li>Tab and CR: insert LF
+</li><li>Other: insert char if it's <code>a-z</code> or <code>A-Z</code> or <code>0-9</code> or,
+  if <code>0x80057E</code> is zero, <code>_</code> or <code>@</code> or <code>.</code> or
+  <code>-</code>. If none of these pass, do a check for more keys as described below}
+</li></ul><p style='margin-bottom:0'><a href='#index'>Index</a></p></div><span id='console_consume_key_check'></span><div class='indent' style='margin-left:10em'><p style='margin-top:0'><small><a href='#consoleleftover'>Console leftovers</a> &gt; <a href='#console_consume_key'>ConsoleConsumeKey - 0x5C8320</a> &gt; A hardcoded key check - 0x5BF260</small></p><h4>A hardcoded key check - 0x5BF260 <a href="#console_consume_key_check">#</a></h4>
+<p>At the end of looking if a character is valid, when it hasn't passed any of the criteria
+above, it checks one last function if <code>0x8709C7</code> is <code>1</code>. The function
+seems to check if the key is one of 55 configured values and if so, the char is accepted.
+The C-ified code looks like this:
+</p><pre>int ConsoleIsCharOneOfTheseHardcodedValues(unsigned char value)
 {
 	unsigned char values[55] = {
 		' ', '.', ',', '_', '@', '-', '`', '=', '[', ']', '\\',
@@ -917,240 +587,174 @@ int ConsoleIsCharOneOfTheseHardcodedValues(unsigned char value)
 		0xC4, 0xD6, 0xDC, 0xA7
 	};
 	int i;
-
 	for (i = 0; i &lt; 55; i++) {
 		if (values[i] == value) {
 			return 1;
 		}
 	}
 	return 0;
-}</pre>
-		<h3>ConsoleMoveCaret - 0x5BF3A0</h3>
-		<p>
-			This function is also called from <code>MainWndProc</code>, this time when a
-			<code>WM_KEYDOWN</code> message is received. One parameter is passed based on the keycode
-			of the event:
-		</p>
-		<ul>
-			<li><code>VK_LEFT</code>: <code>-1</code></li>
-			<li><code>VK_RIGHT</code>: <code>1</code></li>
-			<li><code>VK_HOME</code>: <code>-consoleTextStringMaxLength</code></li>
-			<li><code>VK_END</code>: <code>consoleTextStringMaxLength</code></li>
-		</ul>
-		<p>
-			This is the only other function that checks if <code>consoleEnabledFlag</code> is non-zero.
-		</p>
-		<p><a href="#index">Index</a></p>
-	</div>
-	<div>
-		<h2 id="hashfuncs">Hash functions <a href="#hashfuncs">#</a></h2>
-		<p>
-			While scrolling and looking at references to some strings, I found some parts that look like
+}
+</pre><p style='margin-bottom:0'><a href='#index'>Index</a></p></div><span id='console_move_caret'></span><div class='indent' style='margin-left:5em'><p style='margin-top:0'><small><a href='#consoleleftover'>Console leftovers</a> &gt; ConsoleMoveCaret - 0x5BF3A0</small></p><h3>ConsoleMoveCaret - 0x5BF3A0 <a href="#console_move_caret">#</a></h3>
+<p>This function is also called from <code>MainWndProc</code>, this time when a
+<code>WM_KEYDOWN</code> message is received. One parameter is passed based on the keycode
+of the event:
+</p><ul><li><code>VK_LEFT</code>: <code>-1</code>
+</li><li><code>VK_RIGHT</code>: <code>1</code>
+</li><li><code>VK_HOME</code>: <code>-consoleTextStringMaxLength</code>
+</li><li><code>VK_END</code>: <code>consoleTextStringMaxLength</code>
+</li></ul><p>This is the only other function that checks if <code>consoleEnabledFlag</code> is non-zero.
+</p><p style='margin-bottom:0'><a href='#index'>Index</a></p></div><span id='hashfuncs'></span><div><h2>Hash functions <a href="#hashfuncs">#</a></h2>
+<p>			While scrolling and looking at references to some strings, I found some parts that look like
 			following excerpt:
-		</p>
-		<pre class="ida">
-<span class="t">.text:005121AE</span>     push    offset <span class="i">aGenericdialo_2</span> <span class="c">; "GenericDialog_Animate_SMALL.fng"</span>
-<span class="t">.text:005121B3</span>     call    <span class="hi">sub_505450</span>
-<span class="t">.text:005121B8</span>     add     esp, <num>4</num>
-<span class="t">.text:005121BB</span>     cmp     esi, eax
-<span class="t">.text:005121BD</span>     jz      short loc_512218
-<span class="t">.text:005121BF</span>     push    offset <span class="i">aGenericdialog_</span> <span class="c">; "GenericDialog_SMALL.fng"</span>
-<span class="t">.text:005121C4</span>     call    <span class="hi">sub_505450</span>
-<span class="t">.text:005121C9</span>     add     esp, <num>4</num>
-<span class="t">.text:005121CC</span>     cmp     esi, eax
-<span class="t">.text:005121CE</span>     jz      short loc_512218
-<span class="t">.text:005121D0</span>     push    offset <span class="i">aGenericdialo_3</span> <span class="c">; "GenericDialog_Animate_MED.fng"</span>
-<span class="t">.text:005121D5</span>     call    <span class="hi">sub_505450</span>
-<span class="t">.text:005121DA</span>     add     esp, <num>4</num>
-<span class="t">.text:005121DD</span>     cmp     esi, eax
-<span class="t">.text:005121DF</span>     jz      short loc_512218
-<span class="t">.text:005121E1</span>     push    offset <span class="i">aGenericdialo_4</span> <span class="c">; "GenericDialog_MED.fng"</span>
-<span class="t">.text:005121E6</span>     call    <span class="hi">sub_505450</span>
-<span class="t">.text:005121EB</span>     add     esp, <num>4</num>
-<span class="t">.text:005121EE</span>     cmp     esi, eax
-<span class="t">.text:005121F0</span>     jz      short loc_512218
-<span class="t">.text:005121F2</span>     push    offset <span class="i">aGenericdialo_5</span> <span class="c">; "GenericDialog_Animate_LARGE.fng"</span>
-<span class="t">.text:005121F7</span>     call    <span class="hi">sub_505450</span>
-<span class="t">.text:005121FC</span>     add     esp, <num>4</num>
-<span class="t">.text:005121FF</span>     cmp     esi, eax
-<span class="t">.text:00512201</span>     jz      short loc_512218
-<span class="t">.text:00512203</span>     push    offset <span class="i">aGenericdialo_0</span> <span class="c">; "GenericDialog_LARGE.fng"</span>
-<span class="t">.text:00512208</span>     call    <span class="hi">sub_505450</span>
-<span class="t">.text:0051220D</span>     add     esp, <num>4</num>
-<span class="t">.text:00512210</span>     cmp     esi, eax
-<span class="t">.text:00512212</span>     jz      short loc_512218</pre>
-		<p>
-			The proc at <code>0x505450</code> doesn't look very complicated; it has one argument and
-			doesn't perform any calls. It dereferences the given argument and increment its position,
-			until a zero has been found. While it's doing that, eax is modified based on the read value.
-			So I assumed it is some hashing function and hooked it to see what kind of things are passed
-			through it.
-		</p>
-		<p>
-			As it turns out, it gets called many, many times.
-		</p>
-		<pre>
-<strong>time        input result</strong>
-53.42743683 GenericDialog_SMALL.fng 6962C0CD
-53.42753220 UI_PC_Help_Bar.fng 33AC1CB4
-53.42756271 OL_ICON_GROUP 2BAC0CEE
-53.42758179 UI_PC_Help_Bar.fng 33AC1CB4
-53.42760086 Hide 0016A259
-53.42761993 UI_Main.fng C343126A
-53.42766190 GarageMain.fng 4CDD8B14
-53.42769241 GarageMain.fng 4CDD8B14
-53.42771149 GarageMain.fng 4CDD8B14
-53.42773056 GenericDialog.fng F68A7675
+</p><pre class='ida'><span class='text'>.text:005121AE</span>     push    offset <span class='ident'>aGenericdialo_2</span> <span class='comment'>; "GenericDialog_Animate_SMALL.fng"</span>
+<span class='text'>.text:005121B3</span>     call    <span class='hi'>sub_505450</span>
+<span class='text'>.text:005121B8</span>     add     esp, <span class='num'>4</span>
+<span class='text'>.text:005121BB</span>     cmp     esi, eax
+<span class='text'>.text:005121BD</span>     jz      short loc_512218
+<span class='text'>.text:005121BF</span>     push    offset <span class='ident'>aGenericdialog_</span> <span class='comment'>; "GenericDialog_SMALL.fng"</span>
+<span class='text'>.text:005121C4</span>     call    <span class='hi'>sub_505450</span>
+<span class='text'>.text:005121C9</span>     add     esp, <span class='num'>4</span>
+<span class='text'>.text:005121CC</span>     cmp     esi, eax
+<span class='text'>.text:005121CE</span>     jz      short loc_512218
+<span class='text'>.text:005121D0</span>     push    offset <span class='ident'>aGenericdialo_3</span> <span class='comment'>; "GenericDialog_Animate_MED.fng"</span>
+<span class='text'>.text:005121D5</span>     call    <span class='hi'>sub_505450</span>
+<span class='text'>.text:005121DA</span>     add     esp, <span class='num'>4</span>
+<span class='text'>.text:005121DD</span>     cmp     esi, eax
+<span class='text'>.text:005121DF</span>     jz      short loc_512218
+<span class='text'>.text:005121E1</span>     push    offset <span class='ident'>aGenericdialo_4</span> <span class='comment'>; "GenericDialog_MED.fng"</span>
+<span class='text'>.text:005121E6</span>     call    <span class='hi'>sub_505450</span>
+<span class='text'>.text:005121EB</span>     add     esp, <span class='num'>4</span>
+<span class='text'>.text:005121EE</span>     cmp     esi, eax
+<span class='text'>.text:005121F0</span>     jz      short loc_512218
+<span class='text'>.text:005121F2</span>     push    offset <span class='ident'>aGenericdialo_5</span> <span class='comment'>; "GenericDialog_Animate_LARGE.fng"</span>
+<span class='text'>.text:005121F7</span>     call    <span class='hi'>sub_505450</span>
+<span class='text'>.text:005121FC</span>     add     esp, <span class='num'>4</span>
+<span class='text'>.text:005121FF</span>     cmp     esi, eax
+<span class='text'>.text:00512201</span>     jz      short loc_512218
+<span class='text'>.text:00512203</span>     push    offset <span class='ident'>aGenericdialo_0</span> <span class='comment'>; "GenericDialog_LARGE.fng"</span>
+<span class='text'>.text:00512208</span>     call    <span class='hi'>sub_505450</span>
+<span class='text'>.text:0051220D</span>     add     esp, <span class='num'>4</span>
+<span class='text'>.text:00512210</span>     cmp     esi, eax
+<span class='text'>.text:00512212</span>     jz      short loc_512218
+</pre><p>The proc at <code>0x505450</code> doesn't look very complicated; it has one argument and
+doesn't perform any calls. It dereferences the given argument and increment its position,
+until a zero has been found. While it's doing that, <code>eax</code> is modified based on the read value.
+So I assumed it is some hashing function and hooked it to see what kind of things are passed
+through it.
+</p><p>As it turns out, it gets called many, many times.
+</p><pre><strong>time        input                       result</strong>
+53.42743683 GenericDialog_SMALL.fng     6962C0CD
+53.42753220 UI_PC_Help_Bar.fng          33AC1CB4
+53.42756271 OL_ICON_GROUP               2BAC0CEE
+53.42758179 UI_PC_Help_Bar.fng          33AC1CB4
+53.42760086 Hide                        0016A259
+53.42761993 UI_Main.fng                 C343126A
+53.42766190 GarageMain.fng              4CDD8B14
+53.42769241 GarageMain.fng              4CDD8B14
+53.42771149 GarageMain.fng              4CDD8B14
+53.42773056 GenericDialog.fng           F68A7675
 53.42774963 UI_GenericParts_Browser.fng AF09F84F
-53.42776871 GenericDialog.fng F68A7675
-53.42779160 GenericDialog_SMALL.fng 6962C0CD
-53.42781067 UI_PC_Help_Bar.fng 33AC1CB4
-53.42782974 UI_Main.fng C343126A
-53.42784882 GarageMain.fng 4CDD8B14
-53.42790222 UI_MagazineBack.fng FA8CC482
-53.42796707 GenericDialog_SMALL.fng 6962C0CD
-53.42798615 UI_PC_Help_Bar.fng 33AC1CB4
-53.42800522 UI_Main.fng C343126A
-53.42802429 GarageMain.fng 4CDD8B14
-53.42922211 GenericDialog_SMALL.fng 6962C0CD
-53.42924881 UI_PC_Help_Bar.fng 33AC1CB4
-53.42926788 UI_Main.fng C343126A
-53.42928696 GarageMain.fng 4CDD8B14</pre>
-		<p>
-			The excerpt above is probably from one cycle in the update loop, and is repeated a lot.
-		</p>
-		<p>
-			Some time later I found a very similar looking proc at <code>0x43DB50</code>, so I copied
-			the previous hook for this function. This one gets called many times seemingly at startup
-			and when car parts or maps get loaded.
-		</p>
-		<p>
-			When writing this I took a better look at the procedures and saw that the only difference
-			really is that the first one is case insensitive while the second one is case sensitive.
-			In the <code>0x505450</code> one, it checks for every character if it is in the range
-			<code>'a'-'z'</code> and subtracts <code>0x20</code> if so, making the character uppercase
-			before updating the hash.
-		</p>
-		<p>
-			See <a href="hashes.txt">hashes.txt</a> (&lt; 1MB) for list of hashes, each line is formatted
-			as <code>hash\tinput\tresult\tproc\n</code>. This file is updated at random times. 8 minutes
-			of playing gives about a 277MB file, all output was piped to <code>sort | uniq</code>.
-		</p>
-		<p>
-			How I collected these can be seen in the <code>nfsu2-re-hooks/hook-*-hash-*.c</code> files.
-		</p>
-		<p><a href="#index">Index</a></p>
-		<hr/>
-		<h3 id="hashmess">Messing with hash results <a href="#hashmess">#</a></h3>
-		<p>
-			I had an impulse to try to return different results for certain hashes. For example, return
-			the result of <code>FIRETRUCK</code> when the input is <code>240SX</code>. The result is ..
-			difficult to describe. Here's some short points:
-		</p>
-		<ul>
-			<li>Browsing to the stock 240sx to customize shows an empty spot, no car</li>
-			<li>Selecting the stock car to customize will suddenly swap to the firetruck model</li>
-			<li>I can modify the firetruck, I can't select any bumpers but I can choose spoilers,
-			although it does nothing</li>
-			<li>Changing wheels/spinners/hydraulics does show</li>
-			<li>Then going out of the customization menu crashes the game
-			(this includes going to performance tuning)</li>
-		</ul>
-		<p class="center">
-			<img src="FIRETRUCK.GIF"/><br/>Hop hop skippity hop
-		</p>
-		<ul>
-			<li>Browsing a previously customized 240sx only shows the wheels of the car</li>
-			<li>If the wheels were not customized, it shows black rectangles as wheels and the game
-			crashes when I try to customize the wheels/spinners</li>
-			<li>Selecting the customized car to customize doesn't change anything special, still only wheels</li>
-			<li>Only the firetruck customization options can be selected</li>
-			<li>Choosing a spoiler shows the spoiler in the center of the car</li>
-			<li>When going out of a category (like Body parts), the car switches to the same car but the wheels
-			at the position where they should be for the firetruck</li>
-			<li>When going outside the customize menu now, the car's brand is a <code>*</code> symbol</li>
-			<li>When going to a different car and back, the firetruck model shows</li>
-			<li>Entering customization again hides the firetruck, only showing the wheels
-			(the spoiler is gone?)</li>
-			<li>After saving and undoing the swap and restarting the game, the saved car stays a firetruck
-			(but the behavior is still the same as described above)</li>
-			<li>Using the car to race makes the framerate go down significantly, except when in nose camera
-			(you just see headlights driving without a vehicle body)</li>
-			<li>It doesn't lag at all in the performance tuning</li>
-		</ul>
-		<p class="center">
-			<img src="FIRETRUCK-DYNO.JPG"/><br/>Here's a dyno chart of the firetruck
-		</p>
-		<p>
-			While the firetruck is unused in the game, I also tried to do this with the taxi, but it gave the
-			same results. Then I tried to replace it with a "normal" car, the Mustang.
-		</p>
-		<ul>
-			<li>Browsing a stock 240sx only shows black rectangles for wheels</li>
-			<li>When selecting the car, it gets replaced with a mustang, and now I'm customizing a mustang</li>
-			<li>The only change I can see is that there are no headlights or taillights</li>
-			<li>Going ingame now only shows the front bumper of the car, which is the thing I customized</li>
-			<li>Going back to the menu now shows the car with stock headlights and taillights</li>
-			<li>Going ingame again now shows the car fully as it should</li>
-			<li>Selecting a customized 240sx now shows the doors of a mustang</li>
-		</ul>
-		<p class="center">
-			<img src="MUSTANG.JPG" alt="driving invisible mustang"/><br/>Car?
-		</p>
-		<p>
-			The behavior isn't always the same, just give it a try and see for yourself. Replacing the taxi
-			with the ambulance just lags out the game whenever a taxi comes in sight.
-		</p>
-		<p>
-			Check the function <code>SomeHashCS43DB50Print</code> in the file
-			<code>nfsu2-re-hooks/main.c</code> to see how I did this, the code to replace cars is in comments.
-		</p>
-		<p><a href="#index">Index</a></p>
-	</div>
-	<div>
-		<h2 id="debugprint">Debug print <a href="#debugprint">#</a></h2>
-		<p>
-			While scrolling through the data segment, I found these interesting strings:
-		</p>
-		<pre class="ida">
-<span class="c">.rdata:0079B160</span> <span class="i">aDeletingPackag</span> <!--
--->db <span class="n">'Deleting package [%s]'</span>,<span class="n">0Ah</span>,<span class="n">0</span>
-<span class="c">.rdata:0079B177</span>                 align <span class="n">4</span>
-<span class="c">.rdata:0079B178</span> <span class="i">aUnActivateXX</span>   <!--
--->db <span class="n">'Un-Activate!!! %x %x'</span>,<span class="n">0Ah</span>,<span class="n">0</span>
-<span class="c">.rdata:0079B18E</span>                 db <span class="n">2</span> dup(<span class="n">0</span>)
-<span class="c">.rdata:0079B190</span> <span class="i">aWillBeUnloaded</span> <!--
--->db <span class="n">'Will be unloaded [%s]'</span>,<span class="n">0Ah</span>,<span class="n">0</span></pre>
-		<p>
-			Even more interesting is that these strings are using by pushing them on to the stack,
-			followed by a call to a specific proc that looks like this:
-		</p>
-		<pre class="ida">
-<span class="t">.text:0050D510</span> <span class="i">sub_50D510  proc near</span>
-<span class="t">.text:0050D510</span>                 xor     eax, eax
-<span class="t">.text:0050D512</span>                 retn
-<span class="t">.text:0050D512</span> <span class="i">sub_50D510  endp</span> </pre>
-		<p>
-			It appears as if this used to be some kind of debug printf function, so I named it
-			<code>SomeDebugPrint</code>. I hooked the function and made it output to a log file,
-			see <code>initHook50D510Print</code> in <code>nfsu2-re-hooks/main.c</code>.
-		</p>
-		<p>
-			It also seems to pass data that is not a pointer to a string. I'm guessing since the
-			implementation of this function was removed (and now just returns zero), and there
-			were probably other removed functions, so some calls that are supposed to be done
-			to different functions may now all point to this one function that also happened to
-			be used for the debug print stuff. My simple solution is to check if the first passed
-			argument points to memory in the data section, and print if so.
-		</p>
-		<p>
-			I did a short session browsing customization options and performance tuning with this
-			enabled, the results can be seen in the log file
-			<a href="debugstring50D510.txt">debugstring50D510.txt</a>. Each line is formatted as
-			<code>debugstr\t50D510\tcallee\tstring\n</code>. Here is a 'small' excerpt:
-		</p>
-		<pre>
-DIALOG :: --------- ShowDialog -----------
+53.42776871 GenericDialog.fng           F68A7675
+53.42779160 GenericDialog_SMALL.fng     6962C0CD
+53.42781067 UI_PC_Help_Bar.fng          33AC1CB4
+53.42782974 UI_Main.fng                 C343126A
+53.42784882 GarageMain.fng              4CDD8B14
+53.42790222 UI_MagazineBack.fng         FA8CC482
+53.42796707 GenericDialog_SMALL.fng     6962C0CD
+53.42798615 UI_PC_Help_Bar.fng          33AC1CB4
+53.42800522 UI_Main.fng                 C343126A
+53.42802429 GarageMain.fng              4CDD8B14
+53.42922211 GenericDialog_SMALL.fng     6962C0CD
+53.42924881 UI_PC_Help_Bar.fng          33AC1CB4
+53.42926788 UI_Main.fng                 C343126A
+53.42928696 GarageMain.fng              4CDD8B14
+</pre><p>The excerpt above is probably from one cycle in the update loop, and is repeated a lot.
+</p><p>Some time later I found a very similar looking proc at <code>0x43DB50</code>, so I copied
+the previous hook for this function. This one gets called many times seemingly at startup
+and when car parts or maps get loaded.
+</p><p>When writing this I took a better look at the procedures and saw that the only difference
+really is that the first one is case insensitive while the second one is case sensitive.
+In the <code>0x505450</code> one, it checks for every character if it is in the range
+<code>'a'-'z'</code> and subtracts <code>0x20</code> if so, making the character uppercase
+before updating the hash.
+</p><p>See <a href="hashes.txt">hashes.txt</a> (&lt; 1MB) for list of hashes, each line is formatted
+as <code>hash\tinput\tresult\tproc\n</code>. This file is updated at random times. 8 minutes
+of playing gives about a 277MB file, all output was piped to <code>sort | uniq</code>.
+</p><p>How I collected these can be seen in the <code>nfsu2-re-hooks/hook-*-hash-*.c</code> files.
+</p><p style='margin-bottom:0'><a href='#index'>Index</a></p></div><span id='hashmess'></span><div class='indent' style='margin-left:5em'><p style='margin-top:0'><small><a href='#hashfuncs'>Hash functions</a> &gt; Messing with hash results</small></p><h3>Messing with hash results <a href="#hashmess">#</a></h3>
+<p>I had an impulse to try to return different results for certain hashes. For example, return
+the result of <code>FIRETRUCK</code> when the input is <code>240SX</code>. The result is ..
+difficult to describe. Here's some short points:
+</p><ul><li>Browsing to the stock 240sx to customize shows an empty spot, no car
+</li><li>Selecting the stock car to customize will suddenly swap to the firetruck model
+</li><li>I can modify the firetruck, I can't select any bumpers but I can choose spoilers,
+  although it does nothing
+</li><li>Changing wheels/spinners/hydraulics does show
+</li><li>Then going out of the customization menu crashes the game
+  (this includes going to performance tuning)
+</li></ul><p class='center'><img src="FIRETRUCK.GIF" alt="jumping firetruck"/><br/>Hop hop skippity hop</p>
+<ul><li>Browsing a previously customized 240sx only shows the wheels of the car
+</li><li>If the wheels were not customized, it shows black rectangles as wheels and the game
+  crashes when I try to customize the wheels/spinners
+</li><li>Selecting the customized car to customize doesn't change anything special, still only wheels
+</li><li>Only the firetruck customization options can be selected
+</li><li>Choosing a spoiler shows the spoiler in the center of the car
+</li><li>When going out of a category (like Body parts),
+  the car switches to the same car but the wheels at
+  the position where they should be for the firetruck
+</li><li>When going outside the customize menu now, the car's brand is a <code>*</code> symbol
+</li><li>When going to a different car and back, the firetruck model shows
+</li><li>Entering customization again hides the firetruck, only showing the wheels
+  (the spoiler is gone?)
+</li><li>After saving and undoing the swap and restarting the game, the saved car stays a firetruck
+  (but the behavior is still the same as described above)
+</li><li>Using the car to race makes the framerate go down significantly, except when in nose camera
+  (you just see headlights driving without a vehicle body)
+</li><li>It doesn't lag at all in the performance tuning
+</li></ul><p class='center'><img src="FIRETRUCK-DYNO.JPG" alt="dyno chart"/><br/>Here's a dyno chart of the firetruck</p>
+<p>While the firetruck is unused in the game,
+I also tried to do this with the taxi, but it gave the same results.
+Then I tried to replace it with a "normal" car, the Mustang.
+</p><ul><li>Browsing a stock 240sx only shows black rectangles for wheels
+</li><li>When selecting the car, it gets replaced with a mustang, and now I'm customizing a mustang
+</li><li>The only change I can see is that there are no headlights or taillights
+</li><li>Going ingame now only shows the front bumper of the car, which is the thing I customized
+</li><li>Going back to the menu now shows the car with stock headlights and taillights
+</li><li>Going ingame again now shows the car fully as it should
+</li><li>Selecting a customized 240sx now shows the doors of a mustang
+</li></ul><p class='center'><img src="MUSTANG.JPG" alt="driving invisible mustang"/><br/>Car?</p>
+<p>The behavior isn't always the same, just give it a try and see for yourself.
+Replacing the taxi with the ambulance just lags out the game whenever a taxi comes in sight.
+</p><p>Check the function <code>SomeHashCS43DB50Print</code> in the file
+<code>nfsu2-re-hooks/hook-43DB50-hash-cs.c</code> to see how I did this,
+the code to replace cars is in comments.
+</p><p style='margin-bottom:0'><a href='#index'>Index</a></p></div><span id='debugprint'></span><div><h2>Debug print <a href="#debugprint">#</a></h2>
+<p>While scrolling through the data segment, I found these interesting strings:
+</p><pre class='ida'><span class='comment'>.rdata:0079B160</span> <span class='ident'>aDeletingPackag</span> db <span class='str'>'Deleting package [%s]'</span>,<span class='num'>0Ah</span>,<span class='num'>0</span>
+<span class='comment'>.rdata:0079B177</span>                 align <span class='num'>4</span>
+<span class='comment'>.rdata:0079B178</span> <span class='ident'>aUnActivateXX</span>   db <span class='str'>'Un-Activate!!! %x %x'</span>,<span class='num'>0Ah</span>,<span class='num'>0</span>
+<span class='comment'>.rdata:0079B18E</span>                 db <span class='num'>2</span> dup(<span class='num'>0</span>)
+<span class='comment'>.rdata:0079B190</span> <span class='ident'>aWillBeUnloaded</span> db <span class='str'>'Will be unloaded [%s]'</span>,<span class='num'>0Ah</span>,<span class='num'>0</span>
+</pre><p>Even more interesting is that these strings are using by pushing them on to the stack,
+followed by a call to a specific proc that looks like this:
+</p><pre class='ida'><span class='text'>.text:0050D510</span> <span class='ident'>sub_50D510  proc near</span>
+<span class='text'>.text:0050D510</span>                 xor     eax, eax
+<span class='text'>.text:0050D512</span>                 retn
+<span class='text'>.text:0050D512</span> <span class='ident'>sub_50D510  endp</span>
+</pre><p>It appears as if this used to be some kind of debug printf function, so I named it
+<code>SomeDebugPrint</code>. I hooked the function and made it output to a log file,
+see <code>nfsu2-re-hooks/replace-50D510-DebugPrint.c</code>.
+</p><p>It also seems to pass data that is not a pointer to a string. I'm guessing since the
+implementation of this function was removed (and now just returns zero), and there
+were probably other removed functions, so some calls that are supposed to be done
+to different functions may now all point to this one function that also happened to
+be used for the debug print stuff. My simple solution is to check if the first passed
+argument points to memory in the data section, and print if so.
+</p><p>I did a short session browsing customization options and performance tuning with this
+enabled, the results can be seen in the log file
+<a href="debugstring50D510.txt">debugstring50D510.txt</a>. Each line is formatted as
+<code>debugstr\t50D510\tcallee\tstring\n</code>. Here is a 'small' excerpt:
+</p><pre>DIALOG :: --------- ShowDialog -----------
 DIALOG :: |_ Do you want to convert your trunk to carbon fiber?
 DIALOG :: Oh shit - the control mask is zero.  This is bad.  Try to use Top Package's control mask.
 DIALOG ::  |_ TopPackage = UI_GenericParts_Browser.fng, mask = 0.
@@ -1174,135 +778,74 @@ Send message[b4623f67] to package [UI_GenericParts_Browser.fng]
 Message was queued
 Un-Activate!!! 37a52f0 37e69c0
 Deleting package [GenericDialog_SMALL.fng]
-package[GenericDialog_SMALL.fng] will unload</pre>
-		<p>
-			Most of the messages seem to be about dialogs, joy (keyboard) events,
-			FEng/fng packages (I'm guessing those are ui resources/designs?).
-		</p>
-		<p><a href="#index">Index</a></p>
-	</div>
-	<div>
-		<h2 id="ui">UI <a href="#ui">#</a></h2>
-		<p>
-			Names with <code>.FNG</code> seem to be occuring a lot, it seems like that are UI
-			resources or some kind of UI widget descriptors.
-		</p>
-		<p>
-			In text strings, <code>^</code> is a line feed.
-		</p>
-		<p>
-			UI things seem to work on a <code>640x480</code> canvas.
-			Most things (especially when mouse is involved) seem to be positioned
-			<code>([-320,+320],[-240,+240])</code>.
-		</p>
-		<ul>
-			<li><code>50B460 int RenderCursor(int x, int y)</code></li>
-			<li><code>50CD00 int IsPointInRect(float x, float y, struct { float x; float y} *pos,
-			struct { float width; float height; } *size)</code>
-			Only seen this being called when there's a list on screen so far.</li>
-			<li><code>52D020 int IsPointIn??SomethingUI(float x, float y, void *somethingui)</code>
-			something ui is something ui. Calculating the area goes through lots of functions, TODO
-			</li>
-		</ul>
-		<p><a href="#index">Index</a></p>
-		<hr/>
-		<h3 id="ui_dialog">Dialogs <a href="#ui_dialog">#</a></h3>
-		<p>
-			Thanks to the <a href="#debugprint">debugprint</a> discovery, my attention got grabbed
-			by something that looked like dialog code. These leftover debug strings helped so much.
-		</p>
-		<p>
-			Someone left a trace here:
-		</p>
-		<pre class="ida">
-<span class="t">.text:005541FC</span>                 call    <span class="i">Dialog__ctor??</span>
-<span class="t">.text:00554201</span>                 push    offset <span class="i">aDialogConstruc</span> ; <span class="n">"DIALOG :: Constructor\n"</span>
-<span class="t">.text:00554206</span>                 call    <span class="i">SomeDebugPrint</span></pre>
-		<p>
-			One of the first thing <code>ShowDialog</code> does is calling <code>0x526C40</code>,
-			which looks like initializes the dialog maybe? One argument is passed, seemingly the
-			dialog name. But then it checks an int at the passed dialog name +324h. Conclusion:
-			it's passing a struct with dialog info, of which the first member is the name.
-		</p>
-		<p><a href="#index">Index</a></p>
-		<hr/>
-		<h4 id="ui_dialog_getfngfordialog">GetFNGForDialog <a href="#ui_dialog_getfngfordialog">#</a></h4>
-		<p>
-			This function is only used once, by the <code>ShowDialog</code> function. It checks
-			the value at +324h, which seems to be a pointer to a string, looks like maybe a type of dialog?
-			It's checked if that value is either <code>NULL</code> or empty string or equal to
-			<code>animating</code> or <code>3button</code>. I decided to reimplement that function.
-			Fun fact: while doing this I managed to write an infinite loop which caused a BSOD.
-		</p>
-		<p>
-			At the end I decided upon the name <code>GetFNGForDialog</code>. It returns a pointer
-			to a string that says what FNG to display for the dialog that was passed. Some values
-			are:
-		</p>
-		<ul>
-			<li><code>HelpDialog_SMALL.fng</code> when help dialog flag? and text has less than
-			5 linebreaks</li>
-			<li><code>HelpDialog_MED.fng</code> when help dialog flag? and not small</li>
-			<li><code>GenericDialog_ThreeButton.fng</code> when <code>dialog-&gt;pTypeName</code>
-			is <code>3button</code></li>
-			<li><code>GenericDialog_SMALL.fng</code></li>
-			<li><code>GenericDialog_Animate_SMALL.fng</code></li>
-			<li><code>GenericDialog_MED.fng</code></li>
-			<li><code>GenericDialog_Animate_MED.fng</code></li>
-			<li><code>GenericDialog_LARGE.fng</code></li>
-			<li><code>GenericDialog_Animate_LARGE.fng</code></li>
-		</ul>
-		<p>
-			See the <code>do526C40getFNGforDialog</code> function for the complete reimplementation.
-		</p>
-		<p>
-			Here's me messing with the returned value:
-		</p>
-		<p class="center">
-			<img src="dialoghelp.jpg" alt="dialog"/><br/><code>HelpDialog_SMALL.fng</code>
-		</p>
-		<p class="center">
-			<img src="dialoggenericmed.jpg" alt="dialog"/><br/><code>GenericDialog_MED.fng</code>
-		</p>
-		<p class="center">
-			<img src="dialog3button.jpg" alt="dialog"/><br/><code>GenericDialog_ThreeButton.fng</code>
-		</p>
-		<p class="center">
-			<img src="dialoganimate.gif" alt="dialog"/><br/><code>GenericDialog_Animate_SMALL.fng</code>
-		</p>
-		<p>
-			I can't remember seeing this animate style dialog... But when adding some debug prints,
-			it seems like the online/LAN play uses this: <code>dialog 'Retrieving updated games
-			list^from the server...' has type 'animating'</code> but that dialog disappears so fast
-			I probably never noticed it.
-		</p>
-		<p>
-			Then I tried replacing it with something totally different,
-			<code>UI_GenericParts_Browser.fng</code>. I half expected the game to crash, so I was
-			surprised when it showed me this:
-		</p>
-		<p class="center">
-			<img src="dialoggenericpartsbrowser.jpg" alt="dialog"/><br/>:)</code>
-		</p>
-		<p>
-			Seems like this is a nice place to test loading other screens. Some do crash, but
-			here's <code>UI_OLEAMessenger.fng</code>:
-		</p>
-		<p class="center">
-			<img src="dialogoleamessenger.jpg" alt="dialog"/><br/>
-			No idea why that text is .. Spanish?</code>
-		</p>
-		<p>
-			Printing the dialog info struct address sadly showed that it wasn't stored in the
-			executable itself so it's probably somewhere deep in a bin file.
-		</p>
-		<hr/>
-		<p>
-			DialogInfo struct made by looking at all of the above and more:
-			(Especially <code>Dialog__ctor</code> at <code>0x4FF250</code> helped here.)
-		</p>
-		<pre>
-struct DialogInfo {
+package[GenericDialog_SMALL.fng] will unload
+</pre><p>Most of the messages seem to be about dialogs, joy (keyboard) events,
+FEng/fng packages (I'm guessing those are ui resources/designs?).
+</p><p style='margin-bottom:0'><a href='#index'>Index</a></p></div><span id='ui'></span><div><h2>UI <a href="#ui">#</a></h2>
+<p>Names with <code>.FNG</code> seem to be occuring a lot, it seems like that are UI
+resources or some kind of UI widget descriptors.
+</p><p>In text strings, <code>^</code> is a line feed (but <code>\n</code> might work as well, TODO).
+</p><p>UI things seem to work on a <code>640x480</code> canvas.
+Most things (especially when mouse is involved) seem to be positioned
+<code>([-320,+320],[-240,+240])</code>.
+</p><ul><li><code>50B460 int RenderCursor(int x, int y)</code>
+</li><li><code>50CD00 int IsPointInRect(float x, float y, struct { float x; float y} *pos,
+  struct { float width; float height; } *size)</code>
+  Only seen this being called when there's a list on screen so far.
+</li><li><code>52D020 int IsPointIn??SomethingUI(float x, float y, void *somethingui)</code>
+  something ui is something ui. Calculating the area goes through lots of functions, TODO
+</li></ul><p style='margin-bottom:0'><a href='#index'>Index</a></p></div><span id='ui_dialog'></span><div class='indent' style='margin-left:5em'><p style='margin-top:0'><small><a href='#ui'>UI</a> &gt; Dialogs</small></p><h3>Dialogs <a href="#ui_dialog">#</a></h3>
+<p>Thanks to the <a href='#debugprint'>Debug print</a> discovery, my attention got grabbed
+by something that looked like dialog code. These leftover debug strings helped so much.
+</p><p>Someone left a trace here:
+</p><pre class='ida'><span class='text'>.text:005541FC</span>                 call    <span class='ident'>Dialog__ctor??</span>
+<span class='text'>.text:00554201</span>                 push    offset <span class='ident'>aDialogConstruc</span> <span class='comment'>; "DIALOG :: Constructor\n"</span>
+<span class='text'>.text:00554206</span>                 call    <span class='ident'>SomeDebugPrint</span>
+</pre><p>One of the first thing <code>ShowDialog</code> does is calling <code>0x526C40</code>,
+which looks like initializes the dialog maybe? One argument is passed, seemingly the
+dialog name. But then it checks an int at the passed dialog name <code>+324h</code>. Conclusion:
+it's passing a struct with dialog info, of which the first member is the name.
+</p><p style='margin-bottom:0'><a href='#index'>Index</a></p></div><span id='ui_dialog_getfngfordialog'></span><div class='indent' style='margin-left:10em'><p style='margin-top:0'><small><a href='#ui'>UI</a> &gt; <a href='#ui_dialog'>Dialogs</a> &gt; GetFNGForDialog</small></p><h4>GetFNGForDialog <a href="#ui_dialog_getfngfordialog">#</a></h4>
+<p>This function is only used once, by the <code>ShowDialog</code> function. It checks
+the value at <code>+324h</code>, which seems to be a pointer to a string,
+looks like maybe a type of dialog?
+It's checked if that value is either <code>NULL</code> or empty string or equal to
+<code>animating</code> or <code>3button</code>. I decided to reimplement that function.
+Fun fact: while doing this I managed to write an infinite loop which caused a BSOD.
+</p><p>At the end I decided upon the name <code>GetFNGForDialog</code>. It returns a pointer
+to a string that says what FNG to display for the dialog that was passed. Some values
+are:
+</p><ul><li><code>HelpDialog_SMALL.fng</code> when help dialog flag? and text has less than 5 linebreaks
+</li><li><code>HelpDialog_MED.fng</code> when help dialog flag? and not small
+</li><li><code>GenericDialog_ThreeButton.fng</code> when <code>dialog-&gt;pTypeName</code> is <code>3button</code>
+</li><li><code>GenericDialog_SMALL.fng</code>
+</li><li><code>GenericDialog_Animate_SMALL.fng</code>
+</li><li><code>GenericDialog_MED.fng</code>
+</li><li><code>GenericDialog_Animate_MED.fng</code>
+</li><li><code>GenericDialog_LARGE.fng</code>
+</li><li><code>GenericDialog_Animate_LARGE.fng</code>
+</li></ul><p>See the <code>do526C40getFNGforDialog</code> function for the complete reimplementation.
+</p><p>Here's me messing with the returned value:
+</p><p class='center'><img src="dialoghelp.jpg" alt="dialog"/><br/><code>HelpDialog_SMALL.fng</code></p>
+<p class='center'><img src="dialoggenericmed.jpg" alt="dialog"/><br/><code>GenericDialog_MED.fng</code></p>
+<p class='center'><img src="dialog3button.jpg" alt="dialog"/><br/><code>GenericDialog_ThreeButton.fng</code></p>
+<p class='center'><img src="dialoganimate.gif" alt="dialog"/><br/><code>GenericDialog_Animate_SMALL.fng</code></p>
+<p>I can't remember seeing this animate style dialog... But when adding some debug prints,
+it seems like the online/LAN play uses this: <code>dialog 'Retrieving updated games
+list^from the server...' has type animating</code> but that dialog disappears so fast
+I probably never noticed it.
+</p><p>Then I tried replacing it with something totally different,
+<code>UI_GenericParts_Browser.fng</code>. I half expected the game to crash, so I was
+surprised when it showed me this:
+</p><p class='center'><img src="dialoggenericpartsbrowser.jpg" alt="main menu ui on splash screen"/><br/>:)</p>
+<p>Seems like this is a nice place to test loading other screens. Some do crash, but
+here's <code>UI_OLEAMessenger.fng</code>:
+</p><p class='center'><img src="dialogoleamessenger.jpg" alt="online messenger menu with placeholder text"/><br/>No idea why that text is .. Spanish?</p>
+<p>Printing the dialog info struct address sadly showed that it wasn't stored in the
+executable itself so it's probably somewhere deep in a bin file.
+</p><p style='margin-bottom:0'><a href='#index'>Index</a></p></div><div class='indent' style='margin-left:5em'><p style='margin-top:0'><small><a href='#ui'>UI</a> &gt; <a href='#ui_dialog'>Dialogs</a> (continuation)</small></p><p>DialogInfo struct made by looking at all of the above and more:
+(Especially <code>Dialog__ctor</code> at <code>0x4FF250</code> helped here.)
+</p><pre>struct DialogInfo {
 	char text[768];
 	int unused300;
 	int unused304;
@@ -1324,32 +867,24 @@ struct DialogInfo {
 };
 EXPECT_SIZE(struct DialogInfo, 0x338);
 ASSERT_OFFSET(struct DialogInfo, pTypeName, 0x324);
-ASSERT_OFFSET(struct DialogInfo, isHelpDialog, 0x32D);</pre>
-		<ul>
-			<li><code>0x558020 int ShowDialog(sturct DialogInfo *info)</code> returns
-			the new dialog id for it (value in <code>shownDialogHandleId</code>) or zero when
-			it didn't show because of some override</li>
-			<li><code>0x4FF250 void __thiscall Dialog__ctor(struct DialogInfo *this)</code>
-			initializes memory that was allocated to be a dialog</li>
-			<li><code>0x540A60 void DismissDialog(int dialogIdToDismiss)</code></li>
-			<li><code>0x838960 char* shownDialogParent</code> example value:
-			<code>UI_PerformanceTuning_Setting.fng</code></li>
-			<li><code>0x838964 char* shownDialogType</code> example value:
-			<code>GenericDialog_MED.fng</code></li>
-			<li><code>0x838970 int dialogDismissedByOtherDialogMsg</code> unsure yet</li>
-			<li><code>0x838974 int shownDialogId</code> zero when none</li>
-			<li><code>0x7F6DE0 int nextDialogId</code> when <code>ShowDialog</code> is called,
-			value is put into <code>shownDialogId</code> and incremented</li>
-			<li><code>0x838640 struct DialogInfo shownDialogData</code> dialog info passed to
-			<code>ShowDialog</code> is copied into here, TODO xrefs</li>
-		</ul>
-		<hr/>
-		<p>
-			Thanks to <code>ShowDialog</code> code, following things were discovered:
-		</p>
-<pre>
-typedef int (fnginithandler)(struct FNGShowData *msg);
-
+ASSERT_OFFSET(struct DialogInfo, isHelpDialog, 0x32D);
+</pre><ul><li><code>0x558020 int ShowDialog(struct DialogInfo *info)</code> returns
+the new dialog id for it (value in <code>shownDialogHandleId</code>) or zero when
+it didn't show because of some override
+</li><li><code>0x4FF250 void __thiscall Dialog__ctor(struct DialogInfo *this)</code>
+initializes memory that was allocated to be a dialog
+</li><li><code>0x540A60 void DismissDialog(int dialogIdToDismiss)</code>
+</li><li><code>0x838960 char* shownDialogParent</code> example value: <code>UI_PerformanceTuning_Setting.fng</code>
+</li><li><code>0x838964 char* shownDialogType</code> example value: <code>GenericDialog_MED.fng</code>
+</li><li><code>0x838970 int dialogDismissedByOtherDialogMsg</code> unsure yet
+</li><li><code>0x838974 int shownDialogId</code> zero when none
+</li><li><code>0x7F6DE0 int nextDialogId</code> when <code>ShowDialog</code> is called,
+value is put into <code>shownDialogId</code> and incremented
+</li><li><code>0x838640 struct DialogInfo shownDialogData</code> dialog info passed to
+<code>ShowDialog</code> is copied into here, TODO xrefs
+</li></ul><hr/>
+<p>Thanks to <code>ShowDialog</code> code, following things were discovered:
+</p><pre>typedef int (fnginithandler)(struct FNGShowData *msg);
 struct FNGData {
 	char *name;
 	fnginithandler *initializeHandler;
@@ -1360,7 +895,6 @@ struct FNGData {
 	int field_18;
 };
 EXPECT_SIZE(struct FNGData, 0x1C);
-
 struct FNGShowData {
 	char *fngname;
 	int arg1;
@@ -1369,7 +903,6 @@ struct FNGShowData {
 	int arg2;
 };
 EXPECT_SIZE(struct FNGMessage, 0x14);
-
 struct FNGInfo {
 	int field_0;
 	int field_4;
@@ -1380,7 +913,6 @@ struct FNGInfo {
 	int field_18;
 	int controlMask;
 };
-
 /*0x7F7DC8*/
 struct FNGData fngdata[] = {
 	{ "UI_Main.fng", 0x4ED6B0, 0x0D6DFCF20, 0x5, 0x0, 0x100, 0x0 }, // 0
@@ -1564,33 +1096,26 @@ struct FNGData fngdata[] = {
 	{ "MC_Main.fng", 0x4F3320, 0x0, 0x1, 0x0, 0x80, 0x0 }, // 178
 	{ "MC_Background.fng", 0x4A8740, 0x0, 0x0, 0x0, 0x80, 0x0 }, // 179
 };
-</pre>
-		<ul>
-			<li><code>0x50B8E0 int SetInitializeHandlerForFNG(char *fng, fnginithandler *func)</code>
-			goes through all the fng data above and set the handler for <code>stricmp</code>
-			matching fng names</li>
-			<li><code>0x50B840 struct FNGData* GetFNGDataForHash(int hash)</code> goes through
-			all the fng data above and returns the one with matching hash</li>
-			<li><code>0x55DC20 __thiscall void SendSomethingToFNG?(void *this, char *fng,
-			int data)</code> called when menus change</li>
-			<li><code>0x50B790 ShowFNG(int fnghash, int arg1, int arg2)</code> see
-			<code>ShowFNG</code> for a reimplementation</li>
-			<li><code>0x55DBD0 void UIHandleKey(int keyCode)</code> called from <code>WM_CHAR</code>
-			messages, only used to type/press enter in a textbox and Q to quit. Navigating menus
-			seems unaffected</li>
-			<li><code>0x558B70 void __thiscall UIConsumeKey(void *this, int keyCode)</code>
-			probably used for Q, but what else?</li>
-			<li><code>0x57B8B0 void __thiscall CheatCheck(void *this, int keyCode)</code> see
-			<a href="#cheats">Cheats</a></li>
-			<li><code>0x83A9C0 isTextboxFocused</code></li>
-			<li><code>0x83A9C4 focusedTextbox</code> ptr to some struct</li>
-		</ul>
-		<p>
-			Short excerpt from hooking <code>ShowFNG</code>. <code>arg2</code> for the dialogs
-			are a pointer to the text string.
-		</p>
-		<pre>
-ShowFNG(AB447B38 (""), 037864A0, 00000000) = 00000000
+</pre><ul><li><code>0x50B8E0 int SetInitializeHandlerForFNG(char *fng, fnginithandler *func)</code>
+  goes through all the fng data above and set the handler for <code>stricmp</code>
+  matching fng names
+</li><li><code>0x50B840 struct FNGData* GetFNGDataForHash(int hash)</code> goes through
+  all the fng data above and returns the one with matching hash
+</li><li><code>0x55DC20 __thiscall void SendSomethingToFNG?(void *this, char *fng, int data)</code>
+  called when menus change
+</li><li><code>0x50B790 ShowFNG(int fnghash, int arg1, int arg2)</code> see <code>replace-50B790-ShowFNG.c</code>
+for a reimplementation
+</li><li><code>0x55DBD0 void UIHandleKey(int keyCode)</code> called from <code>WM_CHAR</code>
+  messages, only used to type/press enter in a textbox and Q to quit.
+  Navigating menus seems unaffected
+</li><li><code>0x558B70 void __thiscall UIConsumeKey(void *this, int keyCode)</code>
+  probably used for Q, but what else?
+</li><li><code>0x57B8B0 void __thiscall CheatCheck(void *this, int keyCode)</code> see <a href='#cheats'>Cheats</a>
+</li><li><code>0x83A9C0 isTextboxFocused</code>
+</li><li><code>0x83A9C4 focusedTextbox</code> ptr to some struct
+</li></ul><p>Short excerpt from hooking <code>ShowFNG</code>. <code>arg2</code> for the dialogs
+are a pointer to the text string.
+</p><pre>ShowFNG(AB447B38 (""), 037864A0, 00000000) = 00000000
 ShowFNG(33AC1CB4 ("UI_PC_Help_Bar.fng"), 0378BD30, 00000000) = 03D7EB60
 ShowFNG(E503D390 ("MC_Bootup.fng"), 0379ADE0, 00000000) = 03786140
 ShowFNG(23F4270A ("LS_PSAMovie.fng"), 03786120, 00000000) = 03787AD0
@@ -1622,16 +1147,11 @@ ShowFNG(AEA9078F ("UI_PauseOptions.fng"), 037BAE10, 00000000) = 037D8430
 ShowFNG(73F51C74 ("UI_PauseOptionsMain.fng"), 037D8F40, 00000000) = 037DE0C0
 ShowFNG(33AC1CB4 ("UI_PC_Help_Bar.fng"), 037DFF40, 00000000) = 03D7EB60
 ShowFNG(32124083 ("UI_Pause.fng"), 037DDF40, 00000000) = 037DE2B0
-ShowFNG(AA469286 ("UI_InGameDialog.fng"), 037C1120, 00838640) = 037C2AB0</pre>
-		<p><a href="#index">Index</a></p>
-		<hr/>
-		<h3 id="mouseinput">Mouse input <a href="#mouseinput">#</a></h3>
-		<p>
-			While the canvas is <code>640x480</code>, mouse position seems to be handled mostly
-			as <code>([-320,+320],[-240,+240])</code>.
-		</p>
-		<pre>
-struct MouseData {
+ShowFNG(AA469286 ("UI_InGameDialog.fng"), 037C1120, 00838640) = 037C2AB0
+</pre><p style='margin-bottom:0'><a href='#index'>Index</a></p></div><span id='mouseinput'></span><div><h2>Mouse input <a href="#mouseinput">#</a></h2>
+<p>While the canvas is <code>640x480</code>, mouse position seems to be handled mostly
+as <code>([-320,+320],[-240,+240])</code>.
+</p><pre>struct MouseData {
 	void /*DInputDevice8*/ *dinputdevice;
 	int cursorX; // on 640x480 canvas
 	int cursorY; // on 640x480 canvas
@@ -1651,50 +1171,39 @@ struct MouseData {
 	char button2JustPressed;
 	char button2JustReleased;
 };
-
-struct MouseData *_mouseData = (struct MouseData*) 0x8763D0;</pre>
-		<ul>
-			<li><code>5BF6E0 int __thiscall CreateDinputDevice(struct MouseData *this)</code>
-			Creates and sets <code>dinputdevice</code></li>
-			<li><code>5C8600 int __thiscall MouseData::ctor(struct MouseData *this)</code>
-			called once, from <code>init_function_77E580</code></li>
-			<li><code>5BF860 void __thiscall UpdateMouseState(struct MouseData *this)</code>
-			Calls <code>UpdateCursorPosition</code> and then updates button states.</li>
-			<li><code>5BF750 int __thiscall UpdateCursorPosition(struct MouseData *this)</code></li>
-			<li><code>5BF940 int __thiscall HaveCursorActivity(struct MouseData *this)</code>
-			called once, from <code>5663F9 DoUI</code>. returns 1 if position deltas or scrollwheel or
-			any of the JustPressed/JustReleased fields are not zero. Always returning 0 here has the
-			effect that ui hover does not work, left click acts as right click (go back) except when
-			clicking on the active ui element (like main menu bar). Dialog box buttons still work
-			somehow. The car showroom can still be rotated with mmb. Mouse still moves.</li>
-			<li><code>50C860 void StoreMousePosButtonsIntoArg(void *arg)</code>
-			<pre>
-*((short*) arg_0 + 0) = _mouseData.cursorX - canvasWidth / 2;
+struct MouseData *_mouseData = (struct MouseData*) 0x8763D0;
+</pre><ul><li><code>5BF6E0 int __thiscall CreateDinputDevice(struct MouseData *this)</code>
+  Creates and sets <code>dinputdevice</code>
+</li><li><code>5C8600 int __thiscall MouseData::ctor(struct MouseData *this)</code>
+  called once, from <code>init_function_77E580</code>
+</li><li><code>5BF860 void __thiscall UpdateMouseState(struct MouseData *this)</code>
+  Calls <code>UpdateCursorPosition</code> and then updates button states.
+</li><li><code>5BF750 int __thiscall UpdateCursorPosition(struct MouseData *this)</code>
+</li><li><code>5BF940 int __thiscall HaveCursorActivity(struct MouseData *this)</code>
+  called once, from <code>5663F9 DoUI</code>. returns 1 if position deltas or scrollwheel or
+  any of the JustPressed/JustReleased fields are not zero. Always returning 0 here has the
+  effect that ui hover does not work, left click acts as right click (go back) except when
+  clicking on the active ui element (like main menu bar). Dialog box buttons still work
+  somehow. The car showroom can still be rotated with mmb. Mouse still moves.
+</li><li><code>50C860 void StoreMousePosButtonsIntoArg(void *arg)</code>
+<pre>*((short*) arg_0 + 0) = _mouseData.cursorX - canvasWidth / 2;
 *((short*) arg_0 + 1) = _mouseData.cursorY - canvasHeight / 2;
-*((short*) arg_0 + 2) = _mouseData.button0State &lt;&lt; 1 | _mouseData.button1State; (or swapped)</pre></li>
-			<li><code>50CD70 void GetMousePositionFromMiddle(float *cursorX, float *cursorY)</code>
-			<pre>
-*cursorX = _mouseData.cursorX - canvasWidth/2;
-*cursorY = _mouseData.cursorY - canvasHeight/2;</pre>
-			</li>
-			<li><code>50CDA0 void GetMouseWheel(float *mouseWheelData)</code>
-<pre>*mouseWheelData = _mouseData.mousestate.lz;</pre>
-			</li>
-			<li><code>50CDB0 int DidCursorPressInRect(struct { float x; float y; } *pos,
-			struct { float width; float height; } *size)</code>
-			Gets called in one location, but still haven't actually seen it being called. TODO</li>
-			<li><code>52D090 DidCursorPressIn??SomethingUI(void *somethingui)</code>
-			Delegates to <code>52D020 int IsPointIn??SomethingUI</code></li>
-			<li><code>52D100 DidCursorPressIn??SomethingUI_2(void *something2)</code>
-			same as above, probably for some other type UI element</li>
-			<li><code>8763D0 struct MouseData _mouseData</code></li>
-		</ul>
-		<p><a href="#index">Index</a></p>
-	</div>
-	<div>
-		<h2 id="cheats">Cheats <a href="#cheats">#</a></h2>
-		<pre>
-struct CheatScreenData {
+*((short*) arg_0 + 2) = _mouseData.button0State &lt;&lt; 1 | _mouseData.button1State; (or swapped)
+</pre></li><li><code>50CD70 void GetMousePositionFromMiddle(float *cursorX, float *cursorY)</code>
+<pre>*cursorX = _mouseData.cursorX - canvasWidth/2;
+*cursorY = _mouseData.cursorY - canvasHeight/2;
+</pre></li><li><code>50CDA0 void GetMouseWheel(float *mouseWheelData)</code>
+<pre>*mouseWheelData = _mouseData.mousestate.lz;
+</pre></li><li><code>50CDB0 int DidCursorPressInRect(struct { float x; float y; } *pos,
+  struct { float width; float height; } *size)</code>
+  Gets called in one location, but still haven't actually seen it being called. TODO
+</li><li><code>52D090 DidCursorPressIn??SomethingUI(void *somethingui)</code>
+  Delegates to <code>52D020 int IsPointIn??SomethingUI</code>
+</li><li><code>52D100 DidCursorPressIn??SomethingUI_2(void *something2)</code>
+  same as above, probably for some other type UI element
+</li><li><code>8763D0 struct MouseData _mouseData</code>
+</li></ul><p style='margin-bottom:0'><a href='#index'>Index</a></p></div><span id='cheats'></span><div><h2>Cheats <a href="#cheats">#</a></h2>
+<pre>struct CheatScreenData {
 	void **ppFunc;
 	char doCheatCheck; // only 1 when in the 'press enter key' screen
 	char field5;
@@ -1707,13 +1216,11 @@ struct CheatScreenData {
 	int typedCheatLength; // characters typed
 	int field38;
 };
-
 #define CHEAT_TYPE_VISUALS 1
 #define CHEAT_TYPE_PERFORMANCE 2
 #define CHEAT_TYPE_CAREER 5
 #define CHEAT_TYPE_SPONSOR_CAR 6 // shows up when doing quick race
 #define CHEAT_TYPE_VINYL 7
-
 struct CheatData {
 	char cheat[32];
 	int cheatType;
@@ -1726,7 +1233,6 @@ struct CheatData {
 	char field33;
 };
 EXPECT_SIZE(struct CheatData, 0x34);
-
 /*0x865930*/
 struct CheatScreenData cheatScreenData; // partially initialized by InitCheats_
 /*0x7FB960*/
@@ -1776,19 +1282,16 @@ struct CheatData cheatData[20] = {
 	{ "regmebaby"		5, 0x00000003, 0, 0, 0, 1, 1, 0 }, //
 	{ "ordermebaby"		5, 0x00000004, 0, 0, 0, 1, 1, 0 }, //
 };
-
 /*0x575770*/
 void __thiscall InitCheats(struct CheatScreenData *data)
 {
 	int i;
-
 	cheatScreenData.ppFunc = (void*) 0x7A0604;
 	cheatScreenData.doCheatCheck = 0;
 	cheatScreenData.cheats = cheatData;
 	cheatScreenData.numCheats = 20;
 	cheatScreenData.typedCheatLength = 0;
 	cheatScreenData.field38 = 0;
-
 	for (i = 0; i &lt; 20; i++) {
 		if (cheatData[i].cheatType == CHEAT_TYPE_VINYL &amp;&amp;
 			cheatData[i].someHash == hashCS43DB50("AD_BESTBUY") &amp;&amp;
@@ -1797,109 +1300,73 @@ void __thiscall InitCheats(struct CheatScreenData *data)
 			cheatData[i].cheatEnabled = 0;
 		}
 	}
-}</pre>
-		<p>
-			Cheats can only be inserted at the 'press enter key' screen at boot. (I remember
-			this from looking up cheats in my childhood), but toggling sponsor car cheats when
-			ingame has immediate effect.
-		</p>
-		<ul>
-			<li><code>0x57B8B0 void __thiscall CheatCheck(void *this, int keyCode)</code> called
-			from <code>UIHandleKey</code> when <code>cheatScreenData.doCheatCheck</code> is
-			non-zero</li>
-			<li><code>579CB0 void __thiscall CheatMatched(struct CheatScreenData *this,
-			int cheat_index)</code> called from <code>CheatCheck</code> when a cheat matched</li>
-			<li><code>0x575770 void __thiscall InitCheats_(struct CheatScreenData *this)</code>
-			initializes <code>cheatScreenData</code> and <code>cheatData</code></li>
-			<li><code>0x576050 void __thiscall UndoCheat__(struct CheatScreenData *this,
-			int cheatdata_field28)</code> weird one, is called on each cheat entry and all
-			cheats with a matching field28 has zero written to its <code>hasBeenTriggered</code>
-			field</li>
-			<li><code>0x5760A0 int __thiscall DoCareerCheat(struct CheatScreenData *this,
-			int careerCheatIdx)</code></li>
-			<li><code>0x576090 int GetExtraCheatedCareerMoney()</code> basically
-			<code>return cheatExtraCareerMoney200 + cheatExtraCareerMoney1000;</code></li>
-			<li><code>0x865930 struct CheatScreenData cheatScreenData</code></li>
-			<li><code>0x7FB960 struct CheatData cheatData[20]</code></li>
-			<li><code>0x86512C cheatExtraCareerMoney200</code> set to 200 when the
-			<code>regmybank</code> cheat was entered</li>
-			<li><code>0x865130 cheatExtraCareerMoney1000</code> set to 1000 when the
-			<code>ordermebaby</code> cheat was entered</li>
-			<li><code>0x8383C8 cheatCareerNeverPossible</code> this gets only set to one when
-			a career cheat with <code>cheatData</code> zero is entered, but all career cheats
-			have a value of 2-4. It has one XREF, surrounded by some language stuff? TODO</li>
-			<strong>TODO</strong></li>
-		</ul>
-		<p><a href="#index">Index</a></p>
-	</div>
-	<div>
-		<h2 id="carmodeldata">Car model data <a href="#carmodeldata">#</a></h2>
-		<p>
-			When jumping around XREFs I stumbled upon a function that I named
-			<code>GetLogoForCarModel</code>. It uses a lot of strings that are manufacturers
-			and stuff like <code>CARSELECT_MANUFACTURER_%s</code>. There are two parameters,
-			the first seems to be the index of the car and the second is if the caller wants
-			the manufacturer logo or the brand logo. The function gave some nice information:
-		</p>
-		<ul>
-			<li><code>0x8A1CCC</code> is a pointer to something that's probably car model data</li>
-			<li>That data is an array with component size <code>0x890</code></li>
-			<li>At <code>+0x0</code>, there is a brand name</li>
-			<li>At <code>+0xC0</code>, there is a manufacturer name</li>
-			<li>(returning zero from this func will show a star image for the manufacturer/brand)</li>
-		</ul>
-		<p>
-			After hooking and printing addresses, some more obvious data could be seen:
-		</p>
-		<ul>
-			<li>At <code>+0x20</code> is a the brand name again</li>
-			<li>At <code>+0x40</code> is a geometry path <code>CARS\A3\GEOMETRY.BIN</code></li>
-			<li>At <code>+0x60</code> is a geometry path <code>CARS\A3\GEOMETRY.LZC</code></li>
-		</ul>
-		<p><a href="#index">Index</a></p>
-	</div>
-	<div>
-		<h2 id="sound">Sound <a href="#sound">#</a></h2>
-		<ul>
-			<li><code>0x51DE60 int PlayUISoundEffect(void *unknownUnused, int soundID)</code>
-			discovered when looking at cheats. 8 is some choose sound, 9 too, .. TODO other IDs</li>
-			<li><code>0x458520 void __thiscall PlaySound_(void *this, void *sound)</code></li>
-			<li><code>0x82B884 pSoundEffectSystem?</code> pointer to what is used as "this" for
-			calls to <code>PlaySound?</code></li>
-		</ul>
-		<p><a href="#index">Index</a></p>
-	</div>
-	<div>
-		<h2 id="career">Career <a href="#career">#</a></h2>
-		<pre>
-struct CareerData {
+}
+</pre><p>Cheats can only be inserted at the 'press enter key' screen at boot. (I remember
+this from looking up cheats in my childhood), but toggling sponsor car cheats when
+ingame has immediate effect.
+</p><ul><li><code>0x57B8B0 void __thiscall CheatCheck(void *this, int keyCode)</code> called
+  from {UIHandleKey} when {cheatScreenData.doCheatCheck} is
+  non-zero
+</li><li><code>579CB0 void __thiscall CheatMatched(struct CheatScreenData *this,
+  int cheat_index)</code> called from <code>CheatCheck</code> when a cheat matched
+</li><li><code>0x575770 void __thiscall InitCheats_(struct CheatScreenData *this)</code>
+  initializes <code>cheatScreenData</code> and <code>cheatData</code>
+</li><li><code>0x576050 void __thiscall UndoCheat__(struct CheatScreenData *this,
+  int cheatdata_field28)</code> weird one, is called on each cheat entry and all
+  cheats with a matching field28 has zero written to its <code>hasBeenTriggered</code>
+  field
+</li><li><code>0x5760A0 int __thiscall DoCareerCheat(struct CheatScreenData *this,
+  int careerCheatIdx)</code>
+</li><li><code>0x576090 int GetExtraCheatedCareerMoney()</code> basically
+  <code>return cheatExtraCareerMoney200 + cheatExtraCareerMoney1000;</code>
+</li><li><code>0x865930 struct CheatScreenData cheatScreenData</code>
+</li><li><code>0x7FB960 struct CheatData cheatData[20]</code>
+</li><li><code>0x86512C cheatExtraCareerMoney200</code> set to 200 when the <code>regmybank</code> cheat was entered
+</li><li><code>0x865130 cheatExtraCareerMoney1000</code> set to 1000 when the <code>ordermebaby</code> cheat was entered
+</li><li><code>0x8383C8 cheatCareerNeverPossible</code> this gets only set to one when
+  a career cheat with <code>cheatData</code> zero is entered, but all career cheats
+  have a value of 2-4. It has one XREF, surrounded by some language stuff? TODO
+</li></ul><p style='margin-bottom:0'><a href='#index'>Index</a></p></div><span id='carmodeldata'></span><div><h2>Car model data <a href="#carmodeldata">#</a></h2>
+<p>When jumping around XREFs I stumbled upon a function that I named
+<code>GetLogoForCarModel</code>. It uses a lot of strings that are manufacturers
+and stuff like <code>CARSELECT_MANUFACTURER_%s</code>. There are two parameters,
+the first seems to be the index of the car and the second is if the caller wants
+the manufacturer logo or the brand logo. The function gave some nice information:
+</p><ul><li><code>0x8A1CCC</code> is a pointer to something that's probably car model data
+</li><li>That data is an array with component size <code>0x890</code>
+</li><li>At <code>+0x0</code>, there is a brand name
+</li><li>At <code>+0xC0</code>, there is a manufacturer name
+</li><li>(returning zero from this func will show a star image for the manufacturer/brand)
+</li></ul><p>After hooking and printing addresses, some more obvious data could be seen:
+</p><ul><li>At <code>+0x20</code> is a the brand name again
+</li><li>At <code>+0x40</code> is a geometry path (example <code>CARS\A3\GEOMETRY.BIN</code>)
+</li><li>At <code>+0x60</code> is a geometry path (example <code>CARS\A3\GEOMETRY.LZC</code>)
+</li></ul><p style='margin-bottom:0'><a href='#index'>Index</a></p></div><span id='sound'></span><div><h2>Sound <a href="#sound">#</a></h2>
+<ul><li><code>0x51DE60 int PlayUISoundEffect(void *unknownUnused, int soundID)</code>
+  discovered when looking at cheats. 8 is some choose sound, 9 too, .. TODO other IDs
+</li><li><code>0x458520 void __thiscall PlaySound_(void *this, void *sound)</code>
+</li><li><code>0x82B884 pSoundEffectSystem?</code> pointer to what is used as <code>this</code> for calls to <code>PlaySound?</code>
+</li></ul><p style='margin-bottom:0'><a href='#index'>Index</a></p></div><span id='career'></span><div><h2>Career <a href="#career">#</a></h2>
+<pre>struct CareerData {
 	int money;
 };
-
 /*0x861E74*/
 struct CareerData careerData;
-</pre>
-		<ul>
-			<li><code>0x532830 MaybeStartCareer?</code> it's the only func that calls
-			<code>GetExtraCheatedCareerMoney</code></li>
-			<li><code>0x86347C isProfileWithStartedCareerLoaded</code> fun fact: when creating a
-			new profile, this value is set to 0 when the textbox to enter a name appears. When
-			canceling at that point, it's set back to 1 (if the loaded profile already had
-			career started)</li>
-			<li><code>0x500F90 int __thiscall CareerGetMoney(struct CareerData *this)</code>
-			TODO has one other XREF: where money is drawn?</li>
-			<li><code>0x500F80 void __thiscall CareerGiveMoney(struct CareerData *this,
-			int amount)</code> only used in the career money cheats</li>
-			<li><code>0x861E74 struct CareerData careerData</code></li>
-		</ul>
-		<p>
-			The career money cheat is mildly interesting, as it seems to work in two different
-			ways. It adds the amount to a variable that is used when a new career is started and
-			it adds the amount to the current career data if the loaded profile didn't start
-			career yet.
-		</p>
-		<pre>
-/*from DoCareerCheat*/
+</pre><ul><li><code>0x532830 MaybeStartCareer?</code> it's the only func that calls <code>GetExtraCheatedCareerMoney</code>
+</li><li><code>0x86347C isProfileWithStartedCareerLoaded</code> fun fact: when creating a
+  new profile, this value is set to 0 when the textbox to enter a name appears. When
+  canceling at that point, it's set back to 1 (if the loaded profile already had
+  career started)
+</li><li><code>0x500F90 int __thiscall CareerGetMoney(struct CareerData *this)</code>
+  TODO has one other XREF: where money is drawn?
+</li><li><code>0x500F80 void __thiscall CareerGiveMoney(struct CareerData *this,
+  int amount)</code> only used in the career money cheats
+</li><li><code>0x861E74 struct CareerData careerData</code>
+</li></ul><p>The career money cheat is mildly interesting, as it seems to work in two different
+ways. It adds the amount to a variable that is used when a new career is started and
+it adds the amount to the current career data if the loaded profile didn't start
+career yet.
+</p><pre>/*from DoCareerCheat*/
 /*ordermebaby ($1000 career start bonus)*/
 cheatExtraCareerMoney1000 = 1000;
 // ^ used when starting a new career from a profile that
@@ -1910,8 +1377,6 @@ if (!isPofileWithStartedCareerLoaded) {
 		// ^ This only has an effect when the profile was
 		// loaded from the loading screen
 	}
-}</pre>
-		<p><a href="#index">Index</a></p>
-	</div>
-</body>
+}
+</pre><p style='margin-bottom:0'><a href='#index'>Index</a></p></div></body>
 </html>

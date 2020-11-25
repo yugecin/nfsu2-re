@@ -1,0 +1,1820 @@
+.push nop
+# vim: set expandtab ts=8 nowrap:
+.pop nop
+
+
+
+
+.push plain
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<title>nfsu2-re</title>
+<style>
+body {
+	font-family: Arial,Tahoma,sans-serif;
+}
+table td {
+	padding: .4em;
+}
+div, h1 {
+	padding: 1em;
+	border: 1px solid #efefef;
+	outline: 1px solid #d0d0d0;
+	max-width: 50em;
+}
+h1 {
+	background:#ABABAB;
+}
+h1,h2,h3,h4,h5,h6 {
+        margin-top: 0.2em;
+}
+h2 a,h3 a,h4 a,h5 a,h6 a{
+	color: #A0A0A0;
+}
+body > div {
+	margin-bottom: 1em;
+}
+.center {
+	text-align: center;
+}
+code {
+	display: inline-block;
+	background: #dfdfdf;
+	padding: .2em;
+	margin: 0 .2em;
+	border-radius: 2px;
+}
+pre {
+	border:2px solid #CDCDCD;
+	padding: 0.5em;
+	white-space: pre-wrap;
+}
+pre.ida {
+	background:#fff;
+	color:#000080;
+	font-weight: bold;
+}
+pre.ida span.text {
+	color:#000;
+}
+pre.ida span.comment {
+	color:#808080;
+}
+pre.ida span.ident {
+	color:#0000FF;
+}
+pre.ida span.num,pre.ida span.str {
+	color:#008000;
+}
+pre.ida span.hi {
+	background:#FFFF00;
+}
+</style>
+</head>
+<body>
+
+.pop plain
+
+
+
+
+
+{nfsu2-re} |||h
+
+
+
+
+
+.push section
+
+{Prologue}      |||h id=prologue
+
+This is just me documenting while I have fun attempting to reverse-engineer the game
+Need For Speed Underground 2, otherwise knows as nfsu2.
+
+This normally belongs to {https://github.com/yugecin/nfsu2-re}.                                 |||a href=https://github.com/yugecin/nfsu2-re
+
+Other pages: {(fpu) cheatsheet}                                                                 |||a href=cheatsheet.html
+
+.pop section
+
+
+
+
+
+.push section
+
+{Index}         |||h id=index
+
+{}              |||index
+
+.pop section
+
+
+
+
+
+.push section
+
+{Injected code}         |||h id=injectedcode
+
+The code for all injected things I did can be found in {nfsu2-re-hooks/*.c}.                    |||code
+It's configured as a VC2005 project in a VC2005 solution.
+The project emits a compiled file to {..\NeedForSpeed U2\scripts\nfsu2-re-hooks.asi}.           |||code
+I'm using the {Ultimate ASI Loader by ThirteenAG},                                              |||a href=https://github.com/ThirteenAG/Ultimate-ASI-Loader/releases
+which loads the library nicely for me (download the ZIP and place the dll in the game folder,
+name it {dinput8.dll}).                                                                         |||code
+
+.pop section
+
+
+
+
+
+.push section
+
+{Registry}              |||h id=registry
+
+Many values (mainly display settings are loaded/saved in procs: (TODO check the XREFs on these)
+
+.push ul
+- {5BEA20 - LoadDisplaySettings} only called once, at boot                                      |||code
+- {5BEEA0 - SaveDisplaySettings} called multiple times, TODO                                    |||code
+.pop ul
+
+They are saved in key {Software\EA Games\Need for Speed Underground 2} in {HKEY_CURRENT_USER}.  |||code,code
+On my machine this translates to:
+{HKEY_CURRENT_USER\Software\Classes\VirtualStore\MACHINE\SOFTWARE\Wow6432Node\EA                |||code
+Games\Need for Speed Underground 2}.
+I'm guessing the extra path in between is because of WOW64.
+
+<table border=1>
+{{{Variable address}{Key}{Notes}}}                                                                                         |||thead,tr,th,th,th
+{                                                                                                                          |||tbody
+{{{0x870CB0}}   {{VERSION}}{Not a display setting}}                                                                        |||tr,td,code,td,code,td
+{{{0x870CB4}}   {{SIZE}}                                {Not a display setting. Seems unused                               |||tr,td,code,td,code,td
+                                                         (no XREFs other than save/load procs),
+                                                         although its value is set (to 120)? TODO!}}
+{{{0x870CB8}}   {{g_CarEnvironmentMapEnable}}           {{_optCarReflectionUpdateRate}}}                                   |||tr,td,code,td,code,td,code
+{{{0x870CBC}}   {{g_CarEnvironmentMapUpdateData}}       {{_optCarReflectionDetail}}}                                       |||tr,td,code,td,code,td,code
+{{{0x870CC0}}   {{g_CarShadowEnable}}                   {{_optCarShadowNeon}}}                                             |||tr,td,code,td,code,td,code
+{{{0x870CC4}}   {{g_CarHeadlightEnable}}                {{_optCarHeadlight}}}                                              |||tr,td,code,td,code,td,code
+{{{0x870CC8}}   {{g_CarLightingEnable}}                 {Seemingly unused? TODO}}                                          |||tr,td,code,td,code,td
+{{{0x870CCC}}   {{g_CarDamageEnable}}                   {Seemingly unused? TODO}}                                          |||tr,td,code,td,code,td
+{{{0x870CD0}}   {{g_CrowdEnable}}                       {{_optCrowds}}}                                                    |||tr,td,code,td,code,td,code
+{{{0x870CD4}}   {{g_RoadReflectionEnable}}              {{_optWorldReflectionDetail}}}                                     |||tr,td,code,td,code,td,code
+{{{0x870CD8}}   {{g_FogEnable}}                         {{_optFog}}}                                                       |||tr,td,code,td,code,td,code
+{{{0x870CDC}}   {{g_MotionBlurEnable}}                  {{_optMotionBlur}}}                                                |||tr,td,code,td,code,td,code
+{{{0x870CE0}}   {{g_LightStreaksEnable}}                {{_optLightTrails}}}                                               |||tr,td,code,td,code,td,code
+{{{0x870CE4}}   {{g_LightGlowEnable}}                   {{_optLightGlow}}}                                                 |||tr,td,code,td,code,td,code
+{{{0x870CE8}}   {{g_AnimatedTextureEnable}}             {{_optAnimatedTextureEnable} doesn't seem to be in display menu}}  |||tr,td,code,td,code,td,code
+{{{0x870CEC}}   {{g_ParticleSystemEnable}}              {{_optParticleSystem}}}                                            |||tr,td,code,td,code,td,code
+{{{0x870CF0}}   {{g_DepthOfFieldEnable}}                {{_optDepthOfField}}}                                              |||tr,td,code,td,code,td,code
+{{{0x870CF4}}   {{g_WorldLodLevel}}                     {{_optWorldDetail}}}                                               |||tr,td,code,td,code,td,code
+{{{0x870CF8}}   {{g_CarLodLevel}}                       {{_optCarGeometryDetail}}}                                         |||tr,td,code,td,code,td,code
+{{{0x870CFC}}   {{g_OverBrightEnable}}                  {{_optOverBright}}}                                                |||tr,td,code,td,code,td,code
+{{{0x870D00}}   {{g_BleachByPassEnable}}                {{_optEnchancedContrast}}}                                         |||tr,td,code,td,code,td,code
+{{{0x870D04}}   {{g_TintingEnable}}                     {{_optTinting}}}                                                   |||tr,td,code,td,code,td,code
+{{{0x870D08}}   {{g_FSAALevel}}                         {{_optFSAALevel}}}                                                 |||tr,td,code,td,code,td,code
+{{{0x870D0C}}   {{g_HorizonFogEnable}}                  {{_optHorizonFog}}}                                                |||tr,td,code,td,code,td,code
+{{{0x870D10}}   {{g_RainEnable}}                        {{_optRainSplatter}}}                                              |||tr,td,code,td,code,td,code
+{{{0x870D18}}   {{g_TextureFiltering}}                  {{_optTextureFiltering}}}                                          |||tr,td,code,td,code,td,code
+{{{0x870D1C}}   {{g_RacingResolution}}                  {{_optRacingResolutionIdx}}}                                       |||tr,td,code,td,code,td,code
+{{{0x87099C}}   {{g_PerformanceLevel}}                  {{_optLevelOfDetail}}}                                             |||tr,td,code,td,code,td,code
+{{{0x870D24}}   {{g_VSyncOn}}                           {{_optVsync}}}                                                     |||tr,td,code,td,code,td,code
+}
+</table>
+
+.push section
+
+{5B76F0 SomethingReadSpecialRegistrySettings}          |||h id=5B76F0
+
+This one is invoked on boot, and seems to load a special key that I haven't seen before:
+{Software\Electronic Arts\EA Games\Need for Speed Underground 2\er}. This key                           |||code
+is not present on my system, so this seems interesting.
+
+.push pre
+
+HKEY key;
+DWORD type, lenData;
+if (RegOpenKeyExA(HKEY_LOCAL_MACHINE, "Software\\E...2\\er", 0, KEY_READ, &amp;key)) {
+	type = REG_SZ; // a null-terminated string
+	lenData = 21;
+	if (RegQueryValueExA(key, 0, 0, &amp;type, &amp;buf_86FF8C, &amp;lenData)) {
+		buf_86FF8C[20] = 0;
+	} else {
+		buf_86FF8C[0] = 0;
+	}
+}
+RegCloseKey(&amp;key);
+// buf_86FF8C is only used at sub_588770, 0x58887A, TODO!
+
+.pop pre
+
+Then it loads more stuff from the normal key:
+
+{Install Dir} is read. If set, passed to (winapi) {GetLongPathNameA}.                           |||code,code
+and if that succeeds, the value is copied to buffer at {86E9B4}. There are no                   |||code
+XREFs, so it's unused?
+
+{CD Drive} is read. If set, passed to (winapi) {GetLongPathNameA}.                              |||code,code
+passed to (winapi) {GetLastError} and if that succeeds, the value is copied to                  |||code
+buffer at {86E8B0}. That one is used, TODO.                                                     |||code
+
+{NotFirstTime} is read. If set, DWORD at {870D20} gets set to 1,                                |||code,code
+otherwise 0. It doesn't check the value in the register key. Then 1 is written to the
+register key. TODO this is used in one place.
+
+{CacheSize} is read. If set, proc at {75D65B} is called with the                                |||code,code
+value. TODO what is this? proc has plenty XREFs and is just a jmp to another proc that
+has even more XREFs.
+
+{SwapSize} is read. If set, proc at {75D65B} is called with the                                 |||code,code
+value. TODO what is this? proc has plenty XREFs and is just a jmp to another proc that
+has even more XREFs.
+
+{Language} is read. Then it does something with looping through a language.                     |||code
+This took some deciphering but I found out that there is some struct with language
+information and associated data. See {Language metadata}.                                       |||a href=#language_metadata
+
+{StreamingInstall} is read. This one seems weird, as it seems like it passes                    |||code
+the value and the offset to a random location in the code segment to a proc that looks
+like a strcmp function? TODO.
+
+.pop section
+.pop section
+.push section
+
+{Game region} |||h id=gameregion
+
+This proc at {0x5B7C40} certainly helped to know what the region numbers ||| code
+represent.
+
+.push pre
+
+/*No idea where this is used, TODO*/
+int OpenPatchesWebsite()
+{
+	char *url;
+
+	switch (GetGameRegion()) {
+	case 0: url = "http://patches.ea.com/nfs_underground2/EN-US/home.html"; break;
+	case 2: url = "http://patches.ea.com/nfs_underground2/KO/home.html"; break;
+	case 3: url = "http://patches.ea.com/nfs_underground2/JP/home.html"; break;
+	case 4: url = "http://patches.ea.com/nfs_underground2/TW/home.html"; break;
+	case 5:
+		switch (GetCurrentLoadedLanguage()) {
+		case 0: url = "http://patches.ea.com/nfs_underground2/EN-UK/home.html"; break;
+		case 5: url = "http://patches.ea.com/nfs_underground2/NL/home.html"; break;
+		case 6: url = "http://patches.ea.com/nfs_underground2/SV/home.html"; break;
+		case 7: url = "http://patches.ea.com/nfs_underground2/DA/home.html"; break;
+		default: goto def;
+		}
+		break;
+	case 6: url = "http://patches.ea.com/nfs_underground2/FR/home.html"; break;
+	case 7: url = "http://patches.ea.com/nfs_underground2/DE/home.html"; break;
+	case 8: url = "http://patches.ea.com/nfs_underground2/IT/home.html"; break;
+	case 9: url = "http://patches.ea.com/nfs_underground2/ES/home.html"; break;
+	case 11: url = "http://patches.ea.com/nfs_underground2/ZH/home.html"; break;
+	case 12: url = "http://patches.ea.com/nfs_underground2/TH/home.html"; break;
+def:
+	default: /*eax??*/ break;
+	}
+	return ShellExecuteA(NULL, "open", url, NULL, NULL, SW_SHOWNORMAL);
+}
+
+.pop pre
+
+.push ul
+- 0: US
+- 2: Korea
+- 3: Japan
+- 4: Taiwan
+- 5: UK/Netherlands/Sweden/Denmark
+- 6: France
+- 7: Germany
+- 8: Italy
+- 9: Spain
+- 11: China
+- 12: Thailand
+.pop ul
+
+.pop section
+.push section
+
+{Language} ||| h id=language
+
+There seems to be no way to change the language, except for changing the value
+in the registry? See {registry}. Perhaps it is only set                                 ||| href
+when the game is installed?
+
+.push section
+
+{Language metadata}  ||| h id=language_metadata
+
+Thanks to code where it reads the Registry, I found following data:
+
+.push pre
+struct LanguageData {
+	char *pName;
+	int val1; //??
+	int region;
+};
+.pop pre
+
+Data can be found at {0x7FCA08}:      ||| code
+
+.push pre
+struct LanguageData languageData[] = {
+/*0x7FCA08*/ { "English US",		0,	0 },
+/*0x7FCA14*/ { "English UK",		0,	5 },
+/*0x7FCA20*/ { "French",		1,	6 },
+/*0x7FCA2C*/ { "German",		2,	7 },
+/*0x7FCA38*/ { "Italian",		3,	8 },
+/*0x7FCA44*/ { "Spanish",		4,	9 },
+/*0x7FCA50*/ { "Swedish",		6,	5 },
+/*0x7FCA5C*/ { "Danish",		7,	5 },
+/*0x7FCA68*/ { "Dutch",			5,	5 },
+/*0x7FCA74*/ { "Korean",		8,	2 },
+/*0x7FCA80*/ { "Chinese (Traditional)",	9,	4 },
+/*0x7FCA8C*/ { "English China",		9,	11 },
+/*0x7FCA98*/ { "Japanese",		10,	3 },
+/*0x7FCAA4*/ { "Thai",			11,	12 },
+/*0x7FCAB0*/ { 0,			0,	0 },
+};
+.pop pre
+
+The value stored in the registry for {Language} is checked against                      ||| code
+all language strings in the above data. The matching language's
+{val1} gets stored in {0x7FCA00} (TODO), or 0 when the                                  ||| code,code
+name stored in the registry didn't match any names.
+
+After chasing usages of a region related proc, I found more language data.
+Used in {0x4FF680} which I conveniently called {LoadLanguageSomething}.                 ||| code,code
+I found about three more structs that seem language or font related.
+
+.push pre
+/*from hashes, prefixed with FONTHASH_*/
+#define FONTHASH_CONDUITMDITC_TT21I 0x5B9D88B9
+#define FONTHASH_font_impact36 0x0920075C
+#define FONTHASH_CONDUITMDITC_TT14I 0x5B9D84DB
+#define FONTHASH_FONT_CONDUITMDITCTT38BI 0x9583AA1A
+#define FONTHASH_arial 0xA87927BE
+#define FONTHASH_arial12 0xAB6215C1
+#define FONTHASH_lcd_let48 0xBBBA71C2
+#define FONTHASH_conduitmditc_tt14i_korean 0xDCA5485A
+#define FONTHASH_conduitmditc_tt21i_korean 0x833A8678
+#define FONTHASH_conduitmditc_tt14i_chinese 0xF88A75F9
+#define FONTHASH_conduitmditc_tt21i_chinese 0x71C777D7
+#define FONTHASH_conduitmditc_tt14i_japanese 0x743BF1C1
+#define FONTHASH_conduitmditc_tt21i_japanese 0x15192F5F
+#define FONTHASH_conduitmditc_tt14i_thailand 0xA73823FF
+#define FONTHASH_conduitmditc_tt21i_thailand 0x4815619D
+
+struct LanguageStruct7F6DE8 {
+	int field_0;
+	int field_1;
+};
+
+struct LanguageStruct7F6E60 {
+	int data[28];
+};
+
+struct LanguageFileData {
+	int id;
+	char *filecode;
+	char *binfile;
+	struct LanguageStruct7F6E60 *pStruct7F6E60;
+};
+
+/*0x7F6DE8*/
+struct LanguageStruct7F6DE8 struct7F6DE8[] = {
+	{ FONTHASH_CONDUITMDITC_TT21I,		0x0 },
+	{ FONTHASH_font_impact36,		0x40000 },
+	{ FONTHASH_CONDUITMDITC_TT14I,		0x10000 },
+	{ FONTHASH_FONT_CONDUITMDITCTT38BI,	0x100000 },
+	{ FONTHASH_arial,			0x10000 },
+	{ FONTHASH_arial12,			0x10000 },
+	{ FONTHASH_lcd_let48,			0x4000 },
+	{ FONTHASH_conduitmditc_tt14i_korean,	0x40000 },
+	{ FONTHASH_conduitmditc_tt21i_korean,	0x80000 },
+	{ FONTHASH_conduitmditc_tt14i_chinese,	0x40000 },
+	{ FONTHASH_conduitmditc_tt21i_chinese,	0x80000 },
+	{ FONTHASH_conduitmditc_tt14i_japanese,	0x40000 },
+	{ FONTHASH_conduitmditc_tt21i_japanese,	0x80000 },
+	{ FONTHASH_conduitmditc_tt14i_thailand, 0x40000 },
+	{ FONTHASH_conduitmditc_tt21i_thailand,	0x80000 },
+};
+
+/*0x7F6E60*/
+struct LanguageStruct7F6E60 struct7F6E60[4];
+struct7F6E60[0][0] = FONTHASH_CONDUITMDITC_TT21I;
+struct7F6E60[0][1] = FONTHASH_arial;
+struct7F6E60[0][2] = FONTHASH_CONDUITMDITC_TT14I;
+struct7F6E60[0][3] = FONTHASH_lcd_let48;
+struct7F6E60[0][8] = FONTHASH_FONT_CONDUITMDITCTT38BI;
+struct7F6E60[0][16] = FONTHASH_arial12;
+struct7F6E60[0][17] = FONTHASH_font_impact36;
+struct7F6E60[1][0] = FONTHASH_conduitmditc_tt21i_korean;
+struct7F6E60[1][1] = FONTHASH_arial;
+struct7F6E60[1][2] = FONTHASH_conduitmditc_tt14i_korean;
+struct7F6E60[1][3] = FONTHASH_lcd_let48;
+struct7F6E60[1][16] = FONTHASH_arial12;
+struct7F6E60[1][17] = FONTHASH_font_impact36;
+struct7F6E60[2][0] = FONTHASH_conduitmditc_tt21i_japanese;
+struct7F6E60[2][1] = FONTHASH_arial;
+struct7F6E60[2][2] = FONTHASH_conduitmditc_tt14i_japanese;
+struct7F6E60[2][3] = FONTHASH_lcd_let48;
+struct7F6E60[2][8] = FONTHASH_FONT_CONDUITMDITCTT38BI;
+struct7F6E60[2][16] = FONTHASH_arial12;
+struct7F6E60[2][17] = FONTHASH_font_impact36;
+struct7F6E60[3][0] = FONTHASH_conduitmditc_tt21i_chinese;
+struct7F6E60[3][1] = FONTHASH_arial;
+struct7F6E60[3][2] = FONTHASH_conduitmditc_tt14i_chinese;
+struct7F6E60[3][3] = FONTHASH_lcd_let48;
+struct7F6E60[3][16] = FONTHASH_arial12;
+struct7F6E60[3][17] = FONTHASH_font_impact36;
+
+/*0x7F7020*/
+struct LanguageFileData languageFileData[] = {
+	{  0, "ENGLISH", "LANGUAGES\\ENGLISH.BIN", struct7F6E60 + 0 },
+	{  1, "FRENCH", "LANGUAGES\\FRENCH.BIN", struct7F6E60 + 0 },
+	{  2, "GERMAN", "LANGUAGES\\GERMAN.BIN", struct7F6E60 + 0 },
+	{  3, "ITALIAN", "LANGUAGES\\ITALIAN.BIN", struct7F6E60 + 0 },
+	{  4, "SPANISH", "LANGUAGES\\SPANISH.BIN", struct7F6E60 + 0 },
+	{  5, "DUTCH", "LANGUAGES\\DUTCH.BIN", struct7F6E60 + 0 },
+	{  6, "SWEDISH", "LANGUAGES\\SWEDISH.BIN", struct7F6E60 + 0 },
+	{  7, "DANISH", "LANGUAGES\\DANISH.BIN", struct7F6E60 + 0 },
+	{  8, "KOREAN", "LANGUAGES\\KOREAN.BIN", struct7F6E60 + 1 },
+	{  9, "CHINESE", "LANGUAGES\\CHINESE.BIN", struct7F6E60 + 3 },
+	{ 10, "JAPANESE", "LANGUAGES\\JAPANESE.BIN", struct7F6E60 + 2 },
+	/*there is no Thai entry here?*/
+};
+.pop pre
+
+In {LoadLanguageSomething}, {languageFileData} is searched.                     ||| code,code
+If {GetGameRegion} is 2, the entry with id 8 is searched,                       ||| code
+otherwise id 0 is searched.
+When it's not found the game will segfault because of the code below:
+
+.push ida
+{.text:004FF6A2}                 jl      short loc_4FF693                       ||| text
+{.text:004FF6A4} loc_4FF6A4:                                                    ||| text
+{.text:004FF6A4}                 xor     edx, edx                               ||| text
+{.text:004FF6A6} loc_4FF6A6:                                                    ||| text
+{.text:004FF6A6}                 mov     ecx, [edx+{0Ch}]                       ||| text,num
+.pop ida
+
+Then {LanguageFileData::pStruct7F6E60} is read. Its {data[0]}                   ||| code,code
+value is read and then a matching entry in {struct7F6DE8[]} is searched.        ||| code
+More stuff is read is a loop and reset and I lost track.
+Eventually something is called with string {LanguageMemoryPool}.                ||| code
+
+{00512520 LoadLanguageAtBoot TODO}                                              ||| strong
+
+{07983D0 aLanguageselect db 'LanguageSelectScreen',0 TODO}                      ||| strong
+
+.pop section
+.push section
+
+{Language files}       ||| h id=language_files
+
+Files. Have to still figure that out. {language.txt}                            ||| a href=language.txt
+How do the hashes relate to the entries?
+
+.push pre
+table idx 1408 | 5D10F6AF 8E 43 00 00
+// somehow ^ is the hash for v
+value idx  607 | len 000C: Bank Reward:
+.pop pre
+
+Once it's loaded ingame, it looks like this:
+
+.push pre
+struct LanguageTable {
+	int hash;
+	char *string;
+};
+
+struct SomeLanguageStruct {
+	int field0; // ?? checked against 0x39000
+	int numLoadedStrings;
+	char **table;
+	char **strings;
+};
+
+struct LanguageLoadStruct {
+	int binFileMagic;
+	int field4;
+	struct SomeLanguageStruct struct8;
+};
+
+/*0x8383D0*/
+int languageNumLoadedStrings;
+/*0x8383D4*/
+char *languageStrings;
+/*0x8383D8*/
+struct LanguageTable *languageTable;
+.pop pre
+
+.push ul
+- {0x4FF9D0 char* GetLanguageStringOrNull()} returns a string ptr                               ||| code
+  or NULL for given hash (which is passed through edx). Does a binary search over
+  the data at {languageTable}                                                                   ||| code
+- {0x4FFA50 void GetLanguageStringIntoBuf(char *dst, int dstlen, int hash)}                     ||| code
+  same as {GetLanguageString} but copy it into a buffer                                         ||| code
+- {0x4FFA80 char* GetLanguageString(int hash)} calls                                            ||| code
+  {GetLanguageStringOrNull} and when it returns NULL, call it again but with                    ||| code
+  {0xC01A6F63} as fallback (which results in {FENG: Default string error.})                     ||| code,code
+- {0x4FFAA0 char* GetNumberSuffix(int index)} returns, based on                                 ||| code
+  passed index, one of: {th, st, nd, rd, th, th, th, th, th, th}, use                           ||| code
+  default string as fallback
+- {0x5125B0 int FinalizeLoadLanguageFile(struct LanguageLoadStruct *data);}                     ||| code
+  fills in the variables below from passed data, returns 1 on success.
+  Called by something that calls a lot of functions until one returns non-zero.
+  This func checks if {data-&gt;field0} is {0x00039000}.                                        ||| code,code
+  The first four bytes of the language bin files also start with {0x00039000}.                  ||| code
+- {0x4FFAE0 int InitializeLoadLanguageFile(void *data);}                                        ||| code
+  same as above, checks {binFileMagic} for being {0x00039000},                                  ||| code,code
+  then sets some language relates variables to zero.
+- {0x8383D0 int languageNumLoadedStrings}                                                       ||| code
+- {0x8383D4 char *languageStrings}                                                              ||| code
+- {0x8383D8 struct LanguageTable *languageTable}                                                ||| code
+.pop ul
+
+.pop section
+.pop section
+.push section
+
+{Pools}  ||| h id=pools
+
+I hooked {??CreatePoolReally} and collected some output:                        ||| code
+{createpoollog.txt}. This will probably help a lot when                         ||| a href=createpoollog.txt
+trying to figure out other things. Note that the first time the
+{AUD: NFS3DMixCtl Pool} is made, it has an element amount of zero. The dump     ||| code
+is from just starting the game and starting a circuit race.
+
+.push pre
+struct PoolHeader {
+	int field_0; // ptr
+	int field_4;
+	struct PoolHeader *nextLinkedPool;
+	char* pName;
+	int field_10;
+	int field_14;
+	int allocatedElements;
+	int maxAllocatedElements?;
+	int field_20;
+	int elementAmount;
+	int elementSize;
+	int elementAmountOverAllLinkedPools;
+	// here comes pool data
+};
+
+struct bFileSystemPoolEntry {
+
+};
+EXPECT_SIZE(struct bFileSystemPoolEntry, 0xF0);
+.pop pre
+
+.push ul
+- {0x440B40 ??CreatePoolReally(int maybeElementSize, int maybeElementAmount,                    ||| code
+  char *name, int unknown)} TODO
+- {0x440DF0 ??CreatePool(int maybeElementSize, int maybeElementAmount,                          ||| code
+  char *name, int unknown)} TODO, does something after calling
+  {??CreatePoolReally}                                                                          ||| code
+- {0x440D40 int __thiscall PoolGetNextFreeItem_(void *this)} TODO                               ||| code
+- {0x440E50 int PoolGetNextFreeItem?stdcallwrapper(void *pool)} same as                         ||| code
+  the one above, but wrapped in an stdcall
+- {0x440BB0 int __thiscall PoolExtend(struct Pool *this,                                        ||| code
+  int maybeElementAmount)} TODO, basically allocates another pool (with bigger
+  size? TODO) and link it to this
+- {0x865104 p_bFileSystemPool}                                                                  ||| code
+.pop ul
+
+.pop section
+.push section
+
+{Speedy boot}  ||| h id=speedyboot
+
+{I want a fast startup because I'm booting the game so many times               ||| em
+(not to mention the numerious crashes)}
+
+During startup, with the debug string output enabled, there are a few entries
+showing loading and unloading states, such as {LS_THXMovie.fng}.                        ||| code
+I already sped up boot by replacing the {MOVIES/THX_logo.vp6} with                      ||| code
+{MOVIES/blank.vp6}. While that skips the unskippable intro logos,                       ||| code
+it still takes some time because it switches to a state where it tries loading
+and it takes slightly under a second to switch to the next state.
+
+So by following the debug prints, I found following section:
+
+.push ida
+{.data:007F65E8} off_7F65E8  dd offset {aDiscerrorpc_fn}                                        ||| comment,ident
+{.data:007F65EC}             dd offset byte_783FE5                                              ||| comment
+{.data:007F65F0}             dd offset {aMc_bootup_fng} {; "MC_Bootup.fng"}                     ||| comment,ident,comment
+{.data:007F65F4}             dd offset byte_783FE5                                              ||| comment
+{.data:007F65F8}             dd offset byte_783FE5                                              ||| comment
+{.data:007F65FC}             dd offset {aLs_blankmovie_} {; "LS_BlankMovie.fng"}                ||| comment,ident,comment
+{.data:007F6600}             dd offset {aLs_ealogo_fng} {; "LS_EAlogo.fng"}                     ||| comment,ident,comment
+{.data:007F6604}             dd offset byte_783FE5                                              ||| comment
+{.data:007F6608}             dd offset {aLs_thxmovie_fn} {; "LS_THXMovie.fng"}                  ||| comment,ident,comment
+{.data:007F660C}             dd offset {aLs_psamovie_fn} {; "LS_PSAMovie.fng"}                  ||| comment,ident,comment
+{.data:007F6610}             dd offset {aUg_ls_introfmv} {; "UG_LS_IntroFMV.fng"}               ||| comment,ident,comment
+{.data:007F6614}             dd offset {aUg_ls_splash_f} {; "UG_LS_Splash.fng"}                 ||| comment,ident,comment
+{.data:007F6618}             dd offset {aMc_background_} {; "MC_Background.fng"}                ||| comment,ident,comment
+{.data:007F661C}             dd offset {aUi_main_fng}  {; "UI_Main.fng"}                        ||| comment,ident,comment
+.pop ida
+
+This very much looks like the boot states the game goes through.
+{byte_783FE5} is basically an empty string, so maybe there used to                        ||| code
+be more states, or some are for different game versions?
+
+
+Putting all of them to a reference to an empty string makes the boot pretty speedy
+but then it doesn't do much. After initial boot, there's a black screen for a
+short moment, then the basic loading progressbar screen with the cars and Rachel
+shows, then it goes to a black screen and you can move the cursor. So the game is
+running but nothing of UI is running so you can't do much.
+
+
+Only leaving {UG_LS_Splash.fng} shows the splash screen with Rachel and                   ||| code
+the cars, the famous music starts playing and when the beat drops the EA TRAX message
+shows and "Press enter" shows. When pressing enter, we're back to the black screen
+with a moveable cursor.
+
+
+Only leaving {MC_BACKGROUND.fng} shows the splash screen with Rachel and                  ||| code
+the cars and the prompt if I want to create a new profile. When pressing 'no', we're
+back to the black screen. When pressing 'yes' I get to enter a name but when it then
+asks to save the profile, it says 'Unable to save profile' so I have to choose 'no'.
+Then black screen again.
+
+
+Only leaving {UI_MAIN.fng} directly jumps to the main menu where you see                  ||| code
+Rachel's car after a short moment after the loading screen showed. It didn't ask
+for a profile to load and when I try to load a profile it says that no profiles
+were found. Scary. I can create a new profile but it says 'Unable to save'. There
+is no music in the menu. Music does start when starting a race but going back to
+the menus stops the music again. Going to EA TRAX in the option does suddenly
+start the music in the menus.
+
+
+When only leaving {LS_EALogo.fng}, the ea logo movie sound starts to play                 ||| code
+while the 'loading' screen is still showing, then there's one frame of the logo movie
+when it's about halfway the sound of the movie and then it goes to black screen with
+cursor. Leaving {LS_BlankMovie.fng} in as well fixes that problem.                        ||| code
+
+
+Leaving just {MC_Bootup.fng} doesn't seem to change much, not even timing                 ||| code
+wise. It does sound important, so I tried this in combination with
+{UI_MAIN.fng}. It jumps into the main menu, but when I go to the profile                  ||| code
+manager now, I can load my profiles. Nice. The main menu music still doesn't load
+without going to EA TRAX, but I'm okay with that. One weird thing is that the Q button
+doesn't show the 'quit game' dialog. After searching a bit, it seems like
+{LS_PSAMovie.fng} is the one that makes the Q to quit keybind happen. That's              ||| code
+quite interesting, definitely something to research when/if I get more into the workings
+of the UI.
+
+
+So my final setup is to only leave in {MC_Bootup} (because it makes profiles              ||| code
+work), {LS_PSAMovie} (because I like the Q button and it can be a good dialog             ||| code
+test, it means I still need to skip the PSA movie but I can handle that),
+{MC_Background} (so I can load a profile at start) and                                    ||| code
+{UI_Main} (obviously). Code can be found in the {speedyboot} function.                    ||| code, code
+
+.push pre
+static int zero = 0;
+static
+void speedyboot()
+{
+	*(int**) (0x7F65E8) = &amp;zero; /*discerrorpc*/
+	*(int**) (0x7F65EC) = &amp;zero; /*??nothing*/
+	//*(int**) (0x7F65F0) = &amp;zero; /*mc_bootup*/
+	*(int**) (0x7F65F4) = &amp;zero; /*??nothing*/
+	*(int**) (0x7F65F8) = &amp;zero; /*??nothing*/
+	*(int**) (0x7F65FC) = &amp;zero; /*blankmovie*/
+	*(int**) (0x7F6600) = &amp;zero; /*ealogo*/
+	*(int**) (0x7F6604) = &amp;zero; /*??nothing*/
+	*(int**) (0x7F6608) = &amp;zero; /*thxmovie*/
+	//*(int**) (0x7F660C) = &amp;zero; /*psamovie*/
+	*(int**) (0x7F6610) = &amp;zero; /*introfmv*/
+	*(int**) (0x7F6614) = &amp;zero; /*splash*/
+	//*(int**) (0x7F6618) = &amp;zero; /*mc_background*/
+	//*(int**) (0x7F661C) = &amp;zero; /*ui_main*/
+}
+.pop pre
+
+.pop section
+.push section
+
+{Display settings}  ||| h id=displaysettings
+
+TODO. I was writing this when I got distracted by the language stuff.
+
+Where are these used:
+
+.push ul
+- {0x5BE190 StoreOptLightGlowSetToZero} 1 XREF                                          ||| code
+- {0x5BE1B0 RestoreOptLightGlow}: 1 XREF                                                ||| code
+- {0x5BE1C0 GetWorldDetailClampBetween0And2}: 1 XREF                                    ||| code
+.pop ul
+
+.pop section
+.push section
+
+{Console leftovers}  ||| h id=consoleleftover
+
+{Note: console as in somewhere you type in, not a videogame console}            ||| em
+
+In the hooks project, I "enabled" this console in the functions {initConsolePOC}                ||| code
+in the file {nfsu2-re-hooks/faux-enable-console.c}.                                             ||| code
+As it doesn't seem to be used anywhere, the only effect you can see is that whatever you
+type is written into the {console_real_text} buffer (use CheatEngine or something               ||| code
+you like to inspect it).
+
+All names below were chosen by me.
+
+.push section
+
+{ConsoleConsumeKey - 0x5C8320} ||| h id=console_consume_key
+
+When looking at the {MainWndProc} (which is not to hard too find because it's           ||| code
+passed in a struct to {RegisterClassExA}), I saw a call to a function that              ||| code
+is called on every {WM_CHAR} event. The function does nothing when the value            ||| code
+in {0x8709BC} is zero, and there are no write references to it, so it seems             ||| code
+like it will always be zero. I called this {consoleEnabledFlag}.                        ||| code
+
+First it seems like the input is dropped if it's a {CR} (carriage return) and           ||| code
+when the value at {0x8709C4} is non-zero. Again, this is always zero so CR's            ||| code
+are never dropped. I called this {consoleIgnoreNextCR}.                                 ||| code
+
+Then it has four different handlers. The first one handles a backspace character, second
+one does escape, third one does tab and CR, and the last one does everything else. Basically
+one character is deleted when pressing backspace and one character is added in all other
+cases. I named following variables:
+
+.push ul
+- {0x8709B8 - consoleTextCaretPosition - int}           ||| code
+- {0x8709C0 - consoleTextStringMaxLength - int}         ||| code
+- {0x8709B0 - consoleTextString - char*}                ||| code
+- {0x8709B4 - consoleTextStringLength - int}            ||| code
+- {0x8709BC - consoleEnabledFlag - int}                 ||| code
+.pop ul
+
+Basically, on backspace it checks if {consoleTextCaretPosition} is bigger than          ||| code
+zero, copies everything in {consoleTextString} starting from                            ||| code
+{consoleTextCaretPosition} to a zero byte into a newly allocated buffer,                ||| code
+decrements {consoleTextCaretPosition} and {consoleTextStringLength},                    ||| code,code
+and copies everything from the allocated buffer back into {consoleTextString} at        ||| code
+position {consoleTextCaretPosition}.                                                    ||| code
+
+When inserting, it checks if {consoleTextStringLength} is less than                     ||| code
+{consoleTextStringMaxLength}, copies everything in                                      ||| code
+{consoleTextString} starting from {consoleTextCaretPosition}                            ||| code,code
+to a zero byte into a newly allocated buffer, inserts the character in
+{consoleTextString} at position {consoleTextCaretPosition}, increments                  ||| code,code
+{consoleTextCaretPosition} and {consoleTextStringLength} by one,                        ||| code,code
+and copies everything from the allocated buffer back into {consoleTextString}           ||| code
+at position {consoleTextCaretPosition}.                                                 ||| code
+
+.push ul
+- Backspace: delete character before caret
+- Escape: insert zero byte
+- Tab and CR: insert LF
+- Other: insert char if it's {a-z} or {A-Z} or {0-9} or,                                ||| code,code,code
+  if {0x80057E} is zero, {_} or {@} or {.} or                                           ||| code,code,code,code
+  {-}. If none of these pass, do a check for more keys as described below}              ||| code
+.pop ul
+
+.push section
+
+{A hardcoded key check - 0x5BF260}      ||| h id=console_consume_key_check
+
+At the end of looking if a character is valid, when it hasn't passed any of the criteria
+above, it checks one last function if {0x8709C7} is {1}. The function                           ||| code,code
+seems to check if the key is one of 55 configured values and if so, the char is accepted.
+The C-ified code looks like this:
+
+.push pre
+int ConsoleIsCharOneOfTheseHardcodedValues(unsigned char value)
+{
+	unsigned char values[55] = {
+		' ', '.', ',', '_', '@', '-', '`', '=', '[', ']', '\\',
+		';', '\'', '/', '&lt;', '&gt;', '?', ':', '"', '{', '}', '|',
+		'+', '(', ')', '*', '&amp;', '%', '#', '!', '~', 0xE5, 0xE4,
+		0xE0, 0xE2, 0xEB, 0xE8, 0xE9, 0xEA, 0xEF, 0xEE, 0xF6,
+		0xF4, 0xFC, 0xF9, 0xFB, 0xE7, 0x9C, 0xF2, 0xEC, 0xC5,
+		0xC4, 0xD6, 0xDC, 0xA7
+	};
+	int i;
+
+	for (i = 0; i &lt; 55; i++) {
+		if (values[i] == value) {
+			return 1;
+		}
+	}
+	return 0;
+}
+.pop pre
+
+.pop section
+.pop section
+.push section
+
+{ConsoleMoveCaret - 0x5BF3A0} ||| h id=console_move_caret
+
+This function is also called from {MainWndProc}, this time when a                       ||| code
+{WM_KEYDOWN} message is received. One parameter is passed based on the keycode          ||| code
+of the event:
+
+.push ul
+- {VK_LEFT}: {-1}                                                                       ||| code,code
+- {VK_RIGHT}: {1}                                                                       ||| code,code
+- {VK_HOME}: {-consoleTextStringMaxLength}                                              ||| code,code
+- {VK_END}: {consoleTextStringMaxLength}                                                ||| code,code
+.pop ul
+
+This is the only other function that checks if {consoleEnabledFlag} is non-zero.        ||| code
+
+.pop section
+.pop section
+.push section
+
+{Hash functions}  ||| h id=hashfuncs
+
+			While scrolling and looking at references to some strings, I found some parts that look like
+			following excerpt:
+
+.push ida
+{.text:005121AE}     push    offset {aGenericdialo_2} {; "GenericDialog_Animate_SMALL.fng"}     ||| text,ident,comment
+{.text:005121B3}     call    {sub_505450}                                                       ||| text,hi
+{.text:005121B8}     add     esp, {4}                                                           ||| text,num
+{.text:005121BB}     cmp     esi, eax                                                           ||| text
+{.text:005121BD}     jz      short loc_512218                                                   ||| text
+{.text:005121BF}     push    offset {aGenericdialog_} {; "GenericDialog_SMALL.fng"}             ||| text,ident,comment
+{.text:005121C4}     call    {sub_505450}                                                       ||| text,hi
+{.text:005121C9}     add     esp, {4}                                                           ||| text,num
+{.text:005121CC}     cmp     esi, eax                                                           ||| text
+{.text:005121CE}     jz      short loc_512218                                                   ||| text
+{.text:005121D0}     push    offset {aGenericdialo_3} {; "GenericDialog_Animate_MED.fng"}       ||| text,ident,comment
+{.text:005121D5}     call    {sub_505450}                                                       ||| text,hi
+{.text:005121DA}     add     esp, {4}                                                           ||| text,num
+{.text:005121DD}     cmp     esi, eax                                                           ||| text
+{.text:005121DF}     jz      short loc_512218                                                   ||| text
+{.text:005121E1}     push    offset {aGenericdialo_4} {; "GenericDialog_MED.fng"}               ||| text,ident,comment
+{.text:005121E6}     call    {sub_505450}                                                       ||| text,hi
+{.text:005121EB}     add     esp, {4}                                                           ||| text,num
+{.text:005121EE}     cmp     esi, eax                                                           ||| text
+{.text:005121F0}     jz      short loc_512218                                                   ||| text
+{.text:005121F2}     push    offset {aGenericdialo_5} {; "GenericDialog_Animate_LARGE.fng"}     ||| text,ident,comment
+{.text:005121F7}     call    {sub_505450}                                                       ||| text,hi
+{.text:005121FC}     add     esp, {4}                                                           ||| text,num
+{.text:005121FF}     cmp     esi, eax                                                           ||| text
+{.text:00512201}     jz      short loc_512218                                                   ||| text
+{.text:00512203}     push    offset {aGenericdialo_0} {; "GenericDialog_LARGE.fng"}             ||| text,ident,comment
+{.text:00512208}     call    {sub_505450}                                                       ||| text,hi
+{.text:0051220D}     add     esp, {4}                                                           ||| text,num
+{.text:00512210}     cmp     esi, eax                                                           ||| text
+{.text:00512212}     jz      short loc_512218                                                   ||| text
+.pop ida
+
+The proc at {0x505450} doesn't look very complicated; it has one argument and                   ||| code
+doesn't perform any calls. It dereferences the given argument and increment its position,
+until a zero has been found. While it's doing that, {eax} is modified based on the read value.  ||| code
+So I assumed it is some hashing function and hooked it to see what kind of things are passed
+through it.
+
+As it turns out, it gets called many, many times.
+
+.push pre
+{time        input                       result}        ||| strong
+53.42743683 GenericDialog_SMALL.fng     6962C0CD
+53.42753220 UI_PC_Help_Bar.fng          33AC1CB4
+53.42756271 OL_ICON_GROUP               2BAC0CEE
+53.42758179 UI_PC_Help_Bar.fng          33AC1CB4
+53.42760086 Hide                        0016A259
+53.42761993 UI_Main.fng                 C343126A
+53.42766190 GarageMain.fng              4CDD8B14
+53.42769241 GarageMain.fng              4CDD8B14
+53.42771149 GarageMain.fng              4CDD8B14
+53.42773056 GenericDialog.fng           F68A7675
+53.42774963 UI_GenericParts_Browser.fng AF09F84F
+53.42776871 GenericDialog.fng           F68A7675
+53.42779160 GenericDialog_SMALL.fng     6962C0CD
+53.42781067 UI_PC_Help_Bar.fng          33AC1CB4
+53.42782974 UI_Main.fng                 C343126A
+53.42784882 GarageMain.fng              4CDD8B14
+53.42790222 UI_MagazineBack.fng         FA8CC482
+53.42796707 GenericDialog_SMALL.fng     6962C0CD
+53.42798615 UI_PC_Help_Bar.fng          33AC1CB4
+53.42800522 UI_Main.fng                 C343126A
+53.42802429 GarageMain.fng              4CDD8B14
+53.42922211 GenericDialog_SMALL.fng     6962C0CD
+53.42924881 UI_PC_Help_Bar.fng          33AC1CB4
+53.42926788 UI_Main.fng                 C343126A
+53.42928696 GarageMain.fng              4CDD8B14
+.pop pre
+
+The excerpt above is probably from one cycle in the update loop, and is repeated a lot.
+
+Some time later I found a very similar looking proc at {0x43DB50}, so I copied                  ||| code
+the previous hook for this function. This one gets called many times seemingly at startup
+and when car parts or maps get loaded.
+
+When writing this I took a better look at the procedures and saw that the only difference
+really is that the first one is case insensitive while the second one is case sensitive.
+In the {0x505450} one, it checks for every character if it is in the range                      ||| code
+{'a'-'z'} and subtracts {0x20} if so, making the character uppercase                            ||| code,code
+before updating the hash.
+
+.push nop
+TODO: a directive for filesize?
+{} ||| filesize file=hashes.txt
+.pop nop
+
+See {hashes.txt} (&lt; 1MB) for list of hashes, each line is formatted                          ||| a href=hashes.txt
+as {hash\tinput\tresult\tproc\n}. This file is updated at random times. 8 minutes               ||| code
+of playing gives about a 277MB file, all output was piped to {sort | uniq}.                     ||| code
+
+How I collected these can be seen in the {nfsu2-re-hooks/hook-*-hash-*.c} files.                ||| code
+
+.push section
+
+{Messing with hash results}  ||| h id=hashmess
+
+I had an impulse to try to return different results for certain hashes. For example, return
+the result of {FIRETRUCK} when the input is {240SX}. The result is ..                           ||| code,code
+difficult to describe. Here's some short points:
+
+.push ul
+- Browsing to the stock 240sx to customize shows an empty spot, no car
+- Selecting the stock car to customize will suddenly swap to the firetruck model
+- I can modify the firetruck, I can't select any bumpers but I can choose spoilers,
+  although it does nothing
+- Changing wheels/spinners/hydraulics does show
+- Then going out of the customization menu crashes the game
+  (this includes going to performance tuning)
+.pop ul
+
+{Hop hop skippity hop}                             ||| imgcaptioned src=FIRETRUCK.GIF alt="jumping firetruck"
+
+.push ul
+- Browsing a previously customized 240sx only shows the wheels of the car
+- If the wheels were not customized, it shows black rectangles as wheels and the game
+  crashes when I try to customize the wheels/spinners
+- Selecting the customized car to customize doesn't change anything special, still only wheels
+- Only the firetruck customization options can be selected
+- Choosing a spoiler shows the spoiler in the center of the car
+- When going out of a category (like Body parts),
+  the car switches to the same car but the wheels at
+  the position where they should be for the firetruck
+- When going outside the customize menu now, the car's brand is a {*} symbol                    ||| code
+- When going to a different car and back, the firetruck model shows
+- Entering customization again hides the firetruck, only showing the wheels
+  (the spoiler is gone?)
+- After saving and undoing the swap and restarting the game, the saved car stays a firetruck
+  (but the behavior is still the same as described above)
+- Using the car to race makes the framerate go down significantly, except when in nose camera
+  (you just see headlights driving without a vehicle body)
+- It doesn't lag at all in the performance tuning
+.pop ul
+
+{Here's a dyno chart of the firetruck}                             ||| imgcaptioned src=FIRETRUCK-DYNO.JPG alt="dyno chart"
+
+While the firetruck is unused in the game,
+I also tried to do this with the taxi, but it gave the same results.
+Then I tried to replace it with a "normal" car, the Mustang.
+
+.push ul
+- Browsing a stock 240sx only shows black rectangles for wheels
+- When selecting the car, it gets replaced with a mustang, and now I'm customizing a mustang
+- The only change I can see is that there are no headlights or taillights
+- Going ingame now only shows the front bumper of the car, which is the thing I customized
+- Going back to the menu now shows the car with stock headlights and taillights
+- Going ingame again now shows the car fully as it should
+- Selecting a customized 240sx now shows the doors of a mustang
+.pop ul
+
+{Car?}                             ||| imgcaptioned src=MUSTANG.JPG alt="driving invisible mustang"
+
+The behavior isn't always the same, just give it a try and see for yourself.
+Replacing the taxi with the ambulance just lags out the game whenever a taxi comes in sight.
+
+Check the function {SomeHashCS43DB50Print} in the file                                          ||| code
+{nfsu2-re-hooks/hook-43DB50-hash-cs.c} to see how I did this,                                   ||| code
+the code to replace cars is in comments.
+
+.pop section
+.pop section
+.push section
+
+{Debug print}  ||| h id=debugprint
+
+While scrolling through the data segment, I found these interesting strings:
+
+.push ida
+{.rdata:0079B160} {aDeletingPackag} db {'Deleting package [%s]'},{0Ah},{0}                      ||| comment,ident,str,num,num
+{.rdata:0079B177}                 align {4}                                                     ||| comment,num
+{.rdata:0079B178} {aUnActivateXX}   db {'Un-Activate!!! %x %x'},{0Ah},{0}                       ||| comment,ident,str,num,num
+{.rdata:0079B18E}                 db {2} dup({0})                                               ||| comment, num, num
+{.rdata:0079B190} {aWillBeUnloaded} db {'Will be unloaded [%s]'},{0Ah},{0}                      ||| comment,ident,str,num,num
+.pop ida
+
+Even more interesting is that these strings are using by pushing them on to the stack,
+followed by a call to a specific proc that looks like this:
+
+.push ida
+{.text:0050D510} {sub_50D510  proc near}                                                        ||| text,ident
+{.text:0050D510}                 xor     eax, eax                                               ||| text
+{.text:0050D512}                 retn                                                           ||| text
+{.text:0050D512} {sub_50D510  endp}                                                             ||| text,ident
+.pop ida
+
+It appears as if this used to be some kind of debug printf function, so I named it
+{SomeDebugPrint}. I hooked the function and made it output to a log file,                       ||| code
+see {nfsu2-re-hooks/replace-50D510-DebugPrint.c}.                                               ||| code
+
+It also seems to pass data that is not a pointer to a string. I'm guessing since the
+implementation of this function was removed (and now just returns zero), and there
+were probably other removed functions, so some calls that are supposed to be done
+to different functions may now all point to this one function that also happened to
+be used for the debug print stuff. My simple solution is to check if the first passed
+argument points to memory in the data section, and print if so.
+
+I did a short session browsing customization options and performance tuning with this
+enabled, the results can be seen in the log file
+{debugstring50D510.txt}. Each line is formatted as                                              ||| a href=debugstring50D510.txt
+{debugstr\t50D510\tcallee\tstring\n}. Here is a 'small' excerpt:                                ||| code
+
+.push pre
+DIALOG :: --------- ShowDialog -----------
+DIALOG :: |_ Do you want to convert your trunk to carbon fiber?
+DIALOG :: Oh shit - the control mask is zero.  This is bad.  Try to use Top Package's control mask.
+DIALOG ::  |_ TopPackage = UI_GenericParts_Browser.fng, mask = 0.
+DIALOG ::    |_ Crap - mask is zero, forcing to 0xff.
+DIALOG :: Success : Control mask = 255, Handle = 2
+DIALOG :: --------- ShowDialog Finished -----------
+Init Package GenericDialog_SMALL.fng
+DIALOG :: Constructor
+Joy Event: FEPad_Accept[0]
+Joy Event: FEPad_Accept[0]
+Joy Event: FEPad_Back[1]
+Joy Event: FEPad_Back[1]
+DIALOG :: Tick, ReturnWithMessage Set, Dismissing: [GenericDialog_SMALL.fng] [b4623f67]
+DIALOG :: DismissDialog.  Handle(2).  Current handle(2)
+DIALOG ::  |_ Found, popping.
+Queue popping GenericDialog_SMALL.fng
+Will unload -----------GenericDialog_SMALL.fng------------------
+Will be unloaded [GenericDialog_SMALL.fng]
+DIALOG :: Closing, sending message (b4623f67) to (UI_GenericParts_Browser.fng).
+Send message[b4623f67] to package [UI_GenericParts_Browser.fng]
+Message was queued
+Un-Activate!!! 37a52f0 37e69c0
+Deleting package [GenericDialog_SMALL.fng]
+package[GenericDialog_SMALL.fng] will unload
+.pop pre
+
+Most of the messages seem to be about dialogs, joy (keyboard) events,
+FEng/fng packages (I'm guessing those are ui resources/designs?).
+
+.pop section
+.push section
+
+{UI}  ||| h id=ui
+
+Names with {.FNG} seem to be occuring a lot, it seems like that are UI                          ||| code
+resources or some kind of UI widget descriptors.
+
+In text strings, {^} is a line feed (but {\n} might work as well, TODO).                        ||| code,code
+
+UI things seem to work on a {640x480} canvas.                                                   ||| code
+Most things (especially when mouse is involved) seem to be positioned
+{([-320,+320],[-240,+240])}.                                                                    ||| code
+
+.push ul
+- {50B460 int RenderCursor(int x, int y)}                                                       ||| code
+- {50CD00 int IsPointInRect(float x, float y, struct \{ float x; float y\} *pos,                ||| code
+  struct \{ float width; float height; \} *size)}
+  Only seen this being called when there's a list on screen so far.
+- {52D020 int IsPointIn??SomethingUI(float x, float y, void *somethingui)}                      ||| code
+  something ui is something ui. Calculating the area goes through lots of functions, TODO
+.pop ul
+
+.push section
+
+{Dialogs}  ||| h id=ui_dialog
+
+Thanks to the {debugprint} discovery, my attention got grabbed                                  ||| href
+by something that looked like dialog code. These leftover debug strings helped so much.
+
+Someone left a trace here:
+
+.push ida
+{.text:005541FC}                 call    {Dialog__ctor??}                                       ||| text,ident
+{.text:00554201}                 push    offset {aDialogConstruc} {; "DIALOG :: Constructor\n"} ||| text,ident,comment
+{.text:00554206}                 call    {SomeDebugPrint}                                       ||| text,ident
+.pop ida
+
+One of the first thing {ShowDialog} does is calling {0x526C40},                                 ||| code,code
+which looks like initializes the dialog maybe? One argument is passed, seemingly the
+dialog name. But then it checks an int at the passed dialog name {+324h}. Conclusion:           ||| code
+it's passing a struct with dialog info, of which the first member is the name.
+
+.push section
+
+{GetFNGForDialog}  ||| h id=ui_dialog_getfngfordialog
+
+This function is only used once, by the {ShowDialog} function. It checks                        ||| code
+the value at {+324h}, which seems to be a pointer to a string,                                  ||| code
+looks like maybe a type of dialog?
+It's checked if that value is either {NULL} or empty string or equal to                         ||| code
+{animating} or {3button}. I decided to reimplement that function.                               ||| code,code
+Fun fact: while doing this I managed to write an infinite loop which caused a BSOD.
+
+At the end I decided upon the name {GetFNGForDialog}. It returns a pointer                      ||| code
+to a string that says what FNG to display for the dialog that was passed. Some values
+are:
+
+.push ul
+- {HelpDialog_SMALL.fng} when help dialog flag? and text has less than 5 linebreaks             ||| code
+- {HelpDialog_MED.fng} when help dialog flag? and not small                                     ||| code
+- {GenericDialog_ThreeButton.fng} when {dialog-&gt;pTypeName} is {3button}                      ||| code,code,code
+- {GenericDialog_SMALL.fng}                                                                     ||| code
+- {GenericDialog_Animate_SMALL.fng}                                                             ||| code
+- {GenericDialog_MED.fng}                                                                       ||| code
+- {GenericDialog_Animate_MED.fng}                                                               ||| code
+- {GenericDialog_LARGE.fng}                                                                     ||| code
+- {GenericDialog_Animate_LARGE.fng}                                                             ||| code
+.pop ul
+
+See the {do526C40getFNGforDialog} function for the complete reimplementation.                   ||| code
+
+Here's me messing with the returned value:
+
+{{HelpDialog_SMALL.fng}}            ||| imgcaptioned src=dialoghelp.jpg alt="dialog",code
+{{GenericDialog_MED.fng}}           ||| imgcaptioned src=dialoggenericmed.jpg alt="dialog",code
+{{GenericDialog_ThreeButton.fng}}   ||| imgcaptioned src=dialog3button.jpg alt="dialog",code
+{{GenericDialog_Animate_SMALL.fng}} ||| imgcaptioned src=dialoganimate.gif alt="dialog",code
+
+I can't remember seeing this animate style dialog... But when adding some debug prints,
+it seems like the online/LAN play uses this: {dialog 'Retrieving updated games                  ||| code
+list^from the server...' has type animating} but that dialog disappears so fast
+I probably never noticed it.
+
+Then I tried replacing it with something totally different,
+{UI_GenericParts_Browser.fng}. I half expected the game to crash, so I was                      ||| code
+surprised when it showed me this:
+
+{:)}             ||| imgcaptioned src=dialoggenericpartsbrowser.jpg alt="main menu ui on splash screen"
+
+Seems like this is a nice place to test loading other screens. Some do crash, but
+here's {UI_OLEAMessenger.fng}:                                                                  ||| code
+
+{No idea why that text is .. Spanish?}             ||| imgcaptioned src=dialogoleamessenger.jpg alt="online messenger menu with placeholder text"
+
+Printing the dialog info struct address sadly showed that it wasn't stored in the
+executable itself so it's probably somewhere deep in a bin file.
+
+.pop section
+
+DialogInfo struct made by looking at all of the above and more:
+(Especially {Dialog__ctor} at {0x4FF250} helped here.)                                          ||| code,code
+
+.push pre
+struct DialogInfo {
+	char text[768];
+	int unused300;
+	int unused304;
+	int unused308;
+	int unused30C;
+	int unused310;
+	int unused314;
+	int unused318;
+	int unused31C;
+	char *pParentFNG;
+	char *pMyFNG;
+	int unused_328;
+	char unused_32C;
+	char isHelpDialog;
+	char unused_32E;
+	char something32F; /*set to 0 in 55806D*/
+	int something330; /*set to 0 in 558074*/
+	int unused334;
+};
+EXPECT_SIZE(struct DialogInfo, 0x338);
+ASSERT_OFFSET(struct DialogInfo, pTypeName, 0x324);
+ASSERT_OFFSET(struct DialogInfo, isHelpDialog, 0x32D);
+.pop pre
+
+.push ul
+- {0x558020 int ShowDialog(struct DialogInfo *info)} returns                                    ||| code
+the new dialog id for it (value in {shownDialogHandleId}) or zero when                          ||| code
+it didn't show because of some override
+- {0x4FF250 void __thiscall Dialog__ctor(struct DialogInfo *this)}                              ||| code
+initializes memory that was allocated to be a dialog
+- {0x540A60 void DismissDialog(int dialogIdToDismiss)}                                          ||| code
+- {0x838960 char* shownDialogParent} example value: {UI_PerformanceTuning_Setting.fng}          ||| code,code
+- {0x838964 char* shownDialogType} example value: {GenericDialog_MED.fng}                       ||| code,code
+- {0x838970 int dialogDismissedByOtherDialogMsg} unsure yet                                     ||| code
+- {0x838974 int shownDialogId} zero when none                                                   ||| code
+- {0x7F6DE0 int nextDialogId} when {ShowDialog} is called,                                      ||| code,code
+value is put into {shownDialogId} and incremented                                               ||| code
+- {0x838640 struct DialogInfo shownDialogData} dialog info passed to                            ||| code
+{ShowDialog} is copied into here, TODO xrefs                                                    ||| code
+.pop ul
+
+<hr/>
+
+Thanks to {ShowDialog} code, following things were discovered:                                  ||| code
+
+.push pre
+typedef int (fnginithandler)(struct FNGShowData *msg);
+
+struct FNGData {
+	char *name;
+	fnginithandler *initializeHandler;
+	int field_8;
+	int field_C;
+	int field_10;
+	int field_14;
+	int field_18;
+};
+EXPECT_SIZE(struct FNGData, 0x1C);
+
+struct FNGShowData {
+	char *fngname;
+	int arg1;
+	int fngdata_field8;
+	int fngdata_fieldC;
+	int arg2;
+};
+EXPECT_SIZE(struct FNGMessage, 0x14);
+
+struct FNGInfo {
+	int field_0;
+	int field_4;
+	int field_8;
+	int field_C;
+	int field_10;
+	int field_14;
+	int field_18;
+	int controlMask;
+};
+
+/*0x7F7DC8*/
+struct FNGData fngdata[] = {
+	{ "UI_Main.fng", 0x4ED6B0, 0x0D6DFCF20, 0x5, 0x0, 0x100, 0x0 }, // 0
+	{ "UI_OptionsMain.fng", 0x4EFDE0, 0x9323DF57, 0x405, 0x0, 0x80, 0x0 }, // 1
+	{ "UI_Options.fng", 0x4E3710, 0x2F735833, 0x401, 0x0, 0x1CA, 0x0 }, // 2
+	{ "UI_Wheel_Options.fng", 0x4E3770, 0x18CDD1FC, 0x401, 0x0, 0x1CA, 0x0 }, // 3
+	{ "UI_PC_Customize_Options.fng", 0x4E36B0, 0x0, 0x401, 0x0, 0x1CA, 0x0 }, // 4
+	{ "UI_Options_PC_Controller.fng", 0x4F92E0, 0x0, 0x0C01, 0x0, 0x1CA,0 }, // 5
+	{ "UI_PC_LAN_ServerSelect.fng", 0x4FD4B0, 0x0, 0x40000405, 0x0, 0x1CA, 0x0 }, // 6
+	{ "UI_PC_LAN.fng", 0x4D6C90, 0x0, 0x405, 0x0, 0x1CA, 0x0 }, // 7
+	{ "UI_PC_Help_Bar.fng", 0x552280, 0x0, 0x0, 0x0, 0x80, 0x0 }, // 8
+	{ "UI_Trailers.fng", 0x4CFB20, 0x0B5B3AB78, 0x401, 0x0, 0x80, 0x0 }, // 9
+	{ "Credits.fng", 0x4B8720, 0x844FEB00, 0x401, 0x0, 0x80, 0x0 }, // 10
+	{ "ScreenPrintf.fng", 0x0, 0x0, 0x0, 0x0, 0x100, 0x1 }, // 11
+	{ "loading_boot.fng", 0x0, 0x0, 0x0, 0x0, 0x80, 0x2 }, // 12
+	{ "UI_CareerCrib.fng", 0x4ED780, 0x8778F27, 0x405, 0x0,0C0, 0x0 }, // 13
+	{ "UI_CribRewardOptionsMain.fng", 0x4ED7E0, 0x10965456, 0x405, 0x0, 0x0C0, 0x0 }, // 14
+	{ "UI_CareerCarSelect.fng", 0x4FC110, 0x0FAB1B6BB, 0x405, 0x0, 0x0C0, 0x0 }, // 15
+	{ "UI_StartCareer.fng", 0x4ED710, 0x0FBFCE084, 0x405, 0x0, 0x0C0, 0x0 }, // 16
+	{ "UI_MagazineBack.fng", 0x554E60, 0x0, 0x0, 0x0, 0x0C0, 0x0 }, // 17
+	{ "UI_MagazineReward.fng", 0x56B140, 0x0, 0x0, 0x0, 0x0C0, 0x0 }, // 18
+	{ "UI_MagazineSelect.fng", 0x55B520, 0x82F20772, 0x405, 0x0, 0x0C0, 0x0 }, // 19
+	{ "UI_MagazineView.fng", 0x554EC0, 0x0, 0x0, 0x0, 0x0C0, 0x0 }, // 20
+	{ "UI_RewardsSponsor.fng", 0x4ED840, 0x0C91B17F1, 0x401, 0x0, 0x0C0, 0x0 }, // 21
+	{ "UI_CareerWorldMap.fng", 0x4F9D30, 0x0C090500B, 0x8401,0, 0x80, 0x0 }, // 22
+	{ "UI_Status_Master.fng", 0x4E1B80, 0x0, 0x18400, 0x0, 0x80,0 }, // 23
+	{ "UI_Status_Career.fng", 0x4EEB10, 0x0, 0x0, 0x0, 0x80, 0x0 }, // 24
+	{ "UI_Status_Region.fng", 0x4B1C90, 0x0, 0x0, 0x0, 0x80, 0x0 }, // 25
+	{ "UI_Status_DVD.fng", 0x4B1D90, 0x0, 0x0, 0x0, 0x80, 0x0 }, // 26
+	{ "EA_Trax_Jukebox.fng", 0x554F20, 0x0D8F5EDF7, 0x401, 0x0, 0x80, 0x0 }, // 27
+	{ "UI_Menu_Asset_Reputation.fng", 0x553B00, 0x0, 0x0, 0x0, 0x80, 0x0 }, // 28
+	{ "UI_CareerCarLot.fng", 0x4FC0B0, 0x0C3CABAFD, 0x405, 0x0, 0x0C0, 0x0 }, // 29
+	{ "UI_EngageEventDialog.fng", 0x4CE650, 0x0, 0x0, 0x0, 0x0C0, 0x0 }, // 30
+	{ "UI_EngageRaceDialog.fng", 0x4E34A0, 0x0, 0x0, 0x0, 0x0C0, 0x0 }, // 31
+	{ "UI_EngageShopDialog.fng", 0x4CE6B0, 0x0, 0x0, 0x0, 0x0C0, 0x0 }, // 32
+	{ "UI_Showcase_Preview.fng", 0x4E3500, 0x0, 0x0, 0x0, 0x0C0, 0x0 }, // 33
+	{ "UI_Showcase_DPAD.fng", 0x4CF5C0, 0x0, 0x0, 0x0, 0x0C0, 0x0 }, // 34
+	{ "IG_PlayMovie.fng", 0x554E00, 0x0, 0x0, 0x0, 0x0C0, 0x0 }, // 35
+	{ "UI_Pause.fng", 0x4F4790, 0x0, 0x30404, 0x0, 0x0C0, 0x0 }, // 36
+	{ "UI_PauseOptionsMain.fng", 0x4F47F0, 0x0, 0x30404, 0x0, 0x80,0 }, // 37
+	{ "UI_PauseOptions.fng", 0x4EB650, 0x0, 0x10400, 0x0, 0x440, 0x0 }, // 38
+	{ "UI_ReplayControl.fng", 0x4D7AD0, 0x0, 0x0, 0x0, 0x80, 0x0 }, // 39
+	{ "HUD_SingleRace.fng", 0x0, 0x0, 0x0, 0x0, 0x168, 0x1 }, // 40
+	{ "HUD_Drift.fng", 0x0, 0x0, 0x0, 0x0, 0x80, 0x1 }, // 41
+	{ "HUD_Drag.fng", 0x0, 0x0, 0x0, 0x0, 0x80, 0x1 }, // 42
+	{ "UI_InGame_WorldMap.fng", 0x4F9C10, 0x0, 0x18400, 0x0, 0x80,0 }, // 43
+	{ "UI_EngageMessageDialog.fng", 0x4B2240, 0x0, 0x18404, 0x0, 0x80,0 }, // 44
+	{ "UI_SMS_Mailbox.fng", 0x4E2050, 0x0, 0x1A500, 0x0, 0x80,0 }, // 45
+	{ "GarageMain.fng", 0x4EB130, 0x0, 0x0, 0x0, 0x80, 0x0 }, // 46
+	{ "DiscError.fng", 0x5522D0, 0x0, 0x0, 0x0, 0x80, 0x0 }, // 47
+	{ "GenericDialog.fng", 0x0, 0x0, 0x0, 0x0, 0x80, 0x0 }, // 48
+	{ "GenericDialog_LARGE.fng", 0x0, 0x0, 0x0, 0x0, 0x80, 0x0 }, // 49
+	{ "GenericDialog_MED.fng", 0x0, 0x0, 0x0, 0x0, 0x80, 0x0 }, // 50
+	{ "GenericDialog_SMALL.fng", 0x0, 0x0, 0x0, 0x0, 0x80, 0x0 }, // 51
+	{ "GenericDialog_Animate_LARGE.fng", 0x0, 0x0, 0x0, 0x0, 0x80, 0x0 }, // 52
+	{ "GenericDialog_Animate_MED.fng", 0x0, 0x0, 0x0, 0x0, 0x80, 0x0 }, // 53
+	{ "GenericDialog_Animate_SMALL.fng", 0x0, 0x0, 0x0, 0x0, 0x80, 0x0 }, // 54
+	{ "GenericDialog_ThreeButton.fng", 0x0, 0x0, 0x0, 0x0, 0x80, 0x0 }, // 55
+	{ "IG_GenericDialog_LARGE.fng", 0x0, 0x0, 0x0, 0x0, 0x80, 0x0 }, // 56
+	{ "IG_GenericDialog_MED.fng", 0x0, 0x0, 0x0, 0x0, 0x80, 0x0 }, // 57
+	{ "IG_GenericDialog_SMALL.fng", 0x0, 0x0, 0x0, 0x0, 0x80, 0x0 }, // 58
+	{ "HelpDialog_LARGE.fng", 0x0, 0x0, 0x0, 0x0, 0x80, 0x0 }, // 59
+	{ "HelpDialog_MED.fng", 0x0, 0x0, 0x0, 0x0, 0x80, 0x0 }, // 60
+	{ "HelpDialog_SMALL.fng", 0x0, 0x0, 0x0, 0x0, 0x80, 0x0 }, // 61
+	{ "GenericerDialog.fng", 0x0, 0x0, 0x0, 0x0, 0x80, 0x0 }, // 62
+	{ "MU_QRTransmissionSelect.fng", 0x0, 0x0, 0x0, 0x0, 0x80, 0x0 }, // 63
+	{ "MU_QuickRaceCarSelect.fng", 0x4EB1A0, 0x0, 0x0, 0x0, 0x80, 0x0 }, // 64
+	{ "Chyron_FE.fng", 0x4CB180, 0x0, 0x0, 0x0, 0x80, 0x0 }, // 65
+	{ "Chyron_IG.fng", 0x4CB180, 0x0, 0x0, 0x0, 0x80, 0x0 }, // 66
+	{ "UI_DebugTest.fng", 0x4B89B0, 0x0, 0x0, 0x0, 0x80, 0x0 }, // 67
+	{ "UI_InGameDialog.fng", 0x0, 0x0, 0x0, 0x0, 0x80, 0x0 }, // 68
+	{ "UI_VirtualKeyboard.fng", 0x4EFD40, 0x0CAF6D39E, 0x0, 0x0, 0x258, 0x0 }, // 69
+	{ "UI_QRModeSelect.fng", 0x4EF280, 0x0C6923ECD, 0x405, 0x0, 0x80, 0x0 }, // 70
+	{ "UI_QRModeOptions.fng", 0x4FA550, 0x7F2D0C79, 0x405, 0x0, 0x200, 0x0 }, // 71
+	{ "UI_QRTrackSelect.fng", 0x4EF9B0, 0x0F4AA6D5B, 0x405, 0x0, 0x80, 0x0 }, // 72
+	{ "UI_QRCarSelect.fng", 0x4FC190, 0x6C6C43FE, 0x1405, 0x0, 0x100, 0x0 }, // 73
+	{ "UI_OLCarSelect.fng", 0x4FC190, 0x0A7FA00B6, 0x1405,0, 0x100, 0x0 }, // 74
+	{ "2P_PressStart.fng", 0x4CCED0, 0x0, 0x0, 0x0, 0x100, 0x0 }, // 75
+	{ "UI_DebugCarCustomize.fng", 0x554A00, 0x0, 0x405, 0x0, 0x80, 0x0 }, // 76
+	{ "UI_ChooseCustomizeCategory.fng", 0x5591E0, 0x0EBF23E40, 0x405, 0x0, 0x80, 0x0 }, // 77
+	{ "UI_ChoosePerformanceCategory.fng", 0x559C30, 0x0C3A914F6, 0x405, 0x0, 0x80, 0x0 }, // 78
+	{ "UI_GenericParts_Browser.fng", 0x566430, 0x72F7569A, 0x405, 0x0FFFFFFFF, 0x80, 0x0 }, // 79
+	{ "UI_ChoosePaintCategory.fng", 0x55A400, 0x0A9E93FF5, 0x605, 0x0, 0x80, 0x0 }, // 80
+	{ "UI_ChoosePerformancePackage.fng", 0x55C8D0, 0x0C3A914F6, 0x441, 0x0, 0x80, 0x0 }, // 81
+	{ "UI_BuyPerformanceParts.fng", 0x56C150, 0x0A0F26827, 0x409, 0x0, 0x80, 0x0 }, // 82
+	{ "UI_PerformanceBrandSelect.fng", 0x554B80, 0x0, 0x5, 0x0, 0x80, 0x0 }, // 83
+	{ "UI_Paint.fng", 0x56C1B0, 0x0DC884CB, 0x405, 0x0, 0x80, 0x0 }, // 84
+	{ "UI_ChooseVinylLayer.fng", 0x555440, 0x9DA9E93D, 0x405, 0x0, 0x80, 0x0 }, // 85
+	{ "UI_ChooseUniquePart.fng", 0x554B20, 0x0AF93FE34, 0x409, 0x0, 0x80, 0x0 }, // 86
+	{ "UI_DecalMain.fng", 0x554AC0, 0x0AADE3025, 0x405, 0x0, 0x80, 0x0 }, // 87
+	{ "UI_DecalsOverlay.fng", 0x56B900, 0x0, 0x405, 0x0, 0x80, 0x0 }, // 88
+	{ "UI_DecalsOverlayInvis.fng", 0x56B900, 0x0, 0x0, 0x0, 0x80, 0x0 }, // 89
+	{ "UI_ChooseCustomHUD.fng", 0x554DA0, 0x0ADA7304B, 0x405, 0x0, 0x80, 0x0 }, // 90
+	{ "UI_ChooseRimBrand.fng", 0x554A60, 0x7A4C4AB2, 0x405, 0x0, 0x80, 0x0 }, // 91
+	{ "UI_Rims_Browser.fng", 0x56B350, 0x7A4C4AB2, 0x405, 0x0, 0x80, 0x0 }, // 92
+	{ "UI_ChooseSpinner.fng", 0x56C0F0, 0x7A4C4AB2, 0x405, 0x0, 0x80, 0x0 }, // 93
+	{ "UI_PerformanceDyno_MAIN.fng", 0x55D7F0, 0x0, 0x404, 0x0, 0x100, 0x0 }, // 94
+	{ "UI_PerformanceTuning_Master.fng", 0x55D8B0, 0x0, 0x404, 0x0, 0x80, 0x0 }, // 95
+	{ "UI_PerformanceTuning_Graph.fng", 0x55DB70, 0x0, 0x400C00, 0x0, 0x100, 0x0 }, // 96
+	{ "UI_PerformanceTuning_NOS.fng", 0x55DB70, 0x0, 0x400C00, 0x0, 0x100, 0x0 }, // 97
+	{ "UI_PerformanceTuning_Sliders.fng", 0x55DB10, 0x0, 0x0C00, 0x0, 0x100,0 }, // 98
+	{ "UI_PerformanceTuning_Drivetrain.fng", 0x55DB10, 0x0, 0x400C00, 0x0, 0x100, 0x0 }, // 99
+	{ "UI_PerformanceTuning_Setting.fng", 0x55D850, 0x0, 0x404, 0x0, 0x100, 0x0 }, // 100
+	{ "UI_PerformanceDyno_Chart.fng", 0x55AF20, 0x0, 0x4, 0x0, 0x100, 0x0 }, // 101
+	{ "UI_PerformanceDyno_Results.fng", 0x55AF80, 0x0, 0x404, 0x0, 0x100, 0x0 }, // 102
+	{ "UI_ICEMAIN.fng", 0x560550, 0x264A5F10, 0x405, 0x0, 0x100, 0x0 }, // 103
+	{ "UI_IcePartsOverlay.fng", 0x56C3C0, 0x0, 0x409, 0x0, 0x100, 0x0 }, // 104
+	{ "UI_CustomNeonMain.fng", 0x554C40, 0x0, 0x405, 0x0, 0x100, 0x0 }, // 105
+	{ "UI_NeonPartsOverlay.fng", 0x554BE0, 0x0, 0x409, 0x0, 0x100, 0x0 }, // 106
+	{ "UI_CustomHUDOverlay.fng", 0x56C420, 0x1B2794C7, 0x409,0, 0x100, 0x0 }, // 107
+	{ "UI_PostRaceResults.fng", 0x4FBB60, 0x0, 0x80010004, 0x0, 0x80, 0x0 }, // 108
+	{ "UI_PostRaceReward.fng", 0x4D72F0, 0x0, 0x404, 0x0, 0x80, 0x0 }, // 109
+	{ "UI_SponsorPopup.fng", 0x4C1280, 0x0, 0x400, 0x0, 0x80, 0x0 }, // 110
+	{ "UI_Sponsorship_new.fng", 0x4F4730, 0x0, 0x400, 0x0, 0x80, 0x0 }, // 111
+	{ "UI_PostRace_TournResults.fng", 0x4FBF00, 0x0, 0x80010004, 0x0, 0x80, 0x0 }, // 112
+	{ "UI_PostRace_TournStandings.fng", 0x4FBF60, 0x0, 0x4, 0x0, 0x80, 0x0 }, // 113
+	{ "UI_PostRaceStats.fng", 0x4FD6C0, 0x0, 0x10400, 0x0, 0x80,0 }, // 114
+	{ "UI_PostRace.fng", 0x4F3940, 0x0, 0x30404, 0x0, 0x80,0 }, // 115
+	{ "MU_PostRaceConfirm.fng", 0x0, 0x0, 0x0, 0x0, 0x80, 0x0 }, // 116
+	{ "LS_BlankMovie.fng", 0x4A8AD0, 0x0, 0x0, 0x0, 0x80, 0x0 }, // 117
+	{ "LS_EALogo.fng", 0x4A89D0, 0x0, 0x0, 0x0, 0x80, 0x0 }, // 118
+	{ "MW_LS_IntroFMV.fng", 0x4C52D0, 0x0, 0x0, 0x0, 0x80, 0x0 }, // 119
+	{ "MW_LS_Splash.fng", 0x4C5500, 0x0, 0x0, 0x0, 0x80, 0x0 }, // 120
+	{ "UG_LS_IntroFMV.fng", 0x4C52D0, 0x0, 0x0, 0x0, 0x80, 0x0 }, // 121
+	{ "UG_LS_Splash.fng", 0x4C5500, 0x0, 0x0, 0x0, 0x80, 0x0 }, // 122
+	{ "LS_THXMovie.fng", 0x4A8D90, 0x0, 0x0, 0x0, 0x80, 0x0 }, // 123
+	{ "LS_PSAMovie.fng", 0x4A8C60, 0x0, 0x0, 0x0, 0x80, 0x0 }, // 124
+	{ "LS_Demo_Legal.fng", 0x4C50C0, 0x0, 0x0, 0x0, 0x80, 0x0 }, // 125
+	{ "LS_Demo_PSA.fng", 0x4A8EC0, 0x0, 0x0, 0x0, 0x80, 0x0 }, // 126
+	{ "LS_Demo_ESRB.fng", 0x4A8F50, 0x0, 0x0, 0x0, 0x80, 0x0 }, // 127
+	{ "LS_Demo_Warning.fng", 0x4A9080, 0x0, 0x0, 0x0, 0x80, 0x0 }, // 128
+	{ "UI_EngageMessageDialog.fng", 0x4B2240, 0x0, 0x12400, 0x0, 0x80,0 }, // 129
+	{ "Loading_Tips.fng", 0x4D9480, 0x0, 0x0, 0x0, 0x80, 0x0 }, // 130
+	{ "LS_LangSelect.fng", 0x4F48A0, 0x0, 0x0, 0x0, 0x80, 0x0 }, // 131
+	{ "LS_Chinese_Health.fng", 0x4A87E0, 0x0, 0x0, 0x0, 0x80, 0x0 }, // 132
+	{ "UI_OL_Disconnect.fng", 0x4D0390, 0x0, 0x0, 0x0, 0x80, 0x0 }, // 133
+	{ "UI_OL_Disconnect_BG.fng", 0x4D03F0, 0x0, 0x0, 0x0, 0x80, 0x0 }, // 134
+	{ "UI_OL_WebOffer.fng", 0x49D550, 0x0, 0x0, 0x0, 0x80, 0x0 }, // 135
+	{ "UI_OL_WebOffer2.fng", 0x4B9E80, 0x0, 0x0, 0x0, 0x0, 0x0 }, // 136
+	{ "UI_OL_News.fng", 0x49D4F0, 0x0, 0x0, 0x0, 0x80, 0x0 }, // 137
+	{ "UI_OLLobbyRoom.fng", 0x4FA990, 0x3D43F19, 0x0, 0x0, 0x200, 0x0 }, // 138
+	{ "UI_OLGameRoom.fng", 0x4F1820, 0x0CCD1A5D8, 0x0, 0x0, 0x200, 0x0 }, // 139
+	{ "UI_OLGameRoom_host.fng", 0x4F1880, 0x0, 0x0, 0x0, 0x200, 0x0 }, // 140
+	{ "UI_OLGameRoom_client.fng", 0x4F18E0, 0x0, 0x0, 0x0, 0x200, 0x0 }, // 141
+	{ "UI_OLPreRaceStart.fng", 0x4D3430, 0x0, 0x0, 0x0, 0x80, 0x0 }, // 142
+	{ "UI_OL_ViewCar.fng", 0x4FB260, 0x3DE94DB2, 0x400, 0x0, 0x100, 0x0 }, // 143
+	{ "UI_OL_ViewTrack.fng", 0x4FB2C0, 0x5EB035D1, 0x400, 0x0, 0x80, 0x0 }, // 144
+	{ "UI_OLCarLot.fng", 0x4FD450, 0x452606CA, 0x405, 0x0, 0x80, 0x0 }, // 145
+	{ "UI_OLMAIN.fng", 0x4F1940, 0x3F07D3A, 0x4405, 0x0,80, 0x0 }, // 146
+	{ "UI_OLFilters.fng", 0x4E6530, 0x0, 0x4405, 0x0,80, 0x0 }, // 147
+	{ "PC_OL_Lobby.fng", 0x4FA990, 0x0, 0x4401, 0x0, 0x80, 0x0 }, // 148
+	{ "PC_OL_GameRoom.fng", 0x4F1820, 0x67F34517, 0x4400, 0x0, 0x200, 0x0 }, // 149
+	{ "UI_OLPassword.fng", 0x4E42C0, 0x0, 0x0, 0x0, 0x80, 0x0 }, // 150
+	{ "UI_OLRankings_Personal.fng", 0x4F1BC0, 0x392CDCB0, 0x4401, 0x0, 0x80, 0x0 }, // 151
+	{ "UI_OLRankings_Overall.fng", 0x4FB1A0, 0x2BBA4B21, 0x4405, 0x0, 0x80, 0x0 }, // 152
+	{ "UI_OLRankings_Monthly.fng", 0x4E64D0, 0x0C5C27A17, 0x4401, 0x0, 0x80, 0x0 }, // 153
+	{ "UI_OLEAMessenger.fng", 0x4F22F0, 0x0C092120A, 0x0, 0x0, 0x80, 0x0 }, // 154
+	{ "PC_OL_SEARCH.fng", 0x4D5070, 0x0, 0x0, 0x0, 0x80, 0x0 }, // 155
+	{ "UI_OL_FriendDialogue.fng", 0x4FB200, 0x0, 0x405, 0x0, 0x80, 0x0 }, // 156
+	{ "UI_OLX_Message.fng", 0x4F24E0, 0x0, 0x405, 0x0, 0x80, 0x0 }, // 157
+	{ "UI_OLRankings.fng", 0x4F2540, 0x19A5232, 0x4405, 0x0, 0x80, 0x0 }, // 158
+	{ "UI_OLX_FindResults.fng", 0x4F25A0, 0x0, 0x405, 0x0, 0x80, 0x0 }, // 159
+	{ "UI_OL_Feedback.fng", 0x4F27E0, 0x0A4F8464E, 0x0, 0x0, 0x80, 0x0 }, // 160
+	{ "UI_OL_Challenge.fng", 0x4D6940, 0x0, 0x0, 0x0, 0x80, 0x0 }, // 161
+	{ "UI_OLViewCareer.fng", 0x4E88C0, 0x0, 0x400, 0x0, 0x80, 0x0 }, // 162
+	{ "UI_OLISPConnect.fng", 0x4B9750, 0x0, 0x405, 0x0, 0x0, 0x0 }, // 163
+	{ "UI_OLSelectPersona.fng", 0x4E3CD0, 0x3F1409CC, 0x2405, 0x0, 0x100, 0x0 }, // 164
+	{ "UI_OLCreateUser.fng", 0x4E3D50, 0x6B42F6F6, 0x401, 0x0, 0x0, 0x0 }, // 165
+	{ "UI_OLCreateUser_2.fng", 0x4BAA60, 0x0, 0x401, 0x0, 0x0, 0x0 }, // 166
+	{ "UI_OLAgeVerif.fng", 0x4E3DD0, 0x0, 0x405, 0x0, 0x0, 0x0 }, // 167
+	{ "UI_OLAgeTooYoung.fng", 0x49E780, 0x0, 0x405, 0x0, 0x0, 0x0 }, // 168
+	{ "UI_OLUseExisting.fng", 0x4E3E30, 0x36DA152D, 0x405, 0x0, 0x100, 0x0 }, // 169
+	{ "UI_OLForgotAccountName.fng", 0x4E3BD0, 0x0, 0x405, 0x0, 0x100, 0x0 }, // 170
+	{ "UI_OLEALogin.fng", 0x4E3C50, 0x0E720F694, 0x405, 0x0, 0x100, 0x0 }, // 171
+	{ "UI_DateEntry.fng", 0x552720, 0x1BE259F7, 0x405, 0x0, 0x0, 0x0 }, // 172
+	{ "DiscErrorPC.fng", 0x4D97A0, 0x0, 0x405, 0x0, 0x80, 0x0 }, // 173
+	{ "UI_ProfileManager.fng", 0x4F4900, 0x9323DF57, 0x405, 0x0, 0x80, 0x0 }, // 174
+	{ "UI_Deleteprofile.fng", 0x4F4960, 0x9323DF57, 0x0, 0x0, 0x80, 0x0 }, // 175
+	{ "MC_Bootup.fng", 0x4F32B0, 0x0, 0x0, 0x0, 0x80, 0x0 }, // 176
+	{ "MC_List.fng", 0x4D7070, 0x8C4D03EA, 0x1, 0x0, 0x80,0 }, // 177
+	{ "MC_Main.fng", 0x4F3320, 0x0, 0x1, 0x0, 0x80, 0x0 }, // 178
+	{ "MC_Background.fng", 0x4A8740, 0x0, 0x0, 0x0, 0x80, 0x0 }, // 179
+};
+.pop pre
+
+.push ul
+- {0x50B8E0 int SetInitializeHandlerForFNG(char *fng, fnginithandler *func)}                    ||| code
+  goes through all the fng data above and set the handler for {stricmp}                         ||| code
+  matching fng names
+- {0x50B840 struct FNGData* GetFNGDataForHash(int hash)} goes through                           ||| code
+  all the fng data above and returns the one with matching hash
+- {0x55DC20 __thiscall void SendSomethingToFNG?(void *this, char *fng, int data)}               ||| code
+  called when menus change
+- {0x50B790 ShowFNG(int fnghash, int arg1, int arg2)} see {replace-50B790-ShowFNG.c}            ||| code,code
+for a reimplementation
+- {0x55DBD0 void UIHandleKey(int keyCode)} called from {WM_CHAR}                                ||| code,code
+  messages, only used to type/press enter in a textbox and Q to quit.
+  Navigating menus seems unaffected
+- {0x558B70 void __thiscall UIConsumeKey(void *this, int keyCode)}                              ||| code
+  probably used for Q, but what else?
+- {0x57B8B0 void __thiscall CheatCheck(void *this, int keyCode)} see {cheats}                   ||| code,href
+- {0x83A9C0 isTextboxFocused}                                                                   ||| code
+- {0x83A9C4 focusedTextbox} ptr to some struct                                                  ||| code
+.pop ul
+
+Short excerpt from hooking {ShowFNG}. {arg2} for the dialogs                                    ||| code,code
+are a pointer to the text string.
+
+.push pre
+ShowFNG(AB447B38 (""), 037864A0, 00000000) = 00000000
+ShowFNG(33AC1CB4 ("UI_PC_Help_Bar.fng"), 0378BD30, 00000000) = 03D7EB60
+ShowFNG(E503D390 ("MC_Bootup.fng"), 0379ADE0, 00000000) = 03786140
+ShowFNG(23F4270A ("LS_PSAMovie.fng"), 03786120, 00000000) = 03787AD0
+ShowFNG(F774ED37 ("MC_Background.fng"), 03786120, 00000000) = 03786290
+ShowFNG(801E019C ("MC_Main.fng"), 03787F40, 00000000) = 0379F4B0
+ShowFNG(136E3C13 ("MC_List.fng"), 0379C8C0, 00000000) = 037A86F0
+ShowFNG(4CDD8B14 ("GarageMain.fng"), 037AE470, 00000000) = 037AFD70
+ShowFNG(C343126A ("UI_Main.fng"), 037A8EC0, 00000000) = 037AE880
+ShowFNG(8E2B101E ("UI_QRCarSelect.fng"), 037879D0, 00000000) = 0379D3B0
+ShowFNG(887BBEA7 ("UI_ChooseCustomizeCategory.fng"), 0379BF40, 00000000) = 03787570
+ShowFNG(DF3D7763 ("UI_Menu_Asset_Reputation.fng"), 03789730, 00000000) = 0378A940
+ShowFNG(AF09F84F ("UI_GenericParts_Browser.fng"), 0378A860, 00000000) = 037BBBB0
+ShowFNG(887BBEA7 ("UI_ChooseCustomizeCategory.fng"), 037B9F40, 00000000) = 037BE620
+ShowFNG(8E2B101E ("UI_QRCarSelect.fng"), 037BE4A0, 00000000) = 03787660
+ShowFNG(C343126A ("UI_Main.fng"), 0378A570, 00000000) = 0379F260
+ShowFNG(F6C99F4D ("UI_QRModeSelect.fng"), 0379F0F0, 00000000) = 03788380
+ShowFNG(8E2B101E ("UI_QRCarSelect.fng"), 0378BF40, 00000000) = 0379B7C0
+ShowFNG(6962C0CD ("GenericDialog_SMALL.fng"), 0379B620, 00838640) = 037A80E0
+ShowFNG(6962C0CD ("GenericDialog_SMALL.fng"), 037AE720, 00838640) = 037ABA50
+ShowFNG(6962C0CD ("GenericDialog_SMALL.fng"), 037AE720, 00838640) = 037ABA50
+ShowFNG(AB447B38 (""), 03767010, 00000000) = 00000000
+ShowFNG(0EB1F7E5 ("HUD_SingleRace.fng"), 037A45B0, 00000000) = 00000000
+ShowFNG(26691D4A ("Chyron_IG.fng"), 03793AE0, 00000000) = 03D7EBF0
+ShowFNG(33AC1CB4 ("UI_PC_Help_Bar.fng"), 037B8870, 00000000) = 03D7EB60
+ShowFNG(32124083 ("UI_Pause.fng"), 03796280, 00000000) = 037B8B90
+ShowFNG(33AC1CB4 ("UI_PC_Help_Bar.fng"), 037C7D30, 00000000) = 03D7EB60
+ShowFNG(73F51C74 ("UI_PauseOptionsMain.fng"), 037C3EF0, 00000000) = 037C6080
+ShowFNG(AEA9078F ("UI_PauseOptions.fng"), 037BAE10, 00000000) = 037D8430
+ShowFNG(73F51C74 ("UI_PauseOptionsMain.fng"), 037D8F40, 00000000) = 037DE0C0
+ShowFNG(33AC1CB4 ("UI_PC_Help_Bar.fng"), 037DFF40, 00000000) = 03D7EB60
+ShowFNG(32124083 ("UI_Pause.fng"), 037DDF40, 00000000) = 037DE2B0
+ShowFNG(AA469286 ("UI_InGameDialog.fng"), 037C1120, 00838640) = 037C2AB0
+.pop pre
+
+.pop section
+.pop section
+.push section
+
+{Mouse input}  ||| h id=mouseinput
+
+While the canvas is {640x480}, mouse position seems to be handled mostly                        ||| code
+as {([-320,+320],[-240,+240])}.                                                                 ||| code
+
+.push pre
+struct MouseData {
+	void /*DInputDevice8*/ *dinputdevice;
+	int cursorX; // on 640x480 canvas
+	int cursorY; // on 640x480 canvas
+	int previousCursorX; // on 640x480 canvas
+	int previousCursorY; // on 640x480 canvas
+	int deltaCursorX; // on 640x480 canvas
+	int deltaCursorY; // on 640x480 canvas
+	int mousestate_lZ; // scrollwheel data
+	char areMouseButtonsSwapped; // result of GetSystemMetrics(SM_SWAPBUTTON);
+	char button0State; // left mouse button
+	char button0JustPressed;
+	char button0JustReleased;
+	char button1State; // right mouse button
+	char button1JustPressed;
+	char button1JustReleased;
+	char button2State; // middle mouse button
+	char button2JustPressed;
+	char button2JustReleased;
+};
+
+struct MouseData *_mouseData = (struct MouseData*) 0x8763D0;
+.pop pre
+
+.push ul
+- {5BF6E0 int __thiscall CreateDinputDevice(struct MouseData *this)}                            ||| code
+  Creates and sets {dinputdevice}                                                               ||| code
+- {5C8600 int __thiscall MouseData::ctor(struct MouseData *this)}                               ||| code
+  called once, from {init_function_77E580}                                                      ||| code
+- {5BF860 void __thiscall UpdateMouseState(struct MouseData *this)}                             ||| code
+  Calls {UpdateCursorPosition} and then updates button states.                                  ||| code
+- {5BF750 int __thiscall UpdateCursorPosition(struct MouseData *this)}                          ||| code
+- {5BF940 int __thiscall HaveCursorActivity(struct MouseData *this)}                            ||| code
+  called once, from {5663F9 DoUI}. returns 1 if position deltas or scrollwheel or               ||| code
+  any of the JustPressed/JustReleased fields are not zero. Always returning 0 here has the
+  effect that ui hover does not work, left click acts as right click (go back) except when
+  clicking on the active ui element (like main menu bar). Dialog box buttons still work
+  somehow. The car showroom can still be rotated with mmb. Mouse still moves.
+- {50C860 void StoreMousePosButtonsIntoArg(void *arg)}                                          ||| code
+.push pre
+*((short*) arg_0 + 0) = _mouseData.cursorX - canvasWidth / 2;
+*((short*) arg_0 + 1) = _mouseData.cursorY - canvasHeight / 2;
+*((short*) arg_0 + 2) = _mouseData.button0State &lt;&lt; 1 | _mouseData.button1State; (or swapped)
+.pop pre
+- {50CD70 void GetMousePositionFromMiddle(float *cursorX, float *cursorY)}                      ||| code
+.push pre
+*cursorX = _mouseData.cursorX - canvasWidth/2;
+*cursorY = _mouseData.cursorY - canvasHeight/2;
+.pop pre
+- {50CDA0 void GetMouseWheel(float *mouseWheelData)}                                            ||| code
+.push pre
+*mouseWheelData = _mouseData.mousestate.lz;
+.pop pre
+- {50CDB0 int DidCursorPressInRect(struct \{ float x; float y; \} *pos,                         ||| code
+  struct \{ float width; float height; \} *size)}
+  Gets called in one location, but still haven't actually seen it being called. TODO
+- {52D090 DidCursorPressIn??SomethingUI(void *somethingui)}                                     ||| code
+  Delegates to {52D020 int IsPointIn??SomethingUI}                                              ||| code
+- {52D100 DidCursorPressIn??SomethingUI_2(void *something2)}                                    ||| code
+  same as above, probably for some other type UI element
+- {8763D0 struct MouseData _mouseData}                                                          ||| code
+.pop ul
+
+.pop section
+.push section
+
+{Cheats}  ||| h id=cheats
+
+.push pre
+struct CheatScreenData {
+	void **ppFunc;
+	char doCheatCheck; // only 1 when in the 'press enter key' screen
+	char field5;
+	char field6;
+	char field7;
+	int field2CofLastCheatActivated;
+	struct CheatData *cheats; /*0x7FB960*/
+	int numCheats; // 20
+	char cheatString[32]; // typed string
+	int typedCheatLength; // characters typed
+	int field38;
+};
+
+#define CHEAT_TYPE_VISUALS 1
+#define CHEAT_TYPE_PERFORMANCE 2
+#define CHEAT_TYPE_CAREER 5
+#define CHEAT_TYPE_SPONSOR_CAR 6 // shows up when doing quick race
+#define CHEAT_TYPE_VINYL 7
+
+struct CheatData {
+	char cheat[32];
+	int cheatType;
+	int cheatData; // hash when cheatType is sponsor car or vinyl
+	int field28;
+	int field2C;
+	char hasBeenTriggered;
+	char field31;
+	char cheatEnabled;
+	char field33;
+};
+EXPECT_SIZE(struct CheatData, 0x34);
+
+/*0x865930*/
+struct CheatScreenData cheatScreenData; // partially initialized by InitCheats_
+/*0x7FB960*/
+struct CheatData cheatData[20] = {
+	{ "needperformance1",	2, 1, 0, 0, 0, 1, 1, 0 }, // 0
+	{ "needperformance2",	2, 2, 0, 0, 0, 1, 1, 0 }, // 1
+	{ "gimmevisual1",	1, 2, 0, 0, 0, 1, 1, 0 }, // 2
+	{ "gimmevisual2"	1, 2, 0, 0, 0, 1, 1, 0 }, // 3
+	{ "gimmechingy"		6, 0, 0, 0, 0, 0, 0, 0 }, // 4
+	{ ""			0, 0, 0, 0, 0, 0, 0, 0 }, // 5
+	{ ""			0, 0, 0, 0, 0, 0, 0, 0 }, // 6
+	{ ""			0, 0, 0, 0, 0, 0, 0, 0 }, // 7
+	{ ""			0, 0, 0, 0, 0, 0, 0, 0 }, // 8
+	{ ""			0, 0, 0, 0, 0, 0, 0, 0 }, // 9
+	{ ""			0, 0, 0, 0, 0, 0, 0, 0 }, // 10
+	{ ""			0, 0, 0, 0, 0, 0, 0, 0 }, // 11
+	{ ""			0, 0, 0, 0, 0, 0, 0, 0 }, // 12
+	{ ""			0, 0, 0, 0, 0, 0, 0, 0 }, // 13
+	{ ""			0, 0, 0, 0, 0, 0, 0, 0 }, // 14
+	{ ""			0, 0, 0, 0, 0, 0, 0, 0 }, // 15
+	{ ""			0, 0, 0, 0, 0, 0, 0, 0 }, // 16
+	{ ""			0, 0, 0, 0, 0, 0, 0, 0 }, // 17
+	{ ""			0, 0, 0, 0, 0, 0, 0, 0 }, // 18
+	{ ""			0, 0, 0, 0, 0, 0, 0, 0 }, // 19
+};
+// after InitCheats_ was called, it looks like this:
+// hashes are done with case sensitive hash
+struct CheatData cheatData[20] = {
+	{ "needperformance1",	2, 0x00000001, 0, 0, 0, 1, 1, 0 }, //
+	{ "needperformance2",	2, 0x00000002, 0, 0, 0, 1, 1, 0 }, //
+	{ "gimmevisual1",	1, 0x00000002, 0, 0, 0, 1, 1, 0 }, //
+	{ "gimmevisual2"	1, 0x00000002, 0, 0, 0, 1, 1, 0 }, //
+	{ "gimmechingy"		6, 0x3EE7D094, 0, 0, 0, 1, 1, 0 }, // "SPONSOR_CHINGY"
+	{ "wannacapone"		6, 0x3E6D00C8, 0, 0, 0, 1, 1, 0 }, // "SPONSOR_CAPONE"
+	{ "wantmyd3"		6, 0x54E32D29, 0, 0, 0, 1, 1, 0 }, // "SPONSOR_D3"
+	{ "shinestreetbright"	6, 0xE57B6400, 0, 0, 0, 1, 1, 0 }, // "SPONSOR_SHINESTREET"
+	{ "davidchoeart"	6, 0x7760C479, 0, 0, 0, 1, 1, 0 }, // "SPONSOR_DAVIDCHOE"
+	{ "tunejapantuning"	6, 0x002F98F1, 0, 0, 0, 1, 1, 0 }, // "SPONSOR_JAPANTUNING"
+	{ "yodogg"		6, 0x007090A1, 0, 0, 0, 1, 1, 0 }, // "SPONSOR_SNOOP_DOGG"
+	{ "opendoors"		6, 0x4BAECE79, 0, 0, 0, 1, 1, 0 }, // "SPONSOR_THE_DOORS"
+	{ "needmybestbuy"	7, 0x9E52EAC1, 0, 0, 0, 1, 1, 0 }, // "AD_BESTBUY"
+	{ "goforoldspice"	7, 0x5FD7B956, 0, 0, 0, 1, 1, 0 }, // "AD_OLDSPICE"
+	{ "gottaedge"		7, 0x44C47B98, 0, 0, 0, 1, 1, 0 }, // "AD_EDGE"
+	{ "gottahavebk"		7, 0xCF5F6873, 0, 0, 0, 1, 1, 0 }, // "AD_BURGERKING"
+	{ "gotmycingular"	7, 0x7C504338, 0, 0, 0, 1, 1, 0 }, // "AD_CINGULAR"
+	{ "regmybank"		5, 0x00000002, 0, 0, 0, 1, 1, 0 }, //
+	{ "regmebaby"		5, 0x00000003, 0, 0, 0, 1, 1, 0 }, //
+	{ "ordermebaby"		5, 0x00000004, 0, 0, 0, 1, 1, 0 }, //
+};
+
+/*0x575770*/
+void __thiscall InitCheats(struct CheatScreenData *data)
+{
+	int i;
+
+	cheatScreenData.ppFunc = (void*) 0x7A0604;
+	cheatScreenData.doCheatCheck = 0;
+	cheatScreenData.cheats = cheatData;
+	cheatScreenData.numCheats = 20;
+	cheatScreenData.typedCheatLength = 0;
+	cheatScreenData.field38 = 0;
+
+	for (i = 0; i &lt; 20; i++) {
+		if (cheatData[i].cheatType == CHEAT_TYPE_VINYL &amp;&amp;
+			cheatData[i].someHash == hashCS43DB50("AD_BESTBUY") &amp;&amp;
+			_gameRegion != 0 /*REGION_US*/)
+		{
+			cheatData[i].cheatEnabled = 0;
+		}
+	}
+}
+.pop pre
+
+Cheats can only be inserted at the 'press enter key' screen at boot. (I remember
+this from looking up cheats in my childhood), but toggling sponsor car cheats when
+ingame has immediate effect.
+
+.push ul
+- {0x57B8B0 void __thiscall CheatCheck(void *this, int keyCode)} called                         ||| code
+  from {UIHandleKey} when {cheatScreenData.doCheatCheck} is
+  non-zero
+- {579CB0 void __thiscall CheatMatched(struct CheatScreenData *this,                            ||| code
+  int cheat_index)} called from {CheatCheck} when a cheat matched                               ||| code
+- {0x575770 void __thiscall InitCheats_(struct CheatScreenData *this)}                          ||| code
+  initializes {cheatScreenData} and {cheatData}                                                 ||| code,code
+- {0x576050 void __thiscall UndoCheat__(struct CheatScreenData *this,                           ||| code
+  int cheatdata_field28)} weird one, is called on each cheat entry and all
+  cheats with a matching field28 has zero written to its {hasBeenTriggered}                     ||| code
+  field
+- {0x5760A0 int __thiscall DoCareerCheat(struct CheatScreenData *this,                          ||| code
+  int careerCheatIdx)}
+- {0x576090 int GetExtraCheatedCareerMoney()} basically                                         ||| code
+  {return cheatExtraCareerMoney200 + cheatExtraCareerMoney1000;}                                ||| code
+- {0x865930 struct CheatScreenData cheatScreenData}                                             ||| code
+- {0x7FB960 struct CheatData cheatData[20]}                                                     ||| code
+- {0x86512C cheatExtraCareerMoney200} set to 200 when the {regmybank} cheat was entered         ||| code,code
+- {0x865130 cheatExtraCareerMoney1000} set to 1000 when the {ordermebaby} cheat was entered     ||| code,code
+- {0x8383C8 cheatCareerNeverPossible} this gets only set to one when                            ||| code
+  a career cheat with {cheatData} zero is entered, but all career cheats                        ||| code
+  have a value of 2-4. It has one XREF, surrounded by some language stuff? TODO
+.pop ul
+
+.pop section
+.push section
+
+{Car model data}  ||| h id=carmodeldata
+
+When jumping around XREFs I stumbled upon a function that I named
+{GetLogoForCarModel}. It uses a lot of strings that are manufacturers                           ||| code
+and stuff like {CARSELECT_MANUFACTURER_%s}. There are two parameters,                           ||| code
+the first seems to be the index of the car and the second is if the caller wants
+the manufacturer logo or the brand logo. The function gave some nice information:
+
+.push ul
+- {0x8A1CCC} is a pointer to something that's probably car model data                           ||| code
+- That data is an array with component size {0x890}                                             ||| code
+- At {+0x0}, there is a brand name                                                              ||| code
+- At {+0xC0}, there is a manufacturer name                                                      ||| code
+- (returning zero from this func will show a star image for the manufacturer/brand)
+.pop ul
+
+After hooking and printing addresses, some more obvious data could be seen:
+
+.push ul
+- At {+0x20} is a the brand name again                                                          ||| code
+- At {+0x40} is a geometry path (example {CARS\A3\GEOMETRY.BIN})                                ||| code, code
+- At {+0x60} is a geometry path (example {CARS\A3\GEOMETRY.LZC})                                ||| code, code
+.pop ul
+
+.pop section
+.push section
+
+{Sound}  ||| h id=sound
+
+.push ul
+- {0x51DE60 int PlayUISoundEffect(void *unknownUnused, int soundID)}                            ||| code
+  discovered when looking at cheats. 8 is some choose sound, 9 too, .. TODO other IDs
+- {0x458520 void __thiscall PlaySound_(void *this, void *sound)}                                ||| code
+- {0x82B884 pSoundEffectSystem?} pointer to what is used as {this} for calls to {PlaySound?}    ||| code,code,code
+.pop ul
+
+.pop section
+.push section
+
+{Career}  ||| h id=career
+
+.push pre
+struct CareerData {
+	int money;
+};
+
+/*0x861E74*/
+struct CareerData careerData;
+.pop pre
+
+.push ul
+- {0x532830 MaybeStartCareer?} it's the only func that calls {GetExtraCheatedCareerMoney}       ||| code,code
+- {0x86347C isProfileWithStartedCareerLoaded} fun fact: when creating a                         ||| code
+  new profile, this value is set to 0 when the textbox to enter a name appears. When
+  canceling at that point, it's set back to 1 (if the loaded profile already had
+  career started)
+- {0x500F90 int __thiscall CareerGetMoney(struct CareerData *this)}                             ||| code
+  TODO has one other XREF: where money is drawn?
+- {0x500F80 void __thiscall CareerGiveMoney(struct CareerData *this,                            ||| code
+  int amount)} only used in the career money cheats
+- {0x861E74 struct CareerData careerData}                                                       ||| code
+.pop ul
+
+The career money cheat is mildly interesting, as it seems to work in two different
+ways. It adds the amount to a variable that is used when a new career is started and
+it adds the amount to the current career data if the loaded profile didn't start
+career yet.
+
+.push pre
+/*from DoCareerCheat*/
+/*ordermebaby ($1000 career start bonus)*/
+cheatExtraCareerMoney1000 = 1000;
+// ^ used when starting a new career from a profile that
+// was loaded from the profile menu
+if (!isPofileWithStartedCareerLoaded) {
+	if (CareerGetMoney() == 0) {
+		CareerSetMoney(1000);
+		// ^ This only has an effect when the profile was
+		// loaded from the loading screen
+	}
+}
+.pop pre
+
+.pop section
+
+
+
+
+.push plain
+</body>
+</html>
+.pop plain
