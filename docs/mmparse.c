@@ -23,11 +23,16 @@ struct DIRECTIVE {
 	char argv[MAX_DIR_ARGS][DIR_ARGV_LEN];
 };
 
+enum DIR_CONTENT_ACTION {
+	DELETE_CONTENT,
+	LEAVE_CONTENT,
+};
+
 struct HANDLER {
 	void (*start)(); /*called after handler is pushed*/
 	void (*text)();
 	void (*end)(); /*called after handler is popped*/
-	int (*directive_start)(char**,struct DIRECTIVE*); /*return 1 if contents should be eaten*/
+	enum DIR_CONTENT_ACTION (*directive_start)(char**,struct DIRECTIVE*);
 	void (*directive_end)(char**);
 	char name[12];
 };
@@ -80,6 +85,15 @@ struct PLACEHOLDER_BREADCRUMB_DATA {
 	int continuation_index_offset;
 	int is_continuation;
 };
+
+#define MAX_REGISTERED_HANDLERS 20
+struct HANDLER *registered_handlers[MAX_REGISTERED_HANDLERS];
+int num_registered_handlers;
+
+#define MAX_REGISTERED_DIRECTIVES 20
+char registered_dir_names[MAX_REGISTERED_DIRECTIVES][50];
+enum DIR_CONTENT_ACTION (*registered_dir_cbs[MAX_REGISTERED_DIRECTIVES])(char**,struct DIRECTIVE*);
+int num_registered_dirs;
 
 /*Returns ptr to placeholder data.*/
 static
@@ -471,7 +485,7 @@ void mmparse_expand_line()
 	int open_position;
 	int close_position;
 	int len;
-	int eat_contents;
+	enum DIR_CONTENT_ACTION eat_contents;
 	int was_contents_eaten;
 	char *from, *to;
 
@@ -482,7 +496,7 @@ void mmparse_expand_line()
 	close_idx = 0;
 
 	was_contents_eaten = 0;
-	eat_contents = 0;
+	eat_contents = LEAVE_CONTENT;
 
 	for (;;) {
 		open_position = -1;
@@ -523,8 +537,8 @@ void mmparse_expand_line()
 			if (close_position < open_position || open_position == -1) {
 				len = close_position - (from - line_raw);
 				if (len) {
-					if (eat_contents) {
-						eat_contents = 0;
+					if (eat_contents == DELETE_CONTENT) {
+						eat_contents = LEAVE_CONTENT;
 						was_contents_eaten = 1;
 					} else {
 						memcpy(to, from, len);
@@ -603,75 +617,19 @@ void print_tag_with_directives(char **to, struct DIRECTIVE *dir, char *closestr)
 }
 
 static
-int cb_handler_normal_directive_start(char** to, struct DIRECTIVE *dir)
+enum DIR_CONTENT_ACTION cb_handler_normal_directive_start(char** to, struct DIRECTIVE *dir)
 {
 	int i;
-	int section_depth;
-	char *id_argument;
 
-	if (!strcmp(dir->name, "href")) {
-		get_directive_text(dir, next_placeholder(cb_placeholder_href), 0);
-		return 1;
-	}
-
-	if (!strcmp(dir->name, "index")) {
-		next_placeholder(cb_placeholder_index);
-		tag_stack[tag_stack_pos++][0] = 0;
-		return 0;
-	}
-
-	if (!strcmp(dir->name, "imgcaptioned")) {
-		strcpy(dir->name, "img");
-		*to += sprintf(*to, "<p class='center'>");
-		print_tag_with_directives(to, dir, "/><br/>");
-		strcpy(next_close_tag(), "</p>");
-		return 0;
-	}
-
-	if (!strcmp(dir->name, "h")) {
-		section_depth = get_section_depth();
-		/*Overwriting this might not be the best idea but ok*/
-		dir->name[1] = '1' + section_depth;
-		dir->name[2] = 0;
-		id_argument = 0;
-		for (i = 0; i < dir->num_args; i++) {
-			if (!strcmp(dir->argn[i], "id")) {
-				id_argument = dir->argv[i];
-				break;
-			}
-		}
-		if (id_argument) {
-			if (section_depth) {
-				sprintf(next_close_tag(),
-					" <a href=\"#%s\">#</a></%s>",
-					id_argument,
-					dir->name);
-			} else {
-				sprintf(next_close_tag(), "</%s>", dir->name);
-			}
-			if (num_headers < MAX_HEADERS) {
-				header_level[num_headers] = section_depth;
-				strcpy(header_id[num_headers], id_argument);
-				get_directive_text(dir, header_name[num_headers], 0);
-				num_headers++;
-			} else {
-				printf("exceeded MAX_HEADERS\n");
-			}
-			/*Remove the id attribute because it will be placed by a placeholder.*/
-			dir->argn[id_argument - dir->argv[0]][0] = 0;
-			print_tag_with_directives(to, dir, ">");
-			return 0;
-		} else {
-			if (section_depth) {
-				printf("line %d: no id for header\n", current_line);
-			}
+	for (i = 0; i < num_registered_dirs; i++) {
+		if (!strcmp(dir->name, registered_dir_names[i])) {
+			return registered_dir_cbs[i](to, dir);
 		}
 	}
 
 	print_tag_with_directives(to, dir, ">");
 	sprintf(next_close_tag(), "</%s>", dir->name);
-
-	return 0;
+	return LEAVE_CONTENT;
 }
 
 static
@@ -894,6 +852,113 @@ struct HANDLER handler_ul = {
 	"ul"
 };
 
+static
+enum DIR_CONTENT_ACTION mmparse_directive_href(char **to, struct DIRECTIVE *dir)
+{
+	get_directive_text(dir, next_placeholder(cb_placeholder_href), 0);
+	return DELETE_CONTENT;
+}
+
+static
+enum DIR_CONTENT_ACTION mmparse_directive_index(char **to, struct DIRECTIVE *dir)
+{
+	next_placeholder(cb_placeholder_index);
+	next_close_tag()[0] = 0;
+	return LEAVE_CONTENT;
+}
+
+static
+enum DIR_CONTENT_ACTION mmparse_directive_imgcaptioned(char **to, struct DIRECTIVE *dir)
+{
+	strcpy(dir->name, "img");
+	*to += sprintf(*to, "<p class='center'>");
+	print_tag_with_directives(to, dir, "/><br/>");
+	strcpy(next_close_tag(), "</p>");
+	return LEAVE_CONTENT;
+}
+
+static
+enum DIR_CONTENT_ACTION mmparse_directive_h(char **to, struct DIRECTIVE *dir)
+{
+	int i;
+	int section_depth;
+	char *id_argument;
+
+	section_depth = get_section_depth();
+	/*Overwriting this might not be the best idea but ok*/
+	dir->name[1] = '1' + section_depth;
+	dir->name[2] = 0;
+	id_argument = 0;
+	for (i = 0; i < dir->num_args; i++) {
+		if (!strcmp(dir->argn[i], "id")) {
+			id_argument = dir->argv[i];
+			break;
+		}
+	}
+	if (id_argument) {
+		if (num_headers < MAX_HEADERS) {
+			header_level[num_headers] = section_depth;
+			strcpy(header_id[num_headers], id_argument);
+			get_directive_text(dir, header_name[num_headers], 0);
+			num_headers++;
+		} else {
+			printf("exceeded MAX_HEADERS\n");
+		}
+		/*Remove the id attribute because it will be placed by a placeholder.*/
+		dir->argn[id_argument - dir->argv[0]][0] = 0;
+	} else {
+		if (section_depth) {
+			printf("line %d: no id for header\n", current_line);
+		}
+	}
+	print_tag_with_directives(to, dir, ">");
+	if (id_argument && section_depth) {
+		sprintf(next_close_tag(), " <a href=\"#%s\">#</a></%s>", id_argument, dir->name);
+	} else {
+		sprintf(next_close_tag(), "</%s>", dir->name);
+	}
+	return LEAVE_CONTENT;
+}
+
+static
+void mmparse_register_handler(struct HANDLER *handler)
+{
+	if (num_registered_handlers == MAX_REGISTERED_HANDLERS) {
+		printf("MAX_REGISTERED_HANDLERS reached\n");
+		return;
+	}
+	registered_handlers[num_registered_handlers++] = handler;
+}
+
+static
+void mmparse_register_directive(char *name, enum DIR_CONTENT_ACTION (*cb)(char**,struct DIRECTIVE*))
+{
+	if (num_registered_dirs == MAX_REGISTERED_DIRECTIVES) {
+		printf("MAX_REGISTERED_DIRECTIVES reached\n");
+		return;
+	}
+	strcpy(registered_dir_names[num_registered_dirs], name);
+	registered_dir_cbs[num_registered_dirs] = cb;
+	num_registered_dirs++;
+}
+
+static
+void mmparse_init()
+{
+	mmparse_register_handler(&handler_pre);
+	mmparse_register_handler(&handler_ul);
+	mmparse_register_handler(&handler_section);
+	mmparse_register_handler(&handler_plain);
+	mmparse_register_handler(&handler_nop);
+	mmparse_register_directive("href", mmparse_directive_href);
+	mmparse_register_directive("index", mmparse_directive_index);
+	mmparse_register_directive("imgcaptioned", mmparse_directive_imgcaptioned);
+	mmparse_register_directive("h", mmparse_directive_h);
+}
+#define MMPARSE_EXT_INIT mmparse_init
+
+#include "mmparse_handler_ida.c"
+
 char infile[500], outfile[500];
 
 static
@@ -935,33 +1000,6 @@ int write()
 	fclose(f);
 	return 0;
 }
-
-#define MAX_REGISTERED_HANDLERS 20
-struct HANDLER *registered_handlers[MAX_REGISTERED_HANDLERS];
-int num_registered_handlers;
-
-static
-void mmparse_register_handler(struct HANDLER *handler)
-{
-	if (num_registered_handlers == MAX_REGISTERED_HANDLERS) {
-		printf("MAX_REGISTERED_HANDLERS reached\n");
-		return;
-	}
-	registered_handlers[num_registered_handlers++] = handler;
-}
-
-static
-void mmparse_init()
-{
-	mmparse_register_handler(&handler_pre);
-	mmparse_register_handler(&handler_ul);
-	mmparse_register_handler(&handler_section);
-	mmparse_register_handler(&handler_plain);
-	mmparse_register_handler(&handler_nop);
-}
-#define MMPARSE_EXT_INIT mmparse_init
-
-#include "mmparse_handler_ida.c"
 
 int main(int argc, char **argv)
 {

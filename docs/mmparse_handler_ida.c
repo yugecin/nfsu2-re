@@ -5,7 +5,7 @@ void cb_handler_ida_start()
 }
 
 static
-int cb_handler_ida_directive_start(char** to, struct DIRECTIVE *dir)
+enum DIR_CONTENT_ACTION cb_handler_ida_directive_start(char** to, struct DIRECTIVE *dir)
 {
 	if (!strcmp(dir->name, "text")) {
 		*to += sprintf(*to, "<span class='text'>");
@@ -22,9 +22,8 @@ int cb_handler_ida_directive_start(char** to, struct DIRECTIVE *dir)
 	} else {
 		return cb_handler_normal_directive_start(to, dir);
 	}
-	sprintf(tag_stack[tag_stack_pos], "</span>");
-	tag_stack_pos++;
-	return 0;
+	strcpy(next_close_tag(), "</span>");
+	return LEAVE_CONTENT;
 }
 
 struct HANDLER handler_ida = {
