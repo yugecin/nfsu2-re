@@ -16,8 +16,15 @@
 body {
 	font-family: Arial,Tahoma,sans-serif;
 }
-table td {
-	padding: .4em;
+table {
+        border-collapse: collapse;
+}
+td,th {
+	padding: .1em .4em;
+	border: 1px solid #000;
+}
+th {
+        background: #f5f5f5;
 }
 div, h1 {
 	padding: 1em;
@@ -43,7 +50,7 @@ body > div {
 code {
 	display: inline-block;
 	background: #dfdfdf;
-	padding: 0 .2em;
+	padding: 2px .2em;
 	margin: 0 .2em;
 	border-radius: 2px;
 }
@@ -135,11 +142,6 @@ This normally belongs to {https://github.com/yugecin/nfsu2-re}.                 
 Other pages: {(fpu) cheatsheet}                                                                 |||a href=cheatsheet.html
 
 .pop section
-
-
-
-
-
 .push section
 
 {Index}         |||h id=index
@@ -147,11 +149,6 @@ Other pages: {(fpu) cheatsheet}                                                 
 {}              |||index
 
 .pop section
-
-
-
-
-
 .push section
 
 {Injected code}         |||h id=injectedcode
@@ -164,122 +161,158 @@ which loads the library nicely for me (download the ZIP and place the dll in the
 name it {dinput8.dll}).                                                                         |||code
 
 .pop section
+.push section
 
+{Display settings}  ||| h id=displaysettings
 
+Display settings get saved in the windows registry. See {registry}.                             ||| href
 
+TODO. I was writing this when I got distracted by the language stuff.
 
+.push symbols
+- {5BE190 StoreOptLightGlowSetToZero}                                                           ||| func
+- {5BE1B0 RestoreOptLightGlow}                                                                  ||| func
+- {5BE1C0 GetWorldDetailClampBetween0And2}                                                      ||| func
+- {87099C int _optLevelOfDetail}                                                                ||| field
+- {870CB8 int _optCarReflectionUpdateRate}                                                      ||| field
+- {870CBC int _optCarReflectionDetail}                                                          ||| field
+- {870CC0 int _optCarShadowNeon}                                                                ||| field
+- {870CC4 int _optCarHeadlight}                                                                 ||| field
+- {870CC8 int _optCarLightingEnableUNUSED}                                                      ||| field
+  Seemingly unused.
+- {870CCC int _optCarDamageEnableUNUSED}                                                        ||| field
+  Seemingly unused.
+- {870CD0 int _optCrowds}                                                                       ||| field
+- {870CD4 int _optWorldReflectionDetail}                                                        ||| field
+- {870CD8 int _optFog}                                                                          ||| field
+- {870CDC int _optMotionBlur}                                                                   ||| field
+- {870CE0 int _optLightTrails}                                                                  ||| field
+- {870CE4 int _optLightGlow}                                                                    ||| field
+- {870CE8 int _optAnimatedTextureEnable}                                                        ||| field
+  Doesn't seem to be in the display menu, or it's hidden due to my system config.
+- {870CEC int _optParticleSystem}                                                               ||| field
+- {870CF0 int _optDepthOfField}                                                                 ||| field
+- {870CF4 int _optWorldDetail}                                                                  ||| field
+- {870CF8 int _optCarGeometryDetail}                                                            ||| field
+- {870CFC int _optOverBright}                                                                   ||| field
+- {870D00 int _optEnchancedContrast}                                                            ||| field
+- {870D04 int _optTinting}                                                                      ||| field
+- {870D08 int _optFSAALevel}                                                                    ||| field
+- {870D0C int _optHorizonFog}                                                                   ||| field
+- {870D10 int _optRainSplatter}                                                                 ||| field
+- {870D18 int _optTextureFiltering}                                                             ||| field
+- {870D1C int _optRacingResolutionIdx}                                                          ||| field
+- {870D24 int _optVsync}                                                                        ||| field
+.pop symbols
 
+.pop section
 .push section
 
 {Registry}              |||h id=registry
 
-Many values (mainly display settings are loaded/saved in procs: (TODO check the XREFs on these)
+Many values (mainly display settings) are loaded/saved in procs {5BEA20} and {5BEEA0}.          ||| funcref,funcref
 
-.push ul
-- {5BEA20 - LoadDisplaySettings} only called once, at boot                                      |||code
-- {5BEEA0 - SaveDisplaySettings} called multiple times, TODO                                    |||code
-.pop ul
-
-They are saved in key {Software\EA Games\Need for Speed Underground 2} in {HKEY_CURRENT_USER}.  |||code,code
+They are saved in key {Software\EA Games\Need for Speed Underground 2} in {HKEY_CURRENT_USER}.  ||| code,code
 On my machine this translates to:
-{HKEY_CURRENT_USER\Software\Classes\VirtualStore\MACHINE\SOFTWARE\Wow6432Node\EA                |||code
+{HKEY_CURRENT_USER\Software\Classes\VirtualStore\MACHINE\SOFTWARE\Wow6432Node\EA                ||| code
 Games\Need for Speed Underground 2}.
 I'm guessing the extra path in between is because of WOW64.
 
-<table border=1>
-{{{Variable address}{Key}{Notes}}}                                                                                         |||thead,tr,th,th,th
-{                                                                                                                          |||tbody
-{{{0x870CB0}}   {{VERSION}}{Not a display setting}}                                                                        |||tr,td,code,td,code,td
-{{{0x870CB4}}   {{SIZE}}                                {Not a display setting. Seems unused                               |||tr,td,code,td,code,td
-                                                         (no XREFs other than save/load procs),
-                                                         although its value is set (to 120)? TODO!}}
-{{{0x870CB8}}   {{g_CarEnvironmentMapEnable}}           {{_optCarReflectionUpdateRate}}}                                   |||tr,td,code,td,code,td,code
-{{{0x870CBC}}   {{g_CarEnvironmentMapUpdateData}}       {{_optCarReflectionDetail}}}                                       |||tr,td,code,td,code,td,code
-{{{0x870CC0}}   {{g_CarShadowEnable}}                   {{_optCarShadowNeon}}}                                             |||tr,td,code,td,code,td,code
-{{{0x870CC4}}   {{g_CarHeadlightEnable}}                {{_optCarHeadlight}}}                                              |||tr,td,code,td,code,td,code
-{{{0x870CC8}}   {{g_CarLightingEnable}}                 {Seemingly unused? TODO}}                                          |||tr,td,code,td,code,td
-{{{0x870CCC}}   {{g_CarDamageEnable}}                   {Seemingly unused? TODO}}                                          |||tr,td,code,td,code,td
-{{{0x870CD0}}   {{g_CrowdEnable}}                       {{_optCrowds}}}                                                    |||tr,td,code,td,code,td,code
-{{{0x870CD4}}   {{g_RoadReflectionEnable}}              {{_optWorldReflectionDetail}}}                                     |||tr,td,code,td,code,td,code
-{{{0x870CD8}}   {{g_FogEnable}}                         {{_optFog}}}                                                       |||tr,td,code,td,code,td,code
-{{{0x870CDC}}   {{g_MotionBlurEnable}}                  {{_optMotionBlur}}}                                                |||tr,td,code,td,code,td,code
-{{{0x870CE0}}   {{g_LightStreaksEnable}}                {{_optLightTrails}}}                                               |||tr,td,code,td,code,td,code
-{{{0x870CE4}}   {{g_LightGlowEnable}}                   {{_optLightGlow}}}                                                 |||tr,td,code,td,code,td,code
-{{{0x870CE8}}   {{g_AnimatedTextureEnable}}             {{_optAnimatedTextureEnable} doesn't seem to be in display menu}}  |||tr,td,code,td,code,td,code
-{{{0x870CEC}}   {{g_ParticleSystemEnable}}              {{_optParticleSystem}}}                                            |||tr,td,code,td,code,td,code
-{{{0x870CF0}}   {{g_DepthOfFieldEnable}}                {{_optDepthOfField}}}                                              |||tr,td,code,td,code,td,code
-{{{0x870CF4}}   {{g_WorldLodLevel}}                     {{_optWorldDetail}}}                                               |||tr,td,code,td,code,td,code
-{{{0x870CF8}}   {{g_CarLodLevel}}                       {{_optCarGeometryDetail}}}                                         |||tr,td,code,td,code,td,code
-{{{0x870CFC}}   {{g_OverBrightEnable}}                  {{_optOverBright}}}                                                |||tr,td,code,td,code,td,code
-{{{0x870D00}}   {{g_BleachByPassEnable}}                {{_optEnchancedContrast}}}                                         |||tr,td,code,td,code,td,code
-{{{0x870D04}}   {{g_TintingEnable}}                     {{_optTinting}}}                                                   |||tr,td,code,td,code,td,code
-{{{0x870D08}}   {{g_FSAALevel}}                         {{_optFSAALevel}}}                                                 |||tr,td,code,td,code,td,code
-{{{0x870D0C}}   {{g_HorizonFogEnable}}                  {{_optHorizonFog}}}                                                |||tr,td,code,td,code,td,code
-{{{0x870D10}}   {{g_RainEnable}}                        {{_optRainSplatter}}}                                              |||tr,td,code,td,code,td,code
-{{{0x870D18}}   {{g_TextureFiltering}}                  {{_optTextureFiltering}}}                                          |||tr,td,code,td,code,td,code
-{{{0x870D1C}}   {{g_RacingResolution}}                  {{_optRacingResolutionIdx}}}                                       |||tr,td,code,td,code,td,code
-{{{0x87099C}}   {{g_PerformanceLevel}}                  {{_optLevelOfDetail}}}                                             |||tr,td,code,td,code,td,code
-{{{0x870D24}}   {{g_VSyncOn}}                           {{_optVsync}}}                                                     |||tr,td,code,td,code,td,code
+Variables loaded from there:
+
+<table>
+{{{Variable}{Key}}}                                             ||| thead,tr,th,th
+{                                                               ||| tbody
+{{{870CB0}}     {{VERSION}}}                                    ||| tr,td,fieldref,td,code
+{{{870CB4}}     {{SIZE}}}                                       ||| tr,td,fieldref,td,code
+{{{870CB8}}     {{g_CarEnvironmentMapEnable}}}                  ||| tr,td,fieldref,td,code
+{{{870CBC}}     {{g_CarEnvironmentMapUpdateData}}}              ||| tr,td,fieldref,td,code
+{{{870CC0}}     {{g_CarShadowEnable}}}                          ||| tr,td,fieldref,td,code
+{{{870CC4}}     {{g_CarHeadlightEnable}}}                       ||| tr,td,fieldref,td,code
+{{{870CC8}}     {{g_CarLightingEnable}}}                        ||| tr,td,fieldref,td,code
+{{{870CCC}}     {{g_CarDamageEnable}}}                          ||| tr,td,fieldref,td,code
+{{{870CD0}}     {{g_CrowdEnable}}}                              ||| tr,td,fieldref,td,code
+{{{870CD4}}     {{g_RoadReflectionEnable}}}                     ||| tr,td,fieldref,td,code
+{{{870CD8}}     {{g_FogEnable}}}                                ||| tr,td,fieldref,td,code
+{{{870CDC}}     {{g_MotionBlurEnable}}}                         ||| tr,td,fieldref,td,code
+{{{870CE0}}     {{g_LightStreaksEnable}}}                       ||| tr,td,fieldref,td,code
+{{{870CE4}}     {{g_LightGlowEnable}}}                          ||| tr,td,fieldref,td,code
+{{{870CE8}}     {{g_AnimatedTextureEnable}}}                    ||| tr,td,fieldref,td,code
+{{{870CEC}}     {{g_ParticleSystemEnable}}}                     ||| tr,td,fieldref,td,code
+{{{870CF0}}     {{g_DepthOfFieldEnable}}}                       ||| tr,td,fieldref,td,code
+{{{870CF4}}     {{g_WorldLodLevel}}}                            ||| tr,td,fieldref,td,code
+{{{870CF8}}     {{g_CarLodLevel}}}                              ||| tr,td,fieldref,td,code
+{{{870CFC}}     {{g_OverBrightEnable}}}                         ||| tr,td,fieldref,td,code
+{{{870D00}}     {{g_BleachByPassEnable}}}                       ||| tr,td,fieldref,td,code
+{{{870D04}}     {{g_TintingEnable}}}                            ||| tr,td,fieldref,td,code
+{{{870D08}}     {{g_FSAALevel}}}                                ||| tr,td,fieldref,td,code
+{{{870D0C}}     {{g_HorizonFogEnable}}}                         ||| tr,td,fieldref,td,code
+{{{870D10}}     {{g_RainEnable}}}                               ||| tr,td,fieldref,td,code
+{{{870D18}}     {{g_TextureFiltering}}}                         ||| tr,td,fieldref,td,code
+{{{870D1C}}     {{g_RacingResolution}}}                         ||| tr,td,fieldref,td,code
+{{{87099C}}     {{g_PerformanceLevel}}}                         ||| tr,td,fieldref,td,code
+{{{870D24}}     {{g_VSyncOn}}}                                  ||| tr,td,fieldref,td,code
 }
 </table>
 
-.push section
-
-{5B76F0 SomethingReadSpecialRegistrySettings}          |||h id=5B76F0
-
-This one is invoked on boot, and seems to load a special key that I haven't seen before:
-{Software\Electronic Arts\EA Games\Need for Speed Underground 2\er}. This key                           |||code
+{5B76F0} also loads registry settings, but only once at boot.                                   ||| funcref
+It seems to load a special key that I haven't seen before:
+{Software\Electronic Arts\EA Games\Need for Speed Underground 2\er}. This key                   ||| code
 is not present on my system, so this seems interesting.
 
 .push pre
-
 HKEY key;
 DWORD type, lenData;
 if (RegOpenKeyExA(HKEY_LOCAL_MACHINE, "Software\\E...2\\er", 0, KEY_READ, &amp;key)) {
 	type = REG_SZ; // a null-terminated string
 	lenData = 21;
-	if (RegQueryValueExA(key, 0, 0, &amp;type, &amp;buf_86FF8C, &amp;lenData)) {
-		buf_86FF8C[20] = 0;
+	if (RegQueryValueExA(key, 0, 0, &amp;type, &amp;{86FF8C}, &amp;lenData)) \{             ||| fieldplain
+		{86FF8C}[20] = 0;                                                               ||| fieldplain
 	} else {
-		buf_86FF8C[0] = 0;
+		{86FF8C}[0] = 0;                                                                ||| fieldplain
 	}
 }
 RegCloseKey(&amp;key);
-// buf_86FF8C is only used at sub_588770, 0x58887A, TODO!
-
 .pop pre
 
 Then it loads more stuff from the normal key:
 
-{Install Dir} is read. If set, passed to (winapi) {GetLongPathNameA}.                           |||code,code
-and if that succeeds, the value is copied to buffer at {86E9B4}. There are no                   |||code
-XREFs, so it's unused?
+{Install Dir} is read. If set, passed to (winapi) {GetLongPathNameA}.                           ||| code,code
+and if that succeeds, the value is copied to buffer at {86E9B4}.                                ||| fieldref
 
-{CD Drive} is read. If set, passed to (winapi) {GetLongPathNameA}.                              |||code,code
-passed to (winapi) {GetLastError} and if that succeeds, the value is copied to                  |||code
-buffer at {86E8B0}. That one is used, TODO.                                                     |||code
+{CD Drive} is read. If set, passed to (winapi) {GetLongPathNameA}.                              ||| code,code
+passed to (winapi) {GetLastError} and if that succeeds, the value is copied to {86E8B0}.        ||| code,fieldref
 
-{NotFirstTime} is read. If set, DWORD at {870D20} gets set to 1,                                |||code,code
-otherwise 0. It doesn't check the value in the register key. Then 1 is written to the
-register key. TODO this is used in one place.
+{NotFirstTime} is read. If set, {870D20} gets set to 1, otherwise 0.                            ||| code,fieldref
+It doesn't check the value in the register key. Then 1 is written to the register key.
 
-{CacheSize} is read. If set, proc at {75D65B} is called with the                                |||code,code
-value. TODO what is this? proc has plenty XREFs and is just a jmp to another proc that
-has even more XREFs.
+{CacheSize} is read. If set, {75D65B} is called with the value. TODO                            ||| code,code
 
-{SwapSize} is read. If set, proc at {75D65B} is called with the                                 |||code,code
-value. TODO what is this? proc has plenty XREFs and is just a jmp to another proc that
-has even more XREFs.
+{SwapSize} is read. If set, proc at {75D65B} is called with the value. TODO                     ||| code,code
 
 {Language} is read. Then it does something with looping through a language.                     |||code
 This took some deciphering but I found out that there is some struct with language
-information and associated data. See {Language metadata}.                                       |||a href=#language_metadata
+information and associated data. See {language_metadata}.                                       ||| href
 
-{StreamingInstall} is read. This one seems weird, as it seems like it passes                    |||code
-the value and the offset to a random location in the code segment to a proc that looks
-like a strcmp function? TODO.
+{StreamingInstall} is read. Then something with {75DD6F}. TODO                                  ||| code,funcref
 
-.pop section
+.push symbols
+- {5B76F0 void LoadOtherRegistrySettings()}                                                     ||| func
+  Called once during boot, from {5B7A70}                                                        ||| funcref
+- {5BEA20 void LoadDisplaySettings()}                                                           ||| func
+  Loads display settings from windows registry into their variables.
+  Only called once, at boot.
+- {5BEEA0 void SaveDisplaySettings()}                                                           ||| func
+  Stores display settings into windows registry.
+  Called multiple times, TODO.
+- {86E8B0 char CDDrivePath[4]}                                                                  ||| field
+- {86E9B4 char installDirPath[260]}                                                             ||| field
+- {86FF8C char someRegValue_er[20]}                                                             ||| field
+- {870CB0 char *VERSION}                                                                        ||| field
+- {870CB4 char *SIZE}                                                                           ||| field
+- {870D20 int notFirstTime}                                                                     ||| field
+.pop symbols
+
 .pop section
 .push section
 
@@ -529,13 +562,13 @@ value idx  607 | len 000C: Bank Reward:
 Once it's loaded ingame, it looks like this:
 
 .push pre
-struct LanguageTable {
+{struct LanguageTable} \{                                                                       ||| mkref
 	int hash;
 	char *string;
 };
 
 struct SomeLanguageStruct {
-	int field0; // ?? checked against 0x39000
+	int {field0}; // ?? checked against 0x39000                                             ||| mkref name=structSomeLanguageStruct+0
 	int numLoadedStrings;
 	char **table;
 	char **strings;
@@ -546,39 +579,33 @@ struct LanguageLoadStruct {
 	int field4;
 	struct SomeLanguageStruct struct8;
 };
-
-/*0x8383D0*/
-int languageNumLoadedStrings;
-/*0x8383D4*/
-char *languageStrings;
-/*0x8383D8*/
-struct LanguageTable *languageTable;
 .pop pre
 
-.push ul
-- {0x4FF9D0 char* GetLanguageStringOrNull()} returns a string ptr                               ||| code
-  or NULL for given hash (which is passed through edx). Does a binary search over
-  the data at {languageTable}                                                                   ||| code
-- {0x4FFA50 void GetLanguageStringIntoBuf(char *dst, int dstlen, int hash)}                     ||| code
-  same as {GetLanguageString} but copy it into a buffer                                         ||| code
-- {0x4FFA80 char* GetLanguageString(int hash)} calls                                            ||| code
-  {GetLanguageStringOrNull} and when it returns NULL, call it again but with                    ||| code
+.push symbols
+- {4FF9D0 char* GetLanguageStringOrNull()} returns a string ptr                                 ||| func
+  Returns a string ptr or {NULL} for given hash (which is passed through edx).                  ||| code
+  Does a binary search over the data at {8383D8}                                                ||| fieldref
+- {4FFA50 void GetLanguageStringIntoBuf(char *dst, int dstlen, int hash)}                       ||| func
+  Same as {4FFA80} but copy it into a buffer.                                                   ||| funcref
+- {4FFA80 char* GetLanguageString(int hash)}                                                    ||| func
+  Calls {4FF9D0} and when it returns {NULL}, call it again but with                             ||| funcref,code
   {0xC01A6F63} as fallback (which results in {FENG: Default string error.})                     ||| code,code
-- {0x4FFAA0 char* GetNumberSuffix(int index)} returns, based on                                 ||| code
-  passed index, one of: {th, st, nd, rd, th, th, th, th, th, th}, use                           ||| code
-  default string as fallback
-- {0x5125B0 int FinalizeLoadLanguageFile(struct LanguageLoadStruct *data);}                     ||| code
+- {4FFAA0 char* GetNumberSuffix(int number)}                                                    ||| func
+  Returns, based on passed index, one of: {th, st, nd, rd, th, th, th, th, th, th th},          ||| code
+  uses default string as fallback.
+  TODO: xref this for fun and profit (only 2 usages?)
+- {5125B0 int FinalizeLoadLanguageFile(struct LanguageLoadStruct *data);}                       ||| func
   fills in the variables below from passed data, returns 1 on success.
   Called by something that calls a lot of functions until one returns non-zero.
-  This func checks if {data-&gt;field0} is {0x00039000}.                                        ||| code,code
+  This func checks if {data-&gt;{structSomeLanguageStruct+0}} is {0x00039000}.                  ||| code,refto,code
   The first four bytes of the language bin files also start with {0x00039000}.                  ||| code
-- {0x4FFAE0 int InitializeLoadLanguageFile(void *data);}                                        ||| code
+- {4FFAE0 int InitializeLoadLanguageFile(void *data);}                                          ||| func
   same as above, checks {binFileMagic} for being {0x00039000},                                  ||| code,code
   then sets some language relates variables to zero.
-- {0x8383D0 int languageNumLoadedStrings}                                                       ||| code
-- {0x8383D4 char *languageStrings}                                                              ||| code
-- {0x8383D8 struct LanguageTable *languageTable}                                                ||| code
-.pop ul
+- {8383D0 int languageNumLoadedStrings}                                                         ||| field
+- {8383D4 char *languageStrings}                                                                ||| field
+- {8383D8 {struct LanguageTable} *languageTable}                                                ||| field,refto
+.pop symbols
 
 .pop section
 .pop section
@@ -586,11 +613,10 @@ struct LanguageTable *languageTable;
 
 {Pools}  ||| h id=pools
 
-I hooked {??CreatePoolReally} and collected some output:                        ||| code
-{createpoollog.txt}. This will probably help a lot when                         ||| a href=createpoollog.txt
-trying to figure out other things. Note that the first time the
-{AUD: NFS3DMixCtl Pool} is made, it has an element amount of zero. The dump     ||| code
-is from just starting the game and starting a circuit race.
+I hooked {440B40} and collected some output: {createpoollog.txt}                                ||| funcref,a href=createpoollog.txt
+This will probably help a lot when trying to figure out other things.
+Note that the first time the {AUD: NFS3DMixCtl Pool} is made, it has an element amount of zero. ||| code
+The dump is from just starting the game and starting a circuit race.
 
 .push pre
 struct PoolHeader {
@@ -615,20 +641,21 @@ struct bFileSystemPoolEntry {
 EXPECT_SIZE(struct bFileSystemPoolEntry, 0xF0);
 .pop pre
 
-.push ul
-- {0x440B40 ??CreatePoolReally(int maybeElementSize, int maybeElementAmount,                    ||| code
-  char *name, int unknown)} TODO
-- {0x440DF0 ??CreatePool(int maybeElementSize, int maybeElementAmount,                          ||| code
-  char *name, int unknown)} TODO, does something after calling
-  {??CreatePoolReally}                                                                          ||| code
-- {0x440D40 int __thiscall PoolGetNextFreeItem_(void *this)} TODO                               ||| code
-- {0x440E50 int PoolGetNextFreeItem?stdcallwrapper(void *pool)} same as                         ||| code
-  the one above, but wrapped in an stdcall
-- {0x440BB0 int __thiscall PoolExtend(struct Pool *this,                                        ||| code
-  int maybeElementAmount)} TODO, basically allocates another pool (with bigger
-  size? TODO) and link it to this
-- {0x865104 p_bFileSystemPool}                                                                  ||| code
-.pop ul
+.push symbols
+- {440B40 ??CreatePoolReally(int maybeElementSize, int maybeElementAmount,                      ||| func
+  char *name, int unknown)}
+  TODO
+- {440DF0 ??CreatePool(int maybeElementSize, int maybeElementAmount,                            ||| func
+  char *name, int unknown)}
+  TODO, does something after calling {440B40}                                                   ||| funcref
+- {440D40 int __thiscall PoolGetNextFreeItem_(void *this)}                                      ||| func
+  TODO
+- {440E50 int PoolGetNextFreeItem?stdcallwrapper(void *pool)}                                   ||| func
+  Same as the one above, but wrapped in an stdcall.
+- {440BB0 int __thiscall PoolExtend(struct Pool *this, int maybeElementAmount)}                 ||| func
+  TODO, basically allocates another pool (with bigger size? TODO) and link it to this
+- {865104 p_bFileSystemPool}                                                                    ||| field
+.pop symbols
 
 .pop section
 .push section
@@ -746,27 +773,12 @@ void speedyboot()
 .pop section
 .push section
 
-{Display settings}  ||| h id=displaysettings
-
-TODO. I was writing this when I got distracted by the language stuff.
-
-Where are these used:
-
-.push ul
-- {0x5BE190 StoreOptLightGlowSetToZero} 1 XREF                                          ||| code
-- {0x5BE1B0 RestoreOptLightGlow}: 1 XREF                                                ||| code
-- {0x5BE1C0 GetWorldDetailClampBetween0And2}: 1 XREF                                    ||| code
-.pop ul
-
-.pop section
-.push section
-
 {Console leftovers}  ||| h id=consoleleftover
 
 {Note: console as in somewhere you type in, not a videogame console}            ||| em
 
 In the hooks project, I "enabled" this console in the functions {initConsolePOC}                ||| code
-in the file {nfsu2-re-hooks/faux-enable-console.c}.                                             ||| code
+in the file {nfsu2-re-hooks/faux-enable-console.c}.                                             ||| hookfileref
 As it doesn't seem to be used anywhere, the only effect you can see is that whatever you
 type is written into the {console_real_text} buffer (use CheatEngine or something               ||| code
 you like to inspect it).
@@ -777,7 +789,7 @@ All names below were chosen by me.
 
 {ConsoleConsumeKey - 0x5C8320} ||| h id=console_consume_key
 
-When looking at the {MainWndProc} (which is not to hard too find because it's           ||| code
+When looking at the {5CCD60} (which is not to hard too find because it's                ||| funcref
 passed in a struct to {RegisterClassExA}), I saw a call to a function that              ||| code
 is called on every {WM_CHAR} event. The function does nothing when the value            ||| code
 in {0x8709BC} is zero, and there are no write references to it, so it seems             ||| code
@@ -862,7 +874,7 @@ int ConsoleIsCharOneOfTheseHardcodedValues(unsigned char value)
 
 {ConsoleMoveCaret - 0x5BF3A0} ||| h id=console_move_caret
 
-This function is also called from {MainWndProc}, this time when a                       ||| code
+This function is also called from {5CCD60}, this time when a                            ||| funcref
 {WM_KEYDOWN} message is received. One parameter is passed based on the keycode          ||| code
 of the event:
 
@@ -881,8 +893,8 @@ This is the only other function that checks if {consoleEnabledFlag} is non-zero.
 
 {Hash functions}  ||| h id=hashfuncs
 
-			While scrolling and looking at references to some strings, I found some parts that look like
-			following excerpt:
+While scrolling and looking at references to some strings, I found some parts that look like
+following excerpt:
 
 .push ida
 {.text:005121AE}     push    offset {aGenericdialo_2} {; "GenericDialog_Animate_SMALL.fng"}     ||| text,ident,comment
@@ -917,7 +929,7 @@ This is the only other function that checks if {consoleEnabledFlag} is non-zero.
 {.text:00512212}     jz      short loc_512218                                                   ||| text
 .pop ida
 
-The proc at {0x505450} doesn't look very complicated; it has one argument and                   ||| code
+The proc {505450} doesn't look very complicated; it has one argument and                        ||| funcref
 doesn't perform any calls. It dereferences the given argument and increment its position,
 until a zero has been found. While it's doing that, {eax} is modified based on the read value.  ||| code
 So I assumed it is some hashing function and hooked it to see what kind of things are passed
@@ -956,13 +968,13 @@ As it turns out, it gets called many, many times.
 
 The excerpt above is probably from one cycle in the update loop, and is repeated a lot.
 
-Some time later I found a very similar looking proc at {0x43DB50}, so I copied                  ||| code
+Some time later I found a very similar looking proc: {43DB50}, so I copied                      ||| funcref
 the previous hook for this function. This one gets called many times seemingly at startup
 and when car parts or maps get loaded.
 
 When writing this I took a better look at the procedures and saw that the only difference
 really is that the first one is case insensitive while the second one is case sensitive.
-In the {0x505450} one, it checks for every character if it is in the range                      ||| code
+In the {505450} one, it checks for every character if it is in the range                        ||| funcref
 {'a'-'z'} and subtracts {0x20} if so, making the character uppercase                            ||| code,code
 before updating the hash.
 
@@ -976,6 +988,13 @@ as {hash\tinput\tresult\tproc\n}. This file is updated at random times. 8 minute
 of playing gives about a 277MB file, all output was piped to {sort | uniq}.                     ||| code
 
 How I collected these can be seen in the {nfsu2-re-hooks/hook-*-hash-*.c} files.                ||| code
+
+.push symbols
+- {43DB50 int SomeHashCS43DB50(char *str)}                                                      ||| func
+  Case sensitive hash function.
+- {505450 int SomeHashCI505450(char *str)}                                                      ||| func
+  Case insensitive hash function.
+.pop symbols
 
 .push section
 
@@ -1040,7 +1059,7 @@ The behavior isn't always the same, just give it a try and see for yourself.
 Replacing the taxi with the ambulance just lags out the game whenever a taxi comes in sight.
 
 Check the function {SomeHashCS43DB50Print} in the file                                          ||| code
-{nfsu2-re-hooks/hook-43DB50-hash-cs.c} to see how I did this,                                   ||| code
+{nfsu2-re-hooks/hook-43DB50-hash-cs.c} to see how I did this,                                   ||| hookfileref
 the code to replace cars is in comments.
 
 .pop section
@@ -1071,7 +1090,7 @@ followed by a call to a specific proc that looks like this:
 
 It appears as if this used to be some kind of debug printf function, so I named it
 {SomeDebugPrint}. I hooked the function and made it output to a log file,                       ||| code
-see {nfsu2-re-hooks/replace-50D510-DebugPrint.c}.                                               ||| code
+see {nfsu2-re-hooks/replace-50D510-DebugPrint.c}.                                               ||| hookfileref
 
 It also seems to pass data that is not a pointer to a string. I'm guessing since the
 implementation of this function was removed (and now just returns zero), and there
@@ -1131,11 +1150,11 @@ Most things (especially when mouse is involved) seem to be positioned
 {([-320,+320],[-240,+240])}.                                                                    ||| code
 
 .push ul
-- {50B460 int RenderCursor(int x, int y)}                                                       ||| code
-- {50CD00 int IsPointInRect(float x, float y, struct \{ float x; float y\} *pos,                ||| code
+- {50B460 int RenderCursor(int x, int y)}                                                       ||| func
+- {50CD00 int IsPointInRect(float x, float y, struct \{ float x; float y\} *pos,                ||| func
   struct \{ float width; float height; \} *size)}
   Only seen this being called when there's a list on screen so far.
-- {52D020 int IsPointIn??SomethingUI(float x, float y, void *somethingui)}                      ||| code
+- {52D020 int IsPointIn??SomethingUI(float x, float y, void *somethingui)}                      ||| func
   something ui is something ui. Calculating the area goes through lots of functions, TODO
 .pop ul
 
@@ -1154,39 +1173,42 @@ Someone left a trace here:
 {.text:00554206}                 call    {SomeDebugPrint}                                       ||| text,ident
 .pop ida
 
-One of the first thing {ShowDialog} does is calling {0x526C40},                                 ||| code,code
+One of the first thing {558020} does is calling {526C40},                                       ||| funcref,funcref
 which looks like initializes the dialog maybe? One argument is passed, seemingly the
-dialog name. But then it checks an int at the passed dialog name {+324h}. Conclusion:           ||| code
+dialog name. But then it checks something at the passed dialog name {+324h}. Conclusion:        ||| code
 it's passing a struct with dialog info, of which the first member is the name.
 
 .push section
 
 {GetFNGForDialog}  ||| h id=ui_dialog_getfngfordialog
 
-This function is only used once, by the {ShowDialog} function. It checks                        ||| code
+This function is only used once, by the {558020} function. It checks                            ||| funcref
 the value at {+324h}, which seems to be a pointer to a string,                                  ||| code
 looks like maybe a type of dialog?
 It's checked if that value is either {NULL} or empty string or equal to                         ||| code
 {animating} or {3button}. I decided to reimplement that function.                               ||| code,code
 Fun fact: while doing this I managed to write an infinite loop which caused a BSOD.
 
-At the end I decided upon the name {GetFNGForDialog}. It returns a pointer                      ||| code
-to a string that says what FNG to display for the dialog that was passed. Some values
-are:
+At the end I decided upon the name {526C40}. It returns a pointer                               ||| funcref
+to a string that says what FNG to display for the dialog that was passed.
+
+The dialog info may already have the FNG set, this function will return that unless
+it's not set or it's not either {animating} or {3button}.                                       ||| code,code
 
 .push ul
-- {HelpDialog_SMALL.fng} when help dialog flag? and text has less than 5 linebreaks             ||| code
-- {HelpDialog_MED.fng} when help dialog flag? and not small                                     ||| code
+- {HelpDialog_SMALL.fng} when {{structDialogInfo+32D}} and text has less than 5 linebreaks      ||| code,code,refto
+- {HelpDialog_MED.fng} when {{structDialogInfo+32D}} and text has more than 4 linebreaks        ||| code,code,refto
 - {GenericDialog_ThreeButton.fng} when {dialog-&gt;pTypeName} is {3button}                      ||| code,code,code
-- {GenericDialog_SMALL.fng}                                                                     ||| code
-- {GenericDialog_Animate_SMALL.fng}                                                             ||| code
-- {GenericDialog_MED.fng}                                                                       ||| code
-- {GenericDialog_Animate_MED.fng}                                                               ||| code
-- {GenericDialog_LARGE.fng}                                                                     ||| code
-- {GenericDialog_Animate_LARGE.fng}                                                             ||| code
+- {GenericDialog_SMALL.fng} when text width is {< 2561.0f}                                      ||| code,code
+- {GenericDialog_Animate_SMALL.fng} same as above, but when type is {animating}                 ||| code,code
+- {GenericDialog_MED.fng} when text width is {< 5122.0f}                                        ||| code,code
+- {GenericDialog_Animate_MED.fng} same as above, but when type is {animating}                   ||| code,code
+- {GenericDialog_LARGE.fng} if the other measurements didn't pass                               ||| code
+- {GenericDialog_Animate_LARGE.fng} same as above, but when type is {animating}                 ||| code,code
 .pop ul
 
-See the {do526C40getFNGforDialog} function for the complete reimplementation.                   ||| code
+See the {nfsu2-re-hooks/replace-526C40-GetFNGForDialog.c} function                              ||| hookfileref
+for the complete reimplementation.
 
 Here's me messing with the returned value:
 
@@ -1231,10 +1253,10 @@ executable itself so it's probably somewhere deep in a bin file.
 	int unused318;
 	int unused31C;
 	char *pParentFNG;
-	char *pMyFNG;
+	char *{pMyFNG};                                                                         ||| mkref name=structDialogInfo+324
 	int unused_328;
 	char unused_32C;
-	char isHelpDialog;
+	char {isHelpDialog};                                                                    ||| mkref name=structDialogInfo+32D
 	char unused_32E;
 	char something32F; /*set to 0 in 55806D*/
 	int something330; /*set to 0 in 558074*/
@@ -1246,24 +1268,27 @@ ASSERT_OFFSET({struct DialogInfo}, isHelpDialog, 0x32D);                        
 .pop pre
 
 .push symbols
+- {4FF250 void __thiscall Dialog__ctor({struct DialogInfo} *this)}                              ||| func,refto
+  Initializes memory that was allocated to be a dialog.
+- {526C40 int GetFNGforDialog({struct DialogInfo} *dialog)}                                     ||| func,refto
+  Returns a pointer to a string that says what FNG to display for the dialog that was passed.
+  See {ui_dialog_getfngfordialog}                                                               ||| href
+- {540A60 void DismissDialog(int dialogIdToDismiss)}                                            ||| func
 - {558020 int ShowDialog({struct DialogInfo} *info)}                                            ||| func,refto
   Returns the new dialog id for it (value in {838974}) or zero when                             ||| fieldref
   it didn't show because of some override.
-- {4FF250 void __thiscall Dialog__ctor({struct DialogInfo} *this)}                              ||| func,refto
-  Initializes memory that was allocated to be a dialog.
-- {540A60 void DismissDialog(int dialogIdToDismiss)}                                            ||| func
-- {838960 char* shownDialogParent}                                                              ||| func
-  Example value: {UI_PerformanceTuning_Setting.fng}.                                            ||| code
-- {838964 char* shownDialogType}                                                                ||| func
-  Example value: {GenericDialog_MED.fng}.                                                       ||| code
-- {838970 int dialogDismissedByOtherDialogMsg}                                                 ||| func
-  Unsure yet.
-- {838974 int shownDialogId}                                                                    ||| field
-  Zero when none.
 - {7F6DE0 int nextDialogId}                                                                     ||| field
   When {558020} is called, value is put into {838974} and incremented.                          ||| funcref,fieldref
 - {838640 {struct DialogInfo} shownDialogData}                                                  ||| field,refto
   Dialog info passed to {558020} is copied into here, TODO xrefs                                ||| funcref
+- {838960 char* shownDialogParent}                                                              ||| field
+  Example value: {UI_PerformanceTuning_Setting.fng}.                                            ||| code
+- {838964 char* shownDialogType}                                                                ||| field
+  Example value: {GenericDialog_MED.fng}.                                                       ||| code
+- {838970 int dialogDismissedByOtherDialogMsg}                                                  ||| field
+  Unsure yet.
+- {838974 int shownDialogId}                                                                    ||| field
+  Zero when none.
 .pop symbols
 
 .pop section
@@ -1274,20 +1299,7 @@ ASSERT_OFFSET({struct DialogInfo}, isHelpDialog, 0x32D);                        
 Thanks to {558020} code, following things were discovered:                                      ||| funcref
 
 .push pre
-typedef int (fnginithandler)(struct FNGShowData *msg);
-
-struct FNGData {
-	char *name;
-	fnginithandler *initializeHandler;
-	int field_8;
-	int field_C;
-	int field_10;
-	int field_14;
-	int field_18;
-};
-EXPECT_SIZE(struct FNGData, 0x1C);
-
-struct FNGShowData {
+{struct FNGShowData} \{                                                                         ||| mkref
 	char *fngname;
 	int arg1;
 	int fngdata_field8;
@@ -1307,8 +1319,20 @@ struct FNGInfo {
 	int controlMask;
 };
 
-/*0x7F7DC8*/
-struct FNGData fngdata[] = {
+typedef int ({fnginithandler})({struct FNGShowData} *msg);                                      ||| mkref,refto
+
+{struct FNGData} \{                                                                             ||| mkref
+	char *name;
+	{fnginithandler} *initializeHandler;                                                    ||| refto
+	int field_8;
+	int field_C;
+	int field_10;
+	int field_14;
+	int field_18;
+};
+EXPECT_SIZE(struct FNGData, 0x1C);
+
+struct FNGData {7F7DC8}[] = \{                                                                  ||| fieldplain
 	{ "UI_Main.fng", 0x4ED6B0, 0x0D6DFCF20, 0x5, 0x0, 0x100, 0x0 }, // 0
 	{ "UI_OptionsMain.fng", 0x4EFDE0, 0x9323DF57, 0x405, 0x0, 0x80, 0x0 }, // 1
 	{ "UI_Options.fng", 0x4E3710, 0x2F735833, 0x401, 0x0, 0x1CA, 0x0 }, // 2
@@ -1493,25 +1517,26 @@ struct FNGData fngdata[] = {
 .pop pre
 
 .push ul
-- {0x50B8E0 int SetInitializeHandlerForFNG(char *fng, fnginithandler *func)}                    ||| code
-  goes through all the fng data above and set the handler for {stricmp}                         ||| code
-  matching fng names
-- {0x50B840 struct FNGData* GetFNGDataForHash(int hash)} goes through                           ||| code
-  all the fng data above and returns the one with matching hash
-- {0x55DC20 __thiscall void SendSomethingToFNG?(void *this, char *fng, int data)}               ||| code
-  called when menus change
-- {0x50B790 ShowFNG(int fnghash, int arg1, int arg2)} see {replace-50B790-ShowFNG.c}            ||| code,code
-for a reimplementation
-- {0x55DBD0 void UIHandleKey(int keyCode)} called from {WM_CHAR}                                ||| code,code
-  messages, only used to type/press enter in a textbox and Q to quit.
-  Navigating menus seems unaffected
-- {0x558B70 void __thiscall UIConsumeKey(void *this, int keyCode)}                              ||| code
+- {50B840 {struct FNGData}* GetFNGDataForHash(int hash)}                                        ||| func,refto
+  Goes through all the fng data above and returns the one with matching hash.
+- {50B8E0 int SetInitializeHandlerForFNG(char *fng, {fnginithandler} *func)}                    ||| func,refto
+  Goes through all the fng data above and set the handler for {43DCC0} matching fng names.      ||| funcref
+- {50B790 ShowFNG(int fnghash, int arg1, int arg2)}                                             ||| func
+  See {nfsu2-re-hooks/replace-50B790-ShowFNG.c} for a reimplementation.                         ||| hookfileref
+- {558B70 void __thiscall UIConsumeKey(void *this, int keyCode)}                                ||| func
   probably used for Q, but what else?
-- {0x83A9C0 isTextboxFocused}                                                                   ||| code
-- {0x83A9C4 focusedTextbox} ptr to some struct                                                  ||| code
+- {55DBD0 void UIHandleKey(int keyCode)}                                                        ||| func
+  Called from {WM_CHAR} messages in {5CCD60},                                                   ||| code,funcref
+  only used to type/press enter in a textbox and Q to quit.
+  Navigating menus seems unaffected
+- {55DC20 __thiscall void SendSomethingToFNG?(void *this, char *fng, int data)}                 ||| func
+  Called when menus change.
+- {7F7DC8 {struct FNGData} fngdata[180]}                                                        ||| field,refto
+- {83A9C0 int isTextboxFocused}                                                                 ||| field
+- {83A9C4 void *focusedTextbox}                                                                 ||| field
 .pop ul
 
-Short excerpt from hooking {ShowFNG}. {arg2} for the dialogs                                    ||| code,code
+Short excerpt from hooking {50B790}. {arg2} for the dialogs                                     ||| funcref,code
 are a pointer to the text string.
 
 .push pre
@@ -1551,6 +1576,14 @@ ShowFNG(AA469286 ("UI_InGameDialog.fng"), 037C1120, 00838640) = 037C2AB0
 .pop pre
 
 .pop section
+
+Stuff
+
+.push symbols
+- {5663B0 void DoUI()}                                                                          ||| func
+  TODO document this and go in the last unresolved func.
+.pop symbols
+
 .pop section
 .push section
 
@@ -1561,7 +1594,7 @@ as {([-320,+320],[-240,+240])}.                                                 
 
 .push pre
 {struct MouseData} \{                                                                           ||| mkref
-	void /*DInputDevice8*/ *dinputdevice;
+	void /*DInputDevice8*/ *{dinputdevice};                                                 ||| mkref name=structMouseData+0
 	int cursorX; // on 640x480 canvas
 	int cursorY; // on 640x480 canvas
 	int previousCursorX; // on 640x480 canvas
@@ -1585,29 +1618,16 @@ struct MouseData *_mouseData = (struct MouseData*) 0x8763D0;
 .pop pre
 
 .push ul
-- {5BF6E0 int __thiscall CreateDinputDevice({struct MouseData} *this)}                          ||| func,refto
-  Creates and sets {dinputdevice}                                                               ||| code
-- {5C8600 int __thiscall MouseData::ctor({struct MouseData} *this)}                             ||| func,refto
-  Called once, from {init_function_77E580}.                                                     ||| code
-- {5BF860 void __thiscall UpdateMouseState({struct MouseData} *this)}                           ||| func,refto
-  Calls {UpdateCursorPosition} and then updates button states.                                  ||| code
-- {5BF750 int __thiscall UpdateCursorPosition({struct MouseData} *this)}                        ||| func,refto
-- {5BF940 int __thiscall HaveCursorActivity({struct MouseData} *this)}                          ||| func,refto
-  called once, from {5663F9 DoUI}. returns 1 if position deltas or scrollwheel or               ||| code
-  any of the JustPressed/JustReleased fields are not zero. Always returning 0 here has the
-  effect that ui hover does not work, left click acts as right click (go back) except when
-  clicking on the active ui element (like main menu bar). Dialog box buttons still work
-  somehow. The car showroom can still be rotated with mmb. Mouse still moves.
+- {50CD70 void GetMousePositionFromMiddle(float *cursorX, float *cursorY)}                      ||| func
+.push pre
+*cursorX = _mouseData.cursorX - canvasWidth/2;
+*cursorY = _mouseData.cursorY - canvasHeight/2;
+.pop pre
 - {50C860 void StoreMousePosButtonsIntoArg(void *arg)}                                          ||| func
 .push pre
 *((short*) arg_0 + 0) = _mouseData.cursorX - canvasWidth / 2;
 *((short*) arg_0 + 1) = _mouseData.cursorY - canvasHeight / 2;
 *((short*) arg_0 + 2) = _mouseData.button0State &lt;&lt; 1 | _mouseData.button1State; (or swapped)
-.pop pre
-- {50CD70 void GetMousePositionFromMiddle(float *cursorX, float *cursorY)}                      ||| func
-.push pre
-*cursorX = _mouseData.cursorX - canvasWidth/2;
-*cursorY = _mouseData.cursorY - canvasHeight/2;
 .pop pre
 - {50CDA0 void GetMouseWheel(float *mouseWheelData)}                                            ||| func
 .push pre
@@ -1617,9 +1637,22 @@ struct MouseData *_mouseData = (struct MouseData*) 0x8763D0;
   struct \{ float width; float height; \} *size)}
   Gets called in one location, but still haven't actually seen it being called. TODO
 - {52D090 DidCursorPressIn??SomethingUI(void *somethingui)}                                     ||| func
-  Delegates to {52D020 int IsPointIn??SomethingUI}                                              ||| code
+  Delegates to {52D020}                                                                         ||| funcref
 - {52D100 DidCursorPressIn??SomethingUI_2(void *something2)}                                    ||| func
   same as above, probably for some other type UI element
+- {5BF6E0 int __thiscall CreateDinputDevice({struct MouseData} *this)}                          ||| func,refto
+  Creates and sets {{8763D0}.{structMouseData+0}}                                               ||| code,fieldref,refto
+- {5BF750 int __thiscall UpdateCursorPosition({struct MouseData} *this)}                        ||| func,refto
+- {5BF860 void __thiscall UpdateMouseState({struct MouseData} *this)}                           ||| func,refto
+  Calls {5BF750} and then updates button states.                                                ||| funcref
+- {5BF940 int __thiscall HaveCursorActivity({struct MouseData} *this)}                          ||| func,refto
+  called once, from {5663B0}. returns 1 if position deltas or scrollwheel or                    ||| funcref
+  any of the JustPressed/JustReleased fields are not zero. Always returning 0 here has the
+  effect that ui hover does not work, left click acts as right click (go back) except when
+  clicking on the active ui element (like main menu bar). Dialog box buttons still work
+  somehow. The car showroom can still be rotated with mmb. Mouse still moves.
+- {5C8600 int __thiscall MouseData::ctor({struct MouseData} *this)}                             ||| func,refto
+  Called once, from {77E580}.                                                                   ||| funcref
 - {8763D0 struct MouseData _mouseData}                                                          ||| field
 .pop ul
 
@@ -1631,7 +1664,7 @@ struct MouseData *_mouseData = (struct MouseData*) 0x8763D0;
 .push pre
 {struct CheatScreenData} \{                                                                     ||| mkref
 	void **ppFunc;
-	char doCheatCheck; // only 1 when in the 'press enter key' screen
+	char {doCheatCheck}; // only 1 when in the 'press enter key' screen                     ||| mkref name=structCheatScreenData+4
 	char field5;
 	char field6;
 	char field7;
@@ -1653,9 +1686,9 @@ struct MouseData *_mouseData = (struct MouseData*) 0x8763D0;
 	char cheat[32];
 	int cheatType;
 	int cheatData; // hash when cheatType is sponsor car or vinyl
-	int field28;
+	int {field28};                                                                          ||| mkref name=structCheatData+28
 	int field2C;
-	char hasBeenTriggered;
+	char {hasBeenTriggered};                                                                ||| mkref name=structCheatData+30
 	char field31;
 	char cheatEnabled;
 	char field33;
@@ -1737,28 +1770,28 @@ this from looking up cheats in my childhood), but toggling sponsor car cheats wh
 ingame has immediate effect.
 
 .push symbols
-- {57B8B0 void __thiscall CheatCheck(void *this, int keyCode)}                                  ||| func
-  Called from {55DBD0} when {865930}{.doCheatCheck} is non-zero.                                ||| funcref,fieldref,code
-- {579CB0 void __thiscall CheatMatched(struct CheatScreenData *this, int cheat_index)}          ||| func
-  Called from {57B8B0} when a cheat matched.                                                    ||| funcref
-- {575770 void __thiscall InitCheats_(struct CheatScreenData *this)}                            ||| func
+- {575770 void __thiscall InitCheats_({struct CheatScreenData} *this)}                          ||| func,refto
   Initializes {865930} and {7FB960}.                                                            ||| fieldref,fieldref
-- {576050 void __thiscall UndoCheat__(struct CheatScreenData *this, int cheatdata_field28)}     ||| func
-  Weird one, is called on each cheat entry and all
-  cheats with a matching field28 has zero written to its {hasBeenTriggered} field.              ||| code
-- {5760A0 int __thiscall DoCareerCheat(struct CheatScreenData *this, int careerCheatIdx)}       ||| func
+- {576050 void __thiscall UndoCheat__({struct CheatScreenData} *this, int cheatdata_field28)}   ||| func,refto
+  Weird one, is called on each cheat entry and all cheats with a matching
+  {{structCheatData+28}} has zero written to its {{structCheatData+30}} field.                  ||| code,refto,code,refto
 - {576090 int GetExtraCheatedCareerMoney()}                                                     ||| func
   Basically {return {86512C} + {865130};}                                                       ||| code,fieldplain,fieldplain
-- {865930 {struct CheatScreenData} cheatScreenData}                                             ||| field,refto
+- {5760A0 int __thiscall DoCareerCheat({struct CheatScreenData} *this, int careerCheatIdx)}     ||| func,refto
+- {579CB0 void __thiscall CheatMatched({struct CheatScreenData} *this, int cheat_index)}        ||| func,refto
+  Called from {57B8B0} when a cheat matched.                                                    ||| funcref
+- {57B8B0 void __thiscall CheatCheck(void *this, int keyCode)}                                  ||| func
+  Called from {55DBD0} when {{865930}.{structCheatScreenData+4}} is non-zero.                   ||| funcref,code,fieldref,refto
 - {7FB960 {struct CheatData} cheatData[20]}                                                     ||| field,refto
-- {86512C cheatExtraCareerMoney200}                                                             ||| field
-  Set to 200 when the {regmybank} cheat was entered.                                            ||| em
-- {865130 cheatExtraCareerMoney1000}                                                            ||| field
-  Set to 1000 when the {ordermebaby} cheat was entered.                                         ||| em
 - {8383C8 cheatCareerNeverPossible}                                                             ||| field
   This gets only set to one when a career cheat with {7FB960} zero is entered,                  ||| fieldref
   but all career cheats have a value of 2-4.
   It has one XREF, surrounded by some language stuff? TODO
+- {86512C cheatExtraCareerMoney200}                                                             ||| field
+  Set to 200 when the {regmybank} cheat was entered.                                            ||| em
+- {865130 cheatExtraCareerMoney1000}                                                            ||| field
+  Set to 1000 when the {ordermebaby} cheat was entered.                                         ||| em
+- {865930 {struct CheatScreenData} cheatScreenData}                                             ||| field,refto
 .pop symbols
 
 .pop section
@@ -1799,9 +1832,9 @@ After hooking and printing addresses, some more obvious data could be seen:
 {Sound}  ||| h id=sound
 
 .push symbols
+- {458520 void __thiscall PlaySound_(void *this, void *sound)}                                  ||| func
 - {51DE60 int PlayUISoundEffect(void *unknownUnused, int soundID)}                              ||| func
   Discovered when looking at cheats. 8 is some choose sound, 9 too, .. TODO other IDs.
-- {458520 void __thiscall PlaySound_(void *this, void *sound)}                                  ||| func
 - {82B884 pSoundEffectSystem?}                                                                  ||| func
   pointer to what is used as {this} for calls to {458520}                                       ||| code, funcref
 .pop symbols
@@ -1838,12 +1871,12 @@ if (!{isProfileWithStartedCareerLoaded}) \{                                     
 .pop pre
 
 .push symbols
-- {532830 void MaybeStartCareer?()}                                                             ||| func
-  It's the only func that calls {576090}.                                                       ||| funcref
-- {500F90 int __thiscall CareerGetMoney(struct CareerData *this)}                               ||| func
+- {500F90 int __thiscall CareerGetMoney({struct CareerData} *this)}                             ||| func,refto
   TODO has one other XREF: where money is drawn?
 - {500F80 void __thiscall CareerGiveMoney({struct CareerData} *this, int amount)}               ||| func,refto
   Only used in the career money cheats.
+- {532830 void MaybeStartCareer?()}                                                             ||| func
+  It's the only func that calls {576090}.                                                       ||| funcref
 - {86347C int isProfileWithStartedCareerLoaded}                                                 ||| field
   Fun fact: when creating a new profile,
   this value is set to 0 when the textbox to enter a name appears.
@@ -1853,10 +1886,32 @@ if (!{isProfileWithStartedCareerLoaded}) \{                                     
 .pop symbols
 
 .pop section
+.push section
 
+{Other symbols}  ||| h id=other_symbols
 
+.push symbols
+- {43DBB0 int strlenWithNULLcheck(char *str)}                                                   ||| func
+- {43DBD0 int strcpy(char *dest, char *src)}                                                    ||| func
+- {43DC00 void strncpy(char *dst, char *src, int maxlen)}                                       ||| func
+- {43DC30 int strcmp(char *a, char *b)}                                                         ||| func
+- {43DCC0 int stricmp(char *a, char *b)}                                                        ||| func
+- {50D510 void sub_50D510(?)}                                                                   ||| func
+  A nop function.
+  It seems like many calls to different functions that got nopped all redirect here.
+  Some of the calls are used as a debug print, see {debugprint}.                                ||| href
+- {5CCD60 LPRESULT MainWndProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)}             ||| func
+- {75D45B sub_75D45B()}                                                                         ||| func
+  Invoked once at boot, does things (todo) and calls all functions in {7E8000}.                 ||| fieldref
+- {77E580 init_function_77E580()}                                                               ||| func
+  Calls {5C8600} to initialize mouse data.                                                      ||| funcref
+- {7E8000 void (*someInitFunctions)()[821]}                                                     ||| field
+  Array of functions that are called at boot, by {75D45B}.                                      ||| funcref
+  Some of them are constructors being called.
 
+.pop symbols
 
+.pop section
 .push plain
 </body>
 </html>

@@ -58,6 +58,7 @@ directive_funcfield(char **to, char *from, struct DIRECTIVE *dir)
 	char *target;
 	char *from_end;
 	int has_inline_address;
+	int is_func_ptr_type;
 
 	if (num_funcfields == MAX_FUNCFIELDS) {
 		printf("MAX_FUNCFIELDS reached\n");
@@ -104,19 +105,27 @@ directive_funcfield(char **to, char *from, struct DIRECTIVE *dir)
 	return LEAVE_CONTENT;
 have_address:
 	get_directive_text(dir, buf, 0);
+	is_func_ptr_type = 0;
 	target = funcfield_names[num_funcfields];
 	for (;;) {
 		c = buf[i];
 		*target = c;
 		if (c == '[') {
+			*target = 0;
 			break;
-		}
-		if (c == 0) {
+		} else if (c == 0) {
 			break;
-		}
-		if (c == '(') {
-			*(++target) = ')';
-			*(++target) = 0;
+		} else if (c == '(') {
+			if (target == funcfield_names[num_funcfields]) {
+				/*name is empty, so must be a function ptr type*/
+				is_func_ptr_type = 1;
+			} else {
+				*(++target) = ')';
+				*(++target) = 0;
+				break;
+			}
+		} else if (c == ')' && is_func_ptr_type) {
+			*target = 0;
 			break;
 		}
 		i++;
@@ -127,6 +136,7 @@ have_address:
 		}
 		if (c == ' ' || c == '*') {
 			target = funcfield_names[num_funcfields];
+			*target = 0;
 		} else {
 			target++;
 		}

@@ -769,6 +769,15 @@ void cb_handler_pre_start()
 }
 
 static
+void cb_handler_pre_text()
+{
+	if (!line_len) {
+		append("\n", 1);
+	} else {
+		cb_handler_normal_text();
+	}
+}
+static
 void cb_handler_pre_end()
 {
 	append("</pre>", 6);
@@ -849,7 +858,7 @@ struct HANDLER handler_section = {
 
 struct HANDLER handler_pre = {
 	cb_handler_pre_start,
-	cb_handler_normal_text,
+	cb_handler_pre_text,
 	cb_handler_pre_end,
 	cb_handler_normal_directive_start,
 	cb_handler_normal_directive_end,
@@ -976,6 +985,7 @@ void mmparse_init()
 #include "mmparse_handler_symbols.c"
 #include "mmparse_directive_funcfield.c"
 #include "mmparse_directive_anchors.c"
+#include "mmparse_directive_hookfileref.c"
 
 char infile[500], outfile[500];
 

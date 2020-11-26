@@ -1,6 +1,8 @@
 #define MAX_ANCHORS 200
 #define MAX_ANCHOR_NAME 100
+#define MAX_ANCHOR_CONTENT 100
 char anchor_names[MAX_ANCHORS][MAX_ANCHOR_NAME];
+char anchor_content[MAX_ANCHORS][MAX_ANCHOR_CONTENT];
 int num_anchors;
 
 static
@@ -26,14 +28,14 @@ void cb_placeholder_refanchor(FILE *out, struct PLACEHOLDER *placeholder)
 
 	for (i = 0; i < num_anchors; i++) {
 		if (!strcmp(anchor_names[i], name)) {
-			len = sprintf(buf, "<a href='#%s'>", name);
+			len = sprintf(buf, "<a href='#%s'>%s</a>", name, anchor_content[i]);
 			fwrite(buf, len, 1, out);
 			return;
 		}
 	}
 
 	printf("line %d: unresolved anchor to %s\n", placeholder->line_number, name);
-	len = sprintf(buf, "<a>");
+	len = sprintf(buf, "&lt;unresolved anchor&gt;");
 	fwrite(buf, len, 1, out);
 }
 
@@ -41,6 +43,7 @@ static
 enum DIR_CONTENT_ACTION directive_mkref(char **to, char *from, struct DIRECTIVE *dir)
 {
 	char name[MAX_ANCHOR_NAME];
+	int i;
 
 	strcpy(next_close_tag(), "");
 
@@ -49,7 +52,15 @@ enum DIR_CONTENT_ACTION directive_mkref(char **to, char *from, struct DIRECTIVE 
 		return LEAVE_CONTENT;
 	}
 
-	get_directive_text(dir, name, 0);
+	get_directive_text(dir, anchor_content[num_anchors], 0);
+	for (i = 0; i < dir->num_args; i++) {
+		if (!strcmp(dir->argn[i], "name")) {
+			strcpy(name, dir->argv[i]);
+			goto have_name;
+		}
+	}
+	strcpy(name, anchor_content[num_anchors]);
+have_name:
 	anchor_sanitize(name);
 	strcpy(anchor_names[num_anchors++], name);
 	*to += sprintf(*to, "<span id='%s'></span>", name);
@@ -64,8 +75,7 @@ enum DIR_CONTENT_ACTION directive_refto(char **to, char *from, struct DIRECTIVE 
 	name = next_placeholder(cb_placeholder_refanchor);
 	get_directive_text(dir, name, 0);
 	anchor_sanitize(name);
-	strcpy(next_close_tag(), "</a>");
-	return LEAVE_CONTENT;
+	return DELETE_CONTENT;
 }
 
 static
