@@ -15,6 +15,7 @@
 <style>
 body {
 	font-family: Arial,Tahoma,sans-serif;
+	background: #888;
 }
 table {
         border-collapse: collapse;
@@ -33,7 +34,7 @@ div, h1 {
 	max-width: 50em;
 }
 h1 {
-	background:#ABABAB;
+	background:#C7C7C7;
 }
 h1,h2,h3,h4,h5,h6 {
         margin-top: 0.2em;
@@ -43,6 +44,7 @@ h2 a,h3 a,h4 a,h5 a,h6 a{
 }
 body > div {
 	margin-bottom: 1em;
+	background: #fff;
 }
 .center {
 	text-align: center;
@@ -58,9 +60,9 @@ pre {
 	border:2px solid #CDCDCD;
 	padding: 0.5em;
 	white-space: pre-wrap;
+	background: #f7f7f7;
 }
 pre.ida {
-	background:#fff;
 	color:#000080;
 	font-weight: bold;
 }
