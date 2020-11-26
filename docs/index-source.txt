@@ -172,10 +172,48 @@ Display settings get saved in the windows registry. See {registry}.             
 TODO. I was writing this when I got distracted by the language stuff.
 
 .push symbols
-- {5BE190 StoreOptLightGlowSetToZero}                                                           ||| func
-- {5BE1B0 RestoreOptLightGlow}                                                                  ||| func
-- {5BE1C0 GetWorldDetailClampBetween0And2}                                                      ||| func
+- {5BE190 void StoreOptLightGlowSetToZero()}                                                    ||| func
+.push pre
+{8709D4} = {870CE4};                                                                            ||| fieldplain,fieldplain
+{870CE4} = 0;                                                                                   ||| fieldplain
+.pop pre
+  TODO why
+- {5BE1B0 void RestoreOptLightGlow()}                                                           ||| func
+.push pre
+{870CE4} = {8709D4};                                                                            ||| fieldplain,fieldplain
+.pop pre
+  TODO why
+- {5BE1C0 int GetWorldDetailClampBetween0And2()}                                                ||| func
+.push pre
+return clamp({870CF4}, 0, 2);                                                                   ||| fieldplain
+.pop pre
+- {5BE560 int GetRealFilteringLevelForCurrentSetting()}                                         ||| func
+  Returns {{870D18}+1} ({0-2 -> 1-3}), but maxed to {2} if the device doesn't have              ||| code,fieldplain,code,code
+  {D3DDEVCAPS_RTPATCHES} support.                                                               ||| code
+- {5BE200 void DetermineMaxDisplaySettingValuesForDevice()}                                     ||| func
+  Sets maximum values of various options based on the adapter info in {86C120}.                 ||| fieldref
+  See all {_optMax*} fields.                                                                    ||| code
+  Also seems to do stuff with shaders maybe? TODO
+  Called twice. TODO: where and why
+- {5BE5A0 void DetermineSupportedResolutions()}                                                 ||| func
+  Based on the device, for every resolution index,
+  put {1} in {86E880} at that index if available.                                               ||| code,fieldref
+- {5BE690 void EnsureDisplayOptionsDontExceedMaxSettings()}                                     ||| func
+  For each option that has a maximum value field,
+  set it to the maximum value if it was exceeded.
+- {5BE870 void SetPresetDisplayLevelFromLevelOfDetail()}                                        ||| func
+- {5BE9F0 void SetPresetDisplayLevelFromLevelOfDetaulAndLimit()}                                ||| func
+  Calls {5BE870},                                                                               ||| funcref
+  sets {870D08} to 0 for some specific windows version or if the device is from vendor          ||| fieldref
+  {Advanced Micro Devices, Inc}, then calls {5BE690}                                            ||| em,funcref
+- {800538 int _resolutionWidths[6]}                                                             ||| field
+  Values {640, 800, 1024, 1280, 1280, 1600}                                                     ||| code
+- {800550 int _resolutionHeights[6]}                                                            ||| field
+  Values {480, 600, 768, 960, 1024, 1200}                                                       ||| code
+- {86E880 int isSupportedResolutionIdx[6]}                                                      ||| field
 - {87099C int _optLevelOfDetail}                                                                ||| field
+- {8709D4 tempStoredOptLightGlow}                                                               ||| field
+  Used as temporary store for {5BE190} and {5BE1B0}                                             ||| funcref,funcref
 - {870CB8 int _optCarReflectionUpdateRate}                                                      ||| field
 - {870CBC int _optCarReflectionDetail}                                                          ||| field
 - {870CC0 int _optCarShadowNeon}                                                                ||| field
@@ -204,7 +242,31 @@ TODO. I was writing this when I got distracted by the language stuff.
 - {870D10 int _optRainSplatter}                                                                 ||| field
 - {870D18 int _optTextureFiltering}                                                             ||| field
 - {870D1C int _optRacingResolutionIdx}                                                          ||| field
+  To be used for arrays {800538},{800550} and {86E880}.                                         ||| fieldref,fieldref,fieldref
 - {870D24 int _optVsync}                                                                        ||| field
+- {8764D0 int _optMaxSettingCarReflectionUpdateRate}                                            ||| field
+- {8764D4 int _optMaxSettingCarReflectionDetail}                                                ||| field
+- {8764D8 int _optMaxSettingCarShadowNeon}                                                      ||| field
+- {8764DC int _optMaxSettingCarHeadlight}                                                       ||| field
+- {8764E0 int _optMaxSettingCarLightingEnable}                                                  ||| field
+- {8764E4 int _optMaxSettingCarDamageEnable}                                                    ||| field
+- {8764E8 int _optMaxSettingCrowds}                                                             ||| field
+- {8764EC int _optMaxSettingWorldReflectionDetail}                                              ||| field
+- {8764F0 int _optMaxSettingFog}                                                                ||| field
+- {8764F4 int _optMaxSettingMotionBlur}                                                         ||| field
+- {8764F8 int _optMaxSettingLightTrails}                                                        ||| field
+- {8764FC int _optMaxSettingLightGlow}                                                          ||| field
+- {876500 int _optMaxSettingAnimatedTextureEnable}                                              ||| field
+- {876504 int _optMaxSettingParticleSystem}                                                     ||| field
+- {876508 int _optMaxSettingDepthOfField}                                                       ||| field
+- {87650C int _optMaxSettingWorldDetail}                                                        ||| field
+- {876510 int _optMaxSettingCarGeometryDetail}                                                  ||| field
+- {876514 int _optMaxSettingOverBright}                                                         ||| field
+- {876518 int _optMaxSettingEnchancedContrast}                                                  ||| field
+- {876520 int _optMaxSettingFSAALevel}                                                          ||| field
+- {876524 int _optMaxSettingHorizonFog}                                                         ||| field
+- {876528 int _optMaxSettingRainSplatter}                                                       ||| field
+- {876530 int _optMaxSettingTextureFiltering}                                                   ||| field
 .pop symbols
 
 .pop section
@@ -1890,6 +1952,19 @@ if (!{isProfileWithStartedCareerLoaded}) \{                                     
 .pop section
 .push section
 
+{D3D9 Stuff}  ||| h id=d3d9stuff
+
+.push symbols
+- {86C120 struct D3DADAPTER_IDENTIFIER9 _d3d9AdapterIdentifier}                                 ||| field
+- {870970 IDirect3D9 *_IDirect3D9ptr}                                                           ||| field
+- {8709AC int _displayAdapter}                                                                  ||| field
+  {Ordinal number that denotes the display adapter.                                             ||| em
+  {D3DADAPTER_DEFAULT(0)} is always the primary display adapter.}                               ||| code
+.pop symbols
+
+.pop section
+.push section
+
 {Other symbols}  ||| h id=other_symbols
 
 .push symbols
@@ -1910,7 +1985,7 @@ if (!{isProfileWithStartedCareerLoaded}) \{                                     
 - {7E8000 void (*someInitFunctions)()[821]}                                                     ||| field
   Array of functions that are called at boot, by {75D45B}.                                      ||| funcref
   Some of them are constructors being called.
-
+- {864F4C int _isGameClosing}                                                                   ||| field
 .pop symbols
 
 .pop section

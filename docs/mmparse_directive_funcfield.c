@@ -104,9 +104,17 @@ directive_funcfield(char **to, char *from, struct DIRECTIVE *dir)
 	next_close_tag()[0] = 0;
 	return LEAVE_CONTENT;
 have_address:
+	for (i = 0; i < num_funcfields; i++) {
+		if (!strcmp(address, funcfield_addresses[i])) {
+			printf("line %d: func/field %s was already registered\n", current_line, address);
+			next_close_tag()[0] = 0;
+			return LEAVE_CONTENT;
+		}
+	}
 	get_directive_text(dir, buf, 0);
 	is_func_ptr_type = 0;
 	target = funcfield_names[num_funcfields];
+	i = 0;
 	for (;;) {
 		c = buf[i];
 		*target = c;

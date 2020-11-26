@@ -25,7 +25,7 @@ div, h1 {
 	max-width: 50em;
 }
 h1 {
-	background:#ABABAB;
+	background:#C7C7C7;
 }
 h1,h2,h3,h4,h5,h6 {
         margin-top: 0.2em;
@@ -117,7 +117,7 @@ Need For Speed Underground 2, otherwise knows as nfsu2.
 </p><p>This normally belongs to <a href="https://github.com/yugecin/nfsu2-re">https://github.com/yugecin/nfsu2-re</a>.
 </p><p>Other pages: <a href="cheatsheet.html">(fpu) cheatsheet</a>
 </p><p style='margin-bottom:0'><a href='#index'>Index</a></p></div><span id='index'></span><div><h2>Index <a href="#index">#</a></h2>
-<ul><li><a href="#prologue">Prologue</a></li><li><a href="#index">Index</a></li><li><a href="#injectedcode">Injected code</a></li><li><a href="#displaysettings">Display settings</a></li><li><a href="#registry">Registry</a></li><li><a href="#gameregion">Game region</a></li><li><a href="#language">Language</a><ul><li><a href="#language_metadata">Language metadata</a></li><li><a href="#language_files">Language files</a></li></ul></li><li><a href="#pools">Pools</a></li><li><a href="#speedyboot">Speedy boot</a></li><li><a href="#consoleleftover">Console leftovers</a><ul><li><a href="#console_consume_key">ConsoleConsumeKey - 0x5C8320</a><ul><li><a href="#console_consume_key_check">A hardcoded key check - 0x5BF260</a></li></ul></li><li><a href="#console_move_caret">ConsoleMoveCaret - 0x5BF3A0</a></li></ul></li><li><a href="#hashfuncs">Hash functions</a><ul><li><a href="#hashmess">Messing with hash results</a></li></ul></li><li><a href="#debugprint">Debug print</a></li><li><a href="#ui">UI</a><ul><li><a href="#ui_dialog">Dialogs</a><ul><li><a href="#ui_dialog_getfngfordialog">GetFNGForDialog</a></li></ul></li><li><a href="#fngthings">FNG things</a></li></ul></li><li><a href="#mouseinput">Mouse input</a></li><li><a href="#cheats">Cheats</a></li><li><a href="#carmodeldata">Car model data</a></li><li><a href="#sound">Sound</a></li><li><a href="#career">Career</a></li><li><a href="#other_symbols">Other symbols</a></ul><p style='margin-bottom:0'><a href='#index'>Index</a></p></div><span id='injectedcode'></span><div><h2>Injected code <a href="#injectedcode">#</a></h2>
+<ul><li><a href="#prologue">Prologue</a></li><li><a href="#index">Index</a></li><li><a href="#injectedcode">Injected code</a></li><li><a href="#displaysettings">Display settings</a></li><li><a href="#registry">Registry</a></li><li><a href="#gameregion">Game region</a></li><li><a href="#language">Language</a><ul><li><a href="#language_metadata">Language metadata</a></li><li><a href="#language_files">Language files</a></li></ul></li><li><a href="#pools">Pools</a></li><li><a href="#speedyboot">Speedy boot</a></li><li><a href="#consoleleftover">Console leftovers</a><ul><li><a href="#console_consume_key">ConsoleConsumeKey - 0x5C8320</a><ul><li><a href="#console_consume_key_check">A hardcoded key check - 0x5BF260</a></li></ul></li><li><a href="#console_move_caret">ConsoleMoveCaret - 0x5BF3A0</a></li></ul></li><li><a href="#hashfuncs">Hash functions</a><ul><li><a href="#hashmess">Messing with hash results</a></li></ul></li><li><a href="#debugprint">Debug print</a></li><li><a href="#ui">UI</a><ul><li><a href="#ui_dialog">Dialogs</a><ul><li><a href="#ui_dialog_getfngfordialog">GetFNGForDialog</a></li></ul></li><li><a href="#fngthings">FNG things</a></li></ul></li><li><a href="#mouseinput">Mouse input</a></li><li><a href="#cheats">Cheats</a></li><li><a href="#carmodeldata">Car model data</a></li><li><a href="#sound">Sound</a></li><li><a href="#career">Career</a></li><li><a href="#d3d9stuff">D3D9 Stuff</a></li><li><a href="#other_symbols">Other symbols</a></ul><p style='margin-bottom:0'><a href='#index'>Index</a></p></div><span id='injectedcode'></span><div><h2>Injected code <a href="#injectedcode">#</a></h2>
 <p>The code for all injected things I did can be found in <code>nfsu2-re-hooks/*.c</code>.
 It's configured as a VC2005 project in a VC2005 solution.
 The project emits a compiled file to <code>..\NeedForSpeed U2\scripts\nfsu2-re-hooks.asi</code>.
@@ -127,10 +127,42 @@ name it <code>dinput8.dll</code>).
 </p><p style='margin-bottom:0'><a href='#index'>Index</a></p></div><span id='displaysettings'></span><div><h2>Display settings <a href="#displaysettings">#</a></h2>
 <p>Display settings get saved in the windows registry. See <a href='#registry'>Registry</a>.
 </p><p>TODO. I was writing this when I got distracted by the language stuff.
-</p><p><strong>Symbols:</strong></p><ul><li><span class='func' id='5BE190'>5BE190 StoreOptLightGlowSetToZero</span>
-</li><li><span class='func' id='5BE1B0'>5BE1B0 RestoreOptLightGlow</span>
-</li><li><span class='func' id='5BE1C0'>5BE1C0 GetWorldDetailClampBetween0And2</span>
+</p><p><strong>Symbols:</strong></p><ul><li><span class='func' id='5BE190'>5BE190 void StoreOptLightGlowSetToZero()</span>
+<pre><a class='fieldref' href='#8709D4'>tempStoredOptLightGlow</a> = <a class='fieldref' href='#870CE4'>_optLightGlow</a>;
+<a class='fieldref' href='#870CE4'>_optLightGlow</a> = 0;
+</pre>  TODO why
+</li><li><span class='func' id='5BE1B0'>5BE1B0 void RestoreOptLightGlow()</span>
+<pre><a class='fieldref' href='#870CE4'>_optLightGlow</a> = <a class='fieldref' href='#8709D4'>tempStoredOptLightGlow</a>;
+</pre>  TODO why
+</li><li><span class='func' id='5BE1C0'>5BE1C0 int GetWorldDetailClampBetween0And2()</span>
+<pre>return clamp(<a class='fieldref' href='#870CF4'>_optWorldDetail</a>, 0, 2);
+</pre></li><li><span class='func' id='5BE560'>5BE560 int GetRealFilteringLevelForCurrentSetting()</span>
+  Returns <code><a class='fieldref' href='#870D18'>_optTextureFiltering</a>+1</code> (<code>0-2 -> 1-3</code>), but maxed to <code>2</code> if the device doesn't have
+  <code>D3DDEVCAPS_RTPATCHES</code> support.
+</li><li><span class='func' id='5BE200'>5BE200 void DetermineMaxDisplaySettingValuesForDevice()</span>
+  Sets maximum values of various options based on the adapter info in <a class='fieldref' href='#86C120'>86C120:_d3d9AdapterIdentifier</a>.
+  See all <code>_optMax*</code> fields.
+  Also seems to do stuff with shaders maybe? TODO
+  Called twice. TODO: where and why
+</li><li><span class='func' id='5BE5A0'>5BE5A0 void DetermineSupportedResolutions()</span>
+  Based on the device, for every resolution index,
+  put <code>1</code> in <a class='fieldref' href='#86E880'>86E880:isSupportedResolutionIdx</a> at that index if available.
+</li><li><span class='func' id='5BE690'>5BE690 void EnsureDisplayOptionsDontExceedMaxSettings()</span>
+  For each option that has a maximum value field,
+  set it to the maximum value if it was exceeded.
+</li><li><span class='func' id='5BE870'>5BE870 void SetPresetDisplayLevelFromLevelOfDetail()</span>
+</li><li><span class='func' id='5BE9F0'>5BE9F0 void SetPresetDisplayLevelFromLevelOfDetaulAndLimit()</span>
+  Calls <a class='funcref' href='#5BE870'>5BE870:SetPresetDisplayLevelFromLevelOfDetail()</a>,
+  sets <a class='fieldref' href='#870D08'>870D08:_optFSAALevel</a> to 0 for some specific windows version or if the device is from vendor
+  <em>Advanced Micro Devices, Inc</em>, then calls <a class='funcref' href='#5BE690'>5BE690:EnsureDisplayOptionsDontExceedMaxSettings()</a>
+</li><li><span class='field' id='800538'>800538 int _resolutionWidths[6]</span>
+  Values <code>640, 800, 1024, 1280, 1280, 1600</code>
+</li><li><span class='field' id='800550'>800550 int _resolutionHeights[6]</span>
+  Values <code>480, 600, 768, 960, 1024, 1200</code>
+</li><li><span class='field' id='86E880'>86E880 int isSupportedResolutionIdx[6]</span>
 </li><li><span class='field' id='87099C'>87099C int _optLevelOfDetail</span>
+</li><li><span class='field' id='8709D4'>8709D4 tempStoredOptLightGlow</span>
+  Used as temporary store for <a class='funcref' href='#5BE190'>5BE190:StoreOptLightGlowSetToZero()</a> and <a class='funcref' href='#5BE1B0'>5BE1B0:RestoreOptLightGlow()</a>
 </li><li><span class='field' id='870CB8'>870CB8 int _optCarReflectionUpdateRate</span>
 </li><li><span class='field' id='870CBC'>870CBC int _optCarReflectionDetail</span>
 </li><li><span class='field' id='870CC0'>870CC0 int _optCarShadowNeon</span>
@@ -159,7 +191,31 @@ name it <code>dinput8.dll</code>).
 </li><li><span class='field' id='870D10'>870D10 int _optRainSplatter</span>
 </li><li><span class='field' id='870D18'>870D18 int _optTextureFiltering</span>
 </li><li><span class='field' id='870D1C'>870D1C int _optRacingResolutionIdx</span>
+  To be used for arrays <a class='fieldref' href='#800538'>800538:_resolutionWidths</a>,<a class='fieldref' href='#800550'>800550:_resolutionHeights</a> and <a class='fieldref' href='#86E880'>86E880:isSupportedResolutionIdx</a>.
 </li><li><span class='field' id='870D24'>870D24 int _optVsync</span>
+</li><li><span class='field' id='8764D0'>8764D0 int _optMaxSettingCarReflectionUpdateRate</span>
+</li><li><span class='field' id='8764D4'>8764D4 int _optMaxSettingCarReflectionDetail</span>
+</li><li><span class='field' id='8764D8'>8764D8 int _optMaxSettingCarShadowNeon</span>
+</li><li><span class='field' id='8764DC'>8764DC int _optMaxSettingCarHeadlight</span>
+</li><li><span class='field' id='8764E0'>8764E0 int _optMaxSettingCarLightingEnable</span>
+</li><li><span class='field' id='8764E4'>8764E4 int _optMaxSettingCarDamageEnable</span>
+</li><li><span class='field' id='8764E8'>8764E8 int _optMaxSettingCrowds</span>
+</li><li><span class='field' id='8764EC'>8764EC int _optMaxSettingWorldReflectionDetail</span>
+</li><li><span class='field' id='8764F0'>8764F0 int _optMaxSettingFog</span>
+</li><li><span class='field' id='8764F4'>8764F4 int _optMaxSettingMotionBlur</span>
+</li><li><span class='field' id='8764F8'>8764F8 int _optMaxSettingLightTrails</span>
+</li><li><span class='field' id='8764FC'>8764FC int _optMaxSettingLightGlow</span>
+</li><li><span class='field' id='876500'>876500 int _optMaxSettingAnimatedTextureEnable</span>
+</li><li><span class='field' id='876504'>876504 int _optMaxSettingParticleSystem</span>
+</li><li><span class='field' id='876508'>876508 int _optMaxSettingDepthOfField</span>
+</li><li><span class='field' id='87650C'>87650C int _optMaxSettingWorldDetail</span>
+</li><li><span class='field' id='876510'>876510 int _optMaxSettingCarGeometryDetail</span>
+</li><li><span class='field' id='876514'>876514 int _optMaxSettingOverBright</span>
+</li><li><span class='field' id='876518'>876518 int _optMaxSettingEnchancedContrast</span>
+</li><li><span class='field' id='876520'>876520 int _optMaxSettingFSAALevel</span>
+</li><li><span class='field' id='876524'>876524 int _optMaxSettingHorizonFog</span>
+</li><li><span class='field' id='876528'>876528 int _optMaxSettingRainSplatter</span>
+</li><li><span class='field' id='876530'>876530 int _optMaxSettingTextureFiltering</span>
 </li></ul><p style='margin-bottom:0'><a href='#index'>Index</a></p></div><span id='registry'></span><div><h2>Registry <a href="#registry">#</a></h2>
 <p>Many values (mainly display settings) are loaded/saved in procs <a class='funcref' href='#5BEA20'>5BEA20:LoadDisplaySettings()</a> and <a class='funcref' href='#5BEEA0'>5BEEA0:SaveDisplaySettings()</a>.
 </p><p>They are saved in key <code>Software\EA Games\Need for Speed Underground 2</code> in <code>HKEY_CURRENT_USER</code>.
@@ -1486,6 +1542,12 @@ if (!<a class='fieldref' href='#86347C'>isProfileWithStartedCareerLoaded</a>) {
   When canceling at that point, it's set back to 1
   (if the loaded profile already had career started).
 </li><li><span class='field' id='861E74'>861E74 <a href='#struct_CareerData'>struct CareerData</a> careerData</span>
+</li></ul><p style='margin-bottom:0'><a href='#index'>Index</a></p></div><span id='d3d9stuff'></span><div><h2>D3D9 Stuff <a href="#d3d9stuff">#</a></h2>
+<p><strong>Symbols:</strong></p><ul><li><span class='field' id='86C120'>86C120 struct D3DADAPTER_IDENTIFIER9 _d3d9AdapterIdentifier</span>
+</li><li><span class='field' id='870970'>870970 IDirect3D9 *_IDirect3D9ptr</span>
+</li><li><span class='field' id='8709AC'>8709AC int _displayAdapter</span>
+  <em>Ordinal number that denotes the display adapter.
+  <code>D3DADAPTER_DEFAULT(0)</code> is always the primary display adapter.</em>
 </li></ul><p style='margin-bottom:0'><a href='#index'>Index</a></p></div><span id='other_symbols'></span><div><h2>Other symbols <a href="#other_symbols">#</a></h2>
 <p><strong>Symbols:</strong></p><ul><li><span class='func' id='43DBB0'>43DBB0 int strlenWithNULLcheck(char *str)</span>
 </li><li><span class='func' id='43DBD0'>43DBD0 int strcpy(char *dest, char *src)</span>
@@ -1504,5 +1566,6 @@ if (!<a class='fieldref' href='#86347C'>isProfileWithStartedCareerLoaded</a>) {
 </li><li><span class='field' id='7E8000'>7E8000 void (*someInitFunctions)()[821]</span>
   Array of functions that are called at boot, by <a class='funcref' href='#75D45B'>75D45B:sub_75D45B()</a>.
   Some of them are constructors being called.
+</li><li><span class='field' id='864F4C'>864F4C int _isGameClosing</span>
 </li></ul><p style='margin-bottom:0'><a href='#index'>Index</a></p></div></body>
 </html>
