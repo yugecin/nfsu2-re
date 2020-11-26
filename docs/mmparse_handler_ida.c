@@ -5,7 +5,7 @@ void cb_handler_ida_start()
 }
 
 static
-enum DIR_CONTENT_ACTION cb_handler_ida_directive_start(char** to, struct DIRECTIVE *dir)
+enum DIR_CONTENT_ACTION cb_handler_ida_directive_start(char** to, char *from, struct DIRECTIVE *dir)
 {
 	if (!strcmp(dir->name, "text")) {
 		*to += sprintf(*to, "<span class='text'>");
@@ -20,7 +20,7 @@ enum DIR_CONTENT_ACTION cb_handler_ida_directive_start(char** to, struct DIRECTI
 	} else if (!strcmp(dir->name, "ident")) {
 		*to += sprintf(*to, "<span class='ident'>");
 	} else {
-		return cb_handler_normal_directive_start(to, dir);
+		return cb_handler_normal_directive_start(to, from, dir);
 	}
 	strcpy(next_close_tag(), "</span>");
 	return LEAVE_CONTENT;

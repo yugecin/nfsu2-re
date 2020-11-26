@@ -32,7 +32,7 @@ struct HANDLER {
 	void (*start)(); /*called after handler is pushed*/
 	void (*text)();
 	void (*end)(); /*called after handler is popped*/
-	enum DIR_CONTENT_ACTION (*directive_start)(char**,struct DIRECTIVE*);
+	enum DIR_CONTENT_ACTION (*directive_start)(char**,char*,struct DIRECTIVE*);
 	void (*directive_end)(char**);
 	char name[12];
 };
@@ -68,9 +68,10 @@ int extra_line_offset; /*used for placeholders, when handlers prepend stuff*/
 struct PLACEHOLDER {
 	int position;
 	int line_number;
-	void (*cb)(FILE*,struct PLACEHOLDER*,void*);
+	void (*cb)(FILE*,struct PLACEHOLDER*);
+	void *data;
 	char needs_adjustment;
-	char data[MAX_PLACEHOLDER_DATA_LENGTH];
+	char _data[MAX_PLACEHOLDER_DATA_LENGTH];
 };
 #define MAX_PLACEHOLDERS 500
 struct PLACEHOLDER placeholders[MAX_PLACEHOLDERS];
@@ -90,14 +91,14 @@ struct PLACEHOLDER_BREADCRUMB_DATA {
 struct HANDLER *registered_handlers[MAX_REGISTERED_HANDLERS];
 int num_registered_handlers;
 
-#define MAX_REGISTERED_DIRECTIVES 20
-char registered_dir_names[MAX_REGISTERED_DIRECTIVES][50];
-enum DIR_CONTENT_ACTION (*registered_dir_cbs[MAX_REGISTERED_DIRECTIVES])(char**,struct DIRECTIVE*);
+#define MAX_REGISTERED_DIRS 50
+char registered_dir_names[MAX_REGISTERED_DIRS][50];
+enum DIR_CONTENT_ACTION (*registered_dir_cbs[MAX_REGISTERED_DIRS])(char**,char*,struct DIRECTIVE*);
 int num_registered_dirs;
 
 /*Returns ptr to placeholder data.*/
 static
-void *next_placeholder(void (*cb)(FILE*,struct PLACEHOLDER*,void*))
+void *next_placeholder(void (*cb)(FILE*,struct PLACEHOLDER*))
 {
 	if (num_placeholders == MAX_PLACEHOLDERS) {
 		printf("MAX_PLACEHOLDERS reached\n");
@@ -106,13 +107,14 @@ void *next_placeholder(void (*cb)(FILE*,struct PLACEHOLDER*,void*))
 	placeholders[num_placeholders].position = out - outbuffer + current_line_offset;
 	placeholders[num_placeholders].line_number = current_line;
 	placeholders[num_placeholders].needs_adjustment = placeholder_needs_adjustment;
+	placeholders[num_placeholders].data = placeholders[num_placeholders]._data;;
 	placeholders[num_placeholders].cb = cb;
 	num_placeholders++;
 	return placeholders[num_placeholders - 1].data;
 }
 
 static
-void cb_placeholder_section_anchor(FILE *out, struct PLACEHOLDER *placeholder, void *data)
+void cb_placeholder_section_anchor(FILE *out, struct PLACEHOLDER *placeholder)
 {
 	static int index = 0;
 
@@ -125,11 +127,11 @@ void cb_placeholder_section_anchor(FILE *out, struct PLACEHOLDER *placeholder, v
 }
 
 static
-void cb_placeholder_breadcrumbs(FILE *out, struct PLACEHOLDER *placeholder, void *data)
+void cb_placeholder_breadcrumbs(FILE *out, struct PLACEHOLDER *placeholder)
 {
 	static int absolute_index = 0;
 
-	struct PLACEHOLDER_BREADCRUMB_DATA *placeholder_data = data;
+	struct PLACEHOLDER_BREADCRUMB_DATA *placeholder_data = placeholder->data;
 	char buf[1000];
 	int len;
 	int i;
@@ -171,7 +173,7 @@ void cb_placeholder_breadcrumbs(FILE *out, struct PLACEHOLDER *placeholder, void
 }
 
 static
-void cb_placeholder_index(FILE *out, struct PLACEHOLDER *placeholder, void *data)
+void cb_placeholder_index(FILE *out, struct PLACEHOLDER *placeholder)
 {
 	int i;
 	int last_level;
@@ -207,9 +209,9 @@ void cb_placeholder_index(FILE *out, struct PLACEHOLDER *placeholder, void *data
 }
 
 static
-void cb_placeholder_href(FILE *out, struct PLACEHOLDER *placeholder, void *data)
+void cb_placeholder_href(FILE *out, struct PLACEHOLDER *placeholder)
 {
-	char *id = data;
+	char *id = placeholder->data;
 	char buf[300];
 	int len;
 	int i;
@@ -267,12 +269,21 @@ void get_directive_text(struct DIRECTIVE *dir, char *dest, int *out_length)
 	int dir_index;
 	int offset;
 	int length;
+	char c;
 
 	dir_index = dir - directive;
 	offset = open_mark_position[dir_index] + 1;
-	length = close_mark_position[dir_index] - offset;
-	memcpy(dest, line_raw + offset, length);
-	dest[length] = 0;
+	for (;;) {
+		c = line_raw[offset];
+		if (c == '}' || c == 0) {
+			*dest = 0;
+			break;
+		}
+		*dest = c;
+		dest++;
+		offset++;
+		length++;
+	}
 	if (out_length) {
 		*out_length = length;
 	}
@@ -524,6 +535,7 @@ void mmparse_expand_line()
 					eat_contents =
 						current_handler->directive_start(
 									&to,
+									from,
 									&directive[open_idx]);
 				} else {
 					printf("line %d: tag stack depleted (TAG_STACK_SIZE)\n",
@@ -617,13 +629,14 @@ void print_tag_with_directives(char **to, struct DIRECTIVE *dir, char *closestr)
 }
 
 static
-enum DIR_CONTENT_ACTION cb_handler_normal_directive_start(char** to, struct DIRECTIVE *dir)
+enum DIR_CONTENT_ACTION
+cb_handler_normal_directive_start(char** to, char *from, struct DIRECTIVE *dir)
 {
 	int i;
 
 	for (i = 0; i < num_registered_dirs; i++) {
 		if (!strcmp(dir->name, registered_dir_names[i])) {
-			return registered_dir_cbs[i](to, dir);
+			return registered_dir_cbs[i](to, from, dir);
 		}
 	}
 
@@ -853,14 +866,14 @@ struct HANDLER handler_ul = {
 };
 
 static
-enum DIR_CONTENT_ACTION mmparse_directive_href(char **to, struct DIRECTIVE *dir)
+enum DIR_CONTENT_ACTION mmparse_directive_href(char **to, char *from, struct DIRECTIVE *dir)
 {
 	get_directive_text(dir, next_placeholder(cb_placeholder_href), 0);
 	return DELETE_CONTENT;
 }
 
 static
-enum DIR_CONTENT_ACTION mmparse_directive_index(char **to, struct DIRECTIVE *dir)
+enum DIR_CONTENT_ACTION mmparse_directive_index(char **to, char *from, struct DIRECTIVE *dir)
 {
 	next_placeholder(cb_placeholder_index);
 	next_close_tag()[0] = 0;
@@ -868,7 +881,7 @@ enum DIR_CONTENT_ACTION mmparse_directive_index(char **to, struct DIRECTIVE *dir
 }
 
 static
-enum DIR_CONTENT_ACTION mmparse_directive_imgcaptioned(char **to, struct DIRECTIVE *dir)
+enum DIR_CONTENT_ACTION mmparse_directive_imgcaptioned(char **to, char *from, struct DIRECTIVE *dir)
 {
 	strcpy(dir->name, "img");
 	*to += sprintf(*to, "<p class='center'>");
@@ -878,7 +891,7 @@ enum DIR_CONTENT_ACTION mmparse_directive_imgcaptioned(char **to, struct DIRECTI
 }
 
 static
-enum DIR_CONTENT_ACTION mmparse_directive_h(char **to, struct DIRECTIVE *dir)
+enum DIR_CONTENT_ACTION mmparse_directive_h(char **to, char *from, struct DIRECTIVE *dir)
 {
 	int i;
 	int section_depth;
@@ -931,10 +944,12 @@ void mmparse_register_handler(struct HANDLER *handler)
 }
 
 static
-void mmparse_register_directive(char *name, enum DIR_CONTENT_ACTION (*cb)(char**,struct DIRECTIVE*))
+void mmparse_register_directive(
+	char *name,
+	enum DIR_CONTENT_ACTION (*cb)(char**,char*,struct DIRECTIVE*))
 {
-	if (num_registered_dirs == MAX_REGISTERED_DIRECTIVES) {
-		printf("MAX_REGISTERED_DIRECTIVES reached\n");
+	if (num_registered_dirs == MAX_REGISTERED_DIRS) {
+		printf("MAX_REGISTERED_DIRS reached\n");
 		return;
 	}
 	strcpy(registered_dir_names[num_registered_dirs], name);
@@ -958,6 +973,9 @@ void mmparse_init()
 #define MMPARSE_EXT_INIT mmparse_init
 
 #include "mmparse_handler_ida.c"
+#include "mmparse_handler_symbols.c"
+#include "mmparse_directive_funcfield.c"
+#include "mmparse_directive_anchors.c"
 
 char infile[500], outfile[500];
 
@@ -993,7 +1011,7 @@ int write()
 		fwrite(outbuffer + at, to - at, 1, f);
 		at = to;
 		if (placeholder) {
-			placeholder->cb(f, placeholder, placeholder->data);
+			placeholder->cb(f, placeholder);
 		}
 	} while (at < total_length);
 

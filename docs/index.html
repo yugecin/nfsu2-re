@@ -34,7 +34,7 @@ body > div {
 code {
 	display: inline-block;
 	background: #dfdfdf;
-	padding: .2em;
+	padding: 0 .2em;
 	margin: 0 .2em;
 	border-radius: 2px;
 }
@@ -63,6 +63,41 @@ pre.ida span.num,pre.ida span.str {
 pre.ida span.hi {
 	background:#FFFF00;
 }
+span.unresolved,a.funcref,a.fieldref {
+        padding: 0 4px;
+        border-radius: 3px;
+        font-family: monospace;
+}
+span.unresolved {
+        background: #ff5454;
+}
+a.funcref {
+        background: #fdf;
+}
+a.funcref:hover {
+        background: #f6f;
+}
+a.fieldref {
+        background: #dfd;
+}
+a.fieldref:hover {
+        background: #6f6;
+}
+span.func,span.field {
+        display: block;
+        padding: 2px 3px;
+        font-family: monospace;
+        font-weight: bold;
+        margin: .5em 0;
+}
+span.func {
+        background: #fdf;
+        border: 1px solid #f6f;
+}
+span.field {
+        background: #dfd;
+        border: 1px solid #6f6;
+}
 </style>
 </head>
 <body>
@@ -73,7 +108,7 @@ Need For Speed Underground 2, otherwise knows as nfsu2.
 </p><p>This normally belongs to <a href="https://github.com/yugecin/nfsu2-re">https://github.com/yugecin/nfsu2-re</a>.
 </p><p>Other pages: <a href="cheatsheet.html">(fpu) cheatsheet</a>
 </p><p style='margin-bottom:0'><a href='#index'>Index</a></p></div><span id='index'></span><div><h2>Index <a href="#index">#</a></h2>
-<ul><li><a href="#prologue">Prologue</a></li><li><a href="#index">Index</a></li><li><a href="#injectedcode">Injected code</a></li><li><a href="#registry">Registry</a><ul><li><a href="#5B76F0">5B76F0 SomethingReadSpecialRegistrySettings</a></li></ul></li><li><a href="#gameregion">Game region</a></li><li><a href="#language">Language</a><ul><li><a href="#language_metadata">Language metadata</a></li><li><a href="#language_files">Language files</a></li></ul></li><li><a href="#pools">Pools</a></li><li><a href="#speedyboot">Speedy boot</a></li><li><a href="#displaysettings">Display settings</a></li><li><a href="#consoleleftover">Console leftovers</a><ul><li><a href="#console_consume_key">ConsoleConsumeKey - 0x5C8320</a><ul><li><a href="#console_consume_key_check">A hardcoded key check - 0x5BF260</a></li></ul></li><li><a href="#console_move_caret">ConsoleMoveCaret - 0x5BF3A0</a></li></ul></li><li><a href="#hashfuncs">Hash functions</a><ul><li><a href="#hashmess">Messing with hash results</a></li></ul></li><li><a href="#debugprint">Debug print</a></li><li><a href="#ui">UI</a><ul><li><a href="#ui_dialog">Dialogs</a><ul><li><a href="#ui_dialog_getfngfordialog">GetFNGForDialog</a></li></ul></li></ul></li><li><a href="#mouseinput">Mouse input</a></li><li><a href="#cheats">Cheats</a></li><li><a href="#carmodeldata">Car model data</a></li><li><a href="#sound">Sound</a></li><li><a href="#career">Career</a></ul><p style='margin-bottom:0'><a href='#index'>Index</a></p></div><span id='injectedcode'></span><div><h2>Injected code <a href="#injectedcode">#</a></h2>
+<ul><li><a href="#prologue">Prologue</a></li><li><a href="#index">Index</a></li><li><a href="#injectedcode">Injected code</a></li><li><a href="#registry">Registry</a><ul><li><a href="#5B76F0">5B76F0 SomethingReadSpecialRegistrySettings</a></li></ul></li><li><a href="#gameregion">Game region</a></li><li><a href="#language">Language</a><ul><li><a href="#language_metadata">Language metadata</a></li><li><a href="#language_files">Language files</a></li></ul></li><li><a href="#pools">Pools</a></li><li><a href="#speedyboot">Speedy boot</a></li><li><a href="#displaysettings">Display settings</a></li><li><a href="#consoleleftover">Console leftovers</a><ul><li><a href="#console_consume_key">ConsoleConsumeKey - 0x5C8320</a><ul><li><a href="#console_consume_key_check">A hardcoded key check - 0x5BF260</a></li></ul></li><li><a href="#console_move_caret">ConsoleMoveCaret - 0x5BF3A0</a></li></ul></li><li><a href="#hashfuncs">Hash functions</a><ul><li><a href="#hashmess">Messing with hash results</a></li></ul></li><li><a href="#debugprint">Debug print</a></li><li><a href="#ui">UI</a><ul><li><a href="#ui_dialog">Dialogs</a><ul><li><a href="#ui_dialog_getfngfordialog">GetFNGForDialog</a></li></ul></li><li><a href="#fngthings">FNG things</a></li></ul></li><li><a href="#mouseinput">Mouse input</a></li><li><a href="#cheats">Cheats</a></li><li><a href="#carmodeldata">Car model data</a></li><li><a href="#sound">Sound</a></li><li><a href="#career">Career</a></ul><p style='margin-bottom:0'><a href='#index'>Index</a></p></div><span id='injectedcode'></span><div><h2>Injected code <a href="#injectedcode">#</a></h2>
 <p>The code for all injected things I did can be found in <code>nfsu2-re-hooks/*.c</code>.
 It's configured as a VC2005 project in a VC2005 solution.
 The project emits a compiled file to <code>..\NeedForSpeed U2\scripts\nfsu2-re-hooks.asi</code>.
@@ -165,10 +200,21 @@ information and associated data. See <a href="#language_metadata">Language metad
 the value and the offset to a random location in the code segment to a proc that looks
 like a strcmp function? TODO.
 </p><p style='margin-bottom:0'><a href='#index'>Index</a></p></div><span id='gameregion'></span><div><h2>Game region <a href="#gameregion">#</a></h2>
-<p>This proc at <code>0x5B7C40</code> certainly helped to know what the region numbers
-represent.
-</p><pre>/*No idea where this is used, TODO*/
-int OpenPatchesWebsite()
+<p><a class='funcref' href='#5B7C40'>5B7C40:OpenPatchesWebsite()</a> certainly helped to know what the region numbers represent
+</p><ul><li>0: US
+</li><li>2: Korea
+</li><li>3: Japan
+</li><li>4: Taiwan
+</li><li>5: UK/Netherlands/Sweden/Denmark
+</li><li>6: France
+</li><li>7: Germany
+</li><li>8: Italy
+</li><li>9: Spain
+</li><li>11: China
+</li><li>12: Thailand
+</li></ul><p><strong>Symbols:</strong></p><ul><li><span class='func' id='5B7C40'>5B7C40 int OpenPatchesWebsite()</span>
+No idea where this is used, TODO
+<pre>int OpenPatchesWebsite()
 {
 	char *url;
 	switch (GetGameRegion()) {
@@ -196,18 +242,7 @@ def:
 	}
 	return ShellExecuteA(NULL, "open", url, NULL, NULL, SW_SHOWNORMAL);
 }
-</pre><ul><li>0: US
-</li><li>2: Korea
-</li><li>3: Japan
-</li><li>4: Taiwan
-</li><li>5: UK/Netherlands/Sweden/Denmark
-</li><li>6: France
-</li><li>7: Germany
-</li><li>8: Italy
-</li><li>9: Spain
-</li><li>11: China
-</li><li>12: Thailand
-</li></ul><p style='margin-bottom:0'><a href='#index'>Index</a></p></div><span id='language'></span><div><h2>Language <a href="#language">#</a></h2>
+</pre></li></ul><p style='margin-bottom:0'><a href='#index'>Index</a></p></div><span id='language'></span><div><h2>Language <a href="#language">#</a></h2>
 <p>There seems to be no way to change the language, except for changing the value
 in the registry? See <a href='#registry'>Registry</a>. Perhaps it is only set
 when the game is installed?
@@ -843,9 +878,9 @@ here's <code>UI_OLEAMessenger.fng</code>:
 </p><p class='center'><img src="dialogoleamessenger.jpg" alt="online messenger menu with placeholder text"/><br/>No idea why that text is .. Spanish?</p>
 <p>Printing the dialog info struct address sadly showed that it wasn't stored in the
 executable itself so it's probably somewhere deep in a bin file.
-</p><p style='margin-bottom:0'><a href='#index'>Index</a></p></div><div class='indent' style='margin-left:5em'><p style='margin-top:0'><small><a href='#ui'>UI</a> &gt; <a href='#ui_dialog'>Dialogs</a> (continuation)</small></p><p>DialogInfo struct made by looking at all of the above and more:
-(Especially <code>Dialog__ctor</code> at <code>0x4FF250</code> helped here.)
-</p><pre>struct DialogInfo {
+</p><p style='margin-bottom:0'><a href='#index'>Index</a></p></div><div class='indent' style='margin-left:5em'><p style='margin-top:0'><small><a href='#ui'>UI</a> &gt; <a href='#ui_dialog'>Dialogs</a> (continuation)</small></p><p><code>DialogInfo</code> struct made by looking at all of the above and more:
+(Especially <a class='funcref' href='#4FF250'>4FF250:Dialog__ctor()</a> helped here.)
+</p><pre><span id='struct_DialogInfo'></span>struct DialogInfo {
 	char text[768];
 	int unused300;
 	int unused304;
@@ -865,25 +900,29 @@ executable itself so it's probably somewhere deep in a bin file.
 	int something330; /*set to 0 in 558074*/
 	int unused334;
 };
-EXPECT_SIZE(struct DialogInfo, 0x338);
-ASSERT_OFFSET(struct DialogInfo, pTypeName, 0x324);
-ASSERT_OFFSET(struct DialogInfo, isHelpDialog, 0x32D);
-</pre><ul><li><code>0x558020 int ShowDialog(struct DialogInfo *info)</code> returns
-the new dialog id for it (value in <code>shownDialogHandleId</code>) or zero when
-it didn't show because of some override
-</li><li><code>0x4FF250 void __thiscall Dialog__ctor(struct DialogInfo *this)</code>
-initializes memory that was allocated to be a dialog
-</li><li><code>0x540A60 void DismissDialog(int dialogIdToDismiss)</code>
-</li><li><code>0x838960 char* shownDialogParent</code> example value: <code>UI_PerformanceTuning_Setting.fng</code>
-</li><li><code>0x838964 char* shownDialogType</code> example value: <code>GenericDialog_MED.fng</code>
-</li><li><code>0x838970 int dialogDismissedByOtherDialogMsg</code> unsure yet
-</li><li><code>0x838974 int shownDialogId</code> zero when none
-</li><li><code>0x7F6DE0 int nextDialogId</code> when <code>ShowDialog</code> is called,
-value is put into <code>shownDialogId</code> and incremented
-</li><li><code>0x838640 struct DialogInfo shownDialogData</code> dialog info passed to
-<code>ShowDialog</code> is copied into here, TODO xrefs
-</li></ul><hr/>
-<p>Thanks to <code>ShowDialog</code> code, following things were discovered:
+EXPECT_SIZE(<a href='#struct_DialogInfo'>struct DialogInfo</a>, 0x338);
+ASSERT_OFFSET(<a href='#struct_DialogInfo'>struct DialogInfo</a>, pTypeName, 0x324);
+ASSERT_OFFSET(<a href='#struct_DialogInfo'>struct DialogInfo</a>, isHelpDialog, 0x32D);
+</pre><p><strong>Symbols:</strong></p><ul><li><span class='func' id='558020'>558020 int ShowDialog(<a href='#struct_DialogInfo'>struct DialogInfo</a> *info)</span>
+  Returns the new dialog id for it (value in <a class='fieldref' href='#838974'>838974:shownDialogId</a>) or zero when
+  it didn't show because of some override.
+</li><li><span class='func' id='4FF250'>4FF250 void __thiscall Dialog__ctor(<a href='#struct_DialogInfo'>struct DialogInfo</a> *this)</span>
+  Initializes memory that was allocated to be a dialog.
+</li><li><span class='func' id='540A60'>540A60 void DismissDialog(int dialogIdToDismiss)</span>
+</li><li><span class='func' id='838960'>838960 char* shownDialogParent</span>
+  Example value: <code>UI_PerformanceTuning_Setting.fng</code>.
+</li><li><span class='func' id='838964'>838964 char* shownDialogType</span>
+  Example value: <code>GenericDialog_MED.fng</code>.
+</li><li><span class='func' id='838970'>838970 int dialogDismissedByOtherDialogMsg</span>
+  Unsure yet.
+</li><li><span class='field' id='838974'>838974 int shownDialogId</span>
+  Zero when none.
+</li><li><span class='field' id='7F6DE0'>7F6DE0 int nextDialogId</span>
+  When <a class='funcref' href='#558020'>558020:ShowDialog()</a> is called, value is put into <a class='fieldref' href='#838974'>838974:shownDialogId</a> and incremented.
+</li><li><span class='field' id='838640'>838640 <a href='#struct_DialogInfo'>struct DialogInfo</a> shownDialogData</span>
+  Dialog info passed to <a class='funcref' href='#558020'>558020:ShowDialog()</a> is copied into here, TODO xrefs
+</li></ul><p style='margin-bottom:0'><a href='#index'>Index</a></p></div><span id='fngthings'></span><div class='indent' style='margin-left:5em'><p style='margin-top:0'><small><a href='#ui'>UI</a> &gt; FNG things</small></p><h3>FNG things <a href="#fngthings">#</a></h3>
+<p>Thanks to <a class='funcref' href='#558020'>558020:ShowDialog()</a> code, following things were discovered:
 </p><pre>typedef int (fnginithandler)(struct FNGShowData *msg);
 struct FNGData {
 	char *name;
@@ -1110,7 +1149,6 @@ for a reimplementation
   Navigating menus seems unaffected
 </li><li><code>0x558B70 void __thiscall UIConsumeKey(void *this, int keyCode)</code>
   probably used for Q, but what else?
-</li><li><code>0x57B8B0 void __thiscall CheatCheck(void *this, int keyCode)</code> see <a href='#cheats'>Cheats</a>
 </li><li><code>0x83A9C0 isTextboxFocused</code>
 </li><li><code>0x83A9C4 focusedTextbox</code> ptr to some struct
 </li></ul><p>Short excerpt from hooking <code>ShowFNG</code>. <code>arg2</code> for the dialogs
@@ -1151,7 +1189,7 @@ ShowFNG(AA469286 ("UI_InGameDialog.fng"), 037C1120, 00838640) = 037C2AB0
 </pre><p style='margin-bottom:0'><a href='#index'>Index</a></p></div><span id='mouseinput'></span><div><h2>Mouse input <a href="#mouseinput">#</a></h2>
 <p>While the canvas is <code>640x480</code>, mouse position seems to be handled mostly
 as <code>([-320,+320],[-240,+240])</code>.
-</p><pre>struct MouseData {
+</p><pre><span id='struct_MouseData'></span>struct MouseData {
 	void /*DInputDevice8*/ *dinputdevice;
 	int cursorX; // on 640x480 canvas
 	int cursorY; // on 640x480 canvas
@@ -1172,38 +1210,38 @@ as <code>([-320,+320],[-240,+240])</code>.
 	char button2JustReleased;
 };
 struct MouseData *_mouseData = (struct MouseData*) 0x8763D0;
-</pre><ul><li><code>5BF6E0 int __thiscall CreateDinputDevice(struct MouseData *this)</code>
+</pre><ul><li><span class='func' id='5BF6E0'>5BF6E0 int __thiscall CreateDinputDevice(<a href='#struct_MouseData'>struct MouseData</a> *this)</span>
   Creates and sets <code>dinputdevice</code>
-</li><li><code>5C8600 int __thiscall MouseData::ctor(struct MouseData *this)</code>
-  called once, from <code>init_function_77E580</code>
-</li><li><code>5BF860 void __thiscall UpdateMouseState(struct MouseData *this)</code>
+</li><li><span class='func' id='5C8600'>5C8600 int __thiscall MouseData::ctor(<a href='#struct_MouseData'>struct MouseData</a> *this)</span>
+  Called once, from <code>init_function_77E580</code>.
+</li><li><span class='func' id='5BF860'>5BF860 void __thiscall UpdateMouseState(<a href='#struct_MouseData'>struct MouseData</a> *this)</span>
   Calls <code>UpdateCursorPosition</code> and then updates button states.
-</li><li><code>5BF750 int __thiscall UpdateCursorPosition(struct MouseData *this)</code>
-</li><li><code>5BF940 int __thiscall HaveCursorActivity(struct MouseData *this)</code>
+</li><li><span class='func' id='5BF750'>5BF750 int __thiscall UpdateCursorPosition(<a href='#struct_MouseData'>struct MouseData</a> *this)</span>
+</li><li><span class='func' id='5BF940'>5BF940 int __thiscall HaveCursorActivity(<a href='#struct_MouseData'>struct MouseData</a> *this)</span>
   called once, from <code>5663F9 DoUI</code>. returns 1 if position deltas or scrollwheel or
   any of the JustPressed/JustReleased fields are not zero. Always returning 0 here has the
   effect that ui hover does not work, left click acts as right click (go back) except when
   clicking on the active ui element (like main menu bar). Dialog box buttons still work
   somehow. The car showroom can still be rotated with mmb. Mouse still moves.
-</li><li><code>50C860 void StoreMousePosButtonsIntoArg(void *arg)</code>
+</li><li><span class='func' id='50C860'>50C860 void StoreMousePosButtonsIntoArg(void *arg)</span>
 <pre>*((short*) arg_0 + 0) = _mouseData.cursorX - canvasWidth / 2;
 *((short*) arg_0 + 1) = _mouseData.cursorY - canvasHeight / 2;
 *((short*) arg_0 + 2) = _mouseData.button0State &lt;&lt; 1 | _mouseData.button1State; (or swapped)
-</pre></li><li><code>50CD70 void GetMousePositionFromMiddle(float *cursorX, float *cursorY)</code>
+</pre></li><li><span class='func' id='50CD70'>50CD70 void GetMousePositionFromMiddle(float *cursorX, float *cursorY)</span>
 <pre>*cursorX = _mouseData.cursorX - canvasWidth/2;
 *cursorY = _mouseData.cursorY - canvasHeight/2;
-</pre></li><li><code>50CDA0 void GetMouseWheel(float *mouseWheelData)</code>
+</pre></li><li><span class='func' id='50CDA0'>50CDA0 void GetMouseWheel(float *mouseWheelData)</span>
 <pre>*mouseWheelData = _mouseData.mousestate.lz;
-</pre></li><li><code>50CDB0 int DidCursorPressInRect(struct { float x; float y; } *pos,
-  struct { float width; float height; } *size)</code>
+</pre></li><li><span class='func' id='50CDB0'>50CDB0 int DidCursorPressInRect(struct { float x; float y; } *pos,
+  struct { float width; float height; } *size)</span>
   Gets called in one location, but still haven't actually seen it being called. TODO
-</li><li><code>52D090 DidCursorPressIn??SomethingUI(void *somethingui)</code>
+</li><li><span class='func' id='52D090'>52D090 DidCursorPressIn??SomethingUI(void *somethingui)</span>
   Delegates to <code>52D020 int IsPointIn??SomethingUI</code>
-</li><li><code>52D100 DidCursorPressIn??SomethingUI_2(void *something2)</code>
+</li><li><span class='func' id='52D100'>52D100 DidCursorPressIn??SomethingUI_2(void *something2)</span>
   same as above, probably for some other type UI element
-</li><li><code>8763D0 struct MouseData _mouseData</code>
+</li><li><span class='field' id='8763D0'>8763D0 struct MouseData _mouseData</span>
 </li></ul><p style='margin-bottom:0'><a href='#index'>Index</a></p></div><span id='cheats'></span><div><h2>Cheats <a href="#cheats">#</a></h2>
-<pre>struct CheatScreenData {
+<pre><span id='struct_CheatScreenData'></span>struct CheatScreenData {
 	void **ppFunc;
 	char doCheatCheck; // only 1 when in the 'press enter key' screen
 	char field5;
@@ -1221,7 +1259,7 @@ struct MouseData *_mouseData = (struct MouseData*) 0x8763D0;
 #define CHEAT_TYPE_CAREER 5
 #define CHEAT_TYPE_SPONSOR_CAR 6 // shows up when doing quick race
 #define CHEAT_TYPE_VINYL 7
-struct CheatData {
+<span id='struct_CheatData'></span>struct CheatData {
 	char cheat[32];
 	int cheatType;
 	int cheatData; // hash when cheatType is sponsor car or vinyl
@@ -1233,10 +1271,8 @@ struct CheatData {
 	char field33;
 };
 EXPECT_SIZE(struct CheatData, 0x34);
-/*0x865930*/
-struct CheatScreenData cheatScreenData; // partially initialized by InitCheats_
-/*0x7FB960*/
-struct CheatData cheatData[20] = {
+struct CheatScreenData <a class='fieldref' href='#865930'>865930:CheatScreenData</a>; // partially initialized by <a class='funcref' href='#575770'>575770:InitCheats_()</a>
+struct CheatData <a class='fieldref' href='#7FB960'>7FB960:CheatData</a>[20] = {
 	{ "needperformance1",	2, 1, 0, 0, 0, 1, 1, 0 }, // 0
 	{ "needperformance2",	2, 2, 0, 0, 0, 1, 1, 0 }, // 1
 	{ "gimmevisual1",	1, 2, 0, 0, 0, 1, 1, 0 }, // 2
@@ -1258,9 +1294,9 @@ struct CheatData cheatData[20] = {
 	{ ""			0, 0, 0, 0, 0, 0, 0, 0 }, // 18
 	{ ""			0, 0, 0, 0, 0, 0, 0, 0 }, // 19
 };
-// after InitCheats_ was called, it looks like this:
+// after <a class='funcref' href='#575770'>575770:InitCheats_()</a> was called, it looks like this:
 // hashes are done with case sensitive hash
-struct CheatData cheatData[20] = {
+struct CheatData <a class='fieldref' href='#7FB960'>7FB960:CheatData</a>[20] = {
 	{ "needperformance1",	2, 0x00000001, 0, 0, 0, 1, 1, 0 }, //
 	{ "needperformance2",	2, 0x00000002, 0, 0, 0, 1, 1, 0 }, //
 	{ "gimmevisual1",	1, 0x00000002, 0, 0, 0, 1, 1, 0 }, //
@@ -1282,8 +1318,7 @@ struct CheatData cheatData[20] = {
 	{ "regmebaby"		5, 0x00000003, 0, 0, 0, 1, 1, 0 }, //
 	{ "ordermebaby"		5, 0x00000004, 0, 0, 0, 1, 1, 0 }, //
 };
-/*0x575770*/
-void __thiscall InitCheats(struct CheatScreenData *data)
+void __thiscall <a class='funcref' href='#575770'>575770:InitCheats_()</a>(struct CheatScreenData *data)
 {
 	int i;
 	cheatScreenData.ppFunc = (void*) 0x7A0604;
@@ -1304,35 +1339,35 @@ void __thiscall InitCheats(struct CheatScreenData *data)
 </pre><p>Cheats can only be inserted at the 'press enter key' screen at boot. (I remember
 this from looking up cheats in my childhood), but toggling sponsor car cheats when
 ingame has immediate effect.
-</p><ul><li><code>0x57B8B0 void __thiscall CheatCheck(void *this, int keyCode)</code> called
-  from {UIHandleKey} when {cheatScreenData.doCheatCheck} is
-  non-zero
-</li><li><code>579CB0 void __thiscall CheatMatched(struct CheatScreenData *this,
-  int cheat_index)</code> called from <code>CheatCheck</code> when a cheat matched
-</li><li><code>0x575770 void __thiscall InitCheats_(struct CheatScreenData *this)</code>
-  initializes <code>cheatScreenData</code> and <code>cheatData</code>
-</li><li><code>0x576050 void __thiscall UndoCheat__(struct CheatScreenData *this,
-  int cheatdata_field28)</code> weird one, is called on each cheat entry and all
-  cheats with a matching field28 has zero written to its <code>hasBeenTriggered</code>
-  field
-</li><li><code>0x5760A0 int __thiscall DoCareerCheat(struct CheatScreenData *this,
-  int careerCheatIdx)</code>
-</li><li><code>0x576090 int GetExtraCheatedCareerMoney()</code> basically
-  <code>return cheatExtraCareerMoney200 + cheatExtraCareerMoney1000;</code>
-</li><li><code>0x865930 struct CheatScreenData cheatScreenData</code>
-</li><li><code>0x7FB960 struct CheatData cheatData[20]</code>
-</li><li><code>0x86512C cheatExtraCareerMoney200</code> set to 200 when the <code>regmybank</code> cheat was entered
-</li><li><code>0x865130 cheatExtraCareerMoney1000</code> set to 1000 when the <code>ordermebaby</code> cheat was entered
-</li><li><code>0x8383C8 cheatCareerNeverPossible</code> this gets only set to one when
-  a career cheat with <code>cheatData</code> zero is entered, but all career cheats
-  have a value of 2-4. It has one XREF, surrounded by some language stuff? TODO
+</p><p><strong>Symbols:</strong></p><ul><li><span class='func' id='57B8B0'>57B8B0 void __thiscall CheatCheck(void *this, int keyCode)</span>
+  Called from <span class='unresolved'>0x55DBD0</span> when <a class='fieldref' href='#865930'>865930:CheatScreenData</a><code>.doCheatCheck</code> is non-zero.
+</li><li><span class='func' id='579CB0'>579CB0 void __thiscall CheatMatched(struct CheatScreenData *this, int cheat_index)</span>
+  Called from <a class='funcref' href='#57B8B0'>57B8B0:CheatCheck()</a> when a cheat matched.
+</li><li><span class='func' id='575770'>575770 void __thiscall InitCheats_(struct CheatScreenData *this)</span>
+  Initializes <a class='fieldref' href='#865930'>865930:CheatScreenData</a> and <a class='fieldref' href='#7FB960'>7FB960:CheatData</a>.
+</li><li><span class='func' id='576050'>576050 void __thiscall UndoCheat__(struct CheatScreenData *this, int cheatdata_field28)</span>
+  Weird one, is called on each cheat entry and all
+  cheats with a matching field28 has zero written to its <code>hasBeenTriggered</code> field.
+</li><li><span class='func' id='5760A0'>5760A0 int __thiscall DoCareerCheat(struct CheatScreenData *this, int careerCheatIdx)</span>
+</li><li><span class='func' id='576090'>576090 int GetExtraCheatedCareerMoney()</span>
+  Basically <code>return <a class='fieldref' href='#86512C'>cheatExtraCareerMoney200</a> + <a class='fieldref' href='#865130'>cheatExtraCareerMoney1000</a>;</code>
+</li><li><span class='field' id='865930'>865930 <a href='#struct_CheatScreenData'>struct CheatScreenData</a> cheatScreenData</span>
+</li><li><span class='field' id='7FB960'>7FB960 <a href='#struct_CheatData'>struct CheatData</a> cheatData[20]</span>
+</li><li><span class='field' id='86512C'>86512C cheatExtraCareerMoney200</span>
+  Set to 200 when the <em>regmybank</em> cheat was entered.
+</li><li><span class='field' id='865130'>865130 cheatExtraCareerMoney1000</span>
+  Set to 1000 when the <em>ordermebaby</em> cheat was entered.
+</li><li><span class='field' id='8383C8'>8383C8 cheatCareerNeverPossible</span>
+  This gets only set to one when a career cheat with <a class='fieldref' href='#7FB960'>7FB960:CheatData</a> zero is entered,
+  but all career cheats have a value of 2-4.
+  It has one XREF, surrounded by some language stuff? TODO
 </li></ul><p style='margin-bottom:0'><a href='#index'>Index</a></p></div><span id='carmodeldata'></span><div><h2>Car model data <a href="#carmodeldata">#</a></h2>
-<p>When jumping around XREFs I stumbled upon a function that I named
-<code>GetLogoForCarModel</code>. It uses a lot of strings that are manufacturers
-and stuff like <code>CARSELECT_MANUFACTURER_%s</code>. There are two parameters,
-the first seems to be the index of the car and the second is if the caller wants
-the manufacturer logo or the brand logo. The function gave some nice information:
-</p><ul><li><code>0x8A1CCC</code> is a pointer to something that's probably car model data
+<p>When jumping around XREFs I stumbled upon a function that I named <a class='funcref' href='#511E60'>511E60:GetLogoForCarModel()</a>.
+It uses a lot of strings that are manufacturers and stuff like <code>CARSELECT_MANUFACTURER_%s</code>.
+There are two parameters, the first seems to be the index of the car and the second is if
+the caller wants the manufacturer logo or the brand logo.
+The function gave some nice information:
+</p><ul><li><span class='unresolved'>0x8A1CCC</span> is a pointer to something that's probably car model data
 </li><li>That data is an array with component size <code>0x890</code>
 </li><li>At <code>+0x0</code>, there is a brand name
 </li><li>At <code>+0xC0</code>, there is a manufacturer name
@@ -1341,42 +1376,45 @@ the manufacturer logo or the brand logo. The function gave some nice information
 </p><ul><li>At <code>+0x20</code> is a the brand name again
 </li><li>At <code>+0x40</code> is a geometry path (example <code>CARS\A3\GEOMETRY.BIN</code>)
 </li><li>At <code>+0x60</code> is a geometry path (example <code>CARS\A3\GEOMETRY.LZC</code>)
+</li></ul><p><strong>Symbols:</strong></p><ul><li><span class='func' id='511E60'>511E60 void *GetLogoForCarModel(int car_model_index, char get_manufacturer_logo)</span>
+  TODO: what is the return type?
 </li></ul><p style='margin-bottom:0'><a href='#index'>Index</a></p></div><span id='sound'></span><div><h2>Sound <a href="#sound">#</a></h2>
-<ul><li><code>0x51DE60 int PlayUISoundEffect(void *unknownUnused, int soundID)</code>
-  discovered when looking at cheats. 8 is some choose sound, 9 too, .. TODO other IDs
-</li><li><code>0x458520 void __thiscall PlaySound_(void *this, void *sound)</code>
-</li><li><code>0x82B884 pSoundEffectSystem?</code> pointer to what is used as <code>this</code> for calls to <code>PlaySound?</code>
+<p><strong>Symbols:</strong></p><ul><li><span class='func' id='51DE60'>51DE60 int PlayUISoundEffect(void *unknownUnused, int soundID)</span>
+  Discovered when looking at cheats. 8 is some choose sound, 9 too, .. TODO other IDs.
+</li><li><span class='func' id='458520'>458520 void __thiscall PlaySound_(void *this, void *sound)</span>
+</li><li><span class='func' id='82B884'>82B884 pSoundEffectSystem?</span>
+  pointer to what is used as <code>this</code> for calls to <a class='funcref' href='#458520'>458520:PlaySound_()</a>
 </li></ul><p style='margin-bottom:0'><a href='#index'>Index</a></p></div><span id='career'></span><div><h2>Career <a href="#career">#</a></h2>
-<pre>struct CareerData {
+<pre><span id='struct_CareerData'></span>struct CareerData {
 	int money;
 };
-/*0x861E74*/
-struct CareerData careerData;
-</pre><ul><li><code>0x532830 MaybeStartCareer?</code> it's the only func that calls <code>GetExtraCheatedCareerMoney</code>
-</li><li><code>0x86347C isProfileWithStartedCareerLoaded</code> fun fact: when creating a
-  new profile, this value is set to 0 when the textbox to enter a name appears. When
-  canceling at that point, it's set back to 1 (if the loaded profile already had
-  career started)
-</li><li><code>0x500F90 int __thiscall CareerGetMoney(struct CareerData *this)</code>
-  TODO has one other XREF: where money is drawn?
-</li><li><code>0x500F80 void __thiscall CareerGiveMoney(struct CareerData *this,
-  int amount)</code> only used in the career money cheats
-</li><li><code>0x861E74 struct CareerData careerData</code>
-</li></ul><p>The career money cheat is mildly interesting, as it seems to work in two different
+</pre><p>The career money cheat is mildly interesting, as it seems to work in two different
 ways. It adds the amount to a variable that is used when a new career is started and
 it adds the amount to the current career data if the loaded profile didn't start
 career yet.
-</p><pre>/*from DoCareerCheat*/
+</p><pre>/*from <a class='funcref' href='#5760A0'>5760A0:DoCareerCheat()</a>*/
 /*ordermebaby ($1000 career start bonus)*/
-cheatExtraCareerMoney1000 = 1000;
+<a class='funcref' href='#865130'>cheatExtraCareerMoney1000</a> = 1000;
 // ^ used when starting a new career from a profile that
 // was loaded from the profile menu
-if (!isPofileWithStartedCareerLoaded) {
-	if (CareerGetMoney() == 0) {
-		CareerSetMoney(1000);
+if (!<a class='fieldref' href='#86347C'>isProfileWithStartedCareerLoaded</a>) {
+	if (<a class='funcref' href='#500F90'>CareerGetMoney</a>() == 0) {
+		<a class='funcref' href='#500F80'>CareerGiveMoney</a>(1000);
 		// ^ This only has an effect when the profile was
 		// loaded from the loading screen
 	}
 }
-</pre><p style='margin-bottom:0'><a href='#index'>Index</a></p></div></body>
+</pre><p><strong>Symbols:</strong></p><ul><li><span class='func' id='532830'>532830 void MaybeStartCareer?()</span>
+  It's the only func that calls <a class='funcref' href='#576090'>576090:GetExtraCheatedCareerMoney()</a>.
+</li><li><span class='func' id='500F90'>500F90 int __thiscall CareerGetMoney(struct CareerData *this)</span>
+  TODO has one other XREF: where money is drawn?
+</li><li><span class='func' id='500F80'>500F80 void __thiscall CareerGiveMoney(<a href='#struct_CareerData'>struct CareerData</a> *this, int amount)</span>
+  Only used in the career money cheats.
+</li><li><span class='field' id='86347C'>86347C int isProfileWithStartedCareerLoaded</span>
+  Fun fact: when creating a new profile,
+  this value is set to 0 when the textbox to enter a name appears.
+  When canceling at that point, it's set back to 1
+  (if the loaded profile already had career started).
+</li><li><span class='field' id='861E74'>861E74 <a href='#struct_CareerData'>struct CareerData</a> careerData</span>
+</li></ul><p style='margin-bottom:0'><a href='#index'>Index</a></p></div></body>
 </html>

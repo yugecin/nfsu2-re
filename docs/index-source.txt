@@ -43,7 +43,7 @@ body > div {
 code {
 	display: inline-block;
 	background: #dfdfdf;
-	padding: .2em;
+	padding: 0 .2em;
 	margin: 0 .2em;
 	border-radius: 2px;
 }
@@ -71,6 +71,41 @@ pre.ida span.num,pre.ida span.str {
 }
 pre.ida span.hi {
 	background:#FFFF00;
+}
+span.unresolved,a.funcref,a.fieldref {
+        padding: 0 4px;
+        border-radius: 3px;
+        font-family: monospace;
+}
+span.unresolved {
+        background: #ff5454;
+}
+a.funcref {
+        background: #fdf;
+}
+a.funcref:hover {
+        background: #f6f;
+}
+a.fieldref {
+        background: #dfd;
+}
+a.fieldref:hover {
+        background: #6f6;
+}
+span.func,span.field {
+        display: block;
+        padding: 2px 3px;
+        font-family: monospace;
+        font-weight: bold;
+        margin: .5em 0;
+}
+span.func {
+        background: #fdf;
+        border: 1px solid #f6f;
+}
+span.field {
+        background: #dfd;
+        border: 1px solid #6f6;
 }
 </style>
 </head>
@@ -250,12 +285,26 @@ like a strcmp function? TODO.
 
 {Game region} |||h id=gameregion
 
-This proc at {0x5B7C40} certainly helped to know what the region numbers ||| code
-represent.
+{5B7C40} certainly helped to know what the region numbers represent                             ||| funcref
 
+.push ul
+- 0: US
+- 2: Korea
+- 3: Japan
+- 4: Taiwan
+- 5: UK/Netherlands/Sweden/Denmark
+- 6: France
+- 7: Germany
+- 8: Italy
+- 9: Spain
+- 11: China
+- 12: Thailand
+.pop ul
+
+.push symbols
+- {5B7C40 int OpenPatchesWebsite()}                                                             ||| func
+No idea where this is used, TODO
 .push pre
-
-/*No idea where this is used, TODO*/
 int OpenPatchesWebsite()
 {
 	char *url;
@@ -285,22 +334,8 @@ def:
 	}
 	return ShellExecuteA(NULL, "open", url, NULL, NULL, SW_SHOWNORMAL);
 }
-
 .pop pre
-
-.push ul
-- 0: US
-- 2: Korea
-- 3: Japan
-- 4: Taiwan
-- 5: UK/Netherlands/Sweden/Denmark
-- 6: France
-- 7: Germany
-- 8: Italy
-- 9: Spain
-- 11: China
-- 12: Thailand
-.pop ul
+.pop symbols
 
 .pop section
 .push section
@@ -1181,11 +1216,11 @@ executable itself so it's probably somewhere deep in a bin file.
 
 .pop section
 
-DialogInfo struct made by looking at all of the above and more:
-(Especially {Dialog__ctor} at {0x4FF250} helped here.)                                          ||| code,code
+{DialogInfo} struct made by looking at all of the above and more:                               ||| code
+(Especially {4FF250} helped here.)                                                              ||| funcref
 
 .push pre
-struct DialogInfo {
+{struct DialogInfo} \{                                                                          ||| mkref
 	char text[768];
 	int unused300;
 	int unused304;
@@ -1205,31 +1240,38 @@ struct DialogInfo {
 	int something330; /*set to 0 in 558074*/
 	int unused334;
 };
-EXPECT_SIZE(struct DialogInfo, 0x338);
-ASSERT_OFFSET(struct DialogInfo, pTypeName, 0x324);
-ASSERT_OFFSET(struct DialogInfo, isHelpDialog, 0x32D);
+EXPECT_SIZE({struct DialogInfo}, 0x338);                                                        ||| refto
+ASSERT_OFFSET({struct DialogInfo}, pTypeName, 0x324);                                           ||| refto
+ASSERT_OFFSET({struct DialogInfo}, isHelpDialog, 0x32D);                                        ||| refto
 .pop pre
 
-.push ul
-- {0x558020 int ShowDialog(struct DialogInfo *info)} returns                                    ||| code
-the new dialog id for it (value in {shownDialogHandleId}) or zero when                          ||| code
-it didn't show because of some override
-- {0x4FF250 void __thiscall Dialog__ctor(struct DialogInfo *this)}                              ||| code
-initializes memory that was allocated to be a dialog
-- {0x540A60 void DismissDialog(int dialogIdToDismiss)}                                          ||| code
-- {0x838960 char* shownDialogParent} example value: {UI_PerformanceTuning_Setting.fng}          ||| code,code
-- {0x838964 char* shownDialogType} example value: {GenericDialog_MED.fng}                       ||| code,code
-- {0x838970 int dialogDismissedByOtherDialogMsg} unsure yet                                     ||| code
-- {0x838974 int shownDialogId} zero when none                                                   ||| code
-- {0x7F6DE0 int nextDialogId} when {ShowDialog} is called,                                      ||| code,code
-value is put into {shownDialogId} and incremented                                               ||| code
-- {0x838640 struct DialogInfo shownDialogData} dialog info passed to                            ||| code
-{ShowDialog} is copied into here, TODO xrefs                                                    ||| code
-.pop ul
+.push symbols
+- {558020 int ShowDialog({struct DialogInfo} *info)}                                            ||| func,refto
+  Returns the new dialog id for it (value in {838974}) or zero when                             ||| fieldref
+  it didn't show because of some override.
+- {4FF250 void __thiscall Dialog__ctor({struct DialogInfo} *this)}                              ||| func,refto
+  Initializes memory that was allocated to be a dialog.
+- {540A60 void DismissDialog(int dialogIdToDismiss)}                                            ||| func
+- {838960 char* shownDialogParent}                                                              ||| func
+  Example value: {UI_PerformanceTuning_Setting.fng}.                                            ||| code
+- {838964 char* shownDialogType}                                                                ||| func
+  Example value: {GenericDialog_MED.fng}.                                                       ||| code
+- {838970 int dialogDismissedByOtherDialogMsg}                                                 ||| func
+  Unsure yet.
+- {838974 int shownDialogId}                                                                    ||| field
+  Zero when none.
+- {7F6DE0 int nextDialogId}                                                                     ||| field
+  When {558020} is called, value is put into {838974} and incremented.                          ||| funcref,fieldref
+- {838640 {struct DialogInfo} shownDialogData}                                                  ||| field,refto
+  Dialog info passed to {558020} is copied into here, TODO xrefs                                ||| funcref
+.pop symbols
 
-<hr/>
+.pop section
+.push section
 
-Thanks to {ShowDialog} code, following things were discovered:                                  ||| code
+{FNG things}  ||| h id=fngthings
+
+Thanks to {558020} code, following things were discovered:                                      ||| funcref
 
 .push pre
 typedef int (fnginithandler)(struct FNGShowData *msg);
@@ -1465,7 +1507,6 @@ for a reimplementation
   Navigating menus seems unaffected
 - {0x558B70 void __thiscall UIConsumeKey(void *this, int keyCode)}                              ||| code
   probably used for Q, but what else?
-- {0x57B8B0 void __thiscall CheatCheck(void *this, int keyCode)} see {cheats}                   ||| code,href
 - {0x83A9C0 isTextboxFocused}                                                                   ||| code
 - {0x83A9C4 focusedTextbox} ptr to some struct                                                  ||| code
 .pop ul
@@ -1519,7 +1560,7 @@ While the canvas is {640x480}, mouse position seems to be handled mostly        
 as {([-320,+320],[-240,+240])}.                                                                 ||| code
 
 .push pre
-struct MouseData {
+{struct MouseData} \{                                                                           ||| mkref
 	void /*DInputDevice8*/ *dinputdevice;
 	int cursorX; // on 640x480 canvas
 	int cursorY; // on 640x480 canvas
@@ -1544,42 +1585,42 @@ struct MouseData *_mouseData = (struct MouseData*) 0x8763D0;
 .pop pre
 
 .push ul
-- {5BF6E0 int __thiscall CreateDinputDevice(struct MouseData *this)}                            ||| code
+- {5BF6E0 int __thiscall CreateDinputDevice({struct MouseData} *this)}                          ||| func,refto
   Creates and sets {dinputdevice}                                                               ||| code
-- {5C8600 int __thiscall MouseData::ctor(struct MouseData *this)}                               ||| code
-  called once, from {init_function_77E580}                                                      ||| code
-- {5BF860 void __thiscall UpdateMouseState(struct MouseData *this)}                             ||| code
+- {5C8600 int __thiscall MouseData::ctor({struct MouseData} *this)}                             ||| func,refto
+  Called once, from {init_function_77E580}.                                                     ||| code
+- {5BF860 void __thiscall UpdateMouseState({struct MouseData} *this)}                           ||| func,refto
   Calls {UpdateCursorPosition} and then updates button states.                                  ||| code
-- {5BF750 int __thiscall UpdateCursorPosition(struct MouseData *this)}                          ||| code
-- {5BF940 int __thiscall HaveCursorActivity(struct MouseData *this)}                            ||| code
+- {5BF750 int __thiscall UpdateCursorPosition({struct MouseData} *this)}                        ||| func,refto
+- {5BF940 int __thiscall HaveCursorActivity({struct MouseData} *this)}                          ||| func,refto
   called once, from {5663F9 DoUI}. returns 1 if position deltas or scrollwheel or               ||| code
   any of the JustPressed/JustReleased fields are not zero. Always returning 0 here has the
   effect that ui hover does not work, left click acts as right click (go back) except when
   clicking on the active ui element (like main menu bar). Dialog box buttons still work
   somehow. The car showroom can still be rotated with mmb. Mouse still moves.
-- {50C860 void StoreMousePosButtonsIntoArg(void *arg)}                                          ||| code
+- {50C860 void StoreMousePosButtonsIntoArg(void *arg)}                                          ||| func
 .push pre
 *((short*) arg_0 + 0) = _mouseData.cursorX - canvasWidth / 2;
 *((short*) arg_0 + 1) = _mouseData.cursorY - canvasHeight / 2;
 *((short*) arg_0 + 2) = _mouseData.button0State &lt;&lt; 1 | _mouseData.button1State; (or swapped)
 .pop pre
-- {50CD70 void GetMousePositionFromMiddle(float *cursorX, float *cursorY)}                      ||| code
+- {50CD70 void GetMousePositionFromMiddle(float *cursorX, float *cursorY)}                      ||| func
 .push pre
 *cursorX = _mouseData.cursorX - canvasWidth/2;
 *cursorY = _mouseData.cursorY - canvasHeight/2;
 .pop pre
-- {50CDA0 void GetMouseWheel(float *mouseWheelData)}                                            ||| code
+- {50CDA0 void GetMouseWheel(float *mouseWheelData)}                                            ||| func
 .push pre
 *mouseWheelData = _mouseData.mousestate.lz;
 .pop pre
-- {50CDB0 int DidCursorPressInRect(struct \{ float x; float y; \} *pos,                         ||| code
+- {50CDB0 int DidCursorPressInRect(struct \{ float x; float y; \} *pos,                         ||| func
   struct \{ float width; float height; \} *size)}
   Gets called in one location, but still haven't actually seen it being called. TODO
-- {52D090 DidCursorPressIn??SomethingUI(void *somethingui)}                                     ||| code
+- {52D090 DidCursorPressIn??SomethingUI(void *somethingui)}                                     ||| func
   Delegates to {52D020 int IsPointIn??SomethingUI}                                              ||| code
-- {52D100 DidCursorPressIn??SomethingUI_2(void *something2)}                                    ||| code
+- {52D100 DidCursorPressIn??SomethingUI_2(void *something2)}                                    ||| func
   same as above, probably for some other type UI element
-- {8763D0 struct MouseData _mouseData}                                                          ||| code
+- {8763D0 struct MouseData _mouseData}                                                          ||| field
 .pop ul
 
 .pop section
@@ -1588,7 +1629,7 @@ struct MouseData *_mouseData = (struct MouseData*) 0x8763D0;
 {Cheats}  ||| h id=cheats
 
 .push pre
-struct CheatScreenData {
+{struct CheatScreenData} \{                                                                     ||| mkref
 	void **ppFunc;
 	char doCheatCheck; // only 1 when in the 'press enter key' screen
 	char field5;
@@ -1608,7 +1649,7 @@ struct CheatScreenData {
 #define CHEAT_TYPE_SPONSOR_CAR 6 // shows up when doing quick race
 #define CHEAT_TYPE_VINYL 7
 
-struct CheatData {
+{struct CheatData} \{                                                                           ||| mkref
 	char cheat[32];
 	int cheatType;
 	int cheatData; // hash when cheatType is sponsor car or vinyl
@@ -1621,10 +1662,8 @@ struct CheatData {
 };
 EXPECT_SIZE(struct CheatData, 0x34);
 
-/*0x865930*/
-struct CheatScreenData cheatScreenData; // partially initialized by InitCheats_
-/*0x7FB960*/
-struct CheatData cheatData[20] = {
+struct CheatScreenData {865930}; // partially initialized by {575770}                           ||| fieldref,funcref
+struct CheatData {7FB960}[20] = \{                                                              ||| fieldref
 	{ "needperformance1",	2, 1, 0, 0, 0, 1, 1, 0 }, // 0
 	{ "needperformance2",	2, 2, 0, 0, 0, 1, 1, 0 }, // 1
 	{ "gimmevisual1",	1, 2, 0, 0, 0, 1, 1, 0 }, // 2
@@ -1646,9 +1685,9 @@ struct CheatData cheatData[20] = {
 	{ ""			0, 0, 0, 0, 0, 0, 0, 0 }, // 18
 	{ ""			0, 0, 0, 0, 0, 0, 0, 0 }, // 19
 };
-// after InitCheats_ was called, it looks like this:
+// after {575770} was called, it looks like this:                                               ||| funcref
 // hashes are done with case sensitive hash
-struct CheatData cheatData[20] = {
+struct CheatData {7FB960}[20] = \{                                                              ||| fieldref
 	{ "needperformance1",	2, 0x00000001, 0, 0, 0, 1, 1, 0 }, //
 	{ "needperformance2",	2, 0x00000002, 0, 0, 0, 1, 1, 0 }, //
 	{ "gimmevisual1",	1, 0x00000002, 0, 0, 0, 1, 1, 0 }, //
@@ -1671,8 +1710,7 @@ struct CheatData cheatData[20] = {
 	{ "ordermebaby"		5, 0x00000004, 0, 0, 0, 1, 1, 0 }, //
 };
 
-/*0x575770*/
-void __thiscall InitCheats(struct CheatScreenData *data)
+void __thiscall {575770}(struct CheatScreenData *data)                                          ||| funcref
 {
 	int i;
 
@@ -1698,44 +1736,44 @@ Cheats can only be inserted at the 'press enter key' screen at boot. (I remember
 this from looking up cheats in my childhood), but toggling sponsor car cheats when
 ingame has immediate effect.
 
-.push ul
-- {0x57B8B0 void __thiscall CheatCheck(void *this, int keyCode)} called                         ||| code
-  from {UIHandleKey} when {cheatScreenData.doCheatCheck} is
-  non-zero
-- {579CB0 void __thiscall CheatMatched(struct CheatScreenData *this,                            ||| code
-  int cheat_index)} called from {CheatCheck} when a cheat matched                               ||| code
-- {0x575770 void __thiscall InitCheats_(struct CheatScreenData *this)}                          ||| code
-  initializes {cheatScreenData} and {cheatData}                                                 ||| code,code
-- {0x576050 void __thiscall UndoCheat__(struct CheatScreenData *this,                           ||| code
-  int cheatdata_field28)} weird one, is called on each cheat entry and all
-  cheats with a matching field28 has zero written to its {hasBeenTriggered}                     ||| code
-  field
-- {0x5760A0 int __thiscall DoCareerCheat(struct CheatScreenData *this,                          ||| code
-  int careerCheatIdx)}
-- {0x576090 int GetExtraCheatedCareerMoney()} basically                                         ||| code
-  {return cheatExtraCareerMoney200 + cheatExtraCareerMoney1000;}                                ||| code
-- {0x865930 struct CheatScreenData cheatScreenData}                                             ||| code
-- {0x7FB960 struct CheatData cheatData[20]}                                                     ||| code
-- {0x86512C cheatExtraCareerMoney200} set to 200 when the {regmybank} cheat was entered         ||| code,code
-- {0x865130 cheatExtraCareerMoney1000} set to 1000 when the {ordermebaby} cheat was entered     ||| code,code
-- {0x8383C8 cheatCareerNeverPossible} this gets only set to one when                            ||| code
-  a career cheat with {cheatData} zero is entered, but all career cheats                        ||| code
-  have a value of 2-4. It has one XREF, surrounded by some language stuff? TODO
-.pop ul
+.push symbols
+- {57B8B0 void __thiscall CheatCheck(void *this, int keyCode)}                                  ||| func
+  Called from {55DBD0} when {865930}{.doCheatCheck} is non-zero.                                ||| funcref,fieldref,code
+- {579CB0 void __thiscall CheatMatched(struct CheatScreenData *this, int cheat_index)}          ||| func
+  Called from {57B8B0} when a cheat matched.                                                    ||| funcref
+- {575770 void __thiscall InitCheats_(struct CheatScreenData *this)}                            ||| func
+  Initializes {865930} and {7FB960}.                                                            ||| fieldref,fieldref
+- {576050 void __thiscall UndoCheat__(struct CheatScreenData *this, int cheatdata_field28)}     ||| func
+  Weird one, is called on each cheat entry and all
+  cheats with a matching field28 has zero written to its {hasBeenTriggered} field.              ||| code
+- {5760A0 int __thiscall DoCareerCheat(struct CheatScreenData *this, int careerCheatIdx)}       ||| func
+- {576090 int GetExtraCheatedCareerMoney()}                                                     ||| func
+  Basically {return {86512C} + {865130};}                                                       ||| code,fieldplain,fieldplain
+- {865930 {struct CheatScreenData} cheatScreenData}                                             ||| field,refto
+- {7FB960 {struct CheatData} cheatData[20]}                                                     ||| field,refto
+- {86512C cheatExtraCareerMoney200}                                                             ||| field
+  Set to 200 when the {regmybank} cheat was entered.                                            ||| em
+- {865130 cheatExtraCareerMoney1000}                                                            ||| field
+  Set to 1000 when the {ordermebaby} cheat was entered.                                         ||| em
+- {8383C8 cheatCareerNeverPossible}                                                             ||| field
+  This gets only set to one when a career cheat with {7FB960} zero is entered,                  ||| fieldref
+  but all career cheats have a value of 2-4.
+  It has one XREF, surrounded by some language stuff? TODO
+.pop symbols
 
 .pop section
 .push section
 
 {Car model data}  ||| h id=carmodeldata
 
-When jumping around XREFs I stumbled upon a function that I named
-{GetLogoForCarModel}. It uses a lot of strings that are manufacturers                           ||| code
-and stuff like {CARSELECT_MANUFACTURER_%s}. There are two parameters,                           ||| code
-the first seems to be the index of the car and the second is if the caller wants
-the manufacturer logo or the brand logo. The function gave some nice information:
+When jumping around XREFs I stumbled upon a function that I named {511E60}.                     ||| funcref
+It uses a lot of strings that are manufacturers and stuff like {CARSELECT_MANUFACTURER_%s}.     ||| code
+There are two parameters, the first seems to be the index of the car and the second is if
+the caller wants the manufacturer logo or the brand logo.
+The function gave some nice information:
 
 .push ul
-- {0x8A1CCC} is a pointer to something that's probably car model data                           ||| code
+- {8A1CCC} is a pointer to something that's probably car model data                             ||| fieldref
 - That data is an array with component size {0x890}                                             ||| code
 - At {+0x0}, there is a brand name                                                              ||| code
 - At {+0xC0}, there is a manufacturer name                                                      ||| code
@@ -1750,17 +1788,23 @@ After hooking and printing addresses, some more obvious data could be seen:
 - At {+0x60} is a geometry path (example {CARS\A3\GEOMETRY.LZC})                                ||| code, code
 .pop ul
 
+.push symbols
+- {511E60 void *GetLogoForCarModel(int car_model_index, char get_manufacturer_logo)}            ||| func
+  TODO: what is the return type?
+.pop symbols
+
 .pop section
 .push section
 
 {Sound}  ||| h id=sound
 
-.push ul
-- {0x51DE60 int PlayUISoundEffect(void *unknownUnused, int soundID)}                            ||| code
-  discovered when looking at cheats. 8 is some choose sound, 9 too, .. TODO other IDs
-- {0x458520 void __thiscall PlaySound_(void *this, void *sound)}                                ||| code
-- {0x82B884 pSoundEffectSystem?} pointer to what is used as {this} for calls to {PlaySound?}    ||| code,code,code
-.pop ul
+.push symbols
+- {51DE60 int PlayUISoundEffect(void *unknownUnused, int soundID)}                              ||| func
+  Discovered when looking at cheats. 8 is some choose sound, 9 too, .. TODO other IDs.
+- {458520 void __thiscall PlaySound_(void *this, void *sound)}                                  ||| func
+- {82B884 pSoundEffectSystem?}                                                                  ||| func
+  pointer to what is used as {this} for calls to {458520}                                       ||| code, funcref
+.pop symbols
 
 .pop section
 .push section
@@ -1768,26 +1812,10 @@ After hooking and printing addresses, some more obvious data could be seen:
 {Career}  ||| h id=career
 
 .push pre
-struct CareerData {
+{struct CareerData} \{                                                                          ||| mkref
 	int money;
 };
-
-/*0x861E74*/
-struct CareerData careerData;
 .pop pre
-
-.push ul
-- {0x532830 MaybeStartCareer?} it's the only func that calls {GetExtraCheatedCareerMoney}       ||| code,code
-- {0x86347C isProfileWithStartedCareerLoaded} fun fact: when creating a                         ||| code
-  new profile, this value is set to 0 when the textbox to enter a name appears. When
-  canceling at that point, it's set back to 1 (if the loaded profile already had
-  career started)
-- {0x500F90 int __thiscall CareerGetMoney(struct CareerData *this)}                             ||| code
-  TODO has one other XREF: where money is drawn?
-- {0x500F80 void __thiscall CareerGiveMoney(struct CareerData *this,                            ||| code
-  int amount)} only used in the career money cheats
-- {0x861E74 struct CareerData careerData}                                                       ||| code
-.pop ul
 
 The career money cheat is mildly interesting, as it seems to work in two different
 ways. It adds the amount to a variable that is used when a new career is started and
@@ -1795,19 +1823,34 @@ it adds the amount to the current career data if the loaded profile didn't start
 career yet.
 
 .push pre
-/*from DoCareerCheat*/
+/*from {5760A0}*/                                                                               ||| funcref
 /*ordermebaby ($1000 career start bonus)*/
-cheatExtraCareerMoney1000 = 1000;
+{cheatExtraCareerMoney1000} = 1000;                                                             ||| funcplain address=865130
 // ^ used when starting a new career from a profile that
 // was loaded from the profile menu
-if (!isPofileWithStartedCareerLoaded) {
-	if (CareerGetMoney() == 0) {
-		CareerSetMoney(1000);
+if (!{isProfileWithStartedCareerLoaded}) \{                                                     ||| fieldplain address=86347C
+	if ({CareerGetMoney}() == 0) \{                                                         ||| funcplain address=500F90
+		{CareerSetMoney}(1000);                                                         ||| funcplain address=500F80
 		// ^ This only has an effect when the profile was
 		// loaded from the loading screen
 	}
 }
 .pop pre
+
+.push symbols
+- {532830 void MaybeStartCareer?()}                                                             ||| func
+  It's the only func that calls {576090}.                                                       ||| funcref
+- {500F90 int __thiscall CareerGetMoney(struct CareerData *this)}                               ||| func
+  TODO has one other XREF: where money is drawn?
+- {500F80 void __thiscall CareerGiveMoney({struct CareerData} *this, int amount)}               ||| func,refto
+  Only used in the career money cheats.
+- {86347C int isProfileWithStartedCareerLoaded}                                                 ||| field
+  Fun fact: when creating a new profile,
+  this value is set to 0 when the textbox to enter a name appears.
+  When canceling at that point, it's set back to 1
+  (if the loaded profile already had career started).
+- {861E74 {struct CareerData} careerData}                                                       ||| field,refto
+.pop symbols
 
 .pop section
 
