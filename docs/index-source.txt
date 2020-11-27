@@ -399,6 +399,11 @@ information and associated data. See {language_metadata}.                       
 .pop ul
 
 .push symbols
+- {570A30 int GetGameRegion()}                                                                  ||| func
+  {return {864F24};}                                                                            ||| code,fieldplain
+- {570A40 int UseCarUKNames()}                                                                  ||| func
+  {return {864F24} == 1 || (4 < {864F24} && {864F24} < 10);}                                    ||| code,fieldplain,fieldplain,fieldplain
+  Unsure about this name.
 - {5B7C40 int OpenPatchesWebsite()}                                                             ||| func
 No idea where this is used, TODO
 .push pre
@@ -432,6 +437,7 @@ def:
 	return ShellExecuteA(NULL, "open", url, NULL, NULL, SW_SHOWNORMAL);
 }
 .pop pre
+- {864F24 int _gameRegion}                                                                      ||| field
 .pop symbols
 
 .pop section
@@ -801,164 +807,166 @@ when the game is installed?
 Thanks to code where it reads the Registry, I found following data:
 
 .push pre
-struct LanguageData {
+{struct LanguageData} \{                                                                ||| mkref
 	char *pName;
-	int val1; //??
+	int {val1}; //??                                                                ||| mkref name=structLanguageData+4
 	int region;
 };
-.pop pre
 
-Data can be found at {0x7FCA08}:      ||| code
-
-.push pre
-struct LanguageData languageData[] = {
-/*0x7FCA08*/ { "English US",		0,	0 },
-/*0x7FCA14*/ { "English UK",		0,	5 },
-/*0x7FCA20*/ { "French",		1,	6 },
-/*0x7FCA2C*/ { "German",		2,	7 },
-/*0x7FCA38*/ { "Italian",		3,	8 },
-/*0x7FCA44*/ { "Spanish",		4,	9 },
-/*0x7FCA50*/ { "Swedish",		6,	5 },
-/*0x7FCA5C*/ { "Danish",		7,	5 },
-/*0x7FCA68*/ { "Dutch",			5,	5 },
-/*0x7FCA74*/ { "Korean",		8,	2 },
-/*0x7FCA80*/ { "Chinese (Traditional)",	9,	4 },
-/*0x7FCA8C*/ { "English China",		9,	11 },
-/*0x7FCA98*/ { "Japanese",		10,	3 },
-/*0x7FCAA4*/ { "Thai",			11,	12 },
-/*0x7FCAB0*/ { 0,			0,	0 },
+{struct LanguageData} {7FCA08}[] = \{                                                   ||| refto,fieldplain
+        { "English US",            0,        0 },
+        { "English UK",            0,        5 },
+        { "French",                1,        6 },
+        { "German",                2,        7 },
+        { "Italian",               3,        8 },
+        { "Spanish",               4,        9 },
+        { "Swedish",               6,        5 },
+        { "Danish",                7,        5 },
+        { "Dutch",                 5,        5 },
+        { "Korean",                8,        2 },
+        { "Chinese (Traditional)", 9,        4 },
+        { "English China",         9,        11 },
+        { "Japanese",              10,       3 },
+        { "Thai",                  11,       12 },
+        { 0,                       0,        0 },
 };
 .pop pre
 
 The value stored in the registry for {Language} is checked against                      ||| code
 all language strings in the above data. The matching language's
-{val1} gets stored in {0x7FCA00} (TODO), or 0 when the                                  ||| code,code
+{structLanguageData+4} gets stored in {7FCA00}, or 0 when the                           ||| refto,fieldref
 name stored in the registry didn't match any names.
 
-After chasing usages of a region related proc, I found more language data.
-Used in {0x4FF680} which I conveniently called {LoadLanguageSomething}.                 ||| code,code
-I found about three more structs that seem language or font related.
+After chasing usages of a region related proc,
+I found more language data which is being used in {4FF680}.                             ||| funcref
+They seem to fit into three more structs.
 
 .push pre
-/*from hashes, prefixed with FONTHASH_*/
-#define FONTHASH_CONDUITMDITC_TT21I 0x5B9D88B9
-#define FONTHASH_font_impact36 0x0920075C
-#define FONTHASH_CONDUITMDITC_TT14I 0x5B9D84DB
-#define FONTHASH_FONT_CONDUITMDITCTT38BI 0x9583AA1A
-#define FONTHASH_arial 0xA87927BE
-#define FONTHASH_arial12 0xAB6215C1
-#define FONTHASH_lcd_let48 0xBBBA71C2
-#define FONTHASH_conduitmditc_tt14i_korean 0xDCA5485A
-#define FONTHASH_conduitmditc_tt21i_korean 0x833A8678
-#define FONTHASH_conduitmditc_tt14i_chinese 0xF88A75F9
-#define FONTHASH_conduitmditc_tt21i_chinese 0x71C777D7
-#define FONTHASH_conduitmditc_tt14i_japanese 0x743BF1C1
-#define FONTHASH_conduitmditc_tt21i_japanese 0x15192F5F
-#define FONTHASH_conduitmditc_tt14i_thailand 0xA73823FF
-#define FONTHASH_conduitmditc_tt21i_thailand 0x4815619D
+/*from hashes, prefixed with HASH_*/
+#define HASH_CONDUITMDITC_TT21I 0x5B9D88B9
+#define HASH_font_impact36 0x0920075C
+#define HASH_CONDUITMDITC_TT14I 0x5B9D84DB
+#define HASH_FONT_CONDUITMDITCTT38BI 0x9583AA1A
+#define HASH_arial 0xA87927BE
+#define HASH_arial12 0xAB6215C1
+#define HASH_lcd_let48 0xBBBA71C2
+#define HASH_conduitmditc_tt14i_korean 0xDCA5485A
+#define HASH_conduitmditc_tt21i_korean 0x833A8678
+#define HASH_conduitmditc_tt14i_chinese 0xF88A75F9
+#define HASH_conduitmditc_tt21i_chinese 0x71C777D7
+#define HASH_conduitmditc_tt14i_japanese 0x743BF1C1
+#define HASH_conduitmditc_tt21i_japanese 0x15192F5F
+#define HASH_conduitmditc_tt14i_thailand 0xA73823FF
+#define HASH_conduitmditc_tt21i_thailand 0x4815619D
 
-struct LanguageStruct7F6DE8 {
-	int field_0;
-	int field_1;
+{struct LanguageStruct7F6DE8} \{                                                                ||| mkref
+	int {fonthash};                                                                         ||| mkref name=LanguageStruct7F6DE8+0
+	int {field_1};                                                                          ||| mkref name=LanguageStruct7F6DE8+4
 };
 
-struct LanguageStruct7F6E60 {
-	int data[28];
+{struct LanguageStruct7F6DE8} {7F6DE8}[] = \{                                                   ||| refto,fieldref
+        { HASH_CONDUITMDITC_TT21I,          0x0 },
+        { HASH_font_impact36,               0x40000 },
+        { HASH_CONDUITMDITC_TT14I,          0x10000 },
+        { HASH_FONT_CONDUITMDITCTT38BI,     0x100000 },
+        { HASH_arial,                       0x10000 },
+        { HASH_arial12,                     0x10000 },
+        { HASH_lcd_let48,                   0x4000 },
+        { HASH_conduitmditc_tt14i_korean,   0x40000 },
+        { HASH_conduitmditc_tt21i_korean,   0x80000 },
+        { HASH_conduitmditc_tt14i_chinese,  0x40000 },
+        { HASH_conduitmditc_tt21i_chinese,  0x80000 },
+        { HASH_conduitmditc_tt14i_japanese, 0x40000 },
+        { HASH_conduitmditc_tt21i_japanese, 0x80000 },
+        { HASH_conduitmditc_tt14i_thailand, 0x40000 },
+        { HASH_conduitmditc_tt21i_thailand, 0x80000 },
 };
 
-struct LanguageFileData {
+{struct LanguageStruct7F6E60} \{                                                                ||| mkref
+	int {data}[28];                                                                         ||| mkref name=structLanguageStruct7F6E60+0
+};
+
+{struct LanguageFileData} \{                                                                    ||| mkref
 	int id;
 	char *filecode;
 	char *binfile;
-	struct LanguageStruct7F6E60 *pStruct7F6E60;
+	{struct LanguageStruct7F6E60} *{pStruct7F6E60};                                         ||| refto,mkref name=structLanguageFileData+C
 };
 
-/*0x7F6DE8*/
-struct LanguageStruct7F6DE8 struct7F6DE8[] = {
-	{ FONTHASH_CONDUITMDITC_TT21I,		0x0 },
-	{ FONTHASH_font_impact36,		0x40000 },
-	{ FONTHASH_CONDUITMDITC_TT14I,		0x10000 },
-	{ FONTHASH_FONT_CONDUITMDITCTT38BI,	0x100000 },
-	{ FONTHASH_arial,			0x10000 },
-	{ FONTHASH_arial12,			0x10000 },
-	{ FONTHASH_lcd_let48,			0x4000 },
-	{ FONTHASH_conduitmditc_tt14i_korean,	0x40000 },
-	{ FONTHASH_conduitmditc_tt21i_korean,	0x80000 },
-	{ FONTHASH_conduitmditc_tt14i_chinese,	0x40000 },
-	{ FONTHASH_conduitmditc_tt21i_chinese,	0x80000 },
-	{ FONTHASH_conduitmditc_tt14i_japanese,	0x40000 },
-	{ FONTHASH_conduitmditc_tt21i_japanese,	0x80000 },
-	{ FONTHASH_conduitmditc_tt14i_thailand, 0x40000 },
-	{ FONTHASH_conduitmditc_tt21i_thailand,	0x80000 },
-};
+{7F6E60}[0][0] = HASH_CONDUITMDITC_TT21I;                                                       ||| fieldplain
+{7F6E60}[0][1] = HASH_arial;                                                                    ||| fieldplain
+{7F6E60}[0][2] = HASH_CONDUITMDITC_TT14I;                                                       ||| fieldplain
+{7F6E60}[0][3] = HASH_lcd_let48;                                                                ||| fieldplain
+{7F6E60}[0][8] = HASH_FONT_CONDUITMDITCTT38BI;                                                  ||| fieldplain
+{7F6E60}[0][16] = HASH_arial12;                                                                 ||| fieldplain
+{7F6E60}[0][17] = HASH_font_impact36;                                                           ||| fieldplain
+{7F6E60}[1][0] = HASH_conduitmditc_tt21i_korean;                                                ||| fieldplain
+{7F6E60}[1][1] = HASH_arial;                                                                    ||| fieldplain
+{7F6E60}[1][2] = HASH_conduitmditc_tt14i_korean;                                                ||| fieldplain
+{7F6E60}[1][3] = HASH_lcd_let48;                                                                ||| fieldplain
+{7F6E60}[1][16] = HASH_arial12;                                                                 ||| fieldplain
+{7F6E60}[1][17] = HASH_font_impact36;                                                           ||| fieldplain
+{7F6E60}[2][0] = HASH_conduitmditc_tt21i_japanese;                                              ||| fieldplain
+{7F6E60}[2][1] = HASH_arial;                                                                    ||| fieldplain
+{7F6E60}[2][2] = HASH_conduitmditc_tt14i_japanese;                                              ||| fieldplain
+{7F6E60}[2][3] = HASH_lcd_let48;                                                                ||| fieldplain
+{7F6E60}[2][8] = HASH_FONT_CONDUITMDITCTT38BI;                                                  ||| fieldplain
+{7F6E60}[2][16] = HASH_arial12;                                                                 ||| fieldplain
+{7F6E60}[2][17] = HASH_font_impact36;                                                           ||| fieldplain
+{7F6E60}[3][0] = HASH_conduitmditc_tt21i_chinese;                                               ||| fieldplain
+{7F6E60}[3][1] = HASH_arial;                                                                    ||| fieldplain
+{7F6E60}[3][2] = HASH_conduitmditc_tt14i_chinese;                                               ||| fieldplain
+{7F6E60}[3][3] = HASH_lcd_let48;                                                                ||| fieldplain
+{7F6E60}[3][16] = HASH_arial12;                                                                 ||| fieldplain
+{7F6E60}[3][17] = HASH_font_impact36;                                                           ||| fieldplain
 
-/*0x7F6E60*/
-struct LanguageStruct7F6E60 struct7F6E60[4];
-struct7F6E60[0][0] = FONTHASH_CONDUITMDITC_TT21I;
-struct7F6E60[0][1] = FONTHASH_arial;
-struct7F6E60[0][2] = FONTHASH_CONDUITMDITC_TT14I;
-struct7F6E60[0][3] = FONTHASH_lcd_let48;
-struct7F6E60[0][8] = FONTHASH_FONT_CONDUITMDITCTT38BI;
-struct7F6E60[0][16] = FONTHASH_arial12;
-struct7F6E60[0][17] = FONTHASH_font_impact36;
-struct7F6E60[1][0] = FONTHASH_conduitmditc_tt21i_korean;
-struct7F6E60[1][1] = FONTHASH_arial;
-struct7F6E60[1][2] = FONTHASH_conduitmditc_tt14i_korean;
-struct7F6E60[1][3] = FONTHASH_lcd_let48;
-struct7F6E60[1][16] = FONTHASH_arial12;
-struct7F6E60[1][17] = FONTHASH_font_impact36;
-struct7F6E60[2][0] = FONTHASH_conduitmditc_tt21i_japanese;
-struct7F6E60[2][1] = FONTHASH_arial;
-struct7F6E60[2][2] = FONTHASH_conduitmditc_tt14i_japanese;
-struct7F6E60[2][3] = FONTHASH_lcd_let48;
-struct7F6E60[2][8] = FONTHASH_FONT_CONDUITMDITCTT38BI;
-struct7F6E60[2][16] = FONTHASH_arial12;
-struct7F6E60[2][17] = FONTHASH_font_impact36;
-struct7F6E60[3][0] = FONTHASH_conduitmditc_tt21i_chinese;
-struct7F6E60[3][1] = FONTHASH_arial;
-struct7F6E60[3][2] = FONTHASH_conduitmditc_tt14i_chinese;
-struct7F6E60[3][3] = FONTHASH_lcd_let48;
-struct7F6E60[3][16] = FONTHASH_arial12;
-struct7F6E60[3][17] = FONTHASH_font_impact36;
-
-/*0x7F7020*/
-struct LanguageFileData languageFileData[] = {
-	{  0, "ENGLISH", "LANGUAGES\\ENGLISH.BIN", struct7F6E60 + 0 },
-	{  1, "FRENCH", "LANGUAGES\\FRENCH.BIN", struct7F6E60 + 0 },
-	{  2, "GERMAN", "LANGUAGES\\GERMAN.BIN", struct7F6E60 + 0 },
-	{  3, "ITALIAN", "LANGUAGES\\ITALIAN.BIN", struct7F6E60 + 0 },
-	{  4, "SPANISH", "LANGUAGES\\SPANISH.BIN", struct7F6E60 + 0 },
-	{  5, "DUTCH", "LANGUAGES\\DUTCH.BIN", struct7F6E60 + 0 },
-	{  6, "SWEDISH", "LANGUAGES\\SWEDISH.BIN", struct7F6E60 + 0 },
-	{  7, "DANISH", "LANGUAGES\\DANISH.BIN", struct7F6E60 + 0 },
-	{  8, "KOREAN", "LANGUAGES\\KOREAN.BIN", struct7F6E60 + 1 },
-	{  9, "CHINESE", "LANGUAGES\\CHINESE.BIN", struct7F6E60 + 3 },
-	{ 10, "JAPANESE", "LANGUAGES\\JAPANESE.BIN", struct7F6E60 + 2 },
+{struct LanguageFileData} {7F7020}[] = \{                                                       ||| refto,fieldplain
+	\{  0, "ENGLISH", "LANGUAGES\\ENGLISH.BIN", {7F6E60} + 0 \},                            ||| fieldplain
+	\{  1, "FRENCH", "LANGUAGES\\FRENCH.BIN", {7F6E60} + 0 \},                              ||| fieldplain
+	\{  2, "GERMAN", "LANGUAGES\\GERMAN.BIN", {7F6E60} + 0 \},                              ||| fieldplain
+	\{  3, "ITALIAN", "LANGUAGES\\ITALIAN.BIN", {7F6E60} + 0 \},                            ||| fieldplain
+	\{  4, "SPANISH", "LANGUAGES\\SPANISH.BIN", {7F6E60} + 0 \},                            ||| fieldplain
+	\{  5, "DUTCH", "LANGUAGES\\DUTCH.BIN", {7F6E60} + 0 \},                                ||| fieldplain
+	\{  6, "SWEDISH", "LANGUAGES\\SWEDISH.BIN", {7F6E60} + 0 \},                            ||| fieldplain
+	\{  7, "DANISH", "LANGUAGES\\DANISH.BIN", {7F6E60} + 0 \},                              ||| fieldplain
+	\{  8, "KOREAN", "LANGUAGES\\KOREAN.BIN", {7F6E60} + 1 \},                              ||| fieldplain
+	\{  9, "CHINESE", "LANGUAGES\\CHINESE.BIN", {7F6E60} + 3 \},                            ||| fieldplain
+	\{ 10, "JAPANESE", "LANGUAGES\\JAPANESE.BIN", {7F6E60} + 2 \},                          ||| fieldplain
 	/*there is no Thai entry here?*/
 };
 .pop pre
 
-In {LoadLanguageSomething}, {languageFileData} is searched.                     ||| code,code
-If {GetGameRegion} is 2, the entry with id 8 is searched,                       ||| code
+In {4FF680}, {7F7020} is searched. If {570A30} is 2, the entry with id 8 is searched,           ||| funcref,fieldref,fieldref
 otherwise id 0 is searched.
 When it's not found the game will segfault because of the code below:
 
 .push ida
-{.text:004FF6A2}                 jl      short loc_4FF693                       ||| text
-{.text:004FF6A4} loc_4FF6A4:                                                    ||| text
-{.text:004FF6A4}                 xor     edx, edx                               ||| text
-{.text:004FF6A6} loc_4FF6A6:                                                    ||| text
-{.text:004FF6A6}                 mov     ecx, [edx+{0Ch}]                       ||| text,num
+{.text:004FF6A2}                 jl      short loc_4FF693                                       ||| text
+{.text:004FF6A4} loc_4FF6A4:                                                                    ||| text
+{.text:004FF6A4}                 xor     edx, edx                                               ||| text
+{.text:004FF6A6} loc_4FF6A6:                                                                    ||| text
+{.text:004FF6A6}                 mov     ecx, [edx+{0Ch}]                                       ||| text,num
 .pop ida
 
-Then {LanguageFileData::pStruct7F6E60} is read. Its {data[0]}                   ||| code,code
-value is read and then a matching entry in {struct7F6DE8[]} is searched.        ||| code
+Then {{struct LanguageFileData}.{structLanguageFileData+C}} is read.                            ||| code,refto,refto
+Its {{structLanguageStruct7F6E60+0}[0]} value is read and then a                                ||| code,refto
+matching entry in {7F6DE8} is searched.                                                         ||| fieldref
 More stuff is read is a loop and reset and I lost track.
-Eventually something is called with string {LanguageMemoryPool}.                ||| code
+Eventually something is called with string {LanguageMemoryPool}.                                ||| code
 
-{00512520 LoadLanguageAtBoot TODO}                                              ||| strong
+{7983D0 aLanguageselect db 'LanguageSelectScreen',0 TODO}                                       ||| strong
 
-{07983D0 aLanguageselect db 'LanguageSelectScreen',0 TODO}                      ||| strong
+.push symbols
+- {4FF680 void LoadLanguageSomething()}                                                         ||| func
+  TODO
+- {512520 LoadLanguageAtBoot?}                                                                  ||| func
+  TODO
+- {7F6DE8 {struct LanguageStruct7F6DE8} struct7F6DE8[15]}                                       ||| field,refto
+- {7F6E60 {struct LanguageStruct7F6E60} struct7F6E60[4]}                                        ||| field,refto
+- {7FCA00 int languageIndex}                                                                    ||| field
+- {7FCA08 {struct LanguageData} languageData[15]}                                               ||| field,refto
+- {7F7020 {struct LanguageFileData} languageFileData[11]}                                       ||| field,refto
+.pop symbols
 
 .pop section
 .push section

@@ -314,7 +314,12 @@ information and associated data. See <a href='#language_metadata'>Language metad
 </li><li>9: Spain
 </li><li>11: China
 </li><li>12: Thailand
-</li></ul><p><strong>Symbols:</strong></p><ul><li><span class='func' id='5B7C40'>5B7C40 int OpenPatchesWebsite()</span>
+</li></ul><p><strong>Symbols:</strong></p><ul><li><span class='func' id='570A30'>570A30 int GetGameRegion()</span>
+  <code>return <a class='fieldref' href='#864F24'>_gameRegion</a>;</code>
+</li><li><span class='func' id='570A40'>570A40 int UseCarUKNames()</span>
+  <code>return <a class='fieldref' href='#864F24'>_gameRegion</a> == 1 || (4 &lt; <a class='fieldref' href='#864F24'>_gameRegion</a> &amp;&amp; <a class='fieldref' href='#864F24'>_gameRegion</a> &lt; 10);</code>
+  Unsure about this name.
+</li><li><span class='func' id='5B7C40'>5B7C40 int OpenPatchesWebsite()</span>
 No idea where this is used, TODO
 <pre>int OpenPatchesWebsite()
 {
@@ -345,7 +350,8 @@ def:
 	}
 	return ShellExecuteA(NULL, "open", url, NULL, NULL, SW_SHOWNORMAL);
 }
-</pre></li></ul><p style='margin-bottom:0'><a href='#index'>Index</a></p></div><span id='bindata'></span><div><h2>Bin data <a href="#bindata">#</a></h2>
+</pre></li><li><span class='field' id='864F24'>864F24 int _gameRegion</span>
+</li></ul><p style='margin-bottom:0'><a href='#index'>Index</a></p></div><span id='bindata'></span><div><h2>Bin data <a href="#bindata">#</a></h2>
 <p>Lots of data is in <code>.bin</code> files. These files can contain multiple <a href='#struct_BinSection'>struct BinSection</a> entries.
 </p><pre><span id='struct_BinSectionHeader'></span>struct BinSectionHeader {
         int <span id='structBinSectionHeader_0'></span>magic;
@@ -673,134 +679,129 @@ in the registry? See <a href='#registry'>Registry</a>. Perhaps it is only set
 when the game is installed?
 </p><p style='margin-bottom:0'><a href='#index'>Index</a></p></div><span id='language_metadata'></span><div class='indent' style='margin-left:5em'><p style='margin-top:0'><small><a href='#language'>Language</a> &gt; Language metadata</small></p><h3>Language metadata <a href="#language_metadata">#</a></h3>
 <p>Thanks to code where it reads the Registry, I found following data:
-</p><pre>struct LanguageData {
+</p><pre><span id='struct_LanguageData'></span>struct LanguageData {
 	char *pName;
-	int val1; //??
+	int <span id='structLanguageData_4'></span>val1; //??
 	int region;
 };
-</pre><p>Data can be found at <code>0x7FCA08</code>:
-</p><pre>struct LanguageData languageData[] = {
-/*0x7FCA08*/ { "English US",		0,	0 },
-/*0x7FCA14*/ { "English UK",		0,	5 },
-/*0x7FCA20*/ { "French",		1,	6 },
-/*0x7FCA2C*/ { "German",		2,	7 },
-/*0x7FCA38*/ { "Italian",		3,	8 },
-/*0x7FCA44*/ { "Spanish",		4,	9 },
-/*0x7FCA50*/ { "Swedish",		6,	5 },
-/*0x7FCA5C*/ { "Danish",		7,	5 },
-/*0x7FCA68*/ { "Dutch",			5,	5 },
-/*0x7FCA74*/ { "Korean",		8,	2 },
-/*0x7FCA80*/ { "Chinese (Traditional)",	9,	4 },
-/*0x7FCA8C*/ { "English China",		9,	11 },
-/*0x7FCA98*/ { "Japanese",		10,	3 },
-/*0x7FCAA4*/ { "Thai",			11,	12 },
-/*0x7FCAB0*/ { 0,			0,	0 },
+
+<a href='#struct_LanguageData'>struct LanguageData</a> <a class='fieldref' href='#7FCA08'>languageData</a>[] = {
+        { "English US",            0,        0 },
+        { "English UK",            0,        5 },
+        { "French",                1,        6 },
+        { "German",                2,        7 },
+        { "Italian",               3,        8 },
+        { "Spanish",               4,        9 },
+        { "Swedish",               6,        5 },
+        { "Danish",                7,        5 },
+        { "Dutch",                 5,        5 },
+        { "Korean",                8,        2 },
+        { "Chinese (Traditional)", 9,        4 },
+        { "English China",         9,        11 },
+        { "Japanese",              10,       3 },
+        { "Thai",                  11,       12 },
+        { 0,                       0,        0 },
 };
 </pre><p>The value stored in the registry for <code>Language</code> is checked against
 all language strings in the above data. The matching language's
-<code>val1</code> gets stored in <code>0x7FCA00</code> (TODO), or 0 when the
+<a href='#structLanguageData_4'>val1</a> gets stored in <a class='fieldref' href='#7FCA00'>7FCA00:languageIndex</a>, or 0 when the
 name stored in the registry didn't match any names.
-</p><p>After chasing usages of a region related proc, I found more language data.
-Used in <code>0x4FF680</code> which I conveniently called <code>LoadLanguageSomething</code>.
-I found about three more structs that seem language or font related.
-</p><pre>/*from hashes, prefixed with FONTHASH_*/
-#define FONTHASH_CONDUITMDITC_TT21I 0x5B9D88B9
-#define FONTHASH_font_impact36 0x0920075C
-#define FONTHASH_CONDUITMDITC_TT14I 0x5B9D84DB
-#define FONTHASH_FONT_CONDUITMDITCTT38BI 0x9583AA1A
-#define FONTHASH_arial 0xA87927BE
-#define FONTHASH_arial12 0xAB6215C1
-#define FONTHASH_lcd_let48 0xBBBA71C2
-#define FONTHASH_conduitmditc_tt14i_korean 0xDCA5485A
-#define FONTHASH_conduitmditc_tt21i_korean 0x833A8678
-#define FONTHASH_conduitmditc_tt14i_chinese 0xF88A75F9
-#define FONTHASH_conduitmditc_tt21i_chinese 0x71C777D7
-#define FONTHASH_conduitmditc_tt14i_japanese 0x743BF1C1
-#define FONTHASH_conduitmditc_tt21i_japanese 0x15192F5F
-#define FONTHASH_conduitmditc_tt14i_thailand 0xA73823FF
-#define FONTHASH_conduitmditc_tt21i_thailand 0x4815619D
+</p><p>After chasing usages of a region related proc,
+I found more language data which is being used in <a class='funcref' href='#4FF680'>4FF680:LoadLanguageSomething()</a>.
+They seem to fit into three more structs.
+</p><pre>/*from hashes, prefixed with HASH_*/
+#define HASH_CONDUITMDITC_TT21I 0x5B9D88B9
+#define HASH_font_impact36 0x0920075C
+#define HASH_CONDUITMDITC_TT14I 0x5B9D84DB
+#define HASH_FONT_CONDUITMDITCTT38BI 0x9583AA1A
+#define HASH_arial 0xA87927BE
+#define HASH_arial12 0xAB6215C1
+#define HASH_lcd_let48 0xBBBA71C2
+#define HASH_conduitmditc_tt14i_korean 0xDCA5485A
+#define HASH_conduitmditc_tt21i_korean 0x833A8678
+#define HASH_conduitmditc_tt14i_chinese 0xF88A75F9
+#define HASH_conduitmditc_tt21i_chinese 0x71C777D7
+#define HASH_conduitmditc_tt14i_japanese 0x743BF1C1
+#define HASH_conduitmditc_tt21i_japanese 0x15192F5F
+#define HASH_conduitmditc_tt14i_thailand 0xA73823FF
+#define HASH_conduitmditc_tt21i_thailand 0x4815619D
 
-struct LanguageStruct7F6DE8 {
-	int field_0;
-	int field_1;
+<span id='struct_LanguageStruct7F6DE8'></span>struct LanguageStruct7F6DE8 {
+	int <span id='LanguageStruct7F6DE8_0'></span>fonthash;
+	int <span id='LanguageStruct7F6DE8_4'></span>field_1;
 };
 
-struct LanguageStruct7F6E60 {
-	int data[28];
+<a href='#struct_LanguageStruct7F6DE8'>struct LanguageStruct7F6DE8</a> <a class='fieldref' href='#7F6DE8'>7F6DE8:struct7F6DE8</a>[] = {
+        { HASH_CONDUITMDITC_TT21I,          0x0 },
+        { HASH_font_impact36,               0x40000 },
+        { HASH_CONDUITMDITC_TT14I,          0x10000 },
+        { HASH_FONT_CONDUITMDITCTT38BI,     0x100000 },
+        { HASH_arial,                       0x10000 },
+        { HASH_arial12,                     0x10000 },
+        { HASH_lcd_let48,                   0x4000 },
+        { HASH_conduitmditc_tt14i_korean,   0x40000 },
+        { HASH_conduitmditc_tt21i_korean,   0x80000 },
+        { HASH_conduitmditc_tt14i_chinese,  0x40000 },
+        { HASH_conduitmditc_tt21i_chinese,  0x80000 },
+        { HASH_conduitmditc_tt14i_japanese, 0x40000 },
+        { HASH_conduitmditc_tt21i_japanese, 0x80000 },
+        { HASH_conduitmditc_tt14i_thailand, 0x40000 },
+        { HASH_conduitmditc_tt21i_thailand, 0x80000 },
 };
 
-struct LanguageFileData {
+<span id='struct_LanguageStruct7F6E60'></span>struct LanguageStruct7F6E60 {
+	int <span id='structLanguageStruct7F6E60_0'></span>data[28];
+};
+
+<span id='struct_LanguageFileData'></span>struct LanguageFileData {
 	int id;
 	char *filecode;
 	char *binfile;
-	struct LanguageStruct7F6E60 *pStruct7F6E60;
+	<a href='#struct_LanguageStruct7F6E60'>struct LanguageStruct7F6E60</a> *<span id='structLanguageFileData_C'></span>pStruct7F6E60;
 };
 
-/*0x7F6DE8*/
-struct LanguageStruct7F6DE8 struct7F6DE8[] = {
-	{ FONTHASH_CONDUITMDITC_TT21I,		0x0 },
-	{ FONTHASH_font_impact36,		0x40000 },
-	{ FONTHASH_CONDUITMDITC_TT14I,		0x10000 },
-	{ FONTHASH_FONT_CONDUITMDITCTT38BI,	0x100000 },
-	{ FONTHASH_arial,			0x10000 },
-	{ FONTHASH_arial12,			0x10000 },
-	{ FONTHASH_lcd_let48,			0x4000 },
-	{ FONTHASH_conduitmditc_tt14i_korean,	0x40000 },
-	{ FONTHASH_conduitmditc_tt21i_korean,	0x80000 },
-	{ FONTHASH_conduitmditc_tt14i_chinese,	0x40000 },
-	{ FONTHASH_conduitmditc_tt21i_chinese,	0x80000 },
-	{ FONTHASH_conduitmditc_tt14i_japanese,	0x40000 },
-	{ FONTHASH_conduitmditc_tt21i_japanese,	0x80000 },
-	{ FONTHASH_conduitmditc_tt14i_thailand, 0x40000 },
-	{ FONTHASH_conduitmditc_tt21i_thailand,	0x80000 },
-};
+<a class='fieldref' href='#7F6E60'>struct7F6E60</a>[0][0] = HASH_CONDUITMDITC_TT21I;
+<a class='fieldref' href='#7F6E60'>struct7F6E60</a>[0][1] = HASH_arial;
+<a class='fieldref' href='#7F6E60'>struct7F6E60</a>[0][2] = HASH_CONDUITMDITC_TT14I;
+<a class='fieldref' href='#7F6E60'>struct7F6E60</a>[0][3] = HASH_lcd_let48;
+<a class='fieldref' href='#7F6E60'>struct7F6E60</a>[0][8] = HASH_FONT_CONDUITMDITCTT38BI;
+<a class='fieldref' href='#7F6E60'>struct7F6E60</a>[0][16] = HASH_arial12;
+<a class='fieldref' href='#7F6E60'>struct7F6E60</a>[0][17] = HASH_font_impact36;
+<a class='fieldref' href='#7F6E60'>struct7F6E60</a>[1][0] = HASH_conduitmditc_tt21i_korean;
+<a class='fieldref' href='#7F6E60'>struct7F6E60</a>[1][1] = HASH_arial;
+<a class='fieldref' href='#7F6E60'>struct7F6E60</a>[1][2] = HASH_conduitmditc_tt14i_korean;
+<a class='fieldref' href='#7F6E60'>struct7F6E60</a>[1][3] = HASH_lcd_let48;
+<a class='fieldref' href='#7F6E60'>struct7F6E60</a>[1][16] = HASH_arial12;
+<a class='fieldref' href='#7F6E60'>struct7F6E60</a>[1][17] = HASH_font_impact36;
+<a class='fieldref' href='#7F6E60'>struct7F6E60</a>[2][0] = HASH_conduitmditc_tt21i_japanese;
+<a class='fieldref' href='#7F6E60'>struct7F6E60</a>[2][1] = HASH_arial;
+<a class='fieldref' href='#7F6E60'>struct7F6E60</a>[2][2] = HASH_conduitmditc_tt14i_japanese;
+<a class='fieldref' href='#7F6E60'>struct7F6E60</a>[2][3] = HASH_lcd_let48;
+<a class='fieldref' href='#7F6E60'>struct7F6E60</a>[2][8] = HASH_FONT_CONDUITMDITCTT38BI;
+<a class='fieldref' href='#7F6E60'>struct7F6E60</a>[2][16] = HASH_arial12;
+<a class='fieldref' href='#7F6E60'>struct7F6E60</a>[2][17] = HASH_font_impact36;
+<a class='fieldref' href='#7F6E60'>struct7F6E60</a>[3][0] = HASH_conduitmditc_tt21i_chinese;
+<a class='fieldref' href='#7F6E60'>struct7F6E60</a>[3][1] = HASH_arial;
+<a class='fieldref' href='#7F6E60'>struct7F6E60</a>[3][2] = HASH_conduitmditc_tt14i_chinese;
+<a class='fieldref' href='#7F6E60'>struct7F6E60</a>[3][3] = HASH_lcd_let48;
+<a class='fieldref' href='#7F6E60'>struct7F6E60</a>[3][16] = HASH_arial12;
+<a class='fieldref' href='#7F6E60'>struct7F6E60</a>[3][17] = HASH_font_impact36;
 
-/*0x7F6E60*/
-struct LanguageStruct7F6E60 struct7F6E60[4];
-struct7F6E60[0][0] = FONTHASH_CONDUITMDITC_TT21I;
-struct7F6E60[0][1] = FONTHASH_arial;
-struct7F6E60[0][2] = FONTHASH_CONDUITMDITC_TT14I;
-struct7F6E60[0][3] = FONTHASH_lcd_let48;
-struct7F6E60[0][8] = FONTHASH_FONT_CONDUITMDITCTT38BI;
-struct7F6E60[0][16] = FONTHASH_arial12;
-struct7F6E60[0][17] = FONTHASH_font_impact36;
-struct7F6E60[1][0] = FONTHASH_conduitmditc_tt21i_korean;
-struct7F6E60[1][1] = FONTHASH_arial;
-struct7F6E60[1][2] = FONTHASH_conduitmditc_tt14i_korean;
-struct7F6E60[1][3] = FONTHASH_lcd_let48;
-struct7F6E60[1][16] = FONTHASH_arial12;
-struct7F6E60[1][17] = FONTHASH_font_impact36;
-struct7F6E60[2][0] = FONTHASH_conduitmditc_tt21i_japanese;
-struct7F6E60[2][1] = FONTHASH_arial;
-struct7F6E60[2][2] = FONTHASH_conduitmditc_tt14i_japanese;
-struct7F6E60[2][3] = FONTHASH_lcd_let48;
-struct7F6E60[2][8] = FONTHASH_FONT_CONDUITMDITCTT38BI;
-struct7F6E60[2][16] = FONTHASH_arial12;
-struct7F6E60[2][17] = FONTHASH_font_impact36;
-struct7F6E60[3][0] = FONTHASH_conduitmditc_tt21i_chinese;
-struct7F6E60[3][1] = FONTHASH_arial;
-struct7F6E60[3][2] = FONTHASH_conduitmditc_tt14i_chinese;
-struct7F6E60[3][3] = FONTHASH_lcd_let48;
-struct7F6E60[3][16] = FONTHASH_arial12;
-struct7F6E60[3][17] = FONTHASH_font_impact36;
-
-/*0x7F7020*/
-struct LanguageFileData languageFileData[] = {
-	{  0, "ENGLISH", "LANGUAGES\\ENGLISH.BIN", struct7F6E60 + 0 },
-	{  1, "FRENCH", "LANGUAGES\\FRENCH.BIN", struct7F6E60 + 0 },
-	{  2, "GERMAN", "LANGUAGES\\GERMAN.BIN", struct7F6E60 + 0 },
-	{  3, "ITALIAN", "LANGUAGES\\ITALIAN.BIN", struct7F6E60 + 0 },
-	{  4, "SPANISH", "LANGUAGES\\SPANISH.BIN", struct7F6E60 + 0 },
-	{  5, "DUTCH", "LANGUAGES\\DUTCH.BIN", struct7F6E60 + 0 },
-	{  6, "SWEDISH", "LANGUAGES\\SWEDISH.BIN", struct7F6E60 + 0 },
-	{  7, "DANISH", "LANGUAGES\\DANISH.BIN", struct7F6E60 + 0 },
-	{  8, "KOREAN", "LANGUAGES\\KOREAN.BIN", struct7F6E60 + 1 },
-	{  9, "CHINESE", "LANGUAGES\\CHINESE.BIN", struct7F6E60 + 3 },
-	{ 10, "JAPANESE", "LANGUAGES\\JAPANESE.BIN", struct7F6E60 + 2 },
+<a href='#struct_LanguageFileData'>struct LanguageFileData</a> <a class='fieldref' href='#7F7020'>languageFileData</a>[] = {
+	{  0, "ENGLISH", "LANGUAGES\\ENGLISH.BIN", <a class='fieldref' href='#7F6E60'>struct7F6E60</a> + 0 },
+	{  1, "FRENCH", "LANGUAGES\\FRENCH.BIN", <a class='fieldref' href='#7F6E60'>struct7F6E60</a> + 0 },
+	{  2, "GERMAN", "LANGUAGES\\GERMAN.BIN", <a class='fieldref' href='#7F6E60'>struct7F6E60</a> + 0 },
+	{  3, "ITALIAN", "LANGUAGES\\ITALIAN.BIN", <a class='fieldref' href='#7F6E60'>struct7F6E60</a> + 0 },
+	{  4, "SPANISH", "LANGUAGES\\SPANISH.BIN", <a class='fieldref' href='#7F6E60'>struct7F6E60</a> + 0 },
+	{  5, "DUTCH", "LANGUAGES\\DUTCH.BIN", <a class='fieldref' href='#7F6E60'>struct7F6E60</a> + 0 },
+	{  6, "SWEDISH", "LANGUAGES\\SWEDISH.BIN", <a class='fieldref' href='#7F6E60'>struct7F6E60</a> + 0 },
+	{  7, "DANISH", "LANGUAGES\\DANISH.BIN", <a class='fieldref' href='#7F6E60'>struct7F6E60</a> + 0 },
+	{  8, "KOREAN", "LANGUAGES\\KOREAN.BIN", <a class='fieldref' href='#7F6E60'>struct7F6E60</a> + 1 },
+	{  9, "CHINESE", "LANGUAGES\\CHINESE.BIN", <a class='fieldref' href='#7F6E60'>struct7F6E60</a> + 3 },
+	{ 10, "JAPANESE", "LANGUAGES\\JAPANESE.BIN", <a class='fieldref' href='#7F6E60'>struct7F6E60</a> + 2 },
 	/*there is no Thai entry here?*/
 };
-</pre><p>In <code>LoadLanguageSomething</code>, <code>languageFileData</code> is searched.
-If <code>GetGameRegion</code> is 2, the entry with id 8 is searched,
+</pre><p>In <a class='funcref' href='#4FF680'>4FF680:LoadLanguageSomething()</a>, <a class='fieldref' href='#7F7020'>7F7020:languageFileData</a> is searched. If <a class='fieldref' href='#570A30'>570A30:GetGameRegion()</a> is 2, the entry with id 8 is searched,
 otherwise id 0 is searched.
 When it's not found the game will segfault because of the code below:
 </p><pre class='ida'><span class='text'>.text:004FF6A2</span>                 jl      short loc_4FF693
@@ -808,13 +809,22 @@ When it's not found the game will segfault because of the code below:
 <span class='text'>.text:004FF6A4</span>                 xor     edx, edx
 <span class='text'>.text:004FF6A6</span> loc_4FF6A6:
 <span class='text'>.text:004FF6A6</span>                 mov     ecx, [edx+<span class='num'>0Ch</span>]
-</pre><p>Then <code>LanguageFileData::pStruct7F6E60</code> is read. Its <code>data[0]</code>
-value is read and then a matching entry in <code>struct7F6DE8[]</code> is searched.
+</pre><p>Then <code><a href='#struct_LanguageFileData'>struct LanguageFileData</a>.<a href='#structLanguageFileData_C'>pStruct7F6E60</a></code> is read.
+Its <code><a href='#structLanguageStruct7F6E60_0'>data</a>[0]</code> value is read and then a
+matching entry in <a class='fieldref' href='#7F6DE8'>7F6DE8:struct7F6DE8</a> is searched.
 More stuff is read is a loop and reset and I lost track.
 Eventually something is called with string <code>LanguageMemoryPool</code>.
-</p><p><strong>00512520 LoadLanguageAtBoot TODO</strong>
-</p><p><strong>07983D0 aLanguageselect db 'LanguageSelectScreen',0 TODO</strong>
-</p><p style='margin-bottom:0'><a href='#index'>Index</a></p></div><span id='language_files'></span><div class='indent' style='margin-left:5em'><p style='margin-top:0'><small><a href='#language'>Language</a> &gt; Language files</small></p><h3>Language files <a href="#language_files">#</a></h3>
+</p><p><strong>7983D0 aLanguageselect db 'LanguageSelectScreen',0 TODO</strong>
+</p><p><strong>Symbols:</strong></p><ul><li><span class='func' id='4FF680'>4FF680 void LoadLanguageSomething()</span>
+  TODO
+</li><li><span class='func' id='512520'>512520 LoadLanguageAtBoot?</span>
+  TODO
+</li><li><span class='field' id='7F6DE8'>7F6DE8 <a href='#struct_LanguageStruct7F6DE8'>struct LanguageStruct7F6DE8</a> struct7F6DE8[15]</span>
+</li><li><span class='field' id='7F6E60'>7F6E60 <a href='#struct_LanguageStruct7F6E60'>struct LanguageStruct7F6E60</a> struct7F6E60[4]</span>
+</li><li><span class='field' id='7FCA00'>7FCA00 int languageIndex</span>
+</li><li><span class='field' id='7FCA08'>7FCA08 <a href='#struct_LanguageData'>struct LanguageData</a> languageData[15]</span>
+</li><li><span class='field' id='7F7020'>7F7020 <a href='#struct_LanguageFileData'>struct LanguageFileData</a> languageFileData[11]</span>
+</li></ul><p style='margin-bottom:0'><a href='#index'>Index</a></p></div><span id='language_files'></span><div class='indent' style='margin-left:5em'><p style='margin-top:0'><small><a href='#language'>Language</a> &gt; Language files</small></p><h3>Language files <a href="#language_files">#</a></h3>
 <p>The language strings are in a bin section with magic <code>0x39000</code>, and is structured like this:
 </p><pre><a href='#struct_BinDataLanguage39000'>struct BinDataLanguage39000</a> header;
 char unknown[header.<a href='#structBinDataLanguage39000_8'>tableOffset</a> - sizeof(header)];
