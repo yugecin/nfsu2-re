@@ -393,7 +393,33 @@ this-&gt;<a href='#structBinSectionMagicMapEntry_4'>value</a> = handler;
 this-&gt;<a href='#structBinSectionMagicMapEntry_0'>nextEntry</a> = <a class='fieldref' href='#828050'>binSectionMagicMap</a>[index];
 <a class='fieldref' href='#828050'>binSectionMagicMap</a>[index] = this;
 <a class='fieldref' href='#827FE8'>numBinSectionLoadFunctionsInMagicMapBucket</a>++;
-</pre></li><li><span class='func' id='43C0A0'>43C0A0 int LoadUnloadBinSection0(<a href='#struct_BinSection'>struct BinSection</a> *binsection)</span>
+</pre></li><li><span class='func' id='408200'>408200 int LoadBinSection34B00(<a href='#struct_BinSection'>struct BinSection</a> *binsection)</span>
+</li><li><span class='func' id='408220'>408220 int UnloadBinSection34B00(<a href='#struct_BinSection'>struct BinSection</a> *binsection)</span>
+</li><li><span class='func' id='40A460'>40A460 int LoadBinSection3A000(<a href='#struct_BinSection'>struct BinSection</a> *binsection)</span>
+</li><li><span class='func' id='40A4A0'>40A4A0 int UnloadBinSection3A000(<a href='#struct_BinSection'>struct BinSection</a> *binsection)</span>
+</li><li><span class='func' id='431870'>431870 int LoadBinSection80037050(<a href='#struct_BinSection'>struct BinSection</a> *binsection)</span>
+</li><li><span class='func' id='4318D0'>4318D0 int UnloadBinSection80037050(<a href='#struct_BinSection'>struct BinSection</a> *binsection)</span>
+</li><li><span class='func' id='432080'>432080 int LoadBinSection37140(<a href='#struct_BinSection'>struct BinSection</a> *binsection)</span>
+</li><li><span class='func' id='4320C0'>4320C0 int UnloadBinSection37140(<a href='#struct_BinSection'>struct BinSection</a> *binsection)</span>
+</li><li><span class='func' id='4325C0'>4325C0 int UnloadBinSection80037020(<a href='#struct_BinSection'>struct BinSection</a> *binsection)</span>
+</li><li><span class='func' id='4348F0'>4348F0 int LoadBinSection0E34010(<a href='#struct_BinSection'>struct BinSection</a> *binsection)</span>
+  Uses <code>Anim_CNFSAnimBank_SlotPool</code>
+</li><li><span class='func' id='4349A0'>4349A0 int UnloadBinSection0E34010(<a href='#struct_BinSection'>struct BinSection</a> *binsection)</span>
+</li><li><span class='func' id='434E10'>434E10 int LoadBinSection0E34009(<a href='#struct_BinSection'>struct BinSection</a> *binsection)</span>
+  Uses <code>Anim_CAnimSkeleton_SlotPool</code>
+</li><li><span class='func' id='435A50'>435A50 int UnloadBinSection37110(<a href='#struct_BinSection'>struct BinSection</a> *binsection)</span>
+</li><li><span class='func' id='435A90'>435A90 int LoadBinSection37080(<a href='#struct_BinSection'>struct BinSection</a> *binsection)</span>
+</li><li><span class='func' id='4365B0'>4365B0 int UnloadBinSection0E34009(<a href='#struct_BinSection'>struct BinSection</a> *binsection)</span>
+</li><li><span class='func' id='4377F0'>4377F0 int LoadBinSection80037020(<a href='#struct_BinSection'>struct BinSection</a> *binsection)</span>
+</li><li><span class='func' id='4381B0'>4381B0 int LoadBinSection37100(<a href='#struct_BinSection'>struct BinSection</a> *binsection)</span>
+</li><li><span class='func' id='438720'>438720 int UnloadBinSection37150(<a href='#struct_BinSection'>struct BinSection</a> *binsection)</span>
+</li><li><span class='func' id='438C20'>438C20 int UnloadBinSection37080(<a href='#struct_BinSection'>struct BinSection</a> *binsection)</span>
+</li><li><span class='func' id='438C60'>438C60 int UnloadBinSection37090(<a href='#struct_BinSection'>struct BinSection</a> *binsection)</span>
+</li><li><span class='func' id='439D70'>439D70 int UnloadBinSection37100(<a href='#struct_BinSection'>struct BinSection</a> *binsection)</span>
+</li><li><span class='func' id='43A1F0'>43A1F0 int LoadBinSection37150(<a href='#struct_BinSection'>struct BinSection</a> *binsection)</span>
+</li><li><span class='func' id='43A260'>43A260 int LoadBinSection37110(<a href='#struct_BinSection'>struct BinSection</a> *binsection)</span>
+</li><li><span class='func' id='43A460'>43A460 int LoadBinSection37090(<a href='#struct_BinSection'>struct BinSection</a> *binsection)</span>
+</li><li><span class='func' id='43C0A0'>43C0A0 int LoadUnloadBinSection0(<a href='#struct_BinSection'>struct BinSection</a> *binsection)</span>
   Nop handler that returns 1 if <code>binsection-&gt;<a href='#structBinSection_0'>header</a></code> is 0.
 </li><li><span class='func' id='43C100'>43C100 <a href='#struct_BinSectionMagicMapEntry'>struct BinSectionMagicMapEntry</a> *FindBinSectionHandler(int magic)</span>
   Used in <a class='funcref' href='#570D70'>570D70:LoadBinSection()</a> and <a class='funcref' href='#577B10'>577B10:UnloadBinSection()</a>.
@@ -409,32 +435,64 @@ while (entry) {
         entry = entry-&gt;<a href='#structBinSectionMagicMapEntry_0'>nextEntry</a>;
 }
 return NULL;
-</pre></li><li><span class='func' id='48E070'>48E070 int LoadBinSection135200_80135100_80135000(<a href='#struct_BinSection'>struct BinSection</a> *binsection)</span>
+</pre></li><li><span class='func' id='44AB60'>44AB60 int LoadBinSection8003B200_8003B201_8003B202(<a href='#struct_BinSection'>struct BinSection</a> *binsection)</span>
+</li><li><span class='func' id='452E90'>452E90 int UnloadBinSection8003B200_8003B201_8003B202(<a href='#struct_BinSection'>struct BinSection</a> *binsection)</span>
+</li><li><span class='func' id='47BC30'>47BC30 int LoadBinSection8003B500(<a href='#struct_BinSection'>struct BinSection</a> *binsection)</span>
+</li><li><span class='func' id='482D20'>482D20 int UnloadBinSection8003B500(<a href='#struct_BinSection'>struct BinSection</a> *binsection)</span>
+  Does a function call on <a class='fieldref' href='#82B884'>82B884:pSoundEffectSystem?</a>.
+</li><li><span class='func' id='48A280'>48A280 int LoadBinSection3B700(<a href='#struct_BinSection'>struct BinSection</a> *binsection)</span>
+</li><li><span class='func' id='48A2B0'>48A2B0 int UnloadBinSection3B700(<a href='#struct_BinSection'>struct BinSection</a> *binsection)</span>
+</li><li><span class='func' id='48B4A0'>48B4A0 int LoadBinSection34202(<a href='#struct_BinSection'>struct BinSection</a> *binsection)</span>
+</li><li><span class='func' id='48B740'>48B740 int UnloadBinSection34202(<a href='#struct_BinSection'>struct BinSection</a> *binsection)</span>
+</li><li><span class='func' id='48E070'>48E070 int LoadBinSection135200_80135100_80135000(<a href='#struct_BinSection'>struct BinSection</a> *binsection)</span>
 </li><li><span class='func' id='48E270'>48E270 int UnloadBinSection135200_80135100_80135000(<a href='#struct_BinSection'>struct BinSection</a> *binsection)</span>
+</li><li><span class='func' id='491C70'>491C70 int LoadBinSection80035000_80035010_35021_35020(<a href='#struct_BinSection'>struct BinSection</a> *binsection)</span>
+</li><li><span class='func' id='491D50'>491D50 int UnloadBinSection80035000_80035010_35021_35020(<a href='#struct_BinSection'>struct BinSection</a> *binsection)</span>
 </li><li><span class='func' id='494060'>494060 int LoadBinSection80134000(<a href='#struct_BinSection'>struct BinSection</a> *binsection)</span>
 </li><li><span class='func' id='4940E0'>4940E0 int UnloadBinSection80134000(<a href='#struct_BinSection'>struct BinSection</a> *binsection)</span>
 </li><li><span class='func' id='494EA0'>494EA0 int LoadBinSectionB3300000_B332000_B0300100(<a href='#struct_BinSection'>struct BinSection</a> *binsection)</span>
 </li><li><span class='func' id='495040'>495040 int UnloadBinSectionB3300000_B332000_B0300100(<a href='#struct_BinSection'>struct BinSection</a> *binsection)</span>
-</li><li><span class='func' id='570D70'>570D70 int LoadBinSection(<a href='#struct_BinSection'>struct BinSection</a> *section)</span>
+</li><li><span class='func' id='500290'>500290 int UnloadBinSection80034A10(<a href='#struct_BinSection'>struct BinSection</a> *binsection)</span>
+</li><li><span class='func' id='5108A0'>5108A0 int LoadBinSection30230(<a href='#struct_BinSection'>struct BinSection</a> *binsection)</span>
+</li><li><span class='func' id='5108C0'>5108C0 int UnloadBinSection30230(<a href='#struct_BinSection'>struct BinSection</a> *binsection)</span>
+</li><li><span class='func' id='5108E0'>5108E0 int LoadBinSection30231(<a href='#struct_BinSection'>struct BinSection</a> *binsection)</span>
+</li><li><span class='func' id='510900'>510900 int UnloadBinSection30231(<a href='#struct_BinSection'>struct BinSection</a> *binsection)</span>
+</li><li><span class='func' id='512C00'>512C00 int LoadBinSection80034A10(<a href='#struct_BinSection'>struct BinSection</a> *binsection)</span>
+</li><li><span class='func' id='51BD30'>51BD30 int LoadBinSection30203_30210(<a href='#struct_BinSection'>struct BinSection</a> *binsection)</span>
+  Loads FNG packages?
+</li><li><span class='func' id='51C610'>51C610 int UnloadBinSection39020(<a href='#struct_BinSection'>struct BinSection</a> *binsection)</span>
+</li><li><span class='func' id='52CD90'>52CD90 int LoadBinSection39020(<a href='#struct_BinSection'>struct BinSection</a> *binsection)</span>
+</li><li><span class='func' id='5425A0'>5425A0 int UnloadBinSection30203_30210(<a href='#struct_BinSection'>struct BinSection</a> *binsection)</span>
+  Unloads FNG packages?
+</li><li><span class='func' id='56C4C0'>56C4C0 int LoadBinSection34A07(<a href='#struct_BinSection'>struct BinSection</a> *binsection)</span>
+</li><li><span class='func' id='56C4E0'>56C4E0 int UnloadBinSection34A07(<a href='#struct_BinSection'>struct BinSection</a> *binsection)</span>
+</li><li><span class='func' id='570D70'>570D70 int LoadBinSection(<a href='#struct_BinSection'>struct BinSection</a> *binsection)</span>
   Only called from <span class='unresolved'>0x577AB0</span>.
 <pre><a href='#struct_BinSectionMagicMapEntry'>struct BinSectionMagicMapEntry</a> *entry;
 int i;
 
-entry = <a class='funcref' href='#43C100'>FindBinSectionHandler</a>(section-&gt;<a href='#structBinSection_0'>header</a>.<a href='#structBinSectionHeader_0'>magic</a>);
+entry = <a class='funcref' href='#43C100'>FindBinSectionHandler</a>(binsection-&gt;<a href='#structBinSection_0'>header</a>.<a href='#structBinSectionHeader_0'>magic</a>);
 if (entry) {
-        return entry-&gt;<a href='#structBinSectionMagicMapEntry_4'>value</a>.<a href='#structBinSectionHandler_4'>loadfunc</a>(section);
+        return entry-&gt;<a href='#structBinSectionMagicMapEntry_4'>value</a>.<a href='#structBinSectionHandler_4'>loadfunc</a>(binsection);
 }
 for (i = 0; i &lt; 36; i++) {
-        if (<a class='funcref' href='#7FA858'>binSectionLoadFuncs</a>[i](section)) {
+        if (<a class='funcref' href='#7FA858'>binSectionLoadFuncs</a>[i](binsection)) {
                 return 1;
         }
 }
 return 0;
 </pre>  Returns 1 when something managed to load it.
+  Some loaders that are in the map are also in the array.
 </li><li><span class='func' id='577B10'>577B10 void UnloadBinSection(void *arg1, void *arg2)</span>
   Does things and calls the bin section unload handler, similar to <a class='funcref' href='#570D70'>570D70:LoadBinSection()</a>.
 </li><li><span class='func' id='579340'>579340 int LoadBinSection39100_39101_39102(<a href='#struct_BinSection'>struct BinSection</a> *binsection)</span>
 </li><li><span class='func' id='579350'>579350 int UnloadBinSection39100_39101_39102(<a href='#struct_BinSection'>struct BinSection</a> *binsection)</span>
+</li><li><span class='func' id='57A470'>57A470 int LoadBinSection8003B000(<a href='#struct_BinSection'>struct BinSection</a> *binsection)</span>
+</li><li><span class='func' id='57BCE0'>57BCE0 int UnloadBinSection8003B000(<a href='#struct_BinSection'>struct BinSection</a> *binsection)</span>
+</li><li><span class='func' id='599440'>599440 int LoadBinSection80034A30(<a href='#struct_BinSection'>struct BinSection</a> *binsection)</span>
+</li><li><span class='func' id='5994D0'>5994D0 int UnloadBinSection80034A30(<a href='#struct_BinSection'>struct BinSection</a> *binsection)</span>
+</li><li><span class='func' id='5A1750'>5A1750 int LoadBinSection80034020(<a href='#struct_BinSection'>struct BinSection</a> *binsection)</span>
+</li><li><span class='func' id='5A1860'>5A1860 int UnloadBinSection80034020(<a href='#struct_BinSection'>struct BinSection</a> *binsection)</span>
 </li><li><span class='func' id='5A8BD0'>5A8BD0 int UnloadBinSection34026_34027(<a href='#struct_BinSection'>struct BinSection</a> *binsection)</span>
 </li><li><span class='func' id='5B0E30'>5B0E30 int LoadBinSection34026_34027(<a href='#struct_BinSection'>struct BinSection</a> *binsection)</span>
 </li><li><span class='func' id='5D3EB0'>5D3EB0 int LoadBinSection34201(<a href='#struct_BinSection'>struct BinSection</a> *binsection)</span>
@@ -444,14 +502,32 @@ return 0;
 </li><li><span class='func' id='5D84D0'>5D84D0 int UnoadBinSection34146(<a href='#struct_BinSection'>struct BinSection</a> *binsection)</span>
 </li><li><span class='func' id='5DA490'>5DA490 int LoadBinSection80034147(<a href='#struct_BinSection'>struct BinSection</a> *binsection)</span>
 </li><li><span class='func' id='5DB2E0'>5DB2E0 int LoadBinSection34108(<a href='#struct_BinSection'>struct BinSection</a> *binsection)</span>
+</li><li><span class='func' id='5DB5A0'>5DB5A0 int UnloadBinSection80034150(<a href='#struct_BinSection'>struct BinSection</a> *binsection)</span>
+</li><li><span class='func' id='5DBF60'>5DBF60 int LoadBinSection80036000(<a href='#struct_BinSection'>struct BinSection</a> *binsection)</span>
+</li><li><span class='func' id='5DC050'>5DC050 int UnloadBinSection80036000(<a href='#struct_BinSection'>struct BinSection</a> *binsection)</span>
+</li><li><span class='func' id='5DEB80'>5DEB80 int LoadBinSection34121_34122_34123_34124(<a href='#struct_BinSection'>struct BinSection</a> *binsection)</span>
 </li><li><span class='func' id='5DEE00'>5DEE00 int UnloadBinSection80034147(<a href='#struct_BinSection'>struct BinSection</a> *binsection)</span>
 </li><li><span class='func' id='5DEF30'>5DEF30 int LoadBinSection_34110_34111_34112_34112(<a href='#struct_BinSection'>struct BinSection</a> *binsection)</span>
 </li><li><span class='func' id='5DF8A0'>5DF8A0 int LoadBinSection80034100_34107(<a href='#struct_BinSection'>struct BinSection</a> *binsection)</span>
 </li><li><span class='func' id='5DFBA0'>5DFBA0 int UnloadBinSection80034100_34107(<a href='#struct_BinSection'>struct BinSection</a> *binsection)</span>
+</li><li><span class='func' id='5E0190'>5E0190 int LoadBinSection34250(<a href='#struct_BinSection'>struct BinSection</a> *binsection)</span>
+</li><li><span class='func' id='5E0220'>5E0220 int UnloadBinSection34250(<a href='#struct_BinSection'>struct BinSection</a> *binsection)</span>
+</li><li><span class='func' id='5E4820'>5E4820 int UnloadBinSection34121_34122_34123_34124(<a href='#struct_BinSection'>struct BinSection</a> *binsection)</span>
 </li><li><span class='func' id='5E4E60'>5E4E60 int UnloadBinSection_34110_34111_34112_34112(<a href='#struct_BinSection'>struct BinSection</a> *binsection)</span>
 </li><li><span class='func' id='5E81C0'>5E81C0 int LoadBinSection80034130_3412F(<a href='#struct_BinSection'>struct BinSection</a> *binsection)</span>
   Called when exiting to main menu after being in race/freeroam.
 </li><li><span class='func' id='5E8660'>5E8660 int UnloadBinSection80034130_3412F(<a href='#struct_BinSection'>struct BinSection</a> *binsection)</span>
+</li><li><span class='func' id='5E9C10'>5E9C10 int LoadBinSection80034150_thiscall(<a href='#struct_BinSection'>struct BinSection</a> *binsection)</span>
+</li><li><span class='func' id='5EA0F0'>5EA0F0 int LoadBinSection80034150(<a href='#struct_BinSection'>struct BinSection</a> *binsection)</span>
+</li><li><span class='func' id='60B810'>60B810 int LoadBinSection8003B600(<a href='#struct_BinSection'>struct BinSection</a> *binsection)</span>
+</li><li><span class='func' id='60BAC0'>60BAC0 int UnloadBinSection8003B600(<a href='#struct_BinSection'>struct BinSection</a> *binsection)</span>
+</li><li><span class='func' id='61B460'>61B460 int UnloadBinSection34600_34601_80034602(<a href='#struct_BinSection'>struct BinSection</a> *binsection)</span>
+</li><li><span class='func' id='61C3C0'>61C3C0 int LoadBinSection30220(<a href='#struct_BinSection'>struct BinSection</a> *binsection)</span>
+</li><li><span class='func' id='61C420'>61C420 int UnloadBinSection30220(<a href='#struct_BinSection'>struct BinSection</a> *binsection)</span>
+</li><li><span class='func' id='61CB50'>61CB50 int LoadBinSection34030(<a href='#struct_BinSection'>struct BinSection</a> *binsection)</span>
+</li><li><span class='func' id='61CB90'>61CB90 int UnloadBinSection34030(<a href='#struct_BinSection'>struct BinSection</a> *binsection)</span>
+</li><li><span class='func' id='636BE0'>636BE0 int LoadBinSection34600_34601_34608_34609_34607_80034602(<a href='#struct_BinSection'>struct BinSection</a> *binsection)</span>
+  Sets <a class='fieldref' href='#8A1CCC'>8A1CCC:ptrCarData</a> data.
 </li><li><span class='func' id='77B620'>77B620 void init_function_77B620_registerBinSectionHandler0()</span>
   Registers <a class='fieldref' href='#7EB3F4'>7EB3F4:binSectionHandlerMagicMapEntry0}</a> (without using <a class='funcref' href='#43C0B0'>43C0B0:RegisterBinSectionHandler()</a>).
 </li><li><span class='func' id='77CB00'>77CB00 void init_function_77CB00_registerBinSectionHandler80134000()</span>
@@ -483,10 +559,86 @@ return 0;
 </li><li><span class='field' id='7FA858'>7FA858 int (*binSectionLoadFuncs)(<a href='#struct_BinSection'>struct BinSection</a>*)[36]</span>
   Called by <a class='funcref' href='#570D70'>570D70:LoadBinSection()</a>.
   These funcs return 1 if they can process the data.
-</li><li><span class='field' id='7FA8E8'>7FA8E8 int (*binSectionUnloadFuncs)(<a href='#struct_BinSection'>struct BinSection</a>*)[36]</span>
+<pre>int (*<a class='fieldref' href='#7FA858'>binSectionLoadFuncs</a>)(<a href='#struct_BinSection'>struct BinSection</a>*)[] = {
+/*0*/   <a class='funcref' href='#52CD00'>LoadLanguageFontBinSection30201</a>,
+/*1*/   <a class='funcref' href='#491C70'>LoadBinSection80035000_80035010_35021_35020</a>,
+/*2*/   <a class='funcref' href='#5DBF60'>LoadBinSection80036000</a>,
+/*3*/   <a class='funcref' href='#5A1750'>LoadBinSection80034020</a>,
+/*4*/   <a class='funcref' href='#5EA0F0'>LoadBinSection80034150</a>,
+/*5*/   <a class='funcref' href='#4348F0'>LoadBinSection0E34010</a>,
+/*6*/   <a class='funcref' href='#434E10'>LoadBinSection0E34009</a>,
+/*7*/   <a class='funcref' href='#4377F0'>LoadBinSection80037020</a>,
+/*8*/   <a class='funcref' href='#431870'>LoadBinSection80037050</a>,
+/*9*/   <a class='funcref' href='#435A90'>LoadBinSection37080</a>,
+/*10*/  <a class='funcref' href='#43A460'>LoadBinSection37090</a>,
+/*11*/  <a class='funcref' href='#43A260'>LoadBinSection37110</a>,
+/*12*/  <a class='funcref' href='#432080'>LoadBinSection37140</a>,
+/*13*/  <a class='funcref' href='#43A1F0'>LoadBinSection37150</a>,
+/*14*/  <a class='funcref' href='#4381B0'>LoadBinSection37100</a>,
+/*15*/  <a class='funcref' href='#48B4A0'>LoadBinSection34202</a>,
+/*16*/  <a class='funcref' href='#636BE0'>LoadBinSection34600_34601_34608_34609_34607_80034602</a>,
+/*17*/  <a class='funcref' href='#599440'>LoadBinSection80034A30</a>,
+/*18*/  <a class='funcref' href='#56C4C0'>LoadBinSection34A07</a>,
+/*19*/  <a class='funcref' href='#61CB50'>LoadBinSection34030</a>,
+/*20*/  <a class='funcref' href='#5DEB80'>LoadBinSection34121_34122_34123_34124</a>,
+/*21*/  <a class='funcref' href='#408200'>LoadBinSection34B00</a>,
+/*22*/  <a class='funcref' href='#5125B0'>LoadLanguageBinSection39000</a>,
+/*23*/  <a class='funcref' href='#5E0190'>LoadBinSection34250</a>,
+/*24*/  <a class='funcref' href='#40A460'>LoadBinSection3A000</a>,
+/*25*/  <a class='funcref' href='#51BD30'>LoadBinSection30203_30210</a>,
+/*26*/  <a class='funcref' href='#57A470'>LoadBinSection8003B000</a>,
+/*27*/  <a class='funcref' href='#44AB60'>LoadBinSection8003B200_8003B201_8003B202</a>,
+/*28*/  <a class='funcref' href='#512C00'>LoadBinSection80034A10</a>,
+/*29*/  <a class='funcref' href='#52CD90'>LoadBinSection39020</a>,
+/*30*/  <a class='funcref' href='#47BC30'>LoadBinSection8003B500</a>,
+/*31*/  <a class='funcref' href='#61C3C0'>LoadBinSection30220</a>,
+/*32*/  <a class='funcref' href='#60B810'>LoadBinSection8003B600</a>,
+/*33*/  <a class='funcref' href='#48A280'>LoadBinSection3B700</a>,
+/*34*/  <a class='funcref' href='#5108A0'>LoadBinSection30230</a>,
+/*35*/  <a class='funcref' href='#5108E0'>LoadBinSection30231</a>,
+}
+</pre></li><li><span class='field' id='7FA8E8'>7FA8E8 int (*binSectionUnloadFuncs)(<a href='#struct_BinSection'>struct BinSection</a>*)[36]</span>
   Called by <a class='funcref' href='#577B10'>577B10:UnloadBinSection()</a>.
   These funcs return 1 if they can process the data.
-</li><li><span class='field' id='827FE8'>827FE8 char numBinSectionLoadFunctionsInMagicMapBucket[64]</span>
+<pre>int (*<a class='fieldref' href='#7FA8E8'>binSectionUnloadFuncs</a>)(<a href='#struct_BinSection'>struct BinSection</a>*)[] = {
+/*0*/   <a class='funcref' href='#537290'>UnloadLanguageFontBinSection30201</a>,
+/*1*/   <a class='funcref' href='#491D50'>UnloadBinSection80035000_80035010_35021_35020</a>,
+/*2*/   <a class='funcref' href='#5DC050'>UnloadBinSection80036000</a>,
+/*3*/   <a class='funcref' href='#5A1860'>UnloadBinSection80034020</a>,
+/*4*/   <a class='funcref' href='#5DB5A0'>UnloadBinSection80034150</a>,
+/*5*/   <a class='funcref' href='#4349A0'>UnloadBinSection0E34010</a>,
+/*6*/   <a class='funcref' href='#4365B0'>UnloadBinSection0E34009</a>,
+/*7*/   <a class='funcref' href='#4325C0'>UnloadBinSection80037020</a>,
+/*8*/   <a class='funcref' href='#4318D0'>UnloadBinSection80037050</a>,
+/*9*/   <a class='funcref' href='#438C20'>UnloadBinSection37080</a>,
+/*10*/  <a class='funcref' href='#438C60'>UnloadBinSection37090</a>,
+/*11*/  <a class='funcref' href='#435A50'>UnloadBinSection37110</a>,
+/*12*/  <a class='funcref' href='#4320C0'>UnloadBinSection37140</a>,
+/*13*/  <a class='funcref' href='#438720'>UnloadBinSection37150</a>,
+/*14*/  <a class='funcref' href='#439D70'>UnloadBinSection37100</a>,
+/*15*/  <a class='funcref' href='#48B740'>UnloadBinSection34202</a>,
+/*16*/  <a class='funcref' href='#61B460'>UnloadBinSection34600_34601_80034602</a>,
+/*17*/  <a class='funcref' href='#5994D0'>UnloadBinSection80034A30</a>,
+/*18*/  <a class='funcref' href='#56C4E0'>UnloadBinSection34A07</a>,
+/*19*/  <a class='funcref' href='#61CB90'>UnloadBinSection34030</a>,
+/*20*/  <a class='funcref' href='#5E4820'>UnloadBinSection34121_34122_34123_34124</a>,
+/*21*/  <a class='funcref' href='#408220'>UnloadBinSection34B00</a>,
+/*22*/  <a class='funcref' href='#4FFAE0'>UnloadLanguageBinSection39000</a>,
+/*23*/  <a class='funcref' href='#5E0220'>UnloadBinSection34250</a>,
+/*24*/  <a class='funcref' href='#40A4A0'>UnloadBinSection3A000</a>,
+/*25*/  <a class='funcref' href='#5425A0'>UnloadBinSection30203_30210</a>,
+/*26*/  <a class='funcref' href='#57BCE0'>UnloadBinSection8003B000</a>,
+/*27*/  <a class='funcref' href='#452E90'>UnloadBinSection8003B200_8003B201_8003B202</a>,
+/*28*/  <a class='funcref' href='#500290'>UnloadBinSection80034A10</a>,
+/*29*/  <a class='funcref' href='#51C610'>UnloadBinSection39020</a>,
+/*30*/  <a class='funcref' href='#482D20'>UnloadBinSection8003B500</a>,
+/*31*/  <a class='funcref' href='#61C420'>UnloadBinSection30220</a>,
+/*32*/  <a class='funcref' href='#60BAC0'>UnloadBinSection8003B600</a>,
+/*33*/  <a class='funcref' href='#48A2B0'>UnloadBinSection3B700</a>,
+/*34*/  <a class='funcref' href='#5108C0'>UnloadBinSection30230</a>,
+/*35*/  <a class='funcref' href='#510900'>UnloadBinSection30231</a>,
+}
+</pre></li><li><span class='field' id='827FE8'>827FE8 char numBinSectionLoadFunctionsInMagicMapBucket[64]</span>
   Written to, but never read. Functions seem to just check if
   <code><a href='#struct_BinSectionMagicMapEntry'>struct BinSectionMagicMapEntry</a>.<a href='#structBinSectionMagicMapEntry_0'>nextEntry</a></code>
   is 0 instead of counting entries.
@@ -736,7 +888,11 @@ if (section-&gt;<a href='#structBinSection_0'>header</a>.<a href='#structBinSect
                 tableEntry++;
         }
 }
-</pre></li><li><span class='field' id='8383D0'>8383D0 <a href='#struct_LoadedLanguage'>struct LoadedLanguage</a> loadedLanguage</span>
+</pre></li><li><span class='func' id='52CD00'>52CD00 int LoadLanguageFontBinSection30201(struct BinData *bindata)</span>
+  Something with font.
+</li><li><span class='func' id='537290'>537290 int UnloadLanguageFontBinSection30201(struct BinData *bindata)</span>
+  Something with font.
+</li><li><span class='field' id='8383D0'>8383D0 <a href='#struct_LoadedLanguage'>struct LoadedLanguage</a> loadedLanguage</span>
 </li></ul><p style='margin-bottom:0'><a href='#index'>Index</a></p></div><span id='pools'></span><div><h2>Pools <a href="#pools">#</a></h2>
 <p>I hooked <a class='funcref' href='#440B40'>440B40:??CreatePoolReally()</a> and collected some output: <a href="createpoollog.txt">createpoollog.txt</a>
 This will probably help a lot when trying to figure out other things.
@@ -1691,7 +1847,7 @@ It uses a lot of strings that are manufacturers and stuff like <code>CARSELECT_M
 There are two parameters, the first seems to be the index of the car and the second is if
 the caller wants the manufacturer logo or the brand logo.
 The function gave some nice information:
-</p><ul><li><span class='unresolved'>0x8A1CCC</span> is a pointer to something that's probably car model data
+</p><ul><li><a class='fieldref' href='#8A1CCC'>8A1CCC:ptrCarData</a> is a pointer to something that's probably car model data
 </li><li>That data is an array with component size <code>0x890</code>
 </li><li>At <code>+0x0</code>, there is a brand name
 </li><li>At <code>+0xC0</code>, there is a manufacturer name
@@ -1766,5 +1922,6 @@ if (!<a class='fieldref' href='#86347C'>isProfileWithStartedCareerLoaded</a>) {
   Array of functions that are called at boot, by <a class='funcref' href='#75D45B'>75D45B:sub_75D45B()</a>.
   Some of them are constructors being called.
 </li><li><span class='field' id='864F4C'>864F4C int _isGameClosing</span>
+</li><li><span class='field' id='8A1CCC'>8A1CCC void *ptrCarData</span>
 </li></ul><p style='margin-bottom:0'><a href='#index'>Index</a></p></div></body>
 </html>

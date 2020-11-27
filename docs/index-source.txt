@@ -500,6 +500,32 @@ this->{structBinSectionMagicMapEntry+0} = {828050}[index];                      
 {828050}[index] = this;                                                                         ||| fieldplain
 {827FE8}++;                                                                                     ||| fieldplain
 .pop pre
+- {408200 int LoadBinSection34B00({struct BinSection} *binsection)}                             ||| func,refto
+- {408220 int UnloadBinSection34B00({struct BinSection} *binsection)}                           ||| func,refto
+- {40A460 int LoadBinSection3A000({struct BinSection} *binsection)}                             ||| func,refto
+- {40A4A0 int UnloadBinSection3A000({struct BinSection} *binsection)}                           ||| func,refto
+- {431870 int LoadBinSection80037050({struct BinSection} *binsection)}                          ||| func,refto
+- {4318D0 int UnloadBinSection80037050({struct BinSection} *binsection)}                        ||| func,refto
+- {432080 int LoadBinSection37140({struct BinSection} *binsection)}                             ||| func,refto
+- {4320C0 int UnloadBinSection37140({struct BinSection} *binsection)}                           ||| func,refto
+- {4325C0 int UnloadBinSection80037020({struct BinSection} *binsection)}                        ||| func,refto
+- {4348F0 int LoadBinSection0E34010({struct BinSection} *binsection)}                           ||| func,refto
+  Uses {Anim_CNFSAnimBank_SlotPool}                                                             ||| code
+- {4349A0 int UnloadBinSection0E34010({struct BinSection} *binsection)}                         ||| func,refto
+- {434E10 int LoadBinSection0E34009({struct BinSection} *binsection)}                           ||| func,refto
+  Uses {Anim_CAnimSkeleton_SlotPool}                                                            ||| code
+- {435A50 int UnloadBinSection37110({struct BinSection} *binsection)}                           ||| func,refto
+- {435A90 int LoadBinSection37080({struct BinSection} *binsection)}                             ||| func,refto
+- {4365B0 int UnloadBinSection0E34009({struct BinSection} *binsection)}                         ||| func,refto
+- {4377F0 int LoadBinSection80037020({struct BinSection} *binsection)}                          ||| func,refto
+- {4381B0 int LoadBinSection37100({struct BinSection} *binsection)}                             ||| func,refto
+- {438720 int UnloadBinSection37150({struct BinSection} *binsection)}                           ||| func,refto
+- {438C20 int UnloadBinSection37080({struct BinSection} *binsection)}                           ||| func,refto
+- {438C60 int UnloadBinSection37090({struct BinSection} *binsection)}                           ||| func,refto
+- {439D70 int UnloadBinSection37100({struct BinSection} *binsection)}                           ||| func,refto
+- {43A1F0 int LoadBinSection37150({struct BinSection} *binsection)}                             ||| func,refto
+- {43A260 int LoadBinSection37110({struct BinSection} *binsection)}                             ||| func,refto
+- {43A460 int LoadBinSection37090({struct BinSection} *binsection)}                             ||| func,refto
 - {43C0A0 int LoadUnloadBinSection0({struct BinSection} *binsection)}                           ||| func,refto
   Nop handler that returns 1 if {binsection->{structBinSection+0}} is 0.                        ||| code,refto
 - {43C100 {struct BinSectionMagicMapEntry} *FindBinSectionHandler(int magic)}                   ||| func,refto
@@ -518,34 +544,67 @@ while (entry) {
 }
 return NULL;
 .pop pre
+
+- {44AB60 int LoadBinSection8003B200_8003B201_8003B202({struct BinSection} *binsection)}        ||| func,refto
+- {452E90 int UnloadBinSection8003B200_8003B201_8003B202({struct BinSection} *binsection)}      ||| func,refto
+- {47BC30 int LoadBinSection8003B500({struct BinSection} *binsection)}                          ||| func,refto
+- {482D20 int UnloadBinSection8003B500({struct BinSection} *binsection)}                        ||| func,refto
+  Does a function call on {82B884}.                                                             ||| fieldref
+- {48A280 int LoadBinSection3B700({struct BinSection} *binsection)}                             ||| func,refto
+- {48A2B0 int UnloadBinSection3B700({struct BinSection} *binsection)}                           ||| func,refto
+- {48B4A0 int LoadBinSection34202({struct BinSection} *binsection)}                             ||| func,refto
+- {48B740 int UnloadBinSection34202({struct BinSection} *binsection)}                           ||| func,refto
 - {48E070 int LoadBinSection135200_80135100_80135000({struct BinSection} *binsection)}          ||| func,refto
 - {48E270 int UnloadBinSection135200_80135100_80135000({struct BinSection} *binsection)}        ||| func,refto
+- {491C70 int LoadBinSection80035000_80035010_35021_35020({struct BinSection} *binsection)}     ||| func,refto
+- {491D50 int UnloadBinSection80035000_80035010_35021_35020({struct BinSection} *binsection)}   ||| func,refto
 - {494060 int LoadBinSection80134000({struct BinSection} *binsection)}                          ||| func,refto
 - {4940E0 int UnloadBinSection80134000({struct BinSection} *binsection)}                        ||| func,refto
 - {494EA0 int LoadBinSectionB3300000_B332000_B0300100({struct BinSection} *binsection)}         ||| func,refto
 - {495040 int UnloadBinSectionB3300000_B332000_B0300100({struct BinSection} *binsection)}       ||| func,refto
-- {570D70 int LoadBinSection({struct BinSection} *section)}                                     ||| func,refto
+- {500290 int UnloadBinSection80034A10({struct BinSection} *binsection)}                        ||| func,refto
+- {5108A0 int LoadBinSection30230({struct BinSection} *binsection)}                             ||| func,refto
+- {5108C0 int UnloadBinSection30230({struct BinSection} *binsection)}                           ||| func,refto
+- {5108E0 int LoadBinSection30231({struct BinSection} *binsection)}                             ||| func,refto
+- {510900 int UnloadBinSection30231({struct BinSection} *binsection)}                           ||| func,refto
+- {512C00 int LoadBinSection80034A10({struct BinSection} *binsection)}                          ||| func,refto
+- {51BD30 int LoadBinSection30203_30210({struct BinSection} *binsection)}                       ||| func,refto
+  Loads FNG packages?
+- {51C610 int UnloadBinSection39020({struct BinSection} *binsection)}                           ||| func,refto
+- {52CD90 int LoadBinSection39020({struct BinSection} *binsection)}                             ||| func,refto
+- {5425A0 int UnloadBinSection30203_30210({struct BinSection} *binsection)}                     ||| func,refto
+  Unloads FNG packages?
+- {56C4C0 int LoadBinSection34A07({struct BinSection} *binsection)}                             ||| func,refto
+- {56C4E0 int UnloadBinSection34A07({struct BinSection} *binsection)}                           ||| func,refto
+- {570D70 int LoadBinSection({struct BinSection} *binsection)}                                  ||| func,refto
   Only called from {577AB0}.                                                                    ||| funcref
 .push pre
 {struct BinSectionMagicMapEntry} *entry;                                                        ||| refto
 int i;
 
-entry = {43C100}(section->{structBinSection+0}.{structBinSectionHeader+0});                     ||| funcplain,refto,refto
+entry = {43C100}(binsection->{structBinSection+0}.{structBinSectionHeader+0});                  ||| funcplain,refto,refto
 if (entry) {
-        return entry->{structBinSectionMagicMapEntry+4}.{structBinSectionHandler+4}(section);   ||| refto,refto
+        return entry->{structBinSectionMagicMapEntry+4}.{structBinSectionHandler+4}(binsection);||| refto,refto
 }
 for (i = 0; i < 36; i++) {
-        if ({7FA858}[i](section)) \{                                                            ||| funcplain
+        if ({7FA858}[i](binsection)) \{                                                         ||| funcplain
                 return 1;
         }
 }
 return 0;
 .pop pre
   Returns 1 when something managed to load it.
+  Some loaders that are in the map are also in the array.
 - {577B10 void UnloadBinSection(void *arg1, void *arg2)}                                        ||| func
   Does things and calls the bin section unload handler, similar to {570D70}.                    ||| funcref
 - {579340 int LoadBinSection39100_39101_39102({struct BinSection} *binsection)}                 ||| func,refto
 - {579350 int UnloadBinSection39100_39101_39102({struct BinSection} *binsection)}               ||| func,refto
+- {57A470 int LoadBinSection8003B000({struct BinSection} *binsection)}                          ||| func,refto
+- {57BCE0 int UnloadBinSection8003B000({struct BinSection} *binsection)}                        ||| func,refto
+- {599440 int LoadBinSection80034A30({struct BinSection} *binsection)}                          ||| func,refto
+- {5994D0 int UnloadBinSection80034A30({struct BinSection} *binsection)}                        ||| func,refto
+- {5A1750 int LoadBinSection80034020({struct BinSection} *binsection)}                          ||| func,refto
+- {5A1860 int UnloadBinSection80034020({struct BinSection} *binsection)}                        ||| func,refto
 - {5A8BD0 int UnloadBinSection34026_34027({struct BinSection} *binsection)}                     ||| func,refto
 - {5B0E30 int LoadBinSection34026_34027({struct BinSection} *binsection)}                       ||| func,refto
 - {5D3EB0 int LoadBinSection34201({struct BinSection} *binsection)}                             ||| func,refto
@@ -555,14 +614,32 @@ return 0;
 - {5D84D0 int UnoadBinSection34146({struct BinSection} *binsection)}                            ||| func,refto
 - {5DA490 int LoadBinSection80034147({struct BinSection} *binsection)}                          ||| func,refto
 - {5DB2E0 int LoadBinSection34108({struct BinSection} *binsection)}                             ||| func,refto
+- {5DB5A0 int UnloadBinSection80034150({struct BinSection} *binsection)}                        ||| func,refto
+- {5DBF60 int LoadBinSection80036000({struct BinSection} *binsection)}                          ||| func,refto
+- {5DC050 int UnloadBinSection80036000({struct BinSection} *binsection)}                        ||| func,refto
+- {5DEB80 int LoadBinSection34121_34122_34123_34124({struct BinSection} *binsection)}           ||| func,refto
 - {5DEE00 int UnloadBinSection80034147({struct BinSection} *binsection)}                        ||| func,refto
 - {5DEF30 int LoadBinSection_34110_34111_34112_34112({struct BinSection} *binsection)}          ||| func,refto
 - {5DF8A0 int LoadBinSection80034100_34107({struct BinSection} *binsection)}                    ||| func,refto
 - {5DFBA0 int UnloadBinSection80034100_34107({struct BinSection} *binsection)}                  ||| func,refto
+- {5E0190 int LoadBinSection34250({struct BinSection} *binsection)}                             ||| func,refto
+- {5E0220 int UnloadBinSection34250({struct BinSection} *binsection)}                           ||| func,refto
+- {5E4820 int UnloadBinSection34121_34122_34123_34124({struct BinSection} *binsection)}         ||| func,refto
 - {5E4E60 int UnloadBinSection_34110_34111_34112_34112({struct BinSection} *binsection)}        ||| func,refto
 - {5E81C0 int LoadBinSection80034130_3412F({struct BinSection} *binsection)}                    ||| func,refto
   Called when exiting to main menu after being in race/freeroam.
 - {5E8660 int UnloadBinSection80034130_3412F({struct BinSection} *binsection)}                  ||| func,refto
+- {5E9C10 int LoadBinSection80034150_thiscall({struct BinSection} *binsection)}                 ||| func,refto
+- {5EA0F0 int LoadBinSection80034150({struct BinSection} *binsection)}                          ||| func,refto
+- {60B810 int LoadBinSection8003B600({struct BinSection} *binsection)}                          ||| func,refto
+- {60BAC0 int UnloadBinSection8003B600({struct BinSection} *binsection)}                        ||| func,refto
+- {61B460 int UnloadBinSection34600_34601_80034602({struct BinSection} *binsection)}            ||| func,refto
+- {61C3C0 int LoadBinSection30220({struct BinSection} *binsection)}                             ||| func,refto
+- {61C420 int UnloadBinSection30220({struct BinSection} *binsection)}                           ||| func,refto
+- {61CB50 int LoadBinSection34030({struct BinSection} *binsection)}                             ||| func,refto
+- {61CB90 int UnloadBinSection34030({struct BinSection} *binsection)}                           ||| func,refto
+- {636BE0 int LoadBinSection34600_34601_34608_34609_34607_80034602({struct BinSection} *binsection)} ||| func,refto
+  Sets {8A1CCC} data.                                                                           ||| fieldref
 - {77B620 void init_function_77B620_registerBinSectionHandler0()}                               ||| func
   Registers {7EB3F4} (without using {43C0B0}).                                                  ||| fieldref,funcref
 - {77CB00 void init_function_77CB00_registerBinSectionHandler80134000()}                        ||| func
@@ -594,9 +671,89 @@ return 0;
 - {7FA858 int (*binSectionLoadFuncs)({struct BinSection}*)[36]}                                 ||| field,refto
   Called by {570D70}.                                                                           ||| funcref
   These funcs return 1 if they can process the data.
+.push pre
+int (*{7FA858})({struct BinSection}*)[] = \{                                                    ||| fieldplain,refto
+/*0*/   {52CD00},                                                                               ||| funcplain
+/*1*/   {491C70},                                                                               ||| funcplain
+/*2*/   {5DBF60},                                                                               ||| funcplain
+/*3*/   {5A1750},                                                                               ||| funcplain
+/*4*/   {5EA0F0},                                                                               ||| funcplain
+/*5*/   {4348F0},                                                                               ||| funcplain
+/*6*/   {434E10},                                                                               ||| funcplain
+/*7*/   {4377F0},                                                                               ||| funcplain
+/*8*/   {431870},                                                                               ||| funcplain
+/*9*/   {435A90},                                                                               ||| funcplain
+/*10*/  {43A460},                                                                               ||| funcplain
+/*11*/  {43A260},                                                                               ||| funcplain
+/*12*/  {432080},                                                                               ||| funcplain
+/*13*/  {43A1F0},                                                                               ||| funcplain
+/*14*/  {4381B0},                                                                               ||| funcplain
+/*15*/  {48B4A0},                                                                               ||| funcplain
+/*16*/  {636BE0},                                                                               ||| funcplain
+/*17*/  {599440},                                                                               ||| funcplain
+/*18*/  {56C4C0},                                                                               ||| funcplain
+/*19*/  {61CB50},                                                                               ||| funcplain
+/*20*/  {5DEB80},                                                                               ||| funcplain
+/*21*/  {408200},                                                                               ||| funcplain
+/*22*/  {5125B0},                                                                               ||| funcplain
+/*23*/  {5E0190},                                                                               ||| funcplain
+/*24*/  {40A460},                                                                               ||| funcplain
+/*25*/  {51BD30},                                                                               ||| funcplain
+/*26*/  {57A470},                                                                               ||| funcplain
+/*27*/  {44AB60},                                                                               ||| funcplain
+/*28*/  {512C00},                                                                               ||| funcplain
+/*29*/  {52CD90},                                                                               ||| funcplain
+/*30*/  {47BC30},                                                                               ||| funcplain
+/*31*/  {61C3C0},                                                                               ||| funcplain
+/*32*/  {60B810},                                                                               ||| funcplain
+/*33*/  {48A280},                                                                               ||| funcplain
+/*34*/  {5108A0},                                                                               ||| funcplain
+/*35*/  {5108E0},                                                                               ||| funcplain
+}
+.pop pre
 - {7FA8E8 int (*binSectionUnloadFuncs)({struct BinSection}*)[36]}                               ||| field,refto
   Called by {577B10}.                                                                           ||| funcref
   These funcs return 1 if they can process the data.
+.push pre
+int (*{7FA8E8})({struct BinSection}*)[] = \{                                                    ||| fieldplain,refto
+/*0*/   {537290},                                                                               ||| funcplain
+/*1*/   {491D50},                                                                               ||| funcplain
+/*2*/   {5DC050},                                                                               ||| funcplain
+/*3*/   {5A1860},                                                                               ||| funcplain
+/*4*/   {5DB5A0},                                                                               ||| funcplain
+/*5*/   {4349A0},                                                                               ||| funcplain
+/*6*/   {4365B0},                                                                               ||| funcplain
+/*7*/   {4325C0},                                                                               ||| funcplain
+/*8*/   {4318D0},                                                                               ||| funcplain
+/*9*/   {438C20},                                                                               ||| funcplain
+/*10*/  {438C60},                                                                               ||| funcplain
+/*11*/  {435A50},                                                                               ||| funcplain
+/*12*/  {4320C0},                                                                               ||| funcplain
+/*13*/  {438720},                                                                               ||| funcplain
+/*14*/  {439D70},                                                                               ||| funcplain
+/*15*/  {48B740},                                                                               ||| funcplain
+/*16*/  {61B460},                                                                               ||| funcplain
+/*17*/  {5994D0},                                                                               ||| funcplain
+/*18*/  {56C4E0},                                                                               ||| funcplain
+/*19*/  {61CB90},                                                                               ||| funcplain
+/*20*/  {5E4820},                                                                               ||| funcplain
+/*21*/  {408220},                                                                               ||| funcplain
+/*22*/  {4FFAE0},                                                                               ||| funcplain
+/*23*/  {5E0220},                                                                               ||| funcplain
+/*24*/  {40A4A0},                                                                               ||| funcplain
+/*25*/  {5425A0},                                                                               ||| funcplain
+/*26*/  {57BCE0},                                                                               ||| funcplain
+/*27*/  {452E90},                                                                               ||| funcplain
+/*28*/  {500290},                                                                               ||| funcplain
+/*29*/  {51C610},                                                                               ||| funcplain
+/*30*/  {482D20},                                                                               ||| funcplain
+/*31*/  {61C420},                                                                               ||| funcplain
+/*32*/  {60BAC0},                                                                               ||| funcplain
+/*33*/  {48A2B0},                                                                               ||| funcplain
+/*34*/  {5108C0},                                                                               ||| funcplain
+/*35*/  {510900},                                                                               ||| funcplain
+}
+.pop pre
 - {827FE8 char numBinSectionLoadFunctionsInMagicMapBucket[64]}                                  ||| field
   Written to, but never read. Functions seem to just check if
   {{struct BinSectionMagicMapEntry}.{structBinSectionMagicMapEntry+0}}                          ||| code,refto,refto
@@ -900,6 +1057,10 @@ if (section->{structBinSection+0}.{structBinSectionHeader+0} == 0x39000) \{     
         }
 }
 .pop pre
+- {52CD00 int LoadLanguageFontBinSection30201(struct BinData *bindata)}                         ||| func
+  Something with font.
+- {537290 int UnloadLanguageFontBinSection30201(struct BinData *bindata)}                       ||| func
+  Something with font.
 - {8383D0 {struct LoadedLanguage} loadedLanguage}                                               ||| field,refto
 .pop symbols
 
@@ -2219,6 +2380,7 @@ if (!{isProfileWithStartedCareerLoaded}) \{                                     
   Array of functions that are called at boot, by {75D45B}.                                      ||| funcref
   Some of them are constructors being called.
 - {864F4C int _isGameClosing}                                                                   ||| field
+- {8A1CCC void *ptrCarData}                                                                     ||| field
 .pop symbols
 
 .pop section

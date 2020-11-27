@@ -48,7 +48,8 @@ char line_expanded[20000];
 char *line;
 int line_len;
 int current_line;
-char tag_stack[TAG_STACK_SIZE][25];
+#define TAG_STACK_TAG_LEN 25
+char tag_stack[TAG_STACK_SIZE][TAG_STACK_TAG_LEN];
 int tag_stack_pos;
 int open_mark_position[MAX_MARKS];
 int num_open_marks;
@@ -74,7 +75,7 @@ struct PLACEHOLDER {
 	char needs_adjustment;
 	char _data[MAX_PLACEHOLDER_DATA_LENGTH];
 };
-#define MAX_PLACEHOLDERS 500
+#define MAX_PLACEHOLDERS 1000
 struct PLACEHOLDER placeholders[MAX_PLACEHOLDERS];
 int num_placeholders;
 int num_placeholders_before_this_line;
@@ -104,7 +105,8 @@ void *next_placeholder(void (*cb)(FILE*,struct PLACEHOLDER*))
 {
 	if (num_placeholders == MAX_PLACEHOLDERS) {
 		printf("MAX_PLACEHOLDERS reached\n");
-		return dummyplaceholder.data;
+		fflush(stdout);
+		return &dummyplaceholder.data;
 	}
 	placeholders[num_placeholders].position = out - outbuffer + current_line_offset;
 	placeholders[num_placeholders].line_number = current_line;
@@ -153,6 +155,7 @@ void cb_placeholder_breadcrumbs(FILE *out, struct PLACEHOLDER *placeholder)
 			index--;
 			if (index < 0) {
 				printf("shit\n");
+				fflush(stdout);
 			}
 		}
 	}
@@ -644,6 +647,12 @@ void append(char *text, int len)
 static
 char *next_close_tag()
 {
+	static char dummy_tag_buf[TAG_STACK_TAG_LEN];
+
+	if (tag_stack_pos == TAG_STACK_SIZE) {
+		printf("TAG_STACK_SIZE reached\n");
+		return dummy_tag_buf;
+	}
 	return tag_stack[tag_stack_pos++];
 }
 
