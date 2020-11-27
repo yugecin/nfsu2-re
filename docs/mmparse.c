@@ -41,6 +41,7 @@ struct HANDLER {
 struct HANDLER *current_handler;
 struct HANDLER *handler[HANDLER_STACK_SIZE];
 int num_handlers;
+int replace_html_entities = 1;
 char last_handler[100];
 char line_raw[2000]; /*Lines should be way shorter than this.*/
 char line_expanded[20000];
@@ -482,6 +483,37 @@ void mmparse_read_line(FILE *in, int handle_directives)
 				last_char = 0;
 			}
 			break;
+		case '&':
+			if (replace_html_entities) {
+				line[line_len++] = '&';
+				line[line_len++] = 'a';
+				line[line_len++] = 'm';
+				line[line_len++] = 'p';
+				line[line_len++] = ';';
+				last_char = (char) c;
+				continue;
+			}
+			break;
+		case '>':
+			if (replace_html_entities) {
+				line[line_len++] = '&';
+				line[line_len++] = 'g';
+				line[line_len++] = 't';
+				line[line_len++] = ';';
+				last_char = (char) c;
+				continue;
+			}
+			break;
+		case '<':
+			if (replace_html_entities) {
+				line[line_len++] = '&';
+				line[line_len++] = 'l';
+				line[line_len++] = 't';
+				line[line_len++] = ';';
+				last_char = (char) c;
+				continue;
+			}
+			break;
 		case EOF:
 		case '\n':
 			line[line_len] = 0;
@@ -655,6 +687,18 @@ void cb_handler_normal_directive_end(char** to)
 {
 	--tag_stack_pos;
 	*to += sprintf(*to, tag_stack[tag_stack_pos]);
+}
+
+static
+void cb_handler_plain_start()
+{
+	replace_html_entities = 0;
+}
+
+static
+void cb_handler_plain_end()
+{
+	replace_html_entities = 1;
 }
 
 static
@@ -844,9 +888,9 @@ struct HANDLER handler_normal = {
 };
 
 struct HANDLER handler_plain = {
-	cb_handler_nop,
+	cb_handler_plain_start,
 	cb_handler_normal_text,
-	cb_handler_nop,
+	cb_handler_plain_end,
 	(void*) cb_handler_nop,
 	(void*) cb_handler_nop,
 	"plain"

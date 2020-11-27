@@ -137,7 +137,7 @@ name it <code>dinput8.dll</code>).
 </li><li><span class='func' id='5BE1C0'>5BE1C0 int GetWorldDetailClampBetween0And2()</span>
 <pre>return clamp(<a class='fieldref' href='#870CF4'>_optWorldDetail</a>, 0, 2);
 </pre></li><li><span class='func' id='5BE560'>5BE560 int GetRealFilteringLevelForCurrentSetting()</span>
-  Returns <code><a class='fieldref' href='#870D18'>_optTextureFiltering</a>+1</code> (<code>0-2 -> 1-3</code>), but maxed to <code>2</code> if the device doesn't have
+  Returns <code><a class='fieldref' href='#870D18'>_optTextureFiltering</a>+1</code> (<code>0-2 -&gt; 1-3</code>), but maxed to <code>2</code> if the device doesn't have
   <code>D3DDEVCAPS_RTPATCHES</code> support.
 </li><li><span class='func' id='5BE200'>5BE200 void DetermineMaxDisplaySettingValuesForDevice()</span>
   Sets maximum values of various options based on the adapter info in <a class='fieldref' href='#86C120'>86C120:_d3d9AdapterIdentifier</a>.
@@ -388,7 +388,7 @@ offset 41380: section 00030201 size CF0
                                 <a href='#struct_BinSectionHandler'>struct BinSectionHandler</a> handler)</span>
 <pre>int index;
 
-index = 0x3F & ((handler.<a href='#structBinSectionHandler_0'>magic</a> >> 0x6) + (handler.<a href='#structBinSectionHandler_0'>magic</a> + (handler.<a href='#structBinSectionHandler_0'>magic</a> >> 0xC)));
+index = 0x3F &amp; ((handler.<a href='#structBinSectionHandler_0'>magic</a> &gt;&gt; 0x6) + (handler.<a href='#structBinSectionHandler_0'>magic</a> + (handler.<a href='#structBinSectionHandler_0'>magic</a> &gt;&gt; 0xC)));
 this-&gt;<a href='#structBinSectionMagicMapEntry_4'>value</a> = handler;
 this-&gt;<a href='#structBinSectionMagicMapEntry_0'>nextEntry</a> = <a class='fieldref' href='#828050'>binSectionMagicMap</a>[index];
 <a class='fieldref' href='#828050'>binSectionMagicMap</a>[index] = this;
@@ -400,7 +400,7 @@ this-&gt;<a href='#structBinSectionMagicMapEntry_0'>nextEntry</a> = <a class='fi
 <pre><a href='#struct_BinSectionMagicMapEntry'>struct BinSectionMagicMapEntry</a> *entry;
 int index;
 
-index = 0x3F & ((magic >> 0x6) + (magic + (magic >> 0xC)));
+index = 0x3F &amp; ((magic &gt;&gt; 0x6) + (magic + (magic &gt;&gt; 0xC)));
 entry = <a class='fieldref' href='#828050'>binSectionMagicMap</a>[index];
 while (entry) {
         if (entry-&gt;<a href='#structBinSectionMagicMapEntry_4'>value</a>.<a href='#structBinSectionHandler_0'>magic</a> == magic) {
@@ -731,7 +731,7 @@ if (section-&gt;<a href='#structBinSection_0'>header</a>.<a href='#structBinSect
         <a class='fieldref' href='#8383D0'>loadedLanguage}</a>.<a href='#structLoadedLanguage_4'>ptrStrings</a> = (void*) (data + (int) data-&gt;<a href='#structBinDataLanguage39000_C'>stringsOffset</a>);
         <a class='fieldref' href='#8383D0'>loadedLanguage}</a>.<a href='#structLoadedLanguage_8'>ptrTable</a> = (void*) (data + (int) data-&gt;<a href='#structBinDataLanguage39000_8'>tableOffset</a>);
         tableEntry = <a class='fieldref' href='#8383D0'>loadedLanguage}</a>.<a href='#structLoadedLanguage_8'>ptrTable</a>;
-        for (i = 0; i < <a class='fieldref' href='#8383D0'>loadedLanguage}</a>.<a href='#structLoadedLanguage_0'>numStrings</a>; i++) {
+        for (i = 0; i &lt; <a class='fieldref' href='#8383D0'>loadedLanguage}</a>.<a href='#structLoadedLanguage_0'>numStrings</a>; i++) {
                 tableEntry-&gt;<a href='#structLanguageTableEntry_4'>string</a> += <a class='fieldref' href='#8383D0'>loadedLanguage}</a>.<a href='#structLoadedLanguage_8'>ptrTable</a>;
                 tableEntry++;
         }
@@ -1159,9 +1159,9 @@ it's not set or it's not either <code>animating</code> or <code>3button</code>.
 </p><ul><li><code>HelpDialog_SMALL.fng</code> when <code><a href='#structDialogInfo_32D'>isHelpDialog</a></code> and text has less than 5 linebreaks
 </li><li><code>HelpDialog_MED.fng</code> when <code><a href='#structDialogInfo_32D'>isHelpDialog</a></code> and text has more than 4 linebreaks
 </li><li><code>GenericDialog_ThreeButton.fng</code> when <code>dialog-&gt;pTypeName</code> is <code>3button</code>
-</li><li><code>GenericDialog_SMALL.fng</code> when text width is <code>< 2561.0f</code>
+</li><li><code>GenericDialog_SMALL.fng</code> when text width is <code>&lt; 2561.0f</code>
 </li><li><code>GenericDialog_Animate_SMALL.fng</code> same as above, but when type is <code>animating</code>
-</li><li><code>GenericDialog_MED.fng</code> when text width is <code>< 5122.0f</code>
+</li><li><code>GenericDialog_MED.fng</code> when text width is <code>&lt; 5122.0f</code>
 </li><li><code>GenericDialog_Animate_MED.fng</code> same as above, but when type is <code>animating</code>
 </li><li><code>GenericDialog_LARGE.fng</code> if the other measurements didn't pass
 </li><li><code>GenericDialog_Animate_LARGE.fng</code> same as above, but when type is <code>animating</code>

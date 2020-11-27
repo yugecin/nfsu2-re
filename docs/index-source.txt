@@ -284,7 +284,7 @@ I'm guessing the extra path in between is because of WOW64.
 
 Variables loaded from there:
 
-<table>
+{                                                               ||| table
 {{{Variable}{Key}}}                                             ||| thead,tr,th,th
 {                                                               ||| tbody
 {{{870CB0}}     {{VERSION}}}                                    ||| tr,td,fieldref,td,code
@@ -317,7 +317,7 @@ Variables loaded from there:
 {{{87099C}}     {{g_PerformanceLevel}}}                         ||| tr,td,fieldref,td,code
 {{{870D24}}     {{g_VSyncOn}}}                                  ||| tr,td,fieldref,td,code
 }
-</table>
+}
 
 {5B76F0} also loads registry settings, but only once at boot.                                   ||| funcref
 It seems to load a special key that I haven't seen before:
@@ -327,16 +327,16 @@ is not present on my system, so this seems interesting.
 .push pre
 HKEY key;
 DWORD type, lenData;
-if (RegOpenKeyExA(HKEY_LOCAL_MACHINE, "Software\\E...2\\er", 0, KEY_READ, &amp;key)) {
+if (RegOpenKeyExA(HKEY_LOCAL_MACHINE, "Software\\E...2\\er", 0, KEY_READ, &key)) {
 	type = REG_SZ; // a null-terminated string
 	lenData = 21;
-	if (RegQueryValueExA(key, 0, 0, &amp;type, &amp;{86FF8C}, &amp;lenData)) \{             ||| fieldplain
+	if (RegQueryValueExA(key, 0, 0, &type, &{86FF8C}, &lenData)) \{                         ||| fieldplain
 		{86FF8C}[20] = 0;                                                               ||| fieldplain
 	} else {
 		{86FF8C}[0] = 0;                                                                ||| fieldplain
 	}
 }
-RegCloseKey(&amp;key);
+RegCloseKey(&key);
 .pop pre
 
 Then it loads more stuff from the normal key:
@@ -495,13 +495,13 @@ Section magic {0} seems to be just for padding/alignment uses.                  
 int index;
 
 index = 0x3F & ((handler.{structBinSectionHandler+0} >> 0x6) + (handler.{structBinSectionHandler+0} + (handler.{structBinSectionHandler+0} >> 0xC)));   ||| refto,refto,refto
-this-&gt;{structBinSectionMagicMapEntry+4} = handler;                                           ||| refto
-this-&gt;{structBinSectionMagicMapEntry+0} = {828050}[index];                                   ||| refto,fieldplain
+this->{structBinSectionMagicMapEntry+4} = handler;                                              ||| refto
+this->{structBinSectionMagicMapEntry+0} = {828050}[index];                                      ||| refto,fieldplain
 {828050}[index] = this;                                                                         ||| fieldplain
 {827FE8}++;                                                                                     ||| fieldplain
 .pop pre
 - {43C0A0 int LoadUnloadBinSection0({struct BinSection} *binsection)}                           ||| func,refto
-  Nop handler that returns 1 if {binsection-&gt;{structBinSection+0}} is 0.                     ||| code,refto
+  Nop handler that returns 1 if {binsection->{structBinSection+0}} is 0.                        ||| code,refto
 - {43C100 {struct BinSectionMagicMapEntry} *FindBinSectionHandler(int magic)}                   ||| func,refto
   Used in {570D70} and {577B10}.                                                                ||| funcref,funcref
 .push pre
@@ -511,10 +511,10 @@ int index;
 index = 0x3F & ((magic >> 0x6) + (magic + (magic >> 0xC)));
 entry = {828050}[index];                                                                        ||| fieldplain
 while (entry) {
-        if (entry-&gt;{structBinSectionMagicMapEntry+4}.{structBinSectionHandler+0} == magic) \{||| refto,refto
+        if (entry->{structBinSectionMagicMapEntry+4}.{structBinSectionHandler+0} == magic) \{   ||| refto,refto
                 return entry;
         }
-        entry = entry-&gt;{structBinSectionMagicMapEntry+0};                                    ||| refto
+        entry = entry->{structBinSectionMagicMapEntry+0};                                       ||| refto
 }
 return NULL;
 .pop pre
@@ -530,12 +530,12 @@ return NULL;
 {struct BinSectionMagicMapEntry} *entry;                                                        ||| refto
 int i;
 
-entry = {43C100}(section-&gt;{structBinSection+0}.{structBinSectionHeader+0});                  ||| funcplain,refto,refto
+entry = {43C100}(section->{structBinSection+0}.{structBinSectionHeader+0});                     ||| funcplain,refto,refto
 if (entry) {
-        return entry-&gt;{structBinSectionMagicMapEntry+4}.{structBinSectionHandler+4}(section);||| refto,refto
+        return entry->{structBinSectionMagicMapEntry+4}.{structBinSectionHandler+4}(section);   ||| refto,refto
 }
-for (i = 0; i &lt; 36; i++) {
-        if ({7FA858}[i](section)) \{                                                               ||| funcplain
+for (i = 0; i < 36; i++) {
+        if ({7FA858}[i](section)) \{                                                            ||| funcplain
                 return 1;
         }
 }
@@ -874,7 +874,7 @@ TODO: language files also contain bin sections with magic {0x30201}             
   TODO: xref this for fun and profit (only 2 usages?)
 - {4FFAE0 int UnloadLanguageBinSection39000({struct BinSection} *section);}                     ||| func,refto
 .push pre
-if (section-&gt;{structBinSection+0}.{structBinSectionHeader+0} == 0x39000) \{                  ||| refto,refto
+if (section->{structBinSection+0}.{structBinSectionHeader+0} == 0x39000) \{                     ||| refto,refto
         {8383D0}.{structLoadedLanguage+C} = 0;                                                  ||| fieldplain,refto
         {8383D0}.{structLoadedLanguage+0} = 0;                                                  ||| fieldplain,refto
         {8383D0}.{structLoadedLanguage+4} = 0;                                                  ||| fieldplain,refto
@@ -883,19 +883,19 @@ if (section-&gt;{structBinSection+0}.{structBinSectionHeader+0} == 0x39000) \{  
 .pop pre
 - {5125B0 int LoadLanguageBinSection39000({struct BinSection} *section)}                        ||| func,refto
 .push pre
-{struct BinDataLanguage39000} *data;                                                                            ||| refto
-{struct LanguageTableEntry} *tableEntry;                                                                        ||| refto
+{struct BinDataLanguage39000} *data;                                                            ||| refto
+{struct LanguageTableEntry} *tableEntry;                                                        ||| refto
 int i;
 
-if (section-&gt;{structBinSection+0}.{structBinSectionHeader+0} == 0x39000) \{                                  ||| refto,refto
-        data = (void*) section-&gt;{structBinSection+8};                                                        ||| refto
-        {8383D0}.{structLoadedLanguage+C} = data-&gt;{structBinDataLanguage39000+0};                            ||| fieldplain,refto,refto
-        {8383D0}.{structLoadedLanguage+0} = data-&gt;{structBinDataLanguage39000+4};                            ||| fieldplain,refto,refto
-        {8383D0}.{structLoadedLanguage+4} = (void*) (data + (int) data-&gt;{structBinDataLanguage39000+C});     ||| fieldplain,refto,refto
-        {8383D0}.{structLoadedLanguage+8} = (void*) (data + (int) data-&gt;{structBinDataLanguage39000+8});     ||| fieldplain,refto,refto
-        tableEntry = {8383D0}.{structLoadedLanguage+8};                                                         ||| fieldplain,refto
-        for (i = 0; i < {8383D0}.{structLoadedLanguage+0}; i++) \{                                              ||| fieldplain,refto
-                tableEntry-&gt;{structLanguageTableEntry+4} += {8383D0}.{structLoadedLanguage+8};               ||| refto,fieldplain,refto
+if (section->{structBinSection+0}.{structBinSectionHeader+0} == 0x39000) \{                                  ||| refto,refto
+        data = (void*) section->{structBinSection+8};                                                        ||| refto
+        {8383D0}.{structLoadedLanguage+C} = data->{structBinDataLanguage39000+0};                            ||| fieldplain,refto,refto
+        {8383D0}.{structLoadedLanguage+0} = data->{structBinDataLanguage39000+4};                            ||| fieldplain,refto,refto
+        {8383D0}.{structLoadedLanguage+4} = (void*) (data + (int) data->{structBinDataLanguage39000+C});     ||| fieldplain,refto,refto
+        {8383D0}.{structLoadedLanguage+8} = (void*) (data + (int) data->{structBinDataLanguage39000+8});     ||| fieldplain,refto,refto
+        tableEntry = {8383D0}.{structLoadedLanguage+8};                                                      ||| fieldplain,refto
+        for (i = 0; i < {8383D0}.{structLoadedLanguage+0}; i++) \{                                           ||| fieldplain,refto
+                tableEntry->{structLanguageTableEntry+4} += {8383D0}.{structLoadedLanguage+8};               ||| refto,fieldplain,refto
                 tableEntry++;
         }
 }
@@ -1049,20 +1049,20 @@ static int zero = 0;
 static
 void speedyboot()
 {
-	*(int**) (0x7F65E8) = &amp;zero; /*discerrorpc*/
-	*(int**) (0x7F65EC) = &amp;zero; /*??nothing*/
-	//*(int**) (0x7F65F0) = &amp;zero; /*mc_bootup*/
-	*(int**) (0x7F65F4) = &amp;zero; /*??nothing*/
-	*(int**) (0x7F65F8) = &amp;zero; /*??nothing*/
-	*(int**) (0x7F65FC) = &amp;zero; /*blankmovie*/
-	*(int**) (0x7F6600) = &amp;zero; /*ealogo*/
-	*(int**) (0x7F6604) = &amp;zero; /*??nothing*/
-	*(int**) (0x7F6608) = &amp;zero; /*thxmovie*/
-	//*(int**) (0x7F660C) = &amp;zero; /*psamovie*/
-	*(int**) (0x7F6610) = &amp;zero; /*introfmv*/
-	*(int**) (0x7F6614) = &amp;zero; /*splash*/
-	//*(int**) (0x7F6618) = &amp;zero; /*mc_background*/
-	//*(int**) (0x7F661C) = &amp;zero; /*ui_main*/
+	*(int**) (0x7F65E8) = &zero; /*discerrorpc*/
+	*(int**) (0x7F65EC) = &zero; /*??nothing*/
+	//*(int**) (0x7F65F0) = &zero; /*mc_bootup*/
+	*(int**) (0x7F65F4) = &zero; /*??nothing*/
+	*(int**) (0x7F65F8) = &zero; /*??nothing*/
+	*(int**) (0x7F65FC) = &zero; /*blankmovie*/
+	*(int**) (0x7F6600) = &zero; /*ealogo*/
+	*(int**) (0x7F6604) = &zero; /*??nothing*/
+	*(int**) (0x7F6608) = &zero; /*thxmovie*/
+	//*(int**) (0x7F660C) = &zero; /*psamovie*/
+	*(int**) (0x7F6610) = &zero; /*introfmv*/
+	*(int**) (0x7F6614) = &zero; /*splash*/
+	//*(int**) (0x7F6618) = &zero; /*mc_background*/
+	//*(int**) (0x7F661C) = &zero; /*ui_main*/
 }
 .pop pre
 
@@ -1147,15 +1147,15 @@ int ConsoleIsCharOneOfTheseHardcodedValues(unsigned char value)
 {
 	unsigned char values[55] = {
 		' ', '.', ',', '_', '@', '-', '`', '=', '[', ']', '\\',
-		';', '\'', '/', '&lt;', '&gt;', '?', ':', '"', '{', '}', '|',
-		'+', '(', ')', '*', '&amp;', '%', '#', '!', '~', 0xE5, 0xE4,
+		';', '\'', '/', '<', '>', '?', ':', '"', '{', '}', '|',
+		'+', '(', ')', '*', '&', '%', '#', '!', '~', 0xE5, 0xE4,
 		0xE0, 0xE2, 0xEB, 0xE8, 0xE9, 0xEA, 0xEF, 0xEE, 0xF6,
 		0xF4, 0xFC, 0xF9, 0xFB, 0xE7, 0x9C, 0xF2, 0xEC, 0xC5,
 		0xC4, 0xD6, 0xDC, 0xA7
 	};
 	int i;
 
-	for (i = 0; i &lt; 55; i++) {
+	for (i = 0; i < 55; i++) {
 		if (values[i] == value) {
 			return 1;
 		}
@@ -1279,7 +1279,7 @@ TODO: a directive for filesize?
 {} ||| filesize file=hashes.txt
 .pop nop
 
-See {hashes.txt} (&lt; 1MB) for list of hashes, each line is formatted                          ||| a href=hashes.txt
+See {hashes.txt} (< 1MB) for list of hashes, each line is formatted                          ||| a href=hashes.txt
 as {hash\tinput\tresult\tproc\n}. This file is updated at random times. 8 minutes               ||| code
 of playing gives about a 277MB file, all output was piped to {sort | uniq}.                     ||| code
 
@@ -1494,7 +1494,7 @@ it's not set or it's not either {animating} or {3button}.                       
 .push ul
 - {HelpDialog_SMALL.fng} when {{structDialogInfo+32D}} and text has less than 5 linebreaks      ||| code,code,refto
 - {HelpDialog_MED.fng} when {{structDialogInfo+32D}} and text has more than 4 linebreaks        ||| code,code,refto
-- {GenericDialog_ThreeButton.fng} when {dialog-&gt;pTypeName} is {3button}                      ||| code,code,code
+- {GenericDialog_ThreeButton.fng} when {dialog->pTypeName} is {3button}                         ||| code,code,code
 - {GenericDialog_SMALL.fng} when text width is {< 2561.0f}                                      ||| code,code
 - {GenericDialog_Animate_SMALL.fng} same as above, but when type is {animating}                 ||| code,code
 - {GenericDialog_MED.fng} when text width is {< 5122.0f}                                        ||| code,code
@@ -1923,7 +1923,7 @@ struct MouseData *_mouseData = (struct MouseData*) 0x8763D0;
 .push pre
 *((short*) arg_0 + 0) = _mouseData.cursorX - canvasWidth / 2;
 *((short*) arg_0 + 1) = _mouseData.cursorY - canvasHeight / 2;
-*((short*) arg_0 + 2) = _mouseData.button0State &lt;&lt; 1 | _mouseData.button1State; (or swapped)
+*((short*) arg_0 + 2) = _mouseData.button0State << 1 | _mouseData.button1State; (or swapped)
 .pop pre
 - {50CDA0 void GetMouseWheel(float *mouseWheelData)}                                            ||| func
 .push pre
@@ -2050,9 +2050,9 @@ void __thiscall {575770}(struct CheatScreenData *data)                          
 	cheatScreenData.typedCheatLength = 0;
 	cheatScreenData.field38 = 0;
 
-	for (i = 0; i &lt; 20; i++) {
-		if (cheatData[i].cheatType == CHEAT_TYPE_VINYL &amp;&amp;
-			cheatData[i].someHash == hashCS43DB50("AD_BESTBUY") &amp;&amp;
+	for (i = 0; i < 20; i++) {
+		if (cheatData[i].cheatType == CHEAT_TYPE_VINYL &&
+			cheatData[i].someHash == hashCS43DB50("AD_BESTBUY") &&
 			_gameRegion != 0 /*REGION_US*/)
 		{
 			cheatData[i].cheatEnabled = 0;
