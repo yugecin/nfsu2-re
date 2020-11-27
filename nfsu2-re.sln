@@ -1,6 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 9.00
 # Visual C++ Express 2005
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "nfsu2-re-binfiles", "nfsu2-re-binfiles\nfsu2-re-binfiles.vcproj", "{CB5A234E-1234-480E-9678-E8FA00212AD2}"
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "nfsu2-re-hooks", "nfsu2-re-hooks\nfsu2-re-hooks.vcproj", "{9CC8E640-3F99-4234-8765-9F51938F7819}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "nfsu2-re-hash", "nfsu2-re-hash\nfsu2-re-hash.vcproj", "{8D29D17B-DDD9-4874-B5DA-6515E68A30B6}"
@@ -19,6 +20,10 @@ Global
 		Release|Win32 = Release|Win32
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{CB5A234E-1234-480E-9678-E8FA00212AD2}.Debug|Win32.ActiveCfg = Debug|Win32
+		{CB5A234E-1234-480E-9678-E8FA00212AD2}.Debug|Win32.Build.0 = Debug|Win32
+		{CB5A234E-1234-480E-9678-E8FA00212AD2}.Release|Win32.ActiveCfg = Release|Win32
+		{CB5A234E-1234-480E-9678-E8FA00212AD2}.Release|Win32.Build.0 = Release|Win32
 		{9CC8E640-3F99-4234-8765-9F51938F7819}.Debug|Win32.ActiveCfg = Debug|Win32
 		{9CC8E640-3F99-4234-8765-9F51938F7819}.Debug|Win32.Build.0 = Debug|Win32
 		{9CC8E640-3F99-4234-8765-9F51938F7819}.Release|Win32.ActiveCfg = Release|Win32

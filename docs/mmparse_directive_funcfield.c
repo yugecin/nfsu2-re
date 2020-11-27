@@ -1,4 +1,4 @@
-#define MAX_FUNCFIELDS 200
+#define MAX_FUNCFIELDS 1000
 #define MAX_FUNCFIELD_NAME 100
 char funcfield_names[MAX_FUNCFIELDS][MAX_FUNCFIELD_NAME];
 char funcfield_addresses[MAX_FUNCFIELDS][20];

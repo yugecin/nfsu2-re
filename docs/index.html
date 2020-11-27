@@ -117,7 +117,7 @@ Need For Speed Underground 2, otherwise knows as nfsu2.
 </p><p>This normally belongs to <a href="https://github.com/yugecin/nfsu2-re">https://github.com/yugecin/nfsu2-re</a>.
 </p><p>Other pages: <a href="cheatsheet.html">(fpu) cheatsheet</a>
 </p><p style='margin-bottom:0'><a href='#index'>Index</a></p></div><span id='index'></span><div><h2>Index <a href="#index">#</a></h2>
-<ul><li><a href="#prologue">Prologue</a></li><li><a href="#index">Index</a></li><li><a href="#injectedcode">Injected code</a></li><li><a href="#displaysettings">Display settings</a></li><li><a href="#registry">Registry</a></li><li><a href="#gameregion">Game region</a></li><li><a href="#language">Language</a><ul><li><a href="#language_metadata">Language metadata</a></li><li><a href="#language_files">Language files</a></li></ul></li><li><a href="#pools">Pools</a></li><li><a href="#speedyboot">Speedy boot</a></li><li><a href="#consoleleftover">Console leftovers</a><ul><li><a href="#console_consume_key">ConsoleConsumeKey - 0x5C8320</a><ul><li><a href="#console_consume_key_check">A hardcoded key check - 0x5BF260</a></li></ul></li><li><a href="#console_move_caret">ConsoleMoveCaret - 0x5BF3A0</a></li></ul></li><li><a href="#hashfuncs">Hash functions</a><ul><li><a href="#hashmess">Messing with hash results</a></li></ul></li><li><a href="#debugprint">Debug print</a></li><li><a href="#ui">UI</a><ul><li><a href="#ui_dialog">Dialogs</a><ul><li><a href="#ui_dialog_getfngfordialog">GetFNGForDialog</a></li></ul></li><li><a href="#fngthings">FNG things</a></li></ul></li><li><a href="#mouseinput">Mouse input</a></li><li><a href="#cheats">Cheats</a></li><li><a href="#carmodeldata">Car model data</a></li><li><a href="#sound">Sound</a></li><li><a href="#career">Career</a></li><li><a href="#d3d9stuff">D3D9 Stuff</a></li><li><a href="#other_symbols">Other symbols</a></ul><p style='margin-bottom:0'><a href='#index'>Index</a></p></div><span id='injectedcode'></span><div><h2>Injected code <a href="#injectedcode">#</a></h2>
+<ul><li><a href="#prologue">Prologue</a></li><li><a href="#index">Index</a></li><li><a href="#injectedcode">Injected code</a></li><li><a href="#displaysettings">Display settings</a></li><li><a href="#registry">Registry</a></li><li><a href="#gameregion">Game region</a></li><li><a href="#bindata">Bin data</a></li><li><a href="#language">Language</a><ul><li><a href="#language_metadata">Language metadata</a></li><li><a href="#language_files">Language files</a></li></ul></li><li><a href="#pools">Pools</a></li><li><a href="#speedyboot">Speedy boot</a></li><li><a href="#consoleleftover">Console leftovers</a><ul><li><a href="#console_consume_key">ConsoleConsumeKey - 0x5C8320</a><ul><li><a href="#console_consume_key_check">A hardcoded key check - 0x5BF260</a></li></ul></li><li><a href="#console_move_caret">ConsoleMoveCaret - 0x5BF3A0</a></li></ul></li><li><a href="#hashfuncs">Hash functions</a><ul><li><a href="#hashmess">Messing with hash results</a></li></ul></li><li><a href="#debugprint">Debug print</a></li><li><a href="#ui">UI</a><ul><li><a href="#ui_dialog">Dialogs</a><ul><li><a href="#ui_dialog_getfngfordialog">GetFNGForDialog</a></li></ul></li><li><a href="#fngthings">FNG things</a></li></ul></li><li><a href="#mouseinput">Mouse input</a></li><li><a href="#cheats">Cheats</a></li><li><a href="#carmodeldata">Car model data</a></li><li><a href="#sound">Sound</a></li><li><a href="#career">Career</a></li><li><a href="#d3d9stuff">D3D9 Stuff</a></li><li><a href="#other_symbols">Other symbols</a></ul><p style='margin-bottom:0'><a href='#index'>Index</a></p></div><span id='injectedcode'></span><div><h2>Injected code <a href="#injectedcode">#</a></h2>
 <p>The code for all injected things I did can be found in <code>nfsu2-re-hooks/*.c</code>.
 It's configured as a VC2005 project in a VC2005 solution.
 The project emits a compiled file to <code>..\NeedForSpeed U2\scripts\nfsu2-re-hooks.asi</code>.
@@ -345,7 +345,177 @@ def:
 	}
 	return ShellExecuteA(NULL, "open", url, NULL, NULL, SW_SHOWNORMAL);
 }
-</pre></li></ul><p style='margin-bottom:0'><a href='#index'>Index</a></p></div><span id='language'></span><div><h2>Language <a href="#language">#</a></h2>
+</pre></li></ul><p style='margin-bottom:0'><a href='#index'>Index</a></p></div><span id='bindata'></span><div><h2>Bin data <a href="#bindata">#</a></h2>
+<p>Lots of data is in <code>.bin</code> files. These files can contain multiple <a href='#struct_BinSection'>struct BinSection</a> entries.
+</p><pre><span id='struct_BinSectionHeader'></span>struct BinSectionHeader {
+        int <span id='structBinSectionHeader_0'></span>magic;
+        int <span id='structBinSectionHeader_4'></span>size;
+};
+
+<span id='struct_BinSection'></span>struct BinSection {
+        <a href='#struct_BinSectionHeader'>struct BinSectionHeader</a> <span id='structBinSection_0'></span>header;
+        char <span id='structBinSection_8'></span>data[<a href='#structBinSectionHeader_4'>size</a>];
+};
+
+<span id='struct_BinSectionHandler'></span>struct BinSectionHandler {
+        int <span id='structBinSectionHandler_0'></span>magic;
+        int (*<span id='structBinSectionHandler_4'></span>loadfunc)(<a href='#struct_BinSection'>struct BinSection</a>*));
+        int (*<span id='structBinSectionHandler_8'></span>unloadfunc)(<a href='#struct_BinSection'>struct BinSection</a>*));
+};
+
+<span id='struct_BinSectionMagicMapEntry'></span>struct BinSectionMagicMapEntry {
+        <a href='#struct_BinSectionMagicMapEntry'>struct BinSectionMagicMapEntry</a> *<span id='structBinSectionMagicMapEntry_0'></span>nextEntry;
+        <a href='#struct_BinSectionHandler'>struct BinSectionHandler</a> <span id='structBinSectionMagicMapEntry_4'></span>value;
+};
+</pre><p>These are all the sections that are in the <code>LANGUAGES/English.bin</code> file:
+</p><pre>offset 00000: section 00039000 size 3D230
+offset 3D238: section 00000000 size 40
+offset 3D280: section 00030201 size FF0
+offset 3E278: section 00000000 size 0
+offset 3E280: section 00030201 size 1270
+offset 3F4F8: section 00000000 size 0
+offset 3F500: section 00030201 size 370
+offset 3F878: section 00000000 size 0
+offset 3F880: section 00030201 size 1070
+offset 408F8: section 00000000 size 0
+offset 40900: section 00030201 size A70
+offset 41378: section 00000000 size 0
+offset 41380: section 00030201 size CF0
+</pre><p>This is output by an early version of <code><a href='https://github.com/yugecin/nfsu2-re/blob/master/nfsu2-re-binfiles/main.c'>nfsu2-re-binfiles/main.c</a></code>.
+</p><p>Note that the offset also increments by 8, being <code>sizeof <a href='#struct_BinSectionHeader'>struct BinSectionHeader</a></code>.
+</p><p>Section magic <code>0</code> seems to be just for padding/alignment uses.
+</p><p><strong>Symbols:</strong></p><ul><li><span class='func' id='43C0B0'>43C0B0 void __thiscall RegisterBinSectionHandler(<a href='#struct_BinSectionHandler'>struct BinSectionHandler</a> *this,
+                                <a href='#struct_BinSectionHandler'>struct BinSectionHandler</a> handler)</span>
+<pre>int index;
+
+index = 0x3F & ((handler.<a href='#structBinSectionHandler_0'>magic</a> >> 0x6) + (handler.<a href='#structBinSectionHandler_0'>magic</a> + (handler.<a href='#structBinSectionHandler_0'>magic</a> >> 0xC)));
+this-&gt;<a href='#structBinSectionMagicMapEntry_4'>value</a> = handler;
+this-&gt;<a href='#structBinSectionMagicMapEntry_0'>nextEntry</a> = <a class='fieldref' href='#828050'>binSectionMagicMap</a>[index];
+<a class='fieldref' href='#828050'>binSectionMagicMap</a>[index] = this;
+<a class='fieldref' href='#827FE8'>numBinSectionLoadFunctionsInMagicMapBucket</a>++;
+</pre></li><li><span class='func' id='43C0A0'>43C0A0 int LoadUnloadBinSection0(<a href='#struct_BinSection'>struct BinSection</a> *binsection)</span>
+  Nop handler that returns 1 if <code>binsection-&gt;<a href='#structBinSection_0'>header</a></code> is 0.
+</li><li><span class='func' id='43C100'>43C100 <a href='#struct_BinSectionMagicMapEntry'>struct BinSectionMagicMapEntry</a> *FindBinSectionHandler(int magic)</span>
+  Used in <a class='funcref' href='#570D70'>570D70:LoadBinSection()</a> and <a class='funcref' href='#577B10'>577B10:UnloadBinSection()</a>.
+<pre><a href='#struct_BinSectionMagicMapEntry'>struct BinSectionMagicMapEntry</a> *entry;
+int index;
+
+index = 0x3F & ((magic >> 0x6) + (magic + (magic >> 0xC)));
+entry = <a class='fieldref' href='#828050'>binSectionMagicMap</a>[index];
+while (entry) {
+        if (entry-&gt;<a href='#structBinSectionMagicMapEntry_4'>value</a>.<a href='#structBinSectionHandler_0'>magic</a> == magic) {
+                return entry;
+        }
+        entry = entry-&gt;<a href='#structBinSectionMagicMapEntry_0'>nextEntry</a>;
+}
+return NULL;
+</pre></li><li><span class='func' id='48E070'>48E070 int LoadBinSection135200_80135100_80135000(<a href='#struct_BinSection'>struct BinSection</a> *binsection)</span>
+</li><li><span class='func' id='48E270'>48E270 int UnloadBinSection135200_80135100_80135000(<a href='#struct_BinSection'>struct BinSection</a> *binsection)</span>
+</li><li><span class='func' id='494060'>494060 int LoadBinSection80134000(<a href='#struct_BinSection'>struct BinSection</a> *binsection)</span>
+</li><li><span class='func' id='4940E0'>4940E0 int UnloadBinSection80134000(<a href='#struct_BinSection'>struct BinSection</a> *binsection)</span>
+</li><li><span class='func' id='494EA0'>494EA0 int LoadBinSectionB3300000_B332000_B0300100(<a href='#struct_BinSection'>struct BinSection</a> *binsection)</span>
+</li><li><span class='func' id='495040'>495040 int UnloadBinSectionB3300000_B332000_B0300100(<a href='#struct_BinSection'>struct BinSection</a> *binsection)</span>
+</li><li><span class='func' id='570D70'>570D70 int LoadBinSection(<a href='#struct_BinSection'>struct BinSection</a> *section)</span>
+  Only called from <span class='unresolved'>0x577AB0</span>.
+<pre><a href='#struct_BinSectionMagicMapEntry'>struct BinSectionMagicMapEntry</a> *entry;
+int i;
+
+entry = <a class='funcref' href='#43C100'>FindBinSectionHandler</a>(section-&gt;<a href='#structBinSection_0'>header</a>.<a href='#structBinSectionHeader_0'>magic</a>);
+if (entry) {
+        return entry-&gt;<a href='#structBinSectionMagicMapEntry_4'>value</a>.<a href='#structBinSectionHandler_4'>loadfunc</a>(section);
+}
+for (i = 0; i &lt; 36; i++) {
+        if (<a class='funcref' href='#7FA858'>binSectionLoadFuncs</a>[i](section)) {
+                return 1;
+        }
+}
+return 0;
+</pre>  Returns 1 when something managed to load it.
+</li><li><span class='func' id='577B10'>577B10 void UnloadBinSection(void *arg1, void *arg2)</span>
+  Does things and calls the bin section unload handler, similar to <a class='funcref' href='#570D70'>570D70:LoadBinSection()</a>.
+</li><li><span class='func' id='579340'>579340 int LoadBinSection39100_39101_39102(<a href='#struct_BinSection'>struct BinSection</a> *binsection)</span>
+</li><li><span class='func' id='579350'>579350 int UnloadBinSection39100_39101_39102(<a href='#struct_BinSection'>struct BinSection</a> *binsection)</span>
+</li><li><span class='func' id='5A8BD0'>5A8BD0 int UnloadBinSection34026_34027(<a href='#struct_BinSection'>struct BinSection</a> *binsection)</span>
+</li><li><span class='func' id='5B0E30'>5B0E30 int LoadBinSection34026_34027(<a href='#struct_BinSection'>struct BinSection</a> *binsection)</span>
+</li><li><span class='func' id='5D3EB0'>5D3EB0 int LoadBinSection34201(<a href='#struct_BinSection'>struct BinSection</a> *binsection)</span>
+</li><li><span class='func' id='5D3EF0'>5D3EF0 int UnloadBinSection34201(<a href='#struct_BinSection'>struct BinSection</a> *binsection)</span>
+</li><li><span class='func' id='5D6440'>5D6440 int UnloadBinSection34108(<a href='#struct_BinSection'>struct BinSection</a> *binsection)</span>
+</li><li><span class='func' id='5D8470'>5D8470 int LoadBinSection34146(<a href='#struct_BinSection'>struct BinSection</a> *binsection)</span>
+</li><li><span class='func' id='5D84D0'>5D84D0 int UnoadBinSection34146(<a href='#struct_BinSection'>struct BinSection</a> *binsection)</span>
+</li><li><span class='func' id='5DA490'>5DA490 int LoadBinSection80034147(<a href='#struct_BinSection'>struct BinSection</a> *binsection)</span>
+</li><li><span class='func' id='5DB2E0'>5DB2E0 int LoadBinSection34108(<a href='#struct_BinSection'>struct BinSection</a> *binsection)</span>
+</li><li><span class='func' id='5DEE00'>5DEE00 int UnloadBinSection80034147(<a href='#struct_BinSection'>struct BinSection</a> *binsection)</span>
+</li><li><span class='func' id='5DEF30'>5DEF30 int LoadBinSection_34110_34111_34112_34112(<a href='#struct_BinSection'>struct BinSection</a> *binsection)</span>
+</li><li><span class='func' id='5DF8A0'>5DF8A0 int LoadBinSection80034100_34107(<a href='#struct_BinSection'>struct BinSection</a> *binsection)</span>
+</li><li><span class='func' id='5DFBA0'>5DFBA0 int UnloadBinSection80034100_34107(<a href='#struct_BinSection'>struct BinSection</a> *binsection)</span>
+</li><li><span class='func' id='5E4E60'>5E4E60 int UnloadBinSection_34110_34111_34112_34112(<a href='#struct_BinSection'>struct BinSection</a> *binsection)</span>
+</li><li><span class='func' id='5E81C0'>5E81C0 int LoadBinSection80034130_3412F(<a href='#struct_BinSection'>struct BinSection</a> *binsection)</span>
+  Called when exiting to main menu after being in race/freeroam.
+</li><li><span class='func' id='5E8660'>5E8660 int UnloadBinSection80034130_3412F(<a href='#struct_BinSection'>struct BinSection</a> *binsection)</span>
+</li><li><span class='func' id='77B620'>77B620 void init_function_77B620_registerBinSectionHandler0()</span>
+  Registers <a class='fieldref' href='#7EB3F4'>7EB3F4:binSectionHandlerMagicMapEntry0}</a> (without using <a class='funcref' href='#43C0B0'>43C0B0:RegisterBinSectionHandler()</a>).
+</li><li><span class='func' id='77CB00'>77CB00 void init_function_77CB00_registerBinSectionHandler80134000()</span>
+</li><li><span class='func' id='77CC20'>77CC20 void init_function_77CC20_registerBinSectionHandler135200()</span>
+</li><li><span class='func' id='77CC40'>77CC40 void init_function_77CC40_registerBinSectionHandler80135100()</span>
+</li><li><span class='func' id='77CC60'>77CC60 void init_function_77CC60_registerBinSectionHandler80135000()</span>
+</li><li><span class='func' id='77CD60'>77CD60 void init_function_77CD60_registerBinSectionHandlerB3300000()</span>
+</li><li><span class='func' id='77CDA0'>77CDA0 void init_function_77CDA0_registerBinSectionHandlerB0300100()</span>
+</li><li><span class='func' id='77CD80'>77CD80 void init_function_77CD80_registerBinSectionHandlerB332000()</span>
+</li><li><span class='func' id='77D960'>77D960 void init_function_77D960_registerBinSectionHandler39100()</span>
+</li><li><span class='func' id='77D980'>77D980 void init_function_77D980_registerBinSectionHandler39101()</span>
+</li><li><span class='func' id='77D9A0'>77D9A0 void init_function_77D9A0_registerBinSectionHandler39102()</span>
+</li><li><span class='func' id='77E190'>77E190 void init_function_77E190_registerBinSectionHandler34026()</span>
+</li><li><span class='func' id='77E1B0'>77E1B0 void init_function_77E1B0_registerBinSectionHandler34027()</span>
+</li><li><span class='func' id='77E6C0'>77E6C0 void init_function_77E6C0_registerBinSectionHandler80034140()</span>
+</li><li><span class='func' id='77E6E0'>77E6E0 void init_function_77E6E0_registerBinSectionHandler3412F()</span>
+</li><li><span class='func' id='77E720'>77E720 void init_function_77E720_registerBinSectionHandler34146()</span>
+</li><li><span class='func' id='77E740'>77E740 void init_function_77E740_registerBinSectionHandler34201()</span>
+</li><li><span class='func' id='77E7A0'>77E7A0 void init_function_77E7A0_registerBinSectionHandler80034147()</span>
+</li><li><span class='func' id='77E7D0'>77E7D0 void init_function_77E7D0_registerBinSectionHandler34110()</span>
+</li><li><span class='func' id='77E7F0'>77E7F0 void init_function_77E7F0_registerBinSectionHandler34113()</span>
+</li><li><span class='func' id='77E810'>77E810 void init_function_77E781_registerBinSectionHandler34111()</span>
+</li><li><span class='func' id='77E830'>77E830 void init_function_77E783_registerBinSectionHandler34112()</span>
+</li><li><span class='func' id='77E890'>77E890 void init_function_77E890_registerBinSectionHandler34108()</span>
+</li><li><span class='func' id='77E8B0'>77E8B0 void init_function_77E8B0_registerBinSectionHandler80034100()</span>
+</li><li><span class='func' id='77E8D0'>77E8D0 void init_function_77E8D0_registerBinSectionHandler34107()</span>
+</li><li><span class='field' id='7EB3F4'>7EB3F4 <a href='#struct_BinSectionMagicMapEntry'>struct BinSectionMagicMapEntry</a> binSectionHandlerMagicMapEntry0</span>
+  Map entry with <a class='funcref' href='#43C0A0'>43C0A0:LoadUnloadBinSection0()</a> as both <a href='#structBinSectionHandler_4'>loadfunc</a> and <a href='#structBinSectionHandler_8'>unloadfunc</a>.
+</li><li><span class='field' id='7FA858'>7FA858 int (*binSectionLoadFuncs)(<a href='#struct_BinSection'>struct BinSection</a>*)[36]</span>
+  Called by <a class='funcref' href='#570D70'>570D70:LoadBinSection()</a>.
+  These funcs return 1 if they can process the data.
+</li><li><span class='field' id='7FA8E8'>7FA8E8 int (*binSectionUnloadFuncs)(<a href='#struct_BinSection'>struct BinSection</a>*)[36]</span>
+  Called by <a class='funcref' href='#577B10'>577B10:UnloadBinSection()</a>.
+  These funcs return 1 if they can process the data.
+</li><li><span class='field' id='827FE8'>827FE8 char numBinSectionLoadFunctionsInMagicMapBucket[64]</span>
+  Written to, but never read. Functions seem to just check if
+  <code><a href='#struct_BinSectionMagicMapEntry'>struct BinSectionMagicMapEntry</a>.<a href='#structBinSectionMagicMapEntry_0'>nextEntry</a></code>
+  is 0 instead of counting entries.
+</li><li><span class='field' id='828050'>828050 <a href='#struct_BinSectionMagicMapEntry'>struct BinSectionMagicMapEntry</a> *binSectionMagicMap[64]</span>
+</li><li><span class='field' id='82DBA0'>82DBA0 <a href='#struct_BinSectionMagicMapEntry'>struct BinSectionMagicMapEntry</a> binSectionHandlerMagicMapEntryB3300000</span>
+</li><li><span class='field' id='82DBB0'>82DBB0 <a href='#struct_BinSectionMagicMapEntry'>struct BinSectionMagicMapEntry</a> binSectionHandlerMagicMapEntry80135000</span>
+</li><li><span class='field' id='830AF8'>830AF8 <a href='#struct_BinSectionMagicMapEntry'>struct BinSectionMagicMapEntry</a> binSectionHandlerMagicMapEntry80135100</span>
+</li><li><span class='field' id='830B08'>830B08 <a href='#struct_BinSectionMagicMapEntry'>struct BinSectionMagicMapEntry</a> binSectionHandlerMagicMapEntryB0300100</span>
+</li><li><span class='field' id='835784'>835784 <a href='#struct_BinSectionMagicMapEntry'>struct BinSectionMagicMapEntry</a> binSectionHandlerMagicMapEntry135200</span>
+</li><li><span class='field' id='835840'>835840 <a href='#struct_BinSectionMagicMapEntry'>struct BinSectionMagicMapEntry</a> binSectionHandlerMagicMapEntry80134000</span>
+</li><li><span class='field' id='8358D0'>8358D0 <a href='#struct_BinSectionMagicMapEntry'>struct BinSectionMagicMapEntry</a> binSectionHandlerMagicMapEntryB3320000</span>
+</li><li><span class='field' id='8653A0'>8653A0 <a href='#struct_BinSectionMagicMapEntry'>struct BinSectionMagicMapEntry</a> binSectionHandlerMagicMapEntry39101</span>
+</li><li><span class='field' id='865470'>865470 <a href='#struct_BinSectionMagicMapEntry'>struct BinSectionMagicMapEntry</a> binSectionHandlerMagicMapEntry39102</span>
+</li><li><span class='field' id='86596C'>86596C <a href='#struct_BinSectionMagicMapEntry'>struct BinSectionMagicMapEntry</a> binSectionHandlerMagicMapEntry39100</span>
+</li><li><span class='field' id='86B4AC'>86B4AC <a href='#struct_BinSectionMagicMapEntry'>struct BinSectionMagicMapEntry</a> binSectionHandlerMagicMapEntry34027</span>
+</li><li><span class='field' id='86B580'>86B580 <a href='#struct_BinSectionMagicMapEntry'>struct BinSectionMagicMapEntry</a> binSectionHandlerMagicMapEntry34026</span>
+</li><li><span class='field' id='88A2AC'>88A2AC <a href='#struct_BinSectionMagicMapEntry'>struct BinSectionMagicMapEntry</a> binSectionHandlerMagicMapEntry80034130</span>
+</li><li><span class='field' id='88E9B4'>88E9B4 <a href='#struct_BinSectionMagicMapEntry'>struct BinSectionMagicMapEntry</a> binSectionHandlerMagicMapEntry80034100</span>
+</li><li><span class='field' id='88E9CC'>88E9CC <a href='#struct_BinSectionMagicMapEntry'>struct BinSectionMagicMapEntry</a> binSectionHandlerMagicMapEntry80034147</span>
+</li><li><span class='field' id='88E9DC'>88E9DC <a href='#struct_BinSectionMagicMapEntry'>struct BinSectionMagicMapEntry</a> binSectionHandlerMagicMapEntry34113</span>
+</li><li><span class='field' id='88E9EC'>88E9EC <a href='#struct_BinSectionMagicMapEntry'>struct BinSectionMagicMapEntry</a> binSectionHandlerMagicMapEntry3412F</span>
+</li><li><span class='field' id='88EA74'>88EA74 <a href='#struct_BinSectionMagicMapEntry'>struct BinSectionMagicMapEntry</a> binSectionHandlerMagicMapEntry34112</span>
+</li><li><span class='field' id='88EA94'>88EA94 <a href='#struct_BinSectionMagicMapEntry'>struct BinSectionMagicMapEntry</a> binSectionHandlerMagicMapEntry34107</span>
+</li><li><span class='field' id='88EAA4'>88EAA4 <a href='#struct_BinSectionMagicMapEntry'>struct BinSectionMagicMapEntry</a> binSectionHandlerMagicMapEntry34108</span>
+</li><li><span class='field' id='88EAB4'>88EAB4 <a href='#struct_BinSectionMagicMapEntry'>struct BinSectionMagicMapEntry</a> binSectionHandlerMagicMapEntry34110</span>
+</li><li><span class='field' id='88EAC4'>88EAC4 <a href='#struct_BinSectionMagicMapEntry'>struct BinSectionMagicMapEntry</a> binSectionHandlerMagicMapEntry34146</span>
+</li><li><span class='field' id='88F27C'>88F27C <a href='#struct_BinSectionMagicMapEntry'>struct BinSectionMagicMapEntry</a> binSectionHandlerMagicMapEntry34111</span>
+</li><li><span class='field' id='88F750'>88F750 <a href='#struct_BinSectionMagicMapEntry'>struct BinSectionMagicMapEntry</a> binSectionHandlerMagicMapEntry34201</span>
+</li></ul><p style='margin-bottom:0'><a href='#index'>Index</a></p></div><span id='language'></span><div><h2>Language <a href="#language">#</a></h2>
 <p>There seems to be no way to change the language, except for changing the value
 in the registry? See <a href='#registry'>Registry</a>. Perhaps it is only set
 when the game is installed?
@@ -493,32 +663,46 @@ Eventually something is called with string <code>LanguageMemoryPool</code>.
 </p><p><strong>00512520 LoadLanguageAtBoot TODO</strong>
 </p><p><strong>07983D0 aLanguageselect db 'LanguageSelectScreen',0 TODO</strong>
 </p><p style='margin-bottom:0'><a href='#index'>Index</a></p></div><span id='language_files'></span><div class='indent' style='margin-left:5em'><p style='margin-top:0'><small><a href='#language'>Language</a> &gt; Language files</small></p><h3>Language files <a href="#language_files">#</a></h3>
-<p>Files. Have to still figure that out. <a href="language.txt">language.txt</a>
-How do the hashes relate to the entries?
-</p><pre>table idx 1408 | 5D10F6AF 8E 43 00 00
-// somehow ^ is the hash for v
-value idx  607 | len 000C: Bank Reward:
-</pre><p>Once it's loaded ingame, it looks like this:
-</p><pre><span id='struct_LanguageTable'></span>struct LanguageTable {
-	int hash;
-	char *string;
+<p>The language strings are in a bin section with magic <code>0x39000</code>, and is structured like this:
+</p><pre><a href='#struct_BinDataLanguage39000'>struct BinDataLanguage39000</a> header;
+char unknown[header.<a href='#structBinDataLanguage39000_8'>tableOffset</a> - sizeof(header)];
+<a href='#struct_LanguageTableEntry'>struct LanguageTableEntry</a> tableEntries[header.<a href='#structBinDataLanguage39000_4'>numStrings</a>];
+char *strings; /*all zero-terminated strings after each other*/
+</pre><p>The <code>tableEntries</code> are sorted (low hash to high hash),
+required because a binary search is used at lookup.
+</p><p>Loading is done in <a class='funcref' href='#5125B0'>5125B0:LoadLanguageBinSection39000()</a>.
+See <a href="language.txt">language.txt</a> for all <code>English.bin</code> strings by their hash.
+(This was generated by an early version of <code><a href='https://github.com/yugecin/nfsu2-re/blob/master/nfsu2-re-binfiles/main.c'>nfsu2-re-binfiles/main.c</a></code>)
+</p><p>The hashes seem to be made with the case insensitive hash function <a class='funcref' href='#43DB50'>43DB50:SomeHashCS43DB50()</a>.
+Sadly the original keys don't seem to be around anywhere, but some can be guessed, for example:
+</p><pre>hash(GO)             = 00000535: GO!
+hash(NO)             = 0000061C: No
+hash(OK)             = 00000639: OK
+hash(KMS)            = 0000BCEA: KMs.
+hash(MAX)            = 0000C3E5: Max
+hash(OL_MAX_PLAYERS) = FF1C4CFE: Maximum Players:
+</pre><pre><span id='struct_BinDataLanguage39000'></span>struct BinDataLanguage39000 {
+        int <span id='structBinDataLanguage39000_0'></span>field_0;
+        int <span id='structBinDataLanguage39000_4'></span>numStrings;
+        int <span id='structBinDataLanguage39000_8'></span>tableOffset;
+        int <span id='structBinDataLanguage39000_C'></span>stringsOffset;
 };
 
-struct SomeLanguageStruct {
-	int <span id='structSomeLanguageStruct_0'></span>field0; // ?? checked against 0x39000
-	int numLoadedStrings;
-	char **table;
-	char **strings;
+<span id='struct_LanguageTableEntry'></span>struct LanguageTableEntry {
+	int <span id='structLanguageTableEntry_0'></span>hash;
+	char *<span id='structLanguageTableEntry_4'></span>string;
 };
 
-struct LanguageLoadStruct {
-	int binFileMagic;
-	int field4;
-	struct SomeLanguageStruct struct8;
-};
-</pre><p><strong>Symbols:</strong></p><ul><li><span class='func' id='4FF9D0'>4FF9D0 char* GetLanguageStringOrNull()</span> returns a string ptr
-  Returns a string ptr or <code>NULL</code> for given hash (which is passed through edx).
-  Does a binary search over the data at <a class='fieldref' href='#8383D8'>8383D8:LanguageTable</a>
+<span id='struct_LoadedLanguage'></span>struct LoadedLanguage {
+        int <span id='structLoadedLanguage_0'></span>numStrings;
+        char **<span id='structLoadedLanguage_4'></span>ptrStrings;
+        <a href='#struct_LanguageTableEntry'>struct LanguageTableEntry</a> *<span id='structLoadedLanguage_8'></span>ptrTable;
+        int <span id='structLoadedLanguage_C'></span>field_C; /*TODO*/
+}
+</pre><p>TODO: language files also contain bin sections with magic <code>0x30201</code>
+</p><p><strong>Symbols:</strong></p><ul><li><span class='func' id='4FF9D0'>4FF9D0 char* GetLanguageStringOrNull(int hash)</span>
+  Returns a string ptr or <code>NULL</code> for given hash (which is passed through <code>edx</code>).
+  Does a binary search over the hashes in <code><a class='fieldref' href='#8383D0'>8383D0:loadedLanguage}</a>.<a href='#structLoadedLanguage_8'>ptrTable</a></code>
 </li><li><span class='func' id='4FFA50'>4FFA50 void GetLanguageStringIntoBuf(char *dst, int dstlen, int hash)</span>
   Same as <a class='funcref' href='#4FFA80'>4FFA80:GetLanguageString()</a> but copy it into a buffer.
 </li><li><span class='func' id='4FFA80'>4FFA80 char* GetLanguageString(int hash)</span>
@@ -528,17 +712,31 @@ struct LanguageLoadStruct {
   Returns, based on passed index, one of: <code>th, st, nd, rd, th, th, th, th, th, th th</code>,
   uses default string as fallback.
   TODO: xref this for fun and profit (only 2 usages?)
-</li><li><span class='func' id='5125B0'>5125B0 int FinalizeLoadLanguageFile(struct LanguageLoadStruct *data);</span>
-  fills in the variables below from passed data, returns 1 on success.
-  Called by something that calls a lot of functions until one returns non-zero.
-  This func checks if <code>data-&gt;<a href='#structSomeLanguageStruct_0'>field0</a></code> is <code>0x00039000</code>.
-  The first four bytes of the language bin files also start with <code>0x00039000</code>.
-</li><li><span class='func' id='4FFAE0'>4FFAE0 int InitializeLoadLanguageFile(void *data);</span>
-  same as above, checks <code>binFileMagic</code> for being <code>0x00039000</code>,
-  then sets some language relates variables to zero.
-</li><li><span class='field' id='8383D0'>8383D0 int languageNumLoadedStrings</span>
-</li><li><span class='field' id='8383D4'>8383D4 char *languageStrings</span>
-</li><li><span class='field' id='8383D8'>8383D8 <a href='#struct_LanguageTable'>struct LanguageTable</a> *languageTable</span>
+</li><li><span class='func' id='4FFAE0'>4FFAE0 int UnloadLanguageBinSection39000(<a href='#struct_BinSection'>struct BinSection</a> *section);</span>
+<pre>if (section-&gt;<a href='#structBinSection_0'>header</a>.<a href='#structBinSectionHeader_0'>magic</a> == 0x39000) {
+        <a class='fieldref' href='#8383D0'>loadedLanguage}</a>.<a href='#structLoadedLanguage_C'>field_C</a> = 0;
+        <a class='fieldref' href='#8383D0'>loadedLanguage}</a>.<a href='#structLoadedLanguage_0'>numStrings</a> = 0;
+        <a class='fieldref' href='#8383D0'>loadedLanguage}</a>.<a href='#structLoadedLanguage_4'>ptrStrings</a> = 0;
+        <a class='fieldref' href='#8383D0'>loadedLanguage}</a>.<a href='#structLoadedLanguage_8'>ptrTable</a> = 0;
+}
+</pre></li><li><span class='func' id='5125B0'>5125B0 int LoadLanguageBinSection39000(<a href='#struct_BinSection'>struct BinSection</a> *section)</span>
+<pre><a href='#struct_BinDataLanguage39000'>struct BinDataLanguage39000</a> *data;
+<a href='#struct_LanguageTableEntry'>struct LanguageTableEntry</a> *tableEntry;
+int i;
+
+if (section-&gt;<a href='#structBinSection_0'>header</a>.<a href='#structBinSectionHeader_0'>magic</a> == 0x39000) {
+        data = (void*) section-&gt;<a href='#structBinSection_8'>data</a>;
+        <a class='fieldref' href='#8383D0'>loadedLanguage}</a>.<a href='#structLoadedLanguage_C'>field_C</a> = data-&gt;<a href='#structBinDataLanguage39000_0'>field_0</a>;
+        <a class='fieldref' href='#8383D0'>loadedLanguage}</a>.<a href='#structLoadedLanguage_0'>numStrings</a> = data-&gt;<a href='#structBinDataLanguage39000_4'>numStrings</a>;
+        <a class='fieldref' href='#8383D0'>loadedLanguage}</a>.<a href='#structLoadedLanguage_4'>ptrStrings</a> = (void*) (data + (int) data-&gt;<a href='#structBinDataLanguage39000_C'>stringsOffset</a>);
+        <a class='fieldref' href='#8383D0'>loadedLanguage}</a>.<a href='#structLoadedLanguage_8'>ptrTable</a> = (void*) (data + (int) data-&gt;<a href='#structBinDataLanguage39000_8'>tableOffset</a>);
+        tableEntry = <a class='fieldref' href='#8383D0'>loadedLanguage}</a>.<a href='#structLoadedLanguage_8'>ptrTable</a>;
+        for (i = 0; i < <a class='fieldref' href='#8383D0'>loadedLanguage}</a>.<a href='#structLoadedLanguage_0'>numStrings</a>; i++) {
+                tableEntry-&gt;<a href='#structLanguageTableEntry_4'>string</a> += <a class='fieldref' href='#8383D0'>loadedLanguage}</a>.<a href='#structLoadedLanguage_8'>ptrTable</a>;
+                tableEntry++;
+        }
+}
+</pre></li><li><span class='field' id='8383D0'>8383D0 <a href='#struct_LoadedLanguage'>struct LoadedLanguage</a> loadedLanguage</span>
 </li></ul><p style='margin-bottom:0'><a href='#index'>Index</a></p></div><span id='pools'></span><div><h2>Pools <a href="#pools">#</a></h2>
 <p>I hooked <a class='funcref' href='#440B40'>440B40:??CreatePoolReally()</a> and collected some output: <a href="createpoollog.txt">createpoollog.txt</a>
 This will probably help a lot when trying to figure out other things.
@@ -1068,7 +1266,7 @@ typedef int (<span id='fnginithandler'></span>fnginithandler)(<a href='#struct_F
 };
 EXPECT_SIZE(struct FNGData, 0x1C);
 
-struct FNGData <a class='fieldref' href='#7F7DC8'>FNGData</a>[] = {
+struct FNGData <a class='fieldref' href='#7F7DC8'>fngdata</a>[] = {
 	{ "UI_Main.fng", 0x4ED6B0, 0x0D6DFCF20, 0x5, 0x0, 0x100, 0x0 }, // 0
 	{ "UI_OptionsMain.fng", 0x4EFDE0, 0x9323DF57, 0x405, 0x0, 0x80, 0x0 }, // 1
 	{ "UI_Options.fng", 0x4E3710, 0x2F735833, 0x401, 0x0, 0x1CA, 0x0 }, // 2
@@ -1358,7 +1556,7 @@ struct MouseData *_mouseData = (struct MouseData*) 0x8763D0;
   clicking on the active ui element (like main menu bar). Dialog box buttons still work
   somehow. The car showroom can still be rotated with mmb. Mouse still moves.
 </li><li><span class='func' id='5C8600'>5C8600 int __thiscall MouseData::ctor(<a href='#struct_MouseData'>struct MouseData</a> *this)</span>
-  Called once, from <a class='funcref' href='#77E580'>77E580:init_function_77E580()</a>.
+  Called once, from <a class='funcref' href='#77E580'>77E580:init_function_77E580_MouseData_ctor()</a>.
 </li><li><span class='field' id='8763D0'>8763D0 struct MouseData _mouseData</span>
 </li></ul><p style='margin-bottom:0'><a href='#index'>Index</a></p></div><span id='cheats'></span><div><h2>Cheats <a href="#cheats">#</a></h2>
 <pre><span id='struct_CheatScreenData'></span>struct CheatScreenData {
@@ -1394,8 +1592,8 @@ struct MouseData *_mouseData = (struct MouseData*) 0x8763D0;
 };
 EXPECT_SIZE(struct CheatData, 0x34);
 
-struct CheatScreenData <a class='fieldref' href='#865930'>865930:CheatScreenData</a>; // partially initialized by <a class='funcref' href='#575770'>575770:InitCheats_()</a>
-struct CheatData <a class='fieldref' href='#7FB960'>7FB960:CheatData</a>[20] = {
+struct CheatScreenData <a class='fieldref' href='#865930'>865930:cheatScreenData}</a>; // partially initialized by <a class='funcref' href='#575770'>575770:InitCheats_()</a>
+struct CheatData <a class='fieldref' href='#7FB960'>7FB960:cheatData</a>[20] = {
 	{ "needperformance1",	2, 1, 0, 0, 0, 1, 1, 0 }, // 0
 	{ "needperformance2",	2, 2, 0, 0, 0, 1, 1, 0 }, // 1
 	{ "gimmevisual1",	1, 2, 0, 0, 0, 1, 1, 0 }, // 2
@@ -1419,7 +1617,7 @@ struct CheatData <a class='fieldref' href='#7FB960'>7FB960:CheatData</a>[20] = {
 };
 // after <a class='funcref' href='#575770'>575770:InitCheats_()</a> was called, it looks like this:
 // hashes are done with case sensitive hash
-struct CheatData <a class='fieldref' href='#7FB960'>7FB960:CheatData</a>[20] = {
+struct CheatData <a class='fieldref' href='#7FB960'>7FB960:cheatData</a>[20] = {
 	{ "needperformance1",	2, 0x00000001, 0, 0, 0, 1, 1, 0 }, //
 	{ "needperformance2",	2, 0x00000002, 0, 0, 0, 1, 1, 0 }, //
 	{ "gimmevisual1",	1, 0x00000002, 0, 0, 0, 1, 1, 0 }, //
@@ -1466,7 +1664,7 @@ void __thiscall <a class='funcref' href='#575770'>575770:InitCheats_()</a>(struc
 this from looking up cheats in my childhood), but toggling sponsor car cheats when
 ingame has immediate effect.
 </p><p><strong>Symbols:</strong></p><ul><li><span class='func' id='575770'>575770 void __thiscall InitCheats_(<a href='#struct_CheatScreenData'>struct CheatScreenData</a> *this)</span>
-  Initializes <a class='fieldref' href='#865930'>865930:CheatScreenData</a> and <a class='fieldref' href='#7FB960'>7FB960:CheatData</a>.
+  Initializes <a class='fieldref' href='#865930'>865930:cheatScreenData}</a> and <a class='fieldref' href='#7FB960'>7FB960:cheatData</a>.
 </li><li><span class='func' id='576050'>576050 void __thiscall UndoCheat__(<a href='#struct_CheatScreenData'>struct CheatScreenData</a> *this, int cheatdata_field28)</span>
   Weird one, is called on each cheat entry and all cheats with a matching
   <code><a href='#structCheatData_28'>field28</a></code> has zero written to its <code><a href='#structCheatData_30'>hasBeenTriggered</a></code> field.
@@ -1476,10 +1674,10 @@ ingame has immediate effect.
 </li><li><span class='func' id='579CB0'>579CB0 void __thiscall CheatMatched(<a href='#struct_CheatScreenData'>struct CheatScreenData</a> *this, int cheat_index)</span>
   Called from <a class='funcref' href='#57B8B0'>57B8B0:CheatCheck()</a> when a cheat matched.
 </li><li><span class='func' id='57B8B0'>57B8B0 void __thiscall CheatCheck(void *this, int keyCode)</span>
-  Called from <a class='funcref' href='#55DBD0'>55DBD0:UIHandleKey()</a> when <code><a class='fieldref' href='#865930'>865930:CheatScreenData</a>.<a href='#structCheatScreenData_4'>doCheatCheck</a></code> is non-zero.
+  Called from <a class='funcref' href='#55DBD0'>55DBD0:UIHandleKey()</a> when <code><a class='fieldref' href='#865930'>865930:cheatScreenData}</a>.<a href='#structCheatScreenData_4'>doCheatCheck</a></code> is non-zero.
 </li><li><span class='field' id='7FB960'>7FB960 <a href='#struct_CheatData'>struct CheatData</a> cheatData[20]</span>
 </li><li><span class='field' id='8383C8'>8383C8 cheatCareerNeverPossible</span>
-  This gets only set to one when a career cheat with <a class='fieldref' href='#7FB960'>7FB960:CheatData</a> zero is entered,
+  This gets only set to one when a career cheat with <a class='fieldref' href='#7FB960'>7FB960:cheatData</a> zero is entered,
   but all career cheats have a value of 2-4.
   It has one XREF, surrounded by some language stuff? TODO
 </li><li><span class='field' id='86512C'>86512C cheatExtraCareerMoney200</span>
@@ -1559,9 +1757,10 @@ if (!<a class='fieldref' href='#86347C'>isProfileWithStartedCareerLoaded</a>) {
   It seems like many calls to different functions that got nopped all redirect here.
   Some of the calls are used as a debug print, see <a href='#debugprint'>Debug print</a>.
 </li><li><span class='func' id='5CCD60'>5CCD60 LPRESULT MainWndProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)</span>
+</li><li><span class='func' id='75BCC7'>75BCC7 start</span>
 </li><li><span class='func' id='75D45B'>75D45B sub_75D45B()</span>
   Invoked once at boot, does things (todo) and calls all functions in <a class='fieldref' href='#7E8000'>7E8000:someInitFunctions</a>.
-</li><li><span class='func' id='77E580'>77E580 init_function_77E580()</span>
+</li><li><span class='func' id='77E580'>77E580 init_function_77E580_MouseData_ctor()</span>
   Calls <a class='funcref' href='#5C8600'>5C8600:MouseData::ctor()</a> to initialize mouse data.
 </li><li><span class='field' id='7E8000'>7E8000 void (*someInitFunctions)()[821]</span>
   Array of functions that are called at boot, by <a class='funcref' href='#75D45B'>75D45B:sub_75D45B()</a>.

@@ -270,14 +270,19 @@ void get_directive_text(struct DIRECTIVE *dir, char *dest, int *out_length)
 	int offset;
 	int length;
 	char c;
+	int open_braces;
 
+	open_braces = 0;
 	dir_index = dir - directive;
 	offset = open_mark_position[dir_index] + 1;
 	for (;;) {
 		c = line_raw[offset];
-		if (c == '}' || c == 0) {
+		if ((c == '}' &&  open_braces == 0) || c == 0) {
 			*dest = 0;
 			break;
+		}
+		if (c == '{' && line_raw[offset - 1] != '\\') {
+			open_braces++;
 		}
 		*dest = c;
 		dest++;

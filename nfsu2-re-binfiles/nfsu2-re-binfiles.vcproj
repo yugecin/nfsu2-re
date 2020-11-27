@@ -2,9 +2,9 @@
 <VisualStudioProject
 	ProjectType="Visual C++"
 	Version="8,00"
-	Name="nfsu2-re-language"
-	ProjectGUID="{CB5A234E-0954-480E-9678-E8FA00212AD2}"
-	RootNamespace="nfsu2relanguage"
+	Name="nfsu2-re-binfiles"
+	ProjectGUID="{CB5A234E-1234-480E-9678-E8FA00212AD2}"
+	RootNamespace="nfsu2rebinfiles"
 	Keyword="Win32Proj"
 	>
 	<Platforms>
