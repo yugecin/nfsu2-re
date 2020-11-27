@@ -45,8 +45,8 @@ struct DialogInfo {
 	int unused314;
 	int unused318;
 	int unused31C;
-	int something320; /*read in 5580EB*/
-	char *pTypeName;
+	char *pParentFNG; /*read in 5580EB*/
+	char *pMyFNG;
 	int unused_328;
 	char unused_32C;
 	char isHelpDialog;
@@ -56,7 +56,7 @@ struct DialogInfo {
 	int unused334;
 };
 EXPECT_SIZE(struct DialogInfo, 0x338);
-ASSERT_OFFSET(struct DialogInfo, pTypeName, 0x324);
+ASSERT_OFFSET(struct DialogInfo, pMyFNG, 0x324);
 ASSERT_OFFSET(struct DialogInfo, isHelpDialog, 0x32D);
 
 struct CarModelInfo {
@@ -301,7 +301,7 @@ void stub()
 //#include "replace-50D510-DebugPrint.c"
 //#include "replace-511E60-GetLogoForCarModel.c"
 //#include "replace-51D9F0-GetUIElementSize-Maybe-TODO.c"
-//#include "replace-526C40-GetFNGForDialog.c"
+#include "replace-526C40-GetFNGForDialog.c"
 //#include "replace-5BF750-UpdateCursorPosition.c"
 //#include "replace-5BF860-UpdateMouseState.c"
 //#include "replace-5BF940-HaveCursorActivity.c"

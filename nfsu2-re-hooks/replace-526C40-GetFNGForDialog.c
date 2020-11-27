@@ -12,9 +12,9 @@ char* do526C40getFNGforDialog(struct DialogInfo *dialog)
 	int tmp;
 	float text_width;
 
-	if (dialog->pTypeName && dialog->pTypeName[0]) {
-		if (strcmp(dialog->pTypeName, "animating") || strcmp(dialog->pTypeName, "3button")) {
-			return dialog->pTypeName;
+	if (dialog->pMyFNG && dialog->pMyFNG[0]) {
+		if (!strcmp(dialog->pMyFNG, "animating") && !strcmp(dialog->pMyFNG, "3button")) {
+			return dialog->pMyFNG;
 		}
 	}
 
@@ -48,13 +48,13 @@ nextchar:		{
 
 	text_width *= strlen(dialog->text);
 
-	if (strcmp(dialog->pTypeName, "3button") == 0) {
+	if (strcmp(dialog->pMyFNG, "3button") == 0) {
 		return "GenericDialog_ThreeButton.fng";
 	}
 
 	/*526D07*/
 	if (text_width < 2561.0f) {
-		if (strcmp(dialog->pTypeName, "animating")) {
+		if (strcmp(dialog->pMyFNG, "animating")) {
 			return "GenericDialog_SMALL.fng";
 		} else {
 			return "GenericDialog_Animate_SMALL.fng";
@@ -62,14 +62,14 @@ nextchar:		{
 	}
 
 	if (text_width < 5122.0f) {
-		if (strcmp(dialog->pTypeName, "animating")) {
+		if (strcmp(dialog->pMyFNG, "animating")) {
 			return "GenericDialog_MED.fng";
 		} else {
 			return "GenericDialog_Animate_MED.fng";
 		}
 	}
 
-	if (strcmp(dialog->pTypeName, "animating")) {
+	if (strcmp(dialog->pMyFNG, "animating")) {
 		return "GenericDialog_LARGE.fng";
 	} else {
 		return "GenericDialog_Animate_LARGE.fng";
