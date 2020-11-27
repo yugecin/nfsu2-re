@@ -174,38 +174,38 @@ TODO. I was writing this when I got distracted by the language stuff.
 .push symbols
 - {5BE190 void StoreOptLightGlowSetToZero()}                                                    ||| func
 .push pre
-{8709D4} = {870CE4};                                                                            ||| fieldplain,fieldplain
-{870CE4} = 0;                                                                                   ||| fieldplain
+{8709D4} = {870CE4};                                                                            ||| refplain,refplain
+{870CE4} = 0;                                                                                   ||| refplain
 .pop pre
   TODO why
 - {5BE1B0 void RestoreOptLightGlow()}                                                           ||| func
 .push pre
-{870CE4} = {8709D4};                                                                            ||| fieldplain,fieldplain
+{870CE4} = {8709D4};                                                                            ||| refplain,refplain
 .pop pre
   TODO why
 - {5BE1C0 int GetWorldDetailClampBetween0And2()}                                                ||| func
 .push pre
-return clamp({870CF4}, 0, 2);                                                                   ||| fieldplain
+return clamp({870CF4}, 0, 2);                                                                   ||| refplain
 .pop pre
 - {5BE560 int GetRealFilteringLevelForCurrentSetting()}                                         ||| func
-  Returns {{870D18}+1} ({0-2 -> 1-3}), but maxed to {2} if the device doesn't have              ||| code,fieldplain,code,code
+  Returns {{870D18}+1} ({0-2 -> 1-3}), but maxed to {2} if the device doesn't have              ||| code,refplain,code,code
   {D3DDEVCAPS_RTPATCHES} support.                                                               ||| code
 - {5BE200 void DetermineMaxDisplaySettingValuesForDevice()}                                     ||| func
-  Sets maximum values of various options based on the adapter info in {86C120}.                 ||| fieldref
+  Sets maximum values of various options based on the adapter info in {86C120}.                 ||| ref
   See all {_optMax*} fields.                                                                    ||| code
   Also seems to do stuff with shaders maybe? TODO
   Called twice. TODO: where and why
 - {5BE5A0 void DetermineSupportedResolutions()}                                                 ||| func
   Based on the device, for every resolution index,
-  put {1} in {86E880} at that index if available.                                               ||| code,fieldref
+  put {1} in {86E880} at that index if available.                                               ||| code,ref
 - {5BE690 void EnsureDisplayOptionsDontExceedMaxSettings()}                                     ||| func
   For each option that has a maximum value field,
   set it to the maximum value if it was exceeded.
 - {5BE870 void SetPresetDisplayLevelFromLevelOfDetail()}                                        ||| func
 - {5BE9F0 void SetPresetDisplayLevelFromLevelOfDetaulAndLimit()}                                ||| func
-  Calls {5BE870},                                                                               ||| funcref
-  sets {870D08} to 0 for some specific windows version or if the device is from vendor          ||| fieldref
-  {Advanced Micro Devices, Inc}, then calls {5BE690}                                            ||| em,funcref
+  Calls {5BE870},                                                                               ||| ref
+  sets {870D08} to 0 for some specific windows version or if the device is from vendor          ||| ref
+  {Advanced Micro Devices, Inc}, then calls {5BE690}                                            ||| em,ref
 - {800538 int _resolutionWidths[6]}                                                             ||| field
   Values {640, 800, 1024, 1280, 1280, 1600}                                                     ||| code
 - {800550 int _resolutionHeights[6]}                                                            ||| field
@@ -213,7 +213,7 @@ return clamp({870CF4}, 0, 2);                                                   
 - {86E880 int isSupportedResolutionIdx[6]}                                                      ||| field
 - {87099C int _optLevelOfDetail}                                                                ||| field
 - {8709D4 tempStoredOptLightGlow}                                                               ||| field
-  Used as temporary store for {5BE190} and {5BE1B0}                                             ||| funcref,funcref
+  Used as temporary store for {5BE190} and {5BE1B0}                                             ||| ref,ref
 - {870CB8 int _optCarReflectionUpdateRate}                                                      ||| field
 - {870CBC int _optCarReflectionDetail}                                                          ||| field
 - {870CC0 int _optCarShadowNeon}                                                                ||| field
@@ -242,7 +242,7 @@ return clamp({870CF4}, 0, 2);                                                   
 - {870D10 int _optRainSplatter}                                                                 ||| field
 - {870D18 int _optTextureFiltering}                                                             ||| field
 - {870D1C int _optRacingResolutionIdx}                                                          ||| field
-  To be used for arrays {800538},{800550} and {86E880}.                                         ||| fieldref,fieldref,fieldref
+  To be used for arrays {800538},{800550} and {86E880}.                                         ||| ref,ref,ref
 - {870D24 int _optVsync}                                                                        ||| field
 - {8764D0 int _optMaxSettingCarReflectionUpdateRate}                                            ||| field
 - {8764D4 int _optMaxSettingCarReflectionDetail}                                                ||| field
@@ -274,7 +274,7 @@ return clamp({870CF4}, 0, 2);                                                   
 
 {Registry}              |||h id=registry
 
-Many values (mainly display settings) are loaded/saved in procs {5BEA20} and {5BEEA0}.          ||| funcref,funcref
+Many values (mainly display settings) are loaded/saved in procs {5BEA20} and {5BEEA0}.          ||| ref,ref
 
 They are saved in key {Software\EA Games\Need for Speed Underground 2} in {HKEY_CURRENT_USER}.  ||| code,code
 On my machine this translates to:
@@ -287,39 +287,39 @@ Variables loaded from there:
 {                                                               ||| table
 {{{Variable}{Key}}}                                             ||| thead,tr,th,th
 {                                                               ||| tbody
-{{{870CB0}}     {{VERSION}}}                                    ||| tr,td,fieldref,td,code
-{{{870CB4}}     {{SIZE}}}                                       ||| tr,td,fieldref,td,code
-{{{870CB8}}     {{g_CarEnvironmentMapEnable}}}                  ||| tr,td,fieldref,td,code
-{{{870CBC}}     {{g_CarEnvironmentMapUpdateData}}}              ||| tr,td,fieldref,td,code
-{{{870CC0}}     {{g_CarShadowEnable}}}                          ||| tr,td,fieldref,td,code
-{{{870CC4}}     {{g_CarHeadlightEnable}}}                       ||| tr,td,fieldref,td,code
-{{{870CC8}}     {{g_CarLightingEnable}}}                        ||| tr,td,fieldref,td,code
-{{{870CCC}}     {{g_CarDamageEnable}}}                          ||| tr,td,fieldref,td,code
-{{{870CD0}}     {{g_CrowdEnable}}}                              ||| tr,td,fieldref,td,code
-{{{870CD4}}     {{g_RoadReflectionEnable}}}                     ||| tr,td,fieldref,td,code
-{{{870CD8}}     {{g_FogEnable}}}                                ||| tr,td,fieldref,td,code
-{{{870CDC}}     {{g_MotionBlurEnable}}}                         ||| tr,td,fieldref,td,code
-{{{870CE0}}     {{g_LightStreaksEnable}}}                       ||| tr,td,fieldref,td,code
-{{{870CE4}}     {{g_LightGlowEnable}}}                          ||| tr,td,fieldref,td,code
-{{{870CE8}}     {{g_AnimatedTextureEnable}}}                    ||| tr,td,fieldref,td,code
-{{{870CEC}}     {{g_ParticleSystemEnable}}}                     ||| tr,td,fieldref,td,code
-{{{870CF0}}     {{g_DepthOfFieldEnable}}}                       ||| tr,td,fieldref,td,code
-{{{870CF4}}     {{g_WorldLodLevel}}}                            ||| tr,td,fieldref,td,code
-{{{870CF8}}     {{g_CarLodLevel}}}                              ||| tr,td,fieldref,td,code
-{{{870CFC}}     {{g_OverBrightEnable}}}                         ||| tr,td,fieldref,td,code
-{{{870D00}}     {{g_BleachByPassEnable}}}                       ||| tr,td,fieldref,td,code
-{{{870D04}}     {{g_TintingEnable}}}                            ||| tr,td,fieldref,td,code
-{{{870D08}}     {{g_FSAALevel}}}                                ||| tr,td,fieldref,td,code
-{{{870D0C}}     {{g_HorizonFogEnable}}}                         ||| tr,td,fieldref,td,code
-{{{870D10}}     {{g_RainEnable}}}                               ||| tr,td,fieldref,td,code
-{{{870D18}}     {{g_TextureFiltering}}}                         ||| tr,td,fieldref,td,code
-{{{870D1C}}     {{g_RacingResolution}}}                         ||| tr,td,fieldref,td,code
-{{{87099C}}     {{g_PerformanceLevel}}}                         ||| tr,td,fieldref,td,code
-{{{870D24}}     {{g_VSyncOn}}}                                  ||| tr,td,fieldref,td,code
+{{{870CB0}}     {{VERSION}}}                                    ||| tr,td,ref,td,code
+{{{870CB4}}     {{SIZE}}}                                       ||| tr,td,ref,td,code
+{{{870CB8}}     {{g_CarEnvironmentMapEnable}}}                  ||| tr,td,ref,td,code
+{{{870CBC}}     {{g_CarEnvironmentMapUpdateData}}}              ||| tr,td,ref,td,code
+{{{870CC0}}     {{g_CarShadowEnable}}}                          ||| tr,td,ref,td,code
+{{{870CC4}}     {{g_CarHeadlightEnable}}}                       ||| tr,td,ref,td,code
+{{{870CC8}}     {{g_CarLightingEnable}}}                        ||| tr,td,ref,td,code
+{{{870CCC}}     {{g_CarDamageEnable}}}                          ||| tr,td,ref,td,code
+{{{870CD0}}     {{g_CrowdEnable}}}                              ||| tr,td,ref,td,code
+{{{870CD4}}     {{g_RoadReflectionEnable}}}                     ||| tr,td,ref,td,code
+{{{870CD8}}     {{g_FogEnable}}}                                ||| tr,td,ref,td,code
+{{{870CDC}}     {{g_MotionBlurEnable}}}                         ||| tr,td,ref,td,code
+{{{870CE0}}     {{g_LightStreaksEnable}}}                       ||| tr,td,ref,td,code
+{{{870CE4}}     {{g_LightGlowEnable}}}                          ||| tr,td,ref,td,code
+{{{870CE8}}     {{g_AnimatedTextureEnable}}}                    ||| tr,td,ref,td,code
+{{{870CEC}}     {{g_ParticleSystemEnable}}}                     ||| tr,td,ref,td,code
+{{{870CF0}}     {{g_DepthOfFieldEnable}}}                       ||| tr,td,ref,td,code
+{{{870CF4}}     {{g_WorldLodLevel}}}                            ||| tr,td,ref,td,code
+{{{870CF8}}     {{g_CarLodLevel}}}                              ||| tr,td,ref,td,code
+{{{870CFC}}     {{g_OverBrightEnable}}}                         ||| tr,td,ref,td,code
+{{{870D00}}     {{g_BleachByPassEnable}}}                       ||| tr,td,ref,td,code
+{{{870D04}}     {{g_TintingEnable}}}                            ||| tr,td,ref,td,code
+{{{870D08}}     {{g_FSAALevel}}}                                ||| tr,td,ref,td,code
+{{{870D0C}}     {{g_HorizonFogEnable}}}                         ||| tr,td,ref,td,code
+{{{870D10}}     {{g_RainEnable}}}                               ||| tr,td,ref,td,code
+{{{870D18}}     {{g_TextureFiltering}}}                         ||| tr,td,ref,td,code
+{{{870D1C}}     {{g_RacingResolution}}}                         ||| tr,td,ref,td,code
+{{{87099C}}     {{g_PerformanceLevel}}}                         ||| tr,td,ref,td,code
+{{{870D24}}     {{g_VSyncOn}}}                                  ||| tr,td,ref,td,code
 }
 }
 
-{5B76F0} also loads registry settings, but only once at boot.                                   ||| funcref
+{5B76F0} also loads registry settings, but only once at boot.                                   ||| ref
 It seems to load a special key that I haven't seen before:
 {Software\Electronic Arts\EA Games\Need for Speed Underground 2\er}. This key                   ||| code
 is not present on my system, so this seems interesting.
@@ -330,10 +330,10 @@ DWORD type, lenData;
 if (RegOpenKeyExA(HKEY_LOCAL_MACHINE, "Software\\E...2\\er", 0, KEY_READ, &key)) {
 	type = REG_SZ; // a null-terminated string
 	lenData = 21;
-	if (RegQueryValueExA(key, 0, 0, &type, &{86FF8C}, &lenData)) \{                         ||| fieldplain
-		{86FF8C}[20] = 0;                                                               ||| fieldplain
+	if (RegQueryValueExA(key, 0, 0, &type, &{86FF8C}, &lenData)) \{                         ||| refplain
+		{86FF8C}[20] = 0;                                                               ||| refplain
 	} else {
-		{86FF8C}[0] = 0;                                                                ||| fieldplain
+		{86FF8C}[0] = 0;                                                                ||| refplain
 	}
 }
 RegCloseKey(&key);
@@ -342,12 +342,12 @@ RegCloseKey(&key);
 Then it loads more stuff from the normal key:
 
 {Install Dir} is read. If set, passed to (winapi) {GetLongPathNameA}.                           ||| code,code
-and if that succeeds, the value is copied to buffer at {86E9B4}.                                ||| fieldref
+and if that succeeds, the value is copied to buffer at {86E9B4}.                                ||| ref
 
 {CD Drive} is read. If set, passed to (winapi) {GetLongPathNameA}.                              ||| code,code
-passed to (winapi) {GetLastError} and if that succeeds, the value is copied to {86E8B0}.        ||| code,fieldref
+passed to (winapi) {GetLastError} and if that succeeds, the value is copied to {86E8B0}.        ||| code,ref
 
-{NotFirstTime} is read. If set, {870D20} gets set to 1, otherwise 0.                            ||| code,fieldref
+{NotFirstTime} is read. If set, {870D20} gets set to 1, otherwise 0.                            ||| code,ref
 It doesn't check the value in the register key. Then 1 is written to the register key.
 
 {CacheSize} is read. If set, {75D65B} is called with the value. TODO                            ||| code,code
@@ -358,11 +358,11 @@ It doesn't check the value in the register key. Then 1 is written to the registe
 This took some deciphering but I found out that there is some struct with language
 information and associated data. See {language_metadata}.                                       ||| href
 
-{StreamingInstall} is read. Then something with {75DD6F}. TODO                                  ||| code,funcref
+{StreamingInstall} is read. Then something with {75DD6F}. TODO                                  ||| code,ref
 
 .push symbols
 - {5B76F0 void LoadOtherRegistrySettings()}                                                     ||| func
-  Called once during boot, from {5B7A70}                                                        ||| funcref
+  Called once during boot, from {5B7A70}                                                        ||| ref
 - {5BEA20 void LoadDisplaySettings()}                                                           ||| func
   Loads display settings from windows registry into their variables.
   Only called once, at boot.
@@ -382,7 +382,7 @@ information and associated data. See {language_metadata}.                       
 
 {Game region} |||h id=gameregion
 
-{5B7C40} certainly helped to know what the region numbers represent                             ||| funcref
+{5B7C40} certainly helped to know what the region numbers represent                             ||| ref
 
 .push ul
 - 0: US
@@ -400,9 +400,9 @@ information and associated data. See {language_metadata}.                       
 
 .push symbols
 - {570A30 int GetGameRegion()}                                                                  ||| func
-  {return {864F24};}                                                                            ||| code,fieldplain
+  {return {864F24};}                                                                            ||| code,refplain
 - {570A40 int UseCarUKNames()}                                                                  ||| func
-  {return {864F24} == 1 || (4 < {864F24} && {864F24} < 10);}                                    ||| code,fieldplain,fieldplain,fieldplain
+  {return {864F24} == 1 || (4 < {864F24} && {864F24} < 10);}                                    ||| code,refplain,refplain,refplain
   Unsure about this name.
 - {5B7C40 int OpenPatchesWebsite()}                                                             ||| func
 No idea where this is used, TODO
@@ -502,9 +502,9 @@ int index;
 
 index = 0x3F & ((handler.{structBinSectionHandler+0} >> 0x6) + (handler.{structBinSectionHandler+0} + (handler.{structBinSectionHandler+0} >> 0xC)));   ||| refto,refto,refto
 this->{structBinSectionMagicMapEntry+4} = handler;                                              ||| refto
-this->{structBinSectionMagicMapEntry+0} = {828050}[index];                                      ||| refto,fieldplain
-{828050}[index] = this;                                                                         ||| fieldplain
-{827FE8}++;                                                                                     ||| fieldplain
+this->{structBinSectionMagicMapEntry+0} = {828050}[index];                                      ||| refto,refplain
+{828050}[index] = this;                                                                         ||| refplain
+{827FE8}++;                                                                                     ||| refplain
 .pop pre
 - {408200 int LoadBinSection34B00({struct BinSection} *binsection)}                             ||| func,refto
 - {408220 int UnloadBinSection34B00({struct BinSection} *binsection)}                           ||| func,refto
@@ -535,13 +535,13 @@ this->{structBinSectionMagicMapEntry+0} = {828050}[index];                      
 - {43C0A0 int LoadUnloadBinSection0({struct BinSection} *binsection)}                           ||| func,refto
   Nop handler that returns 1 if {binsection->{structBinSection+0}} is 0.                        ||| code,refto
 - {43C100 {struct BinSectionMagicMapEntry} *FindBinSectionHandler(int magic)}                   ||| func,refto
-  Used in {570D70} and {577B10}.                                                                ||| funcref,funcref
+  Used in {570D70} and {577B10}.                                                                ||| ref,ref
 .push pre
 {struct BinSectionMagicMapEntry} *entry;                                                        ||| refto
 int index;
 
 index = 0x3F & ((magic >> 0x6) + (magic + (magic >> 0xC)));
-entry = {828050}[index];                                                                        ||| fieldplain
+entry = {828050}[index];                                                                        ||| refplain
 while (entry) {
         if (entry->{structBinSectionMagicMapEntry+4}.{structBinSectionHandler+0} == magic) \{   ||| refto,refto
                 return entry;
@@ -555,7 +555,7 @@ return NULL;
 - {452E90 int UnloadBinSection8003B200_8003B201_8003B202({struct BinSection} *binsection)}      ||| func,refto
 - {47BC30 int LoadBinSection8003B500({struct BinSection} *binsection)}                          ||| func,refto
 - {482D20 int UnloadBinSection8003B500({struct BinSection} *binsection)}                        ||| func,refto
-  Does a function call on {82B884}.                                                             ||| fieldref
+  Does a function call on {82B884}.                                                             ||| ref
 - {48A280 int LoadBinSection3B700({struct BinSection} *binsection)}                             ||| func,refto
 - {48A2B0 int UnloadBinSection3B700({struct BinSection} *binsection)}                           ||| func,refto
 - {48B4A0 int LoadBinSection34202({struct BinSection} *binsection)}                             ||| func,refto
@@ -583,17 +583,17 @@ return NULL;
 - {56C4C0 int LoadBinSection34A07({struct BinSection} *binsection)}                             ||| func,refto
 - {56C4E0 int UnloadBinSection34A07({struct BinSection} *binsection)}                           ||| func,refto
 - {570D70 int LoadBinSection({struct BinSection} *binsection)}                                  ||| func,refto
-  Only called from {577AB0}.                                                                    ||| funcref
+  Only called from {577AB0}.                                                                    ||| ref
 .push pre
 {struct BinSectionMagicMapEntry} *entry;                                                        ||| refto
 int i;
 
-entry = {43C100}(binsection->{structBinSection+0}.{structBinSectionHeader+0});                  ||| funcplain,refto,refto
+entry = {43C100}(binsection->{structBinSection+0}.{structBinSectionHeader+0});                  ||| refplain,refto,refto
 if (entry) {
         return entry->{structBinSectionMagicMapEntry+4}.{structBinSectionHandler+4}(binsection);||| refto,refto
 }
 for (i = 0; i < 36; i++) {
-        if ({7FA858}[i](binsection)) \{                                                         ||| funcplain
+        if ({7FA858}[i](binsection)) \{                                                         ||| refplain
                 return 1;
         }
 }
@@ -602,7 +602,7 @@ return 0;
   Returns 1 when something managed to load it.
   Some loaders that are in the map are also in the array.
 - {577B10 void UnloadBinSection(void *arg1, void *arg2)}                                        ||| func
-  Does things and calls the bin section unload handler, similar to {570D70}.                    ||| funcref
+  Does things and calls the bin section unload handler, similar to {570D70}.                    ||| ref
 - {579340 int LoadBinSection39100_39101_39102({struct BinSection} *binsection)}                 ||| func,refto
 - {579350 int UnloadBinSection39100_39101_39102({struct BinSection} *binsection)}               ||| func,refto
 - {57A470 int LoadBinSection8003B000({struct BinSection} *binsection)}                          ||| func,refto
@@ -645,9 +645,9 @@ return 0;
 - {61CB50 int LoadBinSection34030({struct BinSection} *binsection)}                             ||| func,refto
 - {61CB90 int UnloadBinSection34030({struct BinSection} *binsection)}                           ||| func,refto
 - {636BE0 int LoadBinSection34600_34601_34608_34609_34607_80034602({struct BinSection} *binsection)} ||| func,refto
-  Sets {8A1CCC} data.                                                                           ||| fieldref
+  Sets {8A1CCC} data.                                                                           ||| ref
 - {77B620 void init_function_77B620_registerBinSectionHandler0()}                               ||| func
-  Registers {7EB3F4} (without using {43C0B0}).                                                  ||| fieldref,funcref
+  Registers {7EB3F4} (without using {43C0B0}).                                                  ||| ref,ref
 - {77CB00 void init_function_77CB00_registerBinSectionHandler80134000()}                        ||| func
 - {77CC20 void init_function_77CC20_registerBinSectionHandler135200()}                          ||| func
 - {77CC40 void init_function_77CC40_registerBinSectionHandler80135100()}                        ||| func
@@ -673,91 +673,91 @@ return 0;
 - {77E8B0 void init_function_77E8B0_registerBinSectionHandler80034100()}                        ||| func
 - {77E8D0 void init_function_77E8D0_registerBinSectionHandler34107()}                           ||| func
 - {7EB3F4 {struct BinSectionMagicMapEntry} binSectionHandlerMagicMapEntry0}                     ||| field,refto
-  Map entry with {43C0A0} as both {structBinSectionHandler+4} and {structBinSectionHandler+8}.  ||| funcref,refto,refto
+  Map entry with {43C0A0} as both {structBinSectionHandler+4} and {structBinSectionHandler+8}.  ||| ref,refto,refto
 - {7FA858 int (*binSectionLoadFuncs)({struct BinSection}*)[36]}                                 ||| field,refto
-  Called by {570D70}.                                                                           ||| funcref
+  Called by {570D70}.                                                                           ||| ref
   These funcs return 1 if they can process the data.
 .push pre
-int (*{7FA858})({struct BinSection}*)[] = \{                                                    ||| fieldplain,refto
-/*0*/   {52CD00},                                                                               ||| funcplain
-/*1*/   {491C70},                                                                               ||| funcplain
-/*2*/   {5DBF60},                                                                               ||| funcplain
-/*3*/   {5A1750},                                                                               ||| funcplain
-/*4*/   {5EA0F0},                                                                               ||| funcplain
-/*5*/   {4348F0},                                                                               ||| funcplain
-/*6*/   {434E10},                                                                               ||| funcplain
-/*7*/   {4377F0},                                                                               ||| funcplain
-/*8*/   {431870},                                                                               ||| funcplain
-/*9*/   {435A90},                                                                               ||| funcplain
-/*10*/  {43A460},                                                                               ||| funcplain
-/*11*/  {43A260},                                                                               ||| funcplain
-/*12*/  {432080},                                                                               ||| funcplain
-/*13*/  {43A1F0},                                                                               ||| funcplain
-/*14*/  {4381B0},                                                                               ||| funcplain
-/*15*/  {48B4A0},                                                                               ||| funcplain
-/*16*/  {636BE0},                                                                               ||| funcplain
-/*17*/  {599440},                                                                               ||| funcplain
-/*18*/  {56C4C0},                                                                               ||| funcplain
-/*19*/  {61CB50},                                                                               ||| funcplain
-/*20*/  {5DEB80},                                                                               ||| funcplain
-/*21*/  {408200},                                                                               ||| funcplain
-/*22*/  {5125B0},                                                                               ||| funcplain
-/*23*/  {5E0190},                                                                               ||| funcplain
-/*24*/  {40A460},                                                                               ||| funcplain
-/*25*/  {51BD30},                                                                               ||| funcplain
-/*26*/  {57A470},                                                                               ||| funcplain
-/*27*/  {44AB60},                                                                               ||| funcplain
-/*28*/  {512C00},                                                                               ||| funcplain
-/*29*/  {52CD90},                                                                               ||| funcplain
-/*30*/  {47BC30},                                                                               ||| funcplain
-/*31*/  {61C3C0},                                                                               ||| funcplain
-/*32*/  {60B810},                                                                               ||| funcplain
-/*33*/  {48A280},                                                                               ||| funcplain
-/*34*/  {5108A0},                                                                               ||| funcplain
-/*35*/  {5108E0},                                                                               ||| funcplain
+int (*{7FA858})({struct BinSection}*)[] = \{                                                    ||| refplain,refto
+/*0*/   {52CD00},                                                                               ||| refplain
+/*1*/   {491C70},                                                                               ||| refplain
+/*2*/   {5DBF60},                                                                               ||| refplain
+/*3*/   {5A1750},                                                                               ||| refplain
+/*4*/   {5EA0F0},                                                                               ||| refplain
+/*5*/   {4348F0},                                                                               ||| refplain
+/*6*/   {434E10},                                                                               ||| refplain
+/*7*/   {4377F0},                                                                               ||| refplain
+/*8*/   {431870},                                                                               ||| refplain
+/*9*/   {435A90},                                                                               ||| refplain
+/*10*/  {43A460},                                                                               ||| refplain
+/*11*/  {43A260},                                                                               ||| refplain
+/*12*/  {432080},                                                                               ||| refplain
+/*13*/  {43A1F0},                                                                               ||| refplain
+/*14*/  {4381B0},                                                                               ||| refplain
+/*15*/  {48B4A0},                                                                               ||| refplain
+/*16*/  {636BE0},                                                                               ||| refplain
+/*17*/  {599440},                                                                               ||| refplain
+/*18*/  {56C4C0},                                                                               ||| refplain
+/*19*/  {61CB50},                                                                               ||| refplain
+/*20*/  {5DEB80},                                                                               ||| refplain
+/*21*/  {408200},                                                                               ||| refplain
+/*22*/  {5125B0},                                                                               ||| refplain
+/*23*/  {5E0190},                                                                               ||| refplain
+/*24*/  {40A460},                                                                               ||| refplain
+/*25*/  {51BD30},                                                                               ||| refplain
+/*26*/  {57A470},                                                                               ||| refplain
+/*27*/  {44AB60},                                                                               ||| refplain
+/*28*/  {512C00},                                                                               ||| refplain
+/*29*/  {52CD90},                                                                               ||| refplain
+/*30*/  {47BC30},                                                                               ||| refplain
+/*31*/  {61C3C0},                                                                               ||| refplain
+/*32*/  {60B810},                                                                               ||| refplain
+/*33*/  {48A280},                                                                               ||| refplain
+/*34*/  {5108A0},                                                                               ||| refplain
+/*35*/  {5108E0},                                                                               ||| refplain
 }
 .pop pre
 - {7FA8E8 int (*binSectionUnloadFuncs)({struct BinSection}*)[36]}                               ||| field,refto
-  Called by {577B10}.                                                                           ||| funcref
+  Called by {577B10}.                                                                           ||| ref
   These funcs return 1 if they can process the data.
 .push pre
-int (*{7FA8E8})({struct BinSection}*)[] = \{                                                    ||| fieldplain,refto
-/*0*/   {537290},                                                                               ||| funcplain
-/*1*/   {491D50},                                                                               ||| funcplain
-/*2*/   {5DC050},                                                                               ||| funcplain
-/*3*/   {5A1860},                                                                               ||| funcplain
-/*4*/   {5DB5A0},                                                                               ||| funcplain
-/*5*/   {4349A0},                                                                               ||| funcplain
-/*6*/   {4365B0},                                                                               ||| funcplain
-/*7*/   {4325C0},                                                                               ||| funcplain
-/*8*/   {4318D0},                                                                               ||| funcplain
-/*9*/   {438C20},                                                                               ||| funcplain
-/*10*/  {438C60},                                                                               ||| funcplain
-/*11*/  {435A50},                                                                               ||| funcplain
-/*12*/  {4320C0},                                                                               ||| funcplain
-/*13*/  {438720},                                                                               ||| funcplain
-/*14*/  {439D70},                                                                               ||| funcplain
-/*15*/  {48B740},                                                                               ||| funcplain
-/*16*/  {61B460},                                                                               ||| funcplain
-/*17*/  {5994D0},                                                                               ||| funcplain
-/*18*/  {56C4E0},                                                                               ||| funcplain
-/*19*/  {61CB90},                                                                               ||| funcplain
-/*20*/  {5E4820},                                                                               ||| funcplain
-/*21*/  {408220},                                                                               ||| funcplain
-/*22*/  {4FFAE0},                                                                               ||| funcplain
-/*23*/  {5E0220},                                                                               ||| funcplain
-/*24*/  {40A4A0},                                                                               ||| funcplain
-/*25*/  {5425A0},                                                                               ||| funcplain
-/*26*/  {57BCE0},                                                                               ||| funcplain
-/*27*/  {452E90},                                                                               ||| funcplain
-/*28*/  {500290},                                                                               ||| funcplain
-/*29*/  {51C610},                                                                               ||| funcplain
-/*30*/  {482D20},                                                                               ||| funcplain
-/*31*/  {61C420},                                                                               ||| funcplain
-/*32*/  {60BAC0},                                                                               ||| funcplain
-/*33*/  {48A2B0},                                                                               ||| funcplain
-/*34*/  {5108C0},                                                                               ||| funcplain
-/*35*/  {510900},                                                                               ||| funcplain
+int (*{7FA8E8})({struct BinSection}*)[] = \{                                                    ||| refplain,refto
+/*0*/   {537290},                                                                               ||| refplain
+/*1*/   {491D50},                                                                               ||| refplain
+/*2*/   {5DC050},                                                                               ||| refplain
+/*3*/   {5A1860},                                                                               ||| refplain
+/*4*/   {5DB5A0},                                                                               ||| refplain
+/*5*/   {4349A0},                                                                               ||| refplain
+/*6*/   {4365B0},                                                                               ||| refplain
+/*7*/   {4325C0},                                                                               ||| refplain
+/*8*/   {4318D0},                                                                               ||| refplain
+/*9*/   {438C20},                                                                               ||| refplain
+/*10*/  {438C60},                                                                               ||| refplain
+/*11*/  {435A50},                                                                               ||| refplain
+/*12*/  {4320C0},                                                                               ||| refplain
+/*13*/  {438720},                                                                               ||| refplain
+/*14*/  {439D70},                                                                               ||| refplain
+/*15*/  {48B740},                                                                               ||| refplain
+/*16*/  {61B460},                                                                               ||| refplain
+/*17*/  {5994D0},                                                                               ||| refplain
+/*18*/  {56C4E0},                                                                               ||| refplain
+/*19*/  {61CB90},                                                                               ||| refplain
+/*20*/  {5E4820},                                                                               ||| refplain
+/*21*/  {408220},                                                                               ||| refplain
+/*22*/  {4FFAE0},                                                                               ||| refplain
+/*23*/  {5E0220},                                                                               ||| refplain
+/*24*/  {40A4A0},                                                                               ||| refplain
+/*25*/  {5425A0},                                                                               ||| refplain
+/*26*/  {57BCE0},                                                                               ||| refplain
+/*27*/  {452E90},                                                                               ||| refplain
+/*28*/  {500290},                                                                               ||| refplain
+/*29*/  {51C610},                                                                               ||| refplain
+/*30*/  {482D20},                                                                               ||| refplain
+/*31*/  {61C420},                                                                               ||| refplain
+/*32*/  {60BAC0},                                                                               ||| refplain
+/*33*/  {48A2B0},                                                                               ||| refplain
+/*34*/  {5108C0},                                                                               ||| refplain
+/*35*/  {510900},                                                                               ||| refplain
 }
 .pop pre
 - {827FE8 char numBinSectionLoadFunctionsInMagicMapBucket[64]}                                  ||| field
@@ -813,7 +813,7 @@ Thanks to code where it reads the Registry, I found following data:
 	int region;
 };
 
-{struct LanguageData} {7FCA08}[] = \{                                                   ||| refto,fieldplain
+{struct LanguageData} {7FCA08}[] = \{                                                   ||| refto,refplain
         { "English US",            0,        0 },
         { "English UK",            0,        5 },
         { "French",                1,        6 },
@@ -834,11 +834,11 @@ Thanks to code where it reads the Registry, I found following data:
 
 The value stored in the registry for {Language} is checked against                      ||| code
 all language strings in the above data. The matching language's
-{structLanguageData+4} gets stored in {7FCA00}, or 0 when the                           ||| refto,fieldref
+{structLanguageData+4} gets stored in {7FCA00}, or 0 when the                           ||| refto,ref
 name stored in the registry didn't match any names.
 
 After chasing usages of a region related proc,
-I found more language data which is being used in {4FF680}.                             ||| funcref
+I found more language data which is being used in {4FF680}.                             ||| ref
 They seem to fit into three more structs.
 
 .push pre
@@ -864,7 +864,7 @@ They seem to fit into three more structs.
 	int {field_1};                                                                          ||| mkref name=LanguageStruct7F6DE8+4
 };
 
-{struct LanguageStruct7F6DE8} {7F6DE8}[] = \{                                                   ||| refto,fieldref
+{struct LanguageStruct7F6DE8} {7F6DE8}[] = \{                                                   ||| refto,ref
         { HASH_CONDUITMDITC_TT21I,          0x0 },
         { HASH_font_impact36,               0x40000 },
         { HASH_CONDUITMDITC_TT14I,          0x10000 },
@@ -893,50 +893,50 @@ They seem to fit into three more structs.
 	{struct LanguageStruct7F6E60} *{pStruct7F6E60};                                         ||| refto,mkref name=structLanguageFileData+C
 };
 
-{7F6E60}[0][0] = HASH_CONDUITMDITC_TT21I;                                                       ||| fieldplain
-{7F6E60}[0][1] = HASH_arial;                                                                    ||| fieldplain
-{7F6E60}[0][2] = HASH_CONDUITMDITC_TT14I;                                                       ||| fieldplain
-{7F6E60}[0][3] = HASH_lcd_let48;                                                                ||| fieldplain
-{7F6E60}[0][8] = HASH_FONT_CONDUITMDITCTT38BI;                                                  ||| fieldplain
-{7F6E60}[0][16] = HASH_arial12;                                                                 ||| fieldplain
-{7F6E60}[0][17] = HASH_font_impact36;                                                           ||| fieldplain
-{7F6E60}[1][0] = HASH_conduitmditc_tt21i_korean;                                                ||| fieldplain
-{7F6E60}[1][1] = HASH_arial;                                                                    ||| fieldplain
-{7F6E60}[1][2] = HASH_conduitmditc_tt14i_korean;                                                ||| fieldplain
-{7F6E60}[1][3] = HASH_lcd_let48;                                                                ||| fieldplain
-{7F6E60}[1][16] = HASH_arial12;                                                                 ||| fieldplain
-{7F6E60}[1][17] = HASH_font_impact36;                                                           ||| fieldplain
-{7F6E60}[2][0] = HASH_conduitmditc_tt21i_japanese;                                              ||| fieldplain
-{7F6E60}[2][1] = HASH_arial;                                                                    ||| fieldplain
-{7F6E60}[2][2] = HASH_conduitmditc_tt14i_japanese;                                              ||| fieldplain
-{7F6E60}[2][3] = HASH_lcd_let48;                                                                ||| fieldplain
-{7F6E60}[2][8] = HASH_FONT_CONDUITMDITCTT38BI;                                                  ||| fieldplain
-{7F6E60}[2][16] = HASH_arial12;                                                                 ||| fieldplain
-{7F6E60}[2][17] = HASH_font_impact36;                                                           ||| fieldplain
-{7F6E60}[3][0] = HASH_conduitmditc_tt21i_chinese;                                               ||| fieldplain
-{7F6E60}[3][1] = HASH_arial;                                                                    ||| fieldplain
-{7F6E60}[3][2] = HASH_conduitmditc_tt14i_chinese;                                               ||| fieldplain
-{7F6E60}[3][3] = HASH_lcd_let48;                                                                ||| fieldplain
-{7F6E60}[3][16] = HASH_arial12;                                                                 ||| fieldplain
-{7F6E60}[3][17] = HASH_font_impact36;                                                           ||| fieldplain
+{7F6E60}[0][0] = HASH_CONDUITMDITC_TT21I;                                                       ||| refplain
+{7F6E60}[0][1] = HASH_arial;                                                                    ||| refplain
+{7F6E60}[0][2] = HASH_CONDUITMDITC_TT14I;                                                       ||| refplain
+{7F6E60}[0][3] = HASH_lcd_let48;                                                                ||| refplain
+{7F6E60}[0][8] = HASH_FONT_CONDUITMDITCTT38BI;                                                  ||| refplain
+{7F6E60}[0][16] = HASH_arial12;                                                                 ||| refplain
+{7F6E60}[0][17] = HASH_font_impact36;                                                           ||| refplain
+{7F6E60}[1][0] = HASH_conduitmditc_tt21i_korean;                                                ||| refplain
+{7F6E60}[1][1] = HASH_arial;                                                                    ||| refplain
+{7F6E60}[1][2] = HASH_conduitmditc_tt14i_korean;                                                ||| refplain
+{7F6E60}[1][3] = HASH_lcd_let48;                                                                ||| refplain
+{7F6E60}[1][16] = HASH_arial12;                                                                 ||| refplain
+{7F6E60}[1][17] = HASH_font_impact36;                                                           ||| refplain
+{7F6E60}[2][0] = HASH_conduitmditc_tt21i_japanese;                                              ||| refplain
+{7F6E60}[2][1] = HASH_arial;                                                                    ||| refplain
+{7F6E60}[2][2] = HASH_conduitmditc_tt14i_japanese;                                              ||| refplain
+{7F6E60}[2][3] = HASH_lcd_let48;                                                                ||| refplain
+{7F6E60}[2][8] = HASH_FONT_CONDUITMDITCTT38BI;                                                  ||| refplain
+{7F6E60}[2][16] = HASH_arial12;                                                                 ||| refplain
+{7F6E60}[2][17] = HASH_font_impact36;                                                           ||| refplain
+{7F6E60}[3][0] = HASH_conduitmditc_tt21i_chinese;                                               ||| refplain
+{7F6E60}[3][1] = HASH_arial;                                                                    ||| refplain
+{7F6E60}[3][2] = HASH_conduitmditc_tt14i_chinese;                                               ||| refplain
+{7F6E60}[3][3] = HASH_lcd_let48;                                                                ||| refplain
+{7F6E60}[3][16] = HASH_arial12;                                                                 ||| refplain
+{7F6E60}[3][17] = HASH_font_impact36;                                                           ||| refplain
 
-{struct LanguageFileData} {7F7020}[] = \{                                                       ||| refto,fieldplain
-	\{  0, "ENGLISH", "LANGUAGES\\ENGLISH.BIN", {7F6E60} + 0 \},                            ||| fieldplain
-	\{  1, "FRENCH", "LANGUAGES\\FRENCH.BIN", {7F6E60} + 0 \},                              ||| fieldplain
-	\{  2, "GERMAN", "LANGUAGES\\GERMAN.BIN", {7F6E60} + 0 \},                              ||| fieldplain
-	\{  3, "ITALIAN", "LANGUAGES\\ITALIAN.BIN", {7F6E60} + 0 \},                            ||| fieldplain
-	\{  4, "SPANISH", "LANGUAGES\\SPANISH.BIN", {7F6E60} + 0 \},                            ||| fieldplain
-	\{  5, "DUTCH", "LANGUAGES\\DUTCH.BIN", {7F6E60} + 0 \},                                ||| fieldplain
-	\{  6, "SWEDISH", "LANGUAGES\\SWEDISH.BIN", {7F6E60} + 0 \},                            ||| fieldplain
-	\{  7, "DANISH", "LANGUAGES\\DANISH.BIN", {7F6E60} + 0 \},                              ||| fieldplain
-	\{  8, "KOREAN", "LANGUAGES\\KOREAN.BIN", {7F6E60} + 1 \},                              ||| fieldplain
-	\{  9, "CHINESE", "LANGUAGES\\CHINESE.BIN", {7F6E60} + 3 \},                            ||| fieldplain
-	\{ 10, "JAPANESE", "LANGUAGES\\JAPANESE.BIN", {7F6E60} + 2 \},                          ||| fieldplain
+{struct LanguageFileData} {7F7020}[] = \{                                                       ||| refto,refplain
+	\{  0, "ENGLISH", "LANGUAGES\\ENGLISH.BIN", {7F6E60} + 0 \},                            ||| refplain
+	\{  1, "FRENCH", "LANGUAGES\\FRENCH.BIN", {7F6E60} + 0 \},                              ||| refplain
+	\{  2, "GERMAN", "LANGUAGES\\GERMAN.BIN", {7F6E60} + 0 \},                              ||| refplain
+	\{  3, "ITALIAN", "LANGUAGES\\ITALIAN.BIN", {7F6E60} + 0 \},                            ||| refplain
+	\{  4, "SPANISH", "LANGUAGES\\SPANISH.BIN", {7F6E60} + 0 \},                            ||| refplain
+	\{  5, "DUTCH", "LANGUAGES\\DUTCH.BIN", {7F6E60} + 0 \},                                ||| refplain
+	\{  6, "SWEDISH", "LANGUAGES\\SWEDISH.BIN", {7F6E60} + 0 \},                            ||| refplain
+	\{  7, "DANISH", "LANGUAGES\\DANISH.BIN", {7F6E60} + 0 \},                              ||| refplain
+	\{  8, "KOREAN", "LANGUAGES\\KOREAN.BIN", {7F6E60} + 1 \},                              ||| refplain
+	\{  9, "CHINESE", "LANGUAGES\\CHINESE.BIN", {7F6E60} + 3 \},                            ||| refplain
+	\{ 10, "JAPANESE", "LANGUAGES\\JAPANESE.BIN", {7F6E60} + 2 \},                          ||| refplain
 	/*there is no Thai entry here?*/
 };
 .pop pre
 
-In {4FF680}, {7F7020} is searched. If {570A30} is 2, the entry with id 8 is searched,           ||| funcref,fieldref,fieldref
+In {4FF680}, {7F7020} is searched. If {570A30} is 2, the entry with id 8 is searched,           ||| ref,ref,ref
 otherwise id 0 is searched.
 When it's not found the game will segfault because of the code below:
 
@@ -950,7 +950,7 @@ When it's not found the game will segfault because of the code below:
 
 Then {{struct LanguageFileData}.{structLanguageFileData+C}} is read.                            ||| code,refto,refto
 Its {{structLanguageStruct7F6E60+0}[0]} value is read and then a                                ||| code,refto
-matching entry in {7F6DE8} is searched.                                                         ||| fieldref
+matching entry in {7F6DE8} is searched.                                                         ||| ref
 More stuff is read is a loop and reset and I lost track.
 Eventually something is called with string {LanguageMemoryPool}.                                ||| code
 
@@ -985,11 +985,11 @@ char *strings; /*all zero-terminated strings after each other*/
 The {tableEntries} are sorted (low hash to high hash),                                          ||| code
 required because a binary search is used at lookup.
 
-Loading is done in {5125B0}.                                                                    ||| funcref
+Loading is done in {5125B0}.                                                                    ||| ref
 See {language_english.txt} for all {English.bin} strings by their hash.                         ||| a href=language_english.txt,code
 (This was generated by an early version of {nfsu2-re-binfiles/main.c})                          ||| hookfileref
 
-The hashes seem to be made with the case insensitive hash function {43DB50}.                    ||| funcref
+The hashes seem to be made with the case insensitive hash function {43DB50}.                    ||| ref
 Sadly the original keys don't seem to be around anywhere, but some can be guessed, for example:
 
 .push pre
@@ -1027,11 +1027,11 @@ TODO: language files also contain bin sections with magic {0x30201}             
 .push symbols
 - {4FF9D0 char* GetLanguageStringOrNull(int hash)}                                              ||| func
   Returns a string ptr or {NULL} for given hash (which is passed through {edx}).                ||| code,code
-  Does a binary search over the hashes in {{8383D0}.{structLoadedLanguage+8}}                   ||| code,fieldref,refto
+  Does a binary search over the hashes in {{8383D0}.{structLoadedLanguage+8}}                   ||| code,ref,refto
 - {4FFA50 void GetLanguageStringIntoBuf(char *dst, int dstlen, int hash)}                       ||| func
-  Same as {4FFA80} but copy it into a buffer.                                                   ||| funcref
+  Same as {4FFA80} but copy it into a buffer.                                                   ||| ref
 - {4FFA80 char* GetLanguageString(int hash)}                                                    ||| func
-  Calls {4FF9D0} and when it returns {NULL}, call it again but with                             ||| funcref,code
+  Calls {4FF9D0} and when it returns {NULL}, call it again but with                             ||| ref,code
   {0xC01A6F63} as fallback (which results in {FENG: Default string error.})                     ||| code,code
 - {4FFAA0 char* GetNumberSuffix(int number)}                                                    ||| func
   Returns, based on passed index, one of: {th, st, nd, rd, th, th, th, th, th, th th},          ||| code
@@ -1040,10 +1040,10 @@ TODO: language files also contain bin sections with magic {0x30201}             
 - {4FFAE0 int UnloadLanguageBinSection39000({struct BinSection} *section);}                     ||| func,refto
 .push pre
 if (section->{structBinSection+0}.{structBinSectionHeader+0} == 0x39000) \{                     ||| refto,refto
-        {8383D0}.{structLoadedLanguage+C} = 0;                                                  ||| fieldplain,refto
-        {8383D0}.{structLoadedLanguage+0} = 0;                                                  ||| fieldplain,refto
-        {8383D0}.{structLoadedLanguage+4} = 0;                                                  ||| fieldplain,refto
-        {8383D0}.{structLoadedLanguage+8} = 0;                                                  ||| fieldplain,refto
+        {8383D0}.{structLoadedLanguage+C} = 0;                                                  ||| refplain,refto
+        {8383D0}.{structLoadedLanguage+0} = 0;                                                  ||| refplain,refto
+        {8383D0}.{structLoadedLanguage+4} = 0;                                                  ||| refplain,refto
+        {8383D0}.{structLoadedLanguage+8} = 0;                                                  ||| refplain,refto
 }
 .pop pre
 - {5125B0 int LoadLanguageBinSection39000({struct BinSection} *section)}                        ||| func,refto
@@ -1054,13 +1054,13 @@ int i;
 
 if (section->{structBinSection+0}.{structBinSectionHeader+0} == 0x39000) \{                                  ||| refto,refto
         data = (void*) section->{structBinSection+8};                                                        ||| refto
-        {8383D0}.{structLoadedLanguage+C} = data->{structBinDataLanguage39000+0};                            ||| fieldplain,refto,refto
-        {8383D0}.{structLoadedLanguage+0} = data->{structBinDataLanguage39000+4};                            ||| fieldplain,refto,refto
-        {8383D0}.{structLoadedLanguage+4} = (void*) (data + (int) data->{structBinDataLanguage39000+C});     ||| fieldplain,refto,refto
-        {8383D0}.{structLoadedLanguage+8} = (void*) (data + (int) data->{structBinDataLanguage39000+8});     ||| fieldplain,refto,refto
-        tableEntry = {8383D0}.{structLoadedLanguage+8};                                                      ||| fieldplain,refto
-        for (i = 0; i < {8383D0}.{structLoadedLanguage+0}; i++) \{                                           ||| fieldplain,refto
-                tableEntry->{structLanguageTableEntry+4} += {8383D0}.{structLoadedLanguage+8};               ||| refto,fieldplain,refto
+        {8383D0}.{structLoadedLanguage+C} = data->{structBinDataLanguage39000+0};                            ||| refplain,refto,refto
+        {8383D0}.{structLoadedLanguage+0} = data->{structBinDataLanguage39000+4};                            ||| refplain,refto,refto
+        {8383D0}.{structLoadedLanguage+4} = (void*) (data + (int) data->{structBinDataLanguage39000+C});     ||| refplain,refto,refto
+        {8383D0}.{structLoadedLanguage+8} = (void*) (data + (int) data->{structBinDataLanguage39000+8});     ||| refplain,refto,refto
+        tableEntry = {8383D0}.{structLoadedLanguage+8};                                                      ||| refplain,refto
+        for (i = 0; i < {8383D0}.{structLoadedLanguage+0}; i++) \{                                           ||| refplain,refto
+                tableEntry->{structLanguageTableEntry+4} += {8383D0}.{structLoadedLanguage+8};               ||| refto,refplain,refto
                 tableEntry++;
         }
 }
@@ -1078,7 +1078,7 @@ if (section->{structBinSection+0}.{structBinSectionHeader+0} == 0x39000) \{     
 
 {Pools}  ||| h id=pools
 
-I hooked {440B40} and collected some output: {createpoollog.txt}                                ||| funcref,a href=createpoollog.txt
+I hooked {440B40} and collected some output: {createpoollog.txt}                                ||| ref,a href=createpoollog.txt
 This will probably help a lot when trying to figure out other things.
 Note that the first time the {AUD: NFS3DMixCtl Pool} is made, it has an element amount of zero. ||| code
 The dump is from just starting the game and starting a circuit race.
@@ -1112,7 +1112,7 @@ EXPECT_SIZE(struct bFileSystemPoolEntry, 0xF0);
   TODO
 - {440DF0 ??CreatePool(int maybeElementSize, int maybeElementAmount,                            ||| func
   char *name, int unknown)}
-  TODO, does something after calling {440B40}                                                   ||| funcref
+  TODO, does something after calling {440B40}                                                   ||| ref
 - {440D40 int __thiscall PoolGetNextFreeItem_(void *this)}                                      ||| func
   TODO
 - {440E50 int PoolGetNextFreeItem?stdcallwrapper(void *pool)}                                   ||| func
@@ -1252,14 +1252,14 @@ you like to inspect it).
 
 {ConsoleConsumeKey} ||| h id=console_consume_key
 
-When looking at the {5CCD60} (which is not to hard too find because it's                        ||| funcref
+When looking at the {5CCD60} (which is not to hard too find because it's                        ||| ref
 passed in a struct to {RegisterClassExA}), I saw a call to a function that                      ||| code
 is called on every {WM_CHAR} event. The function does nothing when the value                    ||| code
-in {8709BC} is zero, and there are no write references to it, so it seems                       ||| fieldref
+in {8709BC} is zero, and there are no write references to it, so it seems                       ||| ref
 like it will always be zero.
 
 First it seems like the input is dropped if it's a {CR} (carriage return) and                   ||| code
-when the value at {8709C4} is non-zero. Again, this is always zero so CR's                      ||| fieldref
+when the value at {8709C4} is non-zero. Again, this is always zero so CR's                      ||| ref
 are never dropped.
 
 Then it has four different handlers. The first one handles a backspace character, second
@@ -1268,30 +1268,30 @@ one character is deleted when pressing backspace and one character is added in a
 cases. I named following variables:
 
 .push ul
-- {8709B8}                                                                                      ||| fieldref
-- {8709C0}                                                                                      ||| fieldref
-- {8709B0}                                                                                      ||| fieldref
-- {8709B4}                                                                                      ||| fieldref
-- {8709BC}                                                                                      ||| fieldref
+- {8709B8}                                                                                      ||| ref
+- {8709C0}                                                                                      ||| ref
+- {8709B0}                                                                                      ||| ref
+- {8709B4}                                                                                      ||| ref
+- {8709BC}                                                                                      ||| ref
 .pop ul
 
-Basically, on backspace it checks if {8709B8} is bigger than zero,                              ||| fieldref
-copies everything in {8709B0} starting from {8709B8} to a                                       ||| fieldref,fieldref
-zero byte into a newly allocated buffer, decrements {8709B8} and {8709B4},                      ||| fieldref,fieldref
-and copies everything from the allocated buffer back into {8709B0} at position {8709B8}.        ||| fieldref,fieldref
+Basically, on backspace it checks if {8709B8} is bigger than zero,                              ||| ref
+copies everything in {8709B0} starting from {8709B8} to a                                       ||| ref,ref
+zero byte into a newly allocated buffer, decrements {8709B8} and {8709B4},                      ||| ref,ref
+and copies everything from the allocated buffer back into {8709B0} at position {8709B8}.        ||| ref,ref
 
-When inserting, it checks if {8709B4} is less than {8709C0},                                    ||| fieldref,fieldref
-copies everything in {8709B0} starting from {8709B8} to a zero byte into                        ||| fieldref,fieldref
-a newly allocated buffer, inserts the character in {8709B0} at position {8709B8},               ||| fieldref,fieldref
-increments {8709B8} and {8709B4} by one,                                                        ||| fieldref,fieldref
-and copies everything from the allocated buffer back into {8709B0} at position {8709B8}.        ||| fieldref,fieldref
+When inserting, it checks if {8709B4} is less than {8709C0},                                    ||| ref,ref
+copies everything in {8709B0} starting from {8709B8} to a zero byte into                        ||| ref,ref
+a newly allocated buffer, inserts the character in {8709B0} at position {8709B8},               ||| ref,ref
+increments {8709B8} and {8709B4} by one,                                                        ||| ref,ref
+and copies everything from the allocated buffer back into {8709B0} at position {8709B8}.        ||| ref,ref
 
 .push ul
 - Backspace: delete character before caret
 - Escape: insert zero byte
 - Tab and CR: insert LF
 - Other: insert char if it's {a-z} or {A-Z} or {0-9} or,                                        ||| code,code,code
-  if {80057E} is zero, {_} or {@} or {.} or                                                     ||| fieldref,code,code,code
+  if {80057E} is zero, {_} or {@} or {.} or                                                     ||| ref,code,code,code
   {-}. If none of these pass, do a check for more keys as described below}                      ||| code
 .pop ul
 
@@ -1300,7 +1300,7 @@ and copies everything from the allocated buffer back into {8709B0} at position {
 {A hardcoded key check}      ||| h id=console_consume_key_check
 
 At the end of looking if a character is valid, when it hasn't passed any of the criteria
-above, it checks one last function if {8709C7} is {1}. The function                             ||| fieldref,code
+above, it checks one last function if {8709C7} is {1}. The function                             ||| ref,code
 seems to check if the key is one of 55 configured values and if so, the char is accepted.
 
 .pop section
@@ -1309,18 +1309,18 @@ seems to check if the key is one of 55 configured values and if so, the char is 
 
 {ConsoleMoveCaret} ||| h id=console_move_caret
 
-This function is also called from {5CCD60}, this time when a                                    ||| funcref
+This function is also called from {5CCD60}, this time when a                                    ||| ref
 {WM_KEYDOWN} message is received. One parameter is passed based on the keycode                  ||| code
 of the event:
 
 .push ul
 - {VK_LEFT}: {-1}                                                                               ||| code,code
 - {VK_RIGHT}: {1}                                                                               ||| code,code
-- {VK_HOME}: {-{8709C0}}                                                                        ||| code,code,fieldplain
-- {VK_END}: {{8709C0}}                                                                          ||| code,code,fieldplain
+- {VK_HOME}: {-{8709C0}}                                                                        ||| code,code,refplain
+- {VK_END}: {{8709C0}}                                                                          ||| code,code,refplain
 .pop ul
 
-This is the only other function that checks if {8709BC} is non-zero.                            ||| fieldref
+This is the only other function that checks if {8709BC} is non-zero.                            ||| ref
 
 .pop section
 
@@ -1402,7 +1402,7 @@ following excerpt:
 {.text:00512212}     jz      short loc_512218                                                   ||| text
 .pop ida
 
-The proc {505450} doesn't look very complicated; it has one argument and                        ||| funcref
+The proc {505450} doesn't look very complicated; it has one argument and                        ||| ref
 doesn't perform any calls. It dereferences the given argument and increment its position,
 until a zero has been found. While it's doing that, {eax} is modified based on the read value.  ||| code
 So I assumed it is some hashing function and hooked it to see what kind of things are passed
@@ -1441,13 +1441,13 @@ As it turns out, it gets called many, many times.
 
 The excerpt above is probably from one cycle in the update loop, and is repeated a lot.
 
-Some time later I found a very similar looking proc: {43DB50}, so I copied                      ||| funcref
+Some time later I found a very similar looking proc: {43DB50}, so I copied                      ||| ref
 the previous hook for this function. This one gets called many times seemingly at startup
 and when car parts or maps get loaded.
 
 When writing this I took a better look at the procedures and saw that the only difference
 really is that the first one is case insensitive while the second one is case sensitive.
-In the {505450} one, it checks for every character if it is in the range                        ||| funcref
+In the {505450} one, it checks for every character if it is in the range                        ||| ref
 {'a'-'z'} and subtracts {0x20} if so, making the character uppercase                            ||| code,code
 before updating the hash.
 
@@ -1646,7 +1646,7 @@ Someone left a trace here:
 {.text:00554206}                 call    {SomeDebugPrint}                                       ||| text,ident
 .pop ida
 
-One of the first thing {558020} does is calling {526C40},                                       ||| funcref,funcref
+One of the first thing {558020} does is calling {526C40},                                       ||| ref,ref
 which looks like initializes the dialog maybe? One argument is passed, seemingly the
 dialog name. But then it checks something at the passed dialog name {+324h}. Conclusion:        ||| code
 it's passing a struct with dialog info, of which the first member is the name.
@@ -1655,14 +1655,14 @@ it's passing a struct with dialog info, of which the first member is the name.
 
 {GetFNGForDialog}  ||| h id=ui_dialog_getfngfordialog
 
-This function is only used once, by the {558020} function. It checks                            ||| funcref
+This function is only used once, by the {558020} function. It checks                            ||| ref
 the value at {+324h}, which seems to be a pointer to a string,                                  ||| code
 looks like maybe a type of dialog?
 It's checked if that value is either {NULL} or empty string or equal to                         ||| code
 {animating} or {3button}. I decided to reimplement that function.                               ||| code,code
 Fun fact: while doing this I managed to write an infinite loop which caused a BSOD.
 
-At the end I decided upon the name {526C40}. It returns a pointer                               ||| funcref
+At the end I decided upon the name {526C40}. It returns a pointer                               ||| ref
 to a string that says what FNG to display for the dialog that was passed.
 
 The dialog info may already have the FNG set, this function will return that unless
@@ -1712,7 +1712,7 @@ executable itself so it's probably somewhere deep in a bin file.
 .pop section
 
 {DialogInfo} struct made by looking at all of the above and more:                               ||| code
-(Especially {4FF250} helped here.)                                                              ||| funcref
+(Especially {4FF250} helped here.)                                                              ||| ref
 
 .push pre
 {struct DialogInfo} \{                                                                          ||| mkref
@@ -1748,12 +1748,12 @@ ASSERT_OFFSET({struct DialogInfo}, isHelpDialog, 0x32D);                        
   See {ui_dialog_getfngfordialog}                                                               ||| href
 - {540A60 void DismissDialog(int dialogIdToDismiss)}                                            ||| func
 - {558020 int ShowDialog({struct DialogInfo} *info)}                                            ||| func,refto
-  Returns the new dialog id for it (value in {838974}) or zero when                             ||| fieldref
+  Returns the new dialog id for it (value in {838974}) or zero when                             ||| ref
   it didn't show because of some override.
 - {7F6DE0 int nextDialogId}                                                                     ||| field
-  When {558020} is called, value is put into {838974} and incremented.                          ||| funcref,fieldref
+  When {558020} is called, value is put into {838974} and incremented.                          ||| ref,ref
 - {838640 {struct DialogInfo} shownDialogData}                                                  ||| field,refto
-  Dialog info passed to {558020} is copied into here, TODO xrefs                                ||| funcref
+  Dialog info passed to {558020} is copied into here, TODO xrefs                                ||| ref
 - {838960 char* shownDialogParent}                                                              ||| field
   Example value: {UI_PerformanceTuning_Setting.fng}.                                            ||| code
 - {838964 char* shownDialogType}                                                                ||| field
@@ -1769,7 +1769,7 @@ ASSERT_OFFSET({struct DialogInfo}, isHelpDialog, 0x32D);                        
 
 {FNG things}  ||| h id=fngthings
 
-Thanks to {558020} code, following things were discovered:                                      ||| funcref
+Thanks to {558020} code, following things were discovered:                                      ||| ref
 
 .push pre
 {struct FNGShowData} \{                                                                         ||| mkref
@@ -1805,7 +1805,7 @@ typedef int ({fnginithandler})({struct FNGShowData} *msg);                      
 };
 EXPECT_SIZE(struct FNGData, 0x1C);
 
-struct FNGData {7F7DC8}[] = \{                                                                  ||| fieldplain
+struct FNGData {7F7DC8}[] = \{                                                                  ||| refplain
 	{ "UI_Main.fng", 0x4ED6B0, 0x0D6DFCF20, 0x5, 0x0, 0x100, 0x0 }, // 0
 	{ "UI_OptionsMain.fng", 0x4EFDE0, 0x9323DF57, 0x405, 0x0, 0x80, 0x0 }, // 1
 	{ "UI_Options.fng", 0x4E3710, 0x2F735833, 0x401, 0x0, 0x1CA, 0x0 }, // 2
@@ -1993,13 +1993,13 @@ struct FNGData {7F7DC8}[] = \{                                                  
 - {50B840 {struct FNGData}* GetFNGDataForHash(int hash)}                                        ||| func,refto
   Goes through all the fng data above and returns the one with matching hash.
 - {50B8E0 int SetInitializeHandlerForFNG(char *fng, {fnginithandler} *func)}                    ||| func,refto
-  Goes through all the fng data above and set the handler for {43DCC0} matching fng names.      ||| funcref
+  Goes through all the fng data above and set the handler for {43DCC0} matching fng names.      ||| ref
 - {50B790 ShowFNG(int fnghash, int arg1, int arg2)}                                             ||| func
   See {nfsu2-re-hooks/replace-50B790-ShowFNG.c} for a reimplementation.                         ||| hookfileref
 - {558B70 void __thiscall UIConsumeKey(void *this, int keyCode)}                                ||| func
   probably used for Q, but what else?
 - {55DBD0 void UIHandleKey(int keyCode)}                                                        ||| func
-  Called from {WM_CHAR} messages in {5CCD60},                                                   ||| code,funcref
+  Called from {WM_CHAR} messages in {5CCD60},                                                   ||| code,ref
   only used to type/press enter in a textbox and Q to quit.
   Navigating menus seems unaffected
 - {55DC20 __thiscall void SendSomethingToFNG?(void *this, char *fng, int data)}                 ||| func
@@ -2009,7 +2009,7 @@ struct FNGData {7F7DC8}[] = \{                                                  
 - {83A9C4 void *focusedTextbox}                                                                 ||| field
 .pop ul
 
-Short excerpt from hooking {50B790}. {arg2} for the dialogs                                     ||| funcref,code
+Short excerpt from hooking {50B790}. {arg2} for the dialogs                                     ||| ref,code
 are a pointer to the text string.
 
 .push pre
@@ -2110,22 +2110,22 @@ struct MouseData *_mouseData = (struct MouseData*) 0x8763D0;
   struct \{ float width; float height; \} *size)}
   Gets called in one location, but still haven't actually seen it being called. TODO
 - {52D090 DidCursorPressIn??SomethingUI(void *somethingui)}                                     ||| func
-  Delegates to {52D020}                                                                         ||| funcref
+  Delegates to {52D020}                                                                         ||| ref
 - {52D100 DidCursorPressIn??SomethingUI_2(void *something2)}                                    ||| func
   same as above, probably for some other type UI element
 - {5BF6E0 int __thiscall CreateDinputDevice({struct MouseData} *this)}                          ||| func,refto
-  Creates and sets {{8763D0}.{structMouseData+0}}                                               ||| code,fieldref,refto
+  Creates and sets {{8763D0}.{structMouseData+0}}                                               ||| code,ref,refto
 - {5BF750 int __thiscall UpdateCursorPosition({struct MouseData} *this)}                        ||| func,refto
 - {5BF860 void __thiscall UpdateMouseState({struct MouseData} *this)}                           ||| func,refto
-  Calls {5BF750} and then updates button states.                                                ||| funcref
+  Calls {5BF750} and then updates button states.                                                ||| ref
 - {5BF940 int __thiscall HaveCursorActivity({struct MouseData} *this)}                          ||| func,refto
-  called once, from {5663B0}. returns 1 if position deltas or scrollwheel or                    ||| funcref
+  called once, from {5663B0}. returns 1 if position deltas or scrollwheel or                    ||| ref
   any of the JustPressed/JustReleased fields are not zero. Always returning 0 here has the
   effect that ui hover does not work, left click acts as right click (go back) except when
   clicking on the active ui element (like main menu bar). Dialog box buttons still work
   somehow. The car showroom can still be rotated with mmb. Mouse still moves.
 - {5C8600 int __thiscall MouseData::ctor({struct MouseData} *this)}                             ||| func,refto
-  Called once, from {77E580}.                                                                   ||| funcref
+  Called once, from {77E580}.                                                                   ||| ref
 - {8763D0 struct MouseData _mouseData}                                                          ||| field
 .pop ul
 
@@ -2168,8 +2168,8 @@ struct MouseData *_mouseData = (struct MouseData*) 0x8763D0;
 };
 EXPECT_SIZE(struct CheatData, 0x34);
 
-struct CheatScreenData {865930}; // partially initialized by {575770}                           ||| fieldref,funcref
-struct CheatData {7FB960}[20] = \{                                                              ||| fieldref
+struct CheatScreenData {865930}; // partially initialized by {575770}                           ||| ref,ref
+struct CheatData {7FB960}[20] = \{                                                              ||| ref
 	{ "needperformance1",	2, 1, 0, 0, 0, 1, 1, 0 }, // 0
 	{ "needperformance2",	2, 2, 0, 0, 0, 1, 1, 0 }, // 1
 	{ "gimmevisual1",	1, 2, 0, 0, 0, 1, 1, 0 }, // 2
@@ -2191,9 +2191,9 @@ struct CheatData {7FB960}[20] = \{                                              
 	{ ""			0, 0, 0, 0, 0, 0, 0, 0 }, // 18
 	{ ""			0, 0, 0, 0, 0, 0, 0, 0 }, // 19
 };
-// after {575770} was called, it looks like this:                                               ||| funcref
+// after {575770} was called, it looks like this:                                               ||| ref
 // hashes are done with case sensitive hash
-struct CheatData {7FB960}[20] = \{                                                              ||| fieldref
+struct CheatData {7FB960}[20] = \{                                                              ||| ref
 	{ "needperformance1",	2, 0x00000001, 0, 0, 0, 1, 1, 0 }, //
 	{ "needperformance2",	2, 0x00000002, 0, 0, 0, 1, 1, 0 }, //
 	{ "gimmevisual1",	1, 0x00000002, 0, 0, 0, 1, 1, 0 }, //
@@ -2216,7 +2216,7 @@ struct CheatData {7FB960}[20] = \{                                              
 	{ "ordermebaby"		5, 0x00000004, 0, 0, 0, 1, 1, 0 }, //
 };
 
-void __thiscall {575770}(struct CheatScreenData *data)                                          ||| funcref
+void __thiscall {575770}(struct CheatScreenData *data)                                          ||| ref
 {
 	int i;
 
@@ -2244,20 +2244,20 @@ ingame has immediate effect.
 
 .push symbols
 - {575770 void __thiscall InitCheats_({struct CheatScreenData} *this)}                          ||| func,refto
-  Initializes {865930} and {7FB960}.                                                            ||| fieldref,fieldref
+  Initializes {865930} and {7FB960}.                                                            ||| ref,ref
 - {576050 void __thiscall UndoCheat__({struct CheatScreenData} *this, int cheatdata_field28)}   ||| func,refto
   Weird one, is called on each cheat entry and all cheats with a matching
   {{structCheatData+28}} has zero written to its {{structCheatData+30}} field.                  ||| code,refto,code,refto
 - {576090 int GetExtraCheatedCareerMoney()}                                                     ||| func
-  Basically {return {86512C} + {865130};}                                                       ||| code,fieldplain,fieldplain
+  Basically {return {86512C} + {865130};}                                                       ||| code,refplain,refplain
 - {5760A0 int __thiscall DoCareerCheat({struct CheatScreenData} *this, int careerCheatIdx)}     ||| func,refto
 - {579CB0 void __thiscall CheatMatched({struct CheatScreenData} *this, int cheat_index)}        ||| func,refto
-  Called from {57B8B0} when a cheat matched.                                                    ||| funcref
+  Called from {57B8B0} when a cheat matched.                                                    ||| ref
 - {57B8B0 void __thiscall CheatCheck(void *this, int keyCode)}                                  ||| func
-  Called from {55DBD0} when {{865930}.{structCheatScreenData+4}} is non-zero.                   ||| funcref,code,fieldref,refto
+  Called from {55DBD0} when {{865930}.{structCheatScreenData+4}} is non-zero.                   ||| ref,code,ref,refto
 - {7FB960 {struct CheatData} cheatData[20]}                                                     ||| field,refto
 - {8383C8 cheatCareerNeverPossible}                                                             ||| field
-  This gets only set to one when a career cheat with {7FB960} zero is entered,                  ||| fieldref
+  This gets only set to one when a career cheat with {7FB960} zero is entered,                  ||| ref
   but all career cheats have a value of 2-4.
   It has one XREF, surrounded by some language stuff? TODO
 - {86512C cheatExtraCareerMoney200}                                                             ||| field
@@ -2272,14 +2272,14 @@ ingame has immediate effect.
 
 {Car model data}  ||| h id=carmodeldata
 
-When jumping around XREFs I stumbled upon a function that I named {511E60}.                     ||| funcref
+When jumping around XREFs I stumbled upon a function that I named {511E60}.                     ||| ref
 It uses a lot of strings that are manufacturers and stuff like {CARSELECT_MANUFACTURER_%s}.     ||| code
 There are two parameters, the first seems to be the index of the car and the second is if
 the caller wants the manufacturer logo or the brand logo.
 The function gave some nice information:
 
 .push ul
-- {8A1CCC} is a pointer to something that's probably car model data                             ||| fieldref
+- {8A1CCC} is a pointer to something that's probably car model data                             ||| ref
 - That data is an array with component size {0x890}                                             ||| code
 - At {+0x0}, there is a brand name                                                              ||| code
 - At {+0xC0}, there is a manufacturer name                                                      ||| code
@@ -2308,8 +2308,8 @@ After hooking and printing addresses, some more obvious data could be seen:
 - {458520 void __thiscall PlaySound_(void *this, void *sound)}                                  ||| func
 - {51DE60 int PlayUISoundEffect(void *unknownUnused, int soundID)}                              ||| func
   Discovered when looking at cheats. 8 is some choose sound, 9 too, .. TODO other IDs.
-- {82B884 pSoundEffectSystem?}                                                                  ||| func
-  pointer to what is used as {this} for calls to {458520}                                       ||| code, funcref
+- {82B884 pSoundEffectSystem?}                                                                  ||| field
+  pointer to what is used as {this} for calls to {458520}                                       ||| code, ref
 .pop symbols
 
 .pop section
@@ -2329,14 +2329,14 @@ it adds the amount to the current career data if the loaded profile didn't start
 career yet.
 
 .push pre
-/*from {5760A0}*/                                                                               ||| funcref
+/*from {5760A0}*/                                                                               ||| ref
 /*ordermebaby ($1000 career start bonus)*/
-{cheatExtraCareerMoney1000} = 1000;                                                             ||| funcplain address=865130
+{cheatExtraCareerMoney1000} = 1000;                                                             ||| refplain address=865130
 // ^ used when starting a new career from a profile that
 // was loaded from the profile menu
-if (!{isProfileWithStartedCareerLoaded}) \{                                                     ||| fieldplain address=86347C
-	if ({CareerGetMoney}() == 0) \{                                                         ||| funcplain address=500F90
-		{CareerSetMoney}(1000);                                                         ||| funcplain address=500F80
+if (!{isProfileWithStartedCareerLoaded}) \{                                                     ||| refplain address=86347C
+	if ({CareerGetMoney}() == 0) \{                                                         ||| refplain address=500F90
+		{CareerSetMoney}(1000);                                                         ||| refplain address=500F80
 		// ^ This only has an effect when the profile was
 		// loaded from the loading screen
 	}
@@ -2349,7 +2349,7 @@ if (!{isProfileWithStartedCareerLoaded}) \{                                     
 - {500F80 void __thiscall CareerGiveMoney({struct CareerData} *this, int amount)}               ||| func,refto
   Only used in the career money cheats.
 - {532830 void MaybeStartCareer?()}                                                             ||| func
-  It's the only func that calls {576090}.                                                       ||| funcref
+  It's the only func that calls {576090}.                                                       ||| ref
 - {86347C int isProfileWithStartedCareerLoaded}                                                 ||| field
   Fun fact: when creating a new profile,
   this value is set to 0 when the textbox to enter a name appears.
@@ -2389,15 +2389,15 @@ if (!{isProfileWithStartedCareerLoaded}) \{                                     
 - {5CCD60 LPRESULT MainWndProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)}             ||| func
 - {75BCC7 start}                                                                                ||| func
 - {75D45B sub_75D45B()}                                                                         ||| func
-  Invoked once at boot, does things (todo) and calls all functions in {7E8000}.                 ||| fieldref
+  Invoked once at boot, does things (todo) and calls all functions in {7E8000}.                 ||| ref
 - {77E580 init_function_77E580_MouseData_ctor()}                                                ||| func
-  Calls {5C8600} to initialize mouse data.                                                      ||| funcref
+  Calls {5C8600} to initialize mouse data.                                                      ||| ref
 - {7E8000 void (*someInitFunctions)()[821]}                                                     ||| field
-  Array of functions that are called at boot, by {75D45B}.                                      ||| funcref
+  Array of functions that are called at boot, by {75D45B}.                                      ||| ref
   Some of them are constructors being called.
 - {864F4C int _isGameClosing}                                                                   ||| field
 - {8709D8 int _isCTRLKeyDown}                                                                   ||| field
-  Set in {5CCD60}, but seemingly never read from? REVISIT                                       ||| funcref
+  Set in {5CCD60}, but seemingly never read from? REVISIT                                       ||| ref
 - {8A1CCC void *ptrCarData}                                                                     ||| field
 .pop symbols
 

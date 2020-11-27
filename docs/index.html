@@ -482,7 +482,7 @@ if (entry) {
         return entry-&gt;<a href='#structBinSectionMagicMapEntry_4'>value</a>.<a href='#structBinSectionHandler_4'>loadfunc</a>(binsection);
 }
 for (i = 0; i &lt; 36; i++) {
-        if (<a class='funcref' href='#7FA858'>binSectionLoadFuncs</a>[i](binsection)) {
+        if (<a class='fieldref' href='#7FA858'>binSectionLoadFuncs</a>[i](binsection)) {
                 return 1;
         }
 }
@@ -801,7 +801,7 @@ They seem to fit into three more structs.
 	{ 10, "JAPANESE", "LANGUAGES\\JAPANESE.BIN", <a class='fieldref' href='#7F6E60'>struct7F6E60</a> + 2 },
 	/*there is no Thai entry here?*/
 };
-</pre><p>In <a class='funcref' href='#4FF680'>4FF680:LoadLanguageSomething()</a>, <a class='fieldref' href='#7F7020'>7F7020:languageFileData</a> is searched. If <a class='fieldref' href='#570A30'>570A30:GetGameRegion()</a> is 2, the entry with id 8 is searched,
+</pre><p>In <a class='funcref' href='#4FF680'>4FF680:LoadLanguageSomething()</a>, <a class='fieldref' href='#7F7020'>7F7020:languageFileData</a> is searched. If <a class='funcref' href='#570A30'>570A30:GetGameRegion()</a> is 2, the entry with id 8 is searched,
 otherwise id 0 is searched.
 When it's not found the game will segfault because of the code below:
 </p><pre class='ida'><span class='text'>.text:004FF6A2</span>                 jl      short loc_4FF693
@@ -1877,7 +1877,7 @@ The function gave some nice information:
 <p><strong>Symbols:</strong></p><ul><li><span class='func' id='458520'>458520 void __thiscall PlaySound_(void *this, void *sound)</span>
 </li><li><span class='func' id='51DE60'>51DE60 int PlayUISoundEffect(void *unknownUnused, int soundID)</span>
   Discovered when looking at cheats. 8 is some choose sound, 9 too, .. TODO other IDs.
-</li><li><span class='func' id='82B884'>82B884 pSoundEffectSystem?</span>
+</li><li><span class='field' id='82B884'>82B884 pSoundEffectSystem?</span>
   pointer to what is used as <code>this</code> for calls to <a class='funcref' href='#458520'>458520:PlaySound_()</a>
 </li></ul><p style='margin-bottom:0'><a href='#index'>Index</a></p></div><span id='career'></span><div><h2>Career <a href="#career">#</a></h2>
 <pre><span id='struct_CareerData'></span>struct CareerData {
@@ -1889,7 +1889,7 @@ it adds the amount to the current career data if the loaded profile didn't start
 career yet.
 </p><pre>/*from <a class='funcref' href='#5760A0'>5760A0:DoCareerCheat()</a>*/
 /*ordermebaby ($1000 career start bonus)*/
-<a class='funcref' href='#865130'>cheatExtraCareerMoney1000</a> = 1000;
+<a class='fieldref' href='#865130'>cheatExtraCareerMoney1000</a> = 1000;
 // ^ used when starting a new career from a profile that
 // was loaded from the profile menu
 if (!<a class='fieldref' href='#86347C'>isProfileWithStartedCareerLoaded</a>) {

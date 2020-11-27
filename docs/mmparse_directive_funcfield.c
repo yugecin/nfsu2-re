@@ -2,10 +2,10 @@
 #define MAX_FUNCFIELD_NAME 100
 char funcfield_names[MAX_FUNCFIELDS][MAX_FUNCFIELD_NAME];
 char funcfield_addresses[MAX_FUNCFIELDS][20];
+char funcfield_types[MAX_FUNCFIELDS];
 int num_funcfields;
 
 struct PLACEHOLDER_FFREF_DATA {
-	char *type;
 	int plain;
 	char address[20];
 };
@@ -23,7 +23,7 @@ void cb_placeholder_funcfieldref(FILE *out, struct PLACEHOLDER *placeholder)
 			if (data->plain) {
 				len = sprintf(buf,
 					"<a class='%s' href='#%s'>%s",
-					data->type, data->address,
+					funcfield_types[i] ? "funcref" : "fieldref", data->address,
 					funcfield_names[i]);
 				if (buf[len - 2] == '(') {
 					len -= 2;
@@ -33,7 +33,8 @@ void cb_placeholder_funcfieldref(FILE *out, struct PLACEHOLDER *placeholder)
 			} else {
 				len = sprintf(buf,
 					"<a class='%s' href='#%s'>%s:%s</a>",
-					data->type, data->address, data->address,
+					funcfield_types[i] ? "funcref" : "fieldref",
+					data->address, data->address,
 					funcfield_names[i]);
 				fwrite(buf, len, 1, out);
 			}
@@ -41,15 +42,13 @@ void cb_placeholder_funcfieldref(FILE *out, struct PLACEHOLDER *placeholder)
 		}
 	}
 
-	printf("line %d: unresolved %s to %s\n",
-		placeholder->line_number, data->type, data->address);
+	printf("line %d: unresolved ref to %s\n", placeholder->line_number, data->address);
 	len = sprintf(buf, "<span class='unresolved'>0x%s</span>", data->address);
 	fwrite(buf, len, 1, out);
 }
 
 static
-enum DIR_CONTENT_ACTION
-directive_funcfield(char **to, char *from, struct DIRECTIVE *dir)
+enum DIR_CONTENT_ACTION directive_funcfield(char **to, char *from, struct DIRECTIVE *dir, char type)
 {
 	char *address;
 	char buf[500];
@@ -114,6 +113,7 @@ have_address:
 	get_directive_text(dir, buf, 0);
 	is_func_ptr_type = 0;
 	target = funcfield_names[num_funcfields];
+	funcfield_types[num_funcfields] = type;
 	i = 0;
 	for (;;) {
 		c = buf[i];
@@ -159,7 +159,19 @@ have_address:
 }
 
 static
-enum DIR_CONTENT_ACTION directive_funcfieldref(char **to, struct DIRECTIVE *dir, char *type, int plain)
+enum DIR_CONTENT_ACTION directive_field(char **to, char *from, struct DIRECTIVE *dir)
+{
+	return directive_funcfield(to, from, dir, 0);
+}
+
+static
+enum DIR_CONTENT_ACTION directive_func(char **to, char *from, struct DIRECTIVE *dir)
+{
+	return directive_funcfield(to, from, dir, 1);
+}
+
+static
+enum DIR_CONTENT_ACTION directive_funcfieldref(char **to, struct DIRECTIVE *dir, int plain)
 {
 	struct PLACEHOLDER_FFREF_DATA *data;
 	int i;
@@ -173,33 +185,20 @@ enum DIR_CONTENT_ACTION directive_funcfieldref(char **to, struct DIRECTIVE *dir,
 	}
 	get_directive_text(dir, data->address, 0);
 have_address:
-	data->type = type;
 	data->plain = plain;
 	return DELETE_CONTENT;
 }
 
 static
-enum DIR_CONTENT_ACTION directive_funcref(char **to, char *from, struct DIRECTIVE *dir)
+enum DIR_CONTENT_ACTION directive_ref(char **to, char *from, struct DIRECTIVE *dir)
 {
-	return directive_funcfieldref(to, dir, "funcref", 0);
+	return directive_funcfieldref(to, dir, 0);
 }
 
 static
-enum DIR_CONTENT_ACTION directive_fieldref(char **to, char *from, struct DIRECTIVE *dir)
+enum DIR_CONTENT_ACTION directive_refplain(char **to, char *from, struct DIRECTIVE *dir)
 {
-	return directive_funcfieldref(to, dir, "fieldref", 0);
-}
-
-static
-enum DIR_CONTENT_ACTION directive_funcplain(char **to, char *from, struct DIRECTIVE *dir)
-{
-	return directive_funcfieldref(to, dir, "funcref", 1);
-}
-
-static
-enum DIR_CONTENT_ACTION directive_fieldplain(char **to, char *from, struct DIRECTIVE *dir)
-{
-	return directive_funcfieldref(to, dir, "fieldref", 1);
+	return directive_funcfieldref(to, dir, 1);
 }
 
 static
@@ -207,12 +206,10 @@ void mmparse_ext_init_directive_func()
 {
 	MMPARSE_EXT_INIT();
 
-	mmparse_register_directive("func", directive_funcfield);
-	mmparse_register_directive("field", directive_funcfield);
-	mmparse_register_directive("funcref", directive_funcref);
-	mmparse_register_directive("fieldref", directive_fieldref);
-	mmparse_register_directive("funcplain", directive_funcplain);
-	mmparse_register_directive("fieldplain", directive_fieldplain);
+	mmparse_register_directive("func", directive_func);
+	mmparse_register_directive("field", directive_field);
+	mmparse_register_directive("ref", directive_ref);
+	mmparse_register_directive("refplain", directive_refplain);
 }
 
 #undef MMPARSE_EXT_INIT
