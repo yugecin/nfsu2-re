@@ -86,6 +86,7 @@ struct PLACEHOLDER dummyplaceholder;
 struct PLACEHOLDER_BREADCRUMB_DATA {
 	int continuation_index_offset;
 	int is_continuation;
+	int continuation_level;
 };
 
 #define MAX_REGISTERED_HANDLERS 20
@@ -147,6 +148,14 @@ void cb_placeholder_breadcrumbs(FILE *out, struct PLACEHOLDER *placeholder)
 	}
 	len = sprintf(buf, "<p style='margin-top:0'><small>");
 	next_level = 1;
+	if (placeholder_data->is_continuation) {
+		while (header_level[index] != placeholder_data->continuation_level) {
+			index--;
+			if (index < 0) {
+				printf("shit\n");
+			}
+		}
+	}
 	while (next_level < header_level[index]) {
 		for (i = index; i >= 0; i--) {
 			if (header_level[i] == next_level) {
@@ -747,6 +756,7 @@ void section_write_div_open(int continuation)
 	placeholder_data = next_placeholder(cb_placeholder_breadcrumbs);
 	placeholder_data->continuation_index_offset = number_of_section_continuations * 2;
 	placeholder_data->is_continuation = continuation;
+	placeholder_data->continuation_level = section_depth + 1;
 }
 
 static
