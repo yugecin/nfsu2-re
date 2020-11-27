@@ -1248,21 +1248,19 @@ As it doesn't seem to be used anywhere, the only effect you can see is that what
 type is written into the {console_real_text} buffer (use CheatEngine or something               ||| code
 you like to inspect it).
 
-All names below were chosen by me.
-
 .push section
 
-{ConsoleConsumeKey - 0x5C8320} ||| h id=console_consume_key
+{ConsoleConsumeKey} ||| h id=console_consume_key
 
-When looking at the {5CCD60} (which is not to hard too find because it's                ||| funcref
-passed in a struct to {RegisterClassExA}), I saw a call to a function that              ||| code
-is called on every {WM_CHAR} event. The function does nothing when the value            ||| code
-in {0x8709BC} is zero, and there are no write references to it, so it seems             ||| code
-like it will always be zero. I called this {consoleEnabledFlag}.                        ||| code
+When looking at the {5CCD60} (which is not to hard too find because it's                        ||| funcref
+passed in a struct to {RegisterClassExA}), I saw a call to a function that                      ||| code
+is called on every {WM_CHAR} event. The function does nothing when the value                    ||| code
+in {8709BC} is zero, and there are no write references to it, so it seems                       ||| fieldref
+like it will always be zero.
 
-First it seems like the input is dropped if it's a {CR} (carriage return) and           ||| code
-when the value at {0x8709C4} is non-zero. Again, this is always zero so CR's            ||| code
-are never dropped. I called this {consoleIgnoreNextCR}.                                 ||| code
+First it seems like the input is dropped if it's a {CR} (carriage return) and                   ||| code
+when the value at {8709C4} is non-zero. Again, this is always zero so CR's                      ||| fieldref
+are never dropped.
 
 Then it has four different handlers. The first one handles a backspace character, second
 one does escape, third one does tab and CR, and the last one does everything else. Basically
@@ -1270,89 +1268,99 @@ one character is deleted when pressing backspace and one character is added in a
 cases. I named following variables:
 
 .push ul
-- {0x8709B8 - consoleTextCaretPosition - int}           ||| code
-- {0x8709C0 - consoleTextStringMaxLength - int}         ||| code
-- {0x8709B0 - consoleTextString - char*}                ||| code
-- {0x8709B4 - consoleTextStringLength - int}            ||| code
-- {0x8709BC - consoleEnabledFlag - int}                 ||| code
+- {8709B8}                                                                                      ||| fieldref
+- {8709C0}                                                                                      ||| fieldref
+- {8709B0}                                                                                      ||| fieldref
+- {8709B4}                                                                                      ||| fieldref
+- {8709BC}                                                                                      ||| fieldref
 .pop ul
 
-Basically, on backspace it checks if {consoleTextCaretPosition} is bigger than          ||| code
-zero, copies everything in {consoleTextString} starting from                            ||| code
-{consoleTextCaretPosition} to a zero byte into a newly allocated buffer,                ||| code
-decrements {consoleTextCaretPosition} and {consoleTextStringLength},                    ||| code,code
-and copies everything from the allocated buffer back into {consoleTextString} at        ||| code
-position {consoleTextCaretPosition}.                                                    ||| code
+Basically, on backspace it checks if {8709B8} is bigger than zero,                              ||| fieldref
+copies everything in {8709B0} starting from {8709B8} to a                                       ||| fieldref,fieldref
+zero byte into a newly allocated buffer, decrements {8709B8} and {8709B4},                      ||| fieldref,fieldref
+and copies everything from the allocated buffer back into {8709B0} at position {8709B8}.        ||| fieldref,fieldref
 
-When inserting, it checks if {consoleTextStringLength} is less than                     ||| code
-{consoleTextStringMaxLength}, copies everything in                                      ||| code
-{consoleTextString} starting from {consoleTextCaretPosition}                            ||| code,code
-to a zero byte into a newly allocated buffer, inserts the character in
-{consoleTextString} at position {consoleTextCaretPosition}, increments                  ||| code,code
-{consoleTextCaretPosition} and {consoleTextStringLength} by one,                        ||| code,code
-and copies everything from the allocated buffer back into {consoleTextString}           ||| code
-at position {consoleTextCaretPosition}.                                                 ||| code
+When inserting, it checks if {8709B4} is less than {8709C0},                                    ||| fieldref,fieldref
+copies everything in {8709B0} starting from {8709B8} to a zero byte into                        ||| fieldref,fieldref
+a newly allocated buffer, inserts the character in {8709B0} at position {8709B8},               ||| fieldref,fieldref
+increments {8709B8} and {8709B4} by one,                                                        ||| fieldref,fieldref
+and copies everything from the allocated buffer back into {8709B0} at position {8709B8}.        ||| fieldref,fieldref
 
 .push ul
 - Backspace: delete character before caret
 - Escape: insert zero byte
 - Tab and CR: insert LF
-- Other: insert char if it's {a-z} or {A-Z} or {0-9} or,                                ||| code,code,code
-  if {0x80057E} is zero, {_} or {@} or {.} or                                           ||| code,code,code,code
-  {-}. If none of these pass, do a check for more keys as described below}              ||| code
+- Other: insert char if it's {a-z} or {A-Z} or {0-9} or,                                        ||| code,code,code
+  if {80057E} is zero, {_} or {@} or {.} or                                                     ||| fieldref,code,code,code
+  {-}. If none of these pass, do a check for more keys as described below}                      ||| code
 .pop ul
 
 .push section
 
-{A hardcoded key check - 0x5BF260}      ||| h id=console_consume_key_check
+{A hardcoded key check}      ||| h id=console_consume_key_check
 
 At the end of looking if a character is valid, when it hasn't passed any of the criteria
-above, it checks one last function if {0x8709C7} is {1}. The function                           ||| code,code
+above, it checks one last function if {8709C7} is {1}. The function                             ||| fieldref,code
 seems to check if the key is one of 55 configured values and if so, the char is accepted.
-The C-ified code looks like this:
-
-.push pre
-int ConsoleIsCharOneOfTheseHardcodedValues(unsigned char value)
-{
-	unsigned char values[55] = {
-		' ', '.', ',', '_', '@', '-', '`', '=', '[', ']', '\\',
-		';', '\'', '/', '<', '>', '?', ':', '"', '{', '}', '|',
-		'+', '(', ')', '*', '&', '%', '#', '!', '~', 0xE5, 0xE4,
-		0xE0, 0xE2, 0xEB, 0xE8, 0xE9, 0xEA, 0xEF, 0xEE, 0xF6,
-		0xF4, 0xFC, 0xF9, 0xFB, 0xE7, 0x9C, 0xF2, 0xEC, 0xC5,
-		0xC4, 0xD6, 0xDC, 0xA7
-	};
-	int i;
-
-	for (i = 0; i < 55; i++) {
-		if (values[i] == value) {
-			return 1;
-		}
-	}
-	return 0;
-}
-.pop pre
 
 .pop section
 .pop section
 .push section
 
-{ConsoleMoveCaret - 0x5BF3A0} ||| h id=console_move_caret
+{ConsoleMoveCaret} ||| h id=console_move_caret
 
-This function is also called from {5CCD60}, this time when a                            ||| funcref
-{WM_KEYDOWN} message is received. One parameter is passed based on the keycode          ||| code
+This function is also called from {5CCD60}, this time when a                                    ||| funcref
+{WM_KEYDOWN} message is received. One parameter is passed based on the keycode                  ||| code
 of the event:
 
 .push ul
-- {VK_LEFT}: {-1}                                                                       ||| code,code
-- {VK_RIGHT}: {1}                                                                       ||| code,code
-- {VK_HOME}: {-consoleTextStringMaxLength}                                              ||| code,code
-- {VK_END}: {consoleTextStringMaxLength}                                                ||| code,code
+- {VK_LEFT}: {-1}                                                                               ||| code,code
+- {VK_RIGHT}: {1}                                                                               ||| code,code
+- {VK_HOME}: {-{8709C0}}                                                                        ||| code,code,fieldplain
+- {VK_END}: {{8709C0}}                                                                          ||| code,code,fieldplain
 .pop ul
 
-This is the only other function that checks if {consoleEnabledFlag} is non-zero.        ||| code
+This is the only other function that checks if {8709BC} is non-zero.                            ||| fieldref
 
 .pop section
+
+A
+
+.push symbols
+- {5BF260 int ConsoleIsArgOneOfTheseHardcodedValues(char c)}                                    ||| func
+.push pre
+unsigned char values[55] = {
+        ' ', '.', ',', '_', '@', '-', '`', '=', '[', ']', '\\',
+        ';', '\'', '/', '<', '>', '?', ':', '"', '{', '}', '|',
+        '+', '(', ')', '*', '&', '%', '#', '!', '~', 0xE5, 0xE4,
+        0xE0, 0xE2, 0xEB, 0xE8, 0xE9, 0xEA, 0xEF, 0xEE, 0xF6,
+        0xF4, 0xFC, 0xF9, 0xFB, 0xE7, 0x9C, 0xF2, 0xEC, 0xC5,
+        0xC4, 0xD6, 0xDC, 0xA7
+};
+int i;
+
+for (i = 0; i < 55; i++) {
+        if (values[i] == value) {
+                return 1;
+        }
+}
+return 0;
+.pop pre
+- {5BF3A0 void ConsoleMoveCaret(int relativePosition)}                                          ||| func
+- {80057E char consoleDisallowSpecialChars}                                                     ||| field
+  Never written to?
+- {80057D char consoleLastCharTyped?}                                                           ||| field
+  Never read from?
+- {8709B0 char *consoleTextString}                                                              ||| field
+- {8709B4 int consoleTextStringLength}                                                          ||| field
+- {8709B8 int consoleTextCaretPosition}                                                         ||| field
+- {8709BC int consoleEnabledFlag}                                                               ||| field
+- {8709C0 int consoleTextStringMaxLength}                                                       ||| field
+- {8709C4 int consoleIgnoreNextCR}                                                              ||| field
+- {8709C5 char ??DebugUnusedLastKeyPressed}                                                     ||| field
+- {8709C7 char consoleFilterSpecialChars}                                                       ||| field
+.pop symbols
+
 .pop section
 .push section
 
@@ -2388,6 +2396,8 @@ if (!{isProfileWithStartedCareerLoaded}) \{                                     
   Array of functions that are called at boot, by {75D45B}.                                      ||| funcref
   Some of them are constructors being called.
 - {864F4C int _isGameClosing}                                                                   ||| field
+- {8709D8 int _isCTRLKeyDown}                                                                   ||| field
+  Set in {5CCD60}, but seemingly never read from? REVISIT                                       ||| funcref
 - {8A1CCC void *ptrCarData}                                                                     ||| field
 .pop symbols
 

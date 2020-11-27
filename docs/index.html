@@ -117,7 +117,7 @@ Need For Speed Underground 2, otherwise knows as nfsu2.
 </p><p>This normally belongs to <a href="https://github.com/yugecin/nfsu2-re">https://github.com/yugecin/nfsu2-re</a>.
 </p><p>Other pages: <a href="cheatsheet.html">(fpu) cheatsheet</a>
 </p><p style='margin-bottom:0'><a href='#index'>Index</a></p></div><span id='index'></span><div><h2>Index <a href="#index">#</a></h2>
-<ul><li><a href="#prologue">Prologue</a></li><li><a href="#index">Index</a></li><li><a href="#injectedcode">Injected code</a></li><li><a href="#displaysettings">Display settings</a></li><li><a href="#registry">Registry</a></li><li><a href="#gameregion">Game region</a></li><li><a href="#bindata">Bin data</a></li><li><a href="#language">Language</a><ul><li><a href="#language_metadata">Language metadata</a></li><li><a href="#language_files">Language files</a></li></ul></li><li><a href="#pools">Pools</a></li><li><a href="#speedyboot">Speedy boot</a></li><li><a href="#consoleleftover">Console leftovers</a><ul><li><a href="#console_consume_key">ConsoleConsumeKey - 0x5C8320</a><ul><li><a href="#console_consume_key_check">A hardcoded key check - 0x5BF260</a></li></ul></li><li><a href="#console_move_caret">ConsoleMoveCaret - 0x5BF3A0</a></li></ul></li><li><a href="#hashfuncs">Hash functions</a><ul><li><a href="#hashmess">Messing with hash results</a></li></ul></li><li><a href="#debugprint">Debug print</a></li><li><a href="#ui">UI</a><ul><li><a href="#ui_dialog">Dialogs</a><ul><li><a href="#ui_dialog_getfngfordialog">GetFNGForDialog</a></li></ul></li><li><a href="#fngthings">FNG things</a></li></ul></li><li><a href="#mouseinput">Mouse input</a></li><li><a href="#cheats">Cheats</a></li><li><a href="#carmodeldata">Car model data</a></li><li><a href="#sound">Sound</a></li><li><a href="#career">Career</a></li><li><a href="#d3d9stuff">D3D9 Stuff</a></li><li><a href="#other_symbols">Other symbols</a></ul><p style='margin-bottom:0'><a href='#index'>Index</a></p></div><span id='injectedcode'></span><div><h2>Injected code <a href="#injectedcode">#</a></h2>
+<ul><li><a href="#prologue">Prologue</a></li><li><a href="#index">Index</a></li><li><a href="#injectedcode">Injected code</a></li><li><a href="#displaysettings">Display settings</a></li><li><a href="#registry">Registry</a></li><li><a href="#gameregion">Game region</a></li><li><a href="#bindata">Bin data</a></li><li><a href="#language">Language</a><ul><li><a href="#language_metadata">Language metadata</a></li><li><a href="#language_files">Language files</a></li></ul></li><li><a href="#pools">Pools</a></li><li><a href="#speedyboot">Speedy boot</a></li><li><a href="#consoleleftover">Console leftovers</a><ul><li><a href="#console_consume_key">ConsoleConsumeKey</a><ul><li><a href="#console_consume_key_check">A hardcoded key check</a></li></ul></li><li><a href="#console_move_caret">ConsoleMoveCaret</a></li></ul></li><li><a href="#hashfuncs">Hash functions</a><ul><li><a href="#hashmess">Messing with hash results</a></li></ul></li><li><a href="#debugprint">Debug print</a></li><li><a href="#ui">UI</a><ul><li><a href="#ui_dialog">Dialogs</a><ul><li><a href="#ui_dialog_getfngfordialog">GetFNGForDialog</a></li></ul></li><li><a href="#fngthings">FNG things</a></li></ul></li><li><a href="#mouseinput">Mouse input</a></li><li><a href="#cheats">Cheats</a></li><li><a href="#carmodeldata">Car model data</a></li><li><a href="#sound">Sound</a></li><li><a href="#career">Career</a></li><li><a href="#d3d9stuff">D3D9 Stuff</a></li><li><a href="#other_symbols">Other symbols</a></ul><p style='margin-bottom:0'><a href='#index'>Index</a></p></div><span id='injectedcode'></span><div><h2>Injected code <a href="#injectedcode">#</a></h2>
 <p>The code for all injected things I did can be found in <code>nfsu2-re-hooks/*.c</code>.
 It's configured as a VC2005 project in a VC2005 solution.
 The project emits a compiled file to <code>..\NeedForSpeed U2\scripts\nfsu2-re-hooks.asi</code>.
@@ -1033,79 +1033,84 @@ in the file <code><a href='https://github.com/yugecin/nfsu2-re/blob/master/nfsu2
 As it doesn't seem to be used anywhere, the only effect you can see is that whatever you
 type is written into the <code>console_real_text</code> buffer (use CheatEngine or something
 you like to inspect it).
-</p><p>All names below were chosen by me.
-</p><p style='margin-bottom:0'><a href='#index'>Index</a></p></div><span id='console_consume_key'></span><div class='indent' style='margin-left:5em'><p style='margin-top:0'><small><a href='#consoleleftover'>Console leftovers</a> &gt; ConsoleConsumeKey - 0x5C8320</small></p><h3>ConsoleConsumeKey - 0x5C8320 <a href="#console_consume_key">#</a></h3>
+</p><p style='margin-bottom:0'><a href='#index'>Index</a></p></div><span id='console_consume_key'></span><div class='indent' style='margin-left:5em'><p style='margin-top:0'><small><a href='#consoleleftover'>Console leftovers</a> &gt; ConsoleConsumeKey</small></p><h3>ConsoleConsumeKey <a href="#console_consume_key">#</a></h3>
 <p>When looking at the <a class='funcref' href='#5CCD60'>5CCD60:MainWndProc()</a> (which is not to hard too find because it's
 passed in a struct to <code>RegisterClassExA</code>), I saw a call to a function that
 is called on every <code>WM_CHAR</code> event. The function does nothing when the value
-in <code>0x8709BC</code> is zero, and there are no write references to it, so it seems
-like it will always be zero. I called this <code>consoleEnabledFlag</code>.
+in <a class='fieldref' href='#8709BC'>8709BC:consoleEnabledFlag</a> is zero, and there are no write references to it, so it seems
+like it will always be zero.
 </p><p>First it seems like the input is dropped if it's a <code>CR</code> (carriage return) and
-when the value at <code>0x8709C4</code> is non-zero. Again, this is always zero so CR's
-are never dropped. I called this <code>consoleIgnoreNextCR</code>.
+when the value at <a class='fieldref' href='#8709C4'>8709C4:consoleIgnoreNextCR</a> is non-zero. Again, this is always zero so CR's
+are never dropped.
 </p><p>Then it has four different handlers. The first one handles a backspace character, second
 one does escape, third one does tab and CR, and the last one does everything else. Basically
 one character is deleted when pressing backspace and one character is added in all other
 cases. I named following variables:
-</p><ul><li><code>0x8709B8 - consoleTextCaretPosition - int</code>
-</li><li><code>0x8709C0 - consoleTextStringMaxLength - int</code>
-</li><li><code>0x8709B0 - consoleTextString - char*</code>
-</li><li><code>0x8709B4 - consoleTextStringLength - int</code>
-</li><li><code>0x8709BC - consoleEnabledFlag - int</code>
-</li></ul><p>Basically, on backspace it checks if <code>consoleTextCaretPosition</code> is bigger than
-zero, copies everything in <code>consoleTextString</code> starting from
-<code>consoleTextCaretPosition</code> to a zero byte into a newly allocated buffer,
-decrements <code>consoleTextCaretPosition</code> and <code>consoleTextStringLength</code>,
-and copies everything from the allocated buffer back into <code>consoleTextString</code> at
-position <code>consoleTextCaretPosition</code>.
-</p><p>When inserting, it checks if <code>consoleTextStringLength</code> is less than
-<code>consoleTextStringMaxLength</code>, copies everything in
-<code>consoleTextString</code> starting from <code>consoleTextCaretPosition</code>
-to a zero byte into a newly allocated buffer, inserts the character in
-<code>consoleTextString</code> at position <code>consoleTextCaretPosition</code>, increments
-<code>consoleTextCaretPosition</code> and <code>consoleTextStringLength</code> by one,
-and copies everything from the allocated buffer back into <code>consoleTextString</code>
-at position <code>consoleTextCaretPosition</code>.
+</p><ul><li><a class='fieldref' href='#8709B8'>8709B8:consoleTextCaretPosition</a>
+</li><li><a class='fieldref' href='#8709C0'>8709C0:consoleTextStringMaxLength</a>
+</li><li><a class='fieldref' href='#8709B0'>8709B0:consoleTextString</a>
+</li><li><a class='fieldref' href='#8709B4'>8709B4:consoleTextStringLength</a>
+</li><li><a class='fieldref' href='#8709BC'>8709BC:consoleEnabledFlag</a>
+</li></ul><p>Basically, on backspace it checks if <a class='fieldref' href='#8709B8'>8709B8:consoleTextCaretPosition</a> is bigger than zero,
+copies everything in <a class='fieldref' href='#8709B0'>8709B0:consoleTextString</a> starting from <a class='fieldref' href='#8709B8'>8709B8:consoleTextCaretPosition</a> to a
+zero byte into a newly allocated buffer, decrements <a class='fieldref' href='#8709B8'>8709B8:consoleTextCaretPosition</a> and <a class='fieldref' href='#8709B4'>8709B4:consoleTextStringLength</a>,
+and copies everything from the allocated buffer back into <a class='fieldref' href='#8709B0'>8709B0:consoleTextString</a> at position <a class='fieldref' href='#8709B8'>8709B8:consoleTextCaretPosition</a>.
+</p><p>When inserting, it checks if <a class='fieldref' href='#8709B4'>8709B4:consoleTextStringLength</a> is less than <a class='fieldref' href='#8709C0'>8709C0:consoleTextStringMaxLength</a>,
+copies everything in <a class='fieldref' href='#8709B0'>8709B0:consoleTextString</a> starting from <a class='fieldref' href='#8709B8'>8709B8:consoleTextCaretPosition</a> to a zero byte into
+a newly allocated buffer, inserts the character in <a class='fieldref' href='#8709B0'>8709B0:consoleTextString</a> at position <a class='fieldref' href='#8709B8'>8709B8:consoleTextCaretPosition</a>,
+increments <a class='fieldref' href='#8709B8'>8709B8:consoleTextCaretPosition</a> and <a class='fieldref' href='#8709B4'>8709B4:consoleTextStringLength</a> by one,
+and copies everything from the allocated buffer back into <a class='fieldref' href='#8709B0'>8709B0:consoleTextString</a> at position <a class='fieldref' href='#8709B8'>8709B8:consoleTextCaretPosition</a>.
 </p><ul><li>Backspace: delete character before caret
 </li><li>Escape: insert zero byte
 </li><li>Tab and CR: insert LF
 </li><li>Other: insert char if it's <code>a-z</code> or <code>A-Z</code> or <code>0-9</code> or,
-  if <code>0x80057E</code> is zero, <code>_</code> or <code>@</code> or <code>.</code> or
+  if <a class='fieldref' href='#80057E'>80057E:consoleDisallowSpecialChars</a> is zero, <code>_</code> or <code>@</code> or <code>.</code> or
   <code>-</code>. If none of these pass, do a check for more keys as described below}
-</li></ul><p style='margin-bottom:0'><a href='#index'>Index</a></p></div><span id='console_consume_key_check'></span><div class='indent' style='margin-left:10em'><p style='margin-top:0'><small><a href='#consoleleftover'>Console leftovers</a> &gt; <a href='#console_consume_key'>ConsoleConsumeKey - 0x5C8320</a> &gt; A hardcoded key check - 0x5BF260</small></p><h4>A hardcoded key check - 0x5BF260 <a href="#console_consume_key_check">#</a></h4>
+</li></ul><p style='margin-bottom:0'><a href='#index'>Index</a></p></div><span id='console_consume_key_check'></span><div class='indent' style='margin-left:10em'><p style='margin-top:0'><small><a href='#consoleleftover'>Console leftovers</a> &gt; <a href='#console_consume_key'>ConsoleConsumeKey</a> &gt; A hardcoded key check</small></p><h4>A hardcoded key check <a href="#console_consume_key_check">#</a></h4>
 <p>At the end of looking if a character is valid, when it hasn't passed any of the criteria
-above, it checks one last function if <code>0x8709C7</code> is <code>1</code>. The function
+above, it checks one last function if <a class='fieldref' href='#8709C7'>8709C7:consoleFilterSpecialChars</a> is <code>1</code>. The function
 seems to check if the key is one of 55 configured values and if so, the char is accepted.
-The C-ified code looks like this:
-</p><pre>int ConsoleIsCharOneOfTheseHardcodedValues(unsigned char value)
-{
-	unsigned char values[55] = {
-		' ', '.', ',', '_', '@', '-', '`', '=', '[', ']', '\\',
-		';', '\'', '/', '&lt;', '&gt;', '?', ':', '"', '{', '}', '|',
-		'+', '(', ')', '*', '&amp;', '%', '#', '!', '~', 0xE5, 0xE4,
-		0xE0, 0xE2, 0xEB, 0xE8, 0xE9, 0xEA, 0xEF, 0xEE, 0xF6,
-		0xF4, 0xFC, 0xF9, 0xFB, 0xE7, 0x9C, 0xF2, 0xEC, 0xC5,
-		0xC4, 0xD6, 0xDC, 0xA7
-	};
-	int i;
-
-	for (i = 0; i &lt; 55; i++) {
-		if (values[i] == value) {
-			return 1;
-		}
-	}
-	return 0;
-}
-</pre><p style='margin-bottom:0'><a href='#index'>Index</a></p></div><span id='console_move_caret'></span><div class='indent' style='margin-left:5em'><p style='margin-top:0'><small><a href='#consoleleftover'>Console leftovers</a> &gt; ConsoleMoveCaret - 0x5BF3A0</small></p><h3>ConsoleMoveCaret - 0x5BF3A0 <a href="#console_move_caret">#</a></h3>
+</p><p style='margin-bottom:0'><a href='#index'>Index</a></p></div><span id='console_move_caret'></span><div class='indent' style='margin-left:5em'><p style='margin-top:0'><small><a href='#consoleleftover'>Console leftovers</a> &gt; ConsoleMoveCaret</small></p><h3>ConsoleMoveCaret <a href="#console_move_caret">#</a></h3>
 <p>This function is also called from <a class='funcref' href='#5CCD60'>5CCD60:MainWndProc()</a>, this time when a
 <code>WM_KEYDOWN</code> message is received. One parameter is passed based on the keycode
 of the event:
 </p><ul><li><code>VK_LEFT</code>: <code>-1</code>
 </li><li><code>VK_RIGHT</code>: <code>1</code>
-</li><li><code>VK_HOME</code>: <code>-consoleTextStringMaxLength</code>
-</li><li><code>VK_END</code>: <code>consoleTextStringMaxLength</code>
-</li></ul><p>This is the only other function that checks if <code>consoleEnabledFlag</code> is non-zero.
-</p><p style='margin-bottom:0'><a href='#index'>Index</a></p></div><span id='hashfuncs'></span><div><h2>Hash functions <a href="#hashfuncs">#</a></h2>
+</li><li><code>VK_HOME</code>: <code>-<a class='fieldref' href='#8709C0'>consoleTextStringMaxLength</a></code>
+</li><li><code>VK_END</code>: <code><a class='fieldref' href='#8709C0'>consoleTextStringMaxLength</a></code>
+</li></ul><p>This is the only other function that checks if <a class='fieldref' href='#8709BC'>8709BC:consoleEnabledFlag</a> is non-zero.
+</p><p style='margin-bottom:0'><a href='#index'>Index</a></p></div><div><p style='margin-top:0'><small><a href='#consoleleftover'>Console leftovers</a> (continuation)</small></p><p>A
+</p><p><strong>Symbols:</strong></p><ul><li><span class='func' id='5BF260'>5BF260 int ConsoleIsArgOneOfTheseHardcodedValues(char c)</span>
+<pre>unsigned char values[55] = {
+        ' ', '.', ',', '_', '@', '-', '`', '=', '[', ']', '\\',
+        ';', '\'', '/', '&lt;', '&gt;', '?', ':', '"', '{', '}', '|',
+        '+', '(', ')', '*', '&amp;', '%', '#', '!', '~', 0xE5, 0xE4,
+        0xE0, 0xE2, 0xEB, 0xE8, 0xE9, 0xEA, 0xEF, 0xEE, 0xF6,
+        0xF4, 0xFC, 0xF9, 0xFB, 0xE7, 0x9C, 0xF2, 0xEC, 0xC5,
+        0xC4, 0xD6, 0xDC, 0xA7
+};
+int i;
+
+for (i = 0; i &lt; 55; i++) {
+        if (values[i] == value) {
+                return 1;
+        }
+}
+return 0;
+</pre></li><li><span class='func' id='5BF3A0'>5BF3A0 void ConsoleMoveCaret(int relativePosition)</span>
+</li><li><span class='field' id='80057E'>80057E char consoleDisallowSpecialChars</span>
+  Never written to?
+</li><li><span class='field' id='80057D'>80057D char consoleLastCharTyped?</span>
+  Never read from?
+</li><li><span class='field' id='8709B0'>8709B0 char *consoleTextString</span>
+</li><li><span class='field' id='8709B4'>8709B4 int consoleTextStringLength</span>
+</li><li><span class='field' id='8709B8'>8709B8 int consoleTextCaretPosition</span>
+</li><li><span class='field' id='8709BC'>8709BC int consoleEnabledFlag</span>
+</li><li><span class='field' id='8709C0'>8709C0 int consoleTextStringMaxLength</span>
+</li><li><span class='field' id='8709C4'>8709C4 int consoleIgnoreNextCR</span>
+</li><li><span class='field' id='8709C5'>8709C5 char ??DebugUnusedLastKeyPressed</span>
+</li><li><span class='field' id='8709C7'>8709C7 char consoleFilterSpecialChars</span>
+</li></ul><p style='margin-bottom:0'><a href='#index'>Index</a></p></div><span id='hashfuncs'></span><div><h2>Hash functions <a href="#hashfuncs">#</a></h2>
 <p>While scrolling and looking at references to some strings, I found some parts that look like
 following excerpt:
 </p><pre class='ida'><span class='text'>.text:005121AE</span>     push    offset <span class='ident'>aGenericdialo_2</span> <span class='comment'>; "GenericDialog_Animate_SMALL.fng"</span>
@@ -1932,6 +1937,8 @@ if (!<a class='fieldref' href='#86347C'>isProfileWithStartedCareerLoaded</a>) {
   Array of functions that are called at boot, by <a class='funcref' href='#75D45B'>75D45B:sub_75D45B()</a>.
   Some of them are constructors being called.
 </li><li><span class='field' id='864F4C'>864F4C int _isGameClosing</span>
+</li><li><span class='field' id='8709D8'>8709D8 int _isCTRLKeyDown</span>
+  Set in <a class='funcref' href='#5CCD60'>5CCD60:MainWndProc()</a>, but seemingly never read from? REVISIT
 </li><li><span class='field' id='8A1CCC'>8A1CCC void *ptrCarData</span>
 </li></ul><p style='margin-bottom:0'><a href='#index'>Index</a></p></div></body>
 </html>
