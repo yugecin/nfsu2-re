@@ -1270,7 +1270,7 @@ followed by a call to a specific proc that looks like this:
 <span class='text'>.text:0050D512</span>                 retn
 <span class='text'>.text:0050D512</span> <span class='ident'>sub_50D510  endp</span>
 </pre><p>It appears as if this used to be some kind of debug printf function, so I named it
-<code>SomeDebugPrint</code>. I hooked the function and made it output to a log file,
+<a class='funcref' href='#50D510'>sub_50D510_DebugPrint</a>. I hooked the function and made it output to a log file,
 see <code><a href='https://github.com/yugecin/nfsu2-re/blob/master/nfsu2-re-hooks/replace-50D510-DebugPrint.c'>nfsu2-re-hooks/replace-50D510-DebugPrint.c</a></code>.
 </p><p>It also seems to pass data that is not a pointer to a string. I'm guessing since the
 implementation of this function was removed (and now just returns zero), and there
@@ -1320,9 +1320,9 @@ Most things (especially when mouse is involved) seem to be positioned
 <p>Thanks to the <a href='#debugprint'>Debug print</a> discovery, my attention got grabbed
 by something that looked like dialog code. These leftover debug strings helped so much.
 </p><p>Someone left a trace here:
-</p><pre class='ida'><span class='text'>.text:005541FC</span>                 call    <span class='ident'>Dialog__ctor??</span>
+</p><pre class='ida'><span class='text'>.text:005541FC</span>                 call    <a class='funcref' href='#4FF250'>Dialog__ctor</a>
 <span class='text'>.text:00554201</span>                 push    offset <span class='ident'>aDialogConstruc</span> <span class='comment'>; "DIALOG :: Constructor\n"</span>
-<span class='text'>.text:00554206</span>                 call    <span class='ident'>SomeDebugPrint</span>
+<span class='text'>.text:00554206</span>                 call    <a class='funcref' href='#50D510'>sub_50D510_DebugPrint</a>
 </pre><p>One of the first thing <a class='funcref' href='#558020'>558020:ShowDialog()</a> does is calling <a class='funcref' href='#526C40'>526C40:GetFNGforDialog()</a>,
 which looks like initializes the dialog maybe? One argument is passed, seemingly the
 dialog name. But then it checks something at the passed dialog name <code>+324h</code>. Conclusion:
@@ -1682,6 +1682,17 @@ ShowFNG(AA469286 ("UI_InGameDialog.fng"), 037C1120, 00838640) = 037C2AB0
 </li><li><span class='func' id='55DC20'>55DC20 __thiscall void SendSomethingToFNG?(void *this, char *fng, int data)</span>
   Called when menus change.
 </li><li><span class='field' id='7F7DC8'>7F7DC8 <a href='#struct_FNGData'>struct FNGData</a> fngdata[180]</span>
+</li><li><span class='field' id='8384E0'>8384E0 gCallingScreenPackageName</span>
+  <details><summary>Thx to</summary>
+<pre class='ida'><span class='text'>.text:00551F0A</span>      push    offset <a class='fieldref' href='#8384E0'>gCallingScreenPackageName</a>
+<span class='text'>.text:00551F0F</span>      push    esi
+<span class='text'>.text:00551F10</span>      push    offset <span class='ident'>aGcallingscreen</span> <span class='comment'>; "gCallingScreenPackageName SETTING %s.  Previously : %s."</span>
+<span class='text'>.text:00551F15</span>      call    <a class='funcref' href='#50D510'>sub_50D510_DebugPrint</a>
+<span class='text'>.text:00551F1A</span>      mov     edx, [ebp+4]
+<span class='text'>.text:00551F1D</span>      push    edx             <span class='comment'>; src</span>
+<span class='text'>.text:00551F1E</span>      push    offset <a class='fieldref' href='#8384E0'>gCallingScreenPackageName</a> <span class='comment'>; dest</span>
+<span class='text'>.text:00551F23</span>      call    <a class='funcref' href='#43DBD0'>strcpy</a>
+</pre>  </details>
 </li><li><span class='field' id='83A9C0'>83A9C0 int isTextboxFocused</span>
 </li><li><span class='field' id='83A9C4'>83A9C4 void *focusedTextbox</span>
 </li></ul><p style='margin-bottom:0'><a href='#index'>Index</a></p></div><div><p style='margin-top:0'><small><a href='#ui'>UI</a> (continuation)</small></p><p>Stuff
@@ -1695,6 +1706,20 @@ ShowFNG(AA469286 ("UI_InGameDialog.fng"), 037C1120, 00838640) = 037C2AB0
   Only used for a few things, such as: sms 'from', sms 'subject', part name in customize..
 </li><li><span class='func' id='5663B0'>5663B0 void DoUI()</span>
   TODO document this and go in the last unresolved func.
+</li><li><span class='field' id='838528'>838528 char someThingKeyboardInput</span>
+  Seems keyboard related due to:
+  <details><summary>collapsed code</summary>
+<pre>//551E84
+if (!strcmp(x,"UI_OLEAMessenger.fng") ||
+        !strcmp(x, "GarageMain.fng") ||
+        !strcmp(x, "Keyboard.fng") ||
+        !strcmp(x, "UI_VirtualKeyboard.fng))
+{
+        <a class='fieldref' href='#838528'>someThingKeyboardInput</a> = 1;
+} else {
+        <a class='fieldref' href='#838528'>someThingKeyboardInput</a> = 0;
+}
+</pre>  </details>
 </li></ul><p style='margin-bottom:0'><a href='#index'>Index</a></p></div><span id='mouseinput'></span><div><h2>Mouse input <a href="#mouseinput">#</a></h2>
 <p>While the canvas is <code>640x480</code>, mouse position seems to be handled mostly
 as <code>([-320,+320],[-240,+240])</code>.
@@ -1908,9 +1933,12 @@ The function gave some nice information:
 <span id='struct_SmsMessage'></span>struct SmsMessage {
 	/*ptr to offset in language table <a class='fieldref' href='#838428'>ptr838428</a>*/
 	short *<span id='structSmsMessage_0'></span>careerTextLanguageTableOffset;
-	int <span id='structSmsMessage_4'></span>field_4;
-	int <span id='structSmsMessage_8'></span>field_8;
-	unsigned int <span id='structSmsMessage_C'></span>subjectParameterLanguageLabel;
+	char field_4;
+	char field_5;
+	char field_6;
+	char field_7;
+	unsigned int <span id='structSmsMessage_8'></span>bodyFormatLanguageLabel;
+	unsigned int <span id='structSmsMessage_C'></span>subjectAndBodyParameterLanguageLabel;
 	unsigned int <span id='structSmsMessage_10'></span>subjectFormatLanguageLabel;
 };
 </pre><p>The career money cheat is mildly interesting, as it seems to work in two different
@@ -1941,29 +1969,6 @@ subjectFormat = <a class='funcref' href='#4FF9D0'>GetLanguageStringOrNull</a>(0x
 <a class='funcref' href='#5149C0'>GetSmsMessageSubject</a>(sms, subject, sizeof(subject));
 sprintf(dest, subjectFormat, subject);
 </pre>  </details>
-</li><li><span class='func' id='5149C0'>5149C0 void __thiscall GetSmsMessageSubject(<a href='#struct_SmsMessage'>struct SmsMessage</a> *this, char *dest, int maxlen)</span>
-  <details><summary>Implementation <code><a href='https://github.com/yugecin/nfsu2-re/blob/master/nfsu2-re-hooks/replace-5149C0-GetSmsMessageSubject.c'>nfsu2-re-hooks/replace-5149C0-GetSmsMessageSubject.c</a></code></summary>
-<pre>char *format;
-char *parameter;
-char *str;
-char buffer[50];
-
-if (this-&gt;<a href='#structSmsMessage_10'>subjectFormatLanguageLabel</a>) {
-        format = <a class='funcref' href='#4FFA80'>GetLanguageString</a>(this-&gt;<a href='#structSmsMessage_10'>subjectFormatLanguageLabel</a>);
-        parameter = <a class='funcref' href='#4FFA80'>GetLanguageString</a>(this-&gt;<a href='#structSmsMessage_C'>subjectParameterLanguageLabel</a>);
-        sprintf(dest, format, parameter);
-        return;
-}
-
-str = getCareerString(this-&gt;<a href='#structSmsMessage_0'>careerTextLanguageTableOffset</a>);
-if (!<a class='funcref' href='#43DC60'>strncmp</a>(str, "SMS_CAR_UNLOCK_", <a class='funcref' href='#43DBB0'>strlenWithNullcheck</a>("SMS_CAR_UNLOCK_"))) {
-        str = <a class='funcref' href='#4FFA80'>GetLanguageString</a>(0xF81E6031/*SMS_CAR_UNLOCK_1_SUBJECT*/);
-        <a class='funcref' href='#43DBD0'>strcpy</a>(dest, str);
-        return;
-}
-
-<a class='funcref' href='#50B990'>FormatWithSinglePlaceholderAndHashCS43DB50</a>(dest, "%s_SUBJECT", str);
-</pre>  </details>
 </li><li><span class='func' id='500F90'>500F90 int __thiscall CareerGetMoney(<a href='#struct_CareerData'>struct CareerData</a> *this)</span>
   TODO has one other XREF: where money is drawn?
 </li><li><span class='func' id='500180'>500180 char* __thiscall GetCareerLanguageString(short *this)</span>
@@ -1973,6 +1978,78 @@ if (!<a class='funcref' href='#43DC60'>strncmp</a>(str, "SMS_CAR_UNLOCK_", <a cl
 </li><li><span class='func' id='5129F0'>5129F0 int __thiscall GetCareerSponsorLanguageKey(short *this)</span>
   Uses <a class='fieldref' href='#838428'>838428:ptr838428</a> along with offset passed in <code>this</code> to format a string <code>SPONSOR_%s</code> and
   return the hash result to use for getting a language string.
+</li><li><span class='func' id='5149C0'>5149C0 void __thiscall GetSmsMessageSubject(<a href='#struct_SmsMessage'>struct SmsMessage</a> *this, char *dest, int maxlen)</span>
+  <details><summary>Implementation <code><a href='https://github.com/yugecin/nfsu2-re/blob/master/nfsu2-re-hooks/replace-5149C0-GetSmsMessageSubject.c'>nfsu2-re-hooks/replace-5149C0-GetSmsMessageSubject.c</a></code></summary>
+<pre>char *format;
+char *parameter;
+char *str;
+char buffer[50];
+
+if (this-&gt;<a href='#structSmsMessage_10'>subjectFormatLanguageLabel</a>) {
+        format = <a class='funcref' href='#4FFA80'>GetLanguageString</a>(this-&gt;<a href='#structSmsMessage_10'>subjectFormatLanguageLabel</a>);
+        parameter = <a class='funcref' href='#4FFA80'>GetLanguageString</a>(this-&gt;<a href='#structSmsMessage_C'>subjectAndBodyParameterLanguageLabel</a>);
+        sprintf(dest, format, parameter);
+        // example format: %s cover opportunity
+        // example param: AutoMaxx Magazine
+        return;
+}
+
+str = getCareerString(this-&gt;<a href='#structSmsMessage_0'>careerTextLanguageTableOffset</a>);
+if (!<a class='funcref' href='#43DC60'>strncmp</a>(str, "SMS_CAR_UNLOCK_", <a class='funcref' href='#43DBB0'>strlenWithNullcheck</a>("SMS_CAR_UNLOCK_"))) {
+        str = <a class='funcref' href='#4FFA80'>GetLanguageString</a>(0xF81E6031/*SMS_CAR_UNLOCK_1_SUBJECT*/);
+        <a class='funcref' href='#43DBD0'>strcpy</a>(dest, str);
+        // example: SMS_CAR_UNLOCK_17
+        // example: SMS_CAR_UNLOCK_16
+        return;
+}
+
+<a class='funcref' href='#50B990'>FormatWithSinglePlaceholderAndHashCS43DB50</a>(dest, "%s_SUBJECT", str);
+// example: ENGAGE_TIP_CAREER_PROG_SUBJECT
+// example: SMS_DVD_COVER_10_SUBJECT
+</pre>  </details>
+</li><li><span class='func' id='514B00'>514B00 void __thiscall GetSmsMessageBody(<a href='#struct_SmsMessage'>struct SmsMessage</a> *this, char *dest, int maxlen)</span>
+  <details><summary>Implementation <code><a href='https://github.com/yugecin/nfsu2-re/blob/master/nfsu2-re-hooks/replace-514B00-GetSmsMessageBody.c'>nfsu2-re-hooks/replace-514B00-GetSmsMessageBody.c</a></code></summary>
+<pre>char *format;
+char *parameter;
+char *str;
+char buffer[128];
+
+if (this-&gt;<a href='#structSmsMessage_8'>bodyFormatLanguageLabel</a>) {
+        format = <a class='funcref' href='#4FFA80'>GetLanguageString</a>(this-&gt;<a href='#structSmsMessage_8'>bodyFormatLanguageLabel</a>);
+        parameter = <a class='funcref' href='#4FFA80'>GetLanguageString</a>(this-&gt;<a href='#structSmsMessage_C'>subjectAndBodyParameterLanguageLabel</a>);
+        sprintf(dest, format, parameter);
+        // example format: One of my contacts has just called to let me know that a photographer
+                           from %s is in town looking for hot cars for next month's cover.
+                           Head to the star on the map and I'll call you with more details when
+                           you get there.
+        // example param: Street Tuner
+        return;
+}
+
+str = getCareerString(this-&gt;<a href='#structSmsMessage_0'>careerTextLanguageTableOffset</a>);
+      if (!<a class='funcref' href='#43DC60'>strncmp</a>(str, "SMS_CAR_UNLOCK_", strlen("SMS_CAR_UNLOCK_"))) {
+      str = <a class='funcref' href='#4FFA80'>GetLanguageString</a>(cihash("SMS_CAR_UNLOCK_1_BODY"));
+      <a class='funcref' href='#43DBD0'>strcpy</a>(dest, str);
+      // example: SMS_CAR_UNLOCK_17
+      // example: SMS_CAR_UNLOCK_16
+      return;
+}
+
+if (!<a class='funcref' href='#43DC60'>strncmp</a>(str, "ENGAGE_TIPS_AUTO", strlen("ENGAGE_TIPS_AUTO"))) {
+      str = <a class='funcref' href='#4FFA80'>GetLanguageString</a>(cihash("ENGAGE_TIPS_AUTO_BODY"));
+      <a class='funcref' href='#43DBD0'>strcpy</a>(dest, str);
+      // Could not find any of these?
+      // This is a single message about the autosave feature
+      // This func probably prevents ENGAGE_TIPS_AUTO_XBOX from showing
+      return;
+}
+
+sprintf(buffer, "%s_BODY", str);
+str = <a class='funcref' href='#4FFA80'>GetLanguageString</a>(cihash(buffer));
+<a class='funcref' href='#43DBD0'>strcpy</a>(dest, str);
+// example: SMS_OUTRUN_DEFEAT_BODY
+// example: SMS_END_OF_GAME_MESSAGE_BODY
+</pre>  </details>
 </li><li><span class='func' id='532830'>532830 void MaybeStartCareer?()</span>
   It's the only func that calls <a class='funcref' href='#576090'>576090:GetExtraCheatedCareerMoney()</a>.
 </li><li><span class='field' id='83840C'>83840C ptr83840C</span>
@@ -2007,7 +2084,7 @@ if (!<a class='funcref' href='#43DC60'>strncmp</a>(str, "SMS_CAR_UNLOCK_", <a cl
   Calls <a class='funcref' href='#43E950'>43E950:FormatWithSinglePlaceholderPtr()</a> but does some stuff with <code>QueryPerformanceCounter</code> before and after,
   I'm assuming it times. Seems to add the time spent to <a class='fieldref' href='#828518'>828518:_TimeSpentInFormatWithSinglePlaceholder</a>, and increments <a class='fieldref' href='#82851C'>82851C:_FormatWithSinglePlaceholderCallCount</a>
   every time this func is called.
-</li><li><span class='func' id='50D510'>50D510 void sub_50D510(?)</span>
+</li><li><span class='func' id='50D510'>50D510 void sub_50D510_DebugPrint(?)</span>
   A nop function.
   It seems like many calls to different functions that got nopped all redirect here.
   Some of the calls are used as a debug print, see <a href='#debugprint'>Debug print</a>.

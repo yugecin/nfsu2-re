@@ -25,7 +25,7 @@ int cshash(char *input)
 }
 
 static
-int cihash(char *input)
+unsigned int cihash(char *input)
 {
 	unsigned int result;
 	char c;

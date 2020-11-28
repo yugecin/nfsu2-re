@@ -1835,7 +1835,7 @@ followed by a call to a specific proc that looks like this:
 .pop ida
 
 It appears as if this used to be some kind of debug printf function, so I named it
-{SomeDebugPrint}. I hooked the function and made it output to a log file,                       ||| code
+{50D510}. I hooked the function and made it output to a log file,                               ||| refplain
 see {nfsu2-re-hooks/replace-50D510-DebugPrint.c}.                                               ||| hookfileref
 
 It also seems to pass data that is not a pointer to a string. I'm guessing since the
@@ -1905,9 +1905,9 @@ by something that looked like dialog code. These leftover debug strings helped s
 Someone left a trace here:
 
 .push ida
-{.text:005541FC}                 call    {Dialog__ctor??}                                       ||| text,ident
+{.text:005541FC}                 call    {4FF250}                                               ||| text,refplain
 {.text:00554201}                 push    offset {aDialogConstruc} {; "DIALOG :: Constructor\n"} ||| text,ident,comment
-{.text:00554206}                 call    {SomeDebugPrint}                                       ||| text,ident
+{.text:00554206}                 call    {50D510}                                               ||| text,refplain
 .pop ida
 
 One of the first thing {558020} does is calling {526C40},                                       ||| ref,ref
@@ -2309,20 +2309,42 @@ ShowFNG(AA469286 ("UI_InGameDialog.fng"), 037C1120, 00838640) = 037C2AB0
 .push ul
 - {50B840 {struct FNGData}* GetFNGDataForHash(unsigned int hash)}                               ||| func,refto
   Goes through all the fng data above and returns the one with matching hash.
+
 - {50B8E0 int SetInitializeHandlerForFNG(char *fng, {fnginithandler} *func)}                    ||| func,refto
   Goes through all the fng data above and set the handler for {43DCC0} matching fng names.      ||| ref
+
 - {50B790 ShowFNG(int fnghash, int arg1, int arg2)}                                             ||| func
   See {nfsu2-re-hooks/replace-50B790-ShowFNG.c} for a reimplementation.                         ||| hookfileref
+
 - {558B70 void __thiscall UIConsumeKey(void *this, int keyCode)}                                ||| func
   probably used for Q, but what else?
+
 - {55DBD0 void UIHandleKey(int keyCode)}                                                        ||| func
   Called from {WM_CHAR} messages in {5CCD60},                                                   ||| code,ref
   only used to type/press enter in a textbox and Q to quit.
   Navigating menus seems unaffected
+
 - {55DC20 __thiscall void SendSomethingToFNG?(void *this, char *fng, int data)}                 ||| func
   Called when menus change.
+
 - {7F7DC8 {struct FNGData} fngdata[180]}                                                        ||| field,refto
+
+- {8384E0 gCallingScreenPackageName}                                                            ||| field
+  {{Thx to}                                                                                     ||| details,summary
+  .push ida
+  {.text:00551F0A}      push    offset {8384E0}                                                              ||| text,refplain
+  {.text:00551F0F}      push    esi                                                                          ||| text
+  {.text:00551F10}      push    offset {aGcallingscreen} {; "gCallingScreenPackageName SETTING %s.  Previously : %s."}    ||| text,ident,comment
+  {.text:00551F15}      call    {50D510}                                                                     ||| text,refplain
+  {.text:00551F1A}      mov     edx, [ebp+4]                                                                 ||| text
+  {.text:00551F1D}      push    edx             {; src}                                                      ||| text,comment
+  {.text:00551F1E}      push    offset {8384E0} {; dest}                                                     ||| text,refplain,comment
+  {.text:00551F23}      call    {43DBD0}                                                                     ||| text,refplain
+  .pop ida
+  }
+
 - {83A9C0 int isTextboxFocused}                                                                 ||| field
+
 - {83A9C4 void *focusedTextbox}                                                                 ||| field
 .pop ul
 
@@ -2345,6 +2367,23 @@ Stuff
 
 - {5663B0 void DoUI()}                                                                          ||| func
   TODO document this and go in the last unresolved func.
+
+- {838528 char someThingKeyboardInput}                                                          ||| field
+  Seems keyboard related due to:
+  {{collapsed code}                                                                             ||| details,summary
+  .controlchars [] .push pre
+  //551E84
+  if (!strcmp(x,"UI_OLEAMessenger.fng") ||
+          !strcmp(x, "GarageMain.fng") ||
+          !strcmp(x, "Keyboard.fng") ||
+          !strcmp(x, "UI_VirtualKeyboard.fng))
+  {
+          [838528] = 1;                                                                         ||| refplain
+  } else {
+          [838528] = 0;                                                                         ||| refplain
+  }
+  .controlchars {} .pop pre
+  }
 .pop symbols
 
 .pop section
@@ -2638,9 +2677,12 @@ After hooking and printing addresses, some more obvious data could be seen:
 {struct SmsMessage} \{                                                                          ||| mkref
 	/*ptr to offset in language table {838428}*/                                            ||| refplain
 	short *{careerTextLanguageTableOffset};                                                 ||| mkref name=structSmsMessage+0
-	int {field_4};                                                                          ||| mkref name=structSmsMessage+4
-	int {field_8};                                                                          ||| mkref name=structSmsMessage+8
-	unsigned int {subjectParameterLanguageLabel};                                           ||| mkref name=structSmsMessage+C
+	char field_4;
+	char field_5;
+	char field_6;
+	char field_7;
+	unsigned int {bodyFormatLanguageLabel};                                                 ||| mkref name=structSmsMessage+8
+	unsigned int {subjectAndBodyParameterLanguageLabel};                                    ||| mkref name=structSmsMessage+C
 	unsigned int {subjectFormatLanguageLabel};                                              ||| mkref name=structSmsMessage+10
 };
 .pop pre
@@ -2682,32 +2724,6 @@ if (![isProfileWithStartedCareerLoaded])  {                                     
   .pop pre
   }
 
-- {5149C0 void __thiscall GetSmsMessageSubject({struct SmsMessage} *this, char *dest, int maxlen)}      ||| func,refto
-  {{Implementation {nfsu2-re-hooks/replace-5149C0-GetSmsMessageSubject.c}}                              ||| details,summary,hookfileref
-  .controlchars [] .push pre
-  char *format;
-  char *parameter;
-  char *str;
-  char buffer\[50\];
-
-  if (this->[structSmsMessage+10]) {                                                                    ||| refto
-          format = [4FFA80](this->[structSmsMessage+10]);                                               ||| refplain,refto
-          parameter = [4FFA80](this->[structSmsMessage+C]);                                             ||| refplain,refto
-          sprintf(dest, format, parameter);
-          return;
-  }
-
-  str = getCareerString(this->[structSmsMessage+0]);                                                    ||| refto
-  if (![43DC60](str, "SMS_CAR_UNLOCK_", [43DBB0]("SMS_CAR_UNLOCK_"))) {                                 ||| refplain,refplain
-          str = [4FFA80](0xF81E6031/*SMS_CAR_UNLOCK_1_SUBJECT*/);                                       ||| refplain
-          [43DBD0](dest, str);                                                                          ||| refplain
-          return;
-  }
-
-  [50B990](dest, "%s_SUBJECT", str);                                                                    ||| refplain
-  .controlchars {} .pop pre
-  }
-
 - {500F90 int __thiscall CareerGetMoney({struct CareerData} *this)}                                     ||| func,refto
   TODO has one other XREF: where money is drawn?
 
@@ -2720,6 +2736,84 @@ if (![isProfileWithStartedCareerLoaded])  {                                     
 - {5129F0 int __thiscall GetCareerSponsorLanguageKey(short *this)}                                      ||| func
   Uses {838428} along with offset passed in {this} to format a string {SPONSOR_%s} and                  ||| ref,code,code
   return the hash result to use for getting a language string.
+
+- {5149C0 void __thiscall GetSmsMessageSubject({struct SmsMessage} *this, char *dest, int maxlen)}      ||| func,refto
+  {{Implementation {nfsu2-re-hooks/replace-5149C0-GetSmsMessageSubject.c}}                              ||| details,summary,hookfileref
+  .controlchars [] .push pre
+  char *format;
+  char *parameter;
+  char *str;
+  char buffer\[50\];
+
+  if (this->[structSmsMessage+10]) {                                                                    ||| refto
+          format = [4FFA80](this->[structSmsMessage+10]);                                               ||| refplain,refto
+          parameter = [4FFA80](this->[structSmsMessage+C]);                                             ||| refplain,refto
+          sprintf(dest, format, parameter);
+          // example format: %s cover opportunity
+          // example param: AutoMaxx Magazine
+          return;
+  }
+
+  str = getCareerString(this->[structSmsMessage+0]);                                                    ||| refto
+  if (![43DC60](str, "SMS_CAR_UNLOCK_", [43DBB0]("SMS_CAR_UNLOCK_"))) {                                 ||| refplain,refplain
+          str = [4FFA80](0xF81E6031/*SMS_CAR_UNLOCK_1_SUBJECT*/);                                       ||| refplain
+          [43DBD0](dest, str);                                                                          ||| refplain
+          // example: SMS_CAR_UNLOCK_17
+          // example: SMS_CAR_UNLOCK_16
+          return;
+  }
+
+  [50B990](dest, "%s_SUBJECT", str);                                                                    ||| refplain
+  // example: ENGAGE_TIP_CAREER_PROG_SUBJECT
+  // example: SMS_DVD_COVER_10_SUBJECT
+  .controlchars {} .pop pre
+  }
+
+- {514B00 void __thiscall GetSmsMessageBody({struct SmsMessage} *this, char *dest, int maxlen)}         ||| func,refto
+  {{Implementation {nfsu2-re-hooks/replace-514B00-GetSmsMessageBody.c}}                                 ||| details,summary,hookfileref
+  .controlchars [] .push pre
+  char *format;
+  char *parameter;
+  char *str;
+  char buffer\[128\];
+  
+  if (this->[structSmsMessage+8]) {                                                                     ||| refto
+          format = [4FFA80](this->[structSmsMessage+8]);                                                ||| refplain,refto
+          parameter = [4FFA80](this->[structSmsMessage+C]);                                             ||| refplain,refto
+          sprintf(dest, format, parameter);
+          // example format: One of my contacts has just called to let me know that a photographer
+                             from %s is in town looking for hot cars for next month's cover.
+                             Head to the star on the map and I'll call you with more details when
+                             you get there.
+          // example param: Street Tuner
+          return;
+  }
+  
+  str = getCareerString(this->[structSmsMessage+0]);                                                    ||| refto
+        if (![43DC60](str, "SMS_CAR_UNLOCK_", strlen("SMS_CAR_UNLOCK_"))) {                             ||| refplain
+        str = [4FFA80](cihash("SMS_CAR_UNLOCK_1_BODY"));                                                ||| refplain
+        [43DBD0](dest, str);                                                                            ||| refplain
+        // example: SMS_CAR_UNLOCK_17
+        // example: SMS_CAR_UNLOCK_16
+        return;
+  }
+  
+  if (![43DC60](str, "ENGAGE_TIPS_AUTO", strlen("ENGAGE_TIPS_AUTO"))) {                                 ||| refplain
+        str = [4FFA80](cihash("ENGAGE_TIPS_AUTO_BODY"));                                                ||| refplain
+        [43DBD0](dest, str);                                                                            ||| refplain
+        // Could not find any of these?
+        // This is a single message about the autosave feature
+        // This func probably prevents ENGAGE_TIPS_AUTO_XBOX from showing
+        return;
+  }
+  
+  sprintf(buffer, "%s_BODY", str);
+  str = [4FFA80](cihash(buffer));                                                                       ||| refplain
+  [43DBD0](dest, str);                                                                                  ||| refplain
+  // example: SMS_OUTRUN_DEFEAT_BODY
+  // example: SMS_END_OF_GAME_MESSAGE_BODY
+  .controlchars {} .pop pre
+  }
 
 - {532830 void MaybeStartCareer?()}                                                                     ||| func
   It's the only func that calls {576090}.                                                               ||| ref
@@ -2784,7 +2878,7 @@ if (![isProfileWithStartedCareerLoaded])  {                                     
   I'm assuming it times. Seems to add the time spent to {828518}, and increments {82851C}       ||| ref,ref
   every time this func is called.
 
-- {50D510 void sub_50D510(?)}                                                                   ||| func
+- {50D510 void sub_50D510_DebugPrint(?)}                                                        ||| func
   A nop function.
   It seems like many calls to different functions that got nopped all redirect here.
   Some of the calls are used as a debug print, see {debugprint}.                                ||| href

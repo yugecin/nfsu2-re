@@ -103,8 +103,11 @@ struct LoadedLanguage {
 
 struct SmsMessage {
 	short *careerTextLanguageTableOffset;
-	int field_4;
-	int field_8;
-	unsigned int subjectParameterLanguageLabel;
+	char field_4;
+	char field_5;
+	char field_6;
+	char field_7;
+	unsigned int bodyFormatLanguageLabel;
+	unsigned int subjectAndBodyParameterLanguageLabel;
 	unsigned int subjectFormatLanguageLabel;
 };
