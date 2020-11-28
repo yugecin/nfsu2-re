@@ -1316,13 +1316,7 @@ resources or some kind of UI widget descriptors.
 </p><p>UI things seem to work on a <code>640x480</code> canvas.
 Most things (especially when mouse is involved) seem to be positioned
 <code>([-320,+320],[-240,+240])</code>.
-</p><p><strong>Symbols:</strong></p><ul><li><span class='func' id='50B460'>50B460 int RenderCursor(int x, int y)</span>
-</li><li><span class='func' id='50CD00'>50CD00 int IsPointInRect(float x, float y, struct { float x; float y} *pos,
-  struct { float width; float height; } *size)</span>
-  Only seen this being called when there's a list on screen so far.
-</li><li><span class='func' id='52D020'>52D020 int IsPointIn??SomethingUI(float x, float y, void *somethingui)</span>
-  something ui is something ui. Calculating the area goes through lots of functions, TODO
-</li></ul><p style='margin-bottom:0'><a href='#index'>Index</a></p></div><span id='ui_dialog'></span><div class='indent' style='margin-left:5em'><p style='margin-top:0'><small><a href='#ui'>UI</a> &gt; Dialogs</small></p><h3>Dialogs <a href="#ui_dialog">#</a></h3>
+</p><p style='margin-bottom:0'><a href='#index'>Index</a></p></div><span id='ui_dialog'></span><div class='indent' style='margin-left:5em'><p style='margin-top:0'><small><a href='#ui'>UI</a> &gt; Dialogs</small></p><h3>Dialogs <a href="#ui_dialog">#</a></h3>
 <p>Thanks to the <a href='#debugprint'>Debug print</a> discovery, my attention got grabbed
 by something that looked like dialog code. These leftover debug strings helped so much.
 </p><p>Someone left a trace here:
@@ -1346,7 +1340,7 @@ to a string that says what FNG to display for the dialog that was passed.
 it's not set or it's not either <code>animating</code> or <code>3button</code>.
 </p><ul><li><code>HelpDialog_SMALL.fng</code> when <code><a href='#structDialogInfo_32D'>isHelpDialog</a></code> and text has less than 5 linebreaks
 </li><li><code>HelpDialog_MED.fng</code> when <code><a href='#structDialogInfo_32D'>isHelpDialog</a></code> and text has more than 4 linebreaks
-</li><li><code>GenericDialog_ThreeButton.fng</code> when <code>dialog-&gt;pTypeName</code> is <code>3button</code>
+</li><li><code>GenericDialog_ThreeButton.fng</code> when <code><a href='#structDialogInfo_324'>pMyFNG</a></code> is <code>3button</code>
 </li><li><code>GenericDialog_SMALL.fng</code> when text width is <code>&lt; 2561.0f</code>
 </li><li><code>GenericDialog_Animate_SMALL.fng</code> same as above, but when type is <code>animating</code>
 </li><li><code>GenericDialog_MED.fng</code> when text width is <code>&lt; 5122.0f</code>
@@ -1396,8 +1390,8 @@ executable itself so it's probably somewhere deep in a bin file.
 	int unused334;
 };
 EXPECT_SIZE(<a href='#struct_DialogInfo'>struct DialogInfo</a>, 0x338);
-ASSERT_OFFSET(<a href='#struct_DialogInfo'>struct DialogInfo</a>, pTypeName, 0x324);
-ASSERT_OFFSET(<a href='#struct_DialogInfo'>struct DialogInfo</a>, isHelpDialog, 0x32D);
+ASSERT_OFFSET(<a href='#struct_DialogInfo'>struct DialogInfo</a>, <a href='#structDialogInfo_324'>pMyFNG</a>, 0x324);
+ASSERT_OFFSET(<a href='#struct_DialogInfo'>struct DialogInfo</a>, <a href='#structDialogInfo_32D'>isHelpDialog</a>, 0x32D);
 </pre><p><strong>Symbols:</strong></p><ul><li><span class='func' id='4FF250'>4FF250 void __thiscall Dialog__ctor(<a href='#struct_DialogInfo'>struct DialogInfo</a> *this)</span>
   Initializes memory that was allocated to be a dialog.
 </li><li><span class='func' id='526C40'>526C40 int GetFNGforDialog(<a href='#struct_DialogInfo'>struct DialogInfo</a> *dialog)</span>
@@ -1691,7 +1685,15 @@ ShowFNG(AA469286 ("UI_InGameDialog.fng"), 037C1120, 00838640) = 037C2AB0
 </li><li><span class='field' id='83A9C0'>83A9C0 int isTextboxFocused</span>
 </li><li><span class='field' id='83A9C4'>83A9C4 void *focusedTextbox</span>
 </li></ul><p style='margin-bottom:0'><a href='#index'>Index</a></p></div><div><p style='margin-top:0'><small><a href='#ui'>UI</a> (continuation)</small></p><p>Stuff
-</p><p><strong>Symbols:</strong></p><ul><li><span class='func' id='5663B0'>5663B0 void DoUI()</span>
+</p><p><strong>Symbols:</strong></p><ul><li><span class='func' id='50B460'>50B460 int RenderCursor(int x, int y)</span>
+</li><li><span class='func' id='50CD00'>50CD00 int IsPointInRect(float x, float y, struct { float x; float y} *pos,
+  struct { float width; float height; } *size)</span>
+  Only seen this being called when there's a list on screen so far.
+</li><li><span class='func' id='52D020'>52D020 int IsPointIn??SomethingUI(float x, float y, void *somethingui)</span>
+  something ui is something ui. Calculating the area goes through lots of functions, TODO
+</li><li><span class='func' id='537B80'>537B80 void SetUIString(?, unsigned int keyToSet, char *string, ?)</span>
+  Only used for a few things, such as: sms 'from', sms 'subject', part name in customize..
+</li><li><span class='func' id='5663B0'>5663B0 void DoUI()</span>
   TODO document this and go in the last unresolved func.
 </li></ul><p style='margin-bottom:0'><a href='#index'>Index</a></p></div><span id='mouseinput'></span><div><h2>Mouse input <a href="#mouseinput">#</a></h2>
 <p>While the canvas is <code>640x480</code>, mouse position seems to be handled mostly
@@ -1930,6 +1932,7 @@ if (!<a class='fieldref' href='#86347C'>isProfileWithStartedCareerLoaded</a>)  {
 </pre><p><strong>Symbols:</strong></p><ul><li><span class='func' id='495D30'>495D30 CareerShowSponsorSelectScreen?()</span>
 </li><li><span class='func' id='497760'>497760 void GetSmsMessageSubjectHeader(<a href='#struct_SmsMessage'>struct SmsMessage</a> *sms, char *dest, int maxLength)</span>
   Gets the subject from <a class='funcref' href='#5149C0'>5149C0:GetSmsMessageSubject()</a> and prepends <code>Subject: </code> to it (based on language).
+  Used by <span class='unresolved'>0x4CC7C0</span> and <span class='unresolved'>0x4979A5</span>.
   <details><summary>Implementation <code><a href='https://github.com/yugecin/nfsu2-re/blob/master/nfsu2-re-hooks/replace-497760-GetSmsMessageSubjectHeader.c'>nfsu2-re-hooks/replace-497760-GetSmsMessageSubjectHeader.c</a></code></summary>
 <pre>char *subjectFormat;
 char subject[100];

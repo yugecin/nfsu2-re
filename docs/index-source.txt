@@ -1895,17 +1895,6 @@ UI things seem to work on a {640x480} canvas.                                   
 Most things (especially when mouse is involved) seem to be positioned
 {([-320,+320],[-240,+240])}.                                                                    ||| code
 
-.push symbols
-- {50B460 int RenderCursor(int x, int y)}                                                       ||| func
-
-- {50CD00 int IsPointInRect(float x, float y, struct \{ float x; float y\} *pos,                ||| func
-  struct \{ float width; float height; \} *size)}
-  Only seen this being called when there's a list on screen so far.
-
-- {52D020 int IsPointIn??SomethingUI(float x, float y, void *somethingui)}                      ||| func
-  something ui is something ui. Calculating the area goes through lots of functions, TODO
-.pop symbols
-
 .push section
 
 {Dialogs}  ||| h id=ui_dialog
@@ -1946,7 +1935,7 @@ it's not set or it's not either {animating} or {3button}.                       
 .push ul
 - {HelpDialog_SMALL.fng} when {{structDialogInfo+32D}} and text has less than 5 linebreaks      ||| code,code,refto
 - {HelpDialog_MED.fng} when {{structDialogInfo+32D}} and text has more than 4 linebreaks        ||| code,code,refto
-- {GenericDialog_ThreeButton.fng} when {dialog->pTypeName} is {3button}                         ||| code,code,code
+- {GenericDialog_ThreeButton.fng} when {{structDialogInfo+324}} is {3button}                    ||| code,code,refto,code
 - {GenericDialog_SMALL.fng} when text width is {< 2561.0f}                                      ||| code,code
 - {GenericDialog_Animate_SMALL.fng} same as above, but when type is {animating}                 ||| code,code
 - {GenericDialog_MED.fng} when text width is {< 5122.0f}                                        ||| code,code
@@ -2011,8 +2000,8 @@ executable itself so it's probably somewhere deep in a bin file.
 	int unused334;
 };
 EXPECT_SIZE({struct DialogInfo}, 0x338);                                                        ||| refto
-ASSERT_OFFSET({struct DialogInfo}, pTypeName, 0x324);                                           ||| refto
-ASSERT_OFFSET({struct DialogInfo}, isHelpDialog, 0x32D);                                        ||| refto
+ASSERT_OFFSET({struct DialogInfo}, {structDialogInfo+324}, 0x324);                              ||| refto,refto
+ASSERT_OFFSET({struct DialogInfo}, {structDialogInfo+32D}, 0x32D);                              ||| refto,refto
 .pop pre
 
 .push symbols
@@ -2342,6 +2331,18 @@ ShowFNG(AA469286 ("UI_InGameDialog.fng"), 037C1120, 00838640) = 037C2AB0
 Stuff
 
 .push symbols
+- {50B460 int RenderCursor(int x, int y)}                                                       ||| func
+
+- {50CD00 int IsPointInRect(float x, float y, struct \{ float x; float y\} *pos,                ||| func
+  struct \{ float width; float height; \} *size)}
+  Only seen this being called when there's a list on screen so far.
+
+- {52D020 int IsPointIn??SomethingUI(float x, float y, void *somethingui)}                      ||| func
+  something ui is something ui. Calculating the area goes through lots of functions, TODO
+
+- {537B80 void SetUIString(?, unsigned int keyToSet, char *string, ?)}                          ||| func
+  Only used for a few things, such as: sms 'from', sms 'subject', part name in customize..
+
 - {5663B0 void DoUI()}                                                                          ||| func
   TODO document this and go in the last unresolved func.
 .pop symbols
