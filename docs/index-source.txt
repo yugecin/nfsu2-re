@@ -2669,6 +2669,7 @@ if (![isProfileWithStartedCareerLoaded])  {                                     
 
 - {497760 void GetSmsMessageSubjectHeader({struct SmsMessage} *sms, char *dest, int maxLength)}         ||| func,refto
   Gets the subject from {5149C0} and prepends {Subject: } to it (based on language).                    ||| ref,code
+  Used by {4CC7C0} and {4979A5}.                                                                        ||| ref,ref
   {{Implementation {nfsu2-re-hooks/replace-497760-GetSmsMessageSubjectHeader.c}}                        ||| details,summary,hookfileref
   .push pre
   char *subjectFormat;

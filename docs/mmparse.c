@@ -3,6 +3,7 @@ margin markup parser
 
 Some markup language I suppose. I hope this will stay relatively simple.
 */
+#define _CRT_SECURE_NO_DEPRECATE
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>

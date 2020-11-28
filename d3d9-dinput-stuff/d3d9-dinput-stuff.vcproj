@@ -63,7 +63,7 @@
 				Name="VCLinkerTool"
 				AdditionalDependencies="d3d9.lib dinput8.lib dxguid.lib"
 				LinkIncremental="2"
-				AdditionalLibraryDirectories="&quot;C:\Program Files (x86)\Windows Kits\8.0\Lib\win8\um\x86&quot;"
+				AdditionalLibraryDirectories="&quot;C:\Program Files (x86)\Windows Kits\8.0\Lib\win8\um\x86&quot;;&quot;D:\Program Files (x86)\Windows Kits\10\Lib\10.0.10240.0\um\x86&quot;"
 				GenerateDebugInformation="true"
 				SubSystem="1"
 				TargetMachine="1"
