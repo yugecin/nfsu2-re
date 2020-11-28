@@ -37,10 +37,6 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				Optimization="0"
-				AdditionalIncludeDirectories="&quot;c:\Program Files (x86)\Windows Kits\8.0\Include\shared&quot;;&quot;c:\Program Files (x86)\Windows Kits\8.0\Include\um&quot;"
-				DebugInformationFormat="4"
-				CompileAs="1"
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"
@@ -53,9 +49,6 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				OutputFile="$(SolutionDir)\..\NeedForSpeed U2\scripts\$(ProjectName).asi"
-				IgnoreDefaultLibraryNames="uuid.lib"
-				GenerateDebugInformation="true"
 			/>
 			<Tool
 				Name="VCALinkTool"
@@ -149,6 +142,13 @@
 		<File
 			RelativePath=".\faux-enable-console.c"
 			>
+			<FileConfiguration
+				Name="Debug|Win32"
+				>
+				<Tool
+					Name="VCCLCompilerTool"
+				/>
+			</FileConfiguration>
 		</File>
 		<File
 			RelativePath=".\hook-43DB50-hash-cs.c"
@@ -164,6 +164,10 @@
 		</File>
 		<File
 			RelativePath=".\hook-50B9C0-hash-ci.c"
+			>
+		</File>
+		<File
+			RelativePath=".\hook-511E60-GetLogoForCarModel.c"
 			>
 		</File>
 		<File
@@ -183,6 +187,10 @@
 			>
 		</File>
 		<File
+			RelativePath=".\replace-497760-GetSmsMessageSubjectHeader.c"
+			>
+		</File>
+		<File
 			RelativePath=".\replace-50B790-ShowFNG.c"
 			>
 		</File>
@@ -199,7 +207,7 @@
 			>
 		</File>
 		<File
-			RelativePath=".\replace-511E60-GetLogoForCarModel.c"
+			RelativePath=".\replace-5149C0-GetSmsMessageSubject.c"
 			>
 		</File>
 		<File

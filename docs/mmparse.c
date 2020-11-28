@@ -1103,6 +1103,7 @@ int main(int argc, char **argv)
 	FILE *in;
 	int i;
 	char *next_arg_location;
+	char *line_start;
 
 	if (argc <= 1) {
 		goto printhelp;
@@ -1155,27 +1156,31 @@ int main(int argc, char **argv)
 				goto ret_err;
 			}
 		}
-		if (!strncmp(line, ".push ", 6)) {
+		line_start = line;
+		while (*line_start == ' ') {
+			line_start++;
+		}
+		if (!strncmp(line_start, ".push ", 6)) {
 			if (num_handlers == HANDLER_STACK_SIZE) {
 				printf("line %d: handler stack is full\n", current_line);
 				goto ret_err;
 			}
 			for (i = 0; i < num_registered_handlers; i++) {
-				if (!strcmp(line + 6, registered_handlers[i]->name)) {
+				if (!strcmp(line_start + 6, registered_handlers[i]->name)) {
 					goto have_handler;
 				}
 			}
-			printf("line %d: handler '%s' unknown\n", current_line, line + 6);
+			printf("line %d: handler '%s' unknown\n", current_line, line_start + 6);
 			goto ret_err;
 have_handler:
 			current_handler = registered_handlers[i];
 			handler[num_handlers++] = current_handler;
 			current_handler->start();
 			continue;
-		} else if (!strncmp(line, ".pop ", 5)) {
-			if (strcmp(line + 5, current_handler->name)) {
+		} else if (!strncmp(line_start, ".pop ", 5)) {
+			if (strcmp(line_start + 5, current_handler->name)) {
 				printf("line %d: popping handler '%s' but current is '%s'\n",
-					current_line, line + 5, current_handler->name);
+					current_line, line_start + 5, current_handler->name);
 			}
 			if (num_handlers == 1) {
 				printf("line %d: popping handler but stack is empty\n",

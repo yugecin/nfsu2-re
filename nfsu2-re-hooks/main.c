@@ -126,6 +126,26 @@ struct MouseData {
 	char button2JustReleased;
 };
 
+struct LanguageTableEntry {
+	unsigned int hash;
+	char *string;
+};
+
+struct LoadedLanguage {
+        int numStrings;
+        char **ptrStrings;
+        struct LanguageTableEntry *ptrTable;
+        int field_C;
+};
+
+struct SmsMessage {
+	short *careerTextLanguageTableOffset;
+	int field_4;
+	int field_8;
+	unsigned int subjectParameterLanguageLabel;
+	unsigned int subjectFormatLanguageLabel;
+};
+
 struct MouseData *_mouseData = (struct MouseData*) 0x8763D0;
 struct CarModelInfo **_car_model_infos = (void*) 0x8A1CCC;
 struct FNGData *fngdata = (struct FNGData*) 0x7F7DC8;
@@ -136,6 +156,14 @@ float *canvasWidth = (float*) 0x797D58;
 float *canvasHeight = (float*) 0x797D54;
 float *canvasWidth_2 = (float*) 0x797D50;
 float *canvasHeight_2 = (float*) 0x78DA30;
+struct LoadedLanguage *loadedLanguage = (void*) 0x8383D0;
+char **ptr838428 = (void*) 0x838428;
+
+static
+char* getCareerString(short *ptrOffset)
+{
+	return *ptr838428 + *ptrOffset;
+}
 
 #pragma pack(pop,1)
 
@@ -273,6 +301,61 @@ int UseCarUKNames()
 	return 0;
 }
 
+/*4FF9D0*/
+static
+char *GetLanguageStringOrNull(unsigned int hash)
+{
+	struct LanguageTableEntry *table;
+	int min, max, mid;
+	int midhash;
+
+	table = loadedLanguage->ptrTable;
+	min = 0;
+	max = loadedLanguage->numStrings - 1;
+	mid = (min + max) / 2;
+	if (hash == loadedLanguage->ptrTable[mid].hash) {
+		return loadedLanguage->ptrTable[mid].string;
+	}
+
+	for (;;) {
+		if (max - min <= 2) {
+			if (hash == table[min].hash) {
+				return table[min].string;
+			}
+			if (hash == table[max].hash) {
+				return table[max].string;
+			}
+		}
+		midhash = table[mid].hash;
+		if (hash == midhash) {
+			return table[mid].string;
+		} else {
+			if (min == mid) {
+				return NULL;
+			}
+			if (hash < midhash) {
+				max = mid;
+			} else {
+				min = mid;
+			}
+		}
+		mid = (min + max) / 2;
+	}
+}
+
+/*4FFA80*/
+static
+char *GetLanguageString(unsigned int hash)
+{
+	char *str;
+
+	str = GetLanguageStringOrNull(hash);
+	if (str) {
+		return str;
+	}
+	return GetLanguageStringOrNull(0xC01A6F63/*DEFAULT_STRING_ERROR*/);
+}
+
 /**********************/
 
 static
@@ -289,6 +372,8 @@ void stub()
 #include "faux-enable-console.c"
 //#include "hook-43DB50-hash-cs.c"
 //#include "hook-440B96-CreatePool.c"
+#include "replace-5149C0-GetSmsMessageSubject.c" /*required for GetSmsMessageSubjectHeader*/
+#include "replace-497760-GetSmsMessageSubjectHeader.c"
 //#include "hook-505450-hash-ci.c"
 //#include "hook-50B9C0-hash-ci.c"
 //#include "hook-511E60-GetLogoForCarModel.c"
