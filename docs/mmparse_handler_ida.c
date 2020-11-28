@@ -1,6 +1,7 @@
 static
 void cb_handler_ida_start()
 {
+	handler_pre_calc_whitespace();
 	append("<pre class='ida'>", 17);
 }
 
@@ -28,7 +29,7 @@ enum DIR_CONTENT_ACTION cb_handler_ida_directive_start(char** to, char *from, st
 
 struct HANDLER handler_ida = {
 	cb_handler_ida_start,
-	cb_handler_normal_text,
+	cb_handler_pre_text,
 	cb_handler_pre_end,
 	cb_handler_ida_directive_start,
 	cb_handler_normal_directive_end,

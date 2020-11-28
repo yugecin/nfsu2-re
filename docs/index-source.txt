@@ -2392,21 +2392,21 @@ if (!{isProfileWithStartedCareerLoaded}) \{                                     
   char *str;
   char buffer[50];
 
-  if (this->{structSmsMessage+10}) \{                                                                     ||| refto
-          format = {4FFA80}(this->{structSmsMessage+10});                                                 ||| refplain,refto
-          parameter = {4FFA80}(this->{structSmsMessage+C});                                               ||| refplain,refto
+  if (this->{structSmsMessage+10}) \{                                                                   ||| refto
+          format = {4FFA80}(this->{structSmsMessage+10});                                               ||| refplain,refto
+          parameter = {4FFA80}(this->{structSmsMessage+C});                                             ||| refplain,refto
           sprintf(dest, format, parameter);
           return;
   \}
 
-  str = getCareerString(this->{structSmsMessage+0});                                                      ||| refto
-  if (!{43DC60}(str, "SMS_CAR_UNLOCK_", {43DBB0}("SMS_CAR_UNLOCK_"))) \{                                  ||| refplain,refplain
-          str = {4FFA80}(0xF81E6031/*SMS_CAR_UNLOCK_1_SUBJECT*/);                                         ||| refplain
-          {43DBD0}strcpy(dest, str);                                                                      ||| refplain
+  str = getCareerString(this->{structSmsMessage+0});                                                    ||| refto
+  if (!{43DC60}(str, "SMS_CAR_UNLOCK_", {43DBB0}("SMS_CAR_UNLOCK_"))) \{                                ||| refplain,refplain
+          str = {4FFA80}(0xF81E6031/*SMS_CAR_UNLOCK_1_SUBJECT*/);                                       ||| refplain
+          {43DBD0}(dest, str);                                                                          ||| refplain
           return;
   \}
 
-  {50B990}(dest, "%s_SUBJECT", str);                                                                      ||| refplain
+  {50B990}(dest, "%s_SUBJECT", str);                                                                    ||| refplain
   .pop pre
   }
 

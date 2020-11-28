@@ -1928,35 +1928,35 @@ if (!<a class='fieldref' href='#86347C'>isProfileWithStartedCareerLoaded</a>) {
 </li><li><span class='func' id='497760'>497760 void GetSmsMessageSubjectHeader(<a href='#struct_SmsMessage'>struct SmsMessage</a> *sms, char *dest, int maxLength)</span>
   Gets the subject from <a class='funcref' href='#5149C0'>5149C0:GetSmsMessageSubject()</a> and prepends <code>Subject: </code> to it (based on language).
   <details><summary>Implementation <code><a href='https://github.com/yugecin/nfsu2-re/blob/master/nfsu2-re-hooks/replace-497760-GetSmsMessageSubjectHeader.c'>nfsu2-re-hooks/replace-497760-GetSmsMessageSubjectHeader.c</a></code></summary>
-<pre>  char *subjectFormat;
-  char subject[100];
+<pre>char *subjectFormat;
+char subject[100];
 
-  subjectFormat = <a class='funcref' href='#4FF9D0'>GetLanguageStringOrNull</a>(0x4B5DE3E9/*SMS_SUBJECT_HEADER*/);
-  <a class='funcref' href='#5149C0'>GetSmsMessageSubject</a>(sms, subject, sizeof(subject));
-  sprintf(dest, subjectFormat, subject);
+subjectFormat = <a class='funcref' href='#4FF9D0'>GetLanguageStringOrNull</a>(0x4B5DE3E9/*SMS_SUBJECT_HEADER*/);
+<a class='funcref' href='#5149C0'>GetSmsMessageSubject</a>(sms, subject, sizeof(subject));
+sprintf(dest, subjectFormat, subject);
 </pre>  </details>
 </li><li><span class='func' id='5149C0'>5149C0 void __thiscall GetSmsMessageSubject(<a href='#struct_SmsMessage'>struct SmsMessage</a> *this, char *dest, int maxlen)</span>
   <details><summary>Implementation <code><a href='https://github.com/yugecin/nfsu2-re/blob/master/nfsu2-re-hooks/replace-5149C0-GetSmsMessageSubject.c'>nfsu2-re-hooks/replace-5149C0-GetSmsMessageSubject.c</a></code></summary>
-<pre>  char *format;
-  char *parameter;
-  char *str;
-  char buffer[50];
+<pre>char *format;
+char *parameter;
+char *str;
+char buffer[50];
 
-  if (this-&gt;<a href='#structSmsMessage_10'>subjectFormatLanguageLabel</a>) {
-          format = <a class='funcref' href='#4FFA80'>GetLanguageString</a>(this-&gt;<a href='#structSmsMessage_10'>subjectFormatLanguageLabel</a>);
-          parameter = <a class='funcref' href='#4FFA80'>GetLanguageString</a>(this-&gt;<a href='#structSmsMessage_C'>subjectParameterLanguageLabel</a>);
-          sprintf(dest, format, parameter);
-          return;
-  }
+if (this-&gt;<a href='#structSmsMessage_10'>subjectFormatLanguageLabel</a>) {
+        format = <a class='funcref' href='#4FFA80'>GetLanguageString</a>(this-&gt;<a href='#structSmsMessage_10'>subjectFormatLanguageLabel</a>);
+        parameter = <a class='funcref' href='#4FFA80'>GetLanguageString</a>(this-&gt;<a href='#structSmsMessage_C'>subjectParameterLanguageLabel</a>);
+        sprintf(dest, format, parameter);
+        return;
+}
 
-  str = getCareerString(this-&gt;<a href='#structSmsMessage_0'>careerTextLanguageTableOffset</a>);
-  if (!<a class='funcref' href='#43DC60'>strncmp</a>(str, "SMS_CAR_UNLOCK_", <a class='funcref' href='#43DBB0'>strlenWithNullcheck</a>("SMS_CAR_UNLOCK_"))) {
-          str = <a class='funcref' href='#4FFA80'>GetLanguageString</a>(0xF81E6031/*SMS_CAR_UNLOCK_1_SUBJECT*/);
-          <a class='funcref' href='#43DBD0'>strcpy</a>strcpy(dest, str);
-          return;
-  }
+str = getCareerString(this-&gt;<a href='#structSmsMessage_0'>careerTextLanguageTableOffset</a>);
+if (!<a class='funcref' href='#43DC60'>strncmp</a>(str, "SMS_CAR_UNLOCK_", <a class='funcref' href='#43DBB0'>strlenWithNullcheck</a>("SMS_CAR_UNLOCK_"))) {
+        str = <a class='funcref' href='#4FFA80'>GetLanguageString</a>(0xF81E6031/*SMS_CAR_UNLOCK_1_SUBJECT*/);
+        <a class='funcref' href='#43DBD0'>strcpy</a>(dest, str);
+        return;
+}
 
-  <a class='funcref' href='#50B990'>FormatWithSinglePlaceholderAndHashCS43DB50</a>(dest, "%s_SUBJECT", str);
+<a class='funcref' href='#50B990'>FormatWithSinglePlaceholderAndHashCS43DB50</a>(dest, "%s_SUBJECT", str);
 </pre>  </details>
 </li><li><span class='func' id='500F90'>500F90 int __thiscall CareerGetMoney(<a href='#struct_CareerData'>struct CareerData</a> *this)</span>
   TODO has one other XREF: where money is drawn?

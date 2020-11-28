@@ -830,20 +830,35 @@ void cb_handler_section_end()
 	}
 }
 
+int pre_leading_ws_length;
+
+static
+void handler_pre_calc_whitespace()
+{
+	pre_leading_ws_length = 0;
+	while (line[pre_leading_ws_length] == ' ') {
+		pre_leading_ws_length++;
+	}
+}
+
 static
 void cb_handler_pre_start()
 {
+	handler_pre_calc_whitespace();
 	append("<pre>", 5);
 }
 
 static
 void cb_handler_pre_text()
 {
-	if (!line_len) {
+	if (!line_len || pre_leading_ws_length >= line_len) {
 		append("\n", 1);
 	} else {
-		cb_handler_normal_text();
+		line[line_len++] = '\n';
+		memcpy(out, line + pre_leading_ws_length, line_len - pre_leading_ws_length);
+		out += line_len - pre_leading_ws_length;
 	}
+	extra_line_offset -= pre_leading_ws_length;
 }
 static
 void cb_handler_pre_end()
