@@ -50,6 +50,8 @@ int line_len;
 int current_line;
 #define TAG_STACK_TAG_LEN 25
 char tag_stack[TAG_STACK_SIZE][TAG_STACK_TAG_LEN];
+char controlchar_open = '{';
+char controlchar_close = '}';
 int tag_stack_pos;
 int open_mark_position[MAX_MARKS];
 int num_open_marks;
@@ -290,11 +292,11 @@ void get_directive_text(struct DIRECTIVE *dir, char *dest, int *out_length)
 	offset = open_mark_position[dir_index] + 1;
 	for (;;) {
 		c = line_raw[offset];
-		if ((c == '}' &&  open_braces == 0) || c == 0) {
+		if ((c == controlchar_close &&  open_braces == 0) || c == 0) {
 			*dest = 0;
 			break;
 		}
-		if (c == '{' && line_raw[offset - 1] != '\\') {
+		if (c == controlchar_open && line_raw[offset - 1] != '\\') {
 			open_braces++;
 		}
 		*dest = c;
@@ -475,26 +477,6 @@ void mmparse_read_line(FILE *in, int handle_directives)
 			num_pipes = 0;
 		}
 		switch (c) {
-		case '{':
-			if (handle_directives) {
-				if (last_char == '\\') {
-					line_len--;
-					break;
-				}
-				open_mark_position[num_open_marks++] = line_len;
-				last_char = 0;
-			}
-			break;
-		case '}':
-			if (handle_directives) {
-				if (last_char == '\\') {
-					line_len--;
-					break;
-				}
-				close_mark_position[num_close_marks++] = line_len;
-				last_char = 0;
-			}
-			break;
 		case '&':
 			if (replace_html_entities) {
 				line[line_len++] = '&';
@@ -530,6 +512,27 @@ void mmparse_read_line(FILE *in, int handle_directives)
 		case '\n':
 			line[line_len] = 0;
 			return;
+		default:
+			if (c == controlchar_open) {
+				if (handle_directives) {
+					if (last_char == '\\') {
+						line_len--;
+						break;
+					}
+					open_mark_position[num_open_marks++] = line_len;
+					last_char = 0;
+				}
+			} else if (c == controlchar_close) {
+				if (handle_directives) {
+					if (last_char == '\\') {
+						line_len--;
+						break;
+					}
+					close_mark_position[num_close_marks++] = line_len;
+					last_char = 0;
+				}
+			}
+			break;
 		}
 
 		last_char = (char) c;
@@ -1175,7 +1178,16 @@ int main(int argc, char **argv)
 		while (*line_start == ' ') {
 			line_start++;
 		}
-		if (!strncmp(line_start, ".push ", 6)) {
+more_dotcommands:
+		if (!strncmp(line_start, ".controlchars ", 14)) {
+			controlchar_open = line_start[14];
+			controlchar_close = line_start[15];
+			if (line_start[16] == ' ' && line_start[17] == '.') {
+				line_start += 17;
+				goto more_dotcommands;
+			}
+			continue;
+		} else if (!strncmp(line_start, ".push ", 6)) {
 			if (num_handlers == HANDLER_STACK_SIZE) {
 				printf("line %d: handler stack is full\n", current_line);
 				goto ret_err;

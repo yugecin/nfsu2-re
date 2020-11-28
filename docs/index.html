@@ -114,6 +114,7 @@ details {
         background: #eee;
 }
 summary {
+        user-select: none;
         cursor: pointer;
 }
 </style>
@@ -1091,7 +1092,7 @@ of the event:
 </li><li><code>VK_HOME</code>: <code>-<a class='fieldref' href='#8709C0'>consoleTextStringMaxLength</a></code>
 </li><li><code>VK_END</code>: <code><a class='fieldref' href='#8709C0'>consoleTextStringMaxLength</a></code>
 </li></ul><p>This is the only other function that checks if <a class='fieldref' href='#8709BC'>8709BC:consoleEnabledFlag</a> is non-zero.
-</p><p style='margin-bottom:0'><a href='#index'>Index</a></p></div><div><p style='margin-top:0'><small><a href='#consoleleftover'>Console leftovers</a> (continuation)</small></p><p>A
+</p><p style='margin-bottom:0'><a href='#index'>Index</a></p></div><div><p style='margin-top:0'><small><a href='#consoleleftover'>Console leftovers</a> (continuation)</small></p><p>I need text here or my parser breaks.
 </p><p><strong>Symbols:</strong></p><ul><li><span class='func' id='5BF260'>5BF260 int ConsoleIsArgOneOfTheseHardcodedValues(char c)</span>
 <pre>unsigned char values[55] = {
         ' ', '.', ',', '_', '@', '-', '`', '=', '[', ']', '\\',
@@ -1315,7 +1316,7 @@ resources or some kind of UI widget descriptors.
 </p><p>UI things seem to work on a <code>640x480</code> canvas.
 Most things (especially when mouse is involved) seem to be positioned
 <code>([-320,+320],[-240,+240])</code>.
-</p><ul><li><span class='func' id='50B460'>50B460 int RenderCursor(int x, int y)</span>
+</p><p><strong>Symbols:</strong></p><ul><li><span class='func' id='50B460'>50B460 int RenderCursor(int x, int y)</span>
 </li><li><span class='func' id='50CD00'>50CD00 int IsPointInRect(float x, float y, struct { float x; float y} *pos,
   struct { float width; float height; } *size)</span>
   Only seen this being called when there's a list on screen so far.
@@ -1454,6 +1455,7 @@ typedef int (<span id='fnginithandler'></span>fnginithandler)(<a href='#struct_F
 EXPECT_SIZE(struct FNGData, 0x1C);
 
 struct FNGData <a class='fieldref' href='#7F7DC8'>fngdata</a>[] = {
+<details><summary>collapsed data</summary>
 	{ "UI_Main.fng", 0x4ED6B0, 0x0D6DFCF20, 0x5, 0x0, 0x100, 0x0 }, // 0
 	{ "UI_OptionsMain.fng", 0x4EFDE0, 0x9323DF57, 0x405, 0x0, 0x80, 0x0 }, // 1
 	{ "UI_Options.fng", 0x4E3710, 0x2F735833, 0x401, 0x0, 0x1CA, 0x0 }, // 2
@@ -1634,26 +1636,9 @@ struct FNGData <a class='fieldref' href='#7F7DC8'>fngdata</a>[] = {
 	{ "MC_List.fng", 0x4D7070, 0x8C4D03EA, 0x1, 0x0, 0x80,0 }, // 177
 	{ "MC_Main.fng", 0x4F3320, 0x0, 0x1, 0x0, 0x80, 0x0 }, // 178
 	{ "MC_Background.fng", 0x4A8740, 0x0, 0x0, 0x0, 0x80, 0x0 }, // 179
-};
-</pre><ul><li><span class='func' id='50B840'>50B840 <a href='#struct_FNGData'>struct FNGData</a>* GetFNGDataForHash(unsigned int hash)</span>
-  Goes through all the fng data above and returns the one with matching hash.
-</li><li><span class='func' id='50B8E0'>50B8E0 int SetInitializeHandlerForFNG(char *fng, <a href='#fnginithandler'>fnginithandler</a> *func)</span>
-  Goes through all the fng data above and set the handler for <a class='funcref' href='#43DCC0'>43DCC0:stricmp()</a> matching fng names.
-</li><li><span class='func' id='50B790'>50B790 ShowFNG(int fnghash, int arg1, int arg2)</span>
-  See <code><a href='https://github.com/yugecin/nfsu2-re/blob/master/nfsu2-re-hooks/replace-50B790-ShowFNG.c'>nfsu2-re-hooks/replace-50B790-ShowFNG.c</a></code> for a reimplementation.
-</li><li><span class='func' id='558B70'>558B70 void __thiscall UIConsumeKey(void *this, int keyCode)</span>
-  probably used for Q, but what else?
-</li><li><span class='func' id='55DBD0'>55DBD0 void UIHandleKey(int keyCode)</span>
-  Called from <code>WM_CHAR</code> messages in <a class='funcref' href='#5CCD60'>5CCD60:MainWndProc()</a>,
-  only used to type/press enter in a textbox and Q to quit.
-  Navigating menus seems unaffected
-</li><li><span class='func' id='55DC20'>55DC20 __thiscall void SendSomethingToFNG?(void *this, char *fng, int data)</span>
-  Called when menus change.
-</li><li><span class='field' id='7F7DC8'>7F7DC8 <a href='#struct_FNGData'>struct FNGData</a> fngdata[180]</span>
-</li><li><span class='field' id='83A9C0'>83A9C0 int isTextboxFocused</span>
-</li><li><span class='field' id='83A9C4'>83A9C4 void *focusedTextbox</span>
-</li></ul><p>Short excerpt from hooking <a class='funcref' href='#50B790'>50B790:ShowFNG()</a>. <code>arg2</code> for the dialogs
-are a pointer to the text string.
+</details>};
+</pre><p><details><summary>Short excerpt from hooking <a class='funcref' href='#50B790'>50B790:ShowFNG()</a></summary>
+</p><p><code>arg2</code> for the dialogs are a pointer to the text string
 </p><pre>ShowFNG(AB447B38 (""), 037864A0, 00000000) = 00000000
 ShowFNG(33AC1CB4 ("UI_PC_Help_Bar.fng"), 0378BD30, 00000000) = 03D7EB60
 ShowFNG(E503D390 ("MC_Bootup.fng"), 0379ADE0, 00000000) = 03786140
@@ -1687,7 +1672,25 @@ ShowFNG(73F51C74 ("UI_PauseOptionsMain.fng"), 037D8F40, 00000000) = 037DE0C0
 ShowFNG(33AC1CB4 ("UI_PC_Help_Bar.fng"), 037DFF40, 00000000) = 03D7EB60
 ShowFNG(32124083 ("UI_Pause.fng"), 037DDF40, 00000000) = 037DE2B0
 ShowFNG(AA469286 ("UI_InGameDialog.fng"), 037C1120, 00838640) = 037C2AB0
-</pre><p style='margin-bottom:0'><a href='#index'>Index</a></p></div><div><p style='margin-top:0'><small><a href='#ui'>UI</a> (continuation)</small></p><p>Stuff
+</pre><p></details>
+</p><ul><li><span class='func' id='50B840'>50B840 <a href='#struct_FNGData'>struct FNGData</a>* GetFNGDataForHash(unsigned int hash)</span>
+  Goes through all the fng data above and returns the one with matching hash.
+</li><li><span class='func' id='50B8E0'>50B8E0 int SetInitializeHandlerForFNG(char *fng, <a href='#fnginithandler'>fnginithandler</a> *func)</span>
+  Goes through all the fng data above and set the handler for <a class='funcref' href='#43DCC0'>43DCC0:stricmp()</a> matching fng names.
+</li><li><span class='func' id='50B790'>50B790 ShowFNG(int fnghash, int arg1, int arg2)</span>
+  See <code><a href='https://github.com/yugecin/nfsu2-re/blob/master/nfsu2-re-hooks/replace-50B790-ShowFNG.c'>nfsu2-re-hooks/replace-50B790-ShowFNG.c</a></code> for a reimplementation.
+</li><li><span class='func' id='558B70'>558B70 void __thiscall UIConsumeKey(void *this, int keyCode)</span>
+  probably used for Q, but what else?
+</li><li><span class='func' id='55DBD0'>55DBD0 void UIHandleKey(int keyCode)</span>
+  Called from <code>WM_CHAR</code> messages in <a class='funcref' href='#5CCD60'>5CCD60:MainWndProc()</a>,
+  only used to type/press enter in a textbox and Q to quit.
+  Navigating menus seems unaffected
+</li><li><span class='func' id='55DC20'>55DC20 __thiscall void SendSomethingToFNG?(void *this, char *fng, int data)</span>
+  Called when menus change.
+</li><li><span class='field' id='7F7DC8'>7F7DC8 <a href='#struct_FNGData'>struct FNGData</a> fngdata[180]</span>
+</li><li><span class='field' id='83A9C0'>83A9C0 int isTextboxFocused</span>
+</li><li><span class='field' id='83A9C4'>83A9C4 void *focusedTextbox</span>
+</li></ul><p style='margin-bottom:0'><a href='#index'>Index</a></p></div><div><p style='margin-top:0'><small><a href='#ui'>UI</a> (continuation)</small></p><p>Stuff
 </p><p><strong>Symbols:</strong></p><ul><li><span class='func' id='5663B0'>5663B0 void DoUI()</span>
   TODO document this and go in the last unresolved func.
 </li></ul><p style='margin-bottom:0'><a href='#index'>Index</a></p></div><span id='mouseinput'></span><div><h2>Mouse input <a href="#mouseinput">#</a></h2>
@@ -1715,7 +1718,7 @@ as <code>([-320,+320],[-240,+240])</code>.
 };
 
 struct MouseData *_mouseData = (struct MouseData*) 0x8763D0;
-</pre><ul><li><span class='func' id='50CD70'>50CD70 void GetMousePositionFromMiddle(float *cursorX, float *cursorY)</span>
+</pre><p><strong>Symbols:</strong></p><ul><li><span class='func' id='50CD70'>50CD70 void GetMousePositionFromMiddle(float *cursorX, float *cursorY)</span>
 <pre>*cursorX = _mouseData.cursorX - canvasWidth/2;
 *cursorY = _mouseData.cursorY - canvasHeight/2;
 </pre></li><li><span class='func' id='50C860'>50C860 void StoreMousePosButtonsIntoArg(void *arg)</span>
@@ -1917,8 +1920,8 @@ career yet.
 <a class='fieldref' href='#865130'>cheatExtraCareerMoney1000</a> = 1000;
 // ^ used when starting a new career from a profile that
 // was loaded from the profile menu
-if (!<a class='fieldref' href='#86347C'>isProfileWithStartedCareerLoaded</a>) {
-	if (<a class='funcref' href='#500F90'>CareerGetMoney</a>() == 0) {
+if (!<a class='fieldref' href='#86347C'>isProfileWithStartedCareerLoaded</a>)  {
+	if (<a class='funcref' href='#500F90'>CareerGetMoney</a>() == 0)  {
 		<a class='funcref' href='#500F80'>CareerGiveMoney</a>(1000);
 		// ^ This only has an effect when the profile was
 		// loaded from the loading screen
