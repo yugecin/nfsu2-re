@@ -934,7 +934,7 @@ if (section-&gt;<a href='#structBinSection_0'>header</a>.<a href='#structBinSect
 This will probably help a lot when trying to figure out other things.
 Note that the first time the <code>AUD: NFS3DMixCtl Pool</code> is made, it has an element amount of zero.
 The dump is from just starting the game and starting a circuit race.
-</p><pre>struct PoolHeader {
+</p><pre><span id='struct_PoolHeader'></span>struct PoolHeader {
 	int field_0; // ptr
 	int field_4;
 	struct PoolHeader *nextLinkedPool;
@@ -950,21 +950,28 @@ The dump is from just starting the game and starting a circuit race.
 	// here comes pool data
 };
 
+<span id='struct_PoolEntryBase'></span>struct PoolEntryBase {
+        <a href='#struct_PoolEntryBase'>struct PoolEntryBase</a> *<span id='structPoolEntryBase_0'></span>nextEntry;
+        <a href='#struct_PoolEntryBase'>struct PoolEntryBase</a> *<span id='structPoolEntryBase_4'></span>prevEntry;
+};
+
 struct bFileSystemPoolEntry {
 
 };
 EXPECT_SIZE(struct bFileSystemPoolEntry, 0xF0);
-</pre><p><strong>Symbols:</strong></p><ul><li><span class='func' id='440B40'>440B40 ??CreatePoolReally(int maybeElementSize, int maybeElementAmount,
+</pre><p><strong>Symbols:</strong></p><ul><li><span class='func' id='43F8F0'>43F8F0 <a href='#struct_PoolEntryBase'>struct PoolEntryBase</a> *RemoveFirstPoolEntry(<a href='#struct_PoolHeader'>struct PoolHeader</a> *pool)</span>
+</li><li><span class='func' id='43F920'>43F920 void AddPoolEntryAsFirst(<a href='#struct_PoolHeader'>struct PoolHeader</a> *pool, <a href='#struct_PoolEntryBase'>struct PoolEntryBase</a> *entry)</span>
+</li><li><span class='func' id='440B40'>440B40 ??CreatePoolReally(int maybeElementSize, int maybeElementAmount,
   char *name, int unknown)</span>
   TODO
 </li><li><span class='func' id='440DF0'>440DF0 ??CreatePool(int maybeElementSize, int maybeElementAmount,
   char *name, int unknown)</span>
   TODO, does something after calling <a class='funcref' href='#440B40'>440B40:??CreatePoolReally()</a>
-</li><li><span class='func' id='440D40'>440D40 int __thiscall PoolGetNextFreeItem_(void *this)</span>
+</li><li><span class='func' id='440D40'>440D40 int __thiscall PoolGetNextFreeItem_(<a href='#struct_PoolHeader'>struct PoolHeader</a> *this)</span>
   TODO
 </li><li><span class='func' id='440E50'>440E50 int PoolGetNextFreeItem?stdcallwrapper(void *pool)</span>
   Same as the one above, but wrapped in an stdcall.
-</li><li><span class='func' id='440BB0'>440BB0 int __thiscall PoolExtend(struct Pool *this, int maybeElementAmount)</span>
+</li><li><span class='func' id='440BB0'>440BB0 int __thiscall PoolExtend(<a href='#struct_PoolHeader'>struct PoolHeader</a> *this, int maybeElementAmount)</span>
   TODO, basically allocates another pool (with bigger size? TODO) and link it to this
 </li><li><span class='field' id='865104'>865104 p_bFileSystemPool</span>
 </li></ul><p style='margin-bottom:0'><a href='#index'>Index</a></p></div><span id='speedyboot'></span><div><h2>Speedy boot <a href="#speedyboot">#</a></h2>
@@ -1437,17 +1444,6 @@ ASSERT_OFFSET(<a href='#struct_DialogInfo'>struct DialogInfo</a>, <a href='#stru
 };
 EXPECT_SIZE(struct FNGMessage, 0x14);
 
-struct FNGInfo {
-	int field_0;
-	int field_4;
-	int field_8;
-	int field_C;
-	int field_10;
-	int field_14;
-	int field_18;
-	int controlMask;
-};
-
 typedef int (<span id='fnginithandler'></span>fnginithandler)(<a href='#struct_FNGShowData'>struct FNGShowData</a> *msg);
 
 <span id='struct_FNGData'></span>struct FNGData {
@@ -1463,10 +1459,10 @@ EXPECT_SIZE(struct FNGData, 0x1C);
 
 <span id='struct_FNGInfo'></span>struct FNGInfo {
         int field_0;
-        int field_4;
+        <a href='#struct_FNGInfo'>struct FNGInfo</a> *<span id='structFNGInfo_4'></span>nextOrParentOrChild?;
         int field_8;
-        int field_C;
-        int field_10;
+        char *<span id='structFNGInfo_C'></span>fngName;
+        unsigned int <span id='structFNGInfo_10'></span>hash;
         int field_14;
         int field_18;
         int controlMask;
@@ -1482,6 +1478,15 @@ EXPECT_SIZE(struct FNGData, 0x1C);
         int field_44;
         int field_48;
         <a href='#struct_UIElement'>struct UIElement</a> *<span id='structFNGInfo_4C'></span>rootUIElement;
+};
+
+<span id='struct_UIData'></span>struct UIData {
+        /*TODO*/
+};
+
+<span id='struct_UIData_Field8'></span>struct UIData_Field8 {
+        /*incomplete*/
+        <a href='#struct_FNGInfo'>struct FNGInfo</a> *<span id='structUIData_Field8_E4'></span>fngInfo; /*maybe top package?*/
 };
 
 struct FNGData <a class='fieldref' href='#7F7DC8'>fngdata</a>[] = {
@@ -1720,8 +1725,20 @@ ShowFNG(AA469286 ("UI_InGameDialog.fng"), 037C1120, 00838640) = 037C2AB0
   Goes through all the fng data above and set the handler for <a class='funcref' href='#43DCC0'>43DCC0:stricmp()</a> matching fng names.
 </li><li><span class='func' id='50B790'>50B790 ShowFNG(int fnghash, int arg1, int arg2)</span>
   See <code><a href='https://github.com/yugecin/nfsu2-re/blob/master/nfsu2-re-hooks/replace-50B790-ShowFNG.c'>nfsu2-re-hooks/replace-50B790-ShowFNG.c</a></code> for a reimplementation.
+</li><li><span class='func' id='519E50'>519E50 <a href='#struct_FNGInfo'>struct FNGInfo</a> *__thiscall GetFNGInfoByNameByHierarchy(void *thisUnused,
+                                                                   char *str,
+                                                                   <a href='#struct_FNGInfo'>struct FNGInfo</a> *fnginfo)</span>
+  Goes through <code><a href='#structFNGInfo_4'>nextOrParentOrChild?</a></code> until the next one is null or its
+  <code><a href='#structFNGInfo_C'>fngName</a></code> and <code><a href='#structFNGInfo_10'>hash</a></code> matches.
+  <code>this</code> is unused.
 </li><li><span class='func' id='52CEF0'>52CEF0 <a href='#struct_FNGInfo'>struct FNGInfo</a> *GetFNGInfoByName(char *fngName)</span>
-  TODO
+  TODO, this probably searches everything instead of the hierarchy like <a class='funcref' href='#519E50'>519E50:GetFNGInfoByNameByHierarchy()</a>
+</li><li><span class='func' id='555F10'>555F10 int AddFngToUIObjectWrapper(char *fngName, char *parentFngName, char controlMask, void *data)</span>
+  Wraps <a class='funcref' href='#555D00'>555D00:AddFNGToUIObject()</a>.
+  <code>parentFngName</code> may be null.
+</li><li><span class='func' id='555D00'>555D00 int __thiscall AddFNGToUIObject(<a href='#struct_UIData'>struct UIData</a> *this, int flagsMaybe, char *fngName,
+                                          char *parentFngName, int controlMask, void *data)</span>
+  <code>parentFngName</code> may be null.
 </li><li><span class='func' id='558B70'>558B70 void __thiscall UIConsumeKey(void *this, int keyCode)</span>
   probably used for Q, but what else?
 </li><li><span class='func' id='55DBD0'>55DBD0 void UIHandleKey(int keyCode)</span>
@@ -1863,6 +1880,12 @@ return visitor.<a href='#structUIElementVisitor_FindByHash_8'>foundUIelement</a>
   calls <code>visitor-&gt;<a href='#structUIElementVisitor_0'>vtable</a>-&gt;<a href='#structUIElementVisitor_vtable_4'>acceptElement</a></code> for every child,
   calls <a class='funcref' href='#504830'>504830:FNGInfo::VisitContainerRecursively()</a> for every child that is of type 5 (<code><a href='#struct_UIContainer'>struct UIContainer</a></code>),
   returns 0 when either calls return 0.
+</li><li><span class='func' id='52C570'>52C570 <a href='#struct_UIElement'>struct UIElement</a> *__thiscall GetUIElementByHashInFngName(<a href='#struct_UIData_Field8'>struct UIData_Field8</a> *this,
+                                                                     unsigned int hash,
+                                                                     char *fngName)</span>
+  When <code>fngName</code> is null, searches every FNG in <code>this-&gt;<a href='#structUIData_Field8_E4'>fngInfo</a></code> for the given hash.
+  Otherwise, limit the search to the FNG that is in the hierarchy of <code>this-&gt;<a href='#structUIData_Field8_E4'>fngInfo</a></code>
+  (by using <a class='funcref' href='#519E50'>519E50:GetFNGInfoByNameByHierarchy()</a>).
 </li><li><span class='func' id='52D020'>52D020 int IsPointIn??SomethingUI(float x, float y, void *somethingui)</span>
   something ui is something ui. Calculating the area goes through lots of functions, TODO
 </li><li><span class='func' id='535FE0'>535FE0 void __thiscall UILabel::setString(<a href='#struct_UILabel'>struct UILabel</a> *this, char *str)</span>
@@ -1870,15 +1893,15 @@ return visitor.<a href='#structUIElementVisitor_FindByHash_8'>foundUIelement</a>
 </li><li><span class='func' id='5379C0'>5379C0 <a href='#struct_UIElement'>struct UIElement</a> *FindUIElementByHash(char *fngName, unsigned int hash)</span>
 </li><li><span class='func' id='537A10'>537A10 <a href='#struct_UILabel'>struct UILabel</a> *FindUILabelByHash(char *fngName, unsigned int hash)</span>
 </li><li><span class='func' id='537A60'>537A60 <a href='#struct_UIElementType1'>struct UIElementType1</a> *FindUIElementType1ByHash(char *fngName, unsigned int hash)</span>
-</li><li><span class='func' id='537B30'>537B30 int SetUILabelFormattedString(<a href='#struct_UILabel'>struct UILabel</a> *resource, char *format, void *param)</span>
+</li><li><span class='func' id='537B30'>537B30 int SetUILabelFormattedString(<a href='#struct_UILabel'>struct UILabel</a> *label, char *format, void *param)</span>
   Delegates to <a class='funcref' href='#535FE0'>535FE0:UILabel::setString()</a>.
 </li><li><span class='func' id='537B80'>537B80 int SetUILabelByHashFormattedString(char *fngName, unsigned int hash, char *format, int parameter)</span>
   Only used for a few things, such as: sms 'from', sms 'subject', part name in customize..
   Delegates to <a class='funcref' href='#537B30'>537B30:SetUILabelFormattedString()</a>
 </li><li><span class='func' id='542600'>542600 int SetUILabelByNameFormattedString(char *fngName, char *uiElementName, char *format, int parameter)</span>
   Uses <a class='funcref' href='#4953C0'>4953C0:FindUILabelByName()</a>, then <a class='funcref' href='#537B30'>537B30:SetUILabelFormattedString()</a>.
-</li><li><span class='func' id='537BE0'>537BE0 int SetNullableUILabelFormattedString(<a href='#struct_UILabel'>struct UILabel</a> *resource, char *format, char param)</span>
-  Same as <a class='funcref' href='#537B30'>537B30:SetUILabelFormattedString()</a> but checks if <code>resource</code> is not null first.
+</li><li><span class='func' id='537BE0'>537BE0 int SetNullableUILabelFormattedString(<a href='#struct_UILabel'>struct UILabel</a> *label, char *format, char param)</span>
+  Same as <a class='funcref' href='#537B30'>537B30:SetUILabelFormattedString()</a> but checks if <code>label</code> is not null first.
 </li><li><span class='func' id='5663B0'>5663B0 void DoUI()</span>
   TODO document this and go in the last unresolved func.
 </li><li><span class='field' id='79AAF4'>79AAF4 <a href='#struct_UIElementVisitor_FindByHash'>struct UIElementVisitor_FindByHash</a> vtable_UIElementVisitor_FindByHash</span>

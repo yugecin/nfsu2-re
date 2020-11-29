@@ -1350,7 +1350,7 @@ Note that the first time the {AUD: NFS3DMixCtl Pool} is made, it has an element 
 The dump is from just starting the game and starting a circuit race.
 
 .push pre
-struct PoolHeader {
+{struct PoolHeader} \{                                                                          ||| mkref
 	int field_0; // ptr
 	int field_4;
 	struct PoolHeader *nextLinkedPool;
@@ -1366,6 +1366,11 @@ struct PoolHeader {
 	// here comes pool data
 };
 
+{struct PoolEntryBase} \{                                                                       ||| mkref
+        {struct PoolEntryBase} *{nextEntry};                                                    ||| refto,mkref name=structPoolEntryBase+0
+        {struct PoolEntryBase} *{prevEntry};                                                    ||| refto,mkref name=structPoolEntryBase+4
+};
+
 struct bFileSystemPoolEntry {
 
 };
@@ -1373,6 +1378,9 @@ EXPECT_SIZE(struct bFileSystemPoolEntry, 0xF0);
 .pop pre
 
 .push symbols
+- {43F8F0 {struct PoolEntryBase} *RemoveFirstPoolEntry({struct PoolHeader} *pool)}              ||| func,refto,refto
+
+- {43F920 void AddPoolEntryAsFirst({struct PoolHeader} *pool, {struct PoolEntryBase} *entry)}   ||| func,refto,refto
 - {440B40 ??CreatePoolReally(int maybeElementSize, int maybeElementAmount,                      ||| func
   char *name, int unknown)}
   TODO
@@ -1381,13 +1389,13 @@ EXPECT_SIZE(struct bFileSystemPoolEntry, 0xF0);
   char *name, int unknown)}
   TODO, does something after calling {440B40}                                                   ||| ref
 
-- {440D40 int __thiscall PoolGetNextFreeItem_(void *this)}                                      ||| func
+- {440D40 int __thiscall PoolGetNextFreeItem_({struct PoolHeader} *this)}                       ||| func,refto
   TODO
 
 - {440E50 int PoolGetNextFreeItem?stdcallwrapper(void *pool)}                                   ||| func
   Same as the one above, but wrapped in an stdcall.
 
-- {440BB0 int __thiscall PoolExtend(struct Pool *this, int maybeElementAmount)}                 ||| func
+- {440BB0 int __thiscall PoolExtend({struct PoolHeader} *this, int maybeElementAmount)}         ||| func,refto
   TODO, basically allocates another pool (with bigger size? TODO) and link it to this
 
 - {865104 p_bFileSystemPool}                                                                    ||| field
@@ -2070,17 +2078,6 @@ Thanks to {558020} code, following things were discovered:                      
 };
 EXPECT_SIZE(struct FNGMessage, 0x14);
 
-struct FNGInfo {
-	int field_0;
-	int field_4;
-	int field_8;
-	int field_C;
-	int field_10;
-	int field_14;
-	int field_18;
-	int controlMask;
-};
-
 typedef int ({fnginithandler})({struct FNGShowData} *msg);                                      ||| mkref,refto
 
 {struct FNGData} \{                                                                             ||| mkref
@@ -2096,10 +2093,10 @@ EXPECT_SIZE(struct FNGData, 0x1C);
 
 {struct FNGInfo} \{                                                                             ||| mkref
         int field_0;
-        int field_4;
+        {struct FNGInfo} *{nextOrParentOrChild?};                                               ||| refto,mkref name=structFNGInfo+4
         int field_8;
-        int field_C;
-        int field_10;
+        char *{fngName};                                                                        ||| mkref name=structFNGInfo+C
+        unsigned int {hash};                                                                    ||| mkref name=structFNGInfo+10
         int field_14;
         int field_18;
         int controlMask;
@@ -2115,6 +2112,15 @@ EXPECT_SIZE(struct FNGData, 0x1C);
         int field_44;
         int field_48;
         {struct UIElement} *{rootUIElement};                                                    ||| refto,mkref name=structFNGInfo+4C
+};
+
+{struct UIData} \{                                                                              ||| mkref
+        /*TODO*/
+};
+
+{struct UIData_Field8} \{                                                                       ||| mkref
+        /*incomplete*/
+        {struct FNGInfo} *{fngInfo}; /*maybe top package?*/                                     ||| refto,mkref name=structUIData_Field8+E4
 };
 
 struct FNGData {7F7DC8}[] = \{                                                                  ||| refplain
@@ -2370,8 +2376,23 @@ TODO:
 - {50B790 ShowFNG(int fnghash, int arg1, int arg2)}                                             ||| func
   See {nfsu2-re-hooks/replace-50B790-ShowFNG.c} for a reimplementation.                         ||| hookfileref
 
+- {519E50 {struct FNGInfo} *__thiscall GetFNGInfoByNameByHierarchy(void *thisUnused,            ||| func,refto
+                                                                   char *str,
+                                                                   {struct FNGInfo} *fnginfo)}  ||| refto
+  Goes through {{structFNGInfo+4}} until the next one is null or its                            ||| code,refto
+  {{structFNGInfo+C}} and {{structFNGInfo+10}} matches.                                         ||| code,refto,code,refto
+  {this} is unused.                                                                             ||| code
+
 - {52CEF0 {struct FNGInfo} *GetFNGInfoByName(char *fngName)}                                    ||| func,refto
-  TODO
+  TODO, this probably searches everything instead of the hierarchy like {519E50}                ||| ref
+
+- {555F10 int AddFngToUIObjectWrapper(char *fngName, char *parentFngName, char controlMask, void *data)}        ||| func
+  Wraps {555D00}.                                                                                               ||| ref
+  {parentFngName} may be null.                                                                                  ||| code
+
+- {555D00 int __thiscall AddFNGToUIObject({struct UIData} *this, int flagsMaybe, char *fngName,                 ||| func,refto
+                                          char *parentFngName, int controlMask, void *data)}
+  {parentFngName} may be null.                                                                                  ||| code
 
 - {558B70 void __thiscall UIConsumeKey(void *this, int keyCode)}                                ||| func
   probably used for Q, but what else?
@@ -2542,6 +2563,13 @@ UI keys seem to be hashed with the case insensitive hash.
   calls {504830} for every child that is of type 5 ({{struct UIContainer}}),                                            ||| ref,code,refto
   returns 0 when either calls return 0.
 
+- {52C570 {struct UIElement} *__thiscall GetUIElementByHashInFngName({struct UIData_Field8} *this,                      ||| func,refto,refto
+                                                                     unsigned int hash,
+                                                                     char *fngName)}
+  When {fngName} is null, searches every FNG in {this->{structUIData_Field8+E4}} for the given hash.                    ||| code,code,refto
+  Otherwise, limit the search to the FNG that is in the hierarchy of {this->{structUIData_Field8+E4}}                   ||| code,refto
+  (by using {519E50}).                                                                                                  ||| ref
+
 - {52D020 int IsPointIn??SomethingUI(float x, float y, void *somethingui)}                                      ||| func
   something ui is something ui. Calculating the area goes through lots of functions, TODO
 
@@ -2554,7 +2582,7 @@ UI keys seem to be hashed with the case insensitive hash.
 
 - {537A60 {struct UIElementType1} *FindUIElementType1ByHash(char *fngName, unsigned int hash)}                  ||| func,refto
 
-- {537B30 int SetUILabelFormattedString({struct UILabel} *resource, char *format, void *param)}                 ||| func,refto
+- {537B30 int SetUILabelFormattedString({struct UILabel} *label, char *format, void *param)}                    ||| func,refto
   Delegates to {535FE0}.                                                                                        ||| ref
 
 - {537B80 int SetUILabelByHashFormattedString(char *fngName, unsigned int hash, char *format, int parameter)}   ||| func
@@ -2564,8 +2592,8 @@ UI keys seem to be hashed with the case insensitive hash.
 - {542600 int SetUILabelByNameFormattedString(char *fngName, char *uiElementName, char *format, int parameter)} ||| func
   Uses {4953C0}, then {537B30}.                                                                                 ||| ref,ref
 
-- {537BE0 int SetNullableUILabelFormattedString({struct UILabel} *resource, char *format, char param)}          ||| func,refto
-  Same as {537B30} but checks if {resource} is not null first.                                                  ||| ref,code
+- {537BE0 int SetNullableUILabelFormattedString({struct UILabel} *label, char *format, char param)}             ||| func,refto
+  Same as {537B30} but checks if {label} is not null first.                                                     ||| ref,code
 
 - {5663B0 void DoUI()}                                                                                          ||| func
   TODO document this and go in the last unresolved func.

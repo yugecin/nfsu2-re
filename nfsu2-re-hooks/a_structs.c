@@ -58,16 +58,27 @@ struct FNGShowData {
 EXPECT_SIZE(struct FNGShowData, 0x14);
 
 struct FNGInfo {
-	int field_0;
-	int field_4;
-	int field_8;
-	int field_C;
-	int field_10;
-	int field_14;
-	int field_18;
-	int controlMask;
+        int field_0;
+        int field_4;
+        int field_8;
+        char *someString;
+        unsigned int hash;
+        int field_14;
+        int field_18;
+        int controlMask;
+        int field_20;
+        int field_24;
+        int field_28;
+        int field_2C;
+        int field_30;
+        int field_34;
+        int field_38;
+        int field_3C;
+        int field_40;
+        int field_44;
+        int field_48;
+        struct UIElement *rootUIElement;
 };
-
 struct MouseData {
 	void /*DInputDevice8*/ *dinputdevice;
 	int cursorX; // on 640x480 canvas
