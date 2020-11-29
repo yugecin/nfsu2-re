@@ -1260,7 +1260,12 @@ The original labels are also stored as a language file in {LANGUAGES/Labels.bin}
         int {numStrings};                                                                       ||| mkref name=structLoadedLanguage+0
         char **{ptrStrings};                                                                    ||| mkref name=structLoadedLanguage+4
         {struct LanguageTableEntry} *{ptrTable};                                                ||| refto,mkref name=structLoadedLanguage+8
-        int {field_C}; /*TODO*/                                                                 ||| mkref name=structLoadedLanguage+C
+        {struct LanguageConversionTable} *{ptrConversionTable};                                 ||| refto,mkref name=structLoadedLanguage+C
+};
+
+{struct LanguageConversionTable} \{                                                             ||| mkref
+        int field_0;
+        wchar_t table[256]; /*size unknown*/
 };
 .pop pre
 
@@ -1285,23 +1290,30 @@ TODO: language files also contain bin sections with magic {0x30201}             
 
 - {4FFAE0 int UnloadLanguageBinSection39000({struct BinSection} *section);}                     ||| func,refto
   .push pre
-  if (section->{structBinSection+0}.{structBinSectionHeader+0} == 0x39000) \{                     ||| refto,refto
-          {8383D0}.{structLoadedLanguage+C} = 0;                                                  ||| refplain,refto
-          {8383D0}.{structLoadedLanguage+0} = 0;                                                  ||| refplain,refto
-          {8383D0}.{structLoadedLanguage+4} = 0;                                                  ||| refplain,refto
-          {8383D0}.{structLoadedLanguage+8} = 0;                                                  ||| refplain,refto
+  if (section->{structBinSection+0}.{structBinSectionHeader+0} == 0x39000) \{                   ||| refto,refto
+          {8383D0}.{structLoadedLanguage+C} = 0;                                                ||| refplain,refto
+          {8383D0}.{structLoadedLanguage+0} = 0;                                                ||| refplain,refto
+          {8383D0}.{structLoadedLanguage+4} = 0;                                                ||| refplain,refto
+          {8383D0}.{structLoadedLanguage+8} = 0;                                                ||| refplain,refto
   }
   .pop pre
 
+- {50D3C0 int __thiscall LanguageConversionStrcpyCharToWchar({struct LanguageConversionTable}   ||| func,refto
+                                                *this, wchar_t *dest, int maxlen, char *src)}
+  If a char could not be converted, it will be {_} and the func will return 1.                  ||| code
+
+- {512530 void LanguageAwareStrcpyCharToWchar(wchar_t *dest, int maxlen, char *src)}            ||| func
+  Uses {50D3C0} when {{8383D0}.{structLoadedLanguage+C}} is set, otherwise {43E000}.            ||| ref,code,ref,refto,ref
+
 - {5125B0 int LoadLanguageBinSection39000({struct BinSection} *section)}                        ||| func,refto
   .push pre
-  {struct BinDataLanguage39000} *data;                                                            ||| refto
-  {struct LanguageTableEntry} *tableEntry;                                                        ||| refto
+  {struct BinDataLanguage39000} *data;                                                          ||| refto
+  {struct LanguageTableEntry} *tableEntry;                                                      ||| refto
   int i;
 
   if (section->{structBinSection+0}.{structBinSectionHeader+0} == 0x39000) \{                                  ||| refto,refto
           data = (void*) section->{structBinSection+8};                                                        ||| refto
-          {8383D0}.{structLoadedLanguage+C} = data->{structBinDataLanguage39000+0};                            ||| refplain,refto,refto
+          {8383D0}.{structLoadedLanguage+C} = (void*) (data + (int) data->{structBinDataLanguage39000+0});     ||| refplain,refto,refto
           {8383D0}.{structLoadedLanguage+0} = data->{structBinDataLanguage39000+4};                            ||| refplain,refto,refto
           {8383D0}.{structLoadedLanguage+4} = (void*) (data + (int) data->{structBinDataLanguage39000+C});     ||| refplain,refto,refto
           {8383D0}.{structLoadedLanguage+8} = (void*) (data + (int) data->{structBinDataLanguage39000+8});     ||| refplain,refto,refto
@@ -1320,6 +1332,10 @@ TODO: language files also contain bin sections with magic {0x30201}             
   Something with font.
 
 - {8383D0 {struct LoadedLanguage} loadedLanguage}                                               ||| field,refto
+
+- {838530 int skipLanguageWcharTable}                                                           ||| func
+  When 1, {50D3C0} will just zero extend char to wchar_t instead of using the conversion table  ||| ref
+  in the language file.
 .pop symbols
 
 .pop section
@@ -2080,7 +2096,7 @@ EXPECT_SIZE(struct FNGData, 0x1C);
 
 struct FNGData {7F7DC8}[] = \{                                                                  ||| refplain
 {{collapsed data} ||| details,summary
-.controlchars ^^
+.controlchars []
 	{ "UI_Main.fng", 0x4ED6B0, 0x0D6DFCF20, 0x5, 0x0, 0x100, 0x0 }, // 0
 	{ "UI_OptionsMain.fng", 0x4EFDE0, 0x9323DF57, 0x405, 0x0, 0x80, 0x0 }, // 1
 	{ "UI_Options.fng", 0x4E3710, 0x2F735833, 0x401, 0x0, 0x1CA, 0x0 }, // 2
@@ -2125,7 +2141,7 @@ struct FNGData {7F7DC8}[] = \{                                                  
 	{ "HUD_Drift.fng", 0x0, 0x0, 0x0, 0x0, 0x80, 0x1 }, // 41
 	{ "HUD_Drag.fng", 0x0, 0x0, 0x0, 0x0, 0x80, 0x1 }, // 42
 	{ "UI_InGame_WorldMap.fng", 0x4F9C10, 0x0, 0x18400, 0x0, 0x80,0 }, // 43
-	{ "UI_EngageMessageDialog.fng", 0x4B2240, 0x0, 0x18404, 0x0, 0x80,0 }, // 44
+	{ "UI_EngageMessageDialog.fng", [4B2240], 0x0, 0x18404, 0x0, 0x80,0 }, // 44                            ||| refplain
 	{ "UI_SMS_Mailbox.fng", 0x4E2050, 0x0, 0x1A500, 0x0, 0x80,0 }, // 45
 	{ "GarageMain.fng", 0x4EB130, 0x0, 0x0, 0x0, 0x80, 0x0 }, // 46
 	{ "DiscError.fng", 0x5522D0, 0x0, 0x0, 0x0, 0x80, 0x0 }, // 47
@@ -2210,7 +2226,7 @@ struct FNGData {7F7DC8}[] = \{                                                  
 	{ "LS_Demo_PSA.fng", 0x4A8EC0, 0x0, 0x0, 0x0, 0x80, 0x0 }, // 126
 	{ "LS_Demo_ESRB.fng", 0x4A8F50, 0x0, 0x0, 0x0, 0x80, 0x0 }, // 127
 	{ "LS_Demo_Warning.fng", 0x4A9080, 0x0, 0x0, 0x0, 0x80, 0x0 }, // 128
-	{ "UI_EngageMessageDialog.fng", 0x4B2240, 0x0, 0x12400, 0x0, 0x80,0 }, // 129
+	{ "UI_EngageMessageDialog.fng", [4B2240], 0x0, 0x12400, 0x0, 0x80,0 }, // 129                           ||| refplain
 	{ "Loading_Tips.fng", 0x4D9480, 0x0, 0x0, 0x0, 0x80, 0x0 }, // 130
 	{ "LS_LangSelect.fng", 0x4F48A0, 0x0, 0x0, 0x0, 0x80, 0x0 }, // 131
 	{ "LS_Chinese_Health.fng", 0x4A87E0, 0x0, 0x0, 0x0, 0x80, 0x0 }, // 132
@@ -2307,6 +2323,10 @@ ShowFNG(AA469286 ("UI_InGameDialog.fng"), 037C1120, 00838640) = 037C2AB0
 }
 
 .push ul
+- {4B2240 int FNGINIT_UI_EngageMessageDialog_fng(void *arg)}                                    ||| func
+  Calls {497850} and passes the arg and freshly allocated memory as {this}.                     ||| ref,code
+  TODO
+
 - {50B840 {struct FNGData}* GetFNGDataForHash(unsigned int hash)}                               ||| func,refto
   Goes through all the fng data above and returns the one with matching hash.
 
@@ -2724,6 +2744,9 @@ if (![isProfileWithStartedCareerLoaded])  {                                     
   .pop pre
   }
 
+- {497850 int __thiscall ShowSmsMessage(void *this, void *arg)}                                         ||| func
+  TODO, called from {4B2240}                                                                            ||| ref
+
 - {500F90 int __thiscall CareerGetMoney({struct CareerData} *this)}                                     ||| func,refto
   TODO has one other XREF: where money is drawn?
 
@@ -2732,6 +2755,13 @@ if (![isProfileWithStartedCareerLoaded])  {                                     
 
 - {500F80 void __thiscall CareerGiveMoney({struct CareerData} *this, int amount)}                       ||| func,refto
   Only used in the career money cheats.
+
+- {501470 int __thiscall GetSmsSenderLanguageHash({struct SmsMessage} *this)}                           ||| func,refto
+  Returns the hash for the language string that is the sms sender.
+  Used once in {497850}.                                                                                ||| ref
+  .push pre
+  return ((int*) this->{structSmsMessage+0}) + 4;                                                       ||| refto
+  .pop pre
 
 - {5129F0 int __thiscall GetCareerSponsorLanguageKey(short *this)}                                      ||| func
   Uses {838428} along with offset passed in {this} to format a string {SPONSOR_%s} and                  ||| ref,code,code
@@ -2770,6 +2800,7 @@ if (![isProfileWithStartedCareerLoaded])  {                                     
   }
 
 - {514B00 void __thiscall GetSmsMessageBody({struct SmsMessage} *this, char *dest, int maxlen)}         ||| func,refto
+  Used once in {497850}.                                                                                ||| ref
   {{Implementation {nfsu2-re-hooks/replace-514B00-GetSmsMessageBody.c}}                                 ||| details,summary,hookfileref
   .controlchars [] .push pre
   char *format;
@@ -2869,6 +2900,9 @@ if (![isProfileWithStartedCareerLoaded])  {                                     
 
 - {43DCC0 int stricmp(char *a, char *b)}                                                        ||| func
 
+- {43E000 void *NaiveStrcpyCharToWchar(wchar_t *dest, char *src)}                               ||| func
+  Uses sign extension. See also {50D3C0} and {512530}.                                          ||| ref,ref
+
 - {43E950 int FormatWithSinglePlaceholderPtr(char *dst, char *format, void *parameter)}         ||| func
   This does a bunch of things that I don't want to figure out,
   but the the result is that it formats.
@@ -2882,6 +2916,14 @@ if (![isProfileWithStartedCareerLoaded])  {                                     
   A nop function.
   It seems like many calls to different functions that got nopped all redirect here.
   Some of the calls are used as a debug print, see {debugprint}.                                ||| href
+
+- {50DC70 wchar_t *__thiscall FindNewlineW(void *this, wchar_t *str)}                           ||| func
+  Doesn't actually use {this}, so can be treated as a {__stdcall}.                              ||| code,code
+  Returns a ptr to the first occurrence of {^} or {\n}, nullptr otherwise.                      ||| code,code
+
+- {50DCB0 wchar_t *__thiscall GetEndOfStringW(void *this, wchar_t *str)}                        ||| func
+  Doesn't actually use {this}, so can be treated as a {__stdcall}.                              ||| code,code
+  Returns a ptr to the zero terminator.
 
 - {5CCD60 LPRESULT MainWndProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)}             ||| func
 
@@ -2909,7 +2951,6 @@ if (![isProfileWithStartedCareerLoaded])  {                                     
 
 - {8A1CCC void *ptrCarData}                                                                     ||| field
 .pop symbols
-
 .pop section
 .push plain
 </body>

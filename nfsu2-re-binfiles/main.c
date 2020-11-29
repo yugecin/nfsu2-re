@@ -10,28 +10,43 @@ void read_language_strings(FILE *in, int size)
 {
 #if defined PRINT_LANGUAGE_STRINGS
 	struct {
-		int somethingOffset;
+		int something;
+		short entries[256];
+	} *wchar_table;
+	struct {
+		unsigned int hash;
+		int stringOffset;
+	} *language_table_entry;
+	struct {
+		int wcharTableOffset;
 		int numStrings;
 		int tableOffset;
 		int stringsOffset;
 	} *language_header;
-	int pos;
+	char *strings;
 	int i;
 #endif
 	char *data;
+	void *pos;
 
 	data = malloc(size);
 	fread(data, size, 1, in);
 
 #if defined PRINT_LANGUAGE_STRINGS
 	language_header = (void*) data;
+	language_table_entry = (void*) (data + language_header->tableOffset);
+	wchar_table = (void*) (data + language_header->wcharTableOffset);
+	strings = data + language_header->stringsOffset;
+	printf("converstion tbl offset %08X\n", language_header->wcharTableOffset);
+	printf("string tbl offset %08X\n", language_header->tableOffset);
+	printf("strings offset %08X\n", language_header->stringsOffset);
+	for (i = 0; i < 256; i++) {
+		pos = (int) &wchar_table->entries[i] - (int) data + 8;
+		printf("%p %3d: %04X\n", pos, i, wchar_table->entries[i] & 0xFFFF);
+	}
 	for (i = 0; i < language_header->numStrings; i++) {
-		pos = language_header->tableOffset;
-		pos += i * 8;
-		printf("%08X: ", *(int*) (data + pos));
-		pos += 4;
-		pos = language_header->stringsOffset + *(int*) (data + pos);
-		printf("%s\n", (char*) (data + pos));
+		printf("%08X: ", language_table_entry[i].hash);
+		printf("%s\n", strings + language_table_entry[i].stringOffset);
 	}
 #endif
 

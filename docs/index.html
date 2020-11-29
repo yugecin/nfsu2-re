@@ -547,7 +547,7 @@ return 0;
 </li><li><span class='func' id='636BE0'>636BE0 int LoadBinSection34600_34601_34608_34609_34607_80034602(<a href='#struct_BinSection'>struct BinSection</a> *binsection)</span>
   Sets <a class='fieldref' href='#8A1CCC'>8A1CCC:ptrCarData</a> data.
 </li><li><span class='func' id='77B620'>77B620 void init_function_77B620_registerBinSectionHandler0()</span>
-  Registers <a class='fieldref' href='#7EB3F4'>7EB3F4:binSectionHandlerMagicMapEntry0}</a> (without using <a class='funcref' href='#43C0B0'>43C0B0:RegisterBinSectionHandler()</a>).
+  Registers <a class='fieldref' href='#7EB3F4'>7EB3F4:binSectionHandlerMagicMapEntry0</a> (without using <a class='funcref' href='#43C0B0'>43C0B0:RegisterBinSectionHandler()</a>).
 </li><li><span class='func' id='77CB00'>77CB00 void init_function_77CB00_registerBinSectionHandler80134000()</span>
 </li><li><span class='func' id='77CC20'>77CC20 void init_function_77CC20_registerBinSectionHandler135200()</span>
 </li><li><span class='func' id='77CC40'>77CC40 void init_function_77CC40_registerBinSectionHandler80135100()</span>
@@ -872,12 +872,17 @@ The original labels are also stored as a language file in <code>LANGUAGES/Labels
         int <span id='structLoadedLanguage_0'></span>numStrings;
         char **<span id='structLoadedLanguage_4'></span>ptrStrings;
         <a href='#struct_LanguageTableEntry'>struct LanguageTableEntry</a> *<span id='structLoadedLanguage_8'></span>ptrTable;
-        int <span id='structLoadedLanguage_C'></span>field_C; /*TODO*/
+        <a href='#struct_LanguageConversionTable'>struct LanguageConversionTable</a> *<span id='structLoadedLanguage_C'></span>ptrConversionTable;
+};
+
+<span id='struct_LanguageConversionTable'></span>struct LanguageConversionTable {
+        int field_0;
+        wchar_t table[256]; /*size unknown*/
 };
 </pre><p>TODO: language files also contain bin sections with magic <code>0x30201</code>
 </p><p><strong>Symbols:</strong></p><ul><li><span class='func' id='4FF9D0'>4FF9D0 char* GetLanguageStringOrNull(unsigned int hash)</span>
   Returns a string ptr or <code>NULL</code> for given hash (which is passed through <code>edx</code>).
-  Does a binary search over the hashes in <code><a class='fieldref' href='#8383D0'>8383D0:loadedLanguage}</a>.<a href='#structLoadedLanguage_8'>ptrTable</a></code>
+  Does a binary search over the hashes in <code><a class='fieldref' href='#8383D0'>8383D0:loadedLanguage</a>.<a href='#structLoadedLanguage_8'>ptrTable</a></code>
 </li><li><span class='func' id='4FFA50'>4FFA50 void GetLanguageStringIntoBuf(char *dst, int dstlen, unsigned int hash)</span>
   Same as <a class='funcref' href='#4FFA80'>4FFA80:GetLanguageString()</a> but copy it into a buffer.
 </li><li><span class='func' id='4FFA80'>4FFA80 char* GetLanguageString(unsigned int hash)</span>
@@ -889,25 +894,30 @@ The original labels are also stored as a language file in <code>LANGUAGES/Labels
   TODO: xref this for fun and profit (only 2 usages?)
 </li><li><span class='func' id='4FFAE0'>4FFAE0 int UnloadLanguageBinSection39000(<a href='#struct_BinSection'>struct BinSection</a> *section);</span>
 <pre>if (section-&gt;<a href='#structBinSection_0'>header</a>.<a href='#structBinSectionHeader_0'>magic</a> == 0x39000) {
-        <a class='fieldref' href='#8383D0'>loadedLanguage}</a>.<a href='#structLoadedLanguage_C'>field_C</a> = 0;
-        <a class='fieldref' href='#8383D0'>loadedLanguage}</a>.<a href='#structLoadedLanguage_0'>numStrings</a> = 0;
-        <a class='fieldref' href='#8383D0'>loadedLanguage}</a>.<a href='#structLoadedLanguage_4'>ptrStrings</a> = 0;
-        <a class='fieldref' href='#8383D0'>loadedLanguage}</a>.<a href='#structLoadedLanguage_8'>ptrTable</a> = 0;
+        <a class='fieldref' href='#8383D0'>loadedLanguage</a>.<a href='#structLoadedLanguage_C'>ptrConversionTable</a> = 0;
+        <a class='fieldref' href='#8383D0'>loadedLanguage</a>.<a href='#structLoadedLanguage_0'>numStrings</a> = 0;
+        <a class='fieldref' href='#8383D0'>loadedLanguage</a>.<a href='#structLoadedLanguage_4'>ptrStrings</a> = 0;
+        <a class='fieldref' href='#8383D0'>loadedLanguage</a>.<a href='#structLoadedLanguage_8'>ptrTable</a> = 0;
 }
-</pre></li><li><span class='func' id='5125B0'>5125B0 int LoadLanguageBinSection39000(<a href='#struct_BinSection'>struct BinSection</a> *section)</span>
+</pre></li><li><span class='func' id='50D3C0'>50D3C0 int __thiscall LanguageConversionStrcpyCharToWchar(<a href='#struct_LanguageConversionTable'>struct LanguageConversionTable</a>
+                                                *this, wchar_t *dest, int maxlen, char *src)</span>
+  If a char could not be converted, it will be <code>_</code> and the func will return 1.
+</li><li><span class='func' id='512530'>512530 void LanguageAwareStrcpyCharToWchar(wchar_t *dest, int maxlen, char *src)</span>
+  Uses <a class='funcref' href='#50D3C0'>50D3C0:LanguageConversionStrcpyCharToWchar()</a> when <code><a class='fieldref' href='#8383D0'>8383D0:loadedLanguage</a>.<a href='#structLoadedLanguage_C'>ptrConversionTable</a></code> is set, otherwise <a class='funcref' href='#43E000'>43E000:NaiveStrcpyCharToWchar()</a>.
+</li><li><span class='func' id='5125B0'>5125B0 int LoadLanguageBinSection39000(<a href='#struct_BinSection'>struct BinSection</a> *section)</span>
 <pre><a href='#struct_BinDataLanguage39000'>struct BinDataLanguage39000</a> *data;
 <a href='#struct_LanguageTableEntry'>struct LanguageTableEntry</a> *tableEntry;
 int i;
 
 if (section-&gt;<a href='#structBinSection_0'>header</a>.<a href='#structBinSectionHeader_0'>magic</a> == 0x39000) {
         data = (void*) section-&gt;<a href='#structBinSection_8'>data</a>;
-        <a class='fieldref' href='#8383D0'>loadedLanguage}</a>.<a href='#structLoadedLanguage_C'>field_C</a> = data-&gt;<a href='#structBinDataLanguage39000_0'>field_0</a>;
-        <a class='fieldref' href='#8383D0'>loadedLanguage}</a>.<a href='#structLoadedLanguage_0'>numStrings</a> = data-&gt;<a href='#structBinDataLanguage39000_4'>numStrings</a>;
-        <a class='fieldref' href='#8383D0'>loadedLanguage}</a>.<a href='#structLoadedLanguage_4'>ptrStrings</a> = (void*) (data + (int) data-&gt;<a href='#structBinDataLanguage39000_C'>stringsOffset</a>);
-        <a class='fieldref' href='#8383D0'>loadedLanguage}</a>.<a href='#structLoadedLanguage_8'>ptrTable</a> = (void*) (data + (int) data-&gt;<a href='#structBinDataLanguage39000_8'>tableOffset</a>);
-        tableEntry = <a class='fieldref' href='#8383D0'>loadedLanguage}</a>.<a href='#structLoadedLanguage_8'>ptrTable</a>;
-        for (i = 0; i &lt; <a class='fieldref' href='#8383D0'>loadedLanguage}</a>.<a href='#structLoadedLanguage_0'>numStrings</a>; i++) {
-                tableEntry-&gt;<a href='#structLanguageTableEntry_4'>string</a> += <a class='fieldref' href='#8383D0'>loadedLanguage}</a>.<a href='#structLoadedLanguage_8'>ptrTable</a>;
+        <a class='fieldref' href='#8383D0'>loadedLanguage</a>.<a href='#structLoadedLanguage_C'>ptrConversionTable</a> = (void*) (data + (int) data-&gt;<a href='#structBinDataLanguage39000_0'>field_0</a>);
+        <a class='fieldref' href='#8383D0'>loadedLanguage</a>.<a href='#structLoadedLanguage_0'>numStrings</a> = data-&gt;<a href='#structBinDataLanguage39000_4'>numStrings</a>;
+        <a class='fieldref' href='#8383D0'>loadedLanguage</a>.<a href='#structLoadedLanguage_4'>ptrStrings</a> = (void*) (data + (int) data-&gt;<a href='#structBinDataLanguage39000_C'>stringsOffset</a>);
+        <a class='fieldref' href='#8383D0'>loadedLanguage</a>.<a href='#structLoadedLanguage_8'>ptrTable</a> = (void*) (data + (int) data-&gt;<a href='#structBinDataLanguage39000_8'>tableOffset</a>);
+        tableEntry = <a class='fieldref' href='#8383D0'>loadedLanguage</a>.<a href='#structLoadedLanguage_8'>ptrTable</a>;
+        for (i = 0; i &lt; <a class='fieldref' href='#8383D0'>loadedLanguage</a>.<a href='#structLoadedLanguage_0'>numStrings</a>; i++) {
+                tableEntry-&gt;<a href='#structLanguageTableEntry_4'>string</a> += <a class='fieldref' href='#8383D0'>loadedLanguage</a>.<a href='#structLoadedLanguage_8'>ptrTable</a>;
                 tableEntry++;
         }
 }
@@ -916,6 +926,9 @@ if (section-&gt;<a href='#structBinSection_0'>header</a>.<a href='#structBinSect
 </li><li><span class='func' id='537290'>537290 int UnloadLanguageFontBinSection30201(struct BinData *bindata)</span>
   Something with font.
 </li><li><span class='field' id='8383D0'>8383D0 <a href='#struct_LoadedLanguage'>struct LoadedLanguage</a> loadedLanguage</span>
+</li><li><span class='func' id='838530'>838530 int skipLanguageWcharTable</span>
+  When 1, <a class='funcref' href='#50D3C0'>50D3C0:LanguageConversionStrcpyCharToWchar()</a> will just zero extend char to wchar_t instead of using the conversion table
+  in the language file.
 </li></ul><p style='margin-bottom:0'><a href='#index'>Index</a></p></div><span id='pools'></span><div><h2>Pools <a href="#pools">#</a></h2>
 <p>I hooked <a class='funcref' href='#440B40'>440B40:??CreatePoolReally()</a> and collected some output: <a href="createpoollog.txt">createpoollog.txt</a>
 This will probably help a lot when trying to figure out other things.
@@ -1494,7 +1507,7 @@ struct FNGData <a class='fieldref' href='#7F7DC8'>fngdata</a>[] = {
 	{ "HUD_Drift.fng", 0x0, 0x0, 0x0, 0x0, 0x80, 0x1 }, // 41
 	{ "HUD_Drag.fng", 0x0, 0x0, 0x0, 0x0, 0x80, 0x1 }, // 42
 	{ "UI_InGame_WorldMap.fng", 0x4F9C10, 0x0, 0x18400, 0x0, 0x80,0 }, // 43
-	{ "UI_EngageMessageDialog.fng", 0x4B2240, 0x0, 0x18404, 0x0, 0x80,0 }, // 44
+	{ "UI_EngageMessageDialog.fng", <a class='funcref' href='#4B2240'>FNGINIT_UI_EngageMessageDialog_fng</a>, 0x0, 0x18404, 0x0, 0x80,0 }, // 44
 	{ "UI_SMS_Mailbox.fng", 0x4E2050, 0x0, 0x1A500, 0x0, 0x80,0 }, // 45
 	{ "GarageMain.fng", 0x4EB130, 0x0, 0x0, 0x0, 0x80, 0x0 }, // 46
 	{ "DiscError.fng", 0x5522D0, 0x0, 0x0, 0x0, 0x80, 0x0 }, // 47
@@ -1579,7 +1592,7 @@ struct FNGData <a class='fieldref' href='#7F7DC8'>fngdata</a>[] = {
 	{ "LS_Demo_PSA.fng", 0x4A8EC0, 0x0, 0x0, 0x0, 0x80, 0x0 }, // 126
 	{ "LS_Demo_ESRB.fng", 0x4A8F50, 0x0, 0x0, 0x0, 0x80, 0x0 }, // 127
 	{ "LS_Demo_Warning.fng", 0x4A9080, 0x0, 0x0, 0x0, 0x80, 0x0 }, // 128
-	{ "UI_EngageMessageDialog.fng", 0x4B2240, 0x0, 0x12400, 0x0, 0x80,0 }, // 129
+	{ "UI_EngageMessageDialog.fng", <a class='funcref' href='#4B2240'>FNGINIT_UI_EngageMessageDialog_fng</a>, 0x0, 0x12400, 0x0, 0x80,0 }, // 129
 	{ "Loading_Tips.fng", 0x4D9480, 0x0, 0x0, 0x0, 0x80, 0x0 }, // 130
 	{ "LS_LangSelect.fng", 0x4F48A0, 0x0, 0x0, 0x0, 0x80, 0x0 }, // 131
 	{ "LS_Chinese_Health.fng", 0x4A87E0, 0x0, 0x0, 0x0, 0x80, 0x0 }, // 132
@@ -1667,7 +1680,10 @@ ShowFNG(33AC1CB4 ("UI_PC_Help_Bar.fng"), 037DFF40, 00000000) = 03D7EB60
 ShowFNG(32124083 ("UI_Pause.fng"), 037DDF40, 00000000) = 037DE2B0
 ShowFNG(AA469286 ("UI_InGameDialog.fng"), 037C1120, 00838640) = 037C2AB0
 </pre><p></details>
-</p><ul><li><span class='func' id='50B840'>50B840 <a href='#struct_FNGData'>struct FNGData</a>* GetFNGDataForHash(unsigned int hash)</span>
+</p><ul><li><span class='func' id='4B2240'>4B2240 int FNGINIT_UI_EngageMessageDialog_fng(void *arg)</span>
+  Calls <a class='funcref' href='#497850'>497850:ShowSmsMessage()</a> and passes the arg and freshly allocated memory as <code>this</code>.
+  TODO
+</li><li><span class='func' id='50B840'>50B840 <a href='#struct_FNGData'>struct FNGData</a>* GetFNGDataForHash(unsigned int hash)</span>
   Goes through all the fng data above and returns the one with matching hash.
 </li><li><span class='func' id='50B8E0'>50B8E0 int SetInitializeHandlerForFNG(char *fng, <a href='#fnginithandler'>fnginithandler</a> *func)</span>
   Goes through all the fng data above and set the handler for <a class='funcref' href='#43DCC0'>43DCC0:stricmp()</a> matching fng names.
@@ -1809,7 +1825,7 @@ struct MouseData *_mouseData = (struct MouseData*) 0x8763D0;
 };
 EXPECT_SIZE(struct CheatData, 0x34);
 
-struct CheatScreenData <a class='fieldref' href='#865930'>865930:cheatScreenData}</a>; // partially initialized by <a class='funcref' href='#575770'>575770:InitCheats_()</a>
+struct CheatScreenData <a class='fieldref' href='#865930'>865930:cheatScreenData</a>; // partially initialized by <a class='funcref' href='#575770'>575770:InitCheats_()</a>
 struct CheatData <a class='fieldref' href='#7FB960'>7FB960:cheatData</a>[20] = {
 	{ "needperformance1",	2, 1, 0, 0, 0, 1, 1, 0 }, // 0
 	{ "needperformance2",	2, 2, 0, 0, 0, 1, 1, 0 }, // 1
@@ -1881,7 +1897,7 @@ void __thiscall <a class='funcref' href='#575770'>575770:InitCheats_()</a>(struc
 this from looking up cheats in my childhood), but toggling sponsor car cheats when
 ingame has immediate effect.
 </p><p><strong>Symbols:</strong></p><ul><li><span class='func' id='575770'>575770 void __thiscall InitCheats_(<a href='#struct_CheatScreenData'>struct CheatScreenData</a> *this)</span>
-  Initializes <a class='fieldref' href='#865930'>865930:cheatScreenData}</a> and <a class='fieldref' href='#7FB960'>7FB960:cheatData</a>.
+  Initializes <a class='fieldref' href='#865930'>865930:cheatScreenData</a> and <a class='fieldref' href='#7FB960'>7FB960:cheatData</a>.
 </li><li><span class='func' id='576050'>576050 void __thiscall UndoCheat__(<a href='#struct_CheatScreenData'>struct CheatScreenData</a> *this, int cheatdata_field28)</span>
   Weird one, is called on each cheat entry and all cheats with a matching
   <code><a href='#structCheatData_28'>field28</a></code> has zero written to its <code><a href='#structCheatData_30'>hasBeenTriggered</a></code> field.
@@ -1891,7 +1907,7 @@ ingame has immediate effect.
 </li><li><span class='func' id='579CB0'>579CB0 void __thiscall CheatMatched(<a href='#struct_CheatScreenData'>struct CheatScreenData</a> *this, int cheat_index)</span>
   Called from <a class='funcref' href='#57B8B0'>57B8B0:CheatCheck()</a> when a cheat matched.
 </li><li><span class='func' id='57B8B0'>57B8B0 void __thiscall CheatCheck(void *this, int keyCode)</span>
-  Called from <a class='funcref' href='#55DBD0'>55DBD0:UIHandleKey()</a> when <code><a class='fieldref' href='#865930'>865930:cheatScreenData}</a>.<a href='#structCheatScreenData_4'>doCheatCheck</a></code> is non-zero.
+  Called from <a class='funcref' href='#55DBD0'>55DBD0:UIHandleKey()</a> when <code><a class='fieldref' href='#865930'>865930:cheatScreenData</a>.<a href='#structCheatScreenData_4'>doCheatCheck</a></code> is non-zero.
 </li><li><span class='field' id='7FB960'>7FB960 <a href='#struct_CheatData'>struct CheatData</a> cheatData[20]</span>
 </li><li><span class='field' id='8383C8'>8383C8 cheatCareerNeverPossible</span>
   This gets only set to one when a career cheat with <a class='fieldref' href='#7FB960'>7FB960:cheatData</a> zero is entered,
@@ -1969,13 +1985,19 @@ subjectFormat = <a class='funcref' href='#4FF9D0'>GetLanguageStringOrNull</a>(0x
 <a class='funcref' href='#5149C0'>GetSmsMessageSubject</a>(sms, subject, sizeof(subject));
 sprintf(dest, subjectFormat, subject);
 </pre>  </details>
+</li><li><span class='func' id='497850'>497850 int __thiscall ShowSmsMessage(void *this, void *arg)</span>
+  TODO, called from <a class='funcref' href='#4B2240'>4B2240:FNGINIT_UI_EngageMessageDialog_fng()</a>
 </li><li><span class='func' id='500F90'>500F90 int __thiscall CareerGetMoney(<a href='#struct_CareerData'>struct CareerData</a> *this)</span>
   TODO has one other XREF: where money is drawn?
 </li><li><span class='func' id='500180'>500180 char* __thiscall GetCareerLanguageString(short *this)</span>
   Uses <a class='fieldref' href='#838428'>838428:ptr838428</a> along with offset passed in <code>this</code> to return a string.
 </li><li><span class='func' id='500F80'>500F80 void __thiscall CareerGiveMoney(<a href='#struct_CareerData'>struct CareerData</a> *this, int amount)</span>
   Only used in the career money cheats.
-</li><li><span class='func' id='5129F0'>5129F0 int __thiscall GetCareerSponsorLanguageKey(short *this)</span>
+</li><li><span class='func' id='501470'>501470 int __thiscall GetSmsSenderLanguageHash(<a href='#struct_SmsMessage'>struct SmsMessage</a> *this)</span>
+  Returns the hash for the language string that is the sms sender.
+  Used once in <a class='funcref' href='#497850'>497850:ShowSmsMessage()</a>.
+<pre>return ((int*) this-&gt;<a href='#structSmsMessage_0'>careerTextLanguageTableOffset</a>) + 4;
+</pre></li><li><span class='func' id='5129F0'>5129F0 int __thiscall GetCareerSponsorLanguageKey(short *this)</span>
   Uses <a class='fieldref' href='#838428'>838428:ptr838428</a> along with offset passed in <code>this</code> to format a string <code>SPONSOR_%s</code> and
   return the hash result to use for getting a language string.
 </li><li><span class='func' id='5149C0'>5149C0 void __thiscall GetSmsMessageSubject(<a href='#struct_SmsMessage'>struct SmsMessage</a> *this, char *dest, int maxlen)</span>
@@ -2008,6 +2030,7 @@ if (!<a class='funcref' href='#43DC60'>strncmp</a>(str, "SMS_CAR_UNLOCK_", <a cl
 // example: SMS_DVD_COVER_10_SUBJECT
 </pre>  </details>
 </li><li><span class='func' id='514B00'>514B00 void __thiscall GetSmsMessageBody(<a href='#struct_SmsMessage'>struct SmsMessage</a> *this, char *dest, int maxlen)</span>
+  Used once in <a class='funcref' href='#497850'>497850:ShowSmsMessage()</a>.
   <details><summary>Implementation <code><a href='https://github.com/yugecin/nfsu2-re/blob/master/nfsu2-re-hooks/replace-514B00-GetSmsMessageBody.c'>nfsu2-re-hooks/replace-514B00-GetSmsMessageBody.c</a></code></summary>
 <pre>char *format;
 char *parameter;
@@ -2077,6 +2100,8 @@ str = <a class='funcref' href='#4FFA80'>GetLanguageString</a>(cihash(buffer));
 </li><li><span class='func' id='43DC30'>43DC30 int strcmp(char *a, char *b)</span>
 </li><li><span class='func' id='43DC60'>43DC60 int strncmp(char *a, char *b, int maxlen)</span>
 </li><li><span class='func' id='43DCC0'>43DCC0 int stricmp(char *a, char *b)</span>
+</li><li><span class='func' id='43E000'>43E000 void *NaiveStrcpyCharToWchar(wchar_t *dest, char *src)</span>
+  Uses sign extension. See also <a class='funcref' href='#50D3C0'>50D3C0:LanguageConversionStrcpyCharToWchar()</a> and <a class='funcref' href='#512530'>512530:LanguageAwareStrcpyCharToWchar()</a>.
 </li><li><span class='func' id='43E950'>43E950 int FormatWithSinglePlaceholderPtr(char *dst, char *format, void *parameter)</span>
   This does a bunch of things that I don't want to figure out,
   but the the result is that it formats.
@@ -2088,6 +2113,12 @@ str = <a class='funcref' href='#4FFA80'>GetLanguageString</a>(cihash(buffer));
   A nop function.
   It seems like many calls to different functions that got nopped all redirect here.
   Some of the calls are used as a debug print, see <a href='#debugprint'>Debug print</a>.
+</li><li><span class='func' id='50DC70'>50DC70 wchar_t *__thiscall FindNewlineW(void *this, wchar_t *str)</span>
+  Doesn't actually use <code>this</code>, so can be treated as a <code>__stdcall</code>.
+  Returns a ptr to the first occurrence of <code>^</code> or <code>\n</code>, nullptr otherwise.
+</li><li><span class='func' id='50DCB0'>50DCB0 wchar_t *__thiscall GetEndOfStringW(void *this, wchar_t *str)</span>
+  Doesn't actually use <code>this</code>, so can be treated as a <code>__stdcall</code>.
+  Returns a ptr to the zero terminator.
 </li><li><span class='func' id='5CCD60'>5CCD60 LPRESULT MainWndProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)</span>
 </li><li><span class='func' id='75BCC7'>75BCC7 start</span>
 </li><li><span class='func' id='75D45B'>75D45B sub_75D45B()</span>

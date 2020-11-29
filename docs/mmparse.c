@@ -288,16 +288,22 @@ void get_directive_text(struct DIRECTIVE *dir, char *dest, int *out_length)
 	char c;
 	int open_braces;
 
-	open_braces = 0;
+	open_braces = 1;
 	dir_index = dir - directive;
 	offset = open_mark_position[dir_index] + 1;
 	for (;;) {
 		c = line_raw[offset];
-		if ((c == controlchar_close &&  open_braces == 0) || c == 0) {
+		if (c == 0) {
 			*dest = 0;
 			break;
 		}
-		if (c == controlchar_open && line_raw[offset - 1] != '\\') {
+		if (c == controlchar_close) {
+			open_braces--;
+			if (!open_braces) {
+				*dest = 0;
+				break;
+			}
+		} else if (c == controlchar_open && line_raw[offset - 1] != '\\') {
 			open_braces++;
 		}
 		*dest = c;
