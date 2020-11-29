@@ -24,10 +24,10 @@ void read_language_strings(FILE *in, int size)
 		int stringsOffset;
 	} *language_header;
 	char *strings;
+	void *pos;
 	int i;
 #endif
 	char *data;
-	void *pos;
 
 	data = malloc(size);
 	fread(data, size, 1, in);

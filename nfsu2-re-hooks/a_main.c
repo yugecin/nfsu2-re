@@ -11,6 +11,9 @@
 
 static int base;
 
+#define LOG_TO_LOGFILE
+//#define LOG_TO_DEBUGSTRING
+
 #include "a_log.c"
 #include "a_structs.c"
 #include "a_fields.c"
@@ -30,6 +33,7 @@ static void stub() {}
 //#include "hook-505450-hash-ci.c"
 //#include "hook-50B9C0-hash-ci.c"
 //#include "hook-511E60-GetLogoForCarModel.c"
+//#include "hook-535FE0-UILabel__setString.c"
 //#include "hook-55DC20-SendSomethingToFNG.c"
 //#include "hook-57CAC0-SomethingWithABinFile.c"
 #include "hook-fileapi.c"

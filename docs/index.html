@@ -926,7 +926,7 @@ if (section-&gt;<a href='#structBinSection_0'>header</a>.<a href='#structBinSect
 </li><li><span class='func' id='537290'>537290 int UnloadLanguageFontBinSection30201(struct BinData *bindata)</span>
   Something with font.
 </li><li><span class='field' id='8383D0'>8383D0 <a href='#struct_LoadedLanguage'>struct LoadedLanguage</a> loadedLanguage</span>
-</li><li><span class='func' id='838530'>838530 int skipLanguageWcharTable</span>
+</li><li><span class='field' id='838530'>838530 int skipLanguageWcharTable</span>
   When 1, <a class='funcref' href='#50D3C0'>50D3C0:LanguageConversionStrcpyCharToWchar()</a> will just zero extend char to wchar_t instead of using the conversion table
   in the language file.
 </li></ul><p style='margin-bottom:0'><a href='#index'>Index</a></p></div><span id='pools'></span><div><h2>Pools <a href="#pools">#</a></h2>
@@ -1461,6 +1461,29 @@ typedef int (<span id='fnginithandler'></span>fnginithandler)(<a href='#struct_F
 };
 EXPECT_SIZE(struct FNGData, 0x1C);
 
+<span id='struct_FNGInfo'></span>struct FNGInfo {
+        int field_0;
+        int field_4;
+        int field_8;
+        int field_C;
+        int field_10;
+        int field_14;
+        int field_18;
+        int controlMask;
+        int field_20;
+        int field_24;
+        int field_28;
+        int field_2C;
+        int field_30;
+        int field_34;
+        int field_38;
+        int field_3C;
+        int field_40;
+        int field_44;
+        int field_48;
+        <a href='#struct_UIElement'>struct UIElement</a> *<span id='structFNGInfo_4C'></span>rootUIElement;
+};
+
 struct FNGData <a class='fieldref' href='#7F7DC8'>fngdata</a>[] = {
 <details><summary>collapsed data</summary>
 	{ "UI_Main.fng", 0x4ED6B0, 0x0D6DFCF20, 0x5, 0x0, 0x100, 0x0 }, // 0
@@ -1680,7 +1703,15 @@ ShowFNG(33AC1CB4 ("UI_PC_Help_Bar.fng"), 037DFF40, 00000000) = 03D7EB60
 ShowFNG(32124083 ("UI_Pause.fng"), 037DDF40, 00000000) = 037DE2B0
 ShowFNG(AA469286 ("UI_InGameDialog.fng"), 037C1120, 00838640) = 037C2AB0
 </pre><p></details>
-</p><ul><li><span class='func' id='4B2240'>4B2240 int FNGINIT_UI_EngageMessageDialog_fng(void *arg)</span>
+</p><pre>TODO:
+.rdata:0079C118 aIconscroller_5 db 'IconScrollerMenu : Switch/Pop/Direct Pop called on me (0x%x).',0Ah
+.rdata:0079C118                                         ; DATA XREF: sub_543D40+3E9?o
+.rdata:0079C118                 db 0
+.rdata:0079C157                 align 4
+.rdata:0079C158 aIconscroller_4 db 'IconScrollerMenu : EXIT/INIT_COMPLETE called on me (0x%x).',0Ah,0
+.rdata:0079C158                                         ; DATA XREF: sub_543D40+38B?o
+.rdata:0079C194 aIconscroller_2 db 'IconScrollerMenu : UNDIM_COMPLETE.',0Ah,0
+</pre><ul><li><span class='func' id='4B2240'>4B2240 int FNGINIT_UI_EngageMessageDialog_fng(void *arg)</span>
   Calls <a class='funcref' href='#497850'>497850:ShowSmsMessage()</a> and passes the arg and freshly allocated memory as <code>this</code>.
   TODO
 </li><li><span class='func' id='50B840'>50B840 <a href='#struct_FNGData'>struct FNGData</a>* GetFNGDataForHash(unsigned int hash)</span>
@@ -1689,6 +1720,8 @@ ShowFNG(AA469286 ("UI_InGameDialog.fng"), 037C1120, 00838640) = 037C2AB0
   Goes through all the fng data above and set the handler for <a class='funcref' href='#43DCC0'>43DCC0:stricmp()</a> matching fng names.
 </li><li><span class='func' id='50B790'>50B790 ShowFNG(int fnghash, int arg1, int arg2)</span>
   See <code><a href='https://github.com/yugecin/nfsu2-re/blob/master/nfsu2-re-hooks/replace-50B790-ShowFNG.c'>nfsu2-re-hooks/replace-50B790-ShowFNG.c</a></code> for a reimplementation.
+</li><li><span class='func' id='52CEF0'>52CEF0 <a href='#struct_FNGInfo'>struct FNGInfo</a> *GetFNGInfoByName(char *fngName)</span>
+  TODO
 </li><li><span class='func' id='558B70'>558B70 void __thiscall UIConsumeKey(void *this, int keyCode)</span>
   probably used for Q, but what else?
 </li><li><span class='func' id='55DBD0'>55DBD0 void UIHandleKey(int keyCode)</span>
@@ -1712,16 +1745,146 @@ ShowFNG(AA469286 ("UI_InGameDialog.fng"), 037C1120, 00838640) = 037C2AB0
 </li><li><span class='field' id='83A9C0'>83A9C0 int isTextboxFocused</span>
 </li><li><span class='field' id='83A9C4'>83A9C4 void *focusedTextbox</span>
 </li></ul><p style='margin-bottom:0'><a href='#index'>Index</a></p></div><div><p style='margin-top:0'><small><a href='#ui'>UI</a> (continuation)</small></p><p>Stuff
-</p><p><strong>Symbols:</strong></p><ul><li><span class='func' id='50B460'>50B460 int RenderCursor(int x, int y)</span>
+</p><p>UI keys seem to be hashed with the case insensitive hash.
+</p><pre><span id='struct_UIElement'></span>struct UIElement {
+        void *vtable;
+        <a href='#struct_UIElement'>struct UIElement</a> *<span id='structUIElement_4'></span>nextSibling;
+        int field_8;
+        int field_C;
+        unsigned int <span id='structUIElement_10'></span>hash;
+        int field_14;
+        int type;
+        int someFlags;
+        int field_20;
+        int field_24;
+        int field_28;
+        int ptrField_2C; /*maybe something size related*/
+        /*TODO how big is this base struct??*/
+};
+
+<span id='struct_UIElementType1'></span>struct UIElementType1 {
+        <a href='#struct_UIElement'>struct UIElement</a> __parent; /*__parent.type = 1*/
+        /*TODO how big is the base struct?*/
+};
+
+<span id='struct_UILabel'></span>struct UILabel {
+        <a href='#struct_UIElement'>struct UIElement</a> __parent; /*__parent.type = 2*/
+        /*TODO how big is the base struct?*/
+};
+
+<span id='struct_UIElementType3'></span>struct UIElementType3 {
+        <a href='#struct_UIElement'>struct UIElement</a> __parent; /*__parent.type = 3*/
+        /*TODO how big is the base struct?*/
+};
+
+<span id='struct_UIElementType4'></span>struct UIElementType4 {
+        <a href='#struct_UIElement'>struct UIElement</a> __parent; /*__parent.type = 4*/
+        /*TODO how big is the base struct?*/
+};
+
+<span id='struct_UIContainer'></span>struct UIContainer {
+        <a href='#struct_UIElement'>struct UIElement</a> __parent; /*__parent.type = 5*/
+        /*TODO how big is the base struct?*/
+
+        /*incomplete*/
+
+        <a href='#struct_UIElement'>struct UIElement</a> *<span id='structUIContainer_64'></span>children;
+};
+
+<span id='struct_UIElementType6'></span>struct UIElementType6 {
+        <a href='#struct_UIElement'>struct UIElement</a> __parent; /*__parent.type = 6*/
+        /*TODO how big is the base struct?*/
+};
+
+<span id='struct_UIElementType7'></span>struct UIElementType7 {
+        <a href='#struct_UIElement'>struct UIElement</a> __parent; /*__parent.type = 7*/
+        /*TODO how big is the base struct?*/
+};
+
+<span id='struct_UIElementType8'></span>struct UIElementType8 {
+        <a href='#struct_UIElement'>struct UIElement</a> __parent; /*__parent.type = 8*/
+        /*TODO how big is the base struct?*/
+};
+
+<span id='struct_UIElementType9'></span>struct UIElementType9 {
+        <a href='#struct_UIElement'>struct UIElement</a> __parent; /*__parent.type = 9*/
+        /*TODO how big is the base struct?*/
+};
+
+<span id='struct_UIElementVisitor'></span>struct UIElementVisitor {
+        <a href='#struct_UIElementVisitor_vtable'>struct UIElementVisitor$vtable</a> *<span id='structUIElementVisitor_0'></span>vtable;
+};
+
+<span id='struct_UIElementVisitor_vtable'></span>struct UIElementVisitor$vtable {
+        void *<span id='structUIElementVisitor_vtable_0'></span>func_0;
+        int (*<span id='structUIElementVisitor_vtable_4'></span>acceptElement)(<a href='#struct_UIElementVisitor'>struct UIElementVisitor</a>*,<a href='#struct_UIElement'>struct UIElement</a>*); /*return 0 to stop visiting*/
+};
+
+<span id='struct_UIElementVisitor_FindByHash'></span>struct UIElementVisitor_FindByHash {
+        <a href='#struct_UIElementVisitor'>struct UIElementVisitor</a> <span id='structUIElementVisitor_FindByHash_0'></span>__parent;
+        unsigned int <span id='structUIElementVisitor_FindByHash_4'></span>searchingHash;
+        <a href='#struct_UIElement'>struct UIElement</a> *<span id='structUIElementVisitor_FindByHash_8'></span>foundUIelement;
+        int field_C;
+        int field_10;
+        int <span id='structUIElementVisitor_FindByHash_14'></span>field_14;
+};
+</pre><p><strong>Symbols:</strong></p><ul><li><span class='func' id='4953C0'>4953C0 <a href='#struct_UILabel'>struct UILabel</a> *FindUILabelByName(char *fngName, char *str)</span>
+  Hashes <code>str</code> and delegates to <a class='funcref' href='#537A10'>537A10:FindUILabelByHash()</a>.
+</li><li><span class='func' id='4953E0'>4953E0 <a href='#struct_UIElementType1'>struct UIElementType1</a> *FindUIElementType1ByName(char *fngName, char *str)</span>
+</li><li><span class='func' id='5048D0'>5048D0 int __thiscall UIElementVisitor_FindByHash::acceptElement(<a href='#struct_UIElementVisitor_FindByHash'>struct UIElementVisitor_FindByHash</a> *this,
+                                                                    <a href='#struct_UIElement'>struct UIElement</a> *element)</span>
+  If <code>element-&gt;<a href='#structUIElement_10'>hash</a> == this-&gt;<a href='#structUIElementVisitor_FindByHash_4'>searchingHash</a></code>,
+  set <code>this-&gt;<a href='#structUIElementVisitor_FindByHash_8'>foundUIelement</a></code> to <code>element</code> and return 0.
+</li><li><span class='func' id='50B460'>50B460 int RenderCursor(int x, int y)</span>
 </li><li><span class='func' id='50CD00'>50CD00 int IsPointInRect(float x, float y, struct { float x; float y} *pos,
   struct { float width; float height; } *size)</span>
   Only seen this being called when there's a list on screen so far.
+</li><li><span class='func' id='517F80'>517F80 <a href='#struct_UIElement'>struct UIElement</a> *__thiscall FNGInfo::FindUIElementByHash(<a href='#struct_FNGInfo'>struct FNGInfo</a> *this,
+                                                                      unsigned int hash)</span>
+<pre><a href='#struct_UIElementVisitor_FindByHash'>struct UIElementVisitor_FindByHash</a> visitor;
+
+visitor.<a href='#structUIElementVisitor_FindByHash_0'>__parent</a>.<a href='#structUIElementVisitor_0'>vtable</a> = &amp;<a class='fieldref' href='#79AAF4'>vtable_UIElementVisitor_FindByHash</a>;
+visitor.<a href='#structUIElementVisitor_FindByHash_4'>searchingHash</a> = hash;
+visitor.<a href='#structUIElementVisitor_FindByHash_8'>foundUIelement</a> = 0;
+visitor.<a href='#structUIElementVisitor_FindByHash_14'>field_14</a> = 0;
+<a class='funcref' href='#504880'>FNGInfo::VisitUIRecursively</a>(this, visitor);
+return visitor.<a href='#structUIElementVisitor_FindByHash_8'>foundUIelement</a>;
+</pre></li><li><span class='func' id='504830'>504830 int __thiscall FNGInfo::VisitContainerRecursively(<a href='#struct_FNGInfo'>struct FNGInfo</a> *this,
+                                                            <a href='#struct_UIContainer'>struct UIContainer</a> *container,
+                                                            <a href='#struct_UIElementVisitor'>struct UIElementVisitor</a> *visitor)</span>
+  Starts at <code>container-&gt;<a href='#structUIContainer_64'>children</a></code>,
+  iterates through all children by traversing <code><a href='#structUIElement_4'>nextSibling</a></code>,
+  calls <code>visitor-&gt;<a href='#structUIElementVisitor_0'>vtable</a>-&gt;<a href='#structUIElementVisitor_vtable_4'>acceptElement</a></code> for every child,
+  calls <a class='funcref' href='#504830'>504830:FNGInfo::VisitContainerRecursively()</a> (itself) for every child that is of type 5 (<code><a href='#struct_UIContainer'>struct UIContainer</a></code>),
+  returns 0 when either calls return 0.
+</li><li><span class='func' id='504880'>504880 int __thiscall FNGInfo::VisitUIRecursively(struct FNGInfo *this, <a href='#struct_UIElementVisitor'>struct UIElementVisitor</a> *visitor)</span>
+  Starts at <code>this-&gt;<a href='#structFNGInfo_4C'>rootUIElement</a></code>,
+  iterates through all children by traversing <code><a href='#structUIElement_4'>nextSibling</a></code>,
+  calls <code>visitor-&gt;<a href='#structUIElementVisitor_0'>vtable</a>-&gt;<a href='#structUIElementVisitor_vtable_4'>acceptElement</a></code> for every child,
+  calls <a class='funcref' href='#504830'>504830:FNGInfo::VisitContainerRecursively()</a> for every child that is of type 5 (<code><a href='#struct_UIContainer'>struct UIContainer</a></code>),
+  returns 0 when either calls return 0.
 </li><li><span class='func' id='52D020'>52D020 int IsPointIn??SomethingUI(float x, float y, void *somethingui)</span>
   something ui is something ui. Calculating the area goes through lots of functions, TODO
-</li><li><span class='func' id='537B80'>537B80 void SetUIString(?, unsigned int keyToSet, char *string, ?)</span>
+</li><li><span class='func' id='535FE0'>535FE0 void __thiscall UILabel::setString(<a href='#struct_UILabel'>struct UILabel</a> *this, char *str)</span>
+  Only seems to be used for dynamic things such as: money, player name, sms messages, track length...
+</li><li><span class='func' id='5379C0'>5379C0 <a href='#struct_UIElement'>struct UIElement</a> *FindUIElementByHash(char *fngName, unsigned int hash)</span>
+</li><li><span class='func' id='537A10'>537A10 <a href='#struct_UILabel'>struct UILabel</a> *FindUILabelByHash(char *fngName, unsigned int hash)</span>
+</li><li><span class='func' id='537A60'>537A60 <a href='#struct_UIElementType1'>struct UIElementType1</a> *FindUIElementType1ByHash(char *fngName, unsigned int hash)</span>
+</li><li><span class='func' id='537B30'>537B30 int SetUILabelFormattedString(<a href='#struct_UILabel'>struct UILabel</a> *resource, char *format, void *param)</span>
+  Delegates to <a class='funcref' href='#535FE0'>535FE0:UILabel::setString()</a>.
+</li><li><span class='func' id='537B80'>537B80 int SetUILabelByHashFormattedString(char *fngName, unsigned int hash, char *format, int parameter)</span>
   Only used for a few things, such as: sms 'from', sms 'subject', part name in customize..
+  Delegates to <a class='funcref' href='#537B30'>537B30:SetUILabelFormattedString()</a>
+</li><li><span class='func' id='542600'>542600 int SetUILabelByNameFormattedString(char *fngName, char *uiElementName, char *format, int parameter)</span>
+  Uses <a class='funcref' href='#4953C0'>4953C0:FindUILabelByName()</a>, then <a class='funcref' href='#537B30'>537B30:SetUILabelFormattedString()</a>.
+</li><li><span class='func' id='537BE0'>537BE0 int SetNullableUILabelFormattedString(<a href='#struct_UILabel'>struct UILabel</a> *resource, char *format, char param)</span>
+  Same as <a class='funcref' href='#537B30'>537B30:SetUILabelFormattedString()</a> but checks if <code>resource</code> is not null first.
 </li><li><span class='func' id='5663B0'>5663B0 void DoUI()</span>
   TODO document this and go in the last unresolved func.
+</li><li><span class='field' id='79AAF4'>79AAF4 <a href='#struct_UIElementVisitor_FindByHash'>struct UIElementVisitor_FindByHash</a> vtable_UIElementVisitor_FindByHash</span>
+  vtable for <a class='funcref' href='#517F80'>517F80:FNGInfo::FindUIElementByHash()</a>,
+  <code>vtable-&gt;<a href='#structUIElementVisitor_vtable_0'>func_0</a> = <span class='unresolved'>0x5047C0</span>;</code>
+  <code>vtable-&gt;<a href='#structUIElementVisitor_vtable_4'>acceptElement</a> = <a class='funcref' href='#5048D0'>5048D0:UIElementVisitor_FindByHash::acceptElement()</a>;</code>
 </li><li><span class='field' id='838528'>838528 char someThingKeyboardInput</span>
   Seems keyboard related due to:
   <details><summary>collapsed code</summary>
@@ -2094,7 +2257,11 @@ str = <a class='funcref' href='#4FFA80'>GetLanguageString</a>(cihash(buffer));
   <em>Ordinal number that denotes the display adapter.
   <code>D3DADAPTER_DEFAULT(0)</code> is always the primary display adapter.</em>
 </li></ul><p style='margin-bottom:0'><a href='#index'>Index</a></p></div><span id='other_symbols'></span><div><h2>Other symbols <a href="#other_symbols">#</a></h2>
-<p><strong>Symbols:</strong></p><ul><li><span class='func' id='43DBB0'>43DBB0 int strlenWithNullcheck(char *str)</span>
+<pre><span id='struct_WideCharString'></span>struct WideCharString {
+        wchar_t *<span id='structWideCharString_0'></span>ptrString;
+        int <span id='structWideCharString_4'></span>allocatedBytes;
+};
+</pre><p><strong>Symbols:</strong></p><ul><li><span class='func' id='43DBB0'>43DBB0 int strlenWithNullcheck(char *str)</span>
 </li><li><span class='func' id='43DBD0'>43DBD0 int strcpy(char *dest, char *src)</span>
 </li><li><span class='func' id='43DC00'>43DC00 void strncpy(char *dst, char *src, int maxlen)</span>
 </li><li><span class='func' id='43DC30'>43DC30 int strcmp(char *a, char *b)</span>
@@ -2119,6 +2286,18 @@ str = <a class='funcref' href='#4FFA80'>GetLanguageString</a>(cihash(buffer));
 </li><li><span class='func' id='50DCB0'>50DCB0 wchar_t *__thiscall GetEndOfStringW(void *this, wchar_t *str)</span>
   Doesn't actually use <code>this</code>, so can be treated as a <code>__stdcall</code>.
   Returns a ptr to the zero terminator.
+</li><li><span class='func' id='511630'>511630 void strcpyW(wchar_t *dest, wchar_t *src)</span>
+  Checks if <code>dest</code> is NULL first.
+</li><li><span class='func' id='575620'>575620 void * j_HeapAllocWrapper75C6C8(int bytes)</span>
+</li><li><span class='func' id='575630'>575630 void j_HeapFreeWrapper75C6DA(void *mem)</span>
+</li><li><span class='func' id='532670'>532670 struct WideCharString *__thiscall WideCharString::SetFromCharString(<a href='#struct_WideCharString'>struct WideCharString</a> *this, char *str)</span>
+  Converts language aware, like <a class='funcref' href='#512530'>512530:LanguageAwareStrcpyCharToWchar()</a> does. Calls <a class='funcref' href='#51DE90'>51DE90:WideCharString::EnsureAllocatedSize()</a>.
+  Returns itself.
+</li><li><span class='func' id='51DE90'>51DE90 int __thiscall WideCharString::EnsureAllocatedSize(<a href='#struct_WideCharString'>struct WideCharString</a> *this, int length)</span>
+  If it's already allocated and long enough, NOP.
+  Otherwise allocate new memory, copy existing string, free previous memory.
+  Does not actually check the <code><a href='#structWideCharString_4'>allocatedBytes</a></code> field, but does a strlen to check if
+  the existing string length is less than required.
 </li><li><span class='func' id='5CCD60'>5CCD60 LPRESULT MainWndProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)</span>
 </li><li><span class='func' id='75BCC7'>75BCC7 start</span>
 </li><li><span class='func' id='75D45B'>75D45B sub_75D45B()</span>

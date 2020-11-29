@@ -1,7 +1,5 @@
 /*
 511E60 GetLogoForCarModel
-
-Reimplementing because why not
 */
 
 static
@@ -33,11 +31,11 @@ __declspec(naked) int GetLogoForCarModelHook(int car_model_index, char get_manuf
 }
 
 static
-void initReplaceGetLogoForCarModel()
+void initHookGetLogoForCarModel()
 {
 	mkjmp(0x511E60, &GetLogoForCarModelHook);
 
 	INIT_FUNC();
 #undef INIT_FUNC
-#define INIT_FUNC initReplaceGetLogoForCarModel
+#define INIT_FUNC initHookGetLogoForCarModel
 }

@@ -1,9 +1,6 @@
 static FILE *logfile;
 static char buf[4096], buf2[4096];
 
-#define LOG_TO_LOGFILE
-//#define LOG_TO_DEBUGSTRING
-
 static char newline = 10;
 
 static

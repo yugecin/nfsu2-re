@@ -1333,7 +1333,7 @@ TODO: language files also contain bin sections with magic {0x30201}             
 
 - {8383D0 {struct LoadedLanguage} loadedLanguage}                                               ||| field,refto
 
-- {838530 int skipLanguageWcharTable}                                                           ||| func
+- {838530 int skipLanguageWcharTable}                                                           ||| field
   When 1, {50D3C0} will just zero extend char to wchar_t instead of using the conversion table  ||| ref
   in the language file.
 .pop symbols
@@ -2094,6 +2094,29 @@ typedef int ({fnginithandler})({struct FNGShowData} *msg);                      
 };
 EXPECT_SIZE(struct FNGData, 0x1C);
 
+{struct FNGInfo} \{                                                                             ||| mkref
+        int field_0;
+        int field_4;
+        int field_8;
+        int field_C;
+        int field_10;
+        int field_14;
+        int field_18;
+        int controlMask;
+        int field_20;
+        int field_24;
+        int field_28;
+        int field_2C;
+        int field_30;
+        int field_34;
+        int field_38;
+        int field_3C;
+        int field_40;
+        int field_44;
+        int field_48;
+        {struct UIElement} *{rootUIElement};                                                    ||| refto,mkref name=structFNGInfo+4C
+};
+
 struct FNGData {7F7DC8}[] = \{                                                                  ||| refplain
 {{collapsed data} ||| details,summary
 .controlchars []
@@ -2322,6 +2345,17 @@ ShowFNG(AA469286 ("UI_InGameDialog.fng"), 037C1120, 00838640) = 037C2AB0
 .pop pre
 }
 
+.push pre
+TODO:
+.rdata:0079C118 aIconscroller_5 db 'IconScrollerMenu : Switch/Pop/Direct Pop called on me (0x%x).',0Ah
+.rdata:0079C118                                         ; DATA XREF: sub_543D40+3E9?o
+.rdata:0079C118                 db 0
+.rdata:0079C157                 align 4
+.rdata:0079C158 aIconscroller_4 db 'IconScrollerMenu : EXIT/INIT_COMPLETE called on me (0x%x).',0Ah,0
+.rdata:0079C158                                         ; DATA XREF: sub_543D40+38B?o
+.rdata:0079C194 aIconscroller_2 db 'IconScrollerMenu : UNDIM_COMPLETE.',0Ah,0
+.pop pre
+
 .push ul
 - {4B2240 int FNGINIT_UI_EngageMessageDialog_fng(void *arg)}                                    ||| func
   Calls {497850} and passes the arg and freshly allocated memory as {this}.                     ||| ref,code
@@ -2335,6 +2369,9 @@ ShowFNG(AA469286 ("UI_InGameDialog.fng"), 037C1120, 00838640) = 037C2AB0
 
 - {50B790 ShowFNG(int fnghash, int arg1, int arg2)}                                             ||| func
   See {nfsu2-re-hooks/replace-50B790-ShowFNG.c} for a reimplementation.                         ||| hookfileref
+
+- {52CEF0 {struct FNGInfo} *GetFNGInfoByName(char *fngName)}                                    ||| func,refto
+  TODO
 
 - {558B70 void __thiscall UIConsumeKey(void *this, int keyCode)}                                ||| func
   probably used for Q, but what else?
@@ -2372,25 +2409,175 @@ ShowFNG(AA469286 ("UI_InGameDialog.fng"), 037C1120, 00838640) = 037C2AB0
 
 Stuff
 
-.push symbols
-- {50B460 int RenderCursor(int x, int y)}                                                       ||| func
+UI keys seem to be hashed with the case insensitive hash.
 
-- {50CD00 int IsPointInRect(float x, float y, struct \{ float x; float y\} *pos,                ||| func
+.push pre
+{struct UIElement} \{                                                                                           ||| mkref
+        void *vtable;
+        {struct UIElement} *{nextSibling};                                                                      ||| refto,mkref name=structUIElement+4
+        int field_8;
+        int field_C;
+        unsigned int {hash};                                                                                    ||| mkref name=structUIElement+10
+        int field_14;
+        int type;
+        int someFlags;
+        int field_20;
+        int field_24;
+        int field_28;
+        int ptrField_2C; /*maybe something size related*/
+        /*TODO how big is this base struct??*/
+};
+
+{struct UIElementType1} \{                                                                                      ||| mkref
+        {struct UIElement} __parent; /*__parent.type = 1*/                                                      ||| refto
+        /*TODO how big is the base struct?*/
+};
+
+{struct UILabel} \{                                                                                             ||| mkref
+        {struct UIElement} __parent; /*__parent.type = 2*/                                                      ||| refto
+        /*TODO how big is the base struct?*/
+};
+
+{struct UIElementType3} \{                                                                                      ||| mkref
+        {struct UIElement} __parent; /*__parent.type = 3*/                                                      ||| refto
+        /*TODO how big is the base struct?*/
+};
+
+{struct UIElementType4} \{                                                                                      ||| mkref
+        {struct UIElement} __parent; /*__parent.type = 4*/                                                      ||| refto
+        /*TODO how big is the base struct?*/
+};
+
+{struct UIContainer} \{                                                                                         ||| mkref
+        {struct UIElement} __parent; /*__parent.type = 5*/                                                      ||| refto
+        /*TODO how big is the base struct?*/
+
+        /*incomplete*/
+
+        {struct UIElement} *{children};                                                                         ||| refto,mkref name=structUIContainer+64
+};
+
+{struct UIElementType6} \{                                                                                      ||| mkref
+        {struct UIElement} __parent; /*__parent.type = 6*/                                                      ||| refto
+        /*TODO how big is the base struct?*/
+};
+
+{struct UIElementType7} \{                                                                                      ||| mkref
+        {struct UIElement} __parent; /*__parent.type = 7*/                                                      ||| refto
+        /*TODO how big is the base struct?*/
+};
+
+{struct UIElementType8} \{                                                                                      ||| mkref
+        {struct UIElement} __parent; /*__parent.type = 8*/                                                      ||| refto
+        /*TODO how big is the base struct?*/
+};
+
+{struct UIElementType9} \{                                                                                      ||| mkref
+        {struct UIElement} __parent; /*__parent.type = 9*/                                                      ||| refto
+        /*TODO how big is the base struct?*/
+};
+
+{struct UIElementVisitor} \{                                                                                    ||| mkref
+        {struct UIElementVisitor$vtable} *{vtable};                                                             ||| refto,mkref name=structUIElementVisitor+0
+};
+
+{struct UIElementVisitor$vtable} \{                                                                             ||| mkref
+        void *{func_0};                                                                                         ||| mkref name=structUIElementVisitor$vtable+0
+        int (*{acceptElement})({struct UIElementVisitor}*,{struct UIElement}*); /*return 0 to stop visiting*/   ||| mkref name=structUIElementVisitor$vtable+4,refto,refto
+};
+
+{struct UIElementVisitor_FindByHash} \{                                                                         ||| mkref
+        {struct UIElementVisitor} {__parent};                                                                   ||| refto,mkref name=structUIElementVisitor_FindByHash+0
+        unsigned int {searchingHash};                                                                           ||| mkref name=structUIElementVisitor_FindByHash+4
+        {struct UIElement} *{foundUIelement};                                                                   ||| refto,mkref name=structUIElementVisitor_FindByHash+8
+        int field_C;
+        int field_10;
+        int {field_14};                                                                                         ||| mkref name=structUIElementVisitor_FindByHash+14
+};
+.pop pre
+
+.push symbols
+- {4953C0 {struct UILabel} *FindUILabelByName(char *fngName, char *str)}                                        ||| func,refto
+  Hashes {str} and delegates to {537A10}.                                                                       ||| code,ref
+
+- {4953E0 {struct UIElementType1} *FindUIElementType1ByName(char *fngName, char *str)}                          ||| func,refto
+
+- {5048D0 int __thiscall UIElementVisitor_FindByHash::acceptElement({struct UIElementVisitor_FindByHash} *this, ||| func,refto
+                                                                    {struct UIElement} *element)}               ||| refto
+  If {element->{structUIElement+10} == this->{structUIElementVisitor_FindByHash+4}},                            ||| code,refto,refto
+  set {this->{structUIElementVisitor_FindByHash+8}} to {element} and return 0.                                  ||| code,refto,code
+
+- {50B460 int RenderCursor(int x, int y)}                                                                       ||| func
+
+- {50CD00 int IsPointInRect(float x, float y, struct \{ float x; float y\} *pos,                                ||| func
   struct \{ float width; float height; \} *size)}
   Only seen this being called when there's a list on screen so far.
 
-- {52D020 int IsPointIn??SomethingUI(float x, float y, void *somethingui)}                      ||| func
+- {517F80 {struct UIElement} *__thiscall FNGInfo::FindUIElementByHash({struct FNGInfo} *this,   ||| func,refto,refto
+                                                                      unsigned int hash)}
+  .controlchars [] .push pre
+  [struct UIElementVisitor_FindByHash] visitor;                                                 ||| refto
+
+  visitor.[structUIElementVisitor_FindByHash+0].[structUIElementVisitor+0] = &[79AAF4];                                 ||| refto,refto,refplain
+  visitor.[structUIElementVisitor_FindByHash+4] = hash;                                                                 ||| refto
+  visitor.[structUIElementVisitor_FindByHash+8] = 0;                                                                    ||| refto
+  visitor.[structUIElementVisitor_FindByHash+14] = 0;                                                                   ||| refto
+  [504880](this, visitor);                                                                                              ||| refplain
+  return visitor.[structUIElementVisitor_FindByHash+8];                                                                 ||| refto
+  .controlchars {} .pop pre
+
+- {504830 int __thiscall FNGInfo::VisitContainerRecursively({struct FNGInfo} *this,             ||| func,refto
+                                                            {struct UIContainer} *container,    ||| refto
+                                                            {struct UIElementVisitor} *visitor)}||| refto
+  Starts at {container->{structUIContainer+64}},                                                                        ||| code,refto
+  iterates through all children by traversing {{structUIElement+4}},                                                    ||| code,refto
+  calls {visitor->{structUIElementVisitor+0}->{structUIElementVisitor$vtable+4}} for every child,                       ||| code,refto,refto
+  calls {504830} (itself) for every child that is of type 5 ({{struct UIContainer}}),                                   ||| ref,code,refto
+  returns 0 when either calls return 0.
+
+- {504880 int __thiscall FNGInfo::VisitUIRecursively(struct FNGInfo *this, {struct UIElementVisitor} *visitor)}         ||| func,refto
+  Starts at {this->{structFNGInfo+4C}},                                                                                 ||| code,refto
+  iterates through all children by traversing {{structUIElement+4}},                                                    ||| code,refto
+  calls {visitor->{structUIElementVisitor+0}->{structUIElementVisitor$vtable+4}} for every child,                       ||| code,refto,refto
+  calls {504830} for every child that is of type 5 ({{struct UIContainer}}),                                            ||| ref,code,refto
+  returns 0 when either calls return 0.
+
+- {52D020 int IsPointIn??SomethingUI(float x, float y, void *somethingui)}                                      ||| func
   something ui is something ui. Calculating the area goes through lots of functions, TODO
 
-- {537B80 void SetUIString(?, unsigned int keyToSet, char *string, ?)}                          ||| func
-  Only used for a few things, such as: sms 'from', sms 'subject', part name in customize..
+- {535FE0 void __thiscall UILabel::setString({struct UILabel} *this, char *str)}              ||| func,refto
+  Only seems to be used for dynamic things such as: money, player name, sms messages, track length...
 
-- {5663B0 void DoUI()}                                                                          ||| func
+- {5379C0 {struct UIElement} *FindUIElementByHash(char *fngName, unsigned int hash)}                            ||| func,refto
+
+- {537A10 {struct UILabel} *FindUILabelByHash(char *fngName, unsigned int hash)}                                ||| func,refto
+
+- {537A60 {struct UIElementType1} *FindUIElementType1ByHash(char *fngName, unsigned int hash)}                  ||| func,refto
+
+- {537B30 int SetUILabelFormattedString({struct UILabel} *resource, char *format, void *param)}                 ||| func,refto
+  Delegates to {535FE0}.                                                                                        ||| ref
+
+- {537B80 int SetUILabelByHashFormattedString(char *fngName, unsigned int hash, char *format, int parameter)}   ||| func
+  Only used for a few things, such as: sms 'from', sms 'subject', part name in customize..
+  Delegates to {537B30}                                                                                         ||| ref
+
+- {542600 int SetUILabelByNameFormattedString(char *fngName, char *uiElementName, char *format, int parameter)} ||| func
+  Uses {4953C0}, then {537B30}.                                                                                 ||| ref,ref
+
+- {537BE0 int SetNullableUILabelFormattedString({struct UILabel} *resource, char *format, char param)}          ||| func,refto
+  Same as {537B30} but checks if {resource} is not null first.                                                  ||| ref,code
+
+- {5663B0 void DoUI()}                                                                                          ||| func
   TODO document this and go in the last unresolved func.
 
-- {838528 char someThingKeyboardInput}                                                          ||| field
+- {79AAF4 {struct UIElementVisitor_FindByHash} vtable_UIElementVisitor_FindByHash}                              ||| field,refto
+  vtable for {517F80},                                                                                          ||| ref
+  {vtable->{structUIElementVisitor$vtable+0} = {5047C0};}                                                       ||| code,refto,ref
+  {vtable->{structUIElementVisitor$vtable+4} = {5048D0};}                                                       ||| code,refto,ref
+
+- {838528 char someThingKeyboardInput}                                                                          ||| field
   Seems keyboard related due to:
-  {{collapsed code}                                                                             ||| details,summary
+  {{collapsed code}                                                                                             ||| details,summary
   .controlchars [] .push pre
   //551E84
   if (!strcmp(x,"UI_OLEAMessenger.fng") ||
@@ -2398,9 +2585,9 @@ Stuff
           !strcmp(x, "Keyboard.fng") ||
           !strcmp(x, "UI_VirtualKeyboard.fng))
   {
-          [838528] = 1;                                                                         ||| refplain
+          [838528] = 1;                                                                                         ||| refplain
   } else {
-          [838528] = 0;                                                                         ||| refplain
+          [838528] = 0;                                                                                         ||| refplain
   }
   .controlchars {} .pop pre
   }
@@ -2887,6 +3074,13 @@ if (![isProfileWithStartedCareerLoaded])  {                                     
 
 {Other symbols}  ||| h id=other_symbols
 
+.push pre
+{struct WideCharString} \{                                                                      ||| mkref
+        wchar_t *{ptrString};                                                                   ||| mkref name=structWideCharString+0
+        int {allocatedBytes};                                                                   ||| mkref name=structWideCharString+4
+};
+.pop pre
+
 .push symbols
 - {43DBB0 int strlenWithNullcheck(char *str)}                                                   ||| func
 
@@ -2924,6 +3118,23 @@ if (![isProfileWithStartedCareerLoaded])  {                                     
 - {50DCB0 wchar_t *__thiscall GetEndOfStringW(void *this, wchar_t *str)}                        ||| func
   Doesn't actually use {this}, so can be treated as a {__stdcall}.                              ||| code,code
   Returns a ptr to the zero terminator.
+
+- {511630 void strcpyW(wchar_t *dest, wchar_t *src)}                                            ||| func
+  Checks if {dest} is NULL first.                                                               ||| code
+
+- {575620 void * j_HeapAllocWrapper75C6C8(int bytes)}                                           ||| func
+
+- {575630 void j_HeapFreeWrapper75C6DA(void *mem)}                                              ||| func
+
+- {532670 struct WideCharString *__thiscall WideCharString::SetFromCharString({struct WideCharString} *this, char *str)}        ||| func,refto
+  Converts language aware, like {512530} does. Calls {51DE90}.                                  ||| ref,ref
+  Returns itself.
+
+- {51DE90 int __thiscall WideCharString::EnsureAllocatedSize({struct WideCharString} *this, int length)}        ||| func,refto
+  If it's already allocated and long enough, NOP.
+  Otherwise allocate new memory, copy existing string, free previous memory.
+  Does not actually check the {{structWideCharString+4}} field, but does a strlen to check if   ||| code,refto
+  the existing string length is less than required.
 
 - {5CCD60 LPRESULT MainWndProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)}             ||| func
 

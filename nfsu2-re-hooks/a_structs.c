@@ -111,3 +111,45 @@ struct SmsMessage {
 	unsigned int subjectAndBodyParameterLanguageLabel;
 	unsigned int subjectFormatLanguageLabel;
 };
+
+struct WideCharString {
+	wchar_t *ptrString;
+	int allocatedLength;
+};
+
+struct UIElement {
+	int field_0;
+	int field_4;
+	int field_8;
+	int field_C;
+	unsigned int hash;
+	int field_14;
+	int type;
+	int someFlags;
+	int field_20;
+	int field_24;
+	int field_28;
+	int ptrField_2C;
+};
+
+struct UILabel {
+	struct UIElement __parent;
+	int field_30;
+	int field_34;
+	int field_38;
+	int field_3C;
+	int field_40;
+	int field_44;
+	int field_48;
+	int field_4C;
+	int field_50;
+	int field_54;
+	int field_58;
+	int field_5C;
+	int field_60;
+	struct WideCharString string;
+	int field_6C;
+	int field_70;
+};
+EXPECT_SIZE(struct UILabel, 0x74);
+ASSERT_OFFSET(struct UILabel, string, 0x64);
