@@ -1509,6 +1509,9 @@ EXPECT_SIZE(struct bFileSystemPoolEntry, 0xF0);
 - {57ED10 ? ??SetupPools(?,?)}                                                                                  ||| func
   Called by {57ED10}                                                                                            ||| ref
 
+- {5EA8B0 int isUseMetricSystem()}                                                                              ||| func
+  Returns {83AA1A}.                                                                                             ||| ref
+
 - {77B670 void init_function_77B670()}                                                                          ||| func
   .push pre
   {828530}->{4407B0}()                                                                                          ||| refplain,refplain
@@ -1562,6 +1565,8 @@ EXPECT_SIZE(struct bFileSystemPoolEntry, 0xF0);
 
 - {827B68 int anim_CAnimPartPoolCreated}                                                                        ||| field
   To make sure {827B64} gets created just once, although it seems like only one place creates it.               ||| ref
+
+- {83AA1A int useMetricSystem}                                                                                  ||| field
 .pop symbols
 
 .pop section

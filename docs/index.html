@@ -1067,6 +1067,8 @@ return pool
   Same as the one above, but wrapped in an stdcall.
 </li><li><span class='func' id='57ED10'>57ED10 ? ??SetupPools(?,?)</span>
   Called by <a class='funcref' href='#57ED10'>57ED10:??SetupPools()</a>
+</li><li><span class='func' id='5EA8B0'>5EA8B0 int isUseMetricSystem()</span>
+  Returns <a class='fieldref' href='#83AA1A'>83AA1A:useMetricSystem</a>.
 </li><li><span class='func' id='77B670'>77B670 void init_function_77B670()</span>
 <pre><a class='fieldref' href='#828530'>pools</a>-&gt;<a class='funcref' href='#4407B0'>PoolControl::Init</a>()
 </pre></li><li><span class='field' id='828530'>828530 <a href='#struct_PoolControl'>struct PoolControl</a> pools</span>
@@ -1104,6 +1106,7 @@ return pool
   Created by <a class='funcref' href='#431580'>431580:CreateAnim_CAnimPartPool()</a>
 </li><li><span class='field' id='827B68'>827B68 int anim_CAnimPartPoolCreated</span>
   To make sure <a class='fieldref' href='#827B64'>827B64:anim_CAnimPartPool</a> gets created just once, although it seems like only one place creates it.
+</li><li><span class='field' id='83AA1A'>83AA1A int useMetricSystem</span>
 </li></ul><p style='margin-bottom:0'><a href='#index'>Index</a></p></div><span id='speedyboot'></span><div><h2>Speedy boot <a href="#speedyboot">#</a></h2>
 <p><em>I want a fast startup because I'm booting the game so many times
 (not to mention the numerious crashes)</em>

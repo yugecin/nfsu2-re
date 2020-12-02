@@ -239,7 +239,7 @@
 			</FileConfiguration>
 		</File>
 		<File
-			RelativePath=".\hook-440B96-CreatePool.c"
+			RelativePath=".\hook-440B40-AllocateAndInitPool.c"
 			>
 			<FileConfiguration
 				Name="Debug|Win32"
@@ -276,6 +276,42 @@
 		</File>
 		<File
 			RelativePath=".\hook-511E60-GetLogoForCarModel.c"
+			>
+			<FileConfiguration
+				Name="Debug|Win32"
+				ExcludedFromBuild="true"
+				>
+				<Tool
+					Name="VCCLCompilerTool"
+				/>
+			</FileConfiguration>
+		</File>
+		<File
+			RelativePath=".\hook-52CEF0-GetFNGInfoByName.c"
+			>
+			<FileConfiguration
+				Name="Debug|Win32"
+				ExcludedFromBuild="true"
+				>
+				<Tool
+					Name="VCCLCompilerTool"
+				/>
+			</FileConfiguration>
+		</File>
+		<File
+			RelativePath=".\hook-535FE0-UILabel__setString.c"
+			>
+			<FileConfiguration
+				Name="Debug|Win32"
+				ExcludedFromBuild="true"
+				>
+				<Tool
+					Name="VCCLCompilerTool"
+				/>
+			</FileConfiguration>
+		</File>
+		<File
+			RelativePath=".\hook-555D00-AddFNGToUIObject.c"
 			>
 			<FileConfiguration
 				Name="Debug|Win32"
@@ -324,6 +360,30 @@
 		</File>
 		<File
 			RelativePath=".\hook-realcore-filesystem.c"
+			>
+			<FileConfiguration
+				Name="Debug|Win32"
+				ExcludedFromBuild="true"
+				>
+				<Tool
+					Name="VCCLCompilerTool"
+				/>
+			</FileConfiguration>
+		</File>
+		<File
+			RelativePath=".\replace-440BB0-Pool__Extend.c"
+			>
+			<FileConfiguration
+				Name="Debug|Win32"
+				ExcludedFromBuild="true"
+				>
+				<Tool
+					Name="VCCLCompilerTool"
+				/>
+			</FileConfiguration>
+		</File>
+		<File
+			RelativePath=".\replace-440DF0-CreatePool.c"
 			>
 			<FileConfiguration
 				Name="Debug|Win32"
@@ -396,6 +456,18 @@
 		</File>
 		<File
 			RelativePath=".\replace-5149C0-GetSmsMessageSubject.c"
+			>
+			<FileConfiguration
+				Name="Debug|Win32"
+				ExcludedFromBuild="true"
+				>
+				<Tool
+					Name="VCCLCompilerTool"
+				/>
+			</FileConfiguration>
+		</File>
+		<File
+			RelativePath=".\replace-514B00-GetSmsMessageBody.c"
 			>
 			<FileConfiguration
 				Name="Debug|Win32"
