@@ -280,11 +280,10 @@ This is kind of disgusting, but will do for now (the only problem really is nest
 Will not work for multi-line directives,
 but those don't need the text for now.*/
 static
-void get_directive_text(struct DIRECTIVE *dir, char *dest, int *out_length)
+void get_directive_text(struct DIRECTIVE *dir, char *dest)
 {
 	int dir_index;
 	int offset;
-	int length;
 	char c;
 	int open_braces;
 
@@ -309,10 +308,6 @@ void get_directive_text(struct DIRECTIVE *dir, char *dest, int *out_length)
 		*dest = c;
 		dest++;
 		offset++;
-		length++;
-	}
-	if (out_length) {
-		*out_length = length;
 	}
 }
 
@@ -970,7 +965,7 @@ struct HANDLER handler_ul = {
 static
 enum DIR_CONTENT_ACTION mmparse_directive_href(char **to, char *from, struct DIRECTIVE *dir)
 {
-	get_directive_text(dir, next_placeholder(cb_placeholder_href), 0);
+	get_directive_text(dir, next_placeholder(cb_placeholder_href));
 	return DELETE_CONTENT;
 }
 
@@ -1014,7 +1009,7 @@ enum DIR_CONTENT_ACTION mmparse_directive_h(char **to, char *from, struct DIRECT
 		if (num_headers < MAX_HEADERS) {
 			header_level[num_headers] = section_depth;
 			strcpy(header_id[num_headers], id_argument);
-			get_directive_text(dir, header_name[num_headers], 0);
+			get_directive_text(dir, header_name[num_headers]);
 			num_headers++;
 		} else {
 			printf("exceeded MAX_HEADERS\n");

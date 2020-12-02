@@ -10,3 +10,4 @@ float *canvasWidth_2 = (float*) 0x797D50;
 float *canvasHeight_2 = (float*) 0x78DA30;
 struct LoadedLanguage *loadedLanguage = (void*) 0x8383D0;
 char **ptr838428 = (void*) 0x838428;
+struct PoolControl *pools = (void*) 0x828530;

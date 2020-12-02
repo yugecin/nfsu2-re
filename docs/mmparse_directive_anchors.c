@@ -52,7 +52,7 @@ enum DIR_CONTENT_ACTION directive_mkref(char **to, char *from, struct DIRECTIVE 
 		return LEAVE_CONTENT;
 	}
 
-	get_directive_text(dir, anchor_content[num_anchors], 0);
+	get_directive_text(dir, anchor_content[num_anchors]);
 	for (i = 0; i < dir->num_args; i++) {
 		if (!strcmp(dir->argn[i], "name")) {
 			strcpy(name, dir->argv[i]);
@@ -73,7 +73,7 @@ enum DIR_CONTENT_ACTION directive_refto(char **to, char *from, struct DIRECTIVE 
 	char *name;
 
 	name = next_placeholder(cb_placeholder_refanchor);
-	get_directive_text(dir, name, 0);
+	get_directive_text(dir, name);
 	anchor_sanitize(name);
 	return DELETE_CONTENT;
 }

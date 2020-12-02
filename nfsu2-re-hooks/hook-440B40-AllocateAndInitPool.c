@@ -1,5 +1,5 @@
 /***********************************************************************************************
-440B40 ??CreatePoolReally
+440B40 AllocateAndInitPool
 */
 
 char *printCreatedPoolsFormat = "created pool@%p; unk %p element amt %p element size %p name '%s'";

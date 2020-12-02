@@ -110,7 +110,7 @@ have_address:
 			return LEAVE_CONTENT;
 		}
 	}
-	get_directive_text(dir, buf, 0);
+	get_directive_text(dir, buf);
 	is_func_ptr_type = 0;
 	target = funcfield_names[num_funcfields];
 	funcfield_types[num_funcfields] = type;
@@ -183,7 +183,7 @@ enum DIR_CONTENT_ACTION directive_funcfieldref(char **to, struct DIRECTIVE *dir,
 			goto have_address;
 		}
 	}
-	get_directive_text(dir, data->address, 0);
+	get_directive_text(dir, data->address);
 have_address:
 	data->plain = plain;
 	return DELETE_CONTENT;

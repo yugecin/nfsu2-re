@@ -1477,7 +1477,8 @@ EXPECT_SIZE(struct bFileSystemPoolEntry, 0xF0);
   [struct Pool] *pool;                                                                                          ||| refto
   [struct PoolLink] *linkNext;                                                                                  ||| refto
 
-  elementSize = elementSize + 3 - (elementSize % 4); /*ceil to multiple of 4*/
+  elementSize += 3;
+  elementSize -= elementSize % 4; /*ceil to multiple of 4*/
   pool = [440B40](elementSize, elementAmount, name, unknown);                                                   ||| refplain
   if (pool && [828530].[structPoolControl+0]) {                                                                 ||| refplain,refto
           linkNext = [828530].[structPoolControl+4].[structPoolLink+4];                                         ||| refplain,refto,refto

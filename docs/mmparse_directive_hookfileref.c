@@ -3,7 +3,7 @@ enum DIR_CONTENT_ACTION directive_hookfileref(char **to, char *from, struct DIRE
 {
 	char filename[100];
 
-	get_directive_text(dir, filename, 0);
+	get_directive_text(dir, filename);
 	*to += sprintf(*to,
 		"<code><a href='"
 		"https://github.com/yugecin/nfsu2-re/blob/master/%s"

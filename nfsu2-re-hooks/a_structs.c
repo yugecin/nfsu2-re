@@ -164,3 +164,39 @@ struct UILabel {
 };
 EXPECT_SIZE(struct UILabel, 0x74);
 ASSERT_OFFSET(struct UILabel, string, 0x64);
+
+struct PoolLink {
+        struct PoolLink *prev;
+        struct PoolLink *next;
+};
+EXPECT_SIZE(struct PoolLink, 0x8);
+
+struct PoolControl {
+        int inited;
+        struct PoolLink link;
+};
+EXPECT_SIZE(struct PoolControl, 0xC);
+
+#define POOL_FLAG_EXTENDABLE 1
+
+struct Pool {
+	struct PoolLink __parent;
+	struct Pool *nextLinkedPool;
+	char* name;
+	struct PoolEntry *firstElement;
+	int flagsMaybe;
+	int availableElements_;
+	int maxAllocatedElements_;
+	int field_20;
+	int elementAmount;
+	int elementSize;
+	int elementAmountOverAllLinkedPools;
+        /*pool entries come here*/
+};
+EXPECT_SIZE(struct Pool, 0x30);
+
+struct PoolEntry {
+        struct PoolEntry *nextEntry;
+        struct PoolEntry *prevEntry_;
+};
+EXPECT_SIZE(struct PoolEntry, 0x8);
