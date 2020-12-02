@@ -1397,6 +1397,15 @@ EXPECT_SIZE(struct bFileSystemPoolEntry, 0xF0);
 .pop pre
 
 .push symbols
+- {431380 void CreateAnim_CNFSAnimBankPool()}                                                                   ||| func
+  Called by {431380}                                                                                            ||| ref
+
+- {4314E0 void CreateAnim_CAnimSkeletonPool()}                                                                  ||| func
+  Called by {431380}                                                                                            ||| ref
+
+- {431580 void CreateAnim_CAnimPartPool()}                                                                      ||| func
+  Called by {431380}                                                                                            ||| ref
+
 - {43CD40 void __thiscall Pool::Init({struct Pool} *this)}                                                      ||| func,refto
   Called once, from {440B40}.                                                                                   ||| ref
   {{Implementation}                                                                                             ||| details,summary
@@ -1497,6 +1506,9 @@ EXPECT_SIZE(struct bFileSystemPoolEntry, 0xF0);
 - {440E50 int PoolGetNextFreeItem?stdcallwrapper(void *pool)}                                                   ||| func
   Same as the one above, but wrapped in an stdcall.
 
+- {57ED10 ? ??SetupPools(?,?)}                                                                                  ||| func
+  Called by {57ED10}                                                                                            ||| ref
+
 - {77B670 void init_function_77B670()}                                                                          ||| func
   .push pre
   {828530}->{4407B0}()                                                                                          ||| refplain,refplain
@@ -1505,6 +1517,51 @@ EXPECT_SIZE(struct bFileSystemPoolEntry, 0xF0);
 - {828530 {struct PoolControl} pools}                                                                           ||| field,refto
 
 - {865104 p_bFileSystemPool}                                                                                    ||| field
+
+- {81CB6C {struct Pool} *AIActionPool}                                                                          ||| field,refto
+  Size 560 Amount 23
+  Created by {4035D0}                                                                                           ||| ref
+
+- {81CB70 {struct Pool} *AIGoalPool}                                                                            ||| field,refto
+  Size 40 Amount 22
+  Created by {4035D0}                                                                                           ||| ref
+
+- {81CBB4 {struct Pool} *futurePointPool}                                                                       ||| field,refto
+  Size 120 Amount 600
+  Created by {4035D0}                                                                                           ||| ref
+
+- {81CBB8 {struct Pool} *pathfindingNodePool}                                                                   ||| field,refto
+  Size 192 Amount 161
+  Created by {4035D0}                                                                                           ||| ref
+
+- {81CBBC {struct Pool} *pathfindingNodeLitePool}                                                               ||| field,refto
+  Size 12 Amount 1280
+  Created by {4035D0}                                                                                           ||| ref
+
+- {827B4C {struct Pool} *anim_CNFSAnimBankPool}                                                                 ||| field,refto
+  Size 60 Amount 81
+  Created by {431380} or {4348F0} (whoever is first, checked with {827B50})                                     ||| ref,ref,ref
+
+- {827B50 int anim_CNFSAnimBankPoolCreated}                                                                     ||| field
+  To make sure {827B4C} gets created just once, since two funcs can make it.                                    ||| ref
+
+- {827B54 {struct Pool} *animCtrlPool}                                                                          ||| field,refto
+  Size 128 Amount 64
+  Created by {57ED10}                                                                                           ||| ref
+
+- {827B5C {struct Pool} *anim_CAnimSkeletonPool}                                                                ||| field,refto
+  Size 40 Amount 8
+  Created by {4314E0} or {434E10} (whoever is first, checked with {827B60})                                     ||| ref,ref,ref
+
+- {827B60 int anim_CAnimSkeletonPoolCreated}                                                                    ||| field
+  To make sure {827B5C} gets created just once, since two funcs can make it.                                    ||| ref
+
+- {827B64 {struct Pool} *anim_CAnimPartPool}                                                                    ||| field,refto
+  Size 20 Amount 8
+  Created by {431580}                                                                                           ||| ref
+
+- {827B68 int anim_CAnimPartPoolCreated}                                                                        ||| field
+  To make sure {827B64} gets created just once, although it seems like only one place creates it.               ||| ref
 .pop symbols
 
 .pop section
@@ -3221,9 +3278,41 @@ if (![isProfileWithStartedCareerLoaded])  {                                     
         wchar_t *{ptrString};                                                                   ||| mkref name=structWideCharString+0
         int {allocatedBytes};                                                                   ||| mkref name=structWideCharString+4
 };
+
+{struct WorldAnimStuff} \{                                                                      ||| mkref
+        struct Pool *{worldAnimEntityPool};                                                     ||| mkref name=structWorldAnimStuff+0
+        struct Pool *{worldAnimEntityTreePool};                                                 ||| mkref name=structWorldAnimStuff+4
+        struct Pool *{worldAnimEntityTreeInfoPool};                                             ||| mkref name=structWorldAnimStuff+8
+        struct Pool *{worldAnimCtrlPool};                                                       ||| mkref name=structWorldAnimStuff+C
+        struct Pool *{worldAnimInstanceEntryPool};                                              ||| mkref name=structWorldAnimStuff+10
+        char poolsCreated?;
+        char field_15;
+        char field_16;
+        char field_17;
+        int field_18;
+        int field_1C;
+        int field_20;
+        int field_24;
+        int field_28;
+        int field_2C;
+        int field_30;
+        int field_34;
+        int field_38;
+        int field_3C;
+        int field_40;
+        int field_44;
+        int field_48;
+};
+EXPECT_SIZE(struct WorldAnimStuff, 0x4C);
 .pop pre
 
 .push symbols
+- {4035D0 void LoadAIStuff()}                                                                   ||| func
+
+- {4385B0 void __thiscall WorldAnimStuff::CreatePools?({struct WorldAnimStuff} *this)}          ||| func,refto
+
+- {439EA0 void __thiscall WorldAnimStuff::ctor({struct WorldAnimStuff} *this)}                  ||| func,refto
+
 - {43DBB0 int strlenWithNullcheck(char *str)}                                                   ||| func
 
 - {43DBD0 int strcpy(char *dest, char *src)}                                                    ||| func
@@ -3285,12 +3374,18 @@ if (![isProfileWithStartedCareerLoaded])  {                                     
 - {75D45B sub_75D45B()}                                                                         ||| func
   Invoked once at boot, does things (todo) and calls all functions in {7E8000}.                 ||| ref
 
+- {77B5E0 void init_function_77B5E0()}                                                          ||| func
+  Calls {439EA0}.                                                                               ||| ref
+
 - {77E580 init_function_77E580_MouseData_ctor()}                                                ||| func
   Calls {5C8600} to initialize mouse data.                                                      ||| ref
 
 - {7E8000 void (*someInitFunctions)()[821]}                                                     ||| field
   Array of functions that are called at boot, by {75D45B}.                                      ||| ref
   Some of them are constructors being called.
+
+- {827EF0 {struct WorldAnimStuff} worldAnimStuff}                                               ||| field,refto
+  TODO usages and stuff
 
 - {828518 int _TimeSpentInFormatWithSinglePlaceholder}                                          ||| field
   Used in {43FBC0}.                                                                             ||| ref

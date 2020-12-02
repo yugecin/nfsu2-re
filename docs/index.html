@@ -977,7 +977,13 @@ struct bFileSystemPoolEntry {
 
 };
 EXPECT_SIZE(struct bFileSystemPoolEntry, 0xF0);
-</pre><p><strong>Symbols:</strong></p><ul><li><span class='func' id='43CD40'>43CD40 void __thiscall Pool::Init(<a href='#struct_Pool'>struct Pool</a> *this)</span>
+</pre><p><strong>Symbols:</strong></p><ul><li><span class='func' id='431380'>431380 void CreateAnim_CNFSAnimBankPool()</span>
+  Called by <a class='funcref' href='#431380'>431380:CreateAnim_CNFSAnimBankPool()</a>
+</li><li><span class='func' id='4314E0'>4314E0 void CreateAnim_CAnimSkeletonPool()</span>
+  Called by <a class='funcref' href='#431380'>431380:CreateAnim_CNFSAnimBankPool()</a>
+</li><li><span class='func' id='431580'>431580 void CreateAnim_CAnimPartPool()</span>
+  Called by <a class='funcref' href='#431380'>431380:CreateAnim_CNFSAnimBankPool()</a>
+</li><li><span class='func' id='43CD40'>43CD40 void __thiscall Pool::Init(<a href='#struct_Pool'>struct Pool</a> *this)</span>
   Called once, from <a class='funcref' href='#440B40'>440B40:AllocateAndInitPool()</a>.
   <details><summary>Implementation</summary>
 <pre><a href='#struct_Pool'>struct Pool</a> *pool;
@@ -1043,7 +1049,8 @@ this-&gt;<a href='#structPool_2C'>elementAmountOverAllLinkedPools</a> += element
 <pre><a href='#struct_Pool'>struct Pool</a> *pool;
 <a href='#struct_PoolLink'>struct PoolLink</a> *linkNext;
 
-elementSize = elementSize + 3 - (elementSize % 4); /*ceil to multiple of 4*/
+elementSize += 3;
+elementSize -= elementSize % 4; /*ceil to multiple of 4*/
 pool = <a class='funcref' href='#440B40'>AllocateAndInitPool</a>(elementSize, elementAmount, name, unknown);
 if (pool &amp;&amp; <a class='fieldref' href='#828530'>pools</a>.<a href='#structPoolControl_0'>inited</a>) {
         linkNext = <a class='fieldref' href='#828530'>pools</a>.<a href='#structPoolControl_4'>link</a>.<a href='#structPoolLink_4'>next</a>;
@@ -1058,10 +1065,45 @@ return pool
   TODO
 </li><li><span class='func' id='440E50'>440E50 int PoolGetNextFreeItem?stdcallwrapper(void *pool)</span>
   Same as the one above, but wrapped in an stdcall.
+</li><li><span class='func' id='57ED10'>57ED10 ? ??SetupPools(?,?)</span>
+  Called by <a class='funcref' href='#57ED10'>57ED10:??SetupPools()</a>
 </li><li><span class='func' id='77B670'>77B670 void init_function_77B670()</span>
 <pre><a class='fieldref' href='#828530'>pools</a>-&gt;<a class='funcref' href='#4407B0'>PoolControl::Init</a>()
 </pre></li><li><span class='field' id='828530'>828530 <a href='#struct_PoolControl'>struct PoolControl</a> pools</span>
 </li><li><span class='field' id='865104'>865104 p_bFileSystemPool</span>
+</li><li><span class='field' id='81CB6C'>81CB6C <a href='#struct_Pool'>struct Pool</a> *AIActionPool</span>
+  Size 560 Amount 23
+  Created by <a class='funcref' href='#4035D0'>4035D0:LoadAIStuff()</a>
+</li><li><span class='field' id='81CB70'>81CB70 <a href='#struct_Pool'>struct Pool</a> *AIGoalPool</span>
+  Size 40 Amount 22
+  Created by <a class='funcref' href='#4035D0'>4035D0:LoadAIStuff()</a>
+</li><li><span class='field' id='81CBB4'>81CBB4 <a href='#struct_Pool'>struct Pool</a> *futurePointPool</span>
+  Size 120 Amount 600
+  Created by <a class='funcref' href='#4035D0'>4035D0:LoadAIStuff()</a>
+</li><li><span class='field' id='81CBB8'>81CBB8 <a href='#struct_Pool'>struct Pool</a> *pathfindingNodePool</span>
+  Size 192 Amount 161
+  Created by <a class='funcref' href='#4035D0'>4035D0:LoadAIStuff()</a>
+</li><li><span class='field' id='81CBBC'>81CBBC <a href='#struct_Pool'>struct Pool</a> *pathfindingNodeLitePool</span>
+  Size 12 Amount 1280
+  Created by <a class='funcref' href='#4035D0'>4035D0:LoadAIStuff()</a>
+</li><li><span class='field' id='827B4C'>827B4C <a href='#struct_Pool'>struct Pool</a> *anim_CNFSAnimBankPool</span>
+  Size 60 Amount 81
+  Created by <a class='funcref' href='#431380'>431380:CreateAnim_CNFSAnimBankPool()</a> or <a class='funcref' href='#4348F0'>4348F0:LoadBinSection0E34010()</a> (whoever is first, checked with <a class='fieldref' href='#827B50'>827B50:anim_CNFSAnimBankPoolCreated</a>)
+</li><li><span class='field' id='827B50'>827B50 int anim_CNFSAnimBankPoolCreated</span>
+  To make sure <a class='fieldref' href='#827B4C'>827B4C:anim_CNFSAnimBankPool</a> gets created just once, since two funcs can make it.
+</li><li><span class='field' id='827B54'>827B54 <a href='#struct_Pool'>struct Pool</a> *animCtrlPool</span>
+  Size 128 Amount 64
+  Created by <a class='funcref' href='#57ED10'>57ED10:??SetupPools()</a>
+</li><li><span class='field' id='827B5C'>827B5C <a href='#struct_Pool'>struct Pool</a> *anim_CAnimSkeletonPool</span>
+  Size 40 Amount 8
+  Created by <a class='funcref' href='#4314E0'>4314E0:CreateAnim_CAnimSkeletonPool()</a> or <a class='funcref' href='#434E10'>434E10:LoadBinSection0E34009()</a> (whoever is first, checked with <a class='fieldref' href='#827B60'>827B60:anim_CAnimSkeletonPoolCreated</a>)
+</li><li><span class='field' id='827B60'>827B60 int anim_CAnimSkeletonPoolCreated</span>
+  To make sure <a class='fieldref' href='#827B5C'>827B5C:anim_CAnimSkeletonPool</a> gets created just once, since two funcs can make it.
+</li><li><span class='field' id='827B64'>827B64 <a href='#struct_Pool'>struct Pool</a> *anim_CAnimPartPool</span>
+  Size 20 Amount 8
+  Created by <a class='funcref' href='#431580'>431580:CreateAnim_CAnimPartPool()</a>
+</li><li><span class='field' id='827B68'>827B68 int anim_CAnimPartPoolCreated</span>
+  To make sure <a class='fieldref' href='#827B64'>827B64:anim_CAnimPartPool</a> gets created just once, although it seems like only one place creates it.
 </li></ul><p style='margin-bottom:0'><a href='#index'>Index</a></p></div><span id='speedyboot'></span><div><h2>Speedy boot <a href="#speedyboot">#</a></h2>
 <p><em>I want a fast startup because I'm booting the game so many times
 (not to mention the numerious crashes)</em>
@@ -2378,7 +2420,36 @@ str = <a class='funcref' href='#4FFA80'>GetLanguageString</a>(cihash(buffer));
         wchar_t *<span id='structWideCharString_0'></span>ptrString;
         int <span id='structWideCharString_4'></span>allocatedBytes;
 };
-</pre><p><strong>Symbols:</strong></p><ul><li><span class='func' id='43DBB0'>43DBB0 int strlenWithNullcheck(char *str)</span>
+
+<span id='struct_WorldAnimStuff'></span>struct WorldAnimStuff {
+        struct Pool *<span id='structWorldAnimStuff_0'></span>worldAnimEntityPool;
+        struct Pool *<span id='structWorldAnimStuff_4'></span>worldAnimEntityTreePool;
+        struct Pool *<span id='structWorldAnimStuff_8'></span>worldAnimEntityTreeInfoPool;
+        struct Pool *<span id='structWorldAnimStuff_C'></span>worldAnimCtrlPool;
+        struct Pool *<span id='structWorldAnimStuff_10'></span>worldAnimInstanceEntryPool;
+        char poolsCreated?;
+        char field_15;
+        char field_16;
+        char field_17;
+        int field_18;
+        int field_1C;
+        int field_20;
+        int field_24;
+        int field_28;
+        int field_2C;
+        int field_30;
+        int field_34;
+        int field_38;
+        int field_3C;
+        int field_40;
+        int field_44;
+        int field_48;
+};
+EXPECT_SIZE(struct WorldAnimStuff, 0x4C);
+</pre><p><strong>Symbols:</strong></p><ul><li><span class='func' id='4035D0'>4035D0 void LoadAIStuff()</span>
+</li><li><span class='func' id='4385B0'>4385B0 void __thiscall WorldAnimStuff::CreatePools?(<a href='#struct_WorldAnimStuff'>struct WorldAnimStuff</a> *this)</span>
+</li><li><span class='func' id='439EA0'>439EA0 void __thiscall WorldAnimStuff::ctor(<a href='#struct_WorldAnimStuff'>struct WorldAnimStuff</a> *this)</span>
+</li><li><span class='func' id='43DBB0'>43DBB0 int strlenWithNullcheck(char *str)</span>
 </li><li><span class='func' id='43DBD0'>43DBD0 int strcpy(char *dest, char *src)</span>
 </li><li><span class='func' id='43DC00'>43DC00 void strncpy(char *dst, char *src, int maxlen)</span>
 </li><li><span class='func' id='43DC30'>43DC30 int strcmp(char *a, char *b)</span>
@@ -2419,11 +2490,15 @@ str = <a class='funcref' href='#4FFA80'>GetLanguageString</a>(cihash(buffer));
 </li><li><span class='func' id='75BCC7'>75BCC7 start</span>
 </li><li><span class='func' id='75D45B'>75D45B sub_75D45B()</span>
   Invoked once at boot, does things (todo) and calls all functions in <a class='fieldref' href='#7E8000'>7E8000:someInitFunctions</a>.
+</li><li><span class='func' id='77B5E0'>77B5E0 void init_function_77B5E0()</span>
+  Calls <a class='funcref' href='#439EA0'>439EA0:WorldAnimStuff::ctor()</a>.
 </li><li><span class='func' id='77E580'>77E580 init_function_77E580_MouseData_ctor()</span>
   Calls <a class='funcref' href='#5C8600'>5C8600:MouseData::ctor()</a> to initialize mouse data.
 </li><li><span class='field' id='7E8000'>7E8000 void (*someInitFunctions)()[821]</span>
   Array of functions that are called at boot, by <a class='funcref' href='#75D45B'>75D45B:sub_75D45B()</a>.
   Some of them are constructors being called.
+</li><li><span class='field' id='827EF0'>827EF0 <a href='#struct_WorldAnimStuff'>struct WorldAnimStuff</a> worldAnimStuff</span>
+  TODO usages and stuff
 </li><li><span class='field' id='828518'>828518 int _TimeSpentInFormatWithSinglePlaceholder</span>
   Used in <a class='funcref' href='#43FBC0'>43FBC0:FormatWithSinglePlaceholderPtrTimed()</a>.
 </li><li><span class='field' id='82851C'>82851C int _FormatWithSinglePlaceholderCallCount</span>
