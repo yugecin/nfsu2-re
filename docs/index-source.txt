@@ -579,9 +579,10 @@ Section magic {0} seems to be just for padding/alignment uses.                  
 - {43C0B0 void __thiscall RegisterBinSectionHandler({struct BinSectionHandler} *this,           ||| func,refto
                                 {struct BinSectionHandler} handler)}                            ||| refto
   .push pre
-  int index;
+  int magic, index;
 
-  index = 0x3F & ((handler.{structBinSectionHandler+0} >> 0x6) + (handler.{structBinSectionHandler+0} + (handler.{structBinSectionHandler+0} >> 0xC)));   ||| refto,refto,refto
+  magic = handler.{structBinSectionHandler+0};                                                  ||| refto
+  index = 0x3F & ((magic >> 0x6) + (magic + (magic >> 0xC)));
   this->{structBinSectionMagicMapEntry+4} = handler;                                            ||| refto
   this->{structBinSectionMagicMapEntry+0} = {828050}[index];                                    ||| refto,refplain
   {828050}[index] = this;                                                                       ||| refplain
@@ -1344,31 +1345,49 @@ TODO: language files also contain bin sections with magic {0x30201}             
 
 {Pools}  ||| h id=pools
 
-I hooked {440B40} and collected some output: {createpoollog.txt}                                ||| ref,a href=createpoollog.txt
+I hooked {440B40} and collected some output: {createpoollog.txt}                                        ||| ref,a href=createpoollog.txt
 This will probably help a lot when trying to figure out other things.
-Note that the first time the {AUD: NFS3DMixCtl Pool} is made, it has an element amount of zero. ||| code
+Note that the first time the {AUD: NFS3DMixCtl Pool} is made, it has an element amount of zero.         ||| code
 The dump is from just starting the game and starting a circuit race.
 
+Pools can be enlarged by {440BB0}, but only if {{structPool+14}} has the {{POOL_FLAG_EXTENDABLE}}       ||| ref,code,refto,code,refto
+flag. When extending, the newly created pool gets added as last in the main pool's
+{{structPool+8}}. The main pool's {{structPool+10}} will point to the first allocated element of        ||| code,refto,code,refto
+the next pool, and the last allocated element of the new pool will point to the first element
+of the main pool.
+
 .push pre
-{struct PoolHeader} \{                                                                          ||| mkref
-	int field_0; // ptr
-	int field_4;
-	struct PoolHeader *nextLinkedPool;
-	char* pName;
-	int field_10;
-	int field_14;
-	int allocatedElements;
-	int maxAllocatedElements?;
-	int field_20;
-	int elementAmount;
-	int elementSize;
-	int elementAmountOverAllLinkedPools;
-	// here comes pool data
+{struct PoolLink} \{                                                                                    ||| mkref
+        {struct PoolLink} *{prev};                                                                      ||| refto,mkref name=structPoolLink+0
+        {struct PoolLink} *{next};                                                                      ||| refto,mkref name=structPoolLink+4
+};
+/*link is a circle*/
+
+{struct PoolControl} \{                                                                                 ||| mkref
+        int {inited};                                                                                   ||| mkref name=structPoolControl+0
+        {struct PoolLink} {link};                                                                       ||| refto,mkref name=structPoolControl+4
 };
 
-{struct PoolEntryBase} \{                                                                       ||| mkref
-        {struct PoolEntryBase} *{nextEntry};                                                    ||| refto,mkref name=structPoolEntryBase+0
-        {struct PoolEntryBase} *{prevEntry};                                                    ||| refto,mkref name=structPoolEntryBase+4
+#define {POOL_FLAG_EXTENDABLE} 1                                                                        ||| mkref
+
+{struct Pool} \{                                                                                        ||| mkref
+	{struct PoolLink} {__parent};                                                                   ||| refto,mkref name=structPool+0
+	{struct Pool} *{nextLinkedPool};                                                                ||| refto,mkref name=structPool+8
+	char* {name};                                                                                   ||| mkref name=structPool+C
+	{struct PoolEntry} *{firstElement};                                                             ||| refto,mkref name=structPool+10
+	int {flagsMaybe};                                                                               ||| mkref name=structPool+14
+	int {availableElements?};                                                                       ||| mkref name=structPool+18
+	int {maxAllocatedElements?};                                                                    ||| mkref name=structPool+1C
+	int {field_20};                                                                                 ||| mkref name=structPool+20
+	int {elementAmount};                                                                            ||| mkref name=structPool+24
+	int {elementSize};                                                                              ||| mkref name=structPool+28
+	int {elementAmountOverAllLinkedPools};                                                          ||| mkref name=structPool+2C
+        /*pool entries come here*/
+};
+
+{struct PoolEntry} \{                                                                                   ||| mkref
+        {struct PoolEntry} *{nextEntry};                                                                ||| refto,mkref name=structPoolEntry+0
+        {struct PoolEntry} *{prevEntry?};                                                               ||| refto,mkref name=structPoolEntry+4
 };
 
 struct bFileSystemPoolEntry {
@@ -1378,27 +1397,113 @@ EXPECT_SIZE(struct bFileSystemPoolEntry, 0xF0);
 .pop pre
 
 .push symbols
-- {43F8F0 {struct PoolEntryBase} *RemoveFirstPoolEntry({struct PoolHeader} *pool)}              ||| func,refto,refto
+- {43CD40 void __thiscall Pool::Init({struct Pool} *this)}                                                      ||| func,refto
+  Called once, from {440B40}.                                                                                   ||| ref
+  {{Implementation}                                                                                             ||| details,summary
+  .controlchars [] .push pre
+  [struct Pool] *pool;                                                                                          ||| refto
+  [struct PoolEntry] *entry;                                                                                    ||| refto
+  int idx;
+  char *next;
 
-- {43F920 void AddPoolEntryAsFirst({struct PoolHeader} *pool, {struct PoolEntryBase} *entry)}   ||| func,refto,refto
-- {440B40 ??CreatePoolReally(int maybeElementSize, int maybeElementAmount,                      ||| func
-  char *name, int unknown)}
+  pool = this;
+  do {
+          pool->[structPool+10] = NULL;                                                                         ||| refto
+          if (pool->[structPool+24]) {                                                                          ||| refto
+                  next = (char*) pool + sizeof([struct Pool]);                                                  ||| refto
+                  pool->[structPool+10] = (void*) next;                                                         ||| refto
+                  for (idx = pool->[structPool+24] - 1; idx >= 0; idx--) {                                      ||| refto
+                          entry = (void*) next;
+                          next += pool->[structPool+28];                                                        ||| refto
+                          entry->[structPoolEntry+0] = (void*) next;                                            ||| refto
+                  }
+          }
+          pool = pool->[structPool+8];                                                                          ||| refto
+  } while (pool);
+  .controlchars {} .pop pre
+  }
+
+- {43F8F0 {struct PoolEntry} *RemoveFirstPoolEntry({struct Pool} *pool)}                                        ||| func,refto,refto
+
+- {43F920 void AddPoolEntryAsFirst({struct Pool} *pool, {struct PoolEntry} *entry)}                             ||| func,refto,refto
+
+- {440390 void AllocateMemoryForPool?(int size, int somestring, int, int)}                                      ||| func
+  TODO, seems to check the string to determine how to alloc?
+
+- {4407B0 void __thiscall PoolControl::Init({struct PoolControl} *this)}                                        ||| func,refto
+  Called by {77B670}.                                                                                           ||| ref
+  .push pre
+  this->{structPoolControl+4}.{structPoolLink+0} = &this->{structPoolControl+4};                                ||| refto,refto,refto
+  this->{structPoolControl+4}.{structPoolLink+4} = &this->{structPoolControl+4};                                ||| refto,refto,refto
+  this->{structPoolControl+0} = 1;                                                                              ||| refto
+  .pop pre
+
+- {440B40 AllocateAndInitPool(int elementSize, int elementAmount, char *name, int unknown)}                     ||| func
+  Uses {440390} to allocate memory, calls {43CD40}.                                                             ||| ref,ref
+  TODO, has one more XREF
+
+- {440BB0 void __thiscall Pool::Extend({struct Pool} *this, int elementAmount)}                                 ||| func,refto
+  Only called by {440D40}?                                                                                      ||| ref
+  {{Implementation}                                                                                             ||| details,summary
+  .controlchars [] .push pre
+  [struct Pool] *ext;                                                                                           ||| refto
+  [struct Pool] *lastPool;                                                                                      ||| refto
+  char *ptr;
+
+  ext = [440B40](this->[structPool+28], elementAmount, this->[structPool+C], this->[structPool+20]);            ||| refplain,refto,refto,refto
+  ext->[structPool+14] = this->[structPool+14];                                                                 ||| refto,refto
+
+  lastPool = this;
+  while (lastPool->[structPool+8]) {                                                                            ||| refto
+          lastPool = lastPool->[structPool+8];                                                                  ||| refto
+  }
+  lastPool->[structPool+8] = ext;                                                                               ||| refto
+
+  ptr = (char*) ext + sizeof([struct Pool]); /*offset of first element*/                                        ||| refto
+  ptr += this->[structPool+28] * (elementAmount - 1); /*now offset of last element*/                            ||| refto
+  (([struct PoolEntry]*) ptr)->[structPoolEntry+0] = this->[structPool+10];                                     ||| refto,refto,refto
+
+  this->[structPool+10] = ext->[structPool+10];                                                                 ||| refto,refto
+  ext->[structPool+10] = NULL;                                                                                  ||| refto
+
+  this->[structPool+2C] += elementAmount;                                                                       ||| refto
+  .controlchars {} .pop pre
+  }
+
+- {440DF0 {struct Pool} *CreatePool(int elementSize, int elementAmount, char *name, int unknown)}               ||| func,refto
+  Calls {440B40}.                                                                                               ||| ref
+  {{Implementation}                                                                                             ||| details,summary
+  .controlchars [] .push pre
+  [struct Pool] *pool;                                                                                          ||| refto
+  [struct PoolLink] *linkNext;                                                                                  ||| refto
+
+  elementSize = elementSize + 3 - (elementSize % 4); /*ceil to multiple of 4*/
+  pool = [440B40](elementSize, elementAmount, name, unknown);                                                   ||| refplain
+  if (pool && [828530].[structPoolControl+0]) {                                                                 ||| refplain,refto
+          linkNext = [828530].[structPoolControl+4].[structPoolLink+4];                                         ||| refplain,refto,refto
+          linkNext->[structPoolLink+0] = pool;                                                                  ||| refto
+          [828530].[structPoolControl+4].[structPoolLink+4] = pool;                                             ||| refplain,refto,refto
+          pool->[structPool+0].[structPoolLink+0] = [828530].[structPoolControl+4];                             ||| refto,refto,refplain,refto
+          pool->[structPool+0].[structPoolLink+4] = linkNext;                                                   ||| refto,refto
+  }
+  return pool
+  .controlchars {} .pop pre
+  }
+
+- {440D40 int __thiscall PoolGetNextFreeItem_({struct Pool} *this)}                                             ||| func,refto
   TODO
 
-- {440DF0 ??CreatePool(int maybeElementSize, int maybeElementAmount,                            ||| func
-  char *name, int unknown)}
-  TODO, does something after calling {440B40}                                                   ||| ref
-
-- {440D40 int __thiscall PoolGetNextFreeItem_({struct PoolHeader} *this)}                       ||| func,refto
-  TODO
-
-- {440E50 int PoolGetNextFreeItem?stdcallwrapper(void *pool)}                                   ||| func
+- {440E50 int PoolGetNextFreeItem?stdcallwrapper(void *pool)}                                                   ||| func
   Same as the one above, but wrapped in an stdcall.
 
-- {440BB0 int __thiscall PoolExtend({struct PoolHeader} *this, int maybeElementAmount)}         ||| func,refto
-  TODO, basically allocates another pool (with bigger size? TODO) and link it to this
+- {77B670 void init_function_77B670()}                                                                          ||| func
+  .push pre
+  {828530}->{4407B0}()                                                                                          ||| refplain,refplain
+  .pop pre
 
-- {865104 p_bFileSystemPool}                                                                    ||| field
+- {828530 {struct PoolControl} pools}                                                                           ||| field,refto
+
+- {865104 p_bFileSystemPool}                                                                                    ||| field
 .pop symbols
 
 .pop section
@@ -2116,11 +2221,12 @@ EXPECT_SIZE(struct FNGData, 0x1C);
 
 {struct UIData} \{                                                                              ||| mkref
         /*TODO*/
+        {struct UIData_Field8} *{field_8};                                                      ||| refto,mkref name=structUIData+8
 };
 
 {struct UIData_Field8} \{                                                                       ||| mkref
         /*incomplete*/
-        {struct FNGInfo} *{fngInfo}; /*maybe top package?*/                                     ||| refto,mkref name=structUIData_Field8+E4
+        {struct FNGInfo} *{topPackage};                                                         ||| refto,mkref name=structUIData_Field8+E4
 };
 
 struct FNGData {7F7DC8}[] = \{                                                                  ||| refplain
@@ -2376,6 +2482,11 @@ TODO:
 - {50B790 ShowFNG(int fnghash, int arg1, int arg2)}                                             ||| func
   See {nfsu2-re-hooks/replace-50B790-ShowFNG.c} for a reimplementation.                         ||| hookfileref
 
+- {50CE30 char *FindTopPackage(unsigned int *hashes, int numHashes)}                            ||| func
+  Checks if any of the given hashes conform with
+  {{8384C4}->{structUIData+8}->{structUIData_Field8+E4}->{structFNGInfo+10}}                    ||| code,refplain,refto,refto,refto
+  and return its {{structFNGInfo+C}}.                                                           ||| code,refto
+
 - {519E50 {struct FNGInfo} *__thiscall GetFNGInfoByNameByHierarchy(void *thisUnused,            ||| func,refto
                                                                    char *str,
                                                                    {struct FNGInfo} *fnginfo)}  ||| refto
@@ -2602,6 +2713,8 @@ UI keys seem to be hashed with the case insensitive hash.
   vtable for {517F80},                                                                                          ||| ref
   {vtable->{structUIElementVisitor$vtable+0} = {5047C0};}                                                       ||| code,refto,ref
   {vtable->{structUIElementVisitor$vtable+4} = {5048D0};}                                                       ||| code,refto,ref
+
+- {8384C4 {struct UIData} *pUIData}                                                                             ||| field,refto
 
 - {838528 char someThingKeyboardInput}                                                                          ||| field
   Seems keyboard related due to:
