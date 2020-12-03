@@ -3123,7 +3123,7 @@ if (![isProfileWithStartedCareerLoaded])  {                                     
 
 - {497760 void GetSmsMessageSubjectHeader({struct SmsMessage} *sms, char *dest, int maxLength)}         ||| func,refto
   Gets the subject from {5149C0} and prepends {Subject: } to it (based on language).                    ||| ref,code
-  Used by {4CC7C0} and {4979A5}.                                                                        ||| ref,ref
+  Used by {4CC7C0} and {497850}.                                                                        ||| ref,ref
   {{Implementation {nfsu2-re-hooks/replace-497760-GetSmsMessageSubjectHeader.c}}                        ||| details,summary,hookfileref
   .push pre
   char *subjectFormat;
@@ -3137,6 +3137,9 @@ if (![isProfileWithStartedCareerLoaded])  {                                     
 
 - {497850 int __thiscall ShowSmsMessage(void *this, void *arg)}                                         ||| func
   TODO, called from {4B2240}                                                                            ||| ref
+
+- {4CC7C0 ShowSmsList}                                                                                  ||| func
+  TODO
 
 - {500F90 int __thiscall CareerGetMoney({struct CareerData} *this)}                                     ||| func,refto
   TODO has one other XREF: where money is drawn?
@@ -3342,6 +3345,8 @@ EXPECT_SIZE(struct WorldAnimStuff, 0x4C);
   I'm assuming it times. Seems to add the time spent to {828518}, and increments {82851C}       ||| ref,ref
   every time this func is called.
 
+- {5047C0 sub_5047C0}                                                                           ||| func
+
 - {50D510 void sub_50D510_DebugPrint(?)}                                                        ||| func
   A nop function.
   It seems like many calls to different functions that got nopped all redirect here.
@@ -3358,19 +3363,24 @@ EXPECT_SIZE(struct WorldAnimStuff, 0x4C);
 - {511630 void strcpyW(wchar_t *dest, wchar_t *src)}                                            ||| func
   Checks if {dest} is NULL first.                                                               ||| code
 
-- {575620 void * j_HeapAllocWrapper75C6C8(int bytes)}                                           ||| func
-
-- {575630 void j_HeapFreeWrapper75C6DA(void *mem)}                                              ||| func
-
-- {532670 struct WideCharString *__thiscall WideCharString::SetFromCharString({struct WideCharString} *this, char *str)}        ||| func,refto
-  Converts language aware, like {512530} does. Calls {51DE90}.                                  ||| ref,ref
-  Returns itself.
-
 - {51DE90 int __thiscall WideCharString::EnsureAllocatedSize({struct WideCharString} *this, int length)}        ||| func,refto
   If it's already allocated and long enough, NOP.
   Otherwise allocate new memory, copy existing string, free previous memory.
   Does not actually check the {{structWideCharString+4}} field, but does a strlen to check if   ||| code,refto
   the existing string length is less than required.
+
+- {532670 struct WideCharString *__thiscall WideCharString::SetFromCharString({struct WideCharString} *this, char *str)}        ||| func,refto
+  Converts language aware, like {512530} does. Calls {51DE90}.                                  ||| ref,ref
+  Returns itself.
+
+- {575620 void * j_HeapAllocWrapper75C6C8(int bytes)}                                           ||| func
+
+- {575630 void j_HeapFreeWrapper75C6DA(void *mem)}                                              ||| func
+
+- {577AB0 sub_577AB0}                                                                           ||| func
+
+- {5B7A70 void LoadPaths()}                                                                     ||| func
+  TODO
 
 - {5CCD60 LPRESULT MainWndProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)}             ||| func
 
@@ -3378,6 +3388,10 @@ EXPECT_SIZE(struct WorldAnimStuff, 0x4C);
 
 - {75D45B sub_75D45B()}                                                                         ||| func
   Invoked once at boot, does things (todo) and calls all functions in {7E8000}.                 ||| ref
+
+- {75D65B sub_75D65B}                                                                           ||| func
+
+- {75DD6F sub_75DD6F}                                                                           ||| func
 
 - {77B5E0 void init_function_77B5E0()}                                                          ||| func
   Calls {439EA0}.                                                                               ||| ref

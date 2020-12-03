@@ -291,14 +291,14 @@ and if that succeeds, the value is copied to buffer at <a class='fieldref' href=
 passed to (winapi) <code>GetLastError</code> and if that succeeds, the value is copied to <a class='fieldref' href='#86E8B0'>86E8B0:CDDrivePath</a>.
 </p><p><code>NotFirstTime</code> is read. If set, <a class='fieldref' href='#870D20'>870D20:notFirstTime</a> gets set to 1, otherwise 0.
 It doesn't check the value in the register key. Then 1 is written to the register key.
-</p><p><code>CacheSize</code> is read. If set, <span class='unresolved'>0x75D65B</span> is called with the value. TODO
-</p><p><code>SwapSize</code> is read. If set, proc at <span class='unresolved'>0x75D65B</span> is called with the value. TODO
+</p><p><code>CacheSize</code> is read. If set, <a class='funcref' href='#75D65B'>75D65B:sub_75D65B</a> is called with the value. TODO
+</p><p><code>SwapSize</code> is read. If set, proc at <a class='funcref' href='#75D65B'>75D65B:sub_75D65B</a> is called with the value. TODO
 </p><p><code>Language</code> is read. Then it does something with looping through a language.
 This took some deciphering but I found out that there is some struct with language
 information and associated data. See <a href='#language_metadata'>Language metadata</a>.
-</p><p><code>StreamingInstall</code> is read. Then something with <span class='unresolved'>0x75DD6F</span>. TODO
+</p><p><code>StreamingInstall</code> is read. Then something with <a class='funcref' href='#75DD6F'>75DD6F:sub_75DD6F</a>. TODO
 </p><p><strong>Symbols:</strong></p><ul><li><span class='func' id='5B76F0'>5B76F0 void LoadOtherRegistrySettings()</span>
-  Called once during boot, from <span class='unresolved'>0x5B7A70</span>
+  Called once during boot, from <a class='funcref' href='#5B7A70'>5B7A70:LoadPaths()</a>
 </li><li><span class='func' id='5BEA20'>5BEA20 void LoadDisplaySettings()</span>
   Loads display settings from windows registry into their variables.
   Only called once, at boot.
@@ -486,7 +486,7 @@ return NULL;
 </li><li><span class='func' id='56C4C0'>56C4C0 int LoadBinSection34A07(<a href='#struct_BinSection'>struct BinSection</a> *binsection)</span>
 </li><li><span class='func' id='56C4E0'>56C4E0 int UnloadBinSection34A07(<a href='#struct_BinSection'>struct BinSection</a> *binsection)</span>
 </li><li><span class='func' id='570D70'>570D70 int LoadBinSection(<a href='#struct_BinSection'>struct BinSection</a> *binsection)</span>
-  Only called from <span class='unresolved'>0x577AB0</span>.
+  Only called from <a class='funcref' href='#577AB0'>577AB0:sub_577AB0</a>.
 <pre><a href='#struct_BinSectionMagicMapEntry'>struct BinSectionMagicMapEntry</a> *entry;
 int i;
 
@@ -2044,7 +2044,7 @@ return visitor.<a href='#structUIElementVisitor_FindByHash_8'>foundUIelement</a>
   TODO document this and go in the last unresolved func.
 </li><li><span class='field' id='79AAF4'>79AAF4 <a href='#struct_UIElementVisitor_FindByHash'>struct UIElementVisitor_FindByHash</a> vtable_UIElementVisitor_FindByHash</span>
   vtable for <a class='funcref' href='#517F80'>517F80:FNGInfo::FindUIElementByHash()</a>,
-  <code>vtable-&gt;<a href='#structUIElementVisitor_vtable_0'>func_0</a> = <span class='unresolved'>0x5047C0</span>;</code>
+  <code>vtable-&gt;<a href='#structUIElementVisitor_vtable_0'>func_0</a> = <a class='funcref' href='#5047C0'>5047C0:sub_5047C0</a>;</code>
   <code>vtable-&gt;<a href='#structUIElementVisitor_vtable_4'>acceptElement</a> = <a class='funcref' href='#5048D0'>5048D0:UIElementVisitor_FindByHash::acceptElement()</a>;</code>
 </li><li><span class='field' id='8384C4'>8384C4 <a href='#struct_UIData'>struct UIData</a> *pUIData</span>
 </li><li><span class='field' id='838528'>838528 char someThingKeyboardInput</span>
@@ -2301,7 +2301,7 @@ if (!<a class='fieldref' href='#86347C'>isProfileWithStartedCareerLoaded</a>)  {
 </pre><p><strong>Symbols:</strong></p><ul><li><span class='func' id='495D30'>495D30 CareerShowSponsorSelectScreen?()</span>
 </li><li><span class='func' id='497760'>497760 void GetSmsMessageSubjectHeader(<a href='#struct_SmsMessage'>struct SmsMessage</a> *sms, char *dest, int maxLength)</span>
   Gets the subject from <a class='funcref' href='#5149C0'>5149C0:GetSmsMessageSubject()</a> and prepends <code>Subject: </code> to it (based on language).
-  Used by <span class='unresolved'>0x4CC7C0</span> and <span class='unresolved'>0x4979A5</span>.
+  Used by <a class='funcref' href='#4CC7C0'>4CC7C0:ShowSmsList</a> and <a class='funcref' href='#497850'>497850:ShowSmsMessage()</a>.
   <details><summary>Implementation <code><a href='https://github.com/yugecin/nfsu2-re/blob/master/nfsu2-re-hooks/replace-497760-GetSmsMessageSubjectHeader.c'>nfsu2-re-hooks/replace-497760-GetSmsMessageSubjectHeader.c</a></code></summary>
 <pre>char *subjectFormat;
 char subject[100];
@@ -2312,6 +2312,8 @@ sprintf(dest, subjectFormat, subject);
 </pre>  </details>
 </li><li><span class='func' id='497850'>497850 int __thiscall ShowSmsMessage(void *this, void *arg)</span>
   TODO, called from <a class='funcref' href='#4B2240'>4B2240:FNGINIT_UI_EngageMessageDialog_fng()</a>
+</li><li><span class='func' id='4CC7C0'>4CC7C0 ShowSmsList</span>
+  TODO
 </li><li><span class='func' id='500F90'>500F90 int __thiscall CareerGetMoney(<a href='#struct_CareerData'>struct CareerData</a> *this)</span>
   TODO has one other XREF: where money is drawn?
 </li><li><span class='func' id='500180'>500180 char* __thiscall GetCareerLanguageString(short *this)</span>
@@ -2467,6 +2469,7 @@ EXPECT_SIZE(struct WorldAnimStuff, 0x4C);
   Calls <a class='funcref' href='#43E950'>43E950:FormatWithSinglePlaceholderPtr()</a> but does some stuff with <code>QueryPerformanceCounter</code> before and after,
   I'm assuming it times. Seems to add the time spent to <a class='fieldref' href='#828518'>828518:_TimeSpentInFormatWithSinglePlaceholder</a>, and increments <a class='fieldref' href='#82851C'>82851C:_FormatWithSinglePlaceholderCallCount</a>
   every time this func is called.
+</li><li><span class='func' id='5047C0'>5047C0 sub_5047C0</span>
 </li><li><span class='func' id='50D510'>50D510 void sub_50D510_DebugPrint(?)</span>
   A nop function.
   It seems like many calls to different functions that got nopped all redirect here.
@@ -2479,20 +2482,25 @@ EXPECT_SIZE(struct WorldAnimStuff, 0x4C);
   Returns a ptr to the zero terminator.
 </li><li><span class='func' id='511630'>511630 void strcpyW(wchar_t *dest, wchar_t *src)</span>
   Checks if <code>dest</code> is NULL first.
-</li><li><span class='func' id='575620'>575620 void * j_HeapAllocWrapper75C6C8(int bytes)</span>
-</li><li><span class='func' id='575630'>575630 void j_HeapFreeWrapper75C6DA(void *mem)</span>
-</li><li><span class='func' id='532670'>532670 struct WideCharString *__thiscall WideCharString::SetFromCharString(<a href='#struct_WideCharString'>struct WideCharString</a> *this, char *str)</span>
-  Converts language aware, like <a class='funcref' href='#512530'>512530:LanguageAwareStrcpyCharToWchar()</a> does. Calls <a class='funcref' href='#51DE90'>51DE90:WideCharString::EnsureAllocatedSize()</a>.
-  Returns itself.
 </li><li><span class='func' id='51DE90'>51DE90 int __thiscall WideCharString::EnsureAllocatedSize(<a href='#struct_WideCharString'>struct WideCharString</a> *this, int length)</span>
   If it's already allocated and long enough, NOP.
   Otherwise allocate new memory, copy existing string, free previous memory.
   Does not actually check the <code><a href='#structWideCharString_4'>allocatedBytes</a></code> field, but does a strlen to check if
   the existing string length is less than required.
+</li><li><span class='func' id='532670'>532670 struct WideCharString *__thiscall WideCharString::SetFromCharString(<a href='#struct_WideCharString'>struct WideCharString</a> *this, char *str)</span>
+  Converts language aware, like <a class='funcref' href='#512530'>512530:LanguageAwareStrcpyCharToWchar()</a> does. Calls <a class='funcref' href='#51DE90'>51DE90:WideCharString::EnsureAllocatedSize()</a>.
+  Returns itself.
+</li><li><span class='func' id='575620'>575620 void * j_HeapAllocWrapper75C6C8(int bytes)</span>
+</li><li><span class='func' id='575630'>575630 void j_HeapFreeWrapper75C6DA(void *mem)</span>
+</li><li><span class='func' id='577AB0'>577AB0 sub_577AB0</span>
+</li><li><span class='func' id='5B7A70'>5B7A70 void LoadPaths()</span>
+  TODO
 </li><li><span class='func' id='5CCD60'>5CCD60 LPRESULT MainWndProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)</span>
 </li><li><span class='func' id='75BCC7'>75BCC7 start</span>
 </li><li><span class='func' id='75D45B'>75D45B sub_75D45B()</span>
   Invoked once at boot, does things (todo) and calls all functions in <a class='fieldref' href='#7E8000'>7E8000:someInitFunctions</a>.
+</li><li><span class='func' id='75D65B'>75D65B sub_75D65B</span>
+</li><li><span class='func' id='75DD6F'>75DD6F sub_75DD6F</span>
 </li><li><span class='func' id='77B5E0'>77B5E0 void init_function_77B5E0()</span>
   Calls <a class='funcref' href='#439EA0'>439EA0:WorldAnimStuff::ctor()</a>.
 </li><li><span class='func' id='77E580'>77E580 init_function_77E580_MouseData_ctor()</span>
