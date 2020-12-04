@@ -1920,16 +1920,19 @@ of playing gives about a 277MB file, all output was piped to {sort | uniq}.     
 How I collected these can be seen in the {nfsu2-re-hooks/hook-*-hash-*.c} files.                ||| code
 
 .push symbols
-- {43DB50 int SomeHashCS43DB50(char *str)}                                                      ||| func
+- {43DB50 unsigned int SomeHashCS43DB50(char *str)}                                             ||| func
   Case sensitive hash function.
 
-- {505450 int SomeHashCI505450(char *str)}                                                      ||| func
+- {43DB80 unsigned int __cdecl SomeHashCS_WithStartValue(char *str, unsigned int startValue)}   ||| func
+  Like {43DB50}, but starts with given {startValue} instead of {-1}.                            ||| ref,code,code
+
+- {505450 unsigned int SomeHashCI505450(char *str)}                                             ||| func
   Case insensitive hash function.
 
-- {50B990 int FormatWithSinglePlaceholderAndHashCS43DB50(char *src, void *param)}               ||| func
+- {50B990 unsigned int FormatWithSinglePlaceholderAndHashCS43DB50(char *src, void *param)}      ||| func
   Delegates hashing to {43DB50}.                                                                ||| ref
 
-- {50B9C0 int FormatWithSinglePlaceholderAndHashCI(char *src, void *param)}                     ||| func
+- {50B9C0 unsigned int FormatWithSinglePlaceholderAndHashCI(char *src, void *param)}            ||| func
   Does its own hashing.
 
 .pop symbols
@@ -2560,6 +2563,11 @@ TODO:
 - {52CEF0 {struct FNGInfo} *GetFNGInfoByName(char *fngName)}                                    ||| func,refto
   TODO, this probably searches everything instead of the hierarchy like {519E50}                ||| ref
 
+- {5379A0 void RemoveFNGFromUIObject(char *fngName)}                                            ||| func
+
+- {555E80 void AddFngToUIObject_1(char *fngName, void *data)}                                   ||| func
+  Does more stuff.
+
 - {555F10 int AddFngToUIObjectWrapper(char *fngName, char *parentFngName, char controlMask, void *data)}        ||| func
   Wraps {555D00}.                                                                                               ||| ref
   {parentFngName} may be null.                                                                                  ||| code
@@ -2672,6 +2680,13 @@ Stuff
 UI keys seem to be hashed with the case insensitive hash.
 
 .push pre
+{struct U2RECT} \{                                                                                              ||| mkref
+        float {left};                                                                                           ||| mkref name=structU2RECT+0
+        float {right}                                                                                           ||| mkref name=structU2RECT+04
+        float {top}                                                                                             ||| mkref name=structU2RECT+08
+        float {bottom}                                                                                          ||| mkref name=structU2RECT+0C
+};
+
 {struct UIElement} \{                                                                                           ||| mkref
         void *vtable;
         {struct UIElement} *{nextSibling};                                                                      ||| refto,mkref name=structUIElement+4
@@ -2762,6 +2777,9 @@ UI keys seem to be hashed with the case insensitive hash.
 
 - {4953E0 {struct UIElementType1} *FindUIElementType1ByName(char *fngName, char *str)}                          ||| func,refto
 
+- {4FDAD0 void __thiscall U2RECT::Add({struct U2RECT} *this, {struct U2RECT} *rect)}                            ||| func,refto,refto
+  Sums {this} and {rect} into {this}.                                                                           ||| code,code,code
+
 - {5048D0 int __thiscall UIElementVisitor_FindByHash::acceptElement({struct UIElementVisitor_FindByHash} *this, ||| func,refto
                                                                     {struct UIElement} *element)}               ||| refto
   If {element->{structUIElement+10} == this->{structUIElementVisitor_FindByHash+4}},                            ||| code,refto,refto
@@ -2802,6 +2820,15 @@ UI keys seem to be hashed with the case insensitive hash.
   calls {504830} for every child that is of type 5 ({{struct UIContainer}}),                                            ||| ref,code,refto
   returns 0 when either calls return 0.
 
+- {51D070 void GetUIElementTopLeft({struct UIElement} *element, float *top, float *left)}                               ||| func,refto
+  TODO
+
+- {51D170 void GetUIElementRightBottom({struct UIElement} *element, float *right, float *bottom)}                       ||| func,refto
+  TODO
+
+- {51D9F0 int GetUIElementRect({struct UIElement} *element, {struct U2RECT} *out)}                                      ||| func,refto,refto
+  Returns 1 on success.
+
 - {52C570 {struct UIElement} *__thiscall GetUIElementByHashInFngName({struct UIData_Field8} *this,                      ||| func,refto,refto
                                                                      unsigned int hash,
                                                                      char *fngName)}
@@ -2809,8 +2836,7 @@ UI keys seem to be hashed with the case insensitive hash.
   Otherwise, limit the search to the FNG that is in the hierarchy of {this->{structUIData_Field8+E4}}                   ||| code,refto
   (by using {519E50}).                                                                                                  ||| ref
 
-- {52D020 int IsPointIn??SomethingUI(float x, float y, void *somethingui)}                                      ||| func
-  something ui is something ui. Calculating the area goes through lots of functions, TODO
+- {52D020 int IsPointInUIElement(float x, float y, {struct UIElement} *element)}                                        ||| func,refto
 
 - {535FE0 void __thiscall UILabel::setString({struct UILabel} *this, char *str)}              ||| func,refto
   Only seems to be used for dynamic things such as: money, player name, sms messages, track length...
@@ -3166,46 +3192,74 @@ going on), but they don't appear on the map.
 
 My best guess is that this 'load into career' option is a cut/unfinished feature.
 
+.push section
+
+{SMS stuff}  ||| h id=sms_stuff
+
 .push pre
-{struct CareerData} \{                                                                          ||| mkref
-	int money;
+{struct Mailbox} \{                                                                                     ||| mkref
+        int field_0;
+        int field_4;
+        int field_8;
+        int field_C;
+        int field_10;
+        int field_14;
+        int {mailboxId}; /*1 inbox, 2 game tips, 3 special events, 4 Rachel, 5 unlocks*/                ||| mkref name=structMailbox+18
 };
 
-{struct SmsMessage} \{                                                                          ||| mkref
-	/*ptr to offset in language table {838428}*/                                            ||| refplain
-	short *{careerTextLanguageTableOffset};                                                 ||| mkref name=structSmsMessage+0
-	char field_4;
+{struct MailboxFNGObject} \{                                                                            ||| mkref
+        /*TODO*/
+
+        /*+0x120*/
+        {struct Mailbox} *{currentBrowsingMailbox};                                                     ||| refto,mkref name=structMailboxFNGObject+120
+};
+
+{struct SmsData} \{                                                                                     ||| mkref
+	/*offset in language table {838428}*/                                                           ||| refplain
+	short {careerTextLanguageTableOffset};                                                          ||| mkref name=structSmsData+0
+	char field_2;
+	char {mailboxId}; /*1 inbox, 2 game tips, 3 special events, 4 Rachel, 5 unlocks*/               ||| mkref name=structSmsData+3
+	int field_4;
+	int field_8;
+	int field_C;
+	unsigned int {senderLanguageLabel};                                                             ||| mkref name=structSmsData+10
+};
+
+{struct SmsMessage} \{                                                                                  ||| mkref
+	{struct SmsData} *{data};                                                                       ||| refto,mkref name=structSmsMessage+0
+	char {read};                                                                                    ||| mkref name=structSmsMessage+4
 	char field_5;
-	char {deleted};                                                                         ||| mkref name=structSmsMessage+6
-	char field_7;
-	unsigned int {bodyFormatLanguageLabel};                                                 ||| mkref name=structSmsMessage+8
-	unsigned int {subjectAndBodyParameterLanguageLabel};                                    ||| mkref name=structSmsMessage+C
-	unsigned int {subjectFormatLanguageLabel};                                              ||| mkref name=structSmsMessage+10
+	char {deleted};                                                                                 ||| mkref name=structSmsMessage+6
+	char {movedToCorrectInbox};                                                                     ||| mkref name=structSmsMessage+7
+	unsigned int {bodyFormatLanguageLabel};                                                         ||| mkref name=structSmsMessage+8
+	unsigned int {subjectAndBodyParameterLanguageLabel};                                            ||| mkref name=structSmsMessage+C
+	unsigned int {subjectFormatLanguageLabel};                                                      ||| mkref name=structSmsMessage+10
+};
+
+{struct SmsMessageList} \{                                                                              ||| mkref
+        {struct SmsMessage} {messages}[256];                                                            ||| refto,mkref name=structSmsMessageList+0
+        int {numMessages};                                                                              ||| mkref name=structSmsMessageList+1400
+        int {numUnreadMessages};                                                                        ||| mkref name=structSmsMessageList+1404
+};
+
+{struct SmsListEntry} \{                                                                                ||| mkref
+        void *vtable;
+        int field_4;
+        int field_8;
+        {struct ObjectLink} *{link};                                                                    ||| refto,mkref name=structSmsListEntry+C
+        char field_14;
+        char field_15;
+        char field_16;
+        char field_17;
+        {struct SmsMessage} *{sms};                                                                     ||| refto,mkref name=structSmsListEntry+18
 };
 .pop pre
 
-The career money cheat is mildly interesting, as it seems to work in two different
-ways. It adds the amount to a variable that is used when a new career is started and
-it adds the amount to the current career data if the loaded profile didn't start
-career yet.
-
-.controlchars [] .push pre
-/*from [5760A0]*/                                                                               ||| ref
-/*ordermebaby ($1000 career start bonus)*/
-[cheatExtraCareerMoney1000] = 1000;                                                             ||| refplain address=865130
-// ^ used when starting a new career from a profile that
-// was loaded from the profile menu
-if (![isProfileWithStartedCareerLoaded])  {                                                     ||| refplain address=86347C
-	if ([CareerGetMoney]() == 0)  {                                                         ||| refplain address=500F90
-		[CareerSetMoney](1000);                                                         ||| refplain address=500F80
-		// ^ This only has an effect when the profile was
-		// loaded from the loading screen
-	}
-}
-.controlchars {} .pop pre
-
 .push symbols
-- {495D30 CareerShowSponsorSelectScreen?()}                                                             ||| func
+- {4976B0 void __cdecl ShowMailboxOrSingleUnreadSms()}                                                  ||| func
+  TODO check where this is called, it will be the carreer game state's keyhandler.
+  TODO has some references to unknown fields
+  When {514D30} returns {1}, immediately open that message. Show mailbox otherwise.                     ||| ref,code
 
 - {497760 void GetSmsMessageSubjectHeader({struct SmsMessage} *sms, char *dest, int maxLength)}         ||| func,refto
   Gets the subject from {5149C0} and prepends {Subject: } to it (based on language).                    ||| ref,code
@@ -3221,37 +3275,48 @@ if (![isProfileWithStartedCareerLoaded])  {                                     
   .pop pre
   }
 
-- {4E2050 FNGINIT_UI_SMS_Mailbox_fng}                                                                   ||| func
-  TODO
+- {4977C0 void __cdecl HideSmsMailbox()}                                                                ||| func
 
 - {497850 int __thiscall ShowSmsMessage(void *this, void *arg)}                                         ||| func
   TODO, called from {4B2240}                                                                            ||| ref
 
-- {4CC7C0 ShowSmsListEntry}                                                                             ||| func
+- {4CBB60 void __thiscall SmsListEntry::dtor({struct SmsListEntry} *this, char doFreeMem)}              ||| func,refto
+
+- {4CC7C0 {struct SmsListEntry} *__thiscall SmsListEntry::ctor({struct SmsListEntry} *this,             ||| func,refto,refto
+                                                               {struct SmsMessage} *sms)}               ||| refto
+
+- {4CC900 void __thiscall ShowSmsList({struct MailboxFNGObject} *this)}                                 ||| func,refto
+
+- {4E1BF0 void __thiscall MailboxFNGObject::ctor(struct MailboxFNGObject *this, void *fnginitarg)}      ||| func
+
+- {4E2050 FNGINIT_UI_SMS_Mailbox_fng}                                                                   ||| func
+  Allocates memory and calls {4E1BF0}.                                                                  ||| ref
   TODO
 
-- {4CC900 ShowSmsList}                                                                                  ||| func
-  TODO
+- {501310 {struct SmsData} *__cdecl GetSmsDataForHash(int hash)}                                        ||| func,refto
+  Goes through all {838454} and returns the one that has a matching                                     ||| ref
+  {cshash({838428} + {structSmsData+0})}.                                                               ||| code,refplain,refto
 
-- {500F90 int __thiscall CareerGetMoney({struct CareerData} *this)}                                     ||| func,refto
-  TODO has one other XREF: where money is drawn?
-
-- {500180 char* __thiscall GetCareerLanguageString(short *this)}                                        ||| func
-  Uses {838428} along with offset passed in {this} to return a string.                                  ||| ref,code
-
-- {500F80 void __thiscall CareerGiveMoney({struct CareerData} *this, int amount)}                       ||| func,refto
-  Only used in the career money cheats.
-
-- {501470 int __thiscall GetSmsSenderLanguageHash({struct SmsMessage} *this)}                           ||| func,refto
+- {501470 unsigned int __thiscall GetSmsSenderLanguageHash({struct SmsMessage} *this)}                  ||| func,refto
   Returns the hash for the language string that is the sms sender.
   Used once in {497850}.                                                                                ||| ref
   .push pre
-  return ((int*) this->{structSmsMessage+0}) + 4;                                                       ||| refto
+  return this->{structSmsMessage+0}.{structSmsData+10};                                                 ||| refto,refto
   .pop pre
 
-- {5129F0 int __thiscall GetCareerSponsorLanguageKey(short *this)}                                      ||| func
-  Uses {838428} along with offset passed in {this} to format a string {SPONSOR_%s} and                  ||| ref,code,code
-  return the hash result to use for getting a language string.
+- {5014A0 {struct SmsMessage} *__thiscall SmsMessageList::GetAtIndex({struct SmsMessageList} *this,     ||| func,refto,refto
+                                                                     int index)}
+  TODO: check xrefs
+
+- {5014C0 void __thiscall SmsMessageList::MarkMessageDeletedAndRead({struct SmsMessageList} *this,      ||| func,refto
+                                                                    {struct SmsMessage} *sms)}          ||| refto
+  .controlchars [] .push pre
+  if (!sms->[structSmsMessage+6] && !sms->[structSmsMessage+4]) {                                       ||| refto,refto
+        this->[structSmsMessageList+1404]--;                                                            ||| refto
+  }
+  sms->[structSmsMessage+6] = 1;                                                                        ||| refto
+  sms->[structSmsMessage+4] = 1;                                                                        ||| refto
+  .controlchars {} .pop pre
 
 - {5149C0 void __thiscall GetSmsMessageSubject({struct SmsMessage} *this, char *dest, int maxlen)}      ||| func,refto
   {{Implementation {nfsu2-re-hooks/replace-5149C0-GetSmsMessageSubject.c}}                              ||| details,summary,hookfileref
@@ -3270,7 +3335,7 @@ if (![isProfileWithStartedCareerLoaded])  {                                     
           return;
   }
 
-  str = getCareerString(this->[structSmsMessage+0]);                                                    ||| refto
+  str = getCareerString(this->[structSmsMessage+0].[structSmsData+0]);                                  ||| refto,refto
   if (![43DC60](str, "SMS_CAR_UNLOCK_", [43DBB0]("SMS_CAR_UNLOCK_"))) {                                 ||| refplain,refplain
           str = [4FFA80](0xF81E6031/*SMS_CAR_UNLOCK_1_SUBJECT*/);                                       ||| refplain
           [43DBD0](dest, str);                                                                          ||| refplain
@@ -3306,22 +3371,22 @@ if (![isProfileWithStartedCareerLoaded])  {                                     
           return;
   }
   
-  str = getCareerString(this->[structSmsMessage+0]);                                                    ||| refto
-        if (![43DC60](str, "SMS_CAR_UNLOCK_", strlen("SMS_CAR_UNLOCK_"))) {                             ||| refplain
-        str = [4FFA80](cihash("SMS_CAR_UNLOCK_1_BODY"));                                                ||| refplain
-        [43DBD0](dest, str);                                                                            ||| refplain
-        // example: SMS_CAR_UNLOCK_17
-        // example: SMS_CAR_UNLOCK_16
-        return;
+  str = getCareerString(this->[structSmsMessage+0].[structSmsData+0]);                                  ||| refto,refto
+  if (![43DC60](str, "SMS_CAR_UNLOCK_", strlen("SMS_CAR_UNLOCK_"))) {                                   ||| refplain
+          str = [4FFA80](cihash("SMS_CAR_UNLOCK_1_BODY"));                                              ||| refplain
+          [43DBD0](dest, str);                                                                          ||| refplain
+          // example: SMS_CAR_UNLOCK_17
+          // example: SMS_CAR_UNLOCK_16
+          return;
   }
   
   if (![43DC60](str, "ENGAGE_TIPS_AUTO", strlen("ENGAGE_TIPS_AUTO"))) {                                 ||| refplain
-        str = [4FFA80](cihash("ENGAGE_TIPS_AUTO_BODY"));                                                ||| refplain
-        [43DBD0](dest, str);                                                                            ||| refplain
-        // Could not find any of these?
-        // This is a single message about the autosave feature
-        // This func probably prevents ENGAGE_TIPS_AUTO_XBOX from showing
-        return;
+          str = [4FFA80](cihash("ENGAGE_TIPS_AUTO_BODY"));                                              ||| refplain
+          [43DBD0](dest, str);                                                                          ||| refplain
+          // Could not find any of these?
+          // This is a single message about the autosave feature
+          // This func probably prevents ENGAGE_TIPS_AUTO_XBOX from showing
+          return;
   }
   
   sprintf(buffer, "%s_BODY", str);
@@ -3331,6 +3396,100 @@ if (![isProfileWithStartedCareerLoaded])  {                                     
   // example: SMS_END_OF_GAME_MESSAGE_BODY
   .controlchars {} .pop pre
   }
+
+- {514CB0 int __thiscall SmsMessageList::IsMessageAlreadyReceived({struct SmsMessageList} *this,        ||| func,refto
+                                                                  {struct SmsData} *smsdata)}           ||| refto
+
+- {514CF0 {struct SmsMessage} *__thiscall GetFirstUnreadSmsMessage({struct SmsMessageList} *this)}      ||| func,refto,refto
+
+- {514D30 int __thiscall GetNumUnreadSmsMessages({struct SmsMessageList} *this, int useCachedFlag)}     ||| func,refto
+  When {useCachedFlag}, just return {{860A60}.{structSmsMessageList+1404}}, otherwise count all         ||| code,code,refplain,refto
+  {{860A60}.{structSmsMessageList+0}} that have both {{structSmsMessage+4}} and                         ||| code,refplain,refto,code,refto
+  {{structSmsMessage+6}} on {0}.                                                                        ||| code,refto,code
+  TODO check other xref, probably for displaying icon ingame
+
+- {514D80 void __thiscall SetReadMessagesMovedToCorrectInbox({struct SmsMessageList} *this)}            ||| func,refto
+  For every message, set flag {{structSmsMessage+7}} when flag {{structSmsMessage+4}} is set.           ||| code,refto,code,refto
+
+- {5295F0 {struct SmsMessage} *__thiscall SmsMessageList::SendMessage({struct SmsMessageList} *this,                    ||| func,refto,refto
+                                                                      {struct SmsData} *smsdata)}                       ||| refto
+  Checks with {514CB0} first.                                                                                           ||| ref
+
+- {529670 {struct SmsMessage} *__thiscall SmsMessageList::SendMessageFormatted({struct SmsMessageList} *this,                   ||| func,refto,refto
+                                                                               {struct SmsData} *smsdata,                       ||| refto
+                                                                               unsigned int bodyFormatLanguageLabel,
+                                                                               unsigned int subjectFormatLanguageLabel,
+                                                                               unsigned int subjectParameterLanguageLabel)}
+  Checks with {514CB0} first.                                                                                                   ||| ref
+
+- {533890 {struct SmsMessage} *__thiscall SmsMessageList::SendMessageByHash({struct SmsMessageList} *this,              ||| func,refto,refto
+                                                                            int hash)}
+  Combines {501310}, {514CB0} and {5295F0}.                                                             ||| ref,ref,ref
+
+- {5338C0 void __thiscall SmsMessageList::SendMagOrUnlockMessage({struct SmsMessageList} *this, ?)}     ||| func,refto
+  Uses {529670}.                                                                                        ||| ref
+  TODO
+
+- {83632C int smsOpenType}                                                                              ||| field
+  0 = mailbox is not on screen.
+  1 = mailbox opened from tab straight into sms (when one sms is unread),
+  then esc goes to the category of the msg.
+  2 = mailbox opened from tab into inbox, then esc goes to the index again.
+
+- {838450 numSmsDatas}                                                                                  ||| field
+  Number of stuffs in {838454}.                                                                         ||| ref
+
+- {838454 {struct SmsData} *smsDatas}                                                                   ||| field,refto
+  Seems linked? array? TODO
+
+- {860A60 {struct SmsMessageList} smsMessages}                                                          ||| func,refto
+.pop symbols
+
+.pop section
+
+Need text here or my parser breaks.
+
+.push pre
+{struct CareerData} \{                                                                          ||| mkref
+	int money;
+};
+.pop pre
+
+The career money cheat is mildly interesting, as it seems to work in two different
+ways. It adds the amount to a variable that is used when a new career is started and
+it adds the amount to the current career data if the loaded profile didn't start
+career yet.
+
+.controlchars [] .push pre
+/*from [5760A0]*/                                                                               ||| ref
+/*ordermebaby ($1000 career start bonus)*/
+[cheatExtraCareerMoney1000] = 1000;                                                             ||| refplain address=865130
+// ^ used when starting a new career from a profile that
+// was loaded from the profile menu
+if (![isProfileWithStartedCareerLoaded])  {                                                     ||| refplain address=86347C
+	if ([CareerGetMoney]() == 0)  {                                                         ||| refplain address=500F90
+		[CareerSetMoney](1000);                                                         ||| refplain address=500F80
+		// ^ This only has an effect when the profile was
+		// loaded from the loading screen
+	}
+}
+.controlchars {} .pop pre
+
+.push symbols
+- {495D30 CareerShowSponsorSelectScreen?()}                                                             ||| func
+
+- {500F90 int __thiscall CareerGetMoney({struct CareerData} *this)}                                     ||| func,refto
+  TODO has one other XREF: where money is drawn?
+
+- {500180 char* __thiscall GetCareerLanguageString(short *this)}                                        ||| func
+  Uses {838428} along with offset passed in {this} to return a string.                                  ||| ref,code
+
+- {500F80 void __thiscall CareerGiveMoney({struct CareerData} *this, int amount)}                       ||| func,refto
+  Only used in the career money cheats.
+
+- {5129F0 int __thiscall GetCareerSponsorLanguageKey(short *this)}                                      ||| func
+  Uses {838428} along with offset passed in {this} to format a string {SPONSOR_%s} and                  ||| ref,code,code
+  return the hash result to use for getting a language string.
 
 - {532830 void MaybeStartCareer?()}                                                                     ||| func
   It's the only func that calls {576090}.                                                               ||| ref
@@ -3385,6 +3544,11 @@ if (![isProfileWithStartedCareerLoaded])  {                                     
 .pop ida
 
 .push pre
+{struct ObjectLink} \{                                                                          ||| mkref
+        {struct ObjectLink} *{next};                                                            ||| refto,mkref name=structObjectLink+0
+        {struct ObjectLink} *{prev};                                                            ||| refto,mkref name=structObjectLink+4
+};
+
 {struct WideCharString} \{                                                                      ||| mkref
         wchar_t *{ptrString};                                                                   ||| mkref name=structWideCharString+0
         int {allocatedBytes};                                                                   ||| mkref name=structWideCharString+4

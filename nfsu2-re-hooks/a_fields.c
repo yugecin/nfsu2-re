@@ -11,3 +11,6 @@ float *canvasHeight_2 = (float*) 0x78DA30;
 struct LoadedLanguage *loadedLanguage = (void*) 0x8383D0;
 char **ptr838428 = (void*) 0x838428;
 struct PoolControl *pools = (void*) 0x828530;
+struct SmsMessageList *smsMessages = (void*) 0x860A60;
+struct SmsData **smsDatas = (void*) 0x838454;
+int *numSmsDatas = (int*) 0x838450;

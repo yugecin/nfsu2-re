@@ -40,15 +40,16 @@ static void stub() {}
 //#include "hook-57CAC0-SomethingWithABinFile.c"
 //#include "hook-fileapi.c"
 //#include "hook-realcore-filesystem.c"
-#include "replace-440BB0-Pool__Extend.c"
-#include "replace-440DF0-CreatePool.c"
+//#include "replace-440BB0-Pool__Extend.c"
+//#include "replace-440DF0-CreatePool.c"
 //#include "replace-50B790-ShowFNG.c"
 //#include "replace-50CD00-IsPointInRect.c"
 //#include "replace-50CDB0-DidCursorPressInRect.c"
 //#include "replace-50D510-DebugPrint.c"
-#include "replace-5149C0-GetSmsMessageSubject.c"
-#include "replace-497760-GetSmsMessageSubjectHeader.c" /*needs to be after GetSmsMessageSubject*/
-#include "replace-514B00-GetSmsMessageBody.c"
+//#include "replace-5149C0-GetSmsMessageSubject.c"
+//#include "replace-497760-GetSmsMessageSubjectHeader.c" /*needs to be after GetSmsMessageSubject*/
+//#include "replace-514B00-GetSmsMessageBody.c"
+//#include "replace-514CB0-SmsMessageList__IsMessageAlreadyReceived.c" // dummy always ret 0 atm
 //#include "replace-51D9F0-GetUIElementSize-Maybe-TODO.c"
 #include "replace-526C40-GetFNGForDialog.c"
 //#include "replace-5BF750-UpdateCursorPosition.c"
@@ -57,6 +58,7 @@ static void stub() {}
 //#include "replace-5C8600-MouseData__ctor.c"
 #include "speedyboot.c"
 #include "replaceloadingscreen.c"
+#include "debug-hook-wm_char.c"
 
 BOOL APIENTRY DllMain(HMODULE hModule, DWORD reason_for_call, LPVOID lpResrvd)
 {

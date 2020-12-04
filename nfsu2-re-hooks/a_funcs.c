@@ -1,7 +1,7 @@
 static
-char* getCareerString(short *ptrOffset)
+char* getCareerString(short offset)
 {
-	return *ptr838428 + *ptrOffset;
+	return *ptr838428 + offset;
 }
 
 static
@@ -118,4 +118,14 @@ char *GetLanguageString(unsigned int hash)
 		return str;
 	}
 	return GetLanguageStringOrNull(0xC01A6F63/*DEFAULT_STRING_ERROR*/);
+}
+
+static
+_declspec(naked) void __stdcall SmsMessageList__SendMessageByHash(int hash)
+{
+	_asm {
+		mov ecx, 0x860A60
+		mov eax, 0x533890
+		jmp eax
+	}
 }

@@ -112,15 +112,36 @@ struct LoadedLanguage {
         int field_C;
 };
 
+struct SmsData {
+	short careerTextLanguageTableOffset;
+	char field_2;
+	char mailboxId;
+	int field_4;
+	int field_8;
+	int field_C;
+	unsigned int senderLanguageLabel;
+};
+
 struct SmsMessage {
-	short *careerTextLanguageTableOffset;
-	char field_4;
+	struct SmsData *data;
+	char read;
 	char field_5;
 	char deleted;
-	char field_7;
+	char movedToCorrectInbox;
 	unsigned int bodyFormatLanguageLabel;
 	unsigned int subjectAndBodyParameterLanguageLabel;
 	unsigned int subjectFormatLanguageLabel;
+};
+
+struct SmsMessageList {
+	struct SmsMessage messages[256];
+	int numMessages;
+	int numUnreadMessages;
+	int field_1408;
+	char field_140C;
+	char field_140D;
+	char field_140E;
+	char field_140F;
 };
 
 struct WideCharString {

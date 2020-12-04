@@ -127,7 +127,7 @@ Need For Speed Underground 2, otherwise knows as nfsu2.
 </p><p>This normally belongs to <a href="https://github.com/yugecin/nfsu2-re">https://github.com/yugecin/nfsu2-re</a>.
 </p><p>Other pages: <a href="cheatsheet.html">(fpu) cheatsheet</a>
 </p><p style='margin-bottom:0'><a href='#index'>Index</a></p></div><span id='index'></span><div><h2>Index <a href="#index">#</a></h2>
-<ul><li><a href="#prologue">Prologue</a></li><li><a href="#index">Index</a></li><li><a href="#injectedcode">Injected code</a></li><li><a href="#displaysettings">Display settings</a></li><li><a href="#registry">Registry</a></li><li><a href="#gameregion">Game region</a></li><li><a href="#bindata">Bin data</a></li><li><a href="#language">Language</a><ul><li><a href="#language_metadata">Language metadata</a></li><li><a href="#language_files">Language files</a></li></ul></li><li><a href="#pools">Pools</a></li><li><a href="#speedyboot">Speedy boot</a></li><li><a href="#consoleleftover">Console leftovers</a><ul><li><a href="#console_consume_key">ConsoleConsumeKey</a><ul><li><a href="#console_consume_key_check">A hardcoded key check</a></li></ul></li><li><a href="#console_move_caret">ConsoleMoveCaret</a></li></ul></li><li><a href="#hashfuncs">Hash functions</a><ul><li><a href="#hashmess">Messing with hash results</a></li></ul></li><li><a href="#debugprint">Debug print</a></li><li><a href="#ui">UI</a><ul><li><a href="#ui_dialog">Dialogs</a><ul><li><a href="#ui_dialog_getfngfordialog">GetFNGForDialog</a></li></ul></li><li><a href="#fngthings">FNG things</a></li><li><a href="#some_fng_screens">Some FNG screens</a><ul><li><a href="#replace_loading_screen">Replacing the loading screen</a></li></ul></li></ul></li><li><a href="#mouseinput">Mouse input</a></li><li><a href="#cheats">Cheats</a></li><li><a href="#carmodeldata">Car model data</a></li><li><a href="#sound">Sound</a></li><li><a href="#career">Career</a></li><li><a href="#d3d9stuff">D3D9 Stuff</a></li><li><a href="#other_symbols">Other symbols</a></ul><p style='margin-bottom:0'><a href='#index'>Index</a></p></div><span id='injectedcode'></span><div><h2>Injected code <a href="#injectedcode">#</a></h2>
+<ul><li><a href="#prologue">Prologue</a></li><li><a href="#index">Index</a></li><li><a href="#injectedcode">Injected code</a></li><li><a href="#displaysettings">Display settings</a></li><li><a href="#registry">Registry</a></li><li><a href="#gameregion">Game region</a></li><li><a href="#bindata">Bin data</a></li><li><a href="#language">Language</a><ul><li><a href="#language_metadata">Language metadata</a></li><li><a href="#language_files">Language files</a></li></ul></li><li><a href="#pools">Pools</a></li><li><a href="#speedyboot">Speedy boot</a></li><li><a href="#consoleleftover">Console leftovers</a><ul><li><a href="#console_consume_key">ConsoleConsumeKey</a><ul><li><a href="#console_consume_key_check">A hardcoded key check</a></li></ul></li><li><a href="#console_move_caret">ConsoleMoveCaret</a></li></ul></li><li><a href="#hashfuncs">Hash functions</a><ul><li><a href="#hashmess">Messing with hash results</a></li></ul></li><li><a href="#debugprint">Debug print</a></li><li><a href="#ui">UI</a><ul><li><a href="#ui_dialog">Dialogs</a><ul><li><a href="#ui_dialog_getfngfordialog">GetFNGForDialog</a></li></ul></li><li><a href="#fngthings">FNG things</a></li><li><a href="#some_fng_screens">Some FNG screens</a><ul><li><a href="#replace_loading_screen">Replacing the loading screen</a></li></ul></li></ul></li><li><a href="#mouseinput">Mouse input</a></li><li><a href="#cheats">Cheats</a></li><li><a href="#carmodeldata">Car model data</a></li><li><a href="#sound">Sound</a></li><li><a href="#career">Career</a><ul><li><a href="#sms_stuff">SMS stuff</a></li></ul></li><li><a href="#d3d9stuff">D3D9 Stuff</a></li><li><a href="#other_symbols">Other symbols</a></ul><p style='margin-bottom:0'><a href='#index'>Index</a></p></div><span id='injectedcode'></span><div><h2>Injected code <a href="#injectedcode">#</a></h2>
 <p>The code for all injected things I did can be found in <code>nfsu2-re-hooks/*.c</code>.
 It's configured as a VC2005 project in a VC2005 solution.
 The project emits a compiled file to <code>..\NeedForSpeed U2\scripts\nfsu2-re-hooks.asi</code>.
@@ -1354,13 +1354,15 @@ before updating the hash.
 as <code>hash\tinput\tresult\tproc\n</code>. This file is updated at random times. 8 minutes
 of playing gives about a 277MB file, all output was piped to <code>sort | uniq</code>.
 </p><p>How I collected these can be seen in the <code>nfsu2-re-hooks/hook-*-hash-*.c</code> files.
-</p><p><strong>Symbols:</strong></p><ul><li><span class='func' id='43DB50'>43DB50 int SomeHashCS43DB50(char *str)</span>
+</p><p><strong>Symbols:</strong></p><ul><li><span class='func' id='43DB50'>43DB50 unsigned int SomeHashCS43DB50(char *str)</span>
   Case sensitive hash function.
-</li><li><span class='func' id='505450'>505450 int SomeHashCI505450(char *str)</span>
+</li><li><span class='func' id='43DB80'>43DB80 unsigned int __cdecl SomeHashCS_WithStartValue(char *str, unsigned int startValue)</span>
+  Like <a class='funcref' href='#43DB50'>43DB50:SomeHashCS43DB50()</a>, but starts with given <code>startValue</code> instead of <code>-1</code>.
+</li><li><span class='func' id='505450'>505450 unsigned int SomeHashCI505450(char *str)</span>
   Case insensitive hash function.
-</li><li><span class='func' id='50B990'>50B990 int FormatWithSinglePlaceholderAndHashCS43DB50(char *src, void *param)</span>
+</li><li><span class='func' id='50B990'>50B990 unsigned int FormatWithSinglePlaceholderAndHashCS43DB50(char *src, void *param)</span>
   Delegates hashing to <a class='funcref' href='#43DB50'>43DB50:SomeHashCS43DB50()</a>.
-</li><li><span class='func' id='50B9C0'>50B9C0 int FormatWithSinglePlaceholderAndHashCI(char *src, void *param)</span>
+</li><li><span class='func' id='50B9C0'>50B9C0 unsigned int FormatWithSinglePlaceholderAndHashCI(char *src, void *param)</span>
   Does its own hashing.
 </li></ul><p style='margin-bottom:0'><a href='#index'>Index</a></p></div><span id='hashmess'></span><div class='indent' style='margin-left:5em'><p style='margin-top:0'><small><a href='#hashfuncs'>Hash functions</a> &gt; Messing with hash results</small></p><h3>Messing with hash results <a href="#hashmess">#</a></h3>
 <p>I had an impulse to try to return different results for certain hashes. For example, return
@@ -1871,6 +1873,9 @@ ShowFNG(AA469286 ("UI_InGameDialog.fng"), 037C1120, 00838640) = 037C2AB0
   <code>this</code> is unused.
 </li><li><span class='func' id='52CEF0'>52CEF0 <a href='#struct_FNGInfo'>struct FNGInfo</a> *GetFNGInfoByName(char *fngName)</span>
   TODO, this probably searches everything instead of the hierarchy like <a class='funcref' href='#519E50'>519E50:GetFNGInfoByNameByHierarchy()</a>
+</li><li><span class='func' id='5379A0'>5379A0 void RemoveFNGFromUIObject(char *fngName)</span>
+</li><li><span class='func' id='555E80'>555E80 void AddFngToUIObject_1(char *fngName, void *data)</span>
+  Does more stuff.
 </li><li><span class='func' id='555F10'>555F10 int AddFngToUIObjectWrapper(char *fngName, char *parentFngName, char controlMask, void *data)</span>
   Wraps <a class='funcref' href='#555D00'>555D00:AddFNGToUIObject()</a>.
   <code>parentFngName</code> may be null.
@@ -1938,7 +1943,14 @@ feature?
 </details>
 </p><p style='margin-bottom:0'><a href='#index'>Index</a></p></div><div><p style='margin-top:0'><small><a href='#ui'>UI</a> (continuation)</small></p><p>Stuff
 </p><p>UI keys seem to be hashed with the case insensitive hash.
-</p><pre><span id='struct_UIElement'></span>struct UIElement {
+</p><pre><span id='struct_U2RECT'></span>struct U2RECT {
+        float <span id='structU2RECT_0'></span>left;
+        float <span id='structU2RECT_04'></span>right
+        float <span id='structU2RECT_08'></span>top
+        float <span id='structU2RECT_0C'></span>bottom
+};
+
+<span id='struct_UIElement'></span>struct UIElement {
         void *vtable;
         <a href='#struct_UIElement'>struct UIElement</a> *<span id='structUIElement_4'></span>nextSibling;
         int field_8;
@@ -2023,6 +2035,8 @@ feature?
 </pre><p><strong>Symbols:</strong></p><ul><li><span class='func' id='4953C0'>4953C0 <a href='#struct_UILabel'>struct UILabel</a> *FindUILabelByName(char *fngName, char *str)</span>
   Hashes <code>str</code> and delegates to <a class='funcref' href='#537A10'>537A10:FindUILabelByHash()</a>.
 </li><li><span class='func' id='4953E0'>4953E0 <a href='#struct_UIElementType1'>struct UIElementType1</a> *FindUIElementType1ByName(char *fngName, char *str)</span>
+</li><li><span class='func' id='4FDAD0'>4FDAD0 void __thiscall U2RECT::Add(<a href='#struct_U2RECT'>struct U2RECT</a> *this, <a href='#struct_U2RECT'>struct U2RECT</a> *rect)</span>
+  Sums <code>this</code> and <code>rect</code> into <code>this</code>.
 </li><li><span class='func' id='5048D0'>5048D0 int __thiscall UIElementVisitor_FindByHash::acceptElement(<a href='#struct_UIElementVisitor_FindByHash'>struct UIElementVisitor_FindByHash</a> *this,
                                                                     <a href='#struct_UIElement'>struct UIElement</a> *element)</span>
   If <code>element-&gt;<a href='#structUIElement_10'>hash</a> == this-&gt;<a href='#structUIElementVisitor_FindByHash_4'>searchingHash</a></code>,
@@ -2055,14 +2069,19 @@ return visitor.<a href='#structUIElementVisitor_FindByHash_8'>foundUIelement</a>
   calls <code>visitor-&gt;<a href='#structUIElementVisitor_0'>vtable</a>-&gt;<a href='#structUIElementVisitor_vtable_4'>acceptElement</a></code> for every child,
   calls <a class='funcref' href='#504830'>504830:FNGInfo::VisitContainerRecursively()</a> for every child that is of type 5 (<code><a href='#struct_UIContainer'>struct UIContainer</a></code>),
   returns 0 when either calls return 0.
+</li><li><span class='func' id='51D070'>51D070 void GetUIElementTopLeft(<a href='#struct_UIElement'>struct UIElement</a> *element, float *top, float *left)</span>
+  TODO
+</li><li><span class='func' id='51D170'>51D170 void GetUIElementRightBottom(<a href='#struct_UIElement'>struct UIElement</a> *element, float *right, float *bottom)</span>
+  TODO
+</li><li><span class='func' id='51D9F0'>51D9F0 int GetUIElementRect(<a href='#struct_UIElement'>struct UIElement</a> *element, <a href='#struct_U2RECT'>struct U2RECT</a> *out)</span>
+  Returns 1 on success.
 </li><li><span class='func' id='52C570'>52C570 <a href='#struct_UIElement'>struct UIElement</a> *__thiscall GetUIElementByHashInFngName(<a href='#struct_UIData_Field8'>struct UIData_Field8</a> *this,
                                                                      unsigned int hash,
                                                                      char *fngName)</span>
   When <code>fngName</code> is null, searches every FNG in <code>this-&gt;<a href='#structUIData_Field8_E4'>topPackage</a></code> for the given hash.
   Otherwise, limit the search to the FNG that is in the hierarchy of <code>this-&gt;<a href='#structUIData_Field8_E4'>topPackage</a></code>
   (by using <a class='funcref' href='#519E50'>519E50:GetFNGInfoByNameByHierarchy()</a>).
-</li><li><span class='func' id='52D020'>52D020 int IsPointIn??SomethingUI(float x, float y, void *somethingui)</span>
-  something ui is something ui. Calculating the area goes through lots of functions, TODO
+</li><li><span class='func' id='52D020'>52D020 int IsPointInUIElement(float x, float y, <a href='#struct_UIElement'>struct UIElement</a> *element)</span>
 </li><li><span class='func' id='535FE0'>535FE0 void __thiscall UILabel::setString(<a href='#struct_UILabel'>struct UILabel</a> *this, char *str)</span>
   Only seems to be used for dynamic things such as: money, player name, sms messages, track length...
 </li><li><span class='func' id='5372E0'>5372E0 <a href='#struct_UIData'>struct UIData</a> *__thiscall UIData::ctor(<a href='#struct_UIData'>struct UIData</a> *this)</span>
@@ -2141,7 +2160,7 @@ struct MouseData *_mouseData = (struct MouseData*) 0x8763D0;
   struct { float width; float height; } *size)</span>
   Gets called in one location, but still haven't actually seen it being called. TODO
 </li><li><span class='func' id='52D090'>52D090 DidCursorPressIn??SomethingUI(void *somethingui)</span>
-  Delegates to <a class='funcref' href='#52D020'>52D020:IsPointIn??SomethingUI()</a>
+  Delegates to <a class='funcref' href='#52D020'>52D020:IsPointInUIElement()</a>
 </li><li><span class='func' id='52D100'>52D100 DidCursorPressIn??SomethingUI_2(void *something2)</span>
   same as above, probably for some other type UI element
 </li><li><span class='func' id='5BF6E0'>5BF6E0 int __thiscall CreateDinputDevice(<a href='#struct_MouseData'>struct MouseData</a> *this)</span>
@@ -2319,41 +2338,70 @@ just like when starting a new career. The end of game sms will be open. When dri
 phonecalls from the start of the game come in (friends telling Rachel where the races are
 going on), but they don't appear on the map.
 </p><p>My best guess is that this 'load into career' option is a cut/unfinished feature.
-</p><pre><span id='struct_CareerData'></span>struct CareerData {
-	int money;
+</p><p style='margin-bottom:0'><a href='#index'>Index</a></p></div><span id='sms_stuff'></span><div class='indent' style='margin-left:5em'><p style='margin-top:0'><small><a href='#career'>Career</a> &gt; SMS stuff</small></p><h3>SMS stuff <a href="#sms_stuff">#</a></h3>
+<pre><span id='struct_Mailbox'></span>struct Mailbox {
+        int field_0;
+        int field_4;
+        int field_8;
+        int field_C;
+        int field_10;
+        int field_14;
+        int <span id='structMailbox_18'></span>mailboxId; /*1 inbox, 2 game tips, 3 special events, 4 Rachel, 5 unlocks*/
+};
+
+<span id='struct_MailboxFNGObject'></span>struct MailboxFNGObject {
+        /*TODO*/
+
+        /*+0x120*/
+        <a href='#struct_Mailbox'>struct Mailbox</a> *<span id='structMailboxFNGObject_120'></span>currentBrowsingMailbox;
+};
+
+<span id='struct_SmsData'></span>struct SmsData {
+	/*offset in language table <a class='fieldref' href='#838428'>ptr838428</a>*/
+	short <span id='structSmsData_0'></span>careerTextLanguageTableOffset;
+	char field_2;
+	char <span id='structSmsData_3'></span>mailboxId; /*1 inbox, 2 game tips, 3 special events, 4 Rachel, 5 unlocks*/
+	int field_4;
+	int field_8;
+	int field_C;
+	unsigned int <span id='structSmsData_10'></span>senderLanguageLabel;
 };
 
 <span id='struct_SmsMessage'></span>struct SmsMessage {
-	/*ptr to offset in language table <a class='fieldref' href='#838428'>ptr838428</a>*/
-	short *<span id='structSmsMessage_0'></span>careerTextLanguageTableOffset;
-	char field_4;
+	<a href='#struct_SmsData'>struct SmsData</a> *<span id='structSmsMessage_0'></span>data;
+	char <span id='structSmsMessage_4'></span>read;
 	char field_5;
 	char <span id='structSmsMessage_6'></span>deleted;
-	char field_7;
+	char <span id='structSmsMessage_7'></span>movedToCorrectInbox;
 	unsigned int <span id='structSmsMessage_8'></span>bodyFormatLanguageLabel;
 	unsigned int <span id='structSmsMessage_C'></span>subjectAndBodyParameterLanguageLabel;
 	unsigned int <span id='structSmsMessage_10'></span>subjectFormatLanguageLabel;
 };
-</pre><p>The career money cheat is mildly interesting, as it seems to work in two different
-ways. It adds the amount to a variable that is used when a new career is started and
-it adds the amount to the current career data if the loaded profile didn't start
-career yet.
-</p><pre>/*from <a class='funcref' href='#5760A0'>5760A0:DoCareerCheat()</a>*/
-/*ordermebaby ($1000 career start bonus)*/
-<a class='fieldref' href='#865130'>cheatExtraCareerMoney1000</a> = 1000;
-// ^ used when starting a new career from a profile that
-// was loaded from the profile menu
-if (!<a class='fieldref' href='#86347C'>isProfileWithStartedCareerLoaded</a>)  {
-	if (<a class='funcref' href='#500F90'>CareerGetMoney</a>() == 0)  {
-		<a class='funcref' href='#500F80'>CareerGiveMoney</a>(1000);
-		// ^ This only has an effect when the profile was
-		// loaded from the loading screen
-	}
-}
-</pre><p><strong>Symbols:</strong></p><ul><li><span class='func' id='495D30'>495D30 CareerShowSponsorSelectScreen?()</span>
+
+<span id='struct_SmsMessageList'></span>struct SmsMessageList {
+        <a href='#struct_SmsMessage'>struct SmsMessage</a> <span id='structSmsMessageList_0'></span>messages[256];
+        int <span id='structSmsMessageList_1400'></span>numMessages;
+        int <span id='structSmsMessageList_1404'></span>numUnreadMessages;
+};
+
+<span id='struct_SmsListEntry'></span>struct SmsListEntry {
+        void *vtable;
+        int field_4;
+        int field_8;
+        <a href='#struct_ObjectLink'>struct ObjectLink</a> *<span id='structSmsListEntry_C'></span>link;
+        char field_14;
+        char field_15;
+        char field_16;
+        char field_17;
+        <a href='#struct_SmsMessage'>struct SmsMessage</a> *<span id='structSmsListEntry_18'></span>sms;
+};
+</pre><p><strong>Symbols:</strong></p><ul><li><span class='func' id='4976B0'>4976B0 void __cdecl ShowMailboxOrSingleUnreadSms()</span>
+  TODO check where this is called, it will be the carreer game state's keyhandler.
+  TODO has some references to unknown fields
+  When <a class='funcref' href='#514D30'>514D30:GetNumUnreadSmsMessages()</a> returns <code>1</code>, immediately open that message. Show mailbox otherwise.
 </li><li><span class='func' id='497760'>497760 void GetSmsMessageSubjectHeader(<a href='#struct_SmsMessage'>struct SmsMessage</a> *sms, char *dest, int maxLength)</span>
   Gets the subject from <a class='funcref' href='#5149C0'>5149C0:GetSmsMessageSubject()</a> and prepends <code>Subject: </code> to it (based on language).
-  Used by <a class='funcref' href='#4CC7C0'>4CC7C0:ShowSmsListEntry</a> and <a class='funcref' href='#497850'>497850:ShowSmsMessage()</a>.
+  Used by <a class='funcref' href='#4CC7C0'>4CC7C0:SmsListEntry::ctor()</a> and <a class='funcref' href='#497850'>497850:ShowSmsMessage()</a>.
   <details><summary>Implementation <code><a href='https://github.com/yugecin/nfsu2-re/blob/master/nfsu2-re-hooks/replace-497760-GetSmsMessageSubjectHeader.c'>nfsu2-re-hooks/replace-497760-GetSmsMessageSubjectHeader.c</a></code></summary>
 <pre>char *subjectFormat;
 char subject[100];
@@ -2362,28 +2410,35 @@ subjectFormat = <a class='funcref' href='#4FF9D0'>GetLanguageStringOrNull</a>(0x
 <a class='funcref' href='#5149C0'>GetSmsMessageSubject</a>(sms, subject, sizeof(subject));
 sprintf(dest, subjectFormat, subject);
 </pre>  </details>
-</li><li><span class='func' id='4E2050'>4E2050 FNGINIT_UI_SMS_Mailbox_fng</span>
-  TODO
+</li><li><span class='func' id='4977C0'>4977C0 void __cdecl HideSmsMailbox()</span>
 </li><li><span class='func' id='497850'>497850 int __thiscall ShowSmsMessage(void *this, void *arg)</span>
   TODO, called from <a class='funcref' href='#4B2240'>4B2240:FNGINIT_UI_EngageMessageDialog_fng()</a>
-</li><li><span class='func' id='4CC7C0'>4CC7C0 ShowSmsListEntry</span>
+</li><li><span class='func' id='4CBB60'>4CBB60 void __thiscall SmsListEntry::dtor(<a href='#struct_SmsListEntry'>struct SmsListEntry</a> *this, char doFreeMem)</span>
+</li><li><span class='func' id='4CC7C0'>4CC7C0 <a href='#struct_SmsListEntry'>struct SmsListEntry</a> *__thiscall SmsListEntry::ctor(<a href='#struct_SmsListEntry'>struct SmsListEntry</a> *this,
+                                                               <a href='#struct_SmsMessage'>struct SmsMessage</a> *sms)</span>
+</li><li><span class='func' id='4CC900'>4CC900 void __thiscall ShowSmsList(<a href='#struct_MailboxFNGObject'>struct MailboxFNGObject</a> *this)</span>
+</li><li><span class='func' id='4E1BF0'>4E1BF0 void __thiscall MailboxFNGObject::ctor(struct MailboxFNGObject *this, void *fnginitarg)</span>
+</li><li><span class='func' id='4E2050'>4E2050 FNGINIT_UI_SMS_Mailbox_fng</span>
+  Allocates memory and calls <a class='funcref' href='#4E1BF0'>4E1BF0:MailboxFNGObject::ctor()</a>.
   TODO
-</li><li><span class='func' id='4CC900'>4CC900 ShowSmsList</span>
-  TODO
-</li><li><span class='func' id='500F90'>500F90 int __thiscall CareerGetMoney(<a href='#struct_CareerData'>struct CareerData</a> *this)</span>
-  TODO has one other XREF: where money is drawn?
-</li><li><span class='func' id='500180'>500180 char* __thiscall GetCareerLanguageString(short *this)</span>
-  Uses <a class='fieldref' href='#838428'>838428:ptr838428</a> along with offset passed in <code>this</code> to return a string.
-</li><li><span class='func' id='500F80'>500F80 void __thiscall CareerGiveMoney(<a href='#struct_CareerData'>struct CareerData</a> *this, int amount)</span>
-  Only used in the career money cheats.
-</li><li><span class='func' id='501470'>501470 int __thiscall GetSmsSenderLanguageHash(<a href='#struct_SmsMessage'>struct SmsMessage</a> *this)</span>
+</li><li><span class='func' id='501310'>501310 <a href='#struct_SmsData'>struct SmsData</a> *__cdecl GetSmsDataForHash(int hash)</span>
+  Goes through all <a class='fieldref' href='#838454'>838454:smsDatas</a> and returns the one that has a matching
+  <code>cshash(<a class='fieldref' href='#838428'>ptr838428</a> + <a href='#structSmsData_0'>careerTextLanguageTableOffset</a>)</code>.
+</li><li><span class='func' id='501470'>501470 unsigned int __thiscall GetSmsSenderLanguageHash(<a href='#struct_SmsMessage'>struct SmsMessage</a> *this)</span>
   Returns the hash for the language string that is the sms sender.
   Used once in <a class='funcref' href='#497850'>497850:ShowSmsMessage()</a>.
-<pre>return ((int*) this-&gt;<a href='#structSmsMessage_0'>careerTextLanguageTableOffset</a>) + 4;
-</pre></li><li><span class='func' id='5129F0'>5129F0 int __thiscall GetCareerSponsorLanguageKey(short *this)</span>
-  Uses <a class='fieldref' href='#838428'>838428:ptr838428</a> along with offset passed in <code>this</code> to format a string <code>SPONSOR_%s</code> and
-  return the hash result to use for getting a language string.
-</li><li><span class='func' id='5149C0'>5149C0 void __thiscall GetSmsMessageSubject(<a href='#struct_SmsMessage'>struct SmsMessage</a> *this, char *dest, int maxlen)</span>
+<pre>return this-&gt;<a href='#structSmsMessage_0'>data</a>.<a href='#structSmsData_10'>senderLanguageLabel</a>;
+</pre></li><li><span class='func' id='5014A0'>5014A0 <a href='#struct_SmsMessage'>struct SmsMessage</a> *__thiscall SmsMessageList::GetAtIndex(<a href='#struct_SmsMessageList'>struct SmsMessageList</a> *this,
+                                                                     int index)</span>
+  TODO: check xrefs
+</li><li><span class='func' id='5014C0'>5014C0 void __thiscall SmsMessageList::MarkMessageDeletedAndRead(<a href='#struct_SmsMessageList'>struct SmsMessageList</a> *this,
+                                                                    <a href='#struct_SmsMessage'>struct SmsMessage</a> *sms)</span>
+<pre>if (!sms-&gt;<a href='#structSmsMessage_6'>deleted</a> &amp;&amp; !sms-&gt;<a href='#structSmsMessage_4'>read</a>) {
+      this-&gt;<a href='#structSmsMessageList_1404'>numUnreadMessages</a>--;
+}
+sms-&gt;<a href='#structSmsMessage_6'>deleted</a> = 1;
+sms-&gt;<a href='#structSmsMessage_4'>read</a> = 1;
+</pre></li><li><span class='func' id='5149C0'>5149C0 void __thiscall GetSmsMessageSubject(<a href='#struct_SmsMessage'>struct SmsMessage</a> *this, char *dest, int maxlen)</span>
   <details><summary>Implementation <code><a href='https://github.com/yugecin/nfsu2-re/blob/master/nfsu2-re-hooks/replace-5149C0-GetSmsMessageSubject.c'>nfsu2-re-hooks/replace-5149C0-GetSmsMessageSubject.c</a></code></summary>
 <pre>char *format;
 char *parameter;
@@ -2399,7 +2454,7 @@ if (this-&gt;<a href='#structSmsMessage_10'>subjectFormatLanguageLabel</a>) {
         return;
 }
 
-str = getCareerString(this-&gt;<a href='#structSmsMessage_0'>careerTextLanguageTableOffset</a>);
+str = getCareerString(this-&gt;<a href='#structSmsMessage_0'>data</a>.<a href='#structSmsData_0'>careerTextLanguageTableOffset</a>);
 if (!<a class='funcref' href='#43DC60'>strncmp</a>(str, "SMS_CAR_UNLOCK_", <a class='funcref' href='#43DBB0'>strlenWithNullcheck</a>("SMS_CAR_UNLOCK_"))) {
         str = <a class='funcref' href='#4FFA80'>GetLanguageString</a>(0xF81E6031/*SMS_CAR_UNLOCK_1_SUBJECT*/);
         <a class='funcref' href='#43DBD0'>strcpy</a>(dest, str);
@@ -2432,22 +2487,22 @@ if (this-&gt;<a href='#structSmsMessage_8'>bodyFormatLanguageLabel</a>) {
         return;
 }
 
-str = getCareerString(this-&gt;<a href='#structSmsMessage_0'>careerTextLanguageTableOffset</a>);
-      if (!<a class='funcref' href='#43DC60'>strncmp</a>(str, "SMS_CAR_UNLOCK_", strlen("SMS_CAR_UNLOCK_"))) {
-      str = <a class='funcref' href='#4FFA80'>GetLanguageString</a>(cihash("SMS_CAR_UNLOCK_1_BODY"));
-      <a class='funcref' href='#43DBD0'>strcpy</a>(dest, str);
-      // example: SMS_CAR_UNLOCK_17
-      // example: SMS_CAR_UNLOCK_16
-      return;
+str = getCareerString(this-&gt;<a href='#structSmsMessage_0'>data</a>.<a href='#structSmsData_0'>careerTextLanguageTableOffset</a>);
+if (!<a class='funcref' href='#43DC60'>strncmp</a>(str, "SMS_CAR_UNLOCK_", strlen("SMS_CAR_UNLOCK_"))) {
+        str = <a class='funcref' href='#4FFA80'>GetLanguageString</a>(cihash("SMS_CAR_UNLOCK_1_BODY"));
+        <a class='funcref' href='#43DBD0'>strcpy</a>(dest, str);
+        // example: SMS_CAR_UNLOCK_17
+        // example: SMS_CAR_UNLOCK_16
+        return;
 }
 
 if (!<a class='funcref' href='#43DC60'>strncmp</a>(str, "ENGAGE_TIPS_AUTO", strlen("ENGAGE_TIPS_AUTO"))) {
-      str = <a class='funcref' href='#4FFA80'>GetLanguageString</a>(cihash("ENGAGE_TIPS_AUTO_BODY"));
-      <a class='funcref' href='#43DBD0'>strcpy</a>(dest, str);
-      // Could not find any of these?
-      // This is a single message about the autosave feature
-      // This func probably prevents ENGAGE_TIPS_AUTO_XBOX from showing
-      return;
+        str = <a class='funcref' href='#4FFA80'>GetLanguageString</a>(cihash("ENGAGE_TIPS_AUTO_BODY"));
+        <a class='funcref' href='#43DBD0'>strcpy</a>(dest, str);
+        // Could not find any of these?
+        // This is a single message about the autosave feature
+        // This func probably prevents ENGAGE_TIPS_AUTO_XBOX from showing
+        return;
 }
 
 sprintf(buffer, "%s_BODY", str);
@@ -2456,6 +2511,71 @@ str = <a class='funcref' href='#4FFA80'>GetLanguageString</a>(cihash(buffer));
 // example: SMS_OUTRUN_DEFEAT_BODY
 // example: SMS_END_OF_GAME_MESSAGE_BODY
 </pre>  </details>
+</li><li><span class='func' id='514CB0'>514CB0 int __thiscall SmsMessageList::IsMessageAlreadyReceived(<a href='#struct_SmsMessageList'>struct SmsMessageList</a> *this,
+                                                                  <a href='#struct_SmsData'>struct SmsData</a> *smsdata)</span>
+</li><li><span class='func' id='514D30'>514D30 int __thiscall GetNumUnreadSmsMessages(<a href='#struct_SmsMessageList'>struct SmsMessageList</a> *this, int useCachedFlag)</span>
+  When <code>useCachedFlag</code>, just return <code><a class='funcref' href='#860A60'>smsMessages</a>.<a href='#structSmsMessageList_1404'>numUnreadMessages</a></code>, otherwise count all
+  <code><a class='funcref' href='#860A60'>smsMessages</a>.<a href='#structSmsMessageList_0'>messages</a></code> that have both <code><a href='#structSmsMessage_4'>read</a></code> and
+  <code><a href='#structSmsMessage_6'>deleted</a></code> on <code>0</code>.
+  TODO check other xref, probably for displaying icon ingame
+</li><li><span class='func' id='514D80'>514D80 void __thiscall SetReadMessagesMovedToCorrectInbox(<a href='#struct_SmsMessageList'>struct SmsMessageList</a> *this)</span>
+  For every message, set flag <code><a href='#structSmsMessage_7'>movedToCorrectInbox</a></code> when flag <code><a href='#structSmsMessage_4'>read</a></code> is set.
+</li><li><span class='func' id='5295F0'>5295F0 <a href='#struct_SmsMessage'>struct SmsMessage</a> *__thiscall SmsMessageList::SendMessage(<a href='#struct_SmsMessageList'>struct SmsMessageList</a> *this,
+                                                                      <a href='#struct_SmsData'>struct SmsData</a> *smsdata)</span>
+  Checks with <a class='funcref' href='#514CB0'>514CB0:SmsMessageList::IsMessageAlreadyReceived()</a> first.
+</li><li><span class='func' id='529670'>529670 <a href='#struct_SmsMessage'>struct SmsMessage</a> *__thiscall SmsMessageList::SendMessageFormatted(<a href='#struct_SmsMessageList'>struct SmsMessageList</a> *this,
+                                                                               <a href='#struct_SmsData'>struct SmsData</a> *smsdata,
+                                                                               unsigned int bodyFormatLanguageLabel,
+                                                                               unsigned int subjectFormatLanguageLabel,
+                                                                               unsigned int subjectParameterLanguageLabel)</span>
+  Checks with <a class='funcref' href='#514CB0'>514CB0:SmsMessageList::IsMessageAlreadyReceived()</a> first.
+</li><li><span class='func' id='533890'>533890 <a href='#struct_SmsMessage'>struct SmsMessage</a> *__thiscall SmsMessageList::SendMessageByHash(<a href='#struct_SmsMessageList'>struct SmsMessageList</a> *this,
+                                                                            int hash)</span>
+  Combines <a class='funcref' href='#501310'>501310:GetSmsDataForHash()</a>, <a class='funcref' href='#514CB0'>514CB0:SmsMessageList::IsMessageAlreadyReceived()</a> and <a class='funcref' href='#5295F0'>5295F0:SmsMessageList::SendMessage()</a>.
+</li><li><span class='func' id='5338C0'>5338C0 void __thiscall SmsMessageList::SendMagOrUnlockMessage(<a href='#struct_SmsMessageList'>struct SmsMessageList</a> *this, ?)</span>
+  Uses <a class='funcref' href='#529670'>529670:SmsMessageList::SendMessageFormatted()</a>.
+  TODO
+</li><li><span class='field' id='83632C'>83632C int smsOpenType</span>
+  0 = mailbox is not on screen.
+  1 = mailbox opened from tab straight into sms (when one sms is unread),
+  then esc goes to the category of the msg.
+  2 = mailbox opened from tab into inbox, then esc goes to the index again.
+</li><li><span class='field' id='838450'>838450 numSmsDatas</span>
+  Number of stuffs in <a class='fieldref' href='#838454'>838454:smsDatas</a>.
+</li><li><span class='field' id='838454'>838454 <a href='#struct_SmsData'>struct SmsData</a> *smsDatas</span>
+  Seems linked? array? TODO
+</li><li><span class='func' id='860A60'>860A60 <a href='#struct_SmsMessageList'>struct SmsMessageList</a> smsMessages</span>
+</li></ul><p style='margin-bottom:0'><a href='#index'>Index</a></p></div><div><p style='margin-top:0'><small><a href='#career'>Career</a> (continuation)</small></p><p>Need text here or my parser breaks.
+</p><pre><span id='struct_CareerData'></span>struct CareerData {
+	int money;
+};
+</pre><p>The career money cheat is mildly interesting, as it seems to work in two different
+ways. It adds the amount to a variable that is used when a new career is started and
+it adds the amount to the current career data if the loaded profile didn't start
+career yet.
+</p><pre>/*from <a class='funcref' href='#5760A0'>5760A0:DoCareerCheat()</a>*/
+/*ordermebaby ($1000 career start bonus)*/
+<a class='fieldref' href='#865130'>cheatExtraCareerMoney1000</a> = 1000;
+// ^ used when starting a new career from a profile that
+// was loaded from the profile menu
+if (!<a class='fieldref' href='#86347C'>isProfileWithStartedCareerLoaded</a>)  {
+	if (<a class='funcref' href='#500F90'>CareerGetMoney</a>() == 0)  {
+		<a class='funcref' href='#500F80'>CareerGiveMoney</a>(1000);
+		// ^ This only has an effect when the profile was
+		// loaded from the loading screen
+	}
+}
+</pre><p><strong>Symbols:</strong></p><ul><li><span class='func' id='495D30'>495D30 CareerShowSponsorSelectScreen?()</span>
+</li><li><span class='func' id='500F90'>500F90 int __thiscall CareerGetMoney(<a href='#struct_CareerData'>struct CareerData</a> *this)</span>
+  TODO has one other XREF: where money is drawn?
+</li><li><span class='func' id='500180'>500180 char* __thiscall GetCareerLanguageString(short *this)</span>
+  Uses <a class='fieldref' href='#838428'>838428:ptr838428</a> along with offset passed in <code>this</code> to return a string.
+</li><li><span class='func' id='500F80'>500F80 void __thiscall CareerGiveMoney(<a href='#struct_CareerData'>struct CareerData</a> *this, int amount)</span>
+  Only used in the career money cheats.
+</li><li><span class='func' id='5129F0'>5129F0 int __thiscall GetCareerSponsorLanguageKey(short *this)</span>
+  Uses <a class='fieldref' href='#838428'>838428:ptr838428</a> along with offset passed in <code>this</code> to format a string <code>SPONSOR_%s</code> and
+  return the hash result to use for getting a language string.
+</li><li><span class='func' id='514CF0'>514CF0 <a href='#struct_SmsMessage'>struct SmsMessage</a> *__thiscall GetFirstUnreadSmsMessage(<a href='#struct_SmsMessageList'>struct SmsMessageList</a> *this)</span>
 </li><li><span class='func' id='532830'>532830 void MaybeStartCareer?()</span>
   It's the only func that calls <a class='funcref' href='#576090'>576090:GetExtraCheatedCareerMoney()</a>.
 </li><li><span class='field' id='83648C'>83648C char autoLoadLastProfileIntoCareer?</span>
@@ -2484,7 +2604,12 @@ str = <a class='funcref' href='#4FFA80'>GetLanguageString</a>(cihash(buffer));
 <span class='comment'>.rdata:007A5BF8</span>                 db <span class='str'>'// HotPosition - %s'</span>,<span class='num'>0Ah</span>
 <span class='comment'>.rdata:007A5BF8</span>                 db <span class='str'>'//'</span>,<span class='num'>0Ah</span>
 <span class='comment'>.rdata:007A5BF8</span>                 db <span class='str'>'HOTPOSITION: %8.2f,%8.2f,%8.2f  Angle=0x%04x'</span>,<span class='num'>0Ah</span>,<span class='num'>0</span>
-</pre><pre><span id='struct_WideCharString'></span>struct WideCharString {
+</pre><pre><span id='struct_ObjectLink'></span>struct ObjectLink {
+        <a href='#struct_ObjectLink'>struct ObjectLink</a> *<span id='structObjectLink_0'></span>next;
+        <a href='#struct_ObjectLink'>struct ObjectLink</a> *<span id='structObjectLink_4'></span>prev;
+};
+
+<span id='struct_WideCharString'></span>struct WideCharString {
         wchar_t *<span id='structWideCharString_0'></span>ptrString;
         int <span id='structWideCharString_4'></span>allocatedBytes;
 };

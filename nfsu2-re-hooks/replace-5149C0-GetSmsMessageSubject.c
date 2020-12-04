@@ -24,7 +24,7 @@ void __stdcall GetSmsMessageSubject(struct SmsMessage *this, char *dest, int max
 		return;
 	}
 
-	str = getCareerString(this->careerTextLanguageTableOffset);
+	str = getCareerString(this->data->careerTextLanguageTableOffset);
 	if (!strncmp(str, "SMS_CAR_UNLOCK_", strlen("SMS_CAR_UNLOCK_"))) {
 #ifdef SMS_SUBJECT_PRINT
 		log(buf, sprintf(buf, "SMS_SUBJECT: %s", str));
