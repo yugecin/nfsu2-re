@@ -116,7 +116,7 @@ struct SmsMessage {
 	short *careerTextLanguageTableOffset;
 	char field_4;
 	char field_5;
-	char field_6;
+	char deleted;
 	char field_7;
 	unsigned int bodyFormatLanguageLabel;
 	unsigned int subjectAndBodyParameterLanguageLabel;

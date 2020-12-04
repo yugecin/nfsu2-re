@@ -1453,7 +1453,7 @@ EXPECT_SIZE(struct bFileSystemPoolEntry, 0xF0);
 
 - {440BB0 void __thiscall Pool::Extend({struct Pool} *this, int elementAmount)}                                 ||| func,refto
   Only called by {440D40}?                                                                                      ||| ref
-  {{Implementation}                                                                                             ||| details,summary
+  {{Implementation {nfsu2-re-hooks/replace-440BB0-Pool__Extend.c}}                                              ||| details,summary,hookfileref
   .controlchars [] .push pre
   [struct Pool] *ext;                                                                                           ||| refto
   [struct Pool] *lastPool;                                                                                      ||| refto
@@ -1481,7 +1481,7 @@ EXPECT_SIZE(struct bFileSystemPoolEntry, 0xF0);
 
 - {440DF0 {struct Pool} *CreatePool(int elementSize, int elementAmount, char *name, int unknown)}               ||| func,refto
   Calls {440B40}.                                                                                               ||| ref
-  {{Implementation}                                                                                             ||| details,summary
+  {{Implementation {nfsu2-re-hooks/replace-440DF0-CreatePool.c}}                                                ||| details,summary,hookfileref
   .controlchars [] .push pre
   [struct Pool] *pool;                                                                                          ||| refto
   [struct PoolLink] *linkNext;                                                                                  ||| refto
@@ -2601,6 +2601,45 @@ TODO:
 .pop ul
 
 .pop section
+.push section
+
+{Some FNG screens} ||| h id=some_fng_screens
+
+This was done by putting pointers to their strings into the boot flow entries (see {speedyboot}).               ||| href
+
+{{2P_PressStart.fng}                            ||| details,summary
+{2P_PressStart.fng}                             ||| imgcaptioned src=2P_PRESS_START.JPG alt="2player press start"
+}
+
+{{loading_boot.fng}                             ||| details,summary
+{loading_boot.fng}                              ||| imgcaptioned src=LOADING_BOOT.JPG alt="alternative loading screen with nfsu2 logo"
+}
+
+{{UI_DebugTest.fng}                             ||| details,summary
+{UI_DebugTest.fng}                              ||| imgcaptioned src=UI_DEBUGTEST.JPG alt="pulsing text and different colored circles"
+}
+
+{{UI_OLAgeTooYoung.fng}                         ||| details,summary
+{UI_OLAgeTooYoung.fng}                          ||| imgcaptioned src=UI_OLAGETOOYOUNG.JPG alt="age too young"
+}
+
+{{UI_OLMAIN.fng}                                ||| details,summary
+{UI_OLMAIN.fng}                                 ||| imgcaptioned src=UI_OLMAIN.JPG alt="online main menu"
+}
+
+{{UI_OL_Feedback.fng}                           ||| details,summary
+{UI_OL_Feedback.fng}                            ||| imgcaptioned src=UI_OL_FEEDBACK.JPG alt="online player feedback menu"
+}
+
+{{UI_OL_FriendDialogue.fng}                     ||| details,summary
+{UI_OL_FriendDialogue.fng}                      ||| imgcaptioned src=UI_OL_FRIENDDIALOGUE.JPG alt="online friend dialogue"
+}
+
+{{UI_OL_Voice_Chat.fng}                         ||| details,summary
+{UI_OL_Voice_Chat.fng}                          ||| imgcaptioned src=UI_OL_VOICE_CHAT.JPG alt="online voice chat"
+}
+
+.pop section
 
 Stuff
 
@@ -2750,6 +2789,12 @@ UI keys seem to be hashed with the case insensitive hash.
 - {535FE0 void __thiscall UILabel::setString({struct UILabel} *this, char *str)}              ||| func,refto
   Only seems to be used for dynamic things such as: money, player name, sms messages, track length...
 
+- {5372E0 {struct UIData} *__thiscall UIData::ctor({struct UIData} *this)}                                      ||| func,refto,refto
+  Called from {57ED10}.                                                                                         ||| ref
+
+- {537830 void CreateUI()}                                                                                      ||| func
+  Called from {57ED10}.                                                                                         ||| ref
+
 - {5379C0 {struct UIElement} *FindUIElementByHash(char *fngName, unsigned int hash)}                            ||| func,refto
 
 - {537A10 {struct UILabel} *FindUILabelByHash(char *fngName, unsigned int hash)}                                ||| func,refto
@@ -2776,6 +2821,8 @@ UI keys seem to be hashed with the case insensitive hash.
   vtable for {517F80},                                                                                          ||| ref
   {vtable->{structUIElementVisitor$vtable+0} = {5047C0};}                                                       ||| code,refto,ref
   {vtable->{structUIElementVisitor$vtable+4} = {5048D0};}                                                       ||| code,refto,ref
+
+- {79BCD8 vtable_UIData}                                                                                        ||| field
 
 - {8384C4 {struct UIData} *pUIData}                                                                             ||| field,refto
 
@@ -3080,6 +3127,19 @@ After hooking and printing addresses, some more obvious data could be seen:
 
 {Career}  ||| h id=career
 
+{83648C} is a weird variable. It changes the boot process so when {UI_Main.fng} is loaded,      ||| ref,code
+the game immediately goes in career freeroam after loading a profile.
+Except, you're in Rachel's car. When entering a shop, you're back in your own car,
+but when exiting the GPS is set to the crib. When arriving at the crib though, you can't
+enter it. However, you can enter the crib if that first shop you entered was the car lot.
+
+Doing this on a finished career profile will put you in Rachel's car at the airport parking,
+just like when starting a new career. The end of game sms will be open. When driving, the
+phonecalls from the start of the game come in (friends telling Rachel where the races are
+going on), but they don't appear on the map.
+
+My best guess is that this 'load into career' option is a cut/unfinished feature.
+
 .push pre
 {struct CareerData} \{                                                                          ||| mkref
 	int money;
@@ -3090,7 +3150,7 @@ After hooking and printing addresses, some more obvious data could be seen:
 	short *{careerTextLanguageTableOffset};                                                 ||| mkref name=structSmsMessage+0
 	char field_4;
 	char field_5;
-	char field_6;
+	char {deleted};                                                                         ||| mkref name=structSmsMessage+6
 	char field_7;
 	unsigned int {bodyFormatLanguageLabel};                                                 ||| mkref name=structSmsMessage+8
 	unsigned int {subjectAndBodyParameterLanguageLabel};                                    ||| mkref name=structSmsMessage+C
@@ -3135,10 +3195,16 @@ if (![isProfileWithStartedCareerLoaded])  {                                     
   .pop pre
   }
 
+- {4E2050 FNGINIT_UI_SMS_Mailbox_fng}                                                                   ||| func
+  TODO
+
 - {497850 int __thiscall ShowSmsMessage(void *this, void *arg)}                                         ||| func
   TODO, called from {4B2240}                                                                            ||| ref
 
-- {4CC7C0 ShowSmsList}                                                                                  ||| func
+- {4CC7C0 ShowSmsListEntry}                                                                             ||| func
+  TODO
+
+- {4CC900 ShowSmsList}                                                                                  ||| func
   TODO
 
 - {500F90 int __thiscall CareerGetMoney({struct CareerData} *this)}                                     ||| func,refto
@@ -3243,6 +3309,8 @@ if (![isProfileWithStartedCareerLoaded])  {                                     
 - {532830 void MaybeStartCareer?()}                                                                     ||| func
   It's the only func that calls {576090}.                                                               ||| ref
 
+- {83648C char autoLoadLastProfileIntoCareer?}                                                          ||| field
+
 - {83840C ptr83840C}                                                                                    ||| field
   Pointer to some struct with DVD/SHOW related stuff.
 
@@ -3280,6 +3348,15 @@ if (![isProfileWithStartedCareerLoaded])  {                                     
 .push section
 
 {Other symbols}  ||| h id=other_symbols
+
+.push ida
+{.rdata:0079B9F0} {aDDecodercaptur} db {'d:\decodercapture%04d.fss'},{0}                        ||| comment,ident,str,num
+
+{.rdata:007A5BF8} {aHotpositionSHo} db {'//'},{0Ah}                                             ||| comment,ident,str,num
+{.rdata:007A5BF8}                 db {'// HotPosition - %s'},{0Ah}                              ||| comment,str,num
+{.rdata:007A5BF8}                 db {'//'},{0Ah}                                               ||| comment,str,num
+{.rdata:007A5BF8}                 db {'HOTPOSITION: %8.2f,%8.2f,%8.2f  Angle=0x%04x'},{0Ah},{0} ||| comment,str,num,num
+.pop ida
 
 .push pre
 {struct WideCharString} \{                                                                      ||| mkref
@@ -3417,6 +3494,8 @@ EXPECT_SIZE(struct WorldAnimStuff, 0x4C);
   Set in {5CCD60}, but seemingly never read from? REVISIT                                       ||| ref
 
 - {8A1CCC void *ptrCarData}                                                                     ||| field
+
+- {835BB8 wchar_t loadedProfileName[32]}                                                        ||| field
 .pop symbols
 .pop section
 .push plain
