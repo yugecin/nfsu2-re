@@ -1,7 +1,8 @@
-static int zero = 0;
 static
 void speedyboot()
 {
+	static int zero = 0;
+
 	*(int**) (0x7F65E8) = &zero; /*discerrorpc*/
 	*(int**) (0x7F65EC) = &zero; /*??nothing*/
 	//*(int**) (0x7F65F0) = &zero; /*mc_bootup*/

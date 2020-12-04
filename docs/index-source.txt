@@ -2615,6 +2615,32 @@ This was done by putting pointers to their strings into the boot flow entries (s
 {loading_boot.fng}                              ||| imgcaptioned src=LOADING_BOOT.JPG alt="alternative loading screen with nfsu2 logo"
 }
 
+.push section
+
+{Replacing the loading screen}  ||| h id=replace_loading_screen
+
+I found {loading_boot.fng} pretty cool, so I wondered if that could be used instead for         ||| code
+the loading screens (on boot, when loading race, going into freeroam, ..).
+
+I've seen lots of places refer to a string with content {PC_Loading.fng}, so I thought maybe    ||| code
+replacing that with {loading_boot.fng} will just work. And it does.                             ||| code
+
+.push pre
+strcpy((char*) 0x790734, "loading_boot.fng");
+.pop pre
+
+Since the string is longer, it will override this string with an empty string though:
+
+.push ida
+{.rdata:00790744} {aLoadingTipsFng} db {'Loading_Tips.fng'},{0}                                 ||| comment,ident,str,num
+.pop ida
+
+It seems unused, so I guess it's fine. That made me wonder if that one could be used as loading
+screen, maybe it shows tips? But when trying it just shows a black screen. Maybe it's a cut
+feature?
+
+.pop section
+
 {{UI_DebugTest.fng}                             ||| details,summary
 {UI_DebugTest.fng}                              ||| imgcaptioned src=UI_DEBUGTEST.JPG alt="pulsing text and different colored circles"
 }

@@ -56,6 +56,7 @@ static void stub() {}
 //#include "replace-5BF940-HaveCursorActivity.c"
 //#include "replace-5C8600-MouseData__ctor.c"
 #include "speedyboot.c"
+#include "replaceloadingscreen.c"
 
 BOOL APIENTRY DllMain(HMODULE hModule, DWORD reason_for_call, LPVOID lpResrvd)
 {

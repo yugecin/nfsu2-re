@@ -551,6 +551,18 @@
 			</FileConfiguration>
 		</File>
 		<File
+			RelativePath=".\replaceloadingscreen.c"
+			>
+			<FileConfiguration
+				Name="Debug|Win32"
+				ExcludedFromBuild="true"
+				>
+				<Tool
+					Name="VCCLCompilerTool"
+				/>
+			</FileConfiguration>
+		</File>
+		<File
 			RelativePath=".\runwindowed.c"
 			>
 			<FileConfiguration
