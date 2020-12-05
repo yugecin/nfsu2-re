@@ -1,10 +1,17 @@
 static
 void onCharMessage(int wparam)
 {
+	struct SmsData *smsdata;
+
 	log(buf, sprintf(buf, "wmchar %d", wparam));
 
 	if (wparam == 121) {
-		//SmsMessageList__SendMessageByHash(cshash("DDAY_EVENT_B"));
+		smsdata = ((struct SmsData*(__cdecl *)(unsigned int))0x501310)
+					(cshash("SMS_INSTRUCTION"));
+		log(buf, sprintf(buf, "smsdata %p", smsdata));
+		if (smsdata) {
+			SmsMessageList__SendMessageEvenIfAlreadyReceived(smsdata);
+		}
 	}
 }
 

@@ -9,13 +9,6 @@ int __stdcall SmsMessageList__IsMessageAlreadyReceived(struct SmsData *smsdata)
 }
 
 static
-__declspec(naked) int ReplaceSmsMessageList__IsMessageAlreadyReceived(struct SmsData *smsdata)
-{
-	_asm {
-	}
-}
-
-static
 void initReplaceSmsMessageList__IsMessageAlreadyReceived()
 {
 	mkjmp(0x514CB0, &SmsMessageList__IsMessageAlreadyReceived);

@@ -476,7 +476,8 @@ return NULL;
 </li><li><span class='func' id='510900'>510900 int UnloadBinSection30231(<a href='#struct_BinSection'>struct BinSection</a> *binsection)</span>
 </li><li><span class='func' id='512C00'>512C00 int LoadBinSection80034A10(<a href='#struct_BinSection'>struct BinSection</a> *binsection)</span>
   This gets loaded once (enforced by <a class='fieldref' href='#8641F4'>8641F4:binSection80034A10loaded</a>), data resides in <code>GLOBAL/GLOBALB.BUN</code>.
-  Career/Sponsor/DVD/Magazines related.
+  Career/Sponsor/DVD/Magazines related. The data in this section is more sections, with magic
+  <code>0x34A11-0x34A1F</code> (excluding <code>0x34A13</code>),
 </li><li><span class='func' id='51BD30'>51BD30 int LoadBinSection30203_30210(<a href='#struct_BinSection'>struct BinSection</a> *binsection)</span>
   Loads FNG packages?
 </li><li><span class='func' id='51C610'>51C610 int UnloadBinSection39020(<a href='#struct_BinSection'>struct BinSection</a> *binsection)</span>
@@ -2410,7 +2411,7 @@ subjectFormat = <a class='funcref' href='#4FF9D0'>GetLanguageStringOrNull</a>(0x
 <a class='funcref' href='#5149C0'>GetSmsMessageSubject</a>(sms, subject, sizeof(subject));
 sprintf(dest, subjectFormat, subject);
 </pre>  </details>
-</li><li><span class='func' id='4977C0'>4977C0 void __cdecl HideSmsMailbox()</span>
+</li><li><span class='func' id='4977C0'>4977C0 void HideSmsMailbox()</span>
 </li><li><span class='func' id='497850'>497850 int __thiscall ShowSmsMessage(void *this, void *arg)</span>
   TODO, called from <a class='funcref' href='#4B2240'>4B2240:FNGINIT_UI_EngageMessageDialog_fng()</a>
 </li><li><span class='func' id='4CBB60'>4CBB60 void __thiscall SmsListEntry::dtor(<a href='#struct_SmsListEntry'>struct SmsListEntry</a> *this, char doFreeMem)</span>
@@ -2421,7 +2422,11 @@ sprintf(dest, subjectFormat, subject);
 </li><li><span class='func' id='4E2050'>4E2050 FNGINIT_UI_SMS_Mailbox_fng</span>
   Allocates memory and calls <a class='funcref' href='#4E1BF0'>4E1BF0:MailboxFNGObject::ctor()</a>.
   TODO
-</li><li><span class='func' id='501310'>501310 <a href='#struct_SmsData'>struct SmsData</a> *__cdecl GetSmsDataForHash(int hash)</span>
+</li><li><span class='func' id='5012F0'>5012F0 void storeSmsDatas(char *data, int size)</span>
+  Called from <a class='funcref' href='#512C00'>512C00:LoadBinSection80034A10()</a>.
+<pre><a class='fieldref' href='#838454'>smsDatas</a> = (void*) data;
+<a class='fieldref' href='#838450'>numSmsDatas</a> = size / 20;
+</pre></li><li><span class='func' id='501310'>501310 <a href='#struct_SmsData'>struct SmsData</a> *__cdecl GetSmsDataForHash(int hash)</span>
   Goes through all <a class='fieldref' href='#838454'>838454:smsDatas</a> and returns the one that has a matching
   <code>cshash(<a class='fieldref' href='#838428'>ptr838428</a> + <a href='#structSmsData_0'>careerTextLanguageTableOffset</a>)</code>.
 </li><li><span class='func' id='501470'>501470 unsigned int __thiscall GetSmsSenderLanguageHash(<a href='#struct_SmsMessage'>struct SmsMessage</a> *this)</span>
@@ -2513,6 +2518,7 @@ str = <a class='funcref' href='#4FFA80'>GetLanguageString</a>(cihash(buffer));
 </pre>  </details>
 </li><li><span class='func' id='514CB0'>514CB0 int __thiscall SmsMessageList::IsMessageAlreadyReceived(<a href='#struct_SmsMessageList'>struct SmsMessageList</a> *this,
                                                                   <a href='#struct_SmsData'>struct SmsData</a> *smsdata)</span>
+</li><li><span class='func' id='514CF0'>514CF0 <a href='#struct_SmsMessage'>struct SmsMessage</a> *__thiscall GetFirstUnreadSmsMessage(<a href='#struct_SmsMessageList'>struct SmsMessageList</a> *this)</span>
 </li><li><span class='func' id='514D30'>514D30 int __thiscall GetNumUnreadSmsMessages(<a href='#struct_SmsMessageList'>struct SmsMessageList</a> *this, int useCachedFlag)</span>
   When <code>useCachedFlag</code>, just return <code><a class='funcref' href='#860A60'>smsMessages</a>.<a href='#structSmsMessageList_1404'>numUnreadMessages</a></code>, otherwise count all
   <code><a class='funcref' href='#860A60'>smsMessages</a>.<a href='#structSmsMessageList_0'>messages</a></code> that have both <code><a href='#structSmsMessage_4'>read</a></code> and
@@ -2575,7 +2581,6 @@ if (!<a class='fieldref' href='#86347C'>isProfileWithStartedCareerLoaded</a>)  {
 </li><li><span class='func' id='5129F0'>5129F0 int __thiscall GetCareerSponsorLanguageKey(short *this)</span>
   Uses <a class='fieldref' href='#838428'>838428:ptr838428</a> along with offset passed in <code>this</code> to format a string <code>SPONSOR_%s</code> and
   return the hash result to use for getting a language string.
-</li><li><span class='func' id='514CF0'>514CF0 <a href='#struct_SmsMessage'>struct SmsMessage</a> *__thiscall GetFirstUnreadSmsMessage(<a href='#struct_SmsMessageList'>struct SmsMessageList</a> *this)</span>
 </li><li><span class='func' id='532830'>532830 void MaybeStartCareer?()</span>
   It's the only func that calls <a class='funcref' href='#576090'>576090:GetExtraCheatedCareerMoney()</a>.
 </li><li><span class='field' id='83648C'>83648C char autoLoadLastProfileIntoCareer?</span>

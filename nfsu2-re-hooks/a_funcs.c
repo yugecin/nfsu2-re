@@ -121,7 +121,25 @@ char *GetLanguageString(unsigned int hash)
 }
 
 static
-_declspec(naked) void __stdcall SmsMessageList__SendMessageByHash(int hash)
+_declspec(naked)
+void __stdcall SmsMessageList__SendMessageEvenIfAlreadyReceived(struct SmsData *smsdata)
+{
+	_asm {
+		push ebp
+		mov ebp, esp
+		push ebx
+		mov ebx, [ebp+0x8] //smsdata
+		push esi
+		push edi
+		mov edi, 0x860A60 // struct SmsMessageList*
+		mov eax, 0x529605 // 5295F0+xx
+		jmp eax
+	}
+}
+
+static
+_declspec(naked)
+void __stdcall SmsMessageList__SendMessageByHash(int hash)
 {
 	_asm {
 		mov ecx, 0x860A60

@@ -705,7 +705,8 @@ Section magic {0} seems to be just for padding/alignment uses.                  
 
 - {512C00 int LoadBinSection80034A10({struct BinSection} *binsection)}                          ||| func,refto
   This gets loaded once (enforced by {8641F4}), data resides in {GLOBAL/GLOBALB.BUN}.           ||| ref,code
-  Career/Sponsor/DVD/Magazines related.
+  Career/Sponsor/DVD/Magazines related. The data in this section is more sections, with magic
+  {0x34A11-0x34A1F} (excluding {0x34A13}),                                                      ||| code,code
 
 - {51BD30 int LoadBinSection30203_30210({struct BinSection} *binsection)}                       ||| func,refto
   Loads FNG packages?
@@ -3275,7 +3276,7 @@ My best guess is that this 'load into career' option is a cut/unfinished feature
   .pop pre
   }
 
-- {4977C0 void __cdecl HideSmsMailbox()}                                                                ||| func
+- {4977C0 void HideSmsMailbox()}                                                                        ||| func
 
 - {497850 int __thiscall ShowSmsMessage(void *this, void *arg)}                                         ||| func
   TODO, called from {4B2240}                                                                            ||| ref
@@ -3292,6 +3293,13 @@ My best guess is that this 'load into career' option is a cut/unfinished feature
 - {4E2050 FNGINIT_UI_SMS_Mailbox_fng}                                                                   ||| func
   Allocates memory and calls {4E1BF0}.                                                                  ||| ref
   TODO
+
+- {5012F0 void storeSmsDatas(char *data, int size)}                                                     ||| func
+  Called from {512C00}.                                                                                 ||| ref
+  .push pre
+  {838454} = (void*) data;                                                                              ||| refplain
+  {838450} = size / 20;                                                                                 ||| refplain
+  .pop pre
 
 - {501310 {struct SmsData} *__cdecl GetSmsDataForHash(int hash)}                                        ||| func,refto
   Goes through all {838454} and returns the one that has a matching                                     ||| ref
