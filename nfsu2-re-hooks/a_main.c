@@ -58,6 +58,7 @@ static void stub() {}
 //#include "replace-5BF940-HaveCursorActivity.c"
 //#include "replace-5C8600-MouseData__ctor.c"
 #include "speedyboot.c"
+//#include "focusloss-nopause.c" // note that cause of this it will still accept keys while in bg
 #include "replaceloadingscreen.c"
 
 #include "debug-custom-dump-smsdata.c"

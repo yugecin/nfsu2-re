@@ -8,6 +8,15 @@ void mkjmp(int at, void *to)
 }
 
 static
+void nop(int at, int num)
+{
+	/*at -= 0x400000; at += base;*/
+	while (num--) {
+		*((unsigned char*) at++) = 0x90;
+	}
+}
+
+static
 int isprocstaticmem(int loc)
 {
 	return base < loc && loc < base + 0x4BB000;

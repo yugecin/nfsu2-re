@@ -275,6 +275,18 @@
 			</FileConfiguration>
 		</File>
 		<File
+			RelativePath=".\focusloss-nopause.c"
+			>
+			<FileConfiguration
+				Name="Debug|Win32"
+				ExcludedFromBuild="true"
+				>
+				<Tool
+					Name="VCCLCompilerTool"
+				/>
+			</FileConfiguration>
+		</File>
+		<File
 			RelativePath=".\hook-43DB50-hash-cs.c"
 			>
 			<FileConfiguration
