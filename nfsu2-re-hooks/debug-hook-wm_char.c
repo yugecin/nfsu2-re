@@ -1,18 +1,8 @@
 static
 void onCharMessage(int wparam)
 {
-	struct SmsData *smsdata;
-
-	log(buf, sprintf(buf, "wmchar %d", wparam));
-
-	if (wparam == 121) {
-		smsdata = ((struct SmsData*(__cdecl *)(unsigned int))0x501310)
-					(cshash("SMS_INSTRUCTION"));
-		log(buf, sprintf(buf, "smsdata %p", smsdata));
-		if (smsdata) {
-			SmsMessageList__SendMessageEvenIfAlreadyReceived(smsdata);
-		}
-	}
+	//log(buf, sprintf(buf, "wmchar %d", wparam));
+	DEBUG_WMCHAR_FUNC(wparam);
 }
 
 static
@@ -20,9 +10,8 @@ __declspec(naked) void charMessageHook()
 {
 	_asm {
 		call onCharMessage
+		push 0x5CCF5A // ret addr
 		mov eax, 0x55DBD0
-		call eax
-		mov eax, 0x5CCF5A
 		jmp eax
 	}
 }

@@ -78,7 +78,7 @@ struct PLACEHOLDER {
 	char needs_adjustment;
 	char _data[MAX_PLACEHOLDER_DATA_LENGTH];
 };
-#define MAX_PLACEHOLDERS 1000
+#define MAX_PLACEHOLDERS 2000
 struct PLACEHOLDER placeholders[MAX_PLACEHOLDERS];
 int num_placeholders;
 int num_placeholders_before_this_line;

@@ -112,13 +112,26 @@ struct LoadedLanguage {
         int field_C;
 };
 
+#define SMS_TYPE_END_OF_GAME 1
+#define SMS_TYPE_CAREER_START 2
+#define SMS_TYPE_INSTRUCTIONS 3
+#define SMS_TYPE_OUTRUN_INFO 4
+#define SMS_TYPE_OUTRUN_VICTORY 5
+#define SMS_TYPE_OUTRUN_DEFEAT 6
+#define SMS_TYPE_UNLOCK_9 9
+#define SMS_TYPE_UNLOCK_10 10
+#define SMS_TYPE_UNLOCK_12 12
+#define SMS_TYPE_MAGS_AND_UNIQUES 13
+#define SMS_TYPE_DVD_COVER 14
+#define SMS_TYPE_ENGAGE_TIP 15
+
 struct SmsData {
 	short careerTextLanguageTableOffset;
-	char field_2;
+	char type;
 	char mailboxId;
 	int field_4;
 	int field_8;
-	int field_C;
+	int moneyReward;
 	unsigned int senderLanguageLabel;
 };
 
@@ -142,6 +155,7 @@ struct SmsMessageList {
 	char field_140D;
 	char field_140E;
 	char field_140F;
+	int field_1410;
 };
 
 struct WideCharString {

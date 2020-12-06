@@ -215,6 +215,42 @@
 			</FileConfiguration>
 		</File>
 		<File
+			RelativePath=".\debug-custom-dump-smsdata.c"
+			>
+			<FileConfiguration
+				Name="Debug|Win32"
+				ExcludedFromBuild="true"
+				>
+				<Tool
+					Name="VCCLCompilerTool"
+				/>
+			</FileConfiguration>
+		</File>
+		<File
+			RelativePath=".\debug-custom-remove-all-received-engage-markers.c"
+			>
+			<FileConfiguration
+				Name="Debug|Win32"
+				ExcludedFromBuild="true"
+				>
+				<Tool
+					Name="VCCLCompilerTool"
+				/>
+			</FileConfiguration>
+		</File>
+		<File
+			RelativePath=".\debug-custom-send-instruction-sms.c"
+			>
+			<FileConfiguration
+				Name="Debug|Win32"
+				ExcludedFromBuild="true"
+				>
+				<Tool
+					Name="VCCLCompilerTool"
+				/>
+			</FileConfiguration>
+		</File>
+		<File
 			RelativePath=".\debug-hook-wm_char.c"
 			>
 			<FileConfiguration

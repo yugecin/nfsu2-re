@@ -527,13 +527,13 @@ return 0;
 </li><li><span class='func' id='5DC050'>5DC050 int UnloadBinSection80036000(<a href='#struct_BinSection'>struct BinSection</a> *binsection)</span>
 </li><li><span class='func' id='5DEB80'>5DEB80 int LoadBinSection34121_34122_34123_34124(<a href='#struct_BinSection'>struct BinSection</a> *binsection)</span>
 </li><li><span class='func' id='5DEE00'>5DEE00 int UnloadBinSection80034147(<a href='#struct_BinSection'>struct BinSection</a> *binsection)</span>
-</li><li><span class='func' id='5DEF30'>5DEF30 int LoadBinSection_34110_34111_34112_34112(<a href='#struct_BinSection'>struct BinSection</a> *binsection)</span>
+</li><li><span class='func' id='5DEF30'>5DEF30 int LoadBinSection_34110_34111_34112_34113(<a href='#struct_BinSection'>struct BinSection</a> *binsection)</span>
 </li><li><span class='func' id='5DF8A0'>5DF8A0 int LoadBinSection80034100_34107(<a href='#struct_BinSection'>struct BinSection</a> *binsection)</span>
 </li><li><span class='func' id='5DFBA0'>5DFBA0 int UnloadBinSection80034100_34107(<a href='#struct_BinSection'>struct BinSection</a> *binsection)</span>
 </li><li><span class='func' id='5E0190'>5E0190 int LoadBinSection34250(<a href='#struct_BinSection'>struct BinSection</a> *binsection)</span>
 </li><li><span class='func' id='5E0220'>5E0220 int UnloadBinSection34250(<a href='#struct_BinSection'>struct BinSection</a> *binsection)</span>
 </li><li><span class='func' id='5E4820'>5E4820 int UnloadBinSection34121_34122_34123_34124(<a href='#struct_BinSection'>struct BinSection</a> *binsection)</span>
-</li><li><span class='func' id='5E4E60'>5E4E60 int UnloadBinSection_34110_34111_34112_34112(<a href='#struct_BinSection'>struct BinSection</a> *binsection)</span>
+</li><li><span class='func' id='5E4E60'>5E4E60 int UnloadBinSection_34110_34111_34112_34113(<a href='#struct_BinSection'>struct BinSection</a> *binsection)</span>
 </li><li><span class='func' id='5E81C0'>5E81C0 int LoadBinSection80034130_3412F(<a href='#struct_BinSection'>struct BinSection</a> *binsection)</span>
   Called when exiting to main menu after being in race/freeroam.
 </li><li><span class='func' id='5E8660'>5E8660 int UnloadBinSection80034130_3412F(<a href='#struct_BinSection'>struct BinSection</a> *binsection)</span>
@@ -2340,7 +2340,57 @@ phonecalls from the start of the game come in (friends telling Rachel where the 
 going on), but they don't appear on the map.
 </p><p>My best guess is that this 'load into career' option is a cut/unfinished feature.
 </p><p style='margin-bottom:0'><a href='#index'>Index</a></p></div><span id='sms_stuff'></span><div class='indent' style='margin-left:5em'><p style='margin-top:0'><small><a href='#career'>Career</a> &gt; SMS stuff</small></p><h3>SMS stuff <a href="#sms_stuff">#</a></h3>
-<pre><span id='struct_Mailbox'></span>struct Mailbox {
+<p>Dump of all sms message data: <a href="smsdump.txt">smsdump.txt</a>.
+</p><pre>#define <span id='SMS_TYPE_END_OF_GAME'></span>SMS_TYPE_END_OF_GAME 1
+/*      ^ 1 msg:
+        SMS_END_OF_GAME_MESSAGE
+*/
+#define <span id='SMS_TYPE_CAREER_START'></span>SMS_TYPE_CAREER_START 2
+/*      ^ 3 msgs:
+        SMS_LOC_GO_TO_GARAGE
+        SMS_LOC_EVENTS_OUT_THERE
+        SMS_GPS_INTRO
+*/
+#define <span id='SMS_TYPE_INSTRUCTIONS'></span>SMS_TYPE_INSTRUCTIONS 3
+/*      ^ 4 msgs:
+        SMS_INSTRUCTION
+        SMS_MINIMAP_INTRUCTION
+        SMS_MINIMAP_LEGEND_BLURB
+        SMS_STEERING_CONTROLS
+*/
+#define <span id='SMS_TYPE_OUTRUN_INFO'></span>SMS_TYPE_OUTRUN_INFO 4
+/*      ^ 1 msg:
+        SMS_OUTRUN_INFO
+*/
+#define <span id='SMS_TYPE_OUTRUN_VICTORY'></span>SMS_TYPE_OUTRUN_VICTORY 5
+/*      ^ 1 msg:
+        SMS_OUTRUN_VICTORY
+*/
+#define <span id='SMS_TYPE_OUTRUN_DEFEAT'></span>SMS_TYPE_OUTRUN_DEFEAT 6
+/*      ^ 1 msg:
+        SMS_OUTRUN_DEFEAT
+*/
+#define <span id='SMS_TYPE_UNLOCK_9'></span>SMS_TYPE_UNLOCK_9 9
+/*      ^ 5 part unlock msgs*/
+#define <span id='SMS_TYPE_UNLOCK_10'></span>SMS_TYPE_UNLOCK_10 10
+/*      ^ part unlock/region unlock/car unlock msgs
+        SMS_LOC_TEXT_JACKSON_HEIGHTS
+        SMS_LOC_TEXT_COAL_HARBOR
+        SMS_LOC_TEXT_COAL_HARBOR_WEST
+*/
+#define <span id='SMS_TYPE_UNLOCK_12'></span>SMS_TYPE_UNLOCK_12 12
+/*      ^ part unlock/region unlock/angry Rachel/sponsor msgs
+        SMS_LOC_TEXT_BEACON_HILL
+        SMS_LOC_GO_TO_CAR_LOT_NOW
+        SMS_LOC_X_SPONSOR
+*/
+#define <span id='SMS_TYPE_MAGS_AND_UNIQUES'></span>SMS_TYPE_MAGS_AND_UNIQUES 13
+/*      ^ magazine/unqiue parts msgs*/
+#define <span id='SMS_TYPE_DVD_COVER'></span>SMS_TYPE_DVD_COVER 14
+/*      ^ 10 dvd cover msgs*/
+#define <span id='SMS_TYPE_ENGAGE_TIP'></span>SMS_TYPE_ENGAGE_TIP 15
+/*      ^ 42 tip msgs, from the ingame markers you have to drive through*/
+</pre><pre><span id='struct_Mailbox'></span>struct Mailbox {
         int field_0;
         int field_4;
         int field_8;
@@ -2360,11 +2410,11 @@ going on), but they don't appear on the map.
 <span id='struct_SmsData'></span>struct SmsData {
 	/*offset in language table <a class='fieldref' href='#838428'>ptr838428</a>*/
 	short <span id='structSmsData_0'></span>careerTextLanguageTableOffset;
-	char field_2;
+	char <span id='structSmsData_2'></span>type;
 	char <span id='structSmsData_3'></span>mailboxId; /*1 inbox, 2 game tips, 3 special events, 4 Rachel, 5 unlocks*/
 	int field_4;
-	int field_8;
-	int field_C;
+	int <span id='structSmsData_8'></span>field_8;
+	int <span id='structSmsData_C'></span>moneyReward;
 	unsigned int <span id='structSmsData_10'></span>senderLanguageLabel;
 };
 
@@ -2383,6 +2433,12 @@ going on), but they don't appear on the map.
         <a href='#struct_SmsMessage'>struct SmsMessage</a> <span id='structSmsMessageList_0'></span>messages[256];
         int <span id='structSmsMessageList_1400'></span>numMessages;
         int <span id='structSmsMessageList_1404'></span>numUnreadMessages;
+        int field_1408;
+        char field_140C;
+        char field_140D;
+        char field_140E;
+        char field_140F;
+        int field_1410;
 };
 
 <span id='struct_SmsListEntry'></span>struct SmsListEntry {
@@ -2423,7 +2479,8 @@ sprintf(dest, subjectFormat, subject);
   Allocates memory and calls <a class='funcref' href='#4E1BF0'>4E1BF0:MailboxFNGObject::ctor()</a>.
   TODO
 </li><li><span class='func' id='5012F0'>5012F0 void storeSmsDatas(char *data, int size)</span>
-  Called from <a class='funcref' href='#512C00'>512C00:LoadBinSection80034A10()</a>.
+  Called from <a class='funcref' href='#512C00'>512C00:LoadBinSection80034A10()</a>. Data is a bin section with magic <code>0x34A17</code> (which is inside bin section
+  <code>80034A10</code>).
 <pre><a class='fieldref' href='#838454'>smsDatas</a> = (void*) data;
 <a class='fieldref' href='#838450'>numSmsDatas</a> = size / 20;
 </pre></li><li><span class='func' id='501310'>501310 <a href='#struct_SmsData'>struct SmsData</a> *__cdecl GetSmsDataForHash(int hash)</span>
@@ -2526,6 +2583,7 @@ str = <a class='funcref' href='#4FFA80'>GetLanguageString</a>(cihash(buffer));
   TODO check other xref, probably for displaying icon ingame
 </li><li><span class='func' id='514D80'>514D80 void __thiscall SetReadMessagesMovedToCorrectInbox(<a href='#struct_SmsMessageList'>struct SmsMessageList</a> *this)</span>
   For every message, set flag <code><a href='#structSmsMessage_7'>movedToCorrectInbox</a></code> when flag <code><a href='#structSmsMessage_4'>read</a></code> is set.
+</li><li><span class='func' id='514E10'>514E10 int __thiscall SmsMessageList::IsEngageTipAlreadyReceived(<a href='#struct_SmsMessageList'>struct SmsMessageList</a> *this, void *engageTip)</span>
 </li><li><span class='func' id='5295F0'>5295F0 <a href='#struct_SmsMessage'>struct SmsMessage</a> *__thiscall SmsMessageList::SendMessage(<a href='#struct_SmsMessageList'>struct SmsMessageList</a> *this,
                                                                       <a href='#struct_SmsData'>struct SmsData</a> *smsdata)</span>
   Checks with <a class='funcref' href='#514CB0'>514CB0:SmsMessageList::IsMessageAlreadyReceived()</a> first.
@@ -2535,6 +2593,24 @@ str = <a class='funcref' href='#4FFA80'>GetLanguageString</a>(cihash(buffer));
                                                                                unsigned int subjectFormatLanguageLabel,
                                                                                unsigned int subjectParameterLanguageLabel)</span>
   Checks with <a class='funcref' href='#514CB0'>514CB0:SmsMessageList::IsMessageAlreadyReceived()</a> first.
+</li><li><span class='func' id='529860'>529860 int __thiscall SmsMessageList::SendSomeCareerStartMsgs?(<refoto>struct SmsMessageList</refoto> *this, void *arg0)</span>
+  Goes through all <a class='fieldref' href='#838454'>838454:smsDatas</a> and send all unreceived messages with <code><a href='#structSmsData_2'>type</a></code> 8 (My game files do not have any messages
+  with that type)? Also checks for type <code><a href='#SMS_TYPE_CAREER_START'>SMS_TYPE_CAREER_START</a></code>, then does more checks with <code>arg0</code> before sending.
+</li><li><span class='func' id='5299B0'>5299B0 void __thiscall SmsMessageList::SendDVDCoverSmsWithIndex(<a href='#struct_SmsMessageList'>struct SmsMessageList</a> *this, int index)</span>
+  Goes through all <a class='fieldref' href='#838454'>838454:smsDatas</a> and send every one that hasn't been received yet and has <code><a href='#structSmsData_2'>type</a> ==
+  <a href='#SMS_TYPE_DVD_COVER'>SMS_TYPE_DVD_COVER</a></code> and <code><a href='#structSmsData_8'>field_8</a> == index</code> by using <a class='funcref' href='#5295F0'>5295F0:SmsMessageList::SendMessage()</a>
+  (which already has a check for if it was already received...).
+</li><li><span class='func' id='529B50'>529B50 void __thiscall SmsMessageList::SendOutrunInfoSms(<a href='#struct_SmsMessageList'>struct SmsMessageList</a> *this)</span>
+  Goes through all <a class='fieldref' href='#838454'>838454:smsDatas</a> and send every one that hasn't been received yet and has <code><a href='#structSmsData_2'>type</a> ==
+  <a href='#SMS_TYPE_OUTRUN_INFO'>SMS_TYPE_OUTRUN_INFO</a></code> by using <a class='funcref' href='#5295F0'>5295F0:SmsMessageList::SendMessage()</a> when it wasn't received yet.
+  (which already has a check for if it was already received...).
+  This only matches the <code>SMS_OUTRUN_INTRO</code> SMS.
+</li><li><span class='func' id='529BD0'>529BD0 void __thiscall SmsMessageList::SendOutrunVictoryOrDefeatSms(<a href='#struct_SmsMessageList'>struct SmsMessageList</a> *this, int didWin)</span>
+  Goes through all <a class='fieldref' href='#838454'>838454:smsDatas</a>. When <code>didWin</code> is 1, send all with <code><a href='#structSmsData_2'>type</a> == <a href='#SMS_TYPE_OUTRUN_VICTORY'>SMS_TYPE_OUTRUN_VICTORY</a></code>, else send
+  all with <code><a href='#structSmsData_2'>type</a> == <a href='#SMS_TYPE_OUTRUN_DEFEAT'>SMS_TYPE_OUTRUN_DEFEAT</a></code>. Uses <a class='funcref' href='#5295F0'>5295F0:SmsMessageList::SendMessage()</a>.
+</li><li><span class='func' id='529C40'>529C40 <a href='#struct_SmsData'>struct SmsData</a> *__thiscall SmsMessageList::SendEngageTipSmsMessage(<a href='#struct_SmsMessageList'>struct SmsMessageList</a> *this,
+                                                                               void *engageMarker)</span>
+  Returns null when it was already received.
 </li><li><span class='func' id='533890'>533890 <a href='#struct_SmsMessage'>struct SmsMessage</a> *__thiscall SmsMessageList::SendMessageByHash(<a href='#struct_SmsMessageList'>struct SmsMessageList</a> *this,
                                                                             int hash)</span>
   Combines <a class='funcref' href='#501310'>501310:GetSmsDataForHash()</a>, <a class='funcref' href='#514CB0'>514CB0:SmsMessageList::IsMessageAlreadyReceived()</a> and <a class='funcref' href='#5295F0'>5295F0:SmsMessageList::SendMessage()</a>.
@@ -2548,12 +2624,21 @@ str = <a class='funcref' href='#4FFA80'>GetLanguageString</a>(cihash(buffer));
   2 = mailbox opened from tab into inbox, then esc goes to the index again.
 </li><li><span class='field' id='838450'>838450 numSmsDatas</span>
   Number of stuffs in <a class='fieldref' href='#838454'>838454:smsDatas</a>.
+  Loaded in <a class='funcref' href='#5012F0'>5012F0:storeSmsDatas()</a>.
 </li><li><span class='field' id='838454'>838454 <a href='#struct_SmsData'>struct SmsData</a> *smsDatas</span>
-  Seems linked? array? TODO
+  Loaded in <a class='funcref' href='#5012F0'>5012F0:storeSmsDatas()</a>.
 </li><li><span class='func' id='860A60'>860A60 <a href='#struct_SmsMessageList'>struct SmsMessageList</a> smsMessages</span>
+  This is <code><a class='fieldref' href='#85AD40'>careerData</a>.<a href='#structCareerData_5D20'>smsMessages</a></code>.
 </li></ul><p style='margin-bottom:0'><a href='#index'>Index</a></p></div><div><p style='margin-top:0'><small><a href='#career'>Career</a> (continuation)</small></p><p>Need text here or my parser breaks.
-</p><pre><span id='struct_CareerData'></span>struct CareerData {
+</p><pre><span id='struct_CareerMoney'></span>struct CareerMoney {
 	int money;
+};
+
+<span id='struct_CareerData'></span>struct CareerData {
+        /*5D20*/
+        <a href='#struct_SmsMessageList'>struct SmsMessageList</a> <span id='structCareerData_5D20'></span>smsMessages;
+	/*7134*/
+	<a href='#struct_CareerMoney'>struct CareerMoney</a> <span id='structCareerData_7134'></span>money;
 };
 </pre><p>The career money cheat is mildly interesting, as it seems to work in two different
 ways. It adds the amount to a variable that is used when a new career is started and
@@ -2572,17 +2657,27 @@ if (!<a class='fieldref' href='#86347C'>isProfileWithStartedCareerLoaded</a>)  {
 	}
 }
 </pre><p><strong>Symbols:</strong></p><ul><li><span class='func' id='495D30'>495D30 CareerShowSponsorSelectScreen?()</span>
-</li><li><span class='func' id='500F90'>500F90 int __thiscall CareerGetMoney(<a href='#struct_CareerData'>struct CareerData</a> *this)</span>
-  TODO has one other XREF: where money is drawn?
+</li><li><span class='func' id='500F90'>500F90 int __thiscall CareerGetMoney(<a href='#struct_CareerMoney'>struct CareerMoney</a> *this)</span>
 </li><li><span class='func' id='500180'>500180 char* __thiscall GetCareerLanguageString(short *this)</span>
   Uses <a class='fieldref' href='#838428'>838428:ptr838428</a> along with offset passed in <code>this</code> to return a string.
-</li><li><span class='func' id='500F80'>500F80 void __thiscall CareerGiveMoney(<a href='#struct_CareerData'>struct CareerData</a> *this, int amount)</span>
+</li><li><span class='func' id='500F80'>500F80 void __thiscall CareerGiveMoney(<a href='#struct_CareerMoney'>struct CareerMoney</a> *this, int amount)</span>
   Only used in the career money cheats.
 </li><li><span class='func' id='5129F0'>5129F0 int __thiscall GetCareerSponsorLanguageKey(short *this)</span>
   Uses <a class='fieldref' href='#838428'>838428:ptr838428</a> along with offset passed in <code>this</code> to format a string <code>SPONSOR_%s</code> and
   return the hash result to use for getting a language string.
+</li><li><span class='func' id='528980'>528980 void __thiscall Career::RemoveAllReceivedTipEngageMarkers(<a href='#struct_CareerData'>struct CareerData</a> *this)</span>
 </li><li><span class='func' id='532830'>532830 void MaybeStartCareer?()</span>
   It's the only func that calls <a class='funcref' href='#576090'>576090:GetExtraCheatedCareerMoney()</a>.
+</li><li><span class='func' id='532D40'>532D40 void __thiscall Career::EngageTipMarkerHit(<a href='#struct_CareerData'>struct CareerData</a> *this, void *engageMarker)</span>
+  <details><summary>Imlementation</summary>
+<pre><a href='#struct_SmsData'>struct SmsData</a> *smsdata;
+
+smsdata = this-&gt;<a href='#structCareerData_5D20'>smsMessages</a>-&gt;<a class='funcref' href='#529C40'>SmsMessageList::SendEngageTipSmsMessage</a>(engageMarker);
+if (smsdata) {
+        this-&gt;<a href='#structCareerData_7134'>money</a> += smsdata-&gt;<a href='#structSmsData_C'>moneyReward</a>;
+        this-&gt;<a class='funcref' href='#528980'>Career::RemoveAllReceivedTipEngageMarkers</a>();
+}
+</pre>  </details>
 </li><li><span class='field' id='83648C'>83648C char autoLoadLastProfileIntoCareer?</span>
 </li><li><span class='field' id='83840C'>83840C ptr83840C</span>
   Pointer to some struct with DVD/SHOW related stuff.
@@ -2593,7 +2688,7 @@ if (!<a class='fieldref' href='#86347C'>isProfileWithStartedCareerLoaded</a>)  {
   this value is set to 0 when the textbox to enter a name appears.
   When canceling at that point, it's set back to 1
   (if the loaded profile already had career started).
-</li><li><span class='field' id='861E74'>861E74 <a href='#struct_CareerData'>struct CareerData</a> careerData</span>
+</li><li><span class='field' id='85AD40'>85AD40 <a href='#struct_CareerData'>struct CareerData</a> careerData</span>
 </li><li><span class='field' id='862838'>862838 int _currentStage</span>
   Maybe this is part of <a href='#struct_CareerData'>struct CareerData</a>?
 </li></ul><p style='margin-bottom:0'><a href='#index'>Index</a></p></div><span id='d3d9stuff'></span><div><h2>D3D9 Stuff <a href="#d3d9stuff">#</a></h2>

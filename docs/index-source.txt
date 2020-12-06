@@ -789,7 +789,7 @@ Section magic {0} seems to be just for padding/alignment uses.                  
 
 - {5DEE00 int UnloadBinSection80034147({struct BinSection} *binsection)}                        ||| func,refto
 
-- {5DEF30 int LoadBinSection_34110_34111_34112_34112({struct BinSection} *binsection)}          ||| func,refto
+- {5DEF30 int LoadBinSection_34110_34111_34112_34113({struct BinSection} *binsection)}          ||| func,refto
 
 - {5DF8A0 int LoadBinSection80034100_34107({struct BinSection} *binsection)}                    ||| func,refto
 
@@ -801,7 +801,7 @@ Section magic {0} seems to be just for padding/alignment uses.                  
 
 - {5E4820 int UnloadBinSection34121_34122_34123_34124({struct BinSection} *binsection)}         ||| func,refto
 
-- {5E4E60 int UnloadBinSection_34110_34111_34112_34112({struct BinSection} *binsection)}        ||| func,refto
+- {5E4E60 int UnloadBinSection_34110_34111_34112_34113({struct BinSection} *binsection)}        ||| func,refto
 
 - {5E81C0 int LoadBinSection80034130_3412F({struct BinSection} *binsection)}                    ||| func,refto
   Called when exiting to main menu after being in race/freeroam.
@@ -3197,6 +3197,60 @@ My best guess is that this 'load into career' option is a cut/unfinished feature
 
 {SMS stuff}  ||| h id=sms_stuff
 
+Dump of all sms message data: {smsdump.txt}.                                                            ||| a href=smsdump.txt
+
+.push pre
+#define {SMS_TYPE_END_OF_GAME} 1                                                                        ||| mkref
+/*      ^ 1 msg:
+        SMS_END_OF_GAME_MESSAGE
+*/
+#define {SMS_TYPE_CAREER_START} 2                                                                       ||| mkref
+/*      ^ 3 msgs:
+        SMS_LOC_GO_TO_GARAGE
+        SMS_LOC_EVENTS_OUT_THERE
+        SMS_GPS_INTRO
+*/
+#define {SMS_TYPE_INSTRUCTIONS} 3                                                                       ||| mkref
+/*      ^ 4 msgs:
+        SMS_INSTRUCTION
+        SMS_MINIMAP_INTRUCTION
+        SMS_MINIMAP_LEGEND_BLURB
+        SMS_STEERING_CONTROLS
+*/
+#define {SMS_TYPE_OUTRUN_INFO} 4                                                                        ||| mkref
+/*      ^ 1 msg:
+        SMS_OUTRUN_INFO
+*/
+#define {SMS_TYPE_OUTRUN_VICTORY} 5                                                                     ||| mkref
+/*      ^ 1 msg:
+        SMS_OUTRUN_VICTORY
+*/
+#define {SMS_TYPE_OUTRUN_DEFEAT} 6                                                                      ||| mkref
+/*      ^ 1 msg:
+        SMS_OUTRUN_DEFEAT
+*/
+#define {SMS_TYPE_UNLOCK_9} 9                                                                           ||| mkref
+/*      ^ 5 part unlock msgs*/
+#define {SMS_TYPE_UNLOCK_10} 10                                                                         ||| mkref
+/*      ^ part unlock/region unlock/car unlock msgs
+        SMS_LOC_TEXT_JACKSON_HEIGHTS
+        SMS_LOC_TEXT_COAL_HARBOR
+        SMS_LOC_TEXT_COAL_HARBOR_WEST
+*/
+#define {SMS_TYPE_UNLOCK_12} 12                                                                         ||| mkref
+/*      ^ part unlock/region unlock/angry Rachel/sponsor msgs
+        SMS_LOC_TEXT_BEACON_HILL
+        SMS_LOC_GO_TO_CAR_LOT_NOW
+        SMS_LOC_X_SPONSOR
+*/
+#define {SMS_TYPE_MAGS_AND_UNIQUES} 13                                                                  ||| mkref
+/*      ^ magazine/unqiue parts msgs*/
+#define {SMS_TYPE_DVD_COVER} 14                                                                         ||| mkref
+/*      ^ 10 dvd cover msgs*/
+#define {SMS_TYPE_ENGAGE_TIP} 15                                                                        ||| mkref
+/*      ^ 42 tip msgs, from the ingame markers you have to drive through*/
+.pop pre
+
 .push pre
 {struct Mailbox} \{                                                                                     ||| mkref
         int field_0;
@@ -3218,11 +3272,11 @@ My best guess is that this 'load into career' option is a cut/unfinished feature
 {struct SmsData} \{                                                                                     ||| mkref
 	/*offset in language table {838428}*/                                                           ||| refplain
 	short {careerTextLanguageTableOffset};                                                          ||| mkref name=structSmsData+0
-	char field_2;
+	char {type};                                                                                    ||| mkref name=structSmsData+2
 	char {mailboxId}; /*1 inbox, 2 game tips, 3 special events, 4 Rachel, 5 unlocks*/               ||| mkref name=structSmsData+3
 	int field_4;
-	int field_8;
-	int field_C;
+	int {field_8};                                                                                  ||| mkref name=structSmsData+8
+	int {moneyReward};                                                                              ||| mkref name=structSmsData+C
 	unsigned int {senderLanguageLabel};                                                             ||| mkref name=structSmsData+10
 };
 
@@ -3241,6 +3295,12 @@ My best guess is that this 'load into career' option is a cut/unfinished feature
         {struct SmsMessage} {messages}[256];                                                            ||| refto,mkref name=structSmsMessageList+0
         int {numMessages};                                                                              ||| mkref name=structSmsMessageList+1400
         int {numUnreadMessages};                                                                        ||| mkref name=structSmsMessageList+1404
+        int field_1408;
+        char field_140C;
+        char field_140D;
+        char field_140E;
+        char field_140F;
+        int field_1410;
 };
 
 {struct SmsListEntry} \{                                                                                ||| mkref
@@ -3295,7 +3355,8 @@ My best guess is that this 'load into career' option is a cut/unfinished feature
   TODO
 
 - {5012F0 void storeSmsDatas(char *data, int size)}                                                     ||| func
-  Called from {512C00}.                                                                                 ||| ref
+  Called from {512C00}. Data is a bin section with magic {0x34A17} (which is inside bin section         ||| ref,code
+  {80034A10}).                                                                                          ||| code
   .push pre
   {838454} = (void*) data;                                                                              ||| refplain
   {838450} = size / 20;                                                                                 ||| refplain
@@ -3419,9 +3480,11 @@ My best guess is that this 'load into career' option is a cut/unfinished feature
 - {514D80 void __thiscall SetReadMessagesMovedToCorrectInbox({struct SmsMessageList} *this)}            ||| func,refto
   For every message, set flag {{structSmsMessage+7}} when flag {{structSmsMessage+4}} is set.           ||| code,refto,code,refto
 
-- {5295F0 {struct SmsMessage} *__thiscall SmsMessageList::SendMessage({struct SmsMessageList} *this,                    ||| func,refto,refto
-                                                                      {struct SmsData} *smsdata)}                       ||| refto
-  Checks with {514CB0} first.                                                                                           ||| ref
+- {514E10 int __thiscall SmsMessageList::IsEngageTipAlreadyReceived({struct SmsMessageList} *this, void *engageTip)}            ||| func,refto
+
+- {5295F0 {struct SmsMessage} *__thiscall SmsMessageList::SendMessage({struct SmsMessageList} *this,                            ||| func,refto,refto
+                                                                      {struct SmsData} *smsdata)}                               ||| refto
+  Checks with {514CB0} first.                                                                                                   ||| ref
 
 - {529670 {struct SmsMessage} *__thiscall SmsMessageList::SendMessageFormatted({struct SmsMessageList} *this,                   ||| func,refto,refto
                                                                                {struct SmsData} *smsdata,                       ||| refto
@@ -3429,6 +3492,29 @@ My best guess is that this 'load into career' option is a cut/unfinished feature
                                                                                unsigned int subjectFormatLanguageLabel,
                                                                                unsigned int subjectParameterLanguageLabel)}
   Checks with {514CB0} first.                                                                                                   ||| ref
+
+- {529860 int __thiscall SmsMessageList::SendSomeCareerStartMsgs?({struct SmsMessageList} *this, void *arg0)}                   ||| func,refoto
+  Goes through all {838454} and send all unreceived messages with {{structSmsData+2}} 8 (My game files do not have any messages ||| ref,code,refto
+  with that type)? Also checks for type {{SMS_TYPE_CAREER_START}}, then does more checks with {arg0} before sending.            ||| code,refto,code
+
+- {5299B0 void __thiscall SmsMessageList::SendDVDCoverSmsWithIndex({struct SmsMessageList} *this, int index)}                   ||| func,refto
+  Goes through all {838454} and send every one that hasn't been received yet and has {{structSmsData+2} ==                      ||| ref,code,refto
+  {SMS_TYPE_DVD_COVER}} and {{structSmsData+8} == index} by using {5295F0}                                                      ||| refto,code,refto,ref
+  (which already has a check for if it was already received...).
+
+- {529B50 void __thiscall SmsMessageList::SendOutrunInfoSms({struct SmsMessageList} *this)}                                     ||| func,refto
+  Goes through all {838454} and send every one that hasn't been received yet and has {{structSmsData+2} ==                      ||| ref,code,refto
+  {SMS_TYPE_OUTRUN_INFO}} by using {5295F0} when it wasn't received yet.                                                        ||| refto,ref
+  (which already has a check for if it was already received...).
+  This only matches the {SMS_OUTRUN_INTRO} SMS.                                                                                 ||| code
+
+- {529BD0 void __thiscall SmsMessageList::SendOutrunVictoryOrDefeatSms({struct SmsMessageList} *this, int didWin)}              ||| func,refto
+  Goes through all {838454}. When {didWin} is 1, send all with {{structSmsData+2} == {SMS_TYPE_OUTRUN_VICTORY}}, else send      ||| ref,code,code,refto,refto
+  all with {{structSmsData+2} == {SMS_TYPE_OUTRUN_DEFEAT}}. Uses {5295F0}.                                                      ||| code,refto,refto,ref
+
+- {529C40 {struct SmsData} *__thiscall SmsMessageList::SendEngageTipSmsMessage({struct SmsMessageList} *this,                   ||| func,refto,refto
+                                                                               void *engageMarker)}
+  Returns null when it was already received.
 
 - {533890 {struct SmsMessage} *__thiscall SmsMessageList::SendMessageByHash({struct SmsMessageList} *this,              ||| func,refto,refto
                                                                             int hash)}
@@ -3446,11 +3532,13 @@ My best guess is that this 'load into career' option is a cut/unfinished feature
 
 - {838450 numSmsDatas}                                                                                  ||| field
   Number of stuffs in {838454}.                                                                         ||| ref
+  Loaded in {5012F0}.                                                                                   ||| ref
 
 - {838454 {struct SmsData} *smsDatas}                                                                   ||| field,refto
-  Seems linked? array? TODO
+  Loaded in {5012F0}.                                                                                   ||| ref
 
 - {860A60 {struct SmsMessageList} smsMessages}                                                          ||| func,refto
+  This is {{85AD40}.{structCareerData+5D20}}.                                                           ||| code,refplain,refto
 .pop symbols
 
 .pop section
@@ -3458,8 +3546,15 @@ My best guess is that this 'load into career' option is a cut/unfinished feature
 Need text here or my parser breaks.
 
 .push pre
-{struct CareerData} \{                                                                          ||| mkref
+{struct CareerMoney} \{                                                                         ||| mkref
 	int money;
+};
+
+{struct CareerData} \{                                                                          ||| mkref
+        /*5D20*/
+        {struct SmsMessageList} {smsMessages};                                                  ||| refto,mkref name=structCareerData+5D20
+	/*7134*/
+	{struct CareerMoney} {money};                                                           ||| refto,mkref name=structCareerData+7134
 };
 .pop pre
 
@@ -3486,21 +3581,35 @@ if (![isProfileWithStartedCareerLoaded])  {                                     
 .push symbols
 - {495D30 CareerShowSponsorSelectScreen?()}                                                             ||| func
 
-- {500F90 int __thiscall CareerGetMoney({struct CareerData} *this)}                                     ||| func,refto
-  TODO has one other XREF: where money is drawn?
+- {500F90 int __thiscall CareerGetMoney({struct CareerMoney} *this)}                                    ||| func,refto
 
 - {500180 char* __thiscall GetCareerLanguageString(short *this)}                                        ||| func
   Uses {838428} along with offset passed in {this} to return a string.                                  ||| ref,code
 
-- {500F80 void __thiscall CareerGiveMoney({struct CareerData} *this, int amount)}                       ||| func,refto
+- {500F80 void __thiscall CareerGiveMoney({struct CareerMoney} *this, int amount)}                      ||| func,refto
   Only used in the career money cheats.
 
 - {5129F0 int __thiscall GetCareerSponsorLanguageKey(short *this)}                                      ||| func
   Uses {838428} along with offset passed in {this} to format a string {SPONSOR_%s} and                  ||| ref,code,code
   return the hash result to use for getting a language string.
 
+- {528980 void __thiscall Career::RemoveAllReceivedTipEngageMarkers({struct CareerData} *this)}         ||| func,refto
+
 - {532830 void MaybeStartCareer?()}                                                                     ||| func
   It's the only func that calls {576090}.                                                               ||| ref
+
+- {532D40 void __thiscall Career::EngageTipMarkerHit({struct CareerData} *this, void *engageMarker)}    ||| func,refto
+  {{Imlementation}                                                                                      ||| details,summary
+  .controlchars [] .push pre
+  [struct SmsData] *smsdata;                                                                            ||| refto
+
+  smsdata = this->[structCareerData+5D20]->[529C40](engageMarker);                                      ||| refto,refplain
+  if (smsdata) {
+          this->[structCareerData+7134] += smsdata->[structSmsData+C];                                  ||| refto,refto
+          this->[528980]();                                                                             ||| refplain
+  }
+  .controlchars {} .pop pre
+  }
 
 - {83648C char autoLoadLastProfileIntoCareer?}                                                          ||| field
 
@@ -3516,7 +3625,7 @@ if (![isProfileWithStartedCareerLoaded])  {                                     
   When canceling at that point, it's set back to 1
   (if the loaded profile already had career started).
 
-- {861E74 {struct CareerData} careerData}                                                               ||| field,refto
+- {85AD40 {struct CareerData} careerData}                                                               ||| field,refto
 
 - {862838 int _currentStage}                                                                            ||| field
   Maybe this is part of {struct CareerData}?                                                            ||| refto

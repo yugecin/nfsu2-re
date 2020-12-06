@@ -22,6 +22,7 @@ static int base;
 
 static void stub() {}
 #define INIT_FUNC stub
+#define DEBUG_WMCHAR_FUNC stub
 
 /*note: hash hooks can get called A LOT so this may slow down the game*/
 #define WIDESCREEN_MOD /*define when external widescreen mod is active*/
@@ -58,7 +59,11 @@ static void stub() {}
 //#include "replace-5C8600-MouseData__ctor.c"
 #include "speedyboot.c"
 #include "replaceloadingscreen.c"
-#include "debug-hook-wm_char.c"
+
+#include "debug-custom-dump-smsdata.c"
+//#include "debug-custom-send-instruction-sms.c"
+//#include "debug-custom-remove-all-received-engage-markers.c"
+#include "debug-hook-wm_char.c" // needs to be after all "debug-custom-*" files
 
 BOOL APIENTRY DllMain(HMODULE hModule, DWORD reason_for_call, LPVOID lpResrvd)
 {

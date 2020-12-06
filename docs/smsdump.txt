@@ -1,0 +1,1323 @@
+ordered by type
+
+SMS DATA 69: (F392E979) SMS_END_OF_GAME_MESSAGE
+  type 1 mailbox 4 f4 00880101 f8 04cce3e1 moneyReward 0
+  subject: (23E795C8) Congratulations!
+   sender: (770AF86E) Rachel
+     body: (A1E95F26) Congratulations - you have completed the game! You have un
+                      locked all performance and visual upgrades in Quick Race m
+                      ode. There are no more events to complete in the world - r
+                      eturn to your Garage to re-race any events from your Caree
+                      r.
+
+SMS DATA 7: (F1E46726) SMS_GPS_INTRO
+  type 2 mailbox 4 f4 00880101 f8 008ba2d3 moneyReward 0
+  subject: (5E7E7075) GPS Instructions
+   sender: (770AF86E) Rachel
+     body: (633D70F3) The GPS system can assist you in finding destinations list
+                      ed on the map. Access the GPS option by selecting the Worl
+                      d Map on the SMS. Press the Activate GPS button to scroll 
+                      through possible destinations.  Upon returning to Explore 
+                      Mode, the blue arrow points in the direction of the select
+                      ed destination.
+
+SMS DATA 66: (51B30CEC) SMS_LOC_GO_TO_GARAGE
+  type 2 mailbox 4 f4 00880100 f8 008ba2d3 moneyReward 0
+  subject: (F9617C3B) See you at the Garage
+   sender: (770AF86E) Rachel
+     body: (84D8A279) Now that youÅve got a set of wheels, head over to my garag
+                      e. DonÅt bother lookinÅ for races, thereÅs nothinÅ goinÅ o
+                      n. DonÅt keep me waitinÅ again. See you there.
+
+SMS DATA 67: (83914C51) SMS_LOC_EVENTS_OUT_THERE
+  type 2 mailbox 4 f4 00880100 f8 55446b8f moneyReward 0
+  subject: (BE2750A0) Race Locations
+   sender: (770AF86E) Rachel
+     body: (720F48FE) Hey by the way, I forgot to mention that there's a lot of 
+                      action in the city tonight. I've uploaded the race locatio
+                      ns to your map. Go out there and start making a name for y
+                      ourself!
+
+SMS DATA 0: (9C589393) SMS_INSTRUCTION
+  type 3 mailbox 4 f4 00880100 f8 0000000a moneyReward 0
+  subject: (395AB9E2) SMS Instructions
+   sender: (770AF86E) Rachel
+     body: (576F6980) Welcome to the SMS (Short Message System). This is how you
+                       will receive information during the game.^^When you recei
+                      ve a message, an envelope will flash on your screen, to re
+                      ad it access your SMS system.^^Mail message icons will var
+                      y in color, depending on the type of information that the 
+                      message contains.^^Race events will appear as icons at the
+                       top of the message indicator.^^Using the Enter Race / Sho
+                      p key will allow you to get more information on the event.
+                      ^^Each race type will have a different icon associated wit
+                      h it.^^While driving in exploration mode you may also acce
+                      ss the World Map. This is the easiest way to view the enti
+                      re city and all of the races and shops you have discovered
+                      . You can also filter events, as well as activate the GPS 
+                      system here.^^If you want to see your career progress use 
+                      the Career Status key. You can find out what your carÅs vi
+                      sual rating is, as well as your overall progress in the ga
+                      me.
+
+SMS DATA 1: (11575F3D) SMS_MINIMAP_INSTRUCTION
+  type 3 mailbox 4 f4 00880100 f8 00000028 moneyReward 0
+  subject: (D4978F8C) Mini-map Instructions
+   sender: (770AF86E) Rachel
+     body: (AEF20F6A) The Mini-map is located on the bottom left of your Heads U
+                      p Display. Locations and events that are currently availab
+                      le will appear here. Icons that appear on the outer ring g
+                      ive a general direction as to their location. When in rang
+                      e, these icons will appear on their exact map location. Ma
+                      p rotation can be adjusted in the Options Menu.
+
+SMS DATA 2: (8D78AEC0) SMS_MINIMAP_LEGEND_BLURB
+  type 3 mailbox 4 f4 00880100 f8 00000046 moneyReward 0
+  subject: (E445B20F) Mini-map Legend
+   sender: (770AF86E) Rachel
+     body: (60D088CD) Press the World Map key to access the features in the Worl
+                      d Map. The World Map is a comprehensive overview of the wo
+                      rld, locations and events that have been revealed. You can
+                       filter events on the World Map by selecting and de-select
+                      ing events from the list on the left-hand side of the Map.
+                       In addition, there are multiple views of the Map located 
+                      here for you to cycle through.
+
+SMS DATA 3: (35B2CBA5) SMS_STEERING_CONTROLS
+  type 3 mailbox 4 f4 00880100 f8 00000064 moneyReward 0
+  subject: (F62CE3F4) Changing Steering Controls
+   sender: (770AF86E) Rachel
+     body: (A3E97CD2) Depending on your driving preference, you can change the s
+                      teering controls in the Options menu. Cycle between the va
+                      rious settings to choose the one that suits you best.
+
+SMS DATA 4: (F833E789) SMS_OUTRUN_INTRO
+  type 4 mailbox 4 f4 00880100 f8 00000000 moneyReward 0
+  subject: (886DA3D8) Outrun Introduction
+   sender: (770AF86E) Rachel
+     body: (2E2BA736) The objective of an Outrun Race is to gain the lead from y
+                      our opponent...and then lose them! When you are in the lea
+                      d, you are free to take any route you want.  When you are 
+                      behind, you need to catch the leader and pass them to take
+                       control of the race.
+
+SMS DATA 5: (B0A4BB8D) SMS_OUTRUN_VICTORY
+  type 5 mailbox 4 f4 00880100 f8 00000000 moneyReward 0
+  subject: (90643BDC) Outrun Victory
+   sender: (770AF86E) Rachel
+     body: (3B959DBA) Nice Driving!  You will notice that you received bank for 
+                      defeating your opponent.  Make sure you continue to win yo
+                      ur Outrun Races or that bank will disappear.
+
+SMS DATA 6: (F25C4AE6) SMS_OUTRUN_DEFEAT
+  type 6 mailbox 4 f4 00880100 f8 00000000 moneyReward 0
+  subject: (9B7E1435) Outrun Defeat
+   sender: (770AF86E) Rachel
+     body: (88F9ACB3) Want to avoid losing more bank?  Make sure you're on the w
+                      inning side of the table in any future Outrun Races.
+
+SMS DATA 25: (3796AA84) SMS_UNLOCK_26
+  type 9 mailbox 5 f4 00880500 f8 00030003 moneyReward 0
+  subject: (8D7531D3) Window tints
+   sender: (3194B26F) Bayview Car Specialties Shop
+     body: (2D167F11) Make 'em guess who's rolling up on 'em by installing the l
+                      atest Window Tints on your sled. New colors now available 
+                      at any Car Specialties Shop.
+
+SMS DATA 33: (3796AAA3) SMS_UNLOCK_34
+  type 9 mailbox 5 f4 00880500 f8 00030001 moneyReward 0
+  subject: (A886E0F2) Hoods
+   sender: (C9E0946B) Bayview Body Shop
+     body: (75666A90) New hoods have just arrived! ^Get the latest hood designs 
+                      now at any one of the Bayview Body Shops.
+
+SMS DATA 44: (3796AAC6) SMS_UNLOCK_46
+  type 9 mailbox 5 f4 00880500 f8 00040001 moneyReward 0
+  subject: (958A5415) Headlights
+   sender: (3194B26F) Bayview Car Specialties Shop
+     body: (C70AF893) Take your custom look to a new level by installing one of 
+                      our new Headlight designs. Bayview Body Shops carry all th
+                      e latest styles. Get yours now.
+
+SMS DATA 45: (3796AAC7) SMS_UNLOCK_47
+  type 9 mailbox 5 f4 00880500 f8 00040002 moneyReward 0
+  subject: (0A06C516) Neon
+   sender: (3194B26F) Bayview Car Specialties Shop
+     body: (C9602134) Roll up on your crew with the latest Neon colors installed
+                       on your sled. Available now at all Bayview Car Specialtie
+                      s Shops.
+
+SMS DATA 46: (3796AAC8) SMS_UNLOCK_48
+  type 9 mailbox 5 f4 00880500 f8 00040003 moneyReward 0
+  subject: (7E833617) Spoilers
+   sender: (C9E0946B) Bayview Body Shop
+     body: (CBB549D5) New inventory of the sickest Spoilers to hit the streets a
+                      re now available at any Bayview Body Shop.
+
+SMS DATA 12: (3796AA45) SMS_UNLOCK_09
+  type 10 mailbox 5 f4 00880500 f8 00020003 moneyReward 0
+  subject: (E2D56294) Turbo
+   sender: (F779C04A) Bayview Performance Shop
+     body: (9A217F72) Put your ride in the fast lane by adding a brand new Turbo
+                      . Get one installed at Bayview Performance shops or your n
+                      earest Megalow Parts.
+
+SMS DATA 26: (3796AA85) SMS_UNLOCK_27
+  type 10 mailbox 5 f4 00880500 f8 00030002 moneyReward 0
+  subject: (01F1A2D4) Custom Gauges
+   sender: (3194B26F) Bayview Car Specialties Shop
+     body: (2F6BA7B2) Give your ride the ultimate mod by installing one of our n
+                      ew Custom Gauges. The new styles are going fast, so get yo
+                      urs tonight at any Bayview Car Specialties Shop.
+
+SMS DATA 27: (3796AA86) SMS_UNLOCK_28
+  type 10 mailbox 5 f4 00880500 f8 00030003 moneyReward 0
+  subject: (766E13D5) Taillights
+   sender: (C9E0946B) Bayview Body Shop
+     body: (31C0D053) Finish off your custom look by installing one of our new T
+                      aillight designs. Bayview Body Shops carry all the latest 
+                      styles. Get yours now.
+
+SMS DATA 28: (3796AA87) SMS_UNLOCK_29
+  type 10 mailbox 5 f4 00880500 f8 00030005 moneyReward 0
+  subject: (EAEA84D6) Spoilers
+   sender: (C9E0946B) Bayview Body Shop
+     body: (3415F8F4) Add some downforce and style to your ride by adding one of
+                       the brand new Spoilers that have just arrived in all Bayv
+                      iew Body Shops. Get yours while supplies last.
+
+SMS DATA 37: (3796AAA7) SMS_UNLOCK_38
+  type 10 mailbox 5 f4 00880500 f8 00040007 moneyReward 0
+  subject: (7A78A4F6) Engine Accents
+   sender: (3194B26F) Bayview Car Specialties Shop
+     body: (7EBB0D14) Want to add that little extra special touch to your ride? 
+                      C'mon down and let us paint your Engine Accents. Hoses, he
+                      ads and more. Available at all Bayview Car Specialties Sho
+                      ps.
+
+SMS DATA 47: (3796AAC9) SMS_UNLOCK_49
+  type 10 mailbox 5 f4 00880500 f8 00040001 moneyReward 0
+  subject: (F2FFA718) Nitrous Purge
+   sender: (3194B26F) Bayview Car Specialties Shop
+     body: (CE0A7276) Set the high bar for style with brand new N2O Purge placem
+                      ent options. All area Bayview Car Specialties can hook you
+                       up with the sick setup.
+
+SMS DATA 48: (3796AAE1) SMS_UNLOCK_50
+  type 10 mailbox 5 f4 00880500 f8 00040003 moneyReward 0
+  subject: (DEAA3F30) Taillights
+   sender: (C9E0946B) Bayview Body Shop
+     body: (0606418E) The finishing touch to add slick ride is Taillights. New s
+                      tyles now in stock at all Bayview Body Shops
+
+SMS DATA 49: (3796AAE3) SMS_UNLOCK_52
+  type 10 mailbox 5 f4 00880500 f8 00040007 moneyReward 0
+  subject: (C7A32132) Engine neon
+   sender: (3194B26F) Bayview Car Specialties Shop
+     body: (0AB092D0) The ultimate touch of style is one of our new Engine Neon 
+                      colors available now at all Bayview Car Specialties Shops.
+
+SMS DATA 50: (3796AAE4) SMS_UNLOCK_53
+  type 10 mailbox 5 f4 00880500 f8 00040007 moneyReward 0
+  subject: (3C1F9233) Engine
+   sender: (F779C04A) Bayview Performance Shop
+     body: (0D05BB71) Pack more power and swap yours for a new Engine now availa
+                      ble exclusively at all Bayview Performance Shops.
+
+SMS DATA 54: (3796AB02) SMS_UNLOCK_60
+  type 10 mailbox 5 f4 00880500 f8 00030001 moneyReward 0
+  subject: (E2B4D051) Custom HUD
+   sender: (3194B26F) Bayview Car Specialties Shop
+     body: (53007E4F) The latest Custom Gauges are now in stock. Available while
+                       they last at all Bayview Car Specialties Shops.
+
+SMS DATA 62: (54EAA226) SMS_LOC_TEXT_JACKSON_HEIGHTS
+  type 10 mailbox 4 f4 00880101 f8 00020003 moneyReward 0
+  subject: (158FAB75) Jackson Heights
+   sender: (770AF86E) Rachel
+     body: (3A608BF3) Hey man. The word has just come down that the Jackson Heig
+                      hts area is finally open. Head up that way. The racing up 
+                      in the hills is off the hook.
+
+SMS DATA 63: (939840AE) SMS_LOC_TEXT_COAL_HARBOR
+  type 10 mailbox 4 f4 00880101 f8 00030005 moneyReward 0
+  subject: (611751FD) Coal Harbor
+   sender: (770AF86E) Rachel
+     body: (797E7F7B) Yo dude, the construction on the road to Coal Harbor has b
+                      een cleared up. Word is there's some good racing going on 
+                      up there. Be sure to check it out.
+
+SMS DATA 64: (7989DAD0) SMS_LOC_TEXT_COAL_HARBOR_WEST
+  type 10 mailbox 4 f4 00880101 f8 00040007 moneyReward 0
+  subject: (FC89EE1F) Coal Harbor West
+   sender: (770AF86E) Rachel
+     body: (47CFBEDD) Dude! The city crew has called it a night and the roads to
+                       Coal Harbor West are open and ripe for the racing. Word i
+                      s that there are drivers already gathering. Head over and 
+                      check it out.
+
+SMS DATA 108: (F7DE5AE2) SMS_CAR_UNLOCK_1
+  type 10 mailbox 4 f4 00880100 f8 00020001 moneyReward 0
+  subject: (F81E6031) New Inventory in the Car Lot
+   sender: (770AF86E) Rachel
+     body: (98F11A2F) Nice driving out there! Head over to the Car Lot when you 
+                      have a moment, I hear they just received a hot new additio
+                      n to their inventory.
+
+SMS DATA 109: (F7DE5AE3) SMS_CAR_UNLOCK_2
+  type 10 mailbox 4 f4 00880100 f8 00020002 moneyReward 0
+  subject: (F81E6031) New Inventory in the Car Lot
+   sender: (770AF86E) Rachel
+     body: (98F11A2F) Nice driving out there! Head over to the Car Lot when you 
+                      have a moment, I hear they just received a hot new additio
+                      n to their inventory.
+
+SMS DATA 110: (F7DE5AE4) SMS_CAR_UNLOCK_3
+  type 10 mailbox 4 f4 00880100 f8 00020003 moneyReward 0
+  subject: (F81E6031) New Inventory in the Car Lot
+   sender: (770AF86E) Rachel
+     body: (98F11A2F) Nice driving out there! Head over to the Car Lot when you 
+                      have a moment, I hear they just received a hot new additio
+                      n to their inventory.
+
+SMS DATA 111: (F7DE5AE5) SMS_CAR_UNLOCK_4
+  type 10 mailbox 4 f4 00880100 f8 00030001 moneyReward 0
+  subject: (F81E6031) New Inventory in the Car Lot
+   sender: (770AF86E) Rachel
+     body: (98F11A2F) Nice driving out there! Head over to the Car Lot when you 
+                      have a moment, I hear they just received a hot new additio
+                      n to their inventory.
+
+SMS DATA 112: (F7DE5AE6) SMS_CAR_UNLOCK_5
+  type 10 mailbox 4 f4 00880100 f8 00030002 moneyReward 0
+  subject: (F81E6031) New Inventory in the Car Lot
+   sender: (770AF86E) Rachel
+     body: (98F11A2F) Nice driving out there! Head over to the Car Lot when you 
+                      have a moment, I hear they just received a hot new additio
+                      n to their inventory.
+
+SMS DATA 113: (F7DE5AE7) SMS_CAR_UNLOCK_6
+  type 10 mailbox 4 f4 00880100 f8 00030003 moneyReward 0
+  subject: (F81E6031) New Inventory in the Car Lot
+   sender: (770AF86E) Rachel
+     body: (98F11A2F) Nice driving out there! Head over to the Car Lot when you 
+                      have a moment, I hear they just received a hot new additio
+                      n to their inventory.
+
+SMS DATA 114: (F7DE5AE8) SMS_CAR_UNLOCK_7
+  type 10 mailbox 4 f4 00880100 f8 00030004 moneyReward 0
+  subject: (F81E6031) New Inventory in the Car Lot
+   sender: (770AF86E) Rachel
+     body: (98F11A2F) Nice driving out there! Head over to the Car Lot when you 
+                      have a moment, I hear they just received a hot new additio
+                      n to their inventory.
+
+SMS DATA 115: (F7DE5AE9) SMS_CAR_UNLOCK_8
+  type 10 mailbox 4 f4 00880100 f8 00030005 moneyReward 0
+  subject: (F81E6031) New Inventory in the Car Lot
+   sender: (770AF86E) Rachel
+     body: (98F11A2F) Nice driving out there! Head over to the Car Lot when you 
+                      have a moment, I hear they just received a hot new additio
+                      n to their inventory.
+
+SMS DATA 116: (F7DE5AEA) SMS_CAR_UNLOCK_9
+  type 10 mailbox 4 f4 00880100 f8 00040001 moneyReward 0
+  subject: (F81E6031) New Inventory in the Car Lot
+   sender: (770AF86E) Rachel
+     body: (98F11A2F) Nice driving out there! Head over to the Car Lot when you 
+                      have a moment, I hear they just received a hot new additio
+                      n to their inventory.
+
+SMS DATA 117: (F3A9B752) SMS_CAR_UNLOCK_10
+  type 10 mailbox 4 f4 00880100 f8 00040002 moneyReward 0
+  subject: (F81E6031) New Inventory in the Car Lot
+   sender: (770AF86E) Rachel
+     body: (98F11A2F) Nice driving out there! Head over to the Car Lot when you 
+                      have a moment, I hear they just received a hot new additio
+                      n to their inventory.
+
+SMS DATA 118: (F3A9B753) SMS_CAR_UNLOCK_11
+  type 10 mailbox 4 f4 00880100 f8 00040003 moneyReward 0
+  subject: (F81E6031) New Inventory in the Car Lot
+   sender: (770AF86E) Rachel
+     body: (98F11A2F) Nice driving out there! Head over to the Car Lot when you 
+                      have a moment, I hear they just received a hot new additio
+                      n to their inventory.
+
+SMS DATA 119: (F3A9B754) SMS_CAR_UNLOCK_12
+  type 10 mailbox 4 f4 00880100 f8 00040004 moneyReward 0
+  subject: (F81E6031) New Inventory in the Car Lot
+   sender: (770AF86E) Rachel
+     body: (98F11A2F) Nice driving out there! Head over to the Car Lot when you 
+                      have a moment, I hear they just received a hot new additio
+                      n to their inventory.
+
+SMS DATA 120: (F3A9B755) SMS_CAR_UNLOCK_13
+  type 10 mailbox 4 f4 00880100 f8 00040005 moneyReward 0
+  subject: (F81E6031) New Inventory in the Car Lot
+   sender: (770AF86E) Rachel
+     body: (98F11A2F) Nice driving out there! Head over to the Car Lot when you 
+                      have a moment, I hear they just received a hot new additio
+                      n to their inventory.
+
+SMS DATA 121: (F3A9B756) SMS_CAR_UNLOCK_14
+  type 10 mailbox 4 f4 00880100 f8 00040006 moneyReward 0
+  subject: (F81E6031) New Inventory in the Car Lot
+   sender: (770AF86E) Rachel
+     body: (98F11A2F) Nice driving out there! Head over to the Car Lot when you 
+                      have a moment, I hear they just received a hot new additio
+                      n to their inventory.
+
+SMS DATA 122: (F3A9B757) SMS_CAR_UNLOCK_15
+  type 10 mailbox 4 f4 00880100 f8 00040007 moneyReward 0
+  subject: (F81E6031) New Inventory in the Car Lot
+   sender: (770AF86E) Rachel
+     body: (98F11A2F) Nice driving out there! Head over to the Car Lot when you 
+                      have a moment, I hear they just received a hot new additio
+                      n to their inventory.
+
+SMS DATA 123: (F3A9B758) SMS_CAR_UNLOCK_16
+  type 10 mailbox 4 f4 00880100 f8 00050001 moneyReward 0
+  subject: (F81E6031) New Inventory in the Car Lot
+   sender: (770AF86E) Rachel
+     body: (98F11A2F) Nice driving out there! Head over to the Car Lot when you 
+                      have a moment, I hear they just received a hot new additio
+                      n to their inventory.
+
+SMS DATA 124: (F3A9B759) SMS_CAR_UNLOCK_17
+  type 10 mailbox 4 f4 00880100 f8 00050002 moneyReward 0
+  subject: (F81E6031) New Inventory in the Car Lot
+   sender: (770AF86E) Rachel
+     body: (98F11A2F) Nice driving out there! Head over to the Car Lot when you 
+                      have a moment, I hear they just received a hot new additio
+                      n to their inventory.
+
+SMS DATA 8: (3796AA3D) SMS_UNLOCK_01
+  type 12 mailbox 5 f4 00880500 f8 00010002 moneyReward 0
+  subject: (3EF1DA8C) Window tint
+   sender: (3194B26F) Bayview Car Specialties Shop
+     body: (87783A6A) Give your ride that extra touch of style with all new wind
+                      ow tints. Now available at all Bayview Car Specialties Sho
+                      ps.
+
+SMS DATA 9: (3796AA3E) SMS_UNLOCK_02
+  type 12 mailbox 5 f4 00880500 f8 00010004 moneyReward 0
+  subject: (B36E4B8D) Exhaust Tips
+   sender: (C9E0946B) Bayview Body Shop
+     body: (89CD630B) Hear that? Make your ride stand out from the crowd with ou
+                      r all new exhaust tips. Check out the selection at all Bay
+                      view Body Shops.
+
+SMS DATA 10: (3796AA40) SMS_UNLOCK_04
+  type 12 mailbox 5 f4 00880500 f8 00020004 moneyReward 0
+  subject: (9C672D8F) Side mirrors
+   sender: (C9E0946B) Bayview Body Shop
+     body: (8E77B44D) Just in! Sick mirrors available to customize the look of y
+                      our sled. Available for all makes and models at all Bayvie
+                      w Body Shops.
+
+SMS DATA 11: (3796AA43) SMS_UNLOCK_07
+  type 12 mailbox 5 f4 00880500 f8 0002000a moneyReward 0
+  subject: (F9DC8092) Roof Scoops
+   sender: (C9E0946B) Bayview Body Shop
+     body: (95772E30) Give your ride the racer's edge with the latest selection 
+                      of roof scoops. Pick up yours at Bayview Body Shops.
+
+SMS DATA 13: (3796AA5E) SMS_UNLOCK_11
+  type 12 mailbox 5 f4 00880500 f8 00030003 moneyReward 0
+  subject: (42FC6BAD) Lights
+   sender: (3194B26F) Bayview Car Specialties Shop
+     body: (D472772B) Let your friends and enemies know who's rolling up on them
+                       by putting the latest lights on your car. New colors avai
+                      lable now at all Car Specialties Shops.
+
+SMS DATA 14: (3796AA5F) SMS_UNLOCK_12
+  type 12 mailbox 5 f4 00880500 f8 00030004 moneyReward 0
+  subject: (B778DCAE) ECU
+   sender: (F779C04A) Bayview Performance Shop
+     body: (D6C79FCC) Just in from across the pond! The latest customizable ECU'
+                      s are now on the shelves at all Bayview Performance Shops 
+                      and Megalow Parts shops.
+
+SMS DATA 15: (3796AA60) SMS_UNLOCK_13
+  type 12 mailbox 5 f4 00880500 f8 00030005 moneyReward 0
+  subject: (2BF54DAF) Headlights
+   sender: (C9E0946B) Bayview Body Shop
+     body: (D91CC86D) Fresh off the trade show circuit we now have in stock the 
+                      latest headlight designs for your ride. Pick up yours at a
+                      ny Bayview Body Shop.
+
+SMS DATA 16: (3796AA62) SMS_UNLOCK_15
+  type 12 mailbox 5 f4 00880500 f8 00030008 moneyReward 0
+  subject: (14EE2FB1) Rims
+   sender: (C9E0946B) Bayview Body Shop
+     body: (DDC719AF) Throw the latest dope wheel designs on your ride. New styl
+                      es and new sizes have just arrived at all Bayview Body Sho
+                      ps.
+
+SMS DATA 17: (3796AA63) SMS_UNLOCK_16
+  type 12 mailbox 5 f4 00880500 f8 00030009 moneyReward 0
+  subject: (896AA0B2) Paint brake calipers
+   sender: (7ACA0A4E) Bayview Graphics Shop
+     body: (E01C4250) We are now offering custom paint for all models of brake c
+                      alipers. Come in today to any Bayview Graphics Shop and ch
+                      eck out the latest colors.
+
+SMS DATA 18: (3796AA64) SMS_UNLOCK_17
+  type 12 mailbox 5 f4 00880500 f8 0003000a moneyReward 0
+  subject: (FDE711B3) Side mirrors
+   sender: (C9E0946B) Bayview Body Shop
+     body: (E2716AF1) Be the first in your crew to sport the latest side mirror 
+                      designs fresh from the factory. Limited quantities availab
+                      le at any Bayview Body Shop.
+
+SMS DATA 19: (3796AA65) SMS_UNLOCK_18
+  type 12 mailbox 5 f4 00880500 f8 0003000c moneyReward 0
+  subject: (726382B4) Neon
+   sender: (3194B26F) Bayview Car Specialties Shop
+     body: (E4C69392) Just in! New neon colors to customize the look of your rid
+                      e. Don't get left with the same tired look. Head to your n
+                      earest Car Specialties Shop to get yours today.
+
+SMS DATA 20: (3796AA66) SMS_UNLOCK_19
+  type 12 mailbox 5 f4 00880500 f8 0003000d moneyReward 0
+  subject: (E6DFF3B5) Engine
+   sender: (F779C04A) Bayview Performance Shop
+     body: (E71BBC33) New Engine upgrades are now available for all makes and mo
+                      dels. Get more power from your sled by adding the latest i
+                      n racing technology at any Bayview Performance Shop or Meg
+                      alow Parts.
+
+SMS DATA 21: (3796AA7F) SMS_UNLOCK_21
+  type 12 mailbox 5 f4 00880500 f8 00030010 moneyReward 0
+  subject: (4706FCCE) Roof Scoops
+   sender: (C9E0946B) Bayview Body Shop
+     body: (216CB3EC) Change the look of your car with the latest Roof Scoop des
+                      igns. These cutting edge designs are now available at any 
+                      Bayview Body Shop.
+
+SMS DATA 22: (3796AA80) SMS_UNLOCK_22
+  type 12 mailbox 5 f4 00880500 f8 00030012 moneyReward 0
+  subject: (BB836DCF) Suspension
+   sender: (F779C04A) Bayview Performance Shop
+     body: (23C1DC8D) Customize the feel of your ride for that extra racer's edg
+                      e. New Suspension available at any Performance Shop or Meg
+                      alow Parts Shop.
+
+SMS DATA 23: (3796AA81) SMS_UNLOCK_23
+  type 12 mailbox 5 f4 00880500 f8 00030014 moneyReward 0
+  subject: (2FFFDED0) Paint Muffler Tips
+   sender: (7ACA0A4E) Bayview Graphics Shop
+     body: (2617052E) Give the losers something to look at as you speed away wit
+                      h new custom color paint for your Muffler Tips. Check out 
+                      the latest colors at any Bayview Graphics shop.
+
+SMS DATA 24: (3796AA82) SMS_UNLOCK_24
+  type 12 mailbox 5 f4 00880500 f8 00020003 moneyReward 0
+  subject: (A47C4FD1) Hoods
+   sender: (C9E0946B) Bayview Body Shop
+     body: (286C2DCF) Give your engine a stylish new cover. Come in to any Bayvi
+                      ew Body Shop today and check out the wide variety of new H
+                      oods that have just arrived.
+
+SMS DATA 29: (3796AA9F) SMS_UNLOCK_30
+  type 12 mailbox 5 f4 00880500 f8 00040001 moneyReward 0
+  subject: (D6951CEE) N2O
+   sender: (F779C04A) Bayview Performance Shop
+     body: (6C11C80C) Get the extra edge in your next race by adding the latest 
+                      N2O technology to your car. Get yours installed at any Bay
+                      view Performance Shop or Megalow Parts.
+
+SMS DATA 30: (3796AAA0) SMS_UNLOCK_31
+  type 12 mailbox 5 f4 00880500 f8 00040002 moneyReward 0
+  subject: (4B118DEF) Exhaust Tips
+   sender: (C9E0946B) Bayview Body Shop
+     body: (6E66F0AD) Car sound like everyone else's? Get a sweet new look and d
+                      istinct roar when you add one of our new Exhaust Tips. Get
+                       one installed today at any Bayview Body Shop.
+
+SMS DATA 31: (3796AAA1) SMS_UNLOCK_32
+  type 12 mailbox 5 f4 00880500 f8 00040004 moneyReward 0
+  subject: (BF8DFEF0) N20 Purge
+   sender: (3194B26F) Bayview Car Specialties Shop
+     body: (70BC194E) Strut your style with brand new N2O Purge placement option
+                      s. Bayview Car Specialties can hook you up with the sick s
+                      etup. Call for an appointment tonight.
+
+SMS DATA 32: (3796AAA2) SMS_UNLOCK_33
+  type 12 mailbox 5 f4 00880500 f8 00040006 moneyReward 0
+  subject: (340A6FF1) Transmission
+   sender: (F779C04A) Bayview Performance Shop
+     body: (731141EF) Get more horses to the ground quicker by installing one of
+                       the latest Transmissions to just hit the market. Installa
+                      tion available at any Bayview Performance Shop or Megalow 
+                      Parts.
+
+SMS DATA 34: (3796AAA4) SMS_UNLOCK_35
+  type 12 mailbox 5 f4 00880500 f8 0004000a moneyReward 0
+  subject: (1D0351F3) Turbo
+   sender: (F779C04A) Bayview Performance Shop
+     body: (77BB9331) New turbos now in stock at all Bayview Performance Shops a
+                      nd Megalow Parts.  Get yours today.
+
+SMS DATA 35: (3796AAA5) SMS_UNLOCK_36
+  type 12 mailbox 5 f4 00880500 f8 0004000c moneyReward 0
+  subject: (917FC2F4) Mirrors
+   sender: (C9E0946B) Bayview Body Shop
+     body: (7A10BBD2) Hard to find mirror designs now available. The rarest mirr
+                      or designs on the planet are available now at all Bayview 
+                      Body Shops.
+
+SMS DATA 36: (3796AAA6) SMS_UNLOCK_37
+  type 12 mailbox 5 f4 00880500 f8 0004000e moneyReward 0
+  subject: (05FC33F5) ECU
+   sender: (F779C04A) Bayview Performance Shop
+     body: (7C65E473) You've read about it, now put it on your ride. The latest 
+                      ECU's have arrived and are now available exclusively at al
+                      l Bayview Performance Shops.
+
+SMS DATA 38: (3796AAA8) SMS_UNLOCK_39
+  type 12 mailbox 5 f4 00880500 f8 00040013 moneyReward 0
+  subject: (EEF515F7) Lights
+   sender: (3194B26F) Bayview Car Specialties Shop
+     body: (811035B5) New headlight colors available at all Car Specialties Shop
+                      s. Currently, all makes and models in stock.
+
+SMS DATA 39: (3796AAC0) SMS_UNLOCK_40
+  type 12 mailbox 5 f4 00880500 f8 00040014 moneyReward 0
+  subject: (DA9FAE0F) Exhaust Tips
+   sender: (C9E0946B) Bayview Body Shop
+     body: (B90C04CD) New Exhaust Tips now in stock. Give your car its own uniqu
+                      e look and sound. Now available at all Bayview Body Shops.
+
+SMS DATA 40: (3796AAC1) SMS_UNLOCK_41
+  type 12 mailbox 5 f4 00880500 f8 00040016 moneyReward 0
+  subject: (4F1C1F10) Roof Scoops
+   sender: (C9E0946B) Bayview Body Shop
+     body: (BB612D6E) New Roof Scoop designs now in stock. Latest designs from a
+                      cross the pond. Get yours installed at any Bayview Body Sh
+                      op.
+
+SMS DATA 41: (3796AAC2) SMS_UNLOCK_42
+  type 12 mailbox 5 f4 00880500 f8 00040018 moneyReward 0
+  subject: (C3989011) Rims
+   sender: (C9E0946B) Bayview Body Shop
+     body: (BDB6560F) Take your car's look to the next level. The latest Rims ha
+                      ve just arrived in stock. Available at all Bayview Body Sh
+                      ops.
+
+SMS DATA 42: (3796AAC3) SMS_UNLOCK_43
+  type 12 mailbox 5 f4 00880500 f8 0004001a moneyReward 0
+  subject: (38150112) Suspension
+   sender: (F779C04A) Bayview Performance Shop
+     body: (C00B7EB0) Get the tightest handling on the streets. New top of the l
+                      ine Suspensions available exclusively at all Bayview Perfo
+                      rmance Shops.
+
+SMS DATA 43: (3796AAC5) SMS_UNLOCK_45
+  type 12 mailbox 5 f4 00880500 f8 0004001e moneyReward 0
+  subject: (210DE314) Window tints
+   sender: (3194B26F) Bayview Car Specialties Shop
+     body: (C4B5CFF2) Install the freshest look in town with one of our new Wind
+                      ow Tint colors. Get yours' installed today at any Bayview 
+                      Car Specialties Shop.
+
+SMS DATA 51: (3796AAE7) SMS_UNLOCK_56
+  type 12 mailbox 5 f4 00880500 f8 00050004 moneyReward 0
+  subject: (9994E536) Custom HUD
+   sender: (3194B26F) Bayview Car Specialties Shop
+     body: (14053554) Personalize the inside of your ride with new Custom Gauges
+                      . Available while they last at all Bayview Car Specialties
+                       Shops.
+
+SMS DATA 52: (3796AAE8) SMS_UNLOCK_57
+  type 12 mailbox 5 f4 00880500 f8 00050008 moneyReward 0
+  subject: (0E115637) Carbon Trunk
+   sender: (C9E0946B) Bayview Body Shop
+     body: (165A5DF5) Come in today and get your Carbon Trunk. The hottest upgra
+                      de available today. Get yours at any Bayview area Body Sho
+                      p.
+
+SMS DATA 53: (3796AAE9) SMS_UNLOCK_58
+  type 12 mailbox 5 f4 00880500 f8 0005000e moneyReward 0
+  subject: (828DC738) Carbon Kit
+   sender: (C9E0946B) Bayview Body Shop
+     body: (18AF8696) Just in today! The hottest upgrade to ever hit Bayview! Ca
+                      rbon Kit process now in stock at all Bayview Body Shops. B
+                      e the first in your crew to carbonize your kit.
+
+SMS DATA 55: (3796AB03) SMS_UNLOCK_61
+  type 12 mailbox 5 f4 00880500 f8 00030003 moneyReward 0
+  subject: (57314152) Carbon Mirrors, Spoilers, Roof Scoops
+   sender: (C9E0946B) Bayview Body Shop
+     body: (5555A6F0) Add some style to your ride.  New carbon mirrors, spoilers
+                       and roof scoops are in stock at all Bayview area Body Sho
+                      ps.
+
+SMS DATA 56: (3796AB04) SMS_UNLOCK_62
+  type 12 mailbox 5 f4 00880500 f8 00040006 moneyReward 0
+  subject: (CBADB253) Carbon Mirrors, Spoilers, Roof Scoops
+   sender: (C9E0946B) Bayview Body Shop
+     body: (57AACF91) Even more carbon to choose from!  Check out the new carbon
+                       mirrors, spoilers and roof scoops at any Bayview Body Sho
+                      p.
+
+SMS DATA 57: (3796AB05) SMS_UNLOCK_63
+  type 12 mailbox 5 f4 00880500 f8 00050002 moneyReward 0
+  subject: (402A2354) Carbon Mirrors, Spoilers, Roof Scoops
+   sender: (C9E0946B) Bayview Body Shop
+     body: (59FFF832) Carbon is where it's at!  Brand new carbon mirrors, spoile
+                      rs and roof scoops have arrived at all Bayview Body Shops.
+
+SMS DATA 58: (3796AB06) SMS_UNLOCK_64
+  type 12 mailbox 5 f4 00880500 f8 00030009 moneyReward 0
+  subject: (B4A69455) Carbon Hoods
+   sender: (C9E0946B) Bayview Body Shop
+     body: (5C5520D3) Add some style to your ride with a carbon hood.  Now avail
+                      able at any Bayview Body Shop.
+
+SMS DATA 59: (3796AB07) SMS_UNLOCK_65
+  type 12 mailbox 5 f4 00880500 f8 00040012 moneyReward 0
+  subject: (29230556) Carbon Hoods
+   sender: (C9E0946B) Bayview Body Shop
+     body: (5EAA4974) Come down and browse the new selection of carbon hoods tha
+                      t just came in.  Available at any of the Bayview Body Shop
+                      s.
+
+SMS DATA 60: (3796AB08) SMS_UNLOCK_66
+  type 12 mailbox 5 f4 00880500 f8 0005000c moneyReward 0
+  subject: (9D9F7657) Carbon Hoods
+   sender: (C9E0946B) Bayview Body Shop
+     body: (60FF7215) Brand new designs have just come in!  Be the first on the 
+                      block to own the sickest new carbon hood!  Available at al
+                      l Bayview area Body Shops.
+
+SMS DATA 61: (D7F60CA2) SMS_LOC_TEXT_BEACON_HILL
+  type 12 mailbox 4 f4 00880101 f8 00010005 moneyReward 0
+  subject: (66ABD1F1) Beacon Hill
+   sender: (770AF86E) Rachel
+     body: (C05DE3EF) Dude, the scanner chatter says the roads to Beacon Hill ar
+                      e now open. I guarantee the racing in the area is going to
+                       be hoppin' soon. You might want to head up there and try 
+                      your luck.
+
+SMS DATA 65: (B69C5C7C) SMS_LOC_GO_TO_CAR_LOT_NOW
+  type 12 mailbox 4 f4 00880100 f8 00000002 moneyReward 0
+  subject: (24295BCB) Get to the Car LotÜNow!
+   sender: (770AF86E) Rachel
+     body: (FAD22C09) Hey, I want my car back! You better haul over there ASAP o
+                      r IÅm puttinÅ the word out on you - and that means no more
+                       racinÅ until I say so. Get to the car lot..NOW!
+
+SMS DATA 68: (C6BD6D59) SMS_LOC_X_SPONSOR
+  type 12 mailbox 4 f4 00880100 f8 00020001 moneyReward 0
+  subject: (1BC7F9A8) Sponsor Icons
+   sender: (770AF86E) Rachel
+     body: (9DA14F06) Hey, I wanted to give you a heads up. Now that youÅre unde
+                      r contract to the sponsor, you've got to complete some spe
+                      cific events to complete your deal. See the "X" icons - th
+                      at's them. Get over there and tear it up. I'll talk to you
+                       later.
+
+SMS DATA 70: (1E951F6F) SMS_UNIQUE_S2_VISUAL_1
+  type 13 mailbox 3 f4 00880301 f8 00000000 moneyReward 0
+  subject: (E3E361BE) FENG: Default string error.
+   sender: (02902EED) Chuck
+     body: (DD69BEDC) FENG: Default string error.
+
+SMS DATA 71: (527BD6BB) SMS_MAG_S2_SHOW_2
+  type 13 mailbox 3 f4 00880301 f8 00000000 moneyReward 0
+  subject: (2782A50A) FENG: Default string error.
+   sender: (770AF86E) Rachel
+     body: (0262E5A8) FENG: Default string error.
+
+SMS DATA 72: (527BD6BA) SMS_MAG_S2_SHOW_1
+  type 13 mailbox 3 f4 00880301 f8 00000000 moneyReward 0
+  subject: (B3063409) FENG: Default string error.
+   sender: (770AF86E) Rachel
+     body: (000DBD07) FENG: Default string error.
+
+SMS DATA 73: (DDEB74DE) SMS_MAG_STAGE_3_SHOW_4
+  type 13 mailbox 3 f4 00880301 f8 00000000 moneyReward 0
+  subject: (6CB3B62D) FENG: Default string error.
+   sender: (770AF86E) Rachel
+     body: (EBE9D1AB) FENG: Default string error.
+
+SMS DATA 74: (DDEB74DD) SMS_MAG_STAGE_3_SHOW_3
+  type 13 mailbox 3 f4 00880301 f8 00000000 moneyReward 0
+  subject: (F837452C) FENG: Default string error.
+   sender: (770AF86E) Rachel
+     body: (E994A90A) FENG: Default string error.
+
+SMS DATA 75: (DDEB74DC) SMS_MAG_STAGE_3_SHOW_2
+  type 13 mailbox 3 f4 00880301 f8 00000000 moneyReward 0
+  subject: (83BAD42B) FENG: Default string error.
+   sender: (770AF86E) Rachel
+     body: (E73F8069) FENG: Default string error.
+
+SMS DATA 76: (DDEB74DB) SMS_MAG_STAGE_3_SHOW_1
+  type 13 mailbox 3 f4 00880301 f8 00000000 moneyReward 0
+  subject: (0F3E632A) FENG: Default string error.
+   sender: (770AF86E) Rachel
+     body: (E4EA57C8) FENG: Default string error.
+
+SMS DATA 77: (7A31F711) SMS_UNIQUE_STAGE_3_VISUAL_2
+  type 13 mailbox 3 f4 00880301 f8 00000000 moneyReward 0
+  subject: (5526BB60) FENG: Default string error.
+   sender: (02902EED) Chuck
+     body: (D988ABBE) FENG: Default string error.
+
+SMS DATA 78: (332EA469) SMS_UNIQUE_STAGE_3_PERF_1
+  type 13 mailbox 3 f4 00880301 f8 00000000 moneyReward 0
+  subject: (6D4740B8) FENG: Default string error.
+   sender: (1B4A3984) Kristian
+     body: (E9BF7016) FENG: Default string error.
+
+SMS DATA 79: (CA2D49BC) SMS_MAG_STAGE_4_SHOW_1
+  type 13 mailbox 3 f4 00880300 f8 00000000 moneyReward 0
+  subject: (1B73890B) FENG: Default string error.
+   sender: (770AF86E) Rachel
+     body: (34496149) FENG: Default string error.
+
+SMS DATA 80: (CA2D49BD) SMS_MAG_STAGE_4_SHOW_2
+  type 13 mailbox 3 f4 00880300 f8 00000000 moneyReward 0
+  subject: (8FEFFA0C) FENG: Default string error.
+   sender: (770AF86E) Rachel
+     body: (369E89EA) FENG: Default string error.
+
+SMS DATA 81: (CA2D49BE) SMS_MAG_STAGE_4_SHOW_3
+  type 13 mailbox 3 f4 00880300 f8 00000000 moneyReward 0
+  subject: (046C6B0D) FENG: Default string error.
+   sender: (770AF86E) Rachel
+     body: (38F3B28B) FENG: Default string error.
+
+SMS DATA 82: (CA2D49BF) SMS_MAG_STAGE_4_SHOW_4
+  type 13 mailbox 3 f4 00880300 f8 00000000 moneyReward 0
+  subject: (78E8DC0E) FENG: Default string error.
+   sender: (770AF86E) Rachel
+     body: (3B48DB2C) FENG: Default string error.
+
+SMS DATA 83: (CA2D49C0) SMS_MAG_STAGE_4_SHOW_5
+  type 13 mailbox 3 f4 00880300 f8 00000000 moneyReward 0
+  subject: (ED654D0F) FENG: Default string error.
+   sender: (770AF86E) Rachel
+     body: (3D9E03CD) FENG: Default string error.
+
+SMS DATA 84: (CA2D49C1) SMS_MAG_STAGE_4_SHOW_6
+  type 13 mailbox 3 f4 00880300 f8 00000000 moneyReward 0
+  subject: (61E1BE10) FENG: Default string error.
+   sender: (770AF86E) Rachel
+     body: (3FF32C6E) FENG: Default string error.
+
+SMS DATA 85: (7E3C8833) SMS_UNIQUE_STAGE_4_VISUAL_3
+  type 13 mailbox 3 f4 00880301 f8 00000000 moneyReward 0
+  subject: (B7B94E82) FENG: Default string error.
+   sender: (03AEE1CC) Scott
+     body: (7F254220) FENG: Default string error.
+
+SMS DATA 86: (7E3C8834) SMS_UNIQUE_STAGE_4_VISUAL_4
+  type 13 mailbox 3 f4 00880301 f8 00000000 moneyReward 0
+  subject: (2C35BF83) FENG: Default string error.
+   sender: (79B0B11D) Serena
+     body: (817A6AC1) FENG: Default string error.
+
+SMS DATA 87: (1F70794B) SMS_UNIQUE_STAGE_4_PERF_2
+  type 13 mailbox 3 f4 00880301 f8 00000000 moneyReward 0
+  subject: (EDF8D79A) FENG: Default string error.
+   sender: (7AB90260) Stefan
+     body: (3B73A238) FENG: Default string error.
+
+SMS DATA 88: (B66F1E9D) SMS_MAG_STAGE_5_SHOW_1
+  type 13 mailbox 3 f4 00880300 f8 00000000 moneyReward 0
+  subject: (27A8AEEC) FENG: Default string error.
+   sender: (770AF86E) Rachel
+     body: (83A86ACA) FENG: Default string error.
+
+SMS DATA 89: (B66F1E9E) SMS_MAG_STAGE_5_SHOW_2
+  type 13 mailbox 3 f4 00880300 f8 00000000 moneyReward 0
+  subject: (9C251FED) FENG: Default string error.
+   sender: (770AF86E) Rachel
+     body: (85FD936B) FENG: Default string error.
+
+SMS DATA 90: (B66F1E9F) SMS_MAG_STAGE_5_SHOW_3
+  type 13 mailbox 3 f4 00880300 f8 00000000 moneyReward 0
+  subject: (10A190EE) FENG: Default string error.
+   sender: (770AF86E) Rachel
+     body: (8852BC0C) FENG: Default string error.
+
+SMS DATA 91: (B66F1EA0) SMS_MAG_STAGE_5_SHOW_4
+  type 13 mailbox 3 f4 00880300 f8 00000000 moneyReward 0
+  subject: (851E01EF) FENG: Default string error.
+   sender: (770AF86E) Rachel
+     body: (8AA7E4AD) FENG: Default string error.
+
+SMS DATA 92: (B66F1EA1) SMS_MAG_STAGE_5_SHOW_5
+  type 13 mailbox 3 f4 00880300 f8 00000000 moneyReward 0
+  subject: (F99A72F0) FENG: Default string error.
+   sender: (770AF86E) Rachel
+     body: (8CFD0D4E) FENG: Default string error.
+
+SMS DATA 93: (B66F1EA2) SMS_MAG_STAGE_5_SHOW_6
+  type 13 mailbox 3 f4 00880300 f8 00000000 moneyReward 0
+  subject: (6E16E3F1) FENG: Default string error.
+   sender: (770AF86E) Rachel
+     body: (8F5235EF) FENG: Default string error.
+
+SMS DATA 94: (B66F1EA3) SMS_MAG_STAGE_5_SHOW_7
+  type 13 mailbox 3 f4 00880300 f8 00000000 moneyReward 0
+  subject: (E29354F2) FENG: Default string error.
+   sender: (770AF86E) Rachel
+     body: (91A75E90) FENG: Default string error.
+
+SMS DATA 95: (B66F1EA4) SMS_MAG_STAGE_5_SHOW_8
+  type 13 mailbox 3 f4 00880300 f8 00000000 moneyReward 0
+  subject: (570FC5F3) FENG: Default string error.
+   sender: (770AF86E) Rachel
+     body: (93FC8731) FENG: Default string error.
+
+SMS DATA 96: (82471956) SMS_UNIQUE_STAGE_5_VISUAL_5
+  type 13 mailbox 3 f4 00880301 f8 00000000 moneyReward 0
+  subject: (8EC852A5) FENG: Default string error.
+   sender: (1B4A3984) Kristian
+     body: (27170123) FENG: Default string error.
+
+SMS DATA 97: (0BB24E2D) SMS_UNIQUE_STAGE_5_PERF_3
+  type 13 mailbox 3 f4 00880301 f8 00000000 moneyReward 0
+  subject: (6EAA6E7C) FENG: Default string error.
+   sender: (1B4A3984) Kristian
+     body: (8D27D45A) FENG: Default string error.
+
+SMS DATA 98: (E60E55FD) SMS_DVD_COVER_1
+  type 14 mailbox 3 f4 00880301 f8 00000001 moneyReward 0
+  subject: (F139464C) Bayview's Best DVD Cover
+   sender: (34A89700) Rachel
+     body: (7A513E2A) ^Congratulations, your car has been selected to appear on 
+                      the BayviewÅs Best DVD cover! Head to the Star on your Min
+                      i-map to meet the photographer.
+
+SMS DATA 99: (E60E55FE) SMS_DVD_COVER_2
+  type 14 mailbox 3 f4 00880301 f8 00000002 moneyReward 0
+  subject: (65B5B74D) Four on the Floor DVD Cover
+   sender: (34A89700) Rachel
+     body: (7CA666CB) ^Congratulations, your car has been selected to appear on 
+                      the Four on the Floor DVD cover! Head to the Star on your 
+                      Mini-map to meet the photographer.
+
+SMS DATA 100: (E60E55FF) SMS_DVD_COVER_3
+  type 14 mailbox 3 f4 00880301 f8 00000003 moneyReward 0
+  subject: (DA32284E) Underground Speed Zone DVD Cover
+   sender: (34A89700) Rachel
+     body: (7EFB8F6C) ^Congratulations, your car has been selected to appear on 
+                      the Underground Speed Zone DVD cover! Head to the Star on 
+                      your Mini-map to meet the photographer.
+
+SMS DATA 101: (E60E5600) SMS_DVD_COVER_4
+  type 14 mailbox 3 f4 00880301 f8 00000004 moneyReward 0
+  subject: (4EAE994F) Speed Demons 3 DVD Cover
+   sender: (34A89700) Rachel
+     body: (8150B80D) ^Congratulations, your car has been selected to appear on 
+                      the Speed Demons 3 DVD cover! Head to the Star on your Min
+                      i-map to meet the photographer.
+
+SMS DATA 102: (E60E5601) SMS_DVD_COVER_5
+  type 14 mailbox 3 f4 00880301 f8 00000005 moneyReward 0
+  subject: (C32B0A50) Modified to the Max DVD Cover
+   sender: (34A89700) Rachel
+     body: (83A5E0AE) ^Congratulations, your car has been selected to appear on 
+                      the Modified to the Max DVD cover! Head to the Star on you
+                      r Mini-map to meet the photographer.
+
+SMS DATA 103: (E60E5602) SMS_DVD_COVER_6
+  type 14 mailbox 3 f4 00880301 f8 00000006 moneyReward 0
+  subject: (37A77B51) Burning Wheels DVD Cover
+   sender: (34A89700) Rachel
+     body: (85FB094F) ^Congratulations, your car has been selected to appear on 
+                      the Burning Wheels DVD cover! Head to the Star on your Min
+                      i-map to meet the photographer.
+
+SMS DATA 104: (E60E5603) SMS_DVD_COVER_7
+  type 14 mailbox 3 f4 00880301 f8 00000007 moneyReward 0
+  subject: (AC23EC52) Slammed & Stretched DVD Cover
+   sender: (34A89700) Rachel
+     body: (885031F0) ^Congratulations, your car has been selected to appear on 
+                      the Slammed & Stretched DVD cover! Head to the Star on you
+                      r Mini-map to meet the photographer.
+
+SMS DATA 105: (E60E5604) SMS_DVD_COVER_8
+  type 14 mailbox 3 f4 00880301 f8 00000008 moneyReward 0
+  subject: (20A05D53) Straight From the Streets IV DVD Cover
+   sender: (34A89700) Rachel
+     body: (8AA55A91) ^Congratulations, your car has been selected to appear on 
+                      the Straight From the Streets IV DVD cover! Head to the St
+                      ar on your Mini-map to meet the photographer.
+
+SMS DATA 106: (E60E5605) SMS_DVD_COVER_9
+  type 14 mailbox 3 f4 00880301 f8 00000009 moneyReward 0
+  subject: (951CCE54) Racing Street Unleashed DVD Cover
+   sender: (34A89700) Rachel
+     body: (8CFA8332) ^Congratulations, your car has been selected to appear on 
+                      the Racing Street Unleashed DVD cover! Head to the Star on
+                       your Mini-map to meet the photographer.
+
+SMS DATA 107: (A7D915CD) SMS_DVD_COVER_10
+  type 14 mailbox 3 f4 00880301 f8 0000000a moneyReward 0
+  subject: (5A6ED61C) Blacktop Bandits DVD Cover
+   sender: (34A89700) Rachel
+     body: (58DC5FFA) ^Congratulations, your car has been selected to appear on 
+                      the Blacktop Bandits DVD cover! Head to the Star on your M
+                      ini-map to meet the photographer.
+
+SMS DATA 125: (9C589AD6) ENGAGE_TIPS_AUDIO
+  type 15 mailbox 2 f4 00880900 f8 9c589ad6 moneyReward 25
+  subject: (1D035425) Audio
+   sender: (770AF86E) Rachel
+     body: (47D572A3) To make adjustments to the game's music, select Options an
+                      d then select EA GAMESÇ TRAX. Songs can be previewed, turn
+                      ed off, or re-ordered.
+
+SMS DATA 126: (42988AFF) ENGAGE_TIPS_MIRROR
+  type 15 mailbox 2 f4 00880900 f8 42988aff moneyReward 25
+  subject: (E4215D4E) Rearview mirror
+   sender: (770AF86E) Rachel
+     body: (E32EE46C) To turn the rearview mirror on or off while in-game, selec
+                      t Options and then select Gameplay from the Pause Menu.
+
+SMS DATA 127: (FC25CA8E) ENGAGE_TIPS_GPS
+  type 15 mailbox 2 f4 00880900 f8 fc25ca8e moneyReward 25
+  subject: (8C00BBDD) GPS
+   sender: (770AF86E) Rachel
+     body: (DF6D355B) Find your way to race events and shops with the help of th
+                      e GPS system. Access it by pressing the World Map key. Onc
+                      e you've selected your destination, return to the game and
+                       follow the blue arrow.
+
+SMS DATA 128: (44B00E33) ENGAGE_TIPS_ORSTRAT
+  type 15 mailbox 2 f4 00880900 f8 44b00e33 moneyReward 25
+  subject: (6452D482) Outrun strategy
+   sender: (770AF86E) Rachel
+     body: (D8BC8820) If you are trailing your opponent in an outrun race the be
+                      st strategy is to hang back a little to allow you to react
+                       to quick turns and changes of direction. Wait until a str
+                      etch of road without turns to make a passing attempt.
+
+SMS DATA 129: (FC25FD37) ENGAGE_TIPS_SMS
+  type 15 mailbox 2 f4 00880900 f8 fc25fd37 moneyReward 25
+  subject: (C0398786) SMS messages
+   sender: (770AF86E) Rachel
+     body: (0B9479A4) A quick way to identify SMS messages is by the type of ico
+                      n that is displayed when the message is received. Each mes
+                      sage type has its own unique envelope icon.
+
+SMS DATA 130: (FC25E222) ENGAGE_TIPS_MAP
+  type 15 mailbox 2 f4 00880900 f8 fc25e222 moneyReward 25
+  subject: (12192771) Map preference
+   sender: (770AF86E) Rachel
+     body: (DF4F296F) The mini-map can be set to remain static or rotate while d
+                      riving or racing. Customize the map funcitionality for Exp
+                      lore and Race modes by accessing the Gameplay options in t
+                      he Pause menu.
+
+SMS DATA 131: (80E5BFCE) ENGAGE_TIPS_STAB
+  type 15 mailbox 2 f4 00880900 f8 80e5bfce moneyReward 25
+  subject: (9701F11D) Stability Control
+   sender: (770AF86E) Rachel
+     body: (48B8729B) Change your car's handling by turning off the Stability Co
+                      ntrol for your cars. Turning it off will allow your car to
+                       slide around corners. To change your car's Stability Cont
+                      rol, select Options and then select Player from the Pause 
+                      Menu.
+
+SMS DATA 132: (9DAEBB2C) ENGAGE_TIPS_TRANS
+  type 15 mailbox 2 f4 00880900 f8 9daebb2c moneyReward 25
+  subject: (C4476A7B) Transmission type
+   sender: (770AF86E) Rachel
+     body: (FC9B38B9) If you prefer more control over your car's performance, ch
+                      ange your transmission from Auto to Manual by selecting Op
+                      tions and then select Player from the Pause Menu.
+
+SMS DATA 133: (425140E8) ENGAGE_TIPS_METRIC
+  type 15 mailbox 2 f4 00880900 f8 425140e8 moneyReward 25
+  subject: (1D01EC37) Imperial or Metric
+   sender: (770AF86E) Rachel
+     body: (CB22B3F5) To change your car's speedometer from Imperial to Metric, 
+                      select Options and then select Gameplay from the Pause Men
+                      u.
+
+SMS DATA 134: (80DBE7BD) ENGAGE_TIPS_AUTO
+  type 15 mailbox 2 f4 00880900 f8 80dbe7bd moneyReward 25
+  subject: (E25C980C) Autosave
+   sender: (770AF86E) Rachel
+     body: (D91FE7EA) The Autosave feature will automatically save the game when
+                       changes are made or when progressing through your career.
+                       Access Autosave in the Gameplay section of the Pause menu
+                      .
+
+SMS DATA 135: (9D820C07) ENGAGE_TIPS_RBRKR
+  type 15 mailbox 2 f4 00880900 f8 9d820c07 moneyReward 25
+  subject: (70DF6656) Racebreaker
+   sender: (770AF86E) Rachel
+     body: (73DA4A74) To take advantage of the Racebreaker feature, you must ins
+                      tall Nitrous Oxide on your car. Pick up a N2O system at an
+                      y performance shop or Megalow Parts shop in the city.
+
+SMS DATA 136: (FC25B79A) ENGAGE_TIPS_CAR
+  type 15 mailbox 2 f4 00880900 f8 fc25b79a moneyReward 25
+  subject: (C572F4E9) First Car
+   sender: (770AF86E) Rachel
+     body: (A96729E7) Choose carefully when deciding on your first car. You will
+                       be driving it for a while, so pick a ride that suits your
+                       style. AWD, FWD, and RWD cars all drive and handle differ
+                      ently. Check the Car Stats on the Car Select screen for mo
+                      re information.
+
+SMS DATA 137: (80E2367E) ENGAGE_TIPS_MEGA
+  type 15 mailbox 2 f4 00880900 f8 80e2367e moneyReward 25
+  subject: (44A217CD) Megalow Parts
+   sender: (770AF86E) Rachel
+     body: (817A974B) Even though it doesn't carry all of the performance parts 
+                      available, Megalow Parts is worth visiting. Parts and Pack
+                      ages carry additional discounts over regular Performance s
+                      hops. To get good parts at the cheapest prices, visit Mega
+                      low Parts.
+
+SMS DATA 138: (FC25E6EE) ENGAGE_TIPS_NEW
+  type 15 mailbox 2 f4 00880900 f8 fc25e6ee moneyReward 25
+  subject: (D707383D) New parts SMS messages
+   sender: (770AF86E) Rachel
+     body: (0FCE0DBB) Shop inventories will change over time and when new parts 
+                      are available you'll receive an SMS message. Check your me
+                      ssages to see what new parts have opened up. Once parts ar
+                      e discovered, or opened, they are available at all shops o
+                      f that type.
+
+SMS DATA 139: (9C8D3215) ENGAGE_TIPS_DRAFT
+  type 15 mailbox 2 f4 00880900 f8 9c8d3215 moneyReward 25
+  subject: (227EBA64) Drag racing - Drafting
+   sender: (770AF86E) Rachel
+     body: (56756942) Gain extra speed in drag races by drafting off drivers in 
+                      front of you. Racing close behind the car ahead allows you
+                      r car to share the air and creates a slingshot effect when
+                       you attempt your passing move.
+
+SMS DATA 140: (80DC2305) ENGAGE_TIPS_BBRK
+  type 15 mailbox 2 f4 00880900 f8 80dc2305 moneyReward 25
+  subject: (53679B54) Basic braking
+   sender: (770AF86E) Rachel
+     body: (21707032) When approaching a turn at high speeds brake before the tu
+                      rns entry point. At the apex of the turn accelerate quickl
+                      y out of the turn.
+
+SMS DATA 141: (5F04C43A) ENGAGE_TIP_CAREER_PROG
+  type 15 mailbox 2 f4 00880901 f8 5f04c43a moneyReward 25
+  subject: (3A64A189) Career Status and Progression
+   sender: (770AF86E) Rachel
+     body: (22C71A87) Press the Career Status key to find information relating t
+                      o your overall performance as well as the visual rating of
+                       your car. While browsing your Career Status, you can also
+                       press right to access more detailed information about spe
+                      cific Stage requirements you must complete in order to pro
+                      gress through your career.
+
+SMS DATA 142: (72E7E025) ENGAGE_TIPS_SPECIAL
+  type 15 mailbox 2 f4 00880900 f8 72e7e025 moneyReward 25
+  subject: (8F6E7874) Car Specialties Shop
+   sender: (770AF86E) Rachel
+     body: (3BFF6152) Locate the large Stadium from the freeway and you'll be ne
+                      ar the one of the Car Specialty shops. The Stadium is in t
+                      he Western section of the city core.
+
+SMS DATA 143: (80E3DD11) ENGAGE_TIPS_PERF
+  type 15 mailbox 2 f4 00880900 f8 80e3dd11 moneyReward 25
+  subject: (4A5EA160) Performance Shop
+   sender: (770AF86E) Rachel
+     body: (395A51BE) One of the Performance shops is located in the El Norte di
+                      strict. Look for a blue light outside the entrance to the 
+                      parking lot.
+
+SMS DATA 144: (9CC37CD6) ENGAGE_TIPS_GRAPH
+  type 15 mailbox 2 f4 00880900 f8 9cc37cd6 moneyReward 25
+  subject: (C3303625) Graphics Shop
+   sender: (770AF86E) Rachel
+     body: (485D94A3) One of the Graphics shops is located just North of the Cas
+                      inos in South Market. Look for the red light to lead you t
+                      o the entrance.
+
+SMS DATA 145: (FC25B58A) ENGAGE_TIPS_BS1
+  type 15 mailbox 2 f4 00880900 f8 fc25b58a moneyReward 25
+  subject: (84C9E2D9) Body Shop
+   sender: (770AF86E) Rachel
+     body: (D9C35DD7) Locate one of the Body Shops in the Hotel Plaza district. 
+                      Look for the greenish yellow light and the large blue Body
+                       Shop sign.
+
+SMS DATA 146: (FC25B58B) ENGAGE_TIPS_BS2
+  type 15 mailbox 2 f4 00880900 f8 fc25b58b moneyReward 25
+  subject: (F94653DA) Body Shop
+   sender: (770AF86E) Rachel
+     body: (DC188678) One of the Body Shops is located in the Fort Union distric
+                      t. Look for the greenish yellow light and the large blue B
+                      ody Shop sign.
+
+SMS DATA 147: (9D995D22) ENGAGE_TIPS_SLBRK
+  type 15 mailbox 2 f4 00880900 f8 9d995d22 moneyReward 25
+  subject: (40D7A271) Straight line braking
+   sender: (770AF86E) Rachel
+     body: (4B27846F) When driving in a straight line, brake the hardest before 
+                      entering the turn. After the apex of the turn, step on the
+                       gas pedal to accelerate out of it.
+
+SMS DATA 148: (8CE900F4) ENGAGE_TIPS_WEATHER
+  type 15 mailbox 2 f4 00880900 f8 8ce900f4 moneyReward 25
+  subject: (D92EF843) Weather
+   sender: (770AF86E) Rachel
+     body: (46905B81) When it is raining your car's traction will be reduced sli
+                      ghtly which will affect your handling. Be cautious when en
+                      tering corners at high speeds as your car may slide more t
+                      han normal.
+
+SMS DATA 149: (FC25CF65) ENGAGE_TIPS_HUD
+  type 15 mailbox 2 f4 00880900 f8 fc25cf65 moneyReward 25
+  subject: (5247A7B4) Customize HUD
+   sender: (770AF86E) Rachel
+     body: (2994D892) Customize the information you see onscreen during races. A
+                      ccessing the Player options through the Pause menu will al
+                      low you to turn off the Gauges, Lap info, or current Race 
+                      position.
+
+SMS DATA 150: (FC25B58C) ENGAGE_TIPS_BS3
+  type 15 mailbox 2 f4 00880900 f8 fc25b58c moneyReward 25
+  subject: (6DC2C4DB) Body Shop
+   sender: (770AF86E) Rachel
+     body: (DE6DAF19) Keep an eye out for the Body Shop in Beacon Hills East. It
+                       is tucked in behind the Coffee Shop.
+
+SMS DATA 151: (FC25DFB3) ENGAGE_TIPS_LOT
+  type 15 mailbox 2 f4 00880900 f8 fc25dfb3 moneyReward 25
+  subject: (97422602) Car Lot
+   sender: (770AF86E) Rachel
+     body: (321149A0) Look for the Car Lot located in Beacon Hills East. It sits
+                       off the road just North of the water. Keep an eye out for
+                       the Aqua colored light.
+
+SMS DATA 152: (353317C8) ENGAGE_TIPS_GRAPH2
+  type 15 mailbox 2 f4 00880900 f8 353317c8 moneyReward 25
+  subject: (543CA317) Graphic Shop
+   sender: (770AF86E) Rachel
+     body: (ED1DD6D5) The Beacon Hills East Graphics shop is located just North 
+                      of the bridge leading to Beacon Hills. Look for the red li
+                      ght.
+
+SMS DATA 153: (CFE3E4F7) ENGAGE_TIPS_SPECIAL2
+  type 15 mailbox 2 f4 00880900 f8 cfe3e4f7 moneyReward 25
+  subject: (A8432F46) Car Specialties Shop
+   sender: (770AF86E) Rachel
+     body: (54F93964) The Car Specialties Shop located in Beacon Hills West is o
+                      ne of the trickiest shops to find. Keep an eye out for the
+                       yellow light at the entrance to the driveway.
+
+SMS DATA 154: (9D5F7F63) ENGAGE_TIPS_PERF2
+  type 15 mailbox 2 f4 00880900 f8 9d5f7f63 moneyReward 25
+  subject: (C13875B2) Performance Shop
+   sender: (770AF86E) Rachel
+     body: (FDB23750) There is a Performance Shop in Beacon Hills West, located 
+                      near the Burger KingÆ. Look for the blue lights leading to
+                       the entrance.
+
+SMS DATA 155: (9C8D541D) ENGAGE_TIPS_DRIFT
+  type 15 mailbox 2 f4 00880900 f8 9c8d541d moneyReward 25
+  subject: (4D64646C) Drift racing
+   sender: (770AF86E) Rachel
+     body: (B884104A) Score the highest points in Drift races by drifting on the
+                       white bonus areas on the edge of the track. Be careful no
+                      t to hit the walls or you will lose all drift points.
+
+SMS DATA 156: (7D28CB73) ENGAGE_TIPS_STREETX
+  type 15 mailbox 2 f4 00880900 f8 7d28cb73 moneyReward 25
+  subject: (9354D1C2) Street X races
+   sender: (770AF86E) Rachel
+     body: (907D8D60) Learn to corner well to have success in Street X races. Ca
+                      rs with good handling will fare the best on these tight, t
+                      echnical courses.
+
+SMS DATA 157: (FC25E219) ENGAGE_TIPS_MAG
+  type 15 mailbox 2 f4 00880900 f8 fc25e219 moneyReward 25
+  subject: (F9B92E68) Magazines
+   sender: (770AF86E) Rachel
+     body: (CA50BBC6) Increase the amount of bank that you earn for each magazin
+                      e cover by increasing your car's "star rating". The higher
+                       your car's rating the more bank you earn.
+
+SMS DATA 158: (80E2256B) ENGAGE_TIPS_MAG2
+  type 15 mailbox 2 f4 00880900 f8 80e2256b moneyReward 25
+  subject: (5BE4A3BA) Taking magazine shots
+   sender: (770AF86E) Rachel
+     body: (AD75E258) When taking magazine cover shots, use the preview function
+                       to see the best angles, and setups, for your car before y
+                      ou snap the final picture.
+
+SMS DATA 159: (079A2E6F) ENGAGE_TIPS_RCEBRKR
+  type 15 mailbox 2 f4 00880900 f8 079a2e6f moneyReward 25
+  subject: (4C8770BE) Race breaker
+   sender: (770AF86E) Rachel
+     body: (2EF02DDC) Driving with style creates points that get converted into 
+                      N2O. Double the N2O output of your car by gaining enough p
+                      oints to fill the meters overflow gauge.
+
+SMS DATA 160: (9D99B551) ENGAGE_TIPS_SLWIN
+  type 15 mailbox 2 f4 00880900 f8 9d99b551 moneyReward 25
+  subject: (6A88B9A0) Slow in - Fast out
+   sender: (770AF86E) Rachel
+     body: (FEC151FE) The sooner you slow down before taking a turn the faster y
+                      ou can accelerate out of it. This technique will save valu
+                      able seconds during a race.
+
+SMS DATA 161: (3043749D) ENGAGE_TIPS_ENGBRK
+  type 15 mailbox 2 f4 00880900 f8 3043749d moneyReward 25
+  subject: (037304EC) Engine braking
+   sender: (770AF86E) Rachel
+     body: (DDA280CA) When driving a car with manual transmission, gear down onc
+                      e to reduce your speed heading into a turn. When done prop
+                      erly, you can reduce your speed enough to avoid having to 
+                      apply the brakes.
+
+SMS DATA 162: (8C360B64) ENGAGE_TIPS_REALTUNE
+  type 15 mailbox 2 f4 00880900 f8 8c360b64 moneyReward 25
+  subject: (A85772B3) Real time performance tuning
+   sender: (770AF86E) Rachel
+     body: (36D56BF1) Take your car out on the test track and make adjustments t
+                      o your performance settings, in real time, while on the ro
+                      ad.
+
+SMS DATA 163: (32412B8A) ENGAGE_TIPS_FILTER
+  type 15 mailbox 2 f4 00880900 f8 32412b8a moneyReward 50
+  subject: (01FB58D9) Event filtering
+   sender: (770AF86E) Rachel
+     body: (597893D7) Access the World Map to filter events and shops from the m
+                      ap by pressing the World Map key. Scroll through the vario
+                      us events and shops you would like to filter and choose to
+                       hide or unhide them from the maps.
+
+SMS DATA 164: (36E6D5B0) ENGAGE_TIPS_HIDDEN
+  type 15 mailbox 2 f4 00880900 f8 36e6d5b0 moneyReward 50
+  subject: (C923C8FF) Hidden race information
+   sender: (770AF86E) Rachel
+     body: (F2DC85BD) Pay attention to incoming SMS messages. You will often get
+                       information on where races are taking place that do not a
+                      ppear on your map.
+
+SMS DATA 165: (538BF5F5) ENGAGE_TIPS_TRLBRK
+  type 15 mailbox 2 f4 00880900 f8 538bf5f5 moneyReward 50
+  subject: (AE735E44) Trail braking
+   sender: (770AF86E) Rachel
+     body: (04A99922) One of the more difficult techniques trail braking involve
+                      s waiting until the entry of the turn to apply the brakes 
+                      and holding them through the apex. Be careful not to throw
+                       the car into a drift.
+
+SMS DATA 166: (43CC6CE7) ENGAGE_TIPS_ORGANIC
+  type 15 mailbox 2 f4 00880900 f8 43cc6ce7 moneyReward 50
+  subject: (586CA736) Organic Drift racing
+   sender: (770AF86E) Rachel
+     body: (92243754) Plan each drift on organic tracks to take into account the
+                       direction of traffic.  Drifting on the outside lane is ri
+                      sky because of the likelihood of oncoming traffic.
