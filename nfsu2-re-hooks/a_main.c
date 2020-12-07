@@ -13,6 +13,7 @@ static int base;
 
 #define LOG_TO_LOGFILE
 //#define LOG_TO_DEBUGSTRING
+#define LOG_TO_PRINTF
 
 #include "a_log.c"
 #include "a_structs.c"
@@ -60,9 +61,14 @@ static void stub() {}
 #include "speedyboot.c"
 //#include "focusloss-nopause.c" // note that cause of this it will still accept keys while in bg
 #include "replaceloadingscreen.c"
-//#include "winconsole.c"
+#include "winconsole.c"
 
-#include "debug-custom-dump-smsdata.c"
+#include "ol-replace-7583E0.c"
+#include "ol-replace-759B4A.c"
+
+//#include "debug-custom-dump-smsdata.c"
+//#include "debug-custom-find-nearest-marker.c"
+#include "debug-custom-uielementvisitor.c"
 //#include "debug-custom-send-instruction-sms.c"
 //#include "debug-custom-remove-all-received-engage-markers.c"
 #include "debug-hook-wm_char.c" // needs to be after all "debug-custom-*" files

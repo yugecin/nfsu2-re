@@ -2265,7 +2265,7 @@ EXPECT_SIZE(struct FNGData, 0x1C);
 
 {struct FNGInfo} \{                                                                             ||| mkref
         int field_0;
-        {struct FNGInfo} *{nextOrParentOrChild?};                                               ||| refto,mkref name=structFNGInfo+4
+        {struct FNGInfo} *{child};                                                              ||| refto,mkref name=structFNGInfo+4
         int field_8;
         char *{fngName};                                                                        ||| mkref name=structFNGInfo+C
         unsigned int {hash};                                                                    ||| mkref name=structFNGInfo+10
@@ -2293,6 +2293,7 @@ EXPECT_SIZE(struct FNGData, 0x1C);
 
 {struct UIData_Field8} \{                                                                       ||| mkref
         /*incomplete*/
+        /*+E4*/
         {struct FNGInfo} *{topPackage};                                                         ||| refto,mkref name=structUIData_Field8+E4
 };
 
@@ -3199,16 +3200,38 @@ My best guess is that this 'load into career' option is a cut/unfinished feature
 
 The money pickup/info pickup(engage sms messages)/race/shop/garage markers.
 They are in bin section {0x80034147}, which has more bin sections (one for each type of markers), in                    ||| code
-{TRACKS\ROUTESL4R%c\Paths%d.bin}                                                                                        ||| code
+{TRACKS\ROUTESL4R%c\Paths%d.bin}. They are all loaded in {5D9A90}.                                                      ||| code,ref
+
+Not loading bin section {0x3414A} (which is in bin section {0x80034147}) results in no career markers at all, and no    ||| code,code
+traffic (but other racers do still spawn).
+
+.push ul
+- {0x3414A}: unknown type                                                                                               ||| code
+- {0x3414C}: unknown type                                                                                               ||| code
+- {0x3414D}: unknown type                                                                                               ||| code
+.pop ul
 
 .push pre
 {struct Markers} \{                                                                                                     ||| mkref
+
+};
+
+{struct Marker} \{                                                                                                      ||| mkref
 
 };
 .pop pre
 
 .push symbols
 - {5D9A90 int __thiscall Markers::InitFromBinData({struct Markers} *this, {struct BinSection} *binsection)}             ||| func,refto,refto
+
+- {5D9BF0 {struct Marker} *__thiscall Markers::FindClosest_AfterIndex({struct Markers} *this,                           ||| func,refto,refto
+                                                                      void *nearPosition,
+                                                                      int type,
+                                                                      {struct Marker} *after)}                          ||| refto
+  {nearPosition} can be null, then it'll just return the first marker. When {after} is not null, the search starts      ||| code,code
+  after that specific marker.
+
+- {88F298 {struct Markers} markerData}                                                                                  ||| field,refto
 
 .pop symbols
 
@@ -3502,7 +3525,7 @@ which is in file {GLOBAL/GLOBALB.BUN}).                                         
 - {514D80 void __thiscall SetReadMessagesMovedToCorrectInbox({struct SmsMessageList} *this)}            ||| func,refto
   For every message, set flag {{structSmsMessage+7}} when flag {{structSmsMessage+4}} is set.           ||| code,refto,code,refto
 
-- {514E10 int __thiscall SmsMessageList::IsEngageTipAlreadyReceived({struct SmsMessageList} *this, void *engageTip)}            ||| func,refto
+- {514E10 int __thiscall SmsMessageList::IsEngageTipUncollected({struct SmsMessageList} *this, void *engageTip)}                ||| func,refto
 
 - {5295F0 {struct SmsMessage} *__thiscall SmsMessageList::SendMessage({struct SmsMessageList} *this,                            ||| func,refto,refto
                                                                       {struct SmsData} *smsdata)}                               ||| refto

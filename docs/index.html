@@ -2342,11 +2342,27 @@ going on), but they don't appear on the map.
 </p><p style='margin-bottom:0'><a href='#index'>Index</a></p></div><span id='markers'></span><div class='indent' style='margin-left:5em'><p style='margin-top:0'><small><a href='#career'>Career</a> &gt; Markers</small></p><h3>Markers <a href="#markers">#</a></h3>
 <p>The money pickup/info pickup(engage sms messages)/race/shop/garage markers.
 They are in bin section <code>0x80034147</code>, which has more bin sections (one for each type of markers), in
-<code>TRACKS\ROUTESL4R%c\Paths%d.bin</code>
-</p><pre><span id='struct_Markers'></span>struct Markers {
+<code>TRACKS\ROUTESL4R%c\Paths%d.bin</code>. They are all loaded in <a class='funcref' href='#5D9A90'>5D9A90:Markers::InitFromBinData()</a>.
+</p><p>Not loading bin section <code>0x3414A</code> (which is in bin section <code>0x80034147</code>) results in no career markers at all, and no
+traffic (but other racers do still spawn).
+</p><ul><li><code>0x3414A</code>: unknown type
+</li><li><code>0x3414C</code>: unknown type
+</li><li><code>0x3414D</code>: unknown type
+</li></ul><pre><span id='struct_Markers'></span>struct Markers {
+
+};
+
+<span id='struct_Marker'></span>struct Marker {
 
 };
 </pre><p><strong>Symbols:</strong></p><ul><li><span class='func' id='5D9A90'>5D9A90 int __thiscall Markers::InitFromBinData(<a href='#struct_Markers'>struct Markers</a> *this, <a href='#struct_BinSection'>struct BinSection</a> *binsection)</span>
+</li><li><span class='func' id='5D9BF0'>5D9BF0 <a href='#struct_Marker'>struct Marker</a> *__thiscall Markers::FindClosest_AfterIndex(<a href='#struct_Markers'>struct Markers</a> *this,
+                                                                      void *nearPosition,
+                                                                      int type,
+                                                                      <a href='#struct_Marker'>struct Marker</a> *after)</span>
+  <code>nearPosition</code> can be null, then it'll just return the first marker. When <code>after</code> is not null, the search starts
+  after that specific marker.
+</li><li><span class='field' id='88F298'>88F298 <a href='#struct_Markers'>struct Markers</a> markerData</span>
 </li></ul><p style='margin-bottom:0'><a href='#index'>Index</a></p></div><span id='sms_stuff'></span><div class='indent' style='margin-left:5em'><p style='margin-top:0'><small><a href='#career'>Career</a> &gt; SMS stuff</small></p><h3>SMS stuff <a href="#sms_stuff">#</a></h3>
 <p>Dump of all sms message data: <a href="smsdump.txt">smsdump.txt</a>.
 This data is in bin section <code>0x34A17</code> (which is inside bin section <code>0x80034A10</code>,
@@ -2593,7 +2609,7 @@ str = <a class='funcref' href='#4FFA80'>GetLanguageString</a>(cihash(buffer));
   TODO check other xref, probably for displaying icon ingame
 </li><li><span class='func' id='514D80'>514D80 void __thiscall SetReadMessagesMovedToCorrectInbox(<a href='#struct_SmsMessageList'>struct SmsMessageList</a> *this)</span>
   For every message, set flag <code><a href='#structSmsMessage_7'>movedToCorrectInbox</a></code> when flag <code><a href='#structSmsMessage_4'>read</a></code> is set.
-</li><li><span class='func' id='514E10'>514E10 int __thiscall SmsMessageList::IsEngageTipAlreadyReceived(<a href='#struct_SmsMessageList'>struct SmsMessageList</a> *this, void *engageTip)</span>
+</li><li><span class='func' id='514E10'>514E10 int __thiscall SmsMessageList::IsEngageTipUncollected(<a href='#struct_SmsMessageList'>struct SmsMessageList</a> *this, void *engageTip)</span>
 </li><li><span class='func' id='5295F0'>5295F0 <a href='#struct_SmsMessage'>struct SmsMessage</a> *__thiscall SmsMessageList::SendMessage(<a href='#struct_SmsMessageList'>struct SmsMessageList</a> *this,
                                                                       <a href='#struct_SmsData'>struct SmsData</a> *smsdata)</span>
   Checks with <a class='funcref' href='#514CB0'>514CB0:SmsMessageList::IsMessageAlreadyReceived()</a> first.

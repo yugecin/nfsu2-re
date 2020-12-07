@@ -147,3 +147,9 @@ void __stdcall SmsMessageList__SendMessageByHash(int hash)
 		jmp eax
 	}
 }
+
+static
+void wchar2char(char *dst, short *src)
+{
+	while ((*(dst++) = (0xFF & *(src++))));
+}

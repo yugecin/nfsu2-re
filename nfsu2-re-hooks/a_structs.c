@@ -35,6 +35,17 @@ struct CarModelInfo {
 EXPECT_SIZE(struct CarModelInfo, 0x890);
 ASSERT_OFFSET(struct CarModelInfo, manufacturer, 0xC0);
 
+struct UIData_Field8 {
+	char pad[0xE4];
+	struct FNGInfo *topPackage;
+};
+
+struct UIData {
+	int f0;
+	int f4;
+	struct UIData_Field8 *field_8;
+};
+
 typedef int (fnginithandler)(struct FNGShowData *msg);
 
 struct FNGData {
@@ -59,9 +70,9 @@ EXPECT_SIZE(struct FNGShowData, 0x14);
 
 struct FNGInfo {
         int field_0;
-        int field_4;
+        struct FNGInfo *child;
         int field_8;
-        char *someString;
+        char *fngName;
         unsigned int hash;
         int field_14;
         int field_18;
@@ -164,8 +175,8 @@ struct WideCharString {
 };
 
 struct UIElement {
-	int field_0;
-	int field_4;
+	int vtable;
+	struct UIElement *nextSibling;
 	int field_8;
 	int field_C;
 	unsigned int hash;
@@ -199,6 +210,26 @@ struct UILabel {
 };
 EXPECT_SIZE(struct UILabel, 0x74);
 ASSERT_OFFSET(struct UILabel, string, 0x64);
+
+struct UIContainer {
+	struct UIElement __parent;
+	int field_30;
+	int field_34;
+	int field_38;
+	int field_3C;
+	int field_40;
+	int field_44;
+	int field_48;
+	int field_4C;
+	int field_50;
+	int field_54;
+	int field_58;
+	int field_5C;
+	int field_60;
+	struct UIElement *children;
+};
+EXPECT_SIZE(struct UIContainer, 0x68);
+ASSERT_OFFSET(struct UIContainer, children, 0x64);
 
 struct PoolLink {
         struct PoolLink *prev;

@@ -14,3 +14,4 @@ struct PoolControl *pools = (void*) 0x828530;
 struct SmsMessageList *smsMessages = (void*) 0x860A60;
 struct SmsData **smsDatas = (void*) 0x838454;
 int *numSmsDatas = (int*) 0x838450;
+struct UIData **pUIData = (void*) 0x8384C4;

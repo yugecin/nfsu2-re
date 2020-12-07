@@ -12,6 +12,17 @@ __declspec(naked) int sbb(int val)
 	}
 }
 
+__declspec(naked) int sbbnodec(int val)
+{
+	_asm {
+		mov eax, [esp+0x4]
+		neg eax
+		sbb eax, eax
+		inc eax
+		ret
+	}
+}
+
 static
 __declspec(naked) int jp41(int a, int b)
 {
@@ -38,6 +49,11 @@ void testsbb()
 	printf("test sbb\n");
 	for (i = -10; i < 10; i++) {
 		printf("sbb %d: %d\n", i, sbb(i));
+	}
+
+	printf("test sbbnodec\n");
+	for (i = -10; i < 10; i++) {
+		printf("sbbnodec %d: %d\n", i, sbbnodec(i));
 	}
 }
 

@@ -227,6 +227,18 @@
 			</FileConfiguration>
 		</File>
 		<File
+			RelativePath=".\debug-custom-find-nearest-marker.c"
+			>
+			<FileConfiguration
+				Name="Debug|Win32"
+				ExcludedFromBuild="true"
+				>
+				<Tool
+					Name="VCCLCompilerTool"
+				/>
+			</FileConfiguration>
+		</File>
+		<File
 			RelativePath=".\debug-custom-remove-all-received-engage-markers.c"
 			>
 			<FileConfiguration
@@ -240,6 +252,18 @@
 		</File>
 		<File
 			RelativePath=".\debug-custom-send-instruction-sms.c"
+			>
+			<FileConfiguration
+				Name="Debug|Win32"
+				ExcludedFromBuild="true"
+				>
+				<Tool
+					Name="VCCLCompilerTool"
+				/>
+			</FileConfiguration>
+		</File>
+		<File
+			RelativePath=".\debug-custom-uielementvisitor.c"
 			>
 			<FileConfiguration
 				Name="Debug|Win32"
@@ -661,6 +685,14 @@
 		<File
 			RelativePath=".\winconsole.c"
 			>
+			<FileConfiguration
+				Name="Debug|Win32"
+				ExcludedFromBuild="true"
+				>
+				<Tool
+					Name="VCCLCompilerTool"
+				/>
+			</FileConfiguration>
 		</File>
 	</Files>
 	<Globals>

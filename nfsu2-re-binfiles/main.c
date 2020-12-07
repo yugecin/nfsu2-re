@@ -7,6 +7,39 @@
 #define LINE_INDENT "    "
 
 static
+void read_3414A_stuff(FILE *in, int size)
+{
+	char *data;
+	char *pos;
+	char *end;
+	int counter434;
+	int part_size;
+	int i;
+
+	data = malloc(size);
+	fread(data, size, 1, in);
+
+	printf("3414A\n");
+	counter434 = 0;
+	pos = data;
+	end = data + size;
+	while (pos < end) {
+		part_size = *(short*) (pos + 0x42);
+		printf("  part %d (size %d 0%02Xh):", counter434, part_size, part_size);
+		for (i = 0; i < part_size; i++) {
+			if (!(i % 20)) {
+				printf("\n   ");
+			}
+			printf(" %02X", pos[i] & 0xFF);
+		}
+		printf("\n");
+		counter434++;
+		pos += part_size;
+	}
+	free(data);
+}
+
+static
 void read_language_strings(FILE *in, int size)
 {
 #if defined PRINT_LANGUAGE_STRINGS
@@ -27,13 +60,10 @@ void read_language_strings(FILE *in, int size)
 	char *strings;
 	void *pos;
 	int i;
-#endif
 	char *data;
 
-	data = malloc(size);
 	fread(data, size, 1, in);
-
-#if defined PRINT_LANGUAGE_STRINGS
+	data = malloc(size);
 	language_header = (void*) data;
 	language_table_entry = (void*) (data + language_header->tableOffset);
 	wchar_table = (void*) (data + language_header->wcharTableOffset);
@@ -49,9 +79,10 @@ void read_language_strings(FILE *in, int size)
 		printf("%08X: ", language_table_entry[i].hash);
 		printf("%s\n", strings + language_table_entry[i].stringOffset);
 	}
-#endif
-
 	free(data);
+#else
+	fseek(in, size, SEEK_CUR);
+#endif
 }
 
 int read_sections(FILE *in, int max_offset, char *lineprefix)
@@ -67,9 +98,9 @@ int read_sections(FILE *in, int max_offset, char *lineprefix)
 	offset = 0;
 	while (1) {
 		printf("%soffset %X\n", lineprefix, offset);
-		offset += section_header.size + sizeof(section_header);
 
 		bytes_read = (int) fread(&section_header, 1, sizeof(section_header), in);
+		offset += section_header.size + sizeof(section_header);
 		if (!bytes_read) {
 			printf("%send\n", lineprefix);
 			return 0;
@@ -85,10 +116,10 @@ int read_sections(FILE *in, int max_offset, char *lineprefix)
 		case 0x39000:
 			read_language_strings(in, section_header.size);
 			break;
-		case 0x80034147:
-			sprintf(newlineprefix, "%s%s", lineprefix, LINE_INDENT);
-			read_sections(in, section_header.size, newlineprefix);
+		case 0x3414A:
+			read_3414A_stuff(in, section_header.size);
 			break;
+		case 0x80034147:
 		case 0x80034A10:
 			sprintf(newlineprefix, "%s%s", lineprefix, LINE_INDENT);
 			read_sections(in, section_header.size, newlineprefix);
@@ -100,7 +131,7 @@ int read_sections(FILE *in, int max_offset, char *lineprefix)
 
 		if (offset >= max_offset) {
 			printf("%snest end\n", lineprefix);
-			return;
+			return 1;
 		}
 	}
 }
@@ -125,6 +156,7 @@ int main()
 {
 	return
 		read_file("../../NeedForSpeed U2/Languages/English.bin") ||
+		puts("\n\n\n") ||
 		read_file("../../NeedForSpeed U2/TRACKS/ROUTESL4RF/Paths4604.bin") ||
 		puts("\n\n\n") ||
 		read_file("../../NeedForSpeed U2/GLOBAL/GLOBALB.BUN");

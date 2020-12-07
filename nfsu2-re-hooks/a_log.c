@@ -14,6 +14,9 @@ void log(char *msg, int len)
 #ifdef LOG_TO_DEBUGSTRING
 	OutputDebugString(msg);
 #endif
+#ifdef LOG_TO_PRINTF
+	printf("%s\n", msg);
+#endif
 }
 
 static
