@@ -658,6 +658,10 @@
 				/>
 			</FileConfiguration>
 		</File>
+		<File
+			RelativePath=".\winconsole.c"
+			>
+		</File>
 	</Files>
 	<Globals>
 	</Globals>

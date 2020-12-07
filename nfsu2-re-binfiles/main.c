@@ -85,6 +85,10 @@ int read_sections(FILE *in, int max_offset, char *lineprefix)
 		case 0x39000:
 			read_language_strings(in, section_header.size);
 			break;
+		case 0x80034147:
+			sprintf(newlineprefix, "%s%s", lineprefix, LINE_INDENT);
+			read_sections(in, section_header.size, newlineprefix);
+			break;
 		case 0x80034A10:
 			sprintf(newlineprefix, "%s%s", lineprefix, LINE_INDENT);
 			read_sections(in, section_header.size, newlineprefix);
@@ -121,6 +125,7 @@ int main()
 {
 	return
 		read_file("../../NeedForSpeed U2/Languages/English.bin") ||
+		read_file("../../NeedForSpeed U2/TRACKS/ROUTESL4RF/Paths4604.bin") ||
 		puts("\n\n\n") ||
 		read_file("../../NeedForSpeed U2/GLOBAL/GLOBALB.BUN");
 }

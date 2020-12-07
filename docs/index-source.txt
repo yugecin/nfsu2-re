@@ -3195,9 +3195,31 @@ My best guess is that this 'load into career' option is a cut/unfinished feature
 
 .push section
 
+{Markers}  ||| h id=markers
+
+The money pickup/info pickup(engage sms messages)/race/shop/garage markers.
+They are in bin section {0x80034147}, which has more bin sections (one for each type of markers), in                    ||| code
+{TRACKS\ROUTESL4R%c\Paths%d.bin}                                                                                        ||| code
+
+.push pre
+{struct Markers} \{                                                                                                     ||| mkref
+
+};
+.pop pre
+
+.push symbols
+- {5D9A90 int __thiscall Markers::InitFromBinData({struct Markers} *this, {struct BinSection} *binsection)}             ||| func,refto,refto
+
+.pop symbols
+
+.pop section
+.push section
+
 {SMS stuff}  ||| h id=sms_stuff
 
 Dump of all sms message data: {smsdump.txt}.                                                            ||| a href=smsdump.txt
+This data is in bin section {0x34A17} (which is inside bin section {0x80034A10},                        ||| code,code
+which is in file {GLOBAL/GLOBALB.BUN}).                                                                 ||| code
 
 .push pre
 #define {SMS_TYPE_END_OF_GAME} 1                                                                        ||| mkref
@@ -3786,6 +3808,8 @@ EXPECT_SIZE(struct WorldAnimStuff, 0x4C);
 - {7E8000 void (*someInitFunctions)()[821]}                                                     ||| field
   Array of functions that are called at boot, by {75D45B}.                                      ||| ref
   Some of them are constructors being called.
+
+- {7F91C4 int drawHud}                                                                          ||| field
 
 - {827EF0 {struct WorldAnimStuff} worldAnimStuff}                                               ||| field,refto
   TODO usages and stuff

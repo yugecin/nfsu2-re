@@ -60,6 +60,7 @@ static void stub() {}
 #include "speedyboot.c"
 //#include "focusloss-nopause.c" // note that cause of this it will still accept keys while in bg
 #include "replaceloadingscreen.c"
+//#include "winconsole.c"
 
 #include "debug-custom-dump-smsdata.c"
 //#include "debug-custom-send-instruction-sms.c"
