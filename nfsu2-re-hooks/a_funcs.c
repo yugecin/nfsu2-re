@@ -153,3 +153,28 @@ void wchar2char(char *dst, short *src)
 {
 	while ((*(dst++) = (0xFF & *(src++))));
 }
+
+static
+__declspec(naked)
+void AddFngToUIObject_1(char *fngName, void *data)
+{
+	_asm { mov eax, 0x555E80 }
+	_asm { jmp eax }
+}
+
+static
+__declspec(naked)
+void SetUILabelByHashFormattedString(char *fngName, unsigned int hash, char *format, void *par)
+{
+	_asm { mov eax, 0x537B80 }
+	_asm { jmp eax }
+}
+
+static
+__declspec(naked)
+void *__stdcall Markers__FindAtPosWithTypeAfterIndex(void *_near, int type, void *after)
+{
+	_asm { mov ecx, 0x88F298 }
+	_asm { mov eax, 0x5D9BF0 }
+	_asm { jmp eax }
+}

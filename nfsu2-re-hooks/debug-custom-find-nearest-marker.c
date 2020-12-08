@@ -1,15 +1,4 @@
 static
-__declspec(naked)
-void *__stdcall find_nearest_marker(void *_near, int type, void *after)
-{
-	_asm {
-		mov ecx, 0x88F298
-		mov eax, 0x5D9BF0
-		jmp eax
-	}
-}
-
-static
 void debug_custom_find_nearest_marker(int wparam)
 {
 	void *nearest;
@@ -21,7 +10,7 @@ void debug_custom_find_nearest_marker(int wparam)
 		if (a) {
 			b = (void*) *(a + 1);
 			b += 0x60 / 4;
-			nearest = find_nearest_marker(b, 0x11, 0);
+			nearest = Markers__FindClosest_AfterIndex(b, 0x12, 0);
 			log(buf, sprintf(buf, "my pos %.1f %.1f %.1f nearest %p",
 				*(float*) b, *(float*) (b + 1), *(float*) (b + 2),
 				nearest));

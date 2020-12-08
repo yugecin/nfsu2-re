@@ -2,6 +2,9 @@
 #define WIN32_LEAN_AND_MEAN
 #include <stdio.h>
 #include <windows.h>
+#define log mathlog
+#include <math.h>
+#undef log
 #pragma pack(push,1)
 
 #define STATIC_ASSERT(E) typedef char __static_assert_[(E)?1:-1]
@@ -24,6 +27,7 @@ static int base;
 static void stub() {}
 #define INIT_FUNC stub
 #define DEBUG_WMCHAR_FUNC stub
+#define DEBUG_DOUI_FUNC stub
 
 /*note: hash hooks can get called A LOT so this may slow down the game*/
 #define WIDESCREEN_MOD /*define when external widescreen mod is active*/
@@ -40,6 +44,7 @@ static void stub() {}
 //#include "hook-555D00-AddFNGToUIObject.c"
 //#include "hook-55DC20-SendSomethingToFNG.c"
 //#include "hook-57CAC0-SomethingWithABinFile.c"
+#include "hook-74A6ED-recv.c"
 //#include "hook-fileapi.c"
 //#include "hook-realcore-filesystem.c"
 //#include "replace-440BB0-Pool__Extend.c"
@@ -68,10 +73,12 @@ static void stub() {}
 
 //#include "debug-custom-dump-smsdata.c"
 //#include "debug-custom-find-nearest-marker.c"
-#include "debug-custom-uielementvisitor.c"
+#include "debug-custom-markers-debug.c"
+//#include "debug-custom-uielementvisitor.c"
 //#include "debug-custom-send-instruction-sms.c"
 //#include "debug-custom-remove-all-received-engage-markers.c"
 #include "debug-hook-wm_char.c" // needs to be after all "debug-custom-*" files
+#include "debug-hook-doui.c" // needs to be after all "debug-custom-*" files
 
 BOOL APIENTRY DllMain(HMODULE hModule, DWORD reason_for_call, LPVOID lpResrvd)
 {

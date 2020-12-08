@@ -239,6 +239,18 @@
 			</FileConfiguration>
 		</File>
 		<File
+			RelativePath=".\debug-custom-markers-debug.c"
+			>
+			<FileConfiguration
+				Name="Debug|Win32"
+				ExcludedFromBuild="true"
+				>
+				<Tool
+					Name="VCCLCompilerTool"
+				/>
+			</FileConfiguration>
+		</File>
+		<File
 			RelativePath=".\debug-custom-remove-all-received-engage-markers.c"
 			>
 			<FileConfiguration
@@ -264,6 +276,18 @@
 		</File>
 		<File
 			RelativePath=".\debug-custom-uielementvisitor.c"
+			>
+			<FileConfiguration
+				Name="Debug|Win32"
+				ExcludedFromBuild="true"
+				>
+				<Tool
+					Name="VCCLCompilerTool"
+				/>
+			</FileConfiguration>
+		</File>
+		<File
+			RelativePath=".\debug-hook-doui.c"
 			>
 			<FileConfiguration
 				Name="Debug|Win32"
@@ -420,6 +444,18 @@
 		</File>
 		<File
 			RelativePath=".\hook-57CAC0-SomethingWithABinFile.c"
+			>
+			<FileConfiguration
+				Name="Debug|Win32"
+				ExcludedFromBuild="true"
+				>
+				<Tool
+					Name="VCCLCompilerTool"
+				/>
+			</FileConfiguration>
+		</File>
+		<File
+			RelativePath=".\hook-74A6ED-recv.c"
 			>
 			<FileConfiguration
 				Name="Debug|Win32"

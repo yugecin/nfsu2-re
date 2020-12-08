@@ -1,5 +1,3 @@
-#define NFSU2_RUN_WINDOWED
-
 static int ytopoffset, ybotoffset;
 static int xleftoffset, xrightoffset;
 
@@ -22,7 +20,11 @@ __declspec(naked) void GetActiveResolutionHook()
 		// __stdcall
 		pop eax
 		pop ecx
+#if defined WIDESCREEN_MOD
 		mov dword ptr [ecx], 1280 // width
+#else
+		mov dword ptr [ecx], 960 // width
+#endif
 		pop ecx
 		mov dword ptr [ecx], 720 // height
 		jmp eax

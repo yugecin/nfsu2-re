@@ -127,7 +127,7 @@ Need For Speed Underground 2, otherwise knows as nfsu2.
 </p><p>This normally belongs to <a href="https://github.com/yugecin/nfsu2-re">https://github.com/yugecin/nfsu2-re</a>.
 </p><p>Other pages: <a href="cheatsheet.html">(fpu) cheatsheet</a>
 </p><p style='margin-bottom:0'><a href='#index'>Index</a></p></div><span id='index'></span><div><h2>Index <a href="#index">#</a></h2>
-<ul><li><a href="#prologue">Prologue</a></li><li><a href="#index">Index</a></li><li><a href="#injectedcode">Injected code</a></li><li><a href="#displaysettings">Display settings</a></li><li><a href="#registry">Registry</a></li><li><a href="#gameregion">Game region</a></li><li><a href="#bindata">Bin data</a></li><li><a href="#language">Language</a><ul><li><a href="#language_metadata">Language metadata</a></li><li><a href="#language_files">Language files</a></li></ul></li><li><a href="#pools">Pools</a></li><li><a href="#speedyboot">Speedy boot</a></li><li><a href="#consoleleftover">Console leftovers</a><ul><li><a href="#console_consume_key">ConsoleConsumeKey</a><ul><li><a href="#console_consume_key_check">A hardcoded key check</a></li></ul></li><li><a href="#console_move_caret">ConsoleMoveCaret</a></li></ul></li><li><a href="#hashfuncs">Hash functions</a><ul><li><a href="#hashmess">Messing with hash results</a></li></ul></li><li><a href="#debugprint">Debug print</a></li><li><a href="#ui">UI</a><ul><li><a href="#ui_dialog">Dialogs</a><ul><li><a href="#ui_dialog_getfngfordialog">GetFNGForDialog</a></li></ul></li><li><a href="#fngthings">FNG things</a></li><li><a href="#some_fng_screens">Some FNG screens</a><ul><li><a href="#replace_loading_screen">Replacing the loading screen</a></li></ul></li></ul></li><li><a href="#mouseinput">Mouse input</a></li><li><a href="#cheats">Cheats</a></li><li><a href="#carmodeldata">Car model data</a></li><li><a href="#sound">Sound</a></li><li><a href="#career">Career</a><ul><li><a href="#markers">Markers</a></li><li><a href="#sms_stuff">SMS stuff</a></li></ul></li><li><a href="#d3d9stuff">D3D9 Stuff</a></li><li><a href="#other_symbols">Other symbols</a></ul><p style='margin-bottom:0'><a href='#index'>Index</a></p></div><span id='injectedcode'></span><div><h2>Injected code <a href="#injectedcode">#</a></h2>
+<ul><li><a href="#prologue">Prologue</a></li><li><a href="#index">Index</a></li><li><a href="#injectedcode">Injected code</a></li><li><a href="#displaysettings">Display settings</a></li><li><a href="#registry">Registry</a></li><li><a href="#gameregion">Game region</a></li><li><a href="#bindata">Bin data</a></li><li><a href="#language">Language</a><ul><li><a href="#language_metadata">Language metadata</a></li><li><a href="#language_files">Language files</a></li></ul></li><li><a href="#pools">Pools</a></li><li><a href="#speedyboot">Speedy boot</a></li><li><a href="#consoleleftover">Console leftovers</a><ul><li><a href="#console_consume_key">ConsoleConsumeKey</a><ul><li><a href="#console_consume_key_check">A hardcoded key check</a></li></ul></li><li><a href="#console_move_caret">ConsoleMoveCaret</a></li></ul></li><li><a href="#hashfuncs">Hash functions</a><ul><li><a href="#hashmess">Messing with hash results</a></li></ul></li><li><a href="#debugprint">Debug print</a></li><li><a href="#ui">UI</a><ul><li><a href="#ui_dialog">Dialogs</a><ul><li><a href="#ui_dialog_getfngfordialog">GetFNGForDialog</a></li></ul></li><li><a href="#fngthings">FNG things</a></li><li><a href="#some_fng_screens">Some FNG screens</a><ul><li><a href="#replace_loading_screen">Replacing the loading screen</a></li></ul></li><li><a href="#screenprintf">ScreenPrintf.fng</a></li></ul></li><li><a href="#mouseinput">Mouse input</a></li><li><a href="#cheats">Cheats</a></li><li><a href="#carmodeldata">Car model data</a></li><li><a href="#sound">Sound</a></li><li><a href="#career">Career</a><ul><li><a href="#markers">Markers</a></li><li><a href="#sms_stuff">SMS stuff</a></li></ul></li><li><a href="#d3d9stuff">D3D9 Stuff</a></li><li><a href="#other_symbols">Other symbols</a></ul><p style='margin-bottom:0'><a href='#index'>Index</a></p></div><span id='injectedcode'></span><div><h2>Injected code <a href="#injectedcode">#</a></h2>
 <p>The code for all injected things I did can be found in <code>nfsu2-re-hooks/*.c</code>.
 It's configured as a VC2005 project in a VC2005 solution.
 The project emits a compiled file to <code>..\NeedForSpeed U2\scripts\nfsu2-re-hooks.asi</code>.
@@ -1595,7 +1595,7 @@ EXPECT_SIZE(struct FNGData, 0x1C);
 
 <span id='struct_FNGInfo'></span>struct FNGInfo {
         int field_0;
-        <a href='#struct_FNGInfo'>struct FNGInfo</a> *<span id='structFNGInfo_4'></span>nextOrParentOrChild?;
+        <a href='#struct_FNGInfo'>struct FNGInfo</a> *<span id='structFNGInfo_4'></span>child;
         int field_8;
         char *<span id='structFNGInfo_C'></span>fngName;
         unsigned int <span id='structFNGInfo_10'></span>hash;
@@ -1621,8 +1621,10 @@ EXPECT_SIZE(struct FNGData, 0x1C);
         <a href='#struct_UIData_Field8'>struct UIData_Field8</a> *<span id='structUIData_8'></span>field_8;
 };
 
+
 <span id='struct_UIData_Field8'></span>struct UIData_Field8 {
         /*incomplete*/
+        /*+E4*/
         <a href='#struct_FNGInfo'>struct FNGInfo</a> *<span id='structUIData_Field8_E4'></span>topPackage;
 };
 
@@ -1869,7 +1871,7 @@ ShowFNG(AA469286 ("UI_InGameDialog.fng"), 037C1120, 00838640) = 037C2AB0
 </li><li><span class='func' id='519E50'>519E50 <a href='#struct_FNGInfo'>struct FNGInfo</a> *__thiscall GetFNGInfoByNameByHierarchy(void *thisUnused,
                                                                    char *str,
                                                                    <a href='#struct_FNGInfo'>struct FNGInfo</a> *fnginfo)</span>
-  Goes through <code><a href='#structFNGInfo_4'>nextOrParentOrChild?</a></code> until the next one is null or its
+  Goes through <code><a href='#structFNGInfo_4'>child</a></code> until the next one is null or its
   <code><a href='#structFNGInfo_C'>fngName</a></code> and <code><a href='#structFNGInfo_10'>hash</a></code> matches.
   <code>this</code> is unused.
 </li><li><span class='func' id='52CEF0'>52CEF0 <a href='#struct_FNGInfo'>struct FNGInfo</a> *GetFNGInfoByName(char *fngName)</span>
@@ -1942,7 +1944,510 @@ feature?
 </p><p><details><summary>UI_OL_Voice_Chat.fng</summary>
 <p class='center'><img src="UI_OL_VOICE_CHAT.JPG" alt="online voice chat"/><br/>UI_OL_Voice_Chat.fng</p>
 </details>
-</p><p style='margin-bottom:0'><a href='#index'>Index</a></p></div><div><p style='margin-top:0'><small><a href='#ui'>UI</a> (continuation)</small></p><p>Stuff
+</p><p style='margin-bottom:0'><a href='#index'>Index</a></p></div><span id='screenprintf'></span><div class='indent' style='margin-left:5em'><p style='margin-top:0'><small><a href='#ui'>UI</a> &gt; ScreenPrintf.fng</small></p><h3>ScreenPrintf.fng <a href="#screenprintf">#</a></h3>
+<p>So this is an interesting name, but doesn't really seem used (it makes sense, it shouldn't be used in a
+release build of the game). Though now with the few functions I documented maybe I can make it show?
+</p><p>I tried following code:
+</p><pre>static
+void hook_on_msg_WM_CHAR(int wparam)
+{
+	if (wparam == 121) { // y
+		<a class='funcref' href='#555E80'>AddFngToUIObject_1</a>("ScreenPrintf.fng", 0);
+	}
+}
+</pre><p>It didn't crash, so that was a win already. The second parameter for that func is what I suspect some data to
+initialize the fng screen. It fortunately seems like either the ScreenPrintf one doesn't initialize anything or it has
+a null check. for the passed data It doesn't seem to show anything though. Then I thought of the UI elements and their
+visitor methods (like <a class='funcref' href='#504880'>504880:FNGInfo::VisitUIRecursively()</a>). So I tried to print all the UI elements that are on screen.
+</p><p><details><summary>Code <code><a href='https://github.com/yugecin/nfsu2-re/blob/master/nfsu2-re-hooks/debug-custom-uielementvisitor.c'>nfsu2-re-hooks/debug-custom-uielementvisitor.c</a></code></summary>
+<pre>static
+void debug_custom_uielementvisitor_visit_element(<a href='#struct_UIElement'>struct UIElement</a> *element, char *prefix)
+{
+	<a href='#struct_UIElement'>struct UIElement</a> *containerchild;
+	<a href='#struct_UILabel'>struct UILabel</a> *label;
+	char locbuf[100];
+	char locbuf2[100];
+
+	sprintf(locbuf, "%s    ", prefix);
+	while (element) {
+		locbuf2[0] = 0;
+		if (element-&gt;<a href='#structUIElement_18'>type</a> == 2) {
+			label = (void*) element;
+			if (label-&gt;<a href='#structUILabel_64'>string</a>.<a href='#structWideCharString_0'>ptrString</a>) {
+				locbuf2[0] = ' ';
+				wchar2char(locbuf2 + 1, label-&gt;<a href='#structUILabel_64'>string</a>.<a href='#structWideCharString_0'>ptrString</a>);
+			}
+		}
+		log(buf, sprintf(buf, "%selement type %d hash %08X flags %8X:%s",
+			prefix, element-&gt;<a href='#structUIElement_18'>type</a>, element-&gt;<a href='#structUIElement_10'>hash</a>,
+			element-&gt;<a href='#structUIElement_1C'>someFlags</a>, locbuf2));
+		if (element-&gt;<a href='#structUIElement_18'>type</a> == 5) {
+			containerchild = ((<a href='#struct_UIContainer'>struct UIContainer</a>*) element)-&gt;<a href='#structUIContainer_64'>children</a>;
+			debug_custom_uielementvisitor_visit_element(containerchild, locbuf);
+		}
+		element = element-&gt;<a href='#structUIElement_4'>nextSibling</a>;
+	}
+}
+
+static
+void debug_custom_uielementvisitor_visit_fng(<a href='#struct_FNGInfo'>struct FNGInfo</a> *fng, char *prefix)
+{
+	char locbuf[100];
+	<a href='#struct_UIElement'>struct UIElement</a> *element;
+
+	sprintf(locbuf, "%s    ", prefix);
+	do {
+		log(buf, sprintf(buf, "%sfng %s:", prefix, fng-&gt;<a href='#structFNGInfo_C'>fngName</a>));
+		element = fng-&gt;<a href='#structFNGInfo_4C'>rootUIElement</a>;
+		debug_custom_uielementvisitor_visit_element(element, locbuf);
+		fng = fng-&gt;<a href='#structFNGInfo_4'>child</a>;
+	} while (fng);
+}
+</pre></details>
+</p><p>And here's the output when in the options menu in the pause menu while in career freeroam:
+</p><p><details><summary>Output</summary>
+<pre>fng UI_PauseOptionsMain.fng:
+    element type 5 hash 8D7E0C53 flags 40000000:
+        element type 2 hash 42ADB44C flags 40000000: Pause Options Main
+        element type 1 hash B62648B1 flags 40000000:
+        element type 1 hash 7CA40D0F flags 40000000:
+        element type 5 hash 371F1C93 flags 40000000:
+            element type 1 hash 0A570002 flags 40000000:
+            element type 1 hash A67C3FE2 flags 40000000:
+            element type 1 hash A67C3FE2 flags 40000000:
+            element type 1 hash A67C3FE2 flags 40000000:
+            element type 1 hash 5E11FBFB flags 40000000:
+        element type 5 hash DE2F4E52 flags 40000000:
+            element type 1 hash A67C3FE2 flags 40000000:
+            element type 1 hash C8C5F8A6 flags 40000000:
+            element type 1 hash C8C5F8A6 flags 40000000:
+            element type 1 hash A67C3FE2 flags 40000000:
+            element type 1 hash A67C3FE2 flags 40000000:
+        element type 2 hash 5E7B09C9 flags 40000000: Option title
+        element type 1 hash 687FDA31 flags 40000000:
+        element type 1 hash DF422345 flags 43800000:
+        element type 5 hash 02DDF58C flags 40000041:
+            element type 5 hash 02DDF58C flags 40000001:
+            element type 5 hash 812A09D4 flags 40000001:
+                element type 2 hash 1C7FCF8B flags 40000001: Back
+                element type 2 hash B02B46B7 flags 40000001: $JOY_EVENT_FENG_CANCEL$
+            element type 5 hash 6A218478 flags 40000001:
+                element type 2 hash 93B5083A flags 40000001: Select
+                element type 2 hash 9D752086 flags 40000001: $JOY_EVENT_FENG_SELECT$
+        element type 5 hash 0DE769B5 flags 40000000:
+            element type 1 hash 5E1208DF flags 40000000:
+            element type 1 hash 0894389E flags 40000000:
+            element type 1 hash A67C3FE2 flags 40000000:
+            element type 1 hash A67C3FE2 flags 40000000:
+            element type 1 hash 5E11FBFB flags 40000000:
+            element type 1 hash 0A570002 flags 40000000:
+            element type 1 hash 0A570002 flags 40000000:
+        element type 5 hash 52BDEE1D flags 40000000:
+            element type 1 hash 39CC2F66 flags 40000000:
+            element type 1 hash DDE4A5E5 flags 40000000:
+            element type 1 hash DDE4A5E8 flags 40000000:
+            element type 1 hash BE9AB445 flags 40000000:
+            element type 1 hash 39CC2F45 flags 40000000:
+            element type 1 hash DDE4A5E7 flags 40000000:
+            element type 1 hash 39CC2F24 flags 40000000:
+            element type 1 hash DDE4A5E6 flags 40000000:
+    element type 1 hash B51549B8 flags 50080000:
+    element type 1 hash 4B4E3890 flags 50080000:
+    element type 1 hash 4B4E388F flags 50080000:
+    element type 1 hash 4B4E388E flags 50080000:
+    element type 1 hash 4B4E388D flags 50080000:
+    element type 1 hash 4B4E388C flags 50080000:
+    element type 1 hash 4B4E388B flags 57C80001:
+    element type 1 hash 4B4E388A flags 57C80001:
+    element type 1 hash 4B4E3889 flags 57C80000:
+    element type 2 hash 47FF4E7C flags 40000000: EVENT HANDLER
+
+    element type 1 hash 444969FE flags 40000000:
+    element type 1 hash 444969FD flags 40000001:
+    element type 1 hash 3FBB7A4E flags 40000000:
+    element type 1 hash 688A1551 flags 40000000:
+    element type 5 hash BE77206B flags 40000000:
+        element type 5 hash 550E571C flags 48000000:
+            element type 1 hash 1F3B164E flags 40000000:
+    element type 1 hash B04669E3 flags        1:
+    element type 1 hash 4B4E3888 flags 53C80000:
+fng UI_PC_Help_Bar.fng:
+    element type 2 hash 47FF4E7C flags 40000000: Event Handler
+    element type 2 hash B8A7C6CF flags 50080001: WWWWWWWWWWWWW
+    element type 1 hash 62376D1B flags 40000001:
+    element type 2 hash B8A7C6CE flags 10080001: WWWWWWWWWWWWW
+    element type 1 hash 62376D1A flags        1:
+    element type 1 hash 62376D19 flags        0:
+    element type 2 hash B8A7C6CD flags 10080000: WWWWWWWWWWWWW
+    element type 2 hash B8A7C6CC flags 10080000: WWWWWWWWWWWWW
+    element type 1 hash 62376D18 flags        0:
+    element type 2 hash B8A7C6D0 flags 50080001: WWWWWWWWWWWWW
+    element type 1 hash 62376D1C flags 40000001:
+    element type 1 hash 62376D1D flags 40000001:
+    element type 2 hash B8A7C6D1 flags 50080001: WWWWWWWWWWWWW
+    element type 1 hash A444D171 flags 40000000:
+    element type 1 hash A444D172 flags 40000000:
+    element type 1 hash A444D170 flags 40000000:
+    element type 1 hash A444D16F flags        0:
+    element type 1 hash A444D16E flags 40000000:
+    element type 1 hash E0AE8220 flags        0:
+    element type 5 hash A22ED3B7 flags 40000000:
+        element type 5 hash 2BAC0CEE flags 40000000:
+            element type 1 hash E8E1E298 flags 40000001:
+            element type 1 hash E8E1E29A flags 40000001:
+            element type 1 hash E8E1E297 flags 40000001:
+            element type 5 hash 12DF3004 flags 40000000:
+                element type 1 hash 5145A2BF flags 40000000:
+                element type 1 hash 5145A2BD flags 40000000:
+                element type 1 hash 5145A2BC flags 40000000:
+        element type 5 hash 3B949CD0 flags 40000001:
+            element type 5 hash 84EB1500 flags 40000001:
+                element type 2 hash EB406FEC flags 42800003: AA
+                element type 2 hash EB3A688A flags 43800003: 0
+                element type 5 hash 2253BC50 flags 40000001:
+                    element type 1 hash A67C3FE2 flags 40000001:
+                    element type 1 hash A67C3FE2 flags 40000001:
+                element type 5 hash 6D2A1AE9 flags 40000001:
+                    element type 1 hash D253B8F3 flags 40000001:
+                    element type 1 hash 0894449B flags 40000001:
+                element type 5 hash 22534096 flags 40000001:
+                    element type 1 hash D6B3DA2D flags 40000001:
+                    element type 1 hash A67C3FE2 flags 40000001:
+fng HUD_SingleRace.fng:
+    element type 1 hash 79498F08 flags 40000001:
+    element type 1 hash 79498F07 flags 40000001:
+    element type 1 hash 79498F06 flags 40000001:
+    element type 5 hash 697D2BCA flags 40000001:
+        element type 1 hash 4F649313 flags 43800001:
+        element type 1 hash 4F649314 flags 43800001:
+    element type 2 hash 77CE0364 flags 40000001: Disconnect in 15s
+    element type 2 hash 192F96D9 flags        1: Bank Cash
+    element type 2 hash 49106CE2 flags        1: Cash Reward: 333
+    element type 2 hash 2A37A685 flags 40000001: DEFAULT STRING
+    element type 2 hash 2A37A684 flags 40000001: DEFAULT STRING
+    element type 5 hash 29F0A455 flags 40000001:
+    element type 2 hash 2A37A683 flags 40000001: DEFAULT STRING
+    element type 2 hash 2A37A682 flags 40000001: DEFAULT STRING
+    element type 2 hash 2A37A681 flags 40000001: DEFAULT STRING
+    element type 2 hash 2A37A680 flags 40000001: DEFAULT STRING
+    element type 1 hash EB24E169 flags 40000001:
+    element type 1 hash A71E35FB flags 40000001:
+    element type 1 hash 62451575 flags 40000001:
+    element type 1 hash B65634BC flags 40000001:
+    element type 1 hash 84C55E14 flags 40000001:
+    element type 1 hash C11804C6 flags 40000001:
+    element type 1 hash 409C6EF0 flags 40000001:
+    element type 1 hash 9E59FCF0 flags 40000001:
+    element type 1 hash 79498F05 flags 40000001:
+    element type 1 hash F7EC30B2 flags 40000001:
+    element type 1 hash E24C838B flags 40000001:
+    element type 1 hash 19EF4E89 flags 40000001:
+    element type 1 hash 6E8333B0 flags 40000001:
+    element type 1 hash 2C225885 flags 40000001:
+    element type 1 hash 9E59FCEF flags 40000001:
+    element type 1 hash 79498F04 flags 40000001:
+    element type 1 hash F7EC30B1 flags 40000001:
+    element type 1 hash E24C838A flags 40000001:
+    element type 1 hash 19EF4E88 flags 40000001:
+    element type 1 hash 6E8333AF flags 40000001:
+    element type 1 hash 2C225884 flags 40000001:
+    element type 2 hash 668C9CD6 flags        1: x3
+    element type 1 hash 9E59FCEE flags 40000001:
+    element type 1 hash 9E59FCED flags 40000001:
+    element type 1 hash 9E59FCEC flags 40000001:
+    element type 1 hash 9E59FCEB flags 40000001:
+    element type 1 hash 79498F03 flags 40000001:
+    element type 1 hash 79498F02 flags 40000001:
+    element type 1 hash 79498F01 flags 40000001:
+    element type 1 hash 79498F00 flags 40000001:
+    element type 1 hash F7EC30B0 flags 40000001:
+    element type 1 hash F7EC30AF flags 40000001:
+    element type 1 hash F7EC30AE flags 40000001:
+    element type 1 hash F7EC30AD flags 42400001:
+    element type 1 hash E24C8389 flags 40000001:
+    element type 1 hash 19EF4E87 flags 40000001:
+    element type 1 hash 6E8333AE flags 40000001:
+    element type 1 hash 2C225883 flags 40000001:
+    element type 2 hash 8EB730A7 flags        3: Fort Union
+    element type 1 hash 18DDF914 flags 40000001:
+    element type 1 hash FE2467E3 flags 40000001:
+    element type 2 hash 407919AF flags        1:
+    element type 1 hash A71E35FA flags 40000001:
+    element type 1 hash A71E35F9 flags 40000001:
+    element type 1 hash A71E35F8 flags 40000001:
+    element type 1 hash A71E35F7 flags 40000001:
+    element type 1 hash A71E35F6 flags 40000001:
+    element type 1 hash 1149C7DA flags 40000001:
+    element type 1 hash 62451574 flags 40000001:
+    element type 1 hash B65634BB flags 40000001:
+    element type 1 hash 84C55E13 flags 40000001:
+    element type 1 hash C11804C5 flags 40000001:
+    element type 1 hash 409C6EEF flags 40000001:
+    element type 1 hash 62451573 flags 40000001:
+    element type 1 hash B65634BA flags 40000001:
+    element type 1 hash 84C55E12 flags 40000001:
+    element type 1 hash C11804C4 flags 40000001:
+    element type 1 hash 409C6EEE flags 40000001:
+    element type 1 hash 62451572 flags 40000001:
+    element type 1 hash B65634B9 flags 40000001:
+    element type 1 hash 84C55E11 flags 40000001:
+    element type 1 hash C11804C3 flags 40000001:
+    element type 1 hash 409C6EED flags 40000001:
+    element type 1 hash 62451571 flags 40000001:
+    element type 1 hash B65634B8 flags 40000001:
+    element type 1 hash 84C55E10 flags 40000001:
+    element type 1 hash C11804C2 flags 40000001:
+    element type 1 hash 409C6EEC flags 40000001:
+    element type 1 hash 62451570 flags 40000001:
+    element type 1 hash B65634B7 flags 40000001:
+    element type 1 hash 84C55E0F flags 40000001:
+    element type 1 hash C11804C1 flags 40000001:
+    element type 2 hash 565F28AE flags 40000001: TIME
+    element type 2 hash 22465E2B flags 40000001: LAPY TIMER
+    element type 2 hash 27754C7F flags 40000001: HANGY TIMEY!
+    element type 2 hash 15D0E247 flags 40000001: + 25
+    element type 1 hash 409C6EEB flags 42400001:
+    element type 1 hash F2A54430 flags 42400001:
+    element type 1 hash 7AF1CA63 flags 40000001:
+    element type 1 hash E24C8388 flags 40000001:
+    element type 1 hash 7AF1CA62 flags 40000001:
+    element type 1 hash E24C8387 flags 40000001:
+    element type 1 hash 19EF4E86 flags 40000001:
+    element type 1 hash 19EF4E85 flags 40000001:
+    element type 1 hash 6E8333AD flags 40000001:
+    element type 1 hash 6E8333AC flags 40000001:
+    element type 1 hash 2C225882 flags 40000001:
+    element type 1 hash 2C225881 flags 40000001:
+    element type 1 hash E24C8386 flags 40000001:
+    element type 1 hash 7AF1CA61 flags 40000001:
+    element type 1 hash 19EF4E84 flags 42400001:
+    element type 1 hash 6E8333AB flags 42400001:
+    element type 1 hash 2C225880 flags 42400001:
+    element type 1 hash 024C680E flags 40000001:
+    element type 1 hash 024C680B flags 40000001:
+    element type 1 hash 024C680C flags 40000001:
+    element type 1 hash 024C680D flags 40000001:
+    element type 1 hash 024C680A flags 40000001:
+    element type 1 hash 024C6809 flags 40000001:
+    element type 1 hash 024C6808 flags 40000001:
+    element type 1 hash EB24E168 flags 40000001:
+    element type 1 hash EB24E165 flags 40000001:
+    element type 1 hash EB24E166 flags 40000001:
+    element type 1 hash EB24E167 flags 40000001:
+    element type 1 hash EB24E164 flags 40000001:
+    element type 1 hash EB24E163 flags 40000001:
+    element type 1 hash EB24E162 flags 40000001:
+    element type 1 hash 1B259972 flags 40000001:
+    element type 1 hash C1347E2F flags 42400001:
+    element type 1 hash 40CDC515 flags 42400001:
+    element type 5 hash 382D2FC9 flags 40000001:
+        element type 1 hash 142EDB6C flags 40000001:
+        element type 1 hash 99EBA9C7 flags 40000001:
+        element type 1 hash 142EDA64 flags 40000001:
+        element type 1 hash 92A75587 flags 40000001:
+    element type 1 hash 90FE80F3 flags 42400001:
+    element type 2 hash 2DA220AA flags 40000001: +9999
+    element type 2 hash 29AF04FD flags 40000001: 9.99
+    element type 2 hash C18C12FE flags 40000001: 9.99
+    element type 2 hash C18C12FD flags 40000001: WWWWWWWWWWWW DISCONNECTED
+    element type 1 hash 411301E3 flags 40000001:
+    element type 2 hash F59D909F flags 40000001: xxx:xxx:xxx
+    element type 1 hash C82FA200 flags 40000001:
+    element type 5 hash E8434EB4 flags 40000001:
+        element type 2 hash 9C183BF8 flags 40000001: 8
+        element type 2 hash 44F24239 flags 40000001: nd
+        element type 2 hash 3BBD6268 flags 40000001: /8
+    element type 5 hash 035B0E22 flags 40000001:
+    element type 5 hash AFFD0354 flags 40000001:
+    element type 5 hash 02DDF58C flags 40000001:
+    element type 5 hash 5164D4EA flags 40000001:
+        element type 1 hash 05D19F25 flags 40000001:
+        element type 1 hash 61D30442 flags 40000001:
+        element type 2 hash C1D5FF50 flags 40000003:   0
+        element type 2 hash C3383B63 flags 40000003: KM/H
+        element type 1 hash F0250DAC flags 40000001:
+        element type 2 hash B84589BE flags 40000003: 1
+        element type 5 hash C5D551B7 flags 40000001:
+            element type 1 hash 6D5FE871 flags 40000001:
+            element type 1 hash 19C99185 flags 40000001:
+            element type 1 hash 1A33CBB5 flags 40000001:
+            element type 1 hash 1A33CBB6 flags 40000001:
+            element type 1 hash 6D5ECE44 flags 40000001:
+            element type 1 hash 00B78D9E flags 40000001:
+            element type 1 hash 19C97422 flags 40000001:
+        element type 1 hash 25CF2F74 flags 42800001:
+        element type 1 hash 1D9051AA flags 40000001:
+        element type 1 hash 11495CD6 flags 40000001:
+        element type 1 hash 11461255 flags 40000001:
+        element type 1 hash 39E180C4 flags 40000001:
+    element type 5 hash 84CCAB08 flags 40000001:
+    element type 2 hash A7806DDB flags 40000001: Race Over Message
+Goes Here
+    element type 1 hash 4E4566E5 flags 40000001:
+    element type 5 hash 3345911D flags 40000001:
+        element type 1 hash A206A0B4 flags 43800001:
+        element type 1 hash 0A729B1B flags 43800001:
+        element type 1 hash 99F665F4 flags 40000001:
+        element type 1 hash B996A84C flags 40000001:
+        element type 1 hash 3B1B624A flags 43800001:
+        element type 1 hash 50910822 flags 43800001:
+        element type 5 hash ED16ECE6 flags 40000001:
+    element type 5 hash 54BE67BC flags 40000001:
+        element type 2 hash 05092833 flags 40000001: Time:
+        element type 2 hash 30D9802E flags 40000001: 99999999
+        element type 1 hash A86C3C9C flags 40000001:
+    element type 5 hash 5ED609A1 flags 40000001:
+        element type 1 hash FA3D7B71 flags 40000001:
+        element type 1 hash FA3D7B72 flags 40000001:
+        element type 1 hash FA3D7B73 flags 40000001:
+        element type 1 hash FA3D7B74 flags 40000001:
+        element type 1 hash 4FDDD64C flags 40000001:
+        element type 1 hash 4FDDD64D flags 40000001:
+        element type 1 hash 4FDDD64E flags 40000001:
+        element type 1 hash 4FDDD64F flags 40000001:
+        element type 2 hash 4183E0A1 flags 40000001: 1
+        element type 2 hash 4183E0A2 flags 40000001: 2
+        element type 2 hash 4183E0A3 flags 40000001: 3
+        element type 2 hash 4183E0A4 flags 40000001: 4
+        element type 2 hash 2AF89FD7 flags 40000001: wwwwwwwwwww
+        element type 2 hash 2AF89FD8 flags 40000001: wwwwwwwwwww
+        element type 2 hash 2AF89FD9 flags 40000001: wwwwwwwwwww
+        element type 2 hash 2AF89FDA flags 40000001: wwwwwwwwwww
+    element type 5 hash 70F90BD4 flags 40000001:
+        element type 2 hash 8B7E6EA1 flags 40000001: Laps
+        element type 1 hash A86C3C9B flags 40000001:
+        element type 2 hash F2685238 flags 40000001: /80
+        element type 2 hash 57F0E3A5 flags 40000001: 10
+    element type 5 hash 8CA76279 flags C0000001:
+        element type 1 hash 238F4B29 flags 40000001:
+        element type 1 hash C81A81F5 flags 40000001:
+        element type 1 hash ACBAF9EF flags 40000001:
+        element type 2 hash 92CDC512 flags 40000001: + 500
+        element type 2 hash BCEA10CE flags 40000001: Meters
+    element type 5 hash 30D59B88 flags C0000001:
+        element type 1 hash 9A4E84A9 flags 40000001:
+        element type 2 hash CD3A501F flags 40000001: 00:00:00
+        element type 2 hash F7CFC1FC flags 40000001: Forhanosgranska
+        element type 2 hash 6BF40D64 flags 40000001: Time:
+    element type 1 hash 4B9B8F5A flags 42800001:
+    element type 5 hash D292009B flags C0000001:
+        element type 1 hash F11AFFD1 flags 40000001:
+        element type 1 hash 9C355B23 flags 40000001:
+        element type 1 hash F11AFFD2 flags 40000001:
+        element type 1 hash 9C355B24 flags 40000001:
+        element type 1 hash F11AFFD3 flags 40000001:
+        element type 1 hash 9C355B25 flags 40000001:
+        element type 1 hash B2D2E745 flags 40000001:
+        element type 2 hash 7121F270 flags 40000001: Circuit Stats
+        element type 2 hash C8D50791 flags 40000001: Best Lap:
+        element type 2 hash C8D50792 flags 40000001: Current G's:
+        element type 2 hash C8D50793 flags 40000001: Maximum G's:
+        element type 2 hash F3828848 flags 40000001: 00000
+        element type 2 hash F3828849 flags 40000001: 00000
+        element type 2 hash F382884A flags 40000001: 00000
+        element type 5 hash 29F0A455 flags 40000001:
+            element type 2 hash 4635CA2C flags 40000001: Time:
+            element type 2 hash E1FA0DA7 flags 40000001: 99999999
+            element type 1 hash 9C355B26 flags 40000001:
+        element type 1 hash B2751131 flags 40000001:
+        element type 5 hash 0B470B80 flags 40000001:
+            element type 1 hash 968971D0 flags 40000001:
+            element type 1 hash 968971D3 flags 40000001:
+            element type 1 hash 718D020B flags 40000001:
+            element type 1 hash 718D0209 flags 40000001:
+            element type 1 hash 718D020A flags 40000001:
+            element type 1 hash 968971D2 flags 40000001:
+            element type 1 hash 718D020C flags 40000001:
+            element type 1 hash 968971D1 flags 40000001:
+    element type 5 hash D80C97E1 flags 40000001:
+        element type 1 hash 053A5193 flags 40000001:
+        element type 1 hash BF9CC87C flags 40000001:
+        element type 2 hash 0D94B769 flags 40000001: Filter
+    element type 5 hash 06254D8A flags 40000001:
+        element type 1 hash EED72BCE flags 40000001:
+        element type 2 hash 0FBA78C2 flags 40000001: Searching
+Connection
+        element type 2 hash 06012887 flags 43800001:
+        element type 5 hash E2848973 flags 40000001:
+            element type 1 hash 4F649313 flags 43800001:
+            element type 1 hash 4F649314 flags 43800001:
+    element type 5 hash 3F8644CA flags C0000001:
+        element type 2 hash 1930B057 flags 40000003: 0
+        element type 2 hash 31B0D166 flags 40000001: Bank:
+fng ScreenPrintf.fng:
+    element type 2 hash B9D457DE flags 42000000: DEFAULT STRING
+    element type 2 hash B9D457DF flags 42000000: DEFAULT STRING
+    element type 2 hash B9D457F7 flags 42000000: DEFAULT STRING
+    element type 2 hash B9D457F8 flags 42000000: DEFAULT STRING
+    element type 2 hash B9D457F9 flags 42000000: DEFAULT STRING
+    element type 2 hash B9D457FA flags 42000000: DEFAULT STRING
+    element type 2 hash B9D457FB flags 42000000: DEFAULT STRING
+    element type 2 hash B9D457FC flags 42000000: DEFAULT STRING
+    element type 2 hash B9D457FD flags 42000000: DEFAULT STRING
+    element type 2 hash B9D457FE flags 42000000: DEFAULT STRING
+    element type 2 hash B9D457FF flags 42000000: DEFAULT STRING
+    element type 2 hash B9D45800 flags 42000000: DEFAULT STRING
+    element type 2 hash B9D45818 flags 42000000: DEFAULT STRING
+    element type 2 hash B9D45819 flags 42000000: DEFAULT STRING
+    element type 2 hash B9D4581A flags 42000000: DEFAULT STRING
+    element type 2 hash B9D4581B flags 42000000: DEFAULT STRING
+    element type 2 hash B9D457B7 flags 42000000: DEFAULT STRING
+    element type 2 hash B9D457B8 flags 42000000: DEFAULT STRING
+    element type 2 hash B9D457B9 flags 42000000: DEFAULT STRING
+    element type 2 hash B9D457BA flags 42000000: DEFAULT STRING
+    element type 2 hash B9D457BB flags 42000000: DEFAULT STRING
+    element type 2 hash B9D457BC flags 42000000: DEFAULT STRING
+    element type 2 hash B9D457BD flags 42000000: DEFAULT STRING
+    element type 2 hash B9D457BE flags 42000000: DEFAULT STRING
+    element type 2 hash B9D457D6 flags 42000000: DEFAULT STRING
+    element type 2 hash B9D457D7 flags 42000000: DEFAULT STRING
+    element type 2 hash B9D457D8 flags 42000000: DEFAULT STRING
+    element type 2 hash B9D457D9 flags 42000000: DEFAULT STRING
+    element type 2 hash B9D457DA flags 42000000: DEFAULT STRING
+    element type 2 hash B9D457DB flags 42000000: DEFAULT STRING
+    element type 2 hash B9D457DC flags 42000000: DEFAULT STRING
+    element type 2 hash B9D457DD flags 42000000: DEFAULT STRING
+    element type 2 hash 5334FAE2 flags 42000000: DEFAULT STRING
+    element type 2 hash 5334FAE3 flags 42000000: DEFAULT STRING
+    element type 2 hash 5334FAE4 flags 42000000: DEFAULT STRING
+    element type 2 hash 5334FAE5 flags 42000000: DEFAULT STRING
+    element type 2 hash 5334FAE6 flags 42000000: DEFAULT STRING
+    element type 2 hash 5334FAE7 flags 42000000: DEFAULT STRING
+    element type 2 hash 5334FAE8 flags 42000000: DEFAULT STRING
+    element type 2 hash 5334FAE9 flags 42000000: DEFAULT STRING
+    element type 2 hash 5334FAEA flags 42000000: DEFAULT STRING
+    element type 2 hash 5334FAEB flags 42000000: DEFAULT STRING
+    element type 2 hash B9D45773 flags 42000000: DEFAULT STRING
+    element type 2 hash B9D45774 flags 42000000: DEFAULT STRING
+    element type 2 hash B9D45775 flags 42000000: DEFAULT STRING
+    element type 2 hash B9D45776 flags 42000000: DEFAULT STRING
+    element type 2 hash B9D45777 flags 42000000: DEFAULT STRING
+    element type 2 hash B9D45778 flags 42000000: DEFAULT STRING
+    element type 2 hash B9D45779 flags 42000000: DEFAULT STRING
+    element type 2 hash B9D4577A flags 42000000: DEFAULT STRING
+    element type 2 hash B9D4577B flags 42000000: DEFAULT STRING
+    element type 2 hash B9D4577C flags 42000000: DEFAULT STRING
+    element type 2 hash B9D45794 flags 42000000: DEFAULT STRING
+    element type 2 hash B9D45795 flags 42000000: DEFAULT STRING
+    element type 2 hash B9D45796 flags 42000000: DEFAULT STRING
+    element type 2 hash B9D45797 flags 42000000: DEFAULT STRING
+    element type 2 hash B9D45798 flags 42000000: DEFAULT STRING
+    element type 2 hash B9D45799 flags 42000000: DEFAULT STRING
+    element type 2 hash B9D4579A flags 42000000: DEFAULT STRING
+    element type 2 hash B9D4579B flags 42000000: DEFAULT STRING
+    element type 2 hash B9D4579C flags 42000000: DEFAULT STRING
+    element type 2 hash B9D4579D flags 42000000: DEFAULT STRING
+    element type 2 hash B9D457B5 flags 42000000: DEFAULT STRING
+    element type 2 hash B9D457B6 flags 42000000: DEFAULT STRING
+</pre></details>
+</p><p>At the end we can see all the elements of the <code>ScreenPrintf.fng</code> package. Seems like it just has a bunch of labels.
+But this is a nice confirmation that my previous code to load it, did actually work. From the other elements, I guessed
+that flag <code>2</code> means it should be visible, so I tried adding that.
+</p><p class='center'><img src="SCREENPRINTF_1.JPG" alt="default string"/><br/>Cool.</p>
+<p>Then the text can be changed easily by one of the many funcs, for example:
+</p><pre><a class='funcref' href='#537B80'>SetUILabelByHashFormattedString</a>("ScreenPrintf.fng", 0xB9D457DE, "0xB9D457DE", "");
+</pre><p class='center'><img src="SCREENPRINTF_2.JPG" alt="custom strings"/><br/>Nice.</p>
+<p style='margin-bottom:0'><a href='#index'>Index</a></p></div><div><p style='margin-top:0'><small><a href='#ui'>UI</a> (continuation)</small></p><p>Stuff
 </p><p>UI keys seem to be hashed with the case insensitive hash.
 </p><pre><span id='struct_U2RECT'></span>struct U2RECT {
         float <span id='structU2RECT_0'></span>left;
@@ -1958,8 +2463,8 @@ feature?
         int field_C;
         unsigned int <span id='structUIElement_10'></span>hash;
         int field_14;
-        int type;
-        int someFlags;
+        int <span id='structUIElement_18'></span>type;
+        int <span id='structUIElement_1C'></span>someFlags;
         int field_20;
         int field_24;
         int field_28;
@@ -1975,6 +2480,8 @@ feature?
 <span id='struct_UILabel'></span>struct UILabel {
         <a href='#struct_UIElement'>struct UIElement</a> __parent; /*__parent.type = 2*/
         /*TODO how big is the base struct?*/
+        /*+64*/
+        <a href='#struct_WideCharString'>struct WideCharString</a> <span id='structUILabel_64'></span>string;
 };
 
 <span id='struct_UIElementType3'></span>struct UIElementType3 {
@@ -2341,28 +2848,60 @@ going on), but they don't appear on the map.
 </p><p>My best guess is that this 'load into career' option is a cut/unfinished feature.
 </p><p style='margin-bottom:0'><a href='#index'>Index</a></p></div><span id='markers'></span><div class='indent' style='margin-left:5em'><p style='margin-top:0'><small><a href='#career'>Career</a> &gt; Markers</small></p><h3>Markers <a href="#markers">#</a></h3>
 <p>The money pickup/info pickup(engage sms messages)/race/shop/garage markers.
-They are in bin section <code>0x80034147</code>, which has more bin sections (one for each type of markers), in
-<code>TRACKS\ROUTESL4R%c\Paths%d.bin</code>. They are all loaded in <a class='funcref' href='#5D9A90'>5D9A90:Markers::InitFromBinData()</a>.
-</p><p>Not loading bin section <code>0x3414A</code> (which is in bin section <code>0x80034147</code>) results in no career markers at all, and no
-traffic (but other racers do still spawn).
-</p><ul><li><code>0x3414A</code>: unknown type
-</li><li><code>0x3414C</code>: unknown type
-</li><li><code>0x3414D</code>: unknown type
-</li></ul><pre><span id='struct_Markers'></span>struct Markers {
+They are in bin section <code>0x3414A</code>, which is in bin section <code>0x80034147</code>, in <code>TRACKS\ROUTESL4R%c\Paths%d.bin</code>.
+Bin section <code>0x80034147</code> is loaded in <a class='funcref' href='#5D9A90'>5D9A90:Markers::InitFromBinData()</a>.
+</p><p>Not loading bin section <code>0x3414A</code> results in no career markers at all, and no traffic (but other racers do still spawn).
+</p><pre><span id='struct_Markers'></span>struct Markers {
 
 };
+
+#define MARKER_TYPE_BODYSHOP_AREA 0x4 /*marks the entrance, ie where the road goes into private property, not the entrace aura itself*/
+#define MARKER_TYPE_NEIGHBOURHOOD 0x10
+#define MARKER_TYPE_ENGAGE_TIP 0x12
+#define MARKER_TYPE_MONEY_PICKUP 0x13
 
 <span id='struct_Marker'></span>struct Marker {
-
+        char <span id='structMarker_0'></span>type;
+        char field_1;
+        char field_2;
+        char field_3;
+        int field_4;
+        int field_8;
+        int field_C;
+        int field_10;
+        int field_14;
+        int field_18;
+        int field_1C;
+        int field_20;
+        int field_24;
+        int field_28;
+        int field_2C;
+        unsigned int <span id='structMarker_30'></span>hash; /*for neighbourhood: hash of name, for engage: hash of sms name*/
+        int field_34;
+        int field_38;
+        int field_3C;
+        short <span id='structMarker_40'></span>radius?;
+        short <span id='structMarker_42'></span>markerStructSize;
+        float <span id='structMarker_44'></span>pos_x;
+        float <span id='structMarker_48'></span>pos_y;
 };
-</pre><p><strong>Symbols:</strong></p><ul><li><span class='func' id='5D9A90'>5D9A90 int __thiscall Markers::InitFromBinData(<a href='#struct_Markers'>struct Markers</a> *this, <a href='#struct_BinSection'>struct BinSection</a> *binsection)</span>
-</li><li><span class='func' id='5D9BF0'>5D9BF0 <a href='#struct_Marker'>struct Marker</a> *__thiscall Markers::FindClosest_AfterIndex(<a href='#struct_Markers'>struct Markers</a> *this,
-                                                                      void *nearPosition,
-                                                                      int type,
-                                                                      <a href='#struct_Marker'>struct Marker</a> *after)</span>
-  <code>nearPosition</code> can be null, then it'll just return the first marker. When <code>after</code> is not null, the search starts
+
+<span id='struct_NeighbourhoodName'></span>struct NeighbourhoodName {
+        char *<span id='structNeighbourhoodName_0'></span>name;
+        unsigned int <span id='structNeighbourhoodName_4'></span>hash;
+};
+</pre><p><strong>Symbols:</strong></p><ul><li><span class='func' id='5D3DE0'>5D3DE0 <a href='#struct_NeighbourhoodName'>struct NeighbourhoodName</a> *GetNeighbourhoodNameForHash(unsigned int hash)</span>
+  On first call (checked with <a class='fieldref' href='#883D9C'>883D9C:neighbourhoodHashesCalculatedAlready</a>), calculate all the hashes in <a class='fieldref' href='#800C38'>800C38:neighbourhoodNames</a>.
+</li><li><span class='func' id='5D9A90'>5D9A90 int __thiscall Markers::InitFromBinData(<a href='#struct_Markers'>struct Markers</a> *this, <a href='#struct_BinSection'>struct BinSection</a> *binsection)</span>
+</li><li><span class='func' id='5D9BF0'>5D9BF0 <a href='#struct_Marker'>struct Marker</a> *__thiscall Markers::FindAtPosWithTypeAfterIndex(<a href='#struct_Markers'>struct Markers</a> *this,
+                                                                           float *atPosition,
+                                                                           int type,
+                                                                           <a href='#struct_Marker'>struct Marker</a> *after)</span>
+  <code>atPosition</code> can be null, then it'll just return the first marker. When <code>after</code> is not null, the search starts
   after that specific marker.
 </li><li><span class='field' id='88F298'>88F298 <a href='#struct_Markers'>struct Markers</a> markerData</span>
+</li><li><span class='field' id='800C38'>800C38 struct NeighbourhoodName neighbourhoodNames[13]</span>
+</li><li><span class='field' id='883D9C'>883D9C char neighbourhoodHashesCalculatedAlready</span>
 </li></ul><p style='margin-bottom:0'><a href='#index'>Index</a></p></div><span id='sms_stuff'></span><div class='indent' style='margin-left:5em'><p style='margin-top:0'><small><a href='#career'>Career</a> &gt; SMS stuff</small></p><h3>SMS stuff <a href="#sms_stuff">#</a></h3>
 <p>Dump of all sms message data: <a href="smsdump.txt">smsdump.txt</a>.
 This data is in bin section <code>0x34A17</code> (which is inside bin section <code>0x80034A10</code>,

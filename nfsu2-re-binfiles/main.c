@@ -15,6 +15,17 @@ void read_3414A_stuff(FILE *in, int size)
 	int counter434;
 	int part_size;
 	int i;
+	struct {
+		int f0, f4, f8, fC, f10, f14, f18, f1C;
+		float f20;
+		float f24;
+		float f28;
+		float f2C;
+		int f30, f34, f38, f3C;
+		short radius;
+		short f42;
+		float f44, f48;
+	} *m;
 
 	data = malloc(size);
 	fread(data, size, 1, in);
@@ -24,15 +35,22 @@ void read_3414A_stuff(FILE *in, int size)
 	pos = data;
 	end = data + size;
 	while (pos < end) {
+		m = (void*) pos;
 		part_size = *(short*) (pos + 0x42);
 		printf("  part %d (size %d 0%02Xh):", counter434, part_size, part_size);
-		for (i = 0; i < part_size; i++) {
-			if (!(i % 20)) {
-				printf("\n   ");
+		if (pos[0] != 0x12) {
+			printf("\n");
+		} else {
+			for (i = 0; i < part_size; i++) {
+				if (!(i % 20)) {
+					printf("\n   ");
+				}
+				printf(" %02X", pos[i] & 0xFF);
 			}
-			printf(" %02X", pos[i] & 0xFF);
+			printf("\n");
+			printf("    30 %.1f 34 %.1f 38 %.1f 3C %.1f\n", m->f30, m->f34, m->f38, m->f3C);
+			printf("    radius %d 44 %.1f 48 %.1f\n", m->radius, m->f44, m->f48);
 		}
-		printf("\n");
 		counter434++;
 		pos += part_size;
 	}
@@ -157,7 +175,7 @@ int main()
 	return
 		read_file("../../NeedForSpeed U2/Languages/English.bin") ||
 		puts("\n\n\n") ||
-		read_file("../../NeedForSpeed U2/TRACKS/ROUTESL4RF/Paths4604.bin") ||
+		read_file("../../NeedForSpeed U2/TRACKS/ROUTESL4RA/Paths4001.bin") ||
 		puts("\n\n\n") ||
 		read_file("../../NeedForSpeed U2/GLOBAL/GLOBALB.BUN");
 }

@@ -1,7 +1,7 @@
 static
 void onCharMessage(int wparam)
 {
-	//log(buf, sprintf(buf, "wmchar %d", wparam));
+	log(buf, sprintf(buf, "wmchar %d", wparam));
 	DEBUG_WMCHAR_FUNC(wparam);
 }
 

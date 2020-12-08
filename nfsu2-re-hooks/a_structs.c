@@ -266,3 +266,29 @@ struct PoolEntry {
         struct PoolEntry *prevEntry_;
 };
 EXPECT_SIZE(struct PoolEntry, 0x8);
+
+struct Marker {
+        char type;
+        char field_1;
+        char field_2;
+        char field_3;
+        int field_4;
+        int field_8;
+        int field_C;
+        int field_10;
+        int field_14;
+        int field_18;
+        int field_1C;
+        int field_20;
+        int field_24;
+        int field_28;
+        int field_2C;
+        unsigned int hash; /*for neighbourhood: hash of name, for engage: hash of sms name*/
+        int field_34;
+        int field_38;
+        int field_3C;
+        short radius;
+        short markerStructSize;
+        float pos_x;
+        float pos_y;
+};
