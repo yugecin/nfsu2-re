@@ -20,10 +20,10 @@ void __stdcall PoolExtend(struct Pool *this, int elementAmount)
 
 	ptr = (char*) ext + sizeof(struct Pool); /*offset of first element*/
 	ptr += this->elementSize * (elementAmount - 1); /*now offset of last element*/
-	((struct PoolEntry*) ptr)->nextEntry = this->firstElement;
+	((struct PoolEntry*) ptr)->nextEntry = this->firstAvailableElement;
 
-	this->firstElement = ext->firstElement;
-	ext->firstElement = NULL;
+	this->firstAvailableElement = ext->firstAvailableElement;
+	ext->firstAvailableElement = NULL;
 
 	this->elementAmountOverAllLinkedPools += elementAmount;
 }

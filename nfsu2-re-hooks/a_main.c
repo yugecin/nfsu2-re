@@ -14,7 +14,7 @@
 
 static int base;
 
-#define LOG_TO_LOGFILE
+//#define LOG_TO_LOGFILE
 //#define LOG_TO_DEBUGSTRING
 #define LOG_TO_PRINTF
 
@@ -52,13 +52,13 @@ static void stub() {}
 //#include "replace-50B790-ShowFNG.c"
 //#include "replace-50CD00-IsPointInRect.c"
 //#include "replace-50CDB0-DidCursorPressInRect.c"
-//#include "replace-50D510-DebugPrint.c"
+#include "replace-50D510-DebugPrint.c"
 //#include "replace-5149C0-GetSmsMessageSubject.c"
 //#include "replace-497760-GetSmsMessageSubjectHeader.c" /*needs to be after GetSmsMessageSubject*/
 //#include "replace-514B00-GetSmsMessageBody.c"
 //#include "replace-514CB0-SmsMessageList__IsMessageAlreadyReceived.c" // dummy always ret 0 atm
 //#include "replace-51D9F0-GetUIElementSize-Maybe-TODO.c"
-#include "replace-526C40-GetFNGForDialog.c"
+//#include "replace-526C40-GetFNGForDialog.c"
 //#include "replace-5BF750-UpdateCursorPosition.c"
 //#include "replace-5BF860-UpdateMouseState.c"
 //#include "replace-5BF940-HaveCursorActivity.c"
@@ -73,8 +73,8 @@ static void stub() {}
 
 //#include "debug-custom-dump-smsdata.c"
 //#include "debug-custom-find-nearest-marker.c"
-#include "debug-custom-markers-debug.c"
-//#include "debug-custom-uielementvisitor.c"
+//#include "debug-custom-markers-debug.c"
+#include "debug-custom-uielementvisitor.c"
 //#include "debug-custom-send-instruction-sms.c"
 //#include "debug-custom-remove-all-received-engage-markers.c"
 #include "debug-hook-wm_char.c" // needs to be after all "debug-custom-*" files

@@ -177,5 +177,7 @@ int main()
 		puts("\n\n\n") ||
 		read_file("../../NeedForSpeed U2/TRACKS/ROUTESL4RA/Paths4001.bin") ||
 		puts("\n\n\n") ||
+		read_file("../../NeedForSpeed U2/GLOBAL/InGameRace.bun") ||
+		puts("\n\n\n") ||
 		read_file("../../NeedForSpeed U2/GLOBAL/GLOBALB.BUN");
 }

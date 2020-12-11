@@ -1,5 +1,18 @@
 #include <stdio.h>
 
+__declspec(naked) int jl(int val)
+{
+	_asm {
+		mov eax, [esp+0x4]
+		test eax, eax
+		mov eax, 1
+		jl l
+		dec eax
+l:
+		ret
+	}
+}
+
 __declspec(naked) int sbb(int val)
 {
 	_asm {
@@ -45,6 +58,10 @@ static
 void testsbb()
 {
 	int i;
+
+	printf("jl %d: %d\n", -1, jl(-1));
+	printf("jl %d: %d\n", 0, jl(0));
+	printf("jl %d: %d\n", 1, jl(1));
 
 	printf("test sbb\n");
 	for (i = -10; i < 10; i++) {

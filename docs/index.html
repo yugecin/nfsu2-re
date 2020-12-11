@@ -936,9 +936,9 @@ if (section-&gt;<a href='#structBinSection_0'>header</a>.<a href='#structBinSect
 This will probably help a lot when trying to figure out other things.
 Note that the first time the <code>AUD: NFS3DMixCtl Pool</code> is made, it has an element amount of zero.
 The dump is from just starting the game and starting a circuit race.
-</p><p>Pools can be enlarged by <a class='funcref' href='#440BB0'>440BB0:Pool::Extend()</a>, but only if <code><a href='#structPool_14'>flagsMaybe</a></code> has the <code><a href='#POOL_FLAG_EXTENDABLE'>POOL_FLAG_EXTENDABLE</a></code>
+</p><p>Pools can be enlarged by <a class='funcref' href='#440BB0'>440BB0:Pool::Extend()</a>, but only if <code><a href='#structPool_14'>flags</a></code> has the <code><a href='#POOL_FLAG_EXTENDABLE'>POOL_FLAG_EXTENDABLE</a></code>
 flag. When extending, the newly created pool gets added as last in the main pool's
-<code><a href='#structPool_8'>nextLinkedPool</a></code>. The main pool's <code><a href='#structPool_10'>firstElement</a></code> will point to the first allocated element of
+<code><a href='#structPool_8'>nextLinkedPool</a></code>. The main pool's <code><a href='#structPool_10'>firstAvailableElement</a></code> will point to the first allocated element of
 the next pool, and the last allocated element of the new pool will point to the first element
 of the main pool.
 </p><pre><span id='struct_PoolLink'></span>struct PoolLink {
@@ -953,15 +953,16 @@ of the main pool.
 };
 
 #define <span id='POOL_FLAG_EXTENDABLE'></span>POOL_FLAG_EXTENDABLE 1
+#define <span id='POOL_FLAG_DONT_ZERO_INIT'></span>POOL_FLAG_DONT_ZERO_INIT 2 /*used in <a class='funcref' href='#440D40'>440D40:PoolGetNextFreeItem()</a> etc*/
 
 <span id='struct_Pool'></span>struct Pool {
 	<a href='#struct_PoolLink'>struct PoolLink</a> <span id='structPool_0'></span>__parent;
 	<a href='#struct_Pool'>struct Pool</a> *<span id='structPool_8'></span>nextLinkedPool;
 	char* <span id='structPool_C'></span>name;
-	<a href='#struct_PoolEntry'>struct PoolEntry</a> *<span id='structPool_10'></span>firstElement;
-	int <span id='structPool_14'></span>flagsMaybe;
-	int <span id='structPool_18'></span>availableElements?;
-	int <span id='structPool_1C'></span>maxAllocatedElements?;
+	<a href='#struct_PoolEntry'>struct PoolEntry</a> *<span id='structPool_10'></span>firstAvailableElement;
+	int <span id='structPool_14'></span>flags;
+	int <span id='structPool_18'></span>usedElements;
+	int <span id='structPool_1C'></span>maxUsedElements; /*max amount of elements used at one time*/
 	int <span id='structPool_20'></span>field_20;
 	int <span id='structPool_24'></span>elementAmount;
 	int <span id='structPool_28'></span>elementSize;
@@ -989,26 +990,33 @@ EXPECT_SIZE(struct bFileSystemPoolEntry, 0xF0);
   <details><summary>Implementation</summary>
 <pre><a href='#struct_Pool'>struct Pool</a> *pool;
 <a href='#struct_PoolEntry'>struct PoolEntry</a> *entry;
+<a href='#struct_PoolEntry'>struct PoolEntry</a> *next;
 int idx;
-char *next;
 
 pool = this;
 do {
-        pool-&gt;<a href='#structPool_10'>firstElement</a> = NULL;
+        pool-&gt;<a href='#structPool_10'>firstAvailableElement</a> = NULL;
         if (pool-&gt;<a href='#structPool_24'>elementAmount</a>) {
-                next = (char*) pool + sizeof(<a href='#struct_Pool'>struct Pool</a>);
-                pool-&gt;<a href='#structPool_10'>firstElement</a> = (void*) next;
+                next = (void*) ((char*) pool + sizeof(<a href='#struct_Pool'>struct Pool</a>));
+                pool-&gt;<a href='#structPool_10'>firstAvailableElement</a> = (void*) next;
                 for (idx = pool-&gt;<a href='#structPool_24'>elementAmount</a> - 1; idx &gt;= 0; idx--) {
-                        entry = (void*) next;
+                        entry = next;
                         next += pool-&gt;<a href='#structPool_28'>elementSize</a>;
-                        entry-&gt;<a href='#structPoolEntry_0'>nextEntry</a> = (void*) next;
+                        entry-&gt;<a href='#structPoolEntry_0'>nextEntry</a> = next;
                 }
+                next-&gt;<a href='#structPoolEntry_0'>nextEntry</a> = 0;
         }
         pool = pool-&gt;<a href='#structPool_8'>nextLinkedPool</a>;
 } while (pool);
 </pre>  </details>
+</li><li><span class='func' id='43CD80'>43CD80 int __thiscall Pool::GetIndexOfEntry(<a href='#struct_Pool'>struct Pool</a> *this, <a href='#struct_PoolEntry'>struct PoolEntry</a> *entry)</span>
+  -1 when not in this pool (or any linked pools).
+</li><li><span class='func' id='43CDF0'>43CDF0 int __thiscall Pool::UngetEntry(<a href='#struct_Pool'>struct Pool</a> *this, <a href='#struct_PoolEntry'>struct PoolEntry</a> *entry)</span>
+  Mark the entry as free again. Returns the amount of used entries in the pool.
+  Same as <a class='funcref' href='#43F920'>43F920:UngetPoolEntry()</a>, but a thiscall.
 </li><li><span class='func' id='43F8F0'>43F8F0 <a href='#struct_PoolEntry'>struct PoolEntry</a> *RemoveFirstPoolEntry(<a href='#struct_Pool'>struct Pool</a> *pool)</span>
-</li><li><span class='func' id='43F920'>43F920 void AddPoolEntryAsFirst(<a href='#struct_Pool'>struct Pool</a> *pool, <a href='#struct_PoolEntry'>struct PoolEntry</a> *entry)</span>
+</li><li><span class='func' id='43F920'>43F920 void UngetPoolEntry(<a href='#struct_Pool'>struct Pool</a> *pool, <a href='#struct_PoolEntry'>struct PoolEntry</a> *entry)</span>
+  Same as <a class='funcref' href='#43CDF0'>43CDF0:Pool::UngetEntry()</a>, but an stdcall.
 </li><li><span class='func' id='440390'>440390 void AllocateMemoryForPool?(int size, int somestring, int, int)</span>
   TODO, seems to check the string to determine how to alloc?
 </li><li><span class='func' id='4407B0'>4407B0 void __thiscall PoolControl::Init(<a href='#struct_PoolControl'>struct PoolControl</a> *this)</span>
@@ -1020,14 +1028,14 @@ this-&gt;<a href='#structPoolControl_0'>inited</a> = 1;
   Uses <a class='funcref' href='#440390'>440390:AllocateMemoryForPool?()</a> to allocate memory, calls <a class='funcref' href='#43CD40'>43CD40:Pool::Init()</a>.
   TODO, has one more XREF
 </li><li><span class='func' id='440BB0'>440BB0 void __thiscall Pool::Extend(<a href='#struct_Pool'>struct Pool</a> *this, int elementAmount)</span>
-  Only called by <a class='funcref' href='#440D40'>440D40:PoolGetNextFreeItem_()</a>?
+  Only called by <a class='funcref' href='#440D40'>440D40:PoolGetNextFreeItem()</a>?
   <details><summary>Implementation <code><a href='https://github.com/yugecin/nfsu2-re/blob/master/nfsu2-re-hooks/replace-440BB0-Pool__Extend.c'>nfsu2-re-hooks/replace-440BB0-Pool__Extend.c</a></code></summary>
 <pre><a href='#struct_Pool'>struct Pool</a> *ext;
 <a href='#struct_Pool'>struct Pool</a> *lastPool;
 char *ptr;
 
 ext = <a class='funcref' href='#440B40'>AllocateAndInitPool</a>(this-&gt;<a href='#structPool_28'>elementSize</a>, elementAmount, this-&gt;<a href='#structPool_C'>name</a>, this-&gt;<a href='#structPool_20'>field_20</a>);
-ext-&gt;<a href='#structPool_14'>flagsMaybe</a> = this-&gt;<a href='#structPool_14'>flagsMaybe</a>;
+ext-&gt;<a href='#structPool_14'>flags</a> = this-&gt;<a href='#structPool_14'>flags</a>;
 
 lastPool = this;
 while (lastPool-&gt;<a href='#structPool_8'>nextLinkedPool</a>) {
@@ -1037,10 +1045,10 @@ lastPool-&gt;<a href='#structPool_8'>nextLinkedPool</a> = ext;
 
 ptr = (char*) ext + sizeof(<a href='#struct_Pool'>struct Pool</a>); /*offset of first element*/
 ptr += this-&gt;<a href='#structPool_28'>elementSize</a> * (elementAmount - 1); /*now offset of last element*/
-((<a href='#struct_PoolEntry'>struct PoolEntry</a>*) ptr)-&gt;<a href='#structPoolEntry_0'>nextEntry</a> = this-&gt;<a href='#structPool_10'>firstElement</a>;
+((<a href='#struct_PoolEntry'>struct PoolEntry</a>*) ptr)-&gt;<a href='#structPoolEntry_0'>nextEntry</a> = this-&gt;<a href='#structPool_10'>firstAvailableElement</a>;
 
-this-&gt;<a href='#structPool_10'>firstElement</a> = ext-&gt;<a href='#structPool_10'>firstElement</a>;
-ext-&gt;<a href='#structPool_10'>firstElement</a> = NULL;
+this-&gt;<a href='#structPool_10'>firstAvailableElement</a> = ext-&gt;<a href='#structPool_10'>firstAvailableElement</a>;
+ext-&gt;<a href='#structPool_10'>firstAvailableElement</a> = NULL;
 
 this-&gt;<a href='#structPool_2C'>elementAmountOverAllLinkedPools</a> += elementAmount;
 </pre>  </details>
@@ -1062,11 +1070,14 @@ if (pool &amp;&amp; <a class='fieldref' href='#828530'>pools</a>.<a href='#struc
 }
 return pool
 </pre>  </details>
-</li><li><span class='func' id='440D40'>440D40 int __thiscall PoolGetNextFreeItem_(<a href='#struct_Pool'>struct Pool</a> *this)</span>
-  TODO
-</li><li><span class='func' id='440E50'>440E50 int PoolGetNextFreeItem?stdcallwrapper(void *pool)</span>
-  Same as the one above, but wrapped in an stdcall.
-</li><li><span class='func' id='57ED10'>57ED10 ? ??SetupPools(?,?)</span>
+</li><li><span class='func' id='440D40'>440D40 <a href='#struct_PoolEntry'>struct PoolEntry</a> *__thiscall PoolGetNextFreeItem(<a href='#struct_Pool'>struct Pool</a> *this)</span>
+</li><li><span class='func' id='440E50'>440E50 int PoolGetNextFreeItem_stdcallwrapper(void *pool)</span>
+  {440D40} but wrapped in an stdcall.
+</li><li><span class='func' id='440DA0'>440DA0 void __thiscall PoolControl::DeletePool(<a href='#struct_PoolControl'>struct PoolControl</a> *this, <a href='#struct_Pool'>struct Pool</a> *pool)</span>
+  Frees pool and all its linked pools, remove the pool from the link in <a href='#struct_PoolControl'>struct PoolControl</a>.
+</li><li><span class='func' id='440E40'>440E40 int DeletePool(<a href='#struct_Pool'>struct Pool</a> *pool)</span>
+<pre><a class='fieldref' href='#828530'>pools</a>-&gt;<a class='funcref' href='#440DA0'>PoolControl::DeletePool</a>(pool);
+</pre></li><li><span class='func' id='57ED10'>57ED10 ? ??SetupPools(?,?)</span>
   Called by <a class='funcref' href='#57ED10'>57ED10:??SetupPools()</a>
 </li><li><span class='func' id='5EA8B0'>5EA8B0 int isUseMetricSystem()</span>
   Returns <a class='fieldref' href='#83AA1A'>83AA1A:useMetricSystem</a>.
@@ -1847,7 +1858,16 @@ ShowFNG(33AC1CB4 ("UI_PC_Help_Bar.fng"), 037DFF40, 00000000) = 03D7EB60
 ShowFNG(32124083 ("UI_Pause.fng"), 037DDF40, 00000000) = 037DE2B0
 ShowFNG(AA469286 ("UI_InGameDialog.fng"), 037C1120, 00838640) = 037C2AB0
 </pre><p></details>
-</p><pre>TODO:
+</p><pre><span id='struct_FERenderObject'></span>struct FERenderObject {
+        <a href='#struct_PoolEntry'>struct PoolEntry</a> <span id='structFERenderObject_0'></span>__parent;
+        int field_8;
+        int field_C;
+        int field_10;
+        int field_14;
+        <a href='#struct_ObjectLink'>struct ObjectLink</a> <span id='structFERenderObject_18'></span>FERenderEPolyLink;
+        /*size 0xA0*/
+};
+</pre><pre>TODO:
 .rdata:0079C118 aIconscroller_5 db 'IconScrollerMenu : Switch/Pop/Direct Pop called on me (0x%x).',0Ah
 .rdata:0079C118                                         ; DATA XREF: sub_543D40+3E9?o
 .rdata:0079C118                 db 0
@@ -1864,6 +1884,9 @@ ShowFNG(AA469286 ("UI_InGameDialog.fng"), 037C1120, 00838640) = 037C2AB0
   Goes through all the fng data above and set the handler for <a class='funcref' href='#43DCC0'>43DCC0:stricmp()</a> matching fng names.
 </li><li><span class='func' id='50B790'>50B790 ShowFNG(int fnghash, int arg1, int arg2)</span>
   See <code><a href='https://github.com/yugecin/nfsu2-re/blob/master/nfsu2-re-hooks/replace-50B790-ShowFNG.c'>nfsu2-re-hooks/replace-50B790-ShowFNG.c</a></code> for a reimplementation.
+</li><li><span class='func' id='50C550'>50C550 void FreeFNGFeRenderObjects(<a href='#struct_FNGInfo'>struct FNGInfo</a> *fng)</span>
+  Frees all <code><a href='#struct_UIElement'>struct UIElement</a>::<a href='#structUIElement_58'>FERenderObject</a></code> objects by calling <a class='funcref' href='#504880'>504880:FNGInfo::VisitUIRecursively()</a>
+  using a visitor that has <a class='funcref' href='#5374F0'>5374F0:UIElementVisitor_ClearFNGCache::acceptElement()</a> as its <code><a href='#structUIElementVisitor_vtable_4'>acceptElement</a></code>.
 </li><li><span class='func' id='50CE30'>50CE30 char *FindTopPackage(unsigned int *hashes, int numHashes)</span>
   Checks if any of the given hashes conform with
   <code><a class='fieldref' href='#8384C4'>pUIData</a>-&gt;<a href='#structUIData_8'>field_8</a>-&gt;<a href='#structUIData_Field8_E4'>topPackage</a>-&gt;<a href='#structFNGInfo_10'>hash</a></code>
@@ -1874,8 +1897,14 @@ ShowFNG(AA469286 ("UI_InGameDialog.fng"), 037C1120, 00838640) = 037C2AB0
   Goes through <code><a href='#structFNGInfo_4'>child</a></code> until the next one is null or its
   <code><a href='#structFNGInfo_C'>fngName</a></code> and <code><a href='#structFNGInfo_10'>hash</a></code> matches.
   <code>this</code> is unused.
+</li><li><span class='func' id='52C390'>52C390 void __thiscall FERenderObject::FreeAllRenderEPolys(<a href='#struct_FERenderObject'>struct FERenderObject</a> *this)</span>
+</li><li><span class='func' id='52C3A0'>52C3A0 void __thiscall FERenderObject::FreeAllRenderEPolys_0(<a href='#struct_FERenderObject'>struct FERenderObject</a> *this,
+                                                                void *unused)</span>
 </li><li><span class='func' id='52CEF0'>52CEF0 <a href='#struct_FNGInfo'>struct FNGInfo</a> *GetFNGInfoByName(char *fngName)</span>
   TODO, this probably searches everything instead of the hierarchy like <a class='funcref' href='#519E50'>519E50:GetFNGInfoByNameByHierarchy()</a>
+</li><li><span class='func' id='5374F0'>5374F0 int __thiscall UIElementVisitor_ClearFNGCache::acceptElement(struct UIElementVisitor_ClearFNGCache *this,
+                                                                       <a href='#struct_UIElement'>struct UIElement</a> *element)
+  Frees <code><a href='#struct_UIElement'>struct UIElement</a>::<a href='#structUIElement_58'>FERenderObject</a></code> and its EPoly objects.
 </li><li><span class='func' id='5379A0'>5379A0 void RemoveFNGFromUIObject(char *fngName)</span>
 </li><li><span class='func' id='555E80'>555E80 void AddFngToUIObject_1(char *fngName, void *data)</span>
   Does more stuff.
@@ -1953,7 +1982,7 @@ void hook_on_msg_WM_CHAR(int wparam)
 {
 	if (wparam == 121) { // y
 		<a class='funcref' href='#555E80'>AddFngToUIObject_1</a>("ScreenPrintf.fng", 0);
-	}
+	</span>
 }
 </pre><p>It didn't crash, so that was a win already. The second parameter for that func is what I suspect some data to
 initialize the fng screen. It fortunately seems like either the ScreenPrintf one doesn't initialize anything or it has
@@ -2447,7 +2476,9 @@ that flag <code>2</code> means it should be visible, so I tried adding that.
 <p>Then the text can be changed easily by one of the many funcs, for example:
 </p><pre><a class='funcref' href='#537B80'>SetUILabelByHashFormattedString</a>("ScreenPrintf.fng", 0xB9D457DE, "0xB9D457DE", "");
 </pre><p class='center'><img src="SCREENPRINTF_2.JPG" alt="custom strings"/><br/>Nice.</p>
-<p style='margin-bottom:0'><a href='#index'>Index</a></p></div><div><p style='margin-top:0'><small><a href='#ui'>UI</a> (continuation)</small></p><p>Stuff
+<p>A quick search of all the label hashes did not give any result, so it seems like there is no code left in the program
+where it would set any of the labels' text.
+</p><p style='margin-bottom:0'><a href='#index'>Index</a></p></div><div><p style='margin-top:0'><small><a href='#ui'>UI</a> (continuation)</small></p><p>Stuff
 </p><p>UI keys seem to be hashed with the case insensitive hash.
 </p><pre><span id='struct_U2RECT'></span>struct U2RECT {
         float <span id='structU2RECT_0'></span>left;
@@ -2469,6 +2500,17 @@ that flag <code>2</code> means it should be visible, so I tried adding that.
         int field_24;
         int field_28;
         int ptrField_2C; /*maybe something size related*/
+        int field_30;
+        int field_34;
+        int field_38;
+        int field_3C;
+        int field_40;
+        int field_44;
+        int field_48;
+        int field_4C;
+        int field_50;
+        int field_54;
+        void *<span id='structUIElement_58'></span>FERenderObject;
         /*TODO how big is this base struct??*/
 };
 
@@ -2594,6 +2636,7 @@ return visitor.<a href='#structUIElementVisitor_FindByHash_8'>foundUIelement</a>
   Only seems to be used for dynamic things such as: money, player name, sms messages, track length...
 </li><li><span class='func' id='5372E0'>5372E0 <a href='#struct_UIData'>struct UIData</a> *__thiscall UIData::ctor(<a href='#struct_UIData'>struct UIData</a> *this)</span>
   Called from <a class='funcref' href='#57ED10'>57ED10:??SetupPools()</a>.
+</li><li><span class='func' id='537750'>537750 void __thiscall UIData::PopPackage(<a href='#struct_UIData'>struct UIData</a> *this, char *fngName)</span>
 </li><li><span class='func' id='537830'>537830 void CreateUI()</span>
   Called from <a class='funcref' href='#57ED10'>57ED10:??SetupPools()</a>.
 </li><li><span class='func' id='5379C0'>5379C0 <a href='#struct_UIElement'>struct UIElement</a> *FindUIElementByHash(char *fngName, unsigned int hash)</span>

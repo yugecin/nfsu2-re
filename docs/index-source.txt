@@ -1370,15 +1370,16 @@ of the main pool.
 };
 
 #define {POOL_FLAG_EXTENDABLE} 1                                                                        ||| mkref
+#define {POOL_FLAG_DONT_ZERO_INIT} 2 /*used in {440D40} etc*/                                           ||| mkref,ref
 
 {struct Pool} \{                                                                                        ||| mkref
 	{struct PoolLink} {__parent};                                                                   ||| refto,mkref name=structPool+0
 	{struct Pool} *{nextLinkedPool};                                                                ||| refto,mkref name=structPool+8
 	char* {name};                                                                                   ||| mkref name=structPool+C
-	{struct PoolEntry} *{firstElement};                                                             ||| refto,mkref name=structPool+10
-	int {flagsMaybe};                                                                               ||| mkref name=structPool+14
-	int {availableElements?};                                                                       ||| mkref name=structPool+18
-	int {maxAllocatedElements?};                                                                    ||| mkref name=structPool+1C
+	{struct PoolEntry} *{firstAvailableElement};                                                    ||| refto,mkref name=structPool+10
+	int {flags};                                                                                    ||| mkref name=structPool+14
+	int {usedElements};                                                                             ||| mkref name=structPool+18
+	int {maxUsedElements}; /*max amount of elements used at one time*/                              ||| mkref name=structPool+1C
 	int {field_20};                                                                                 ||| mkref name=structPool+20
 	int {elementAmount};                                                                            ||| mkref name=structPool+24
 	int {elementSize};                                                                              ||| mkref name=structPool+28
@@ -1413,29 +1414,38 @@ EXPECT_SIZE(struct bFileSystemPoolEntry, 0xF0);
   .controlchars [] .push pre
   [struct Pool] *pool;                                                                                          ||| refto
   [struct PoolEntry] *entry;                                                                                    ||| refto
+  [struct PoolEntry] *next;                                                                                     ||| refto
   int idx;
-  char *next;
 
   pool = this;
   do {
           pool->[structPool+10] = NULL;                                                                         ||| refto
           if (pool->[structPool+24]) {                                                                          ||| refto
-                  next = (char*) pool + sizeof([struct Pool]);                                                  ||| refto
+                  next = (void*) ((char*) pool + sizeof([struct Pool]));                                        ||| refto
                   pool->[structPool+10] = (void*) next;                                                         ||| refto
                   for (idx = pool->[structPool+24] - 1; idx >= 0; idx--) {                                      ||| refto
-                          entry = (void*) next;
+                          entry = next;
                           next += pool->[structPool+28];                                                        ||| refto
-                          entry->[structPoolEntry+0] = (void*) next;                                            ||| refto
+                          entry->[structPoolEntry+0] = next;                                                    ||| refto
                   }
+                  next->[structPoolEntry+0] = 0;                                                                ||| refto
           }
           pool = pool->[structPool+8];                                                                          ||| refto
   } while (pool);
   .controlchars {} .pop pre
   }
 
+- {43CD80 int __thiscall Pool::GetIndexOfEntry({struct Pool} *this, {struct PoolEntry} *entry)}                 ||| func,refto,refto
+  -1 when not in this pool (or any linked pools).
+
+- {43CDF0 int __thiscall Pool::UngetEntry({struct Pool} *this, {struct PoolEntry} *entry)}                      ||| func,refto,refto
+  Mark the entry as free again. Returns the amount of used entries in the pool.
+  Same as {43F920}, but a thiscall.                                                                             ||| ref
+
 - {43F8F0 {struct PoolEntry} *RemoveFirstPoolEntry({struct Pool} *pool)}                                        ||| func,refto,refto
 
-- {43F920 void AddPoolEntryAsFirst({struct Pool} *pool, {struct PoolEntry} *entry)}                             ||| func,refto,refto
+- {43F920 void UngetPoolEntry({struct Pool} *pool, {struct PoolEntry} *entry)}                                  ||| func,refto,refto
+  Same as {43CDF0}, but an stdcall.                                                                             ||| ref
 
 - {440390 void AllocateMemoryForPool?(int size, int somestring, int, int)}                                      ||| func
   TODO, seems to check the string to determine how to alloc?
@@ -1501,11 +1511,18 @@ EXPECT_SIZE(struct bFileSystemPoolEntry, 0xF0);
   .controlchars {} .pop pre
   }
 
-- {440D40 int __thiscall PoolGetNextFreeItem_({struct Pool} *this)}                                             ||| func,refto
-  TODO
+- {440D40 {struct PoolEntry} *__thiscall PoolGetNextFreeItem({struct Pool} *this)}                              ||| func,refto,refto
 
-- {440E50 int PoolGetNextFreeItem?stdcallwrapper(void *pool)}                                                   ||| func
-  Same as the one above, but wrapped in an stdcall.
+- {440E50 int PoolGetNextFreeItem_stdcallwrapper(void *pool)}                                                   ||| func
+  {440D40} but wrapped in an stdcall.
+
+- {440DA0 void __thiscall PoolControl::DeletePool({struct PoolControl} *this, {struct Pool} *pool)}             ||| func,refto,refto
+  Frees pool and all its linked pools, remove the pool from the link in {struct PoolControl}.                   ||| refto
+
+- {440E40 int DeletePool({struct Pool} *pool)}                                                                  ||| func,refto
+  .push pre
+  {828530}->{440DA0}(pool);                                                                                     ||| refplain,refplain
+  .pop pre
 
 - {57ED10 ? ??SetupPools(?,?)}                                                                                  ||| func
   Called by {57ED10}                                                                                            ||| ref
@@ -2527,6 +2544,18 @@ ShowFNG(AA469286 ("UI_InGameDialog.fng"), 037C1120, 00838640) = 037C2AB0
 }
 
 .push pre
+{struct FERenderObject} \{                                                                                      ||| mkref
+        {struct PoolEntry} {__parent};                                                                          ||| refto,mkref name=structFERenderObject+0
+        int field_8;
+        int field_C;
+        int field_10;
+        int field_14;
+        {struct ObjectLink} {FERenderEPolyLink};                                                                ||| refto,mkref name=structFERenderObject+18
+        /*size 0xA0*/
+};
+.pop pre
+
+.push pre
 TODO:
 .rdata:0079C118 aIconscroller_5 db 'IconScrollerMenu : Switch/Pop/Direct Pop called on me (0x%x).',0Ah
 .rdata:0079C118                                         ; DATA XREF: sub_543D40+3E9?o
@@ -2551,6 +2580,10 @@ TODO:
 - {50B790 ShowFNG(int fnghash, int arg1, int arg2)}                                             ||| func
   See {nfsu2-re-hooks/replace-50B790-ShowFNG.c} for a reimplementation.                         ||| hookfileref
 
+- {50C550 void FreeFNGFeRenderObjects({struct FNGInfo} *fng)}                                   ||| func,refto
+  Frees all {{struct UIElement}::{structUIElement+58}} objects by calling {504880}              ||| code,refto,refto,ref
+  using a visitor that has {5374F0} as its {{structUIElementVisitor$vtable+4}}.                 ||| ref,code,refto
+
 - {50CE30 char *FindTopPackage(unsigned int *hashes, int numHashes)}                            ||| func
   Checks if any of the given hashes conform with
   {{8384C4}->{structUIData+8}->{structUIData_Field8+E4}->{structFNGInfo+10}}                    ||| code,refplain,refto,refto,refto
@@ -2563,8 +2596,20 @@ TODO:
   {{structFNGInfo+C}} and {{structFNGInfo+10}} matches.                                         ||| code,refto,code,refto
   {this} is unused.                                                                             ||| code
 
+- {51CCD0 {struct FNGInfo} *__thiscall UIData::GetFNGInfoForName({struct UIData} *this, char *fngName)}                 ||| func,refto,refto
+  Searches through levelSlotPool.
+
+- {52C390 void __thiscall FERenderObject::FreeAllRenderEPolys({struct FERenderObject} *this)}   ||| func,refto
+
+- {52C3A0 void __thiscall FERenderObject::FreeAllRenderEPolys_0({struct FERenderObject} *this,  ||| func,refto
+                                                                void *unused)}
+
 - {52CEF0 {struct FNGInfo} *GetFNGInfoByName(char *fngName)}                                    ||| func,refto
   TODO, this probably searches everything instead of the hierarchy like {519E50}                ||| ref
+
+- {5374F0 int __thiscall UIElementVisitor_ClearFNGCache::acceptElement(struct UIElementVisitor_ClearFNGCache *this,     ||| func
+                                                                       {struct UIElement} *element)                     ||| refto
+  Frees {{struct UIElement}::{structUIElement+58}} and its EPoly objects.                                               ||| code,refto,refto
 
 - {5379A0 void RemoveFNGFromUIObject(char *fngName)}                                            ||| func
 
@@ -3203,6 +3248,9 @@ Then the text can be changed easily by one of the many funcs, for example:
 
 {Nice.}                          ||| imgcaptioned src=SCREENPRINTF_2.JPG alt="custom strings"
 
+A quick search of all the label hashes did not give any result, so it seems like there is no code left in the program
+where it would set any of the labels' text.
+
 .pop section
 
 Stuff
@@ -3217,6 +3265,9 @@ UI keys seem to be hashed with the case insensitive hash.
         float {bottom}                                                                                          ||| mkref name=structU2RECT+0C
 };
 
+#define UIELEMENT_FLAG_VISIBLE 0x2
+#define UIELEMENT_FLAG_TEXT_CHANGED 0x400000
+
 {struct UIElement} \{                                                                                           ||| mkref
         void *vtable;
         {struct UIElement} *{nextSibling};                                                                      ||| refto,mkref name=structUIElement+4
@@ -3230,6 +3281,17 @@ UI keys seem to be hashed with the case insensitive hash.
         int field_24;
         int field_28;
         int ptrField_2C; /*maybe something size related*/
+        int field_30;
+        int field_34;
+        int field_38;
+        int field_3C;
+        int field_40;
+        int field_44;
+        int field_48;
+        int field_4C;
+        int field_50;
+        int field_54;
+        void *{FERenderObject};                                                                                 ||| mkref name=structUIElement+58
         /*TODO how big is this base struct??*/
 };
 
@@ -3376,6 +3438,8 @@ UI keys seem to be hashed with the case insensitive hash.
 - {5372E0 {struct UIData} *__thiscall UIData::ctor({struct UIData} *this)}                                      ||| func,refto,refto
   Called from {57ED10}.                                                                                         ||| ref
 
+- {537750 void __thiscall UIData::PopPackage({struct UIData} *this, char *fngName)}                             ||| func,refto
+
 - {537830 void CreateUI()}                                                                                      ||| func
   Called from {57ED10}.                                                                                         ||| ref
 
@@ -3386,7 +3450,7 @@ UI keys seem to be hashed with the case insensitive hash.
 - {537A60 {struct UIElementType1} *FindUIElementType1ByHash(char *fngName, unsigned int hash)}                  ||| func,refto
 
 - {537B30 int SetUILabelFormattedString({struct UILabel} *label, char *format, void *param)}                    ||| func,refto
-  Delegates to {535FE0}.                                                                                        ||| ref
+  Delegates to {535FE0}. Also makes the element visible.                                                        ||| ref
 
 - {537B80 int SetUILabelByHashFormattedString(char *fngName, unsigned int hash, char *format, int parameter)}   ||| func
   Only used for a few things, such as: sms 'from', sms 'subject', part name in customize..
@@ -4275,7 +4339,7 @@ if (![isProfileWithStartedCareerLoaded])  {                                     
 
 {struct WideCharString} \{                                                                      ||| mkref
         wchar_t *{ptrString};                                                                   ||| mkref name=structWideCharString+0
-        int {allocatedBytes};                                                                   ||| mkref name=structWideCharString+4
+        int {allocatedWcharLength}; /*amount of wchars that can fit, excluding zero term*/      ||| mkref name=structWideCharString+4
 };
 
 {struct WorldAnimStuff} \{                                                                      ||| mkref

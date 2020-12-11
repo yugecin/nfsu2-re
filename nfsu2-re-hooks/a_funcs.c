@@ -172,6 +172,17 @@ void SetUILabelByHashFormattedString(char *fngName, unsigned int hash, char *for
 
 static
 __declspec(naked)
+struct UIElement* __stdcall GetUIElementByHashInFngName(unsigned int hash, char *fngname)
+{
+	_asm { mov ecx, 0x8384C4 }
+	_asm { mov ecx, [ecx] }
+	_asm { mov ecx, [ecx+0x8] }
+	_asm { mov eax, 0x52C570 }
+	_asm { jmp eax}
+}
+
+static
+__declspec(naked)
 void *__stdcall Markers__FindAtPosWithTypeAfterIndex(void *_near, int type, void *after)
 {
 	_asm { mov ecx, 0x88F298 }

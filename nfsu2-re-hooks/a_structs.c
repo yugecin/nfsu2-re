@@ -171,7 +171,7 @@ struct SmsMessageList {
 
 struct WideCharString {
 	wchar_t *ptrString;
-	int allocatedLength;
+	int allocatedWcharLength; /*amount of wchars that can fit, excluding zero term*/
 };
 
 struct UIElement {
@@ -249,7 +249,7 @@ struct Pool {
 	struct PoolLink __parent;
 	struct Pool *nextLinkedPool;
 	char* name;
-	struct PoolEntry *firstElement;
+	struct PoolEntry *firstAvailableElement;
 	int flagsMaybe;
 	int availableElements_;
 	int maxAllocatedElements_;
