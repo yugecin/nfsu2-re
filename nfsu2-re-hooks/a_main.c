@@ -52,7 +52,7 @@ static void stub() {}
 //#include "replace-50B790-ShowFNG.c"
 //#include "replace-50CD00-IsPointInRect.c"
 //#include "replace-50CDB0-DidCursorPressInRect.c"
-#include "replace-50D510-DebugPrint.c"
+//#include "replace-50D510-DebugPrint.c"
 //#include "replace-5149C0-GetSmsMessageSubject.c"
 //#include "replace-497760-GetSmsMessageSubjectHeader.c" /*needs to be after GetSmsMessageSubject*/
 //#include "replace-514B00-GetSmsMessageBody.c"
@@ -67,6 +67,7 @@ static void stub() {}
 //#include "focusloss-nopause.c" // note that cause of this it will still accept keys while in bg
 #include "replaceloadingscreen.c"
 #include "winconsole.c"
+#include "skipinsertdisc2.c"
 
 #include "ol-replace-7583E0.c"
 #include "ol-replace-759B4A.c"

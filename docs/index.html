@@ -312,8 +312,24 @@ information and associated data. See <a href='#language_metadata'>Language metad
 </li><li><span class='field' id='870CB4'>870CB4 char *SIZE</span>
 </li><li><span class='field' id='870D20'>870D20 int notFirstTime</span>
 </li></ul><p style='margin-bottom:0'><a href='#index'>Index</a></p></div><span id='gameregion'></span><div><h2>Game region <a href="#gameregion">#</a></h2>
-<p><a class='funcref' href='#5B7C40'>5B7C40:OpenPatchesWebsite()</a> certainly helped to know what the region numbers represent
-</p><ul><li>0: US
+<p>List by <a class='funcref' href='#571380'>571380:GetCountryCode()</a>:
+</p><ul><li>region 0: US
+</li><li>region 2: Korea
+</li><li>region 3: Japan
+</li><li>region 4: Taiwan
+</li><li>region 1,5,6,7,8,9:
+<ul></li><li>language 0: UK
+</li><li>language 1: France
+</li><li>language 2: Germany
+</li><li>language 3: Italy
+</li><li>language 4: Spain
+</li><li>language 5: Netherlands
+</li><li>language 6: Sweden
+</li><li>language 7: Denmark
+</li></ul><li>region 11: China
+</li><li>region 12: Thailand
+</li></ul><p>List by <a class='funcref' href='#5B7C40'>5B7C40:OpenPatchesWebsite()</a>:
+<ul><li>0: US
 </li><li>2: Korea
 </li><li>3: Japan
 </li><li>4: Taiwan
@@ -324,11 +340,14 @@ information and associated data. See <a href='#language_metadata'>Language metad
 </li><li>9: Spain
 </li><li>11: China
 </li><li>12: Thailand
-</li></ul><p><strong>Symbols:</strong></p><ul><li><span class='func' id='570A30'>570A30 int GetGameRegion()</span>
+</li></ul></p><p>Then some network region stuff at 7FA740 showed a 14th entry:
+<ul><li>13: South America
+</li></ul></p><p><strong>Symbols:</strong></p><ul><li><span class='func' id='570A30'>570A30 int GetGameRegion()</span>
   <code>return <a class='fieldref' href='#864F24'>_gameRegion</a>;</code>
 </li><li><span class='func' id='570A40'>570A40 int UseCarUKNames()</span>
   <code>return <a class='fieldref' href='#864F24'>_gameRegion</a> == 1 || (4 &lt; <a class='fieldref' href='#864F24'>_gameRegion</a> &amp;&amp; <a class='fieldref' href='#864F24'>_gameRegion</a> &lt; 10);</code>
   Unsure about this name.
+</li><li><span class='func' id='571380'>571380 char *GetCountryCode()</span>
 </li><li><span class='func' id='5B7C40'>5B7C40 int OpenPatchesWebsite()</span>
 No idea where this is used, TODO
 <pre>int OpenPatchesWebsite()
@@ -1897,6 +1916,8 @@ ShowFNG(AA469286 ("UI_InGameDialog.fng"), 037C1120, 00838640) = 037C2AB0
   Goes through <code><a href='#structFNGInfo_4'>child</a></code> until the next one is null or its
   <code><a href='#structFNGInfo_C'>fngName</a></code> and <code><a href='#structFNGInfo_10'>hash</a></code> matches.
   <code>this</code> is unused.
+</li><li><span class='func' id='51CCD0'>51CCD0 <a href='#struct_FNGInfo'>struct FNGInfo</a> *__thiscall UIData::GetFNGInfoForName(<a href='#struct_UIData'>struct UIData</a> *this, char *fngName)</span>
+  Searches through levelSlotPool.
 </li><li><span class='func' id='52C390'>52C390 void __thiscall FERenderObject::FreeAllRenderEPolys(<a href='#struct_FERenderObject'>struct FERenderObject</a> *this)</span>
 </li><li><span class='func' id='52C3A0'>52C3A0 void __thiscall FERenderObject::FreeAllRenderEPolys_0(<a href='#struct_FERenderObject'>struct FERenderObject</a> *this,
                                                                 void *unused)</span>
@@ -2487,6 +2508,9 @@ where it would set any of the labels' text.
         float <span id='structU2RECT_0C'></span>bottom
 };
 
+#define UIELEMENT_FLAG_VISIBLE 0x2
+#define UIELEMENT_FLAG_TEXT_CHANGED 0x400000
+
 <span id='struct_UIElement'></span>struct UIElement {
         void *vtable;
         <a href='#struct_UIElement'>struct UIElement</a> *<span id='structUIElement_4'></span>nextSibling;
@@ -2643,7 +2667,7 @@ return visitor.<a href='#structUIElementVisitor_FindByHash_8'>foundUIelement</a>
 </li><li><span class='func' id='537A10'>537A10 <a href='#struct_UILabel'>struct UILabel</a> *FindUILabelByHash(char *fngName, unsigned int hash)</span>
 </li><li><span class='func' id='537A60'>537A60 <a href='#struct_UIElementType1'>struct UIElementType1</a> *FindUIElementType1ByHash(char *fngName, unsigned int hash)</span>
 </li><li><span class='func' id='537B30'>537B30 int SetUILabelFormattedString(<a href='#struct_UILabel'>struct UILabel</a> *label, char *format, void *param)</span>
-  Delegates to <a class='funcref' href='#535FE0'>535FE0:UILabel::setString()</a>.
+  Delegates to <a class='funcref' href='#535FE0'>535FE0:UILabel::setString()</a>. Also makes the element visible.
 </li><li><span class='func' id='537B80'>537B80 int SetUILabelByHashFormattedString(char *fngName, unsigned int hash, char *format, int parameter)</span>
   Only used for a few things, such as: sms 'from', sms 'subject', part name in customize..
   Delegates to <a class='funcref' href='#537B30'>537B30:SetUILabelFormattedString()</a>
@@ -3308,6 +3332,8 @@ if (smsdata) {
 </li></ul><p style='margin-bottom:0'><a href='#index'>Index</a></p></div><span id='other_symbols'></span><div><h2>Other symbols <a href="#other_symbols">#</a></h2>
 <pre class='ida'><span class='comment'>.rdata:0079B9F0</span> <span class='ident'>aDDecodercaptur</span> db <span class='str'>'d:\decodercapture%04d.fss'</span>,<span class='num'>0</span>
 
+<span class='comment'>.rdata:007A1344</span> <span class='ident'>a__IndepSrcOnli</span> db <span class='str'>'..\indep\src\online/LobbyCore.cpp'</span>,<span class='num'>0</span>
+
 <span class='comment'>.rdata:007A5BF8</span> <span class='ident'>aHotpositionSHo</span> db <span class='str'>'//'</span>,<span class='num'>0Ah</span>
 <span class='comment'>.rdata:007A5BF8</span>                 db <span class='str'>'// HotPosition - %s'</span>,<span class='num'>0Ah</span>
 <span class='comment'>.rdata:007A5BF8</span>                 db <span class='str'>'//'</span>,<span class='num'>0Ah</span>
@@ -3319,7 +3345,7 @@ if (smsdata) {
 
 <span id='struct_WideCharString'></span>struct WideCharString {
         wchar_t *<span id='structWideCharString_0'></span>ptrString;
-        int <span id='structWideCharString_4'></span>allocatedBytes;
+        int <span id='structWideCharString_4'></span>allocatedWcharLength; /*amount of wchars that can fit, excluding zero term*/
 };
 
 <span id='struct_WorldAnimStuff'></span>struct WorldAnimStuff {
@@ -3381,7 +3407,7 @@ EXPECT_SIZE(struct WorldAnimStuff, 0x4C);
 </li><li><span class='func' id='51DE90'>51DE90 int __thiscall WideCharString::EnsureAllocatedSize(<a href='#struct_WideCharString'>struct WideCharString</a> *this, int length)</span>
   If it's already allocated and long enough, NOP.
   Otherwise allocate new memory, copy existing string, free previous memory.
-  Does not actually check the <code><a href='#structWideCharString_4'>allocatedBytes</a></code> field, but does a strlen to check if
+  Does not actually check the <code><a href='#structWideCharString_4'>allocatedWcharLength</a></code> field, but does a strlen to check if
   the existing string length is less than required.
 </li><li><span class='func' id='532670'>532670 struct WideCharString *__thiscall WideCharString::SetFromCharString(<a href='#struct_WideCharString'>struct WideCharString</a> *this, char *str)</span>
   Converts language aware, like <a class='funcref' href='#512530'>512530:LanguageAwareStrcpyCharToWchar()</a> does. Calls <a class='funcref' href='#51DE90'>51DE90:WideCharString::EnsureAllocatedSize()</a>.

@@ -491,6 +491,30 @@
 			</FileConfiguration>
 		</File>
 		<File
+			RelativePath=".\ol-replace-7583E0.c"
+			>
+			<FileConfiguration
+				Name="Debug|Win32"
+				ExcludedFromBuild="true"
+				>
+				<Tool
+					Name="VCCLCompilerTool"
+				/>
+			</FileConfiguration>
+		</File>
+		<File
+			RelativePath=".\ol-replace-759B4A.c"
+			>
+			<FileConfiguration
+				Name="Debug|Win32"
+				ExcludedFromBuild="true"
+				>
+				<Tool
+					Name="VCCLCompilerTool"
+				/>
+			</FileConfiguration>
+		</File>
+		<File
 			RelativePath=".\replace-440BB0-Pool__Extend.c"
 			>
 			<FileConfiguration
@@ -696,6 +720,18 @@
 		</File>
 		<File
 			RelativePath=".\runwindowed.c"
+			>
+			<FileConfiguration
+				Name="Debug|Win32"
+				ExcludedFromBuild="true"
+				>
+				<Tool
+					Name="VCCLCompilerTool"
+				/>
+			</FileConfiguration>
+		</File>
+		<File
+			RelativePath=".\skipinsertdisc2.c"
 			>
 			<FileConfiguration
 				Name="Debug|Win32"
