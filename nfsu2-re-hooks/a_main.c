@@ -69,8 +69,8 @@ static void stub() {}
 #include "winconsole.c"
 #include "skipinsertdisc2.c"
 
-#include "ol-replace-7583E0.c"
-#include "ol-replace-759B4A.c"
+//#include "ol-replace-7583E0.c"
+//#include "ol-replace-759B4A.c"
 
 //#include "debug-custom-dump-smsdata.c"
 //#include "debug-custom-find-nearest-marker.c"

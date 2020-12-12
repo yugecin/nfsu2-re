@@ -2222,24 +2222,25 @@ executable itself so it's probably somewhere deep in a bin file.
 
 .push pre
 {struct DialogInfo} \{                                                                          ||| mkref
-	char text[768];
-	int unused300;
-	int unused304;
-	int unused308;
-	int unused30C;
-	int unused310;
-	int unused314;
-	int unused318;
-	int unused31C;
-	char *pParentFNG;
-	char *{pMyFNG};                                                                         ||| mkref name=structDialogInfo+324
-	int unused_328;
-	char unused_32C;
+	char {text}[768];                                                                       ||| mkref name=structDialogInfo+0
+	unsigned int {leftButtonLanguageString};                                                ||| mkref name=structDialogInfo+300
+	unsigned int {leftButtonMessage};                                                       ||| mkref name=structDialogInfo+304
+	unsigned int {rightButtonLanguageString};                                               ||| mkref name=structDialogInfo+308
+	unsigned int {righttButtonMessage};                                                     ||| mkref name=structDialogInfo+30C
+	unsigned int {middleButtonLanguageString};                                              ||| mkref name=structDialogInfo+310
+	unsigned int {middleButtonMessage};                                                     ||| mkref name=structDialogInfo+314
+	int {field_318};                                                                        ||| mkref name=structDialogInfo+318
+	int {field_31C};                                                                        ||| mkref name=structDialogInfo+31C
+	char *{parentFNGName};                                                                  ||| mkref name=structDialogInfo+320
+	char *{myFNGName};                                                                      ||| mkref name=structDialogInfo+324
+	int {field_328};                                                                        ||| mkref name=structDialogInfo+328
+	char {field_32C};                                                                       ||| mkref name=structDialogInfo+32C
 	char {isHelpDialog};                                                                    ||| mkref name=structDialogInfo+32D
-	char unused_32E;
-	char something32F; /*set to 0 in 55806D*/
-	int something330; /*set to 0 in 558074*/
-	int unused334;
+	char {field_32E};                                                                       ||| mkref name=structDialogInfo+32E
+	char {field_32F}; /*set to 0 in 55806D*/                                                ||| mkref name=structDialogInfo+32F
+	int {field_330}; /*set to 0 in 558074*/                                                 ||| mkref name=structDialogInfo+330
+	int {field_334};                                                                        ||| mkref name=structDialogInfo+334
+	int {field_338};                                                                        ||| mkref name=structDialogInfo+338
 };
 EXPECT_SIZE({struct DialogInfo}, 0x338);                                                        ||| refto
 ASSERT_OFFSET({struct DialogInfo}, {structDialogInfo+324}, 0x324);                              ||| refto,refto
@@ -2256,9 +2257,201 @@ ASSERT_OFFSET({struct DialogInfo}, {structDialogInfo+32D}, 0x32D);              
 
 - {540A60 void DismissDialog(int dialogIdToDismiss)}                                            ||| func
 
-- {558020 int ShowDialog({struct DialogInfo} *info)}                                            ||| func,refto
-  Returns the new dialog id for it (value in {838974}) or zero when                             ||| ref
+- {54C050 int __thiscall DialogFNGMessageHandler(struct DialogFNGObject *this, int, int, int, int)}                     ||| func
+
+- {5542A0 DialogFNGInitHandler}                                                                                         ||| func
+
+- {558020 int ShowDialog({struct DialogInfo} *info)}                                                                    ||| func,refto
+  Returns the new dialog id for it (value in {838974}) or zero when                                                     ||| ref
   it didn't show because of some override.
+
+- {5582A0 int ShowButtonlessFormattedDialogPtr(char *dialogParentFNGName,                                               ||| func
+                                               char *dialogFNGName,
+                                               char *textFormat,
+                                               void *textParameterPtr)}
+  Calls {558020}.                                                                                                       ||| ref
+
+- {558310 int ShowButtonlessFormattedDialog(char *dialogParentFNGName,                                                  ||| func
+                                            char *dialogFNGName,
+                                            char *textFormat,
+                                            int textParameter)}
+  Delegates to {5582A0}.                                                                                                ||| ref
+
+- {558330 int ShowButtonlessFormattedLanguageDialog(char *dialogParentFNGName,                                          ||| func
+                                                    char *dialogFNGName,
+                                                    unsigned int textLanguageString,
+                                                    int textParameter)}
+  Delegates to {5582A0}.                                                                                                ||| ref
+
+- {558390 int ShowStandardFormattedErrorDialog(char *dialogParentFNGName,                                               ||| func
+                                               char *dialogFNGName,
+                                               char *textFormat,
+                                               void *textParameterPtr)}
+  Calls {558020}.                                                                                                       ||| ref
+  Uses {0x639(OK)} for {structDialogInfo+310}, {0x34DC1BEC} for {structDialogInfo+314},                                 ||| code,refto,code,refto
+  {0xB4EDEB6D} for {structDialogInfo+318}, {0} for {structDialogInfo+31C},                                              ||| code,refto,code,refto
+  {1} for {structDialogInfo+328} and {structDialogInfo+32C}.                                                            ||| code,refto,refto
+
+- {558430 int ShowStandardFormattedLanguageErrorDialog(char *dialogParentFNGName,                                       ||| func
+                                                       char *dialogFNGName,
+                                                       unsigned int textFormatLanguageString,
+                                                       int textParameter)}
+  Delegates to {558390}.                                                                                                ||| ref
+
+- {558490 int ShowSingleButtonFormattedDialog318_32C(char *dialogParentFNGName,                                         ||| func
+                                                     char *dialogFNGName,
+                                                     unsigned int middleButtonLanguageString,
+                                                     unsigned int middleButtonMessage,
+                                                     int dialogField318,
+                                                     char byteDialogField32C,
+                                                     char *textFormat,
+                                                     void *textParameterPtr)}
+  Calls {558020}.                                                                                                       ||| ref
+  Uses {0} for {structDialogInfo+31C} and {1} for {structDialogInfo+328}.                                               ||| code,refto,code,refto
+
+- {558540 int ShowSingleButtonFormattedDialog318(char *dialogParentFNGName,                                             ||| func
+                                                 char *dialogFNGName,
+                                                 unsigned int middleButtonLanguageString,
+                                                 unsigned int middleButtonMessage,
+                                                 int dialogField318,
+                                                 char *textFormat,
+                                                 int textParameter)}
+  Delegates to {558490}.                                                                                                ||| ref
+  Uses {1} for {structDialogInfo+32C}.                                                                                  ||| code,refto
+
+- {558570 int ShowSingleButtonFormattedLanguageDialog318(char *dialogParentFNGName,                                     ||| func
+                                                         char *dialogFNGName,
+                                                         unsigned int middleButtonLanguageString,
+                                                         unsigned int middleButtonMessage,
+                                                         int dialogField318,
+                                                         unsigned int textLanguageString,
+                                                         int textParameter)}
+  Delegates to {558490}.                                                                                                ||| ref
+  Uses {1} for {structDialogInfo+32C}.                                                                                  ||| code,refto
+
+- {5585E0 int ShowSingleButtonFormattedDialog(char *dialogParentFNGName,                                                ||| func
+                                              char *dialogFNGName,
+                                              unsigned int middleButtonLanguageString,
+                                              unsigned int middleButtonMessage,
+                                              char *textFormat,
+                                              int textParameter)}
+  Delegates to {558490}.                                                                                                ||| ref
+  Uses {0} for {structDialogInfo+318} and {structDialogInfo+32C}.                                                       ||| code,refto,refto
+
+- {558610 int ShowSingleButtonFormattedLanguageDialog(char *dialogParentFNGName,                                        ||| func
+                                                      char *dialogFNGName,
+                                                      unsigned int middleButtonLanguageString,
+                                                      unsigned int middleButtonMessage,
+                                                      unsigned int textLanguageString,
+                                                      int textParameter)}
+  Delegates to {558490}.                                                                                                ||| ref
+  Uses {0} for {structDialogInfo+318} and {structDialogInfo+32C}.                                                       ||| code,refto,refto
+
+- {558680 int ShowTwoButtonFormattedDialog318_31C_32C(char *dialogParentFNGName,                                        ||| func
+                                                      char *dialogFNGName,
+                                                      unsigned int leftButtonLanguageString,
+                                                      unsigned int rightButtonLanguageString,
+                                                      unsigned int leftButtonMessage,
+                                                      unsigned int rightButtonMessage,
+                                                      int dialogField318,
+                                                      char dialogField_32C,
+                                                      int dialogField_31C,
+                                                      char *textFormat,
+                                                      void *textParameterPtr)}
+  Calls {558020}.                                                                                                       ||| ref
+
+- {558750 int ShowTwoButtonFormattedDialog318_31C(char *dialogParentFNGName,                                            ||| func
+                                                  char *dialogFNGName,
+                                                  unsigned int leftButtonLanguageString,
+                                                  unsigned int rightButtonLanguageString,
+                                                  unsigned int leftButtonMessage,
+                                                  unsigned int rightButtonMessage,
+                                                  int dialogField318,
+                                                  int dialogField31C,
+                                                  char *textFormat,
+                                                  int textParameter)}
+  Delegates to {558680} with {1} for {structDialogInfo+32C}.                                                            ||| ref,code,refto
+
+- {558790 int ShowTwoButtonFormattedLanguageDialog318_31C(char *dialogParentFNGName,                                    ||| func
+                                                          char *dialogFNGName,
+                                                          unsigned int leftButtonLanguageString,
+                                                          unsigned int rightButtonLanguageString,
+                                                          unsigned int leftButtonMessage,
+                                                          unsigned int rightButtonMessage,
+                                                          int dialogField318,
+                                                          int dialogField31C,
+                                                          unsigned int textFormatLanguageString,
+                                                          int textParameter)}
+  Delegates to {558680} with {1} for {structDialogInfo+32C}.                                                            ||| ref,code,refto
+
+- {558820 int ShowTwoButtonFormattedDialog31C(int dialogParentFNGName,                                                  ||| func
+                                              int dialogFNGName,
+                                              unsigned int leftButtonLanguageString,
+                                              unsigned int rightButtonLanguageString,
+                                              unsigned int leftButtonMessage,
+                                              unsigned int rightButtonMessage,
+                                              int dialogField31C,
+                                              char *textFormat,
+                                              int textParameter)}
+  Delegates to {558680} with {0} for {structDialogInfo+318} and {structDialogInfo+32C}.                                 ||| ref,code,refto,refto
+
+- {558860 int ShowTwoButtonFormattedLanguageDialog31C(char *dialogParentFNGName,                                        ||| func
+                                                      char *dialogFNGName,
+                                                      unsigned int leftButtonLanguageString,
+                                                      unsigned int rightButtonLanguageString,
+                                                      unsigned int leftButtonMessage,
+                                                      unsigned int rightButtonMessage,
+                                                      int dialogField31C,
+                                                      char *textFormat,
+                                                      int textParameter)}
+  Delegates to {558680} with {0} for {structDialogInfo+318} and {structDialogInfo+32C}.                                 ||| ref,code,refto,refto
+
+- {5588F0 int ShowThreeButtonFormattedDialog318_31C(char *dialogParentFNGName,                                          ||| func
+                                                    char *dialogFNGName,
+                                                    unsigned int leftButtonLanguageString,
+                                                    unsigned int rightButtonLanguageString,
+                                                    unsigned int middleButtonLanguageString,
+                                                    unsigned int leftButtonMessage,
+                                                    unsigned int rightButtonMessage,
+                                                    unsigned int middleButtonMessage,
+                                                    int dialogField318,
+                                                    int dialogField31C,
+                                                    char *textFormat,
+                                                    void *textParameterPtr)}
+  Calls {558020} with {3} for {structDialogInfo+328}, {1} for {structDialogInfo+32C}.                                   ||| ref,code,refto,code,refto
+
+- {5589D0 int ShowThreeButtonFormattedDialog318_31C(char *dialogParentFNGName,                                          ||| func
+                                                    char *dialogFNGName,
+                                                    unsigned int leftButtonLanguageString,
+                                                    unsigned int rightButtonLanguageString,
+                                                    unsigned int middleButtonLanguageString,
+                                                    unsigned int leftButtonMessage,
+                                                    unsigned int rightButtonMessage,
+                                                    unsigned int middleButtonMessage,
+                                                    int dialogField318,
+                                                    int dialogField31C,
+                                                    char *textFormat,
+                                                    int textParameter)}
+  Delegates to {5588F0}.                                                                                                ||| ref
+
+- {558A20 int ShowThreeButtonFormattedLanguageDialog318_31C(char *dialogParentFNGName,                                  ||| func
+                                                            char *dialogFNGName,
+                                                            unsigned int leftButtonLanguageString,
+                                                            unsigned int rightButtonLanguageString,
+                                                            unsigned int middleButtonLanguageString,
+                                                            unsigned int leftButtonMessage,
+                                                            unsigned int rightButtonMessage,
+                                                            unsigned int middleButtonMessage,
+                                                            int dialogField318,
+                                                            int dialogField31C,
+                                                            unsigned int textFormatLanguageString,
+                                                            int textParameter)}
+  Delegates to {5588F0}.                                                                                                ||| ref
+
+- {558AC0 int ShowHelpDialog(char *dialogParentFNGName, char *dialogFNGName, unsigned int textLanguageString)}          ||| func
+  Calls {558020} with {1} for {structDialogInfo+328}, {structDialogInfo+32C}, {structDialogInfo+32D}.                   ||| ref,code,refto,refto,refto
+  Uses {0x639(OK)} for {structDialogInfo+310}, {0x34DC1BEC} for {structDialogInfo+314},                                 ||| code,refto,code,refto
+  {0xB4EDEB6D} for {structDialogInfo+318}, {0} for {structDialogInfo+31C}.                                              ||| code,refto,code,refto
 
 - {7F6DE0 int nextDialogId}                                                                     ||| field
   When {558020} is called, value is put into {838974} and incremented.                          ||| ref,ref
@@ -4329,6 +4522,77 @@ if (![isProfileWithStartedCareerLoaded])  {                                     
 
 - {862838 int _currentStage}                                                                            ||| field
   Maybe this is part of {struct CareerData}?                                                            ||| refto
+.pop symbols
+
+.pop section
+.push section
+
+{LAN/OL}  ||| h id=networkstuff
+
+.push pre
+{struct SocketWrapper} \{                                                                                               ||| mkref
+        {struct SocketWrapper} *{previousSocketWrapper}                                                                 ||| refto,mkref name=structSocketWrapper+0
+        int field_4;
+        int socket_af;
+        int socket_type;
+        int socket_protocol;
+        int field_14;
+        SOCKET socket;
+        int field_1C;
+        int field_20;
+        int field_24;
+        int field_28;
+        int field_2C;
+        int field_30;
+        int field_34;
+        int field_38;
+        int field_3C;
+        int field_40;
+        int field_44;
+        {struct SocketWrapperWrapper} *socketWrapperWrapper;                                                            ||| refto
+        int (*func)(void*,void*,void*); /*actual number of parameters is unknown*/
+};
+
+{struct CriticalSectionWrapper_3} \{                                                                                    ||| mkref
+        int lastAccessedThreadId;
+        int numActiveLocks;
+        int isInCriticalSection;
+        CRITICAL_SECTION criticalSection
+};
+EXPECT_SIZE(struct CriticalSectionWrapper_3, 0x24);
+
+{struct SocketWrapperWrapper} \{                                                                                        ||| mkref
+        {struct SocketWrapper} *socketWrapper;                                                                          ||| refto
+        int field_4;
+        int field_8;
+        struct CriticalSectionWrapper_3 criticalSectionWrapper;
+        int ptrField_30;
+        int field_34;
+        int field_38;
+};
+.pop pre
+
+.push symbols
+- {74A220 {struct SocketWrapper} *CreateNonBlockingSocket(int af, int type, int protocol)}                              ||| func,refto
+  Calls Winsock's {socket}, set it nonblocking (with {ioctlsocket}).                                                    ||| code,code
+  In case of {type == SOCK_RAW}, call {setsockopt(s, SOL_SOCKET, SO_BROADCAST, (ptr to 1), 4)}.                         ||| code,code
+  Returned value is stored in {8B7C9C} and the previous value is put in its {{structSocketWrapper+0}} (this seems to be ||| ref,code,refto
+  an atomic operation).
+
+- {74A2D0 int CloseSocketWrapper({struct SocketWrapper} *socketWrapper)}                                                ||| func,refto
+  Calls Winsock's {shutdown} and {closesocket}. Some critical section stuff.                                            ||| code,code
+
+- {74A380 int BindWrapper({struct SocketWrapper} *socketWrapper, int name, int namelen)}                                ||| func,refto
+  Calls Winsock's {bind}.                                                                                               ||| code
+  0 on success or {WSAEWOULDBLOCK}/{WSAECONNRESET},                                                                     ||| code,code
+  -2 on {WSAENOTCONN},                                                                                                  ||| code
+  -5 on {WSAENETUNREACH}/{WSAEHOSTDOWN},                                                                                ||| code,code
+  -6 on {WSAECONNREFUSED},                                                                                              ||| code
+  -7 on other err.
+
+- {8B7C9C {struct SocketWrapper} *socketWrapper}                                                                        ||| field,refto
+  Contains latest created socket.
+
 .pop symbols
 
 .pop section

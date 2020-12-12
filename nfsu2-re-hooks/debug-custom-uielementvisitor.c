@@ -16,7 +16,7 @@ void debug_custom_uielementvisitor_visit_element(struct UIElement *element, char
 				wchar2char(locbuf2 + 1, label->string.ptrString);
 			}
 		}
-		element->someFlags |= 0x2; // set visible
+		//element->someFlags |= 0x2; // set visible
 		log(buf, sprintf(buf, "%selement type %d hash %08X flags %8X:%s",
 			prefix, element->type, element->hash, element->someFlags, locbuf2));
 		if (element->type == 5) {

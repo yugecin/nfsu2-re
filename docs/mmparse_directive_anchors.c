@@ -1,4 +1,4 @@
-#define MAX_ANCHORS 200
+#define MAX_ANCHORS 1000
 #define MAX_ANCHOR_NAME 100
 #define MAX_ANCHOR_CONTENT 100
 char anchor_names[MAX_ANCHORS][MAX_ANCHOR_NAME];

@@ -127,7 +127,7 @@ Need For Speed Underground 2, otherwise knows as nfsu2.
 </p><p>This normally belongs to <a href="https://github.com/yugecin/nfsu2-re">https://github.com/yugecin/nfsu2-re</a>.
 </p><p>Other pages: <a href="cheatsheet.html">(fpu) cheatsheet</a>
 </p><p style='margin-bottom:0'><a href='#index'>Index</a></p></div><span id='index'></span><div><h2>Index <a href="#index">#</a></h2>
-<ul><li><a href="#prologue">Prologue</a></li><li><a href="#index">Index</a></li><li><a href="#injectedcode">Injected code</a></li><li><a href="#displaysettings">Display settings</a></li><li><a href="#registry">Registry</a></li><li><a href="#gameregion">Game region</a></li><li><a href="#bindata">Bin data</a></li><li><a href="#language">Language</a><ul><li><a href="#language_metadata">Language metadata</a></li><li><a href="#language_files">Language files</a></li></ul></li><li><a href="#pools">Pools</a></li><li><a href="#speedyboot">Speedy boot</a></li><li><a href="#consoleleftover">Console leftovers</a><ul><li><a href="#console_consume_key">ConsoleConsumeKey</a><ul><li><a href="#console_consume_key_check">A hardcoded key check</a></li></ul></li><li><a href="#console_move_caret">ConsoleMoveCaret</a></li></ul></li><li><a href="#hashfuncs">Hash functions</a><ul><li><a href="#hashmess">Messing with hash results</a></li></ul></li><li><a href="#debugprint">Debug print</a></li><li><a href="#ui">UI</a><ul><li><a href="#ui_dialog">Dialogs</a><ul><li><a href="#ui_dialog_getfngfordialog">GetFNGForDialog</a></li></ul></li><li><a href="#fngthings">FNG things</a></li><li><a href="#some_fng_screens">Some FNG screens</a><ul><li><a href="#replace_loading_screen">Replacing the loading screen</a></li></ul></li><li><a href="#screenprintf">ScreenPrintf.fng</a></li></ul></li><li><a href="#mouseinput">Mouse input</a></li><li><a href="#cheats">Cheats</a></li><li><a href="#carmodeldata">Car model data</a></li><li><a href="#sound">Sound</a></li><li><a href="#career">Career</a><ul><li><a href="#markers">Markers</a></li><li><a href="#sms_stuff">SMS stuff</a></li></ul></li><li><a href="#d3d9stuff">D3D9 Stuff</a></li><li><a href="#other_symbols">Other symbols</a></ul><p style='margin-bottom:0'><a href='#index'>Index</a></p></div><span id='injectedcode'></span><div><h2>Injected code <a href="#injectedcode">#</a></h2>
+<ul><li><a href="#prologue">Prologue</a></li><li><a href="#index">Index</a></li><li><a href="#injectedcode">Injected code</a></li><li><a href="#displaysettings">Display settings</a></li><li><a href="#registry">Registry</a></li><li><a href="#gameregion">Game region</a></li><li><a href="#bindata">Bin data</a></li><li><a href="#language">Language</a><ul><li><a href="#language_metadata">Language metadata</a></li><li><a href="#language_files">Language files</a></li></ul></li><li><a href="#pools">Pools</a></li><li><a href="#speedyboot">Speedy boot</a></li><li><a href="#consoleleftover">Console leftovers</a><ul><li><a href="#console_consume_key">ConsoleConsumeKey</a><ul><li><a href="#console_consume_key_check">A hardcoded key check</a></li></ul></li><li><a href="#console_move_caret">ConsoleMoveCaret</a></li></ul></li><li><a href="#hashfuncs">Hash functions</a><ul><li><a href="#hashmess">Messing with hash results</a></li></ul></li><li><a href="#debugprint">Debug print</a></li><li><a href="#ui">UI</a><ul><li><a href="#ui_dialog">Dialogs</a><ul><li><a href="#ui_dialog_getfngfordialog">GetFNGForDialog</a></li></ul></li><li><a href="#fngthings">FNG things</a></li><li><a href="#some_fng_screens">Some FNG screens</a><ul><li><a href="#replace_loading_screen">Replacing the loading screen</a></li></ul></li><li><a href="#screenprintf">ScreenPrintf.fng</a></li></ul></li><li><a href="#mouseinput">Mouse input</a></li><li><a href="#cheats">Cheats</a></li><li><a href="#carmodeldata">Car model data</a></li><li><a href="#sound">Sound</a></li><li><a href="#career">Career</a><ul><li><a href="#markers">Markers</a></li><li><a href="#sms_stuff">SMS stuff</a></li></ul></li><li><a href="#networkstuff">LAN/OL</a></li><li><a href="#d3d9stuff">D3D9 Stuff</a></li><li><a href="#other_symbols">Other symbols</a></ul><p style='margin-bottom:0'><a href='#index'>Index</a></p></div><span id='injectedcode'></span><div><h2>Injected code <a href="#injectedcode">#</a></h2>
 <p>The code for all injected things I did can be found in <code>nfsu2-re-hooks/*.c</code>.
 It's configured as a VC2005 project in a VC2005 solution.
 The project emits a compiled file to <code>..\NeedForSpeed U2\scripts\nfsu2-re-hooks.asi</code>.
@@ -1526,7 +1526,7 @@ to a string that says what FNG to display for the dialog that was passed.
 it's not set or it's not either <code>animating</code> or <code>3button</code>.
 </p><ul><li><code>HelpDialog_SMALL.fng</code> when <code><a href='#structDialogInfo_32D'>isHelpDialog</a></code> and text has less than 5 linebreaks
 </li><li><code>HelpDialog_MED.fng</code> when <code><a href='#structDialogInfo_32D'>isHelpDialog</a></code> and text has more than 4 linebreaks
-</li><li><code>GenericDialog_ThreeButton.fng</code> when <code><a href='#structDialogInfo_324'>pMyFNG</a></code> is <code>3button</code>
+</li><li><code>GenericDialog_ThreeButton.fng</code> when <code><a href='#structDialogInfo_324'>myFNGName</a></code> is <code>3button</code>
 </li><li><code>GenericDialog_SMALL.fng</code> when text width is <code>&lt; 2561.0f</code>
 </li><li><code>GenericDialog_Animate_SMALL.fng</code> same as above, but when type is <code>animating</code>
 </li><li><code>GenericDialog_MED.fng</code> when text width is <code>&lt; 5122.0f</code>
@@ -1556,27 +1556,28 @@ executable itself so it's probably somewhere deep in a bin file.
 </p><p style='margin-bottom:0'><a href='#index'>Index</a></p></div><div class='indent' style='margin-left:5em'><p style='margin-top:0'><small><a href='#ui'>UI</a> &gt; <a href='#ui_dialog'>Dialogs</a> (continuation)</small></p><p><code>DialogInfo</code> struct made by looking at all of the above and more:
 (Especially <a class='funcref' href='#4FF250'>4FF250:Dialog__ctor()</a> helped here.)
 </p><pre><span id='struct_DialogInfo'></span>struct DialogInfo {
-	char text[768];
-	int unused300;
-	int unused304;
-	int unused308;
-	int unused30C;
-	int unused310;
-	int unused314;
-	int unused318;
-	int unused31C;
-	char *pParentFNG;
-	char *<span id='structDialogInfo_324'></span>pMyFNG;
-	int unused_328;
-	char unused_32C;
+	char <span id='structDialogInfo_0'></span>text[768];
+	unsigned int <span id='structDialogInfo_300'></span>leftButtonLanguageString;
+	unsigned int <span id='structDialogInfo_304'></span>leftButtonMessage;
+	unsigned int <span id='structDialogInfo_308'></span>rightButtonLanguageString;
+	unsigned int <span id='structDialogInfo_30C'></span>righttButtonMessage;
+	unsigned int <span id='structDialogInfo_310'></span>middleButtonLanguageString;
+	unsigned int <span id='structDialogInfo_314'></span>middleButtonMessage;
+	int <span id='structDialogInfo_318'></span>field_318;
+	int <span id='structDialogInfo_31C'></span>field_31C;
+	char *<span id='structDialogInfo_320'></span>parentFNGName;
+	char *<span id='structDialogInfo_324'></span>myFNGName;
+	int <span id='structDialogInfo_328'></span>field_328;
+	char <span id='structDialogInfo_32C'></span>field_32C;
 	char <span id='structDialogInfo_32D'></span>isHelpDialog;
-	char unused_32E;
-	char something32F; /*set to 0 in 55806D*/
-	int something330; /*set to 0 in 558074*/
-	int unused334;
+	char <span id='structDialogInfo_32E'></span>field_32E;
+	char <span id='structDialogInfo_32F'></span>field_32F; /*set to 0 in 55806D*/
+	int <span id='structDialogInfo_330'></span>field_330; /*set to 0 in 558074*/
+	int <span id='structDialogInfo_334'></span>field_334;
+	int <span id='structDialogInfo_338'></span>field_338;
 };
 EXPECT_SIZE(<a href='#struct_DialogInfo'>struct DialogInfo</a>, 0x338);
-ASSERT_OFFSET(<a href='#struct_DialogInfo'>struct DialogInfo</a>, <a href='#structDialogInfo_324'>pMyFNG</a>, 0x324);
+ASSERT_OFFSET(<a href='#struct_DialogInfo'>struct DialogInfo</a>, <a href='#structDialogInfo_324'>myFNGName</a>, 0x324);
 ASSERT_OFFSET(<a href='#struct_DialogInfo'>struct DialogInfo</a>, <a href='#structDialogInfo_32D'>isHelpDialog</a>, 0x32D);
 </pre><p><strong>Symbols:</strong></p><ul><li><span class='func' id='4FF250'>4FF250 void __thiscall Dialog__ctor(<a href='#struct_DialogInfo'>struct DialogInfo</a> *this)</span>
   Initializes memory that was allocated to be a dialog.
@@ -1584,9 +1585,180 @@ ASSERT_OFFSET(<a href='#struct_DialogInfo'>struct DialogInfo</a>, <a href='#stru
   Returns a pointer to a string that says what FNG to display for the dialog that was passed.
   See <a href='#ui_dialog_getfngfordialog'>GetFNGForDialog</a>
 </li><li><span class='func' id='540A60'>540A60 void DismissDialog(int dialogIdToDismiss)</span>
+</li><li><span class='func' id='54C050'>54C050 int __thiscall DialogFNGMessageHandler(struct DialogFNGObject *this, int, int, int, int)</span>
+</li><li><span class='func' id='5542A0'>5542A0 DialogFNGInitHandler</span>
 </li><li><span class='func' id='558020'>558020 int ShowDialog(<a href='#struct_DialogInfo'>struct DialogInfo</a> *info)</span>
   Returns the new dialog id for it (value in <a class='fieldref' href='#838974'>838974:shownDialogId</a>) or zero when
   it didn't show because of some override.
+</li><li><span class='func' id='5582A0'>5582A0 int ShowButtonlessFormattedDialogPtr(char *dialogParentFNGName,
+                                               char *dialogFNGName,
+                                               char *textFormat,
+                                               void *textParameterPtr)</span>
+  Calls <a class='funcref' href='#558020'>558020:ShowDialog()</a>.
+</li><li><span class='func' id='558310'>558310 int ShowButtonlessFormattedDialog(char *dialogParentFNGName,
+                                            char *dialogFNGName,
+                                            char *textFormat,
+                                            int textParameter)</span>
+  Delegates to <a class='funcref' href='#5582A0'>5582A0:ShowButtonlessFormattedDialogPtr()</a>.
+</li><li><span class='func' id='558330'>558330 int ShowButtonlessFormattedLanguageDialog(char *dialogParentFNGName,
+                                                    char *dialogFNGName,
+                                                    unsigned int textLanguageKey,
+                                                    int textParameter)</span>
+  Delegates to <a class='funcref' href='#5582A0'>5582A0:ShowButtonlessFormattedDialogPtr()</a>.
+</li><li><span class='func' id='558390'>558390 int ShowStandardFormattedErrorDialog(char *dialogParentFNGName,
+                                               char *dialogFNGName,
+                                               char *textFormat,
+                                               void *textParameterPtr)</span>
+  Calls <a class='funcref' href='#558020'>558020:ShowDialog()</a>.
+  Uses <code>0x639(OK)</code> for <a href='#structDialogInfo_310'>middleButtonLanguageString</a>, <code>0x34DC1BEC</code> for <a href='#structDialogInfo_314'>middleButtonMessage</a>,
+  <code>0xB4EDEB6D</code> for <a href='#structDialogInfo_318'>field_318</a>, <code>0</code> for <a href='#structDialogInfo_31C'>field_31C</a>,
+  <code>1</code> for <a href='#structDialogInfo_328'>field_328</a> and <a href='#structDialogInfo_32C'>field_32C</a>.
+</li><li><span class='func' id='558430'>558430 int ShowStandardFormattedLanguageErrorDialog(char *dialogParentFNGName,
+                                                       char *dialogFNGName,
+                                                       unsigned int textFormatLanguageKey,
+                                                       int textParameter)</span>
+  Delegates to <a class='funcref' href='#558390'>558390:ShowStandardFormattedErrorDialog()</a>.
+</li><li><span class='func' id='558490'>558490 int ShowSingleButtonFormattedDialog318_32C(char *dialogParentFNGName,
+                                                     char *dialogFNGName,
+                                                     unsigned int middleButtonLanguageString,
+                                                     unsigned int middleButtonMessage,
+                                                     int dialogField318,
+                                                     char byteDialogField32C,
+                                                     char *textFormat,
+                                                     void *textParameterPtr)</span>
+  Calls <a class='funcref' href='#558020'>558020:ShowDialog()</a>.
+  Uses <code>0</code> for <a href='#structDialogInfo_31C'>field_31C</a> and <code>1</code> for <a href='#structDialogInfo_328'>field_328</a>.
+</li><li><span class='func' id='558540'>558540 int ShowSingleButtonFormattedDialog318(char *dialogParentFNGName,
+                                                 char *dialogFNGName,
+                                                 unsigned int middleButtonLanguageString,
+                                                 unsigned int middleButtonMessage,
+                                                 int dialogField318,
+                                                 char *textFormat,
+                                                 int textParameter)</span>
+  Delegates to <a class='funcref' href='#558490'>558490:ShowSingleButtonFormattedDialog318_32C()</a>.
+  Uses <code>1</code> for <a href='#structDialogInfo_32C'>field_32C</a>.
+</li><li><span class='func' id='558570'>558570 int ShowSingleButtonFormattedLanguageDialog318(char *dialogParentFNGName,
+                                                         char *dialogFNGName,
+                                                         unsigned int middleButtonLanguageString,
+                                                         unsigned int middleButtonMessage,
+                                                         int dialogField318,
+                                                         unsigned int textLanguageString,
+                                                         int textParameter)</span>
+  Delegates to <a class='funcref' href='#558490'>558490:ShowSingleButtonFormattedDialog318_32C()</a>.
+  Uses <code>1</code> for <a href='#structDialogInfo_32C'>field_32C</a>.
+</li><li><span class='func' id='5585E0'>5585E0 int ShowSingleButtonFormattedDialog(char *dialogParentFNGName,
+                                              char *dialogFNGName,
+                                              unsigned int middleButtonLanguageString,
+                                              unsigned int middleButtonMessage,
+                                              char *textFormat,
+                                              int textParameter)</span>
+  Delegates to <a class='funcref' href='#558490'>558490:ShowSingleButtonFormattedDialog318_32C()</a>.
+  Uses <code>0</code> for <a href='#structDialogInfo_318'>field_318</a> and <a href='#structDialogInfo_32C'>field_32C</a>.
+</li><li><span class='func' id='558610'>558610 int ShowSingleButtonFormattedLanguageDialog(char *dialogParentFNGName,
+                                                      char *dialogFNGName,
+                                                      unsigned int middleButtonLanguageString,
+                                                      unsigned int middleButtonMessage,
+                                                      unsigned int textLanguageString,
+                                                      int textParameter)</span>
+  Delegates to <a class='funcref' href='#558490'>558490:ShowSingleButtonFormattedDialog318_32C()</a>.
+  Uses <code>0</code> for <a href='#structDialogInfo_318'>field_318</a> and <a href='#structDialogInfo_32C'>field_32C</a>.
+</li><li><span class='func' id='558680'>558680 int ShowTwoButtonFormattedDialog318_31C_32C(char *dialogParentFNGName,
+                                                      char *dialogFNGName,
+                                                      unsigned int leftButtonLanguageString,
+                                                      unsigned int rightButtonLanguageString,
+                                                      unsigned int leftButtonMessage,
+                                                      unsigned int rightButtonMessage,
+                                                      int dialogField318,
+                                                      char dialogField_32C,
+                                                      int dialogField_31C,
+                                                      char *textFormat,
+                                                      void *textParameterPtr)</span>
+  Calls <a class='funcref' href='#558020'>558020:ShowDialog()</a>.
+</li><li><span class='func' id='558750'>558750 int ShowTwoButtonFormattedDialog318_31C(char *dialogParentFNGName,
+                                                  char *dialogFNGName,
+                                                  unsigned int leftButtonLanguageString,
+                                                  unsigned int rightButtonLanguageString,
+                                                  unsigned int leftButtonMessage,
+                                                  unsigned int rightButtonMessage,
+                                                  int dialogField318,
+                                                  int dialogField31C,
+                                                  char *textFormat,
+                                                  int textParameter)</span>
+  Delegates to <a class='funcref' href='#558680'>558680:ShowTwoButtonFormattedDialog318_31C_32C()</a> with <code>1</code> for <a href='#structDialogInfo_32C'>field_32C</a>.
+</li><li><span class='func' id='558790'>558790 int ShowTwoButtonFormattedLanguageDialog318_31C(char *dialogParentFNGName,
+                                                          char *dialogFNGName,
+                                                          unsigned int leftButtonLanguageString,
+                                                          unsigned int rightButtonLanguageString,
+                                                          unsigned int leftButtonMessage,
+                                                          unsigned int rightButtonMessage,
+                                                          int dialogField318,
+                                                          int dialogField31C,
+                                                          int textFormatLanguageString,
+                                                          int textParameter)</span>
+  Delegates to <a class='funcref' href='#558680'>558680:ShowTwoButtonFormattedDialog318_31C_32C()</a> with <code>1</code> for <a href='#structDialogInfo_32C'>field_32C</a>.
+</li><li><span class='func' id='558820'>558820 int ShowTwoButtonFormattedDialog31C(int dialogParentFNGName,
+                                              int dialogFNGName,
+                                              unsigned int leftButtonLanguageString,
+                                              unsigned int rightButtonLanguageString,
+                                              unsigned int leftButtonMessage,
+                                              unsigned int rightButtonMessage,
+                                              int dialogField31C,
+                                              char *textFormat,
+                                              int textParameter)</span>
+  Delegates to <a class='funcref' href='#558680'>558680:ShowTwoButtonFormattedDialog318_31C_32C()</a> with <code>0</code> for <a href='#structDialogInfo_318'>field_318</a> and <a href='#structDialogInfo_32C'>field_32C</a>.
+</li><li><span class='func' id='558860'>558860 int ShowTwoButtonFormattedLanguageDialog31C(char *dialogParentFNGName,
+                                                      char *dialogFNGName,
+                                                      unsigned int leftButtonLanguageString,
+                                                      unsigned int rightButtonLanguageString,
+                                                      unsigned int leftButtonMessage,
+                                                      unsigned int rightButtonMessage,
+                                                      int dialogField31C,
+                                                      char *textFormat,
+                                                      int textParameter)</span>
+  Delegates to <a class='funcref' href='#558680'>558680:ShowTwoButtonFormattedDialog318_31C_32C()</a> with <code>0</code> for <a href='#structDialogInfo_318'>field_318</a> and <a href='#structDialogInfo_32C'>field_32C</a>.
+</li><li><span class='func' id='5588F0'>5588F0 int ShowThreeButtonFormattedDialog318_31C(char *dialogParentFNGName,
+                                                    char *dialogFNGName,
+                                                    unsigned int leftButtonLanguageString,
+                                                    unsigned int rightButtonLanguageString,
+                                                    unsigned int middleButtonLanguageString,
+                                                    unsigned int leftButtonMessage,
+                                                    unsigned int rightButtonMessage,
+                                                    unsigned int middleButtonMessage,
+                                                    int dialogField318,
+                                                    int dialogField31C,
+                                                    char *textFormat,
+                                                    void *textParameterPtr)</span>
+  Calls <a class='funcref' href='#558020'>558020:ShowDialog()</a> with <code>3</code> for <a href='#structDialogInfo_328'>field_328</a>, <code>1</code> for <a href='#structDialogInfo_32C'>field_32C</a>.
+</li><li><span class='func' id='5589D0'>5589D0 int ShowThreeButtonFormattedDialog318_31C(char *dialogParentFNGName,
+                                                    char *dialogFNGName,
+                                                    unsigned int leftButtonLanguageString,
+                                                    unsigned int rightButtonLanguageString,
+                                                    unsigned int middleButtonLanguageString,
+                                                    unsigned int leftButtonMessage,
+                                                    unsigned int rightButtonMessage,
+                                                    unsigned int middleButtonMessage,
+                                                    int dialogField318,
+                                                    int dialogField31C,
+                                                    char *textFormat,
+                                                    int textParameter)</span>
+  Delegates to <a class='funcref' href='#5588F0'>5588F0:ShowThreeButtonFormattedDialog318_31C()</a>.
+</li><li><span class='func' id='558A20'>558A20 int ShowThreeButtonFormattedLanguageDialog318_31C(char *dialogParentFNGName,
+                                                            char *dialogFNGName,
+                                                            unsigned int leftButtonLanguageString,
+                                                            unsigned int rightButtonLanguageString,
+                                                            unsigned int middleButtonLanguageString,
+                                                            unsigned int leftButtonMessage,
+                                                            unsigned int rightButtonMessage,
+                                                            unsigned int middleButtonMessage,
+                                                            int dialogField318,
+                                                            int dialogField31C,
+                                                            unsigned int textFormatLanguageString,
+                                                            int textParameter)</span>
+  Delegates to <a class='funcref' href='#5588F0'>5588F0:ShowThreeButtonFormattedDialog318_31C()</a>.
+</li><li><span class='func' id='558AC0'>558AC0 int ShowHelpDialog(char *dialogParentFNGName, char *dialogFNGName, unsigned int textLanguageString)</span>
+  Calls <a class='funcref' href='#558020'>558020:ShowDialog()</a> with <code>1</code> for <a href='#structDialogInfo_328'>field_328</a>, <a href='#structDialogInfo_32C'>field_32C</a>, <a href='#structDialogInfo_32D'>isHelpDialog</a>.
+  Uses <code>0x639(OK)</code> for <a href='#structDialogInfo_310'>middleButtonLanguageString</a>, <code>0x34DC1BEC</code> for <a href='#structDialogInfo_314'>middleButtonMessage</a>,
+  <code>0xB4EDEB6D</code> for <a href='#structDialogInfo_318'>field_318</a>, <code>0</code> for <a href='#structDialogInfo_31C'>field_31C</a>.
 </li><li><span class='field' id='7F6DE0'>7F6DE0 int nextDialogId</span>
   When <a class='funcref' href='#558020'>558020:ShowDialog()</a> is called, value is put into <a class='fieldref' href='#838974'>838974:shownDialogId</a> and incremented.
 </li><li><span class='field' id='838640'>838640 <a href='#struct_DialogInfo'>struct DialogInfo</a> shownDialogData</span>
@@ -3323,6 +3495,63 @@ if (smsdata) {
 </li><li><span class='field' id='85AD40'>85AD40 <a href='#struct_CareerData'>struct CareerData</a> careerData</span>
 </li><li><span class='field' id='862838'>862838 int _currentStage</span>
   Maybe this is part of <a href='#struct_CareerData'>struct CareerData</a>?
+</li></ul><p style='margin-bottom:0'><a href='#index'>Index</a></p></div><span id='networkstuff'></span><div><h2>LAN/OL <a href="#networkstuff">#</a></h2>
+<pre><span id='struct_SocketWrapper'></span>struct SocketWrapper {
+        <a href='#struct_SocketWrapper'>struct SocketWrapper</a> *<span id='structSocketWrapper_0'></span>previousSocketWrapper
+        int field_4;
+        int socket_af;
+        int socket_type;
+        int socket_protocol;
+        int field_14;
+        SOCKET socket;
+        int field_1C;
+        int field_20;
+        int field_24;
+        int field_28;
+        int field_2C;
+        int field_30;
+        int field_34;
+        int field_38;
+        int field_3C;
+        int field_40;
+        int field_44;
+        <a href='#struct_SocketWrapperWrapper'>struct SocketWrapperWrapper</a> *socketWrapperWrapper;
+        int (*func)(void*,void*,void*); /*actual number of parameters is unknown*/
+};
+
+<span id='struct_CriticalSectionWrapper_3'></span>struct CriticalSectionWrapper_3 {
+        int lastAccessedThreadId;
+        int numActiveLocks;
+        int isInCriticalSection;
+        CRITICAL_SECTION criticalSection
+};
+EXPECT_SIZE(struct CriticalSectionWrapper_3, 0x24);
+
+<span id='struct_SocketWrapperWrapper'></span>struct SocketWrapperWrapper {
+        <a href='#struct_SocketWrapper'>struct SocketWrapper</a> *socketWrapper;
+        int field_4;
+        int field_8;
+        struct CriticalSectionWrapper_3 criticalSectionWrapper;
+        int ptrField_30;
+        int field_34;
+        int field_38;
+};
+</pre><p><strong>Symbols:</strong></p><ul><li><span class='func' id='74A220'>74A220 <a href='#struct_SocketWrapper'>struct SocketWrapper</a> *CreateNonBlockingSocket(int af, int type, int protocol)</span>
+  Calls Winsock's <code>socket</code>, set it nonblocking (with <code>ioctlsocket</code>).
+  In case of <code>type == SOCK_RAW</code>, call <code>setsockopt(s, SOL_SOCKET, SO_BROADCAST, (ptr to 1), 4)</code>.
+  Returned value is stored in <a class='fieldref' href='#8B7C9C'>8B7C9C:socketWrapper</a> and the previous value is put in its <code><a href='#structSocketWrapper_0'>previousSocketWrapper</a></code> (this seems to be
+  an atomic operation).
+</li><li><span class='func' id='74A2D0'>74A2D0 int CloseSocketWrapper(<a href='#struct_SocketWrapper'>struct SocketWrapper</a> *socketWrapper)</span>
+  Calls Winsock's <code>shutdown</code> and <code>closesocket</code>. Some critical section stuff.
+</li><li><span class='func' id='74A380'>74A380 int BindWrapper(<a href='#struct_SocketWrapper'>struct SocketWrapper</a> *socketWrapper, int name, int namelen)</span>
+  Calls Winsock's <code>bind</code>.
+  0 on success or <code>WSAEWOULDBLOCK</code>/<code>WSAECONNRESET</code>,
+  -2 on <code>WSAENOTCONN</code>,
+  -5 on <code>WSAENETUNREACH</code>/<code>WSAEHOSTDOWN</code>,
+  -6 on <code>WSAECONNREFUSED</code>,
+  -7 on other err.
+</li><li><span class='field' id='8B7C9C'>8B7C9C <a href='#struct_SocketWrapper'>struct SocketWrapper</a> *socketWrapper</span>
+  Contains latest created socket.
 </li></ul><p style='margin-bottom:0'><a href='#index'>Index</a></p></div><span id='d3d9stuff'></span><div><h2>D3D9 Stuff <a href="#d3d9stuff">#</a></h2>
 <p><strong>Symbols:</strong></p><ul><li><span class='field' id='86C120'>86C120 struct D3DADAPTER_IDENTIFIER9 _d3d9AdapterIdentifier</span>
 </li><li><span class='field' id='870970'>870970 IDirect3D9 *_IDirect3D9ptr</span>
