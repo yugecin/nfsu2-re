@@ -53,7 +53,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="kernel32.lib user32.lib"
+				AdditionalDependencies="kernel32.lib user32.lib gdi32.lib"
 				OutputFile="$(SolutionDir)\..\NeedForSpeed U2\scripts\$(ProjectName).asi"
 				AdditionalLibraryDirectories="&quot;C:\Program Files (x86)\Windows Kits\8.0\Lib\win8\um\x86&quot;;&quot;C:\Program Files (x86)\Microsoft SDKs\Windows\v7.1A\Lib&quot;"
 				IgnoreDefaultLibraryNames="uuid.lib"
@@ -204,6 +204,30 @@
 		</File>
 		<File
 			RelativePath=".\a_utils.c"
+			>
+			<FileConfiguration
+				Name="Debug|Win32"
+				ExcludedFromBuild="true"
+				>
+				<Tool
+					Name="VCCLCompilerTool"
+				/>
+			</FileConfiguration>
+		</File>
+		<File
+			RelativePath=".\d3d9.c"
+			>
+			<FileConfiguration
+				Name="Debug|Win32"
+				ExcludedFromBuild="true"
+				>
+				<Tool
+					Name="VCCLCompilerTool"
+				/>
+			</FileConfiguration>
+		</File>
+		<File
+			RelativePath=".\dbgw_a_main.c"
 			>
 			<FileConfiguration
 				Name="Debug|Win32"

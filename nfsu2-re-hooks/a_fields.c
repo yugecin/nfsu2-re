@@ -15,3 +15,5 @@ struct SmsMessageList *smsMessages = (void*) 0x860A60;
 struct SmsData **smsDatas = (void*) 0x838454;
 int *numSmsDatas = (int*) 0x838450;
 struct UIData **pUIData = (void*) 0x8384C4;
+void **d3d9 = (void*) 0x870970;
+void **d3device9 = (void*) 0x870974;

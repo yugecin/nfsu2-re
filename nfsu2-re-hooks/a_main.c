@@ -32,6 +32,7 @@ static void stub() {}
 /*note: hash hooks can get called A LOT so this may slow down the game*/
 #define WIDESCREEN_MOD /*define when external widescreen mod is active*/
 
+#include "d3d9.c"
 #include "runwindowed.c" // must be on top for NFSU2_RUN_WINDOWED define, needed for mouse stuff
 #include "faux-enable-console.c"
 //#include "hook-43DB50-hash-cs.c"
@@ -68,6 +69,8 @@ static void stub() {}
 #include "replaceloadingscreen.c"
 #include "winconsole.c"
 #include "skipinsertdisc2.c"
+
+#include "dbgw_a_main.c"
 
 //#include "ol-replace-7583E0.c"
 //#include "ol-replace-759B4A.c"

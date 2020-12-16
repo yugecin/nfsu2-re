@@ -1,9 +1,14 @@
 #define _CRT_SECURE_NO_DEPRECATE
 #include <stdio.h>
 #include <dinput.h>
+#include <d3d9.h>
 
 int main()
 {
+	printf("x %x\n", D3DRS_SHADEMODE);
+	printf("x %x\n", D3DSHADE_FLAT);
+	printf("x %x\n", D3DZB_FALSE);
+	printf("FIONBIO %p\n", FIONBIO);
 	printf("DIERR_INVALIDPARAM %p\n", DIERR_INVALIDPARAM);
 	printf("DIERR_NOTINITIALIZED %p\n", DIERR_NOTINITIALIZED);
 	printf("DIERR_OTHERAPPHASPRIO %p\n", DIERR_OTHERAPPHASPRIO);

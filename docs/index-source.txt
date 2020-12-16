@@ -4605,6 +4605,8 @@ EXPECT_SIZE(struct CriticalSectionWrapper_3, 0x24);
 
 - {870970 IDirect3D9 *_IDirect3D9ptr}                                                           ||| field
 
+- {870974 IDirect3DDevice9 *_IDirect3DDevice9Ptr}                                               ||| field
+
 - {8709AC int _displayAdapter}                                                                  ||| field
   {Ordinal number that denotes the display adapter.                                             ||| em
   {D3DADAPTER_DEFAULT(0)} is always the primary display adapter.}                               ||| code
@@ -4733,6 +4735,9 @@ EXPECT_SIZE(struct WorldAnimStuff, 0x4C);
   TODO
 
 - {5CCD60 LPRESULT MainWndProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)}             ||| func
+
+- {741650 int strncpy_0(char *dest, int maxlen, char *src)}                                     ||| func
+  Returns amount of chars written?
 
 - {75BCC7 start}                                                                                ||| func
 
