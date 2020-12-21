@@ -9,6 +9,20 @@
 #define IDC_BTN_RENDERMODE_WIRE 20
 #define IDC_BTN_RENDERMODE_PTS 21
 #define IDC_BTN_RENDERMODE_FLATSHADE 22
+#define IDC_UITREE 23
+
+#define UI_LIST_ITM_MAX_LEN 128
+struct UiListItem {
+	HTREEITEM itm;
+	unsigned int hash;
+	void *ptr;
+};
+EXPECT_SIZE(struct UiListItem, 0xC);
+#define MAX_UI_LIST_ITEMS 1000
+struct UiListItem uiListItems[MAX_UI_LIST_ITEMS];
+char uiListItemStrings[MAX_UI_LIST_ITEMS][UI_LIST_ITM_MAX_LEN];
+char uiListItemStillExists[MAX_UI_LIST_ITEMS];
+int numUiListItems;
 
 HGDIOBJ font;
 HMODULE hModule;
@@ -16,6 +30,197 @@ HWND hMain, hTab;
 HWND hBtnRenderModeNormal, hBtnRenderModeWire, hBtnRenderModePts, hBtnRenderFlatshade;
 #define numtabpanes 2
 HWND hTabpane[numtabpanes];
+HWND hUITree;
+
+static
+HTREEITEM dbgw_ui_tree_find_item(void *ptr, unsigned int hash, int *out_idx)
+{
+	int i;
+
+	for (i = 0; i < numUiListItems; i++) {
+		if (uiListItems[i].ptr == ptr && uiListItems[i].hash == hash) {
+			*out_idx = i;
+			uiListItemStillExists[i] = 1;
+			return uiListItems[i].itm;
+		}
+	}
+	return NULL;
+}
+
+static
+HTREEITEM dbgw_ui_tree_ensure_item(
+	void *ptr,
+	unsigned int hash,
+	char *text,
+	int textlen,
+	HTREEITEM parent,
+	HTREEITEM after,
+	int hasChildren)
+{
+	HTREEITEM itm;
+	TVITEMA tvi;
+	TVINSERTSTRUCTA tvis;
+	int idx;
+
+	itm = dbgw_ui_tree_find_item(ptr, hash, &idx);
+	if (itm) {
+		if (!strcmp(text, uiListItemStrings[idx])) {
+			strcpy(uiListItemStrings[idx], text);
+			tvi.mask = TVIF_TEXT;
+			tvi.cchTextMax = textlen;
+			tvi.pszText = text;
+			SendMessage(hUITree, TVM_SETITEM, 0, (LPARAM) &tvi);
+		}
+	} else {
+		tvis.item.mask = TVIF_TEXT | TVIF_CHILDREN;
+		tvis.item.pszText = text;
+		tvis.item.cchTextMax = textlen;
+		tvis.item.cChildren = hasChildren;
+		tvis.hInsertAfter = after ? after : TVI_FIRST;
+		tvis.hParent = parent;
+		itm = (HTREEITEM) SendMessage(hUITree, TVM_INSERTITEM, 0, (LPARAM) &tvis);
+		if (numUiListItems < MAX_UI_LIST_ITEMS) {
+			uiListItems[numUiListItems].hash = hash;
+			uiListItems[numUiListItems].ptr = ptr;
+			uiListItems[numUiListItems].itm = itm;
+			uiListItemStillExists[numUiListItems] = 1;
+			numUiListItems++;
+		}
+	}
+	return itm;
+}
+
+static
+void dbgw_ui_tree_element_format(struct UIElement *element, char *dst, int *out_len)
+{
+	int len;
+	short *src;
+	struct UIElement *child;
+	int numchilds;
+
+	if (element->type == 5) {
+		numchilds = 0;
+		child = ((struct UIContainer*) element)->children;
+		while (child) {
+			numchilds++;
+			child = child->nextSibling;
+		}
+		len = sprintf(dst, "container %08x (%d)", element->hash, numchilds);
+	} else if (element-> type == 2) {
+		len = sprintf(dst, "label %08x: ", element->hash);
+		src = ((struct UILabel*) element)->string.ptrString;
+		if (src) {
+			dst += len;
+			while ((*(dst++) = (0xFF & *(src++)))) {
+				if (++len >= UI_LIST_ITM_MAX_LEN) {
+					break;
+				}
+			}
+		} else {
+			len += sprintf(buf + len, "(null)");
+		}
+	} else {
+		len = sprintf(dst, "type %d %08x", element->type, element->hash);
+	}
+	*out_len = len;
+}
+
+static
+void dbgw_ui_tree_update_before_present()
+{
+#define MAX_CONTAINER_STACK 20
+	struct UIElement *containerStack[MAX_CONTAINER_STACK];
+	int containerStackSize;
+	HTREEITEM lastItems[MAX_CONTAINER_STACK];
+	HTREEITEM itm;
+	struct Vert verts[4];
+	int level;
+	struct FNGInfo *fng;
+	struct UIElement *element;
+	char buf[UI_LIST_ITM_MAX_LEN];
+	int len;
+	int i;
+
+	if (!hMain) {
+		return;
+	}
+
+	if (!(GetWindowLongA(hTabpane[0], GWL_STYLE) & WS_VISIBLE)) {
+		return;
+	}
+
+	memset(uiListItemStillExists, 0, sizeof(uiListItemStillExists));
+	memset(lastItems, 0, sizeof(lastItems));
+	level = 0;
+	containerStackSize = 0;
+	fng = pUIData[0]->field_8->topPackage;
+	while (fng) {
+		len = sprintf(buf, "fng %08x %s", fng->hash, fng->fngName);
+		itm = dbgw_ui_tree_ensure_item(fng, fng->hash, buf, len, 0, lastItems[0], 1);
+		lastItems[0] = itm;
+		element = fng->rootUIElement;
+		level = 1;
+		for (;;) {
+			if (!element) {
+				if (containerStackSize) {
+					lastItems[level] = 0;
+					level--;
+					containerStackSize--;
+					element = containerStack[containerStackSize]->nextSibling;
+					continue;
+				}
+				break;
+			}
+
+			dbgw_ui_tree_element_format(element, buf, &len);
+			itm = dbgw_ui_tree_ensure_item(
+				element, element->hash,
+				buf, len,
+				lastItems[level - 1], lastItems[level],
+				element->type == 5 && ((struct UIContainer*) element)->children);
+			lastItems[level] = itm;
+
+			if (element->type == 5 && containerStackSize < MAX_CONTAINER_STACK) {
+				containerStack[containerStackSize] = element;
+				containerStackSize++;
+				level++;
+				element = ((struct UIContainer*) element)->children;
+			} else {
+				element = element->nextSibling;
+			}
+		}
+		fng = fng->child;
+	} while (fng);
+
+	for (i = 0; i < numUiListItems; i++) {
+		if (!uiListItemStillExists[i]) {
+			SendMessage(hUITree, TVM_DELETEITEM, 0, (LPARAM) uiListItems[i].itm);
+			numUiListItems--;
+			uiListItems[i] = uiListItems[numUiListItems];
+			strcpy(uiListItemStrings[i], uiListItemStrings[numUiListItems]);
+		}
+	}
+
+	PRESENT_HOOK_FUNC();
+#undef PRESENT_HOOK_FUNC
+#define PRESENT_HOOK_FUNC dbgw_ui_tree_update_before_present
+}
+
+static
+void dbgw_create_tab_ui_controls(HWND hWnd)
+{
+	RECT rc;
+
+	GetClientRect(hWnd, &rc);
+	hUITree =
+	CreateWindowEx(0, WC_TREEVIEW,
+		0,
+		TVS_HASLINES | TVS_LINESATROOT | TVS_HASBUTTONS | TVS_DISABLEDRAGDROP
+		| WS_CHILD | WS_VISIBLE,
+		rc.left, rc.top,
+		rc.right, rc.bottom,
+		hWnd, (HMENU) IDC_UITREE, hModule, 0);
+}
 
 static
 void dbgw_create_tab_d3_controls(HWND hWnd)
@@ -107,13 +312,14 @@ void dbgw_create_main_window_controls(HWND hWnd)
 		hTabpane[i] =
 		CreateWindowExA(0, "nfsu2-re-dbgw-child-class",
 			0,
-			WS_CHILD,
+			i == 0 ? WS_CHILD | WS_VISIBLE : WS_CHILD,
 			rc.left, rc.top,
 			rc.right - rc.left, rc.bottom - rc.top,
 			hTab, 0, hModule, 0);
 	}
 
 	dbgw_create_tab_d3_controls(hTabpane[1]);
+	dbgw_create_tab_ui_controls(hTabpane[0]);
 }
 
 static
@@ -201,9 +407,18 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 				rc.left, rc.top,
 				rc.right - rc.left, rc.bottom - rc.top,
 				1);
+		} else if (hwnd == hTabpane[0]) {
+			GetClientRect(hwnd, &rc);
+			MoveWindow(hUITree,
+				rc.left, rc.top,
+				rc.right - rc.left, rc.bottom - rc.top,
+				1);
 		}
 		break;
 	}
+	case WM_DESTROY:
+		hMain = 0;
+		break;
 	default: return DefWindowProc(hwnd, msg, wParam, lParam);
 	}
 	return 0;
@@ -220,8 +435,13 @@ void dbgw_init()
 	iccx.dwSize = sizeof(INITCOMMONCONTROLSEX);
 	iccx.dwICC = ICC_TAB_CLASSES;
 	if (!InitCommonControlsEx(&iccx)) {
+failinitcomm:
 		ERRMSG(NULL, "Failed init common controls.");
 		return;
+	}
+	iccx.dwICC = ICC_TREEVIEW_CLASSES;
+	if (!InitCommonControlsEx(&iccx)) {
+		goto failinitcomm;
 	}
 
 	font = GetStockObject(DEFAULT_GUI_FONT);
@@ -261,7 +481,7 @@ void dbgw_init()
 		wc.lpszClassName,
 		"nfsu2-re-dbgw",
 		WS_OVERLAPPEDWINDOW,
-		CW_USEDEFAULT, CW_USEDEFAULT, 300, 224,
+		CW_USEDEFAULT, CW_USEDEFAULT, 333, 250,
 		NULL, NULL, hModule, NULL
 	);
 	if (hMain == NULL) {
