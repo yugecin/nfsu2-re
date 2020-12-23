@@ -1602,7 +1602,7 @@ ASSERT_OFFSET(<a href='#struct_DialogInfo'>struct DialogInfo</a>, <a href='#stru
   Delegates to <a class='funcref' href='#5582A0'>5582A0:ShowButtonlessFormattedDialogPtr()</a>.
 </li><li><span class='func' id='558330'>558330 int ShowButtonlessFormattedLanguageDialog(char *dialogParentFNGName,
                                                     char *dialogFNGName,
-                                                    unsigned int textLanguageKey,
+                                                    unsigned int textLanguageString,
                                                     int textParameter)</span>
   Delegates to <a class='funcref' href='#5582A0'>5582A0:ShowButtonlessFormattedDialogPtr()</a>.
 </li><li><span class='func' id='558390'>558390 int ShowStandardFormattedErrorDialog(char *dialogParentFNGName,
@@ -1615,7 +1615,7 @@ ASSERT_OFFSET(<a href='#struct_DialogInfo'>struct DialogInfo</a>, <a href='#stru
   <code>1</code> for <a href='#structDialogInfo_328'>field_328</a> and <a href='#structDialogInfo_32C'>field_32C</a>.
 </li><li><span class='func' id='558430'>558430 int ShowStandardFormattedLanguageErrorDialog(char *dialogParentFNGName,
                                                        char *dialogFNGName,
-                                                       unsigned int textFormatLanguageKey,
+                                                       unsigned int textFormatLanguageString,
                                                        int textParameter)</span>
   Delegates to <a class='funcref' href='#558390'>558390:ShowStandardFormattedErrorDialog()</a>.
 </li><li><span class='func' id='558490'>558490 int ShowSingleButtonFormattedDialog318_32C(char *dialogParentFNGName,
@@ -1693,7 +1693,7 @@ ASSERT_OFFSET(<a href='#struct_DialogInfo'>struct DialogInfo</a>, <a href='#stru
                                                           unsigned int rightButtonMessage,
                                                           int dialogField318,
                                                           int dialogField31C,
-                                                          int textFormatLanguageString,
+                                                          unsigned int textFormatLanguageString,
                                                           int textParameter)</span>
   Delegates to <a class='funcref' href='#558680'>558680:ShowTwoButtonFormattedDialog318_31C_32C()</a> with <code>1</code> for <a href='#structDialogInfo_32C'>field_32C</a>.
 </li><li><span class='func' id='558820'>558820 int ShowTwoButtonFormattedDialog31C(int dialogParentFNGName,
@@ -2675,8 +2675,8 @@ where it would set any of the labels' text.
 </p><p>UI keys seem to be hashed with the case insensitive hash.
 </p><pre><span id='struct_U2RECT'></span>struct U2RECT {
         float <span id='structU2RECT_0'></span>left;
-        float <span id='structU2RECT_04'></span>right
-        float <span id='structU2RECT_08'></span>top
+        float <span id='structU2RECT_04'></span>top
+        float <span id='structU2RECT_08'></span>right
         float <span id='structU2RECT_0C'></span>bottom
 };
 
@@ -2849,6 +2849,12 @@ return visitor.<a href='#structUIElementVisitor_FindByHash_8'>foundUIelement</a>
   Same as <a class='funcref' href='#537B30'>537B30:SetUILabelFormattedString()</a> but checks if <code>label</code> is not null first.
 </li><li><span class='func' id='5663B0'>5663B0 void DoUI()</span>
   TODO document this and go in the last unresolved func.
+</li><li><span class='field' id='78DA30'>78DA30 float canvasHeight2</span>
+  Canvas height divided by 2.
+</li><li><span class='field' id='797D50'>797D50 float canvasWith2</span>
+  Canvas width divided by 2.
+</li><li><span class='field' id='797D54'>797D54 float canvasHeight</span>
+</li><li><span class='field' id='797D58'>797D58 float canvasWidth</span>
 </li><li><span class='field' id='79AAF4'>79AAF4 <a href='#struct_UIElementVisitor_FindByHash'>struct UIElementVisitor_FindByHash</a> vtable_UIElementVisitor_FindByHash</span>
   vtable for <a class='funcref' href='#517F80'>517F80:FNGInfo::FindUIElementByHash()</a>,
   <code>vtable-&gt;<a href='#structUIElementVisitor_vtable_0'>func_0</a> = <a class='funcref' href='#5047C0'>5047C0:sub_5047C0</a>;</code>
@@ -3555,6 +3561,7 @@ EXPECT_SIZE(struct CriticalSectionWrapper_3, 0x24);
 </li></ul><p style='margin-bottom:0'><a href='#index'>Index</a></p></div><span id='d3d9stuff'></span><div><h2>D3D9 Stuff <a href="#d3d9stuff">#</a></h2>
 <p><strong>Symbols:</strong></p><ul><li><span class='field' id='86C120'>86C120 struct D3DADAPTER_IDENTIFIER9 _d3d9AdapterIdentifier</span>
 </li><li><span class='field' id='870970'>870970 IDirect3D9 *_IDirect3D9ptr</span>
+</li><li><span class='field' id='870974'>870974 IDirect3DDevice9 *_IDirect3DDevice9Ptr</span>
 </li><li><span class='field' id='8709AC'>8709AC int _displayAdapter</span>
   <em>Ordinal number that denotes the display adapter.
   <code>D3DADAPTER_DEFAULT(0)</code> is always the primary display adapter.</em>
@@ -3647,6 +3654,8 @@ EXPECT_SIZE(struct WorldAnimStuff, 0x4C);
 </li><li><span class='func' id='5B7A70'>5B7A70 void LoadPaths()</span>
   TODO
 </li><li><span class='func' id='5CCD60'>5CCD60 LPRESULT MainWndProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)</span>
+</li><li><span class='func' id='741650'>741650 int strncpy_0(char *dest, int maxlen, char *src)</span>
+  Returns amount of chars written?
 </li><li><span class='func' id='75BCC7'>75BCC7 start</span>
 </li><li><span class='func' id='75D45B'>75D45B sub_75D45B()</span>
   Invoked once at boot, does things (todo) and calls all functions in <a class='fieldref' href='#7E8000'>7E8000:someInitFunctions</a>.

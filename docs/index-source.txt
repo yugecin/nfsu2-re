@@ -3482,8 +3482,8 @@ UI keys seem to be hashed with the case insensitive hash.
 .push pre
 {struct U2RECT} \{                                                                                              ||| mkref
         float {left};                                                                                           ||| mkref name=structU2RECT+0
-        float {right}                                                                                           ||| mkref name=structU2RECT+04
-        float {top}                                                                                             ||| mkref name=structU2RECT+08
+        float {top}                                                                                             ||| mkref name=structU2RECT+04
+        float {right}                                                                                           ||| mkref name=structU2RECT+08
         float {bottom}                                                                                          ||| mkref name=structU2RECT+0C
 };
 
@@ -3686,6 +3686,16 @@ UI keys seem to be hashed with the case insensitive hash.
 
 - {5663B0 void DoUI()}                                                                                          ||| func
   TODO document this and go in the last unresolved func.
+
+- {78DA30 float canvasHeight2}                                                                                  ||| field
+  Canvas height divided by 2.
+
+- {797D50 float canvasWith2}                                                                                    ||| field
+  Canvas width divided by 2.
+
+- {797D54 float canvasHeight}                                                                                   ||| field
+
+- {797D58 float canvasWidth}                                                                                    ||| field
 
 - {79AAF4 {struct UIElementVisitor_FindByHash} vtable_UIElementVisitor_FindByHash}                              ||| field,refto
   vtable for {517F80},                                                                                          ||| ref

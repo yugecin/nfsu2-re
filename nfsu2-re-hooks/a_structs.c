@@ -35,6 +35,10 @@ struct CarModelInfo {
 EXPECT_SIZE(struct CarModelInfo, 0x890);
 ASSERT_OFFSET(struct CarModelInfo, manufacturer, 0xC0);
 
+struct U2RECT {
+	float left, top, right, bottom;
+};
+
 struct UIData_Field8 {
 	char pad[0xE4];
 	struct FNGInfo *topPackage;

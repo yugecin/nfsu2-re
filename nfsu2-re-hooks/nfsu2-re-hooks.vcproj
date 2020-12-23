@@ -311,6 +311,18 @@
 			</FileConfiguration>
 		</File>
 		<File
+			RelativePath=".\debug-hook-beforepresent.c"
+			>
+			<FileConfiguration
+				Name="Debug|Win32"
+				ExcludedFromBuild="true"
+				>
+				<Tool
+					Name="VCCLCompilerTool"
+				/>
+			</FileConfiguration>
+		</File>
+		<File
 			RelativePath=".\debug-hook-doui.c"
 			>
 			<FileConfiguration

@@ -2,12 +2,14 @@
 #include <stdio.h>
 #include <dinput.h>
 #include <d3d9.h>
+#include <d3dtypes.h>
 
 int main()
 {
+	D3DCOLOR   x;
 	printf("x %x\n", D3DRS_SHADEMODE);
 	printf("x %x\n", D3DSHADE_FLAT);
-	printf("x %x\n", D3DZB_FALSE);
+	printf("x %d\n", D3DFVF_LVERTEX);
 	printf("FIONBIO %p\n", FIONBIO);
 	printf("DIERR_INVALIDPARAM %p\n", DIERR_INVALIDPARAM);
 	printf("DIERR_NOTINITIALIZED %p\n", DIERR_NOTINITIALIZED);

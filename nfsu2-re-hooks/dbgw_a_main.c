@@ -33,6 +33,61 @@ HWND hTabpane[numtabpanes];
 HWND hUITree;
 
 static
+int dbgw_ui_tree_is_fng(void *maybeFng)
+{
+	struct FNGInfo *currentFng;
+
+	currentFng = pUIData[0]->field_8->topPackage;
+	while (currentFng) {
+		if (currentFng == maybeFng) {
+			return 1;
+		}
+		currentFng = currentFng->child;
+	}
+	return 0;
+}
+
+static
+struct UIElement *dbgw_ui_tree_get_uielement_for_tree_item(HTREEITEM itm)
+{
+	TVITEM itemdata;
+
+	itemdata.hItem = itm;
+	itemdata.mask = TVIF_PARAM;
+	if (itm && SendMessage(hUITree, TVM_GETITEM, 0, (LPARAM) &itemdata)) {
+		if (!dbgw_ui_tree_is_fng((void*) itemdata.lParam)) {
+			return (void*) itemdata.lParam;
+		}
+	}
+	return 0;
+}
+
+static
+int dbgw_ui_tree_get_rect_for_tree_item(HTREEITEM itm, struct U2RECT *rect)
+{
+	struct UIElement *element;
+	struct U2RECT rect2;
+
+	element = dbgw_ui_tree_get_uielement_for_tree_item(itm);
+	if (!element) {
+		return 0;
+	}
+	((void (__cdecl *)(void*,struct U2RECT*))0x51D9F0)(element, rect);
+	for (;;) {
+		itm = (HTREEITEM) SendMessage(hUITree, TVM_GETNEXTITEM, TVGN_PARENT, (LPARAM) itm);
+		element = dbgw_ui_tree_get_uielement_for_tree_item(itm);
+		if (!element) {
+			return 1;
+		}
+		((void (__cdecl *)(void*,struct U2RECT*))0x51D9F0)(element, &rect2);
+		rect->top += (rect2.top + rect2.bottom) / 2;
+		rect->bottom += (rect2.top + rect2.bottom) / 2;
+		rect->left += (rect2.left + rect2.right) / 2;
+		rect->right += (rect2.left + rect2.right) / 2;
+	}
+}
+
+static
 HTREEITEM dbgw_ui_tree_find_item(void *ptr, unsigned int hash, int *out_idx)
 {
 	int i;
@@ -64,18 +119,20 @@ HTREEITEM dbgw_ui_tree_ensure_item(
 
 	itm = dbgw_ui_tree_find_item(ptr, hash, &idx);
 	if (itm) {
-		if (!strcmp(text, uiListItemStrings[idx])) {
+		if (strcmp(text, uiListItemStrings[idx])) {
 			strcpy(uiListItemStrings[idx], text);
 			tvi.mask = TVIF_TEXT;
 			tvi.cchTextMax = textlen;
 			tvi.pszText = text;
+			tvi.hItem = itm;
 			SendMessage(hUITree, TVM_SETITEM, 0, (LPARAM) &tvi);
 		}
 	} else {
-		tvis.item.mask = TVIF_TEXT | TVIF_CHILDREN;
+		tvis.item.mask = TVIF_TEXT | TVIF_CHILDREN | TVIF_PARAM;
 		tvis.item.pszText = text;
 		tvis.item.cchTextMax = textlen;
 		tvis.item.cChildren = hasChildren;
+		tvis.item.lParam = (LPARAM) ptr;
 		tvis.hInsertAfter = after ? after : TVI_FIRST;
 		tvis.hParent = parent;
 		itm = (HTREEITEM) SendMessage(hUITree, TVM_INSERTITEM, 0, (LPARAM) &tvis);
@@ -84,6 +141,7 @@ HTREEITEM dbgw_ui_tree_ensure_item(
 			uiListItems[numUiListItems].ptr = ptr;
 			uiListItems[numUiListItems].itm = itm;
 			uiListItemStillExists[numUiListItems] = 1;
+			strcpy(uiListItemStrings[numUiListItems], text);
 			numUiListItems++;
 		}
 	}
@@ -126,6 +184,30 @@ void dbgw_ui_tree_element_format(struct UIElement *element, char *dst, int *out_
 }
 
 static
+int fnginfo_get_child_level(void *fng)
+{
+	struct FNGInfo *currentFng;
+	int level;
+
+	level = 0;
+	currentFng = pUIData[0]->field_8->topPackage;
+	while (currentFng) {
+		if (currentFng == fng) {
+			break;
+		}
+		level++;
+		currentFng = currentFng->child;
+	}
+	return level;
+}
+
+static
+int CALLBACK dbgw_ui_tree_compare_fng_tree_items(LPARAM a, LPARAM b, LPARAM lParam)
+{
+	return fnginfo_get_child_level((void*) a) - fnginfo_get_child_level((void*) b);
+}
+
+static
 void dbgw_ui_tree_update_before_present()
 {
 #define MAX_CONTAINER_STACK 20
@@ -133,13 +215,17 @@ void dbgw_ui_tree_update_before_present()
 	int containerStackSize;
 	HTREEITEM lastItems[MAX_CONTAINER_STACK];
 	HTREEITEM itm;
-	struct Vert verts[4];
+	TVSORTCB tvsortcb;
+	struct U2RECT u2rect;
+	struct Vert verts[5];
 	int level;
 	struct FNGInfo *fng;
 	struct UIElement *element;
 	char buf[UI_LIST_ITM_MAX_LEN];
 	int len;
 	int i;
+	int anyElementsInserted;
+	int lastElementCount;
 
 	if (!hMain) {
 		return;
@@ -151,6 +237,7 @@ void dbgw_ui_tree_update_before_present()
 
 	memset(uiListItemStillExists, 0, sizeof(uiListItemStillExists));
 	memset(lastItems, 0, sizeof(lastItems));
+	lastElementCount = numUiListItems;
 	level = 0;
 	containerStackSize = 0;
 	fng = pUIData[0]->field_8->topPackage;
@@ -191,6 +278,7 @@ void dbgw_ui_tree_update_before_present()
 		}
 		fng = fng->child;
 	} while (fng);
+	anyElementsInserted = lastElementCount != numUiListItems;
 
 	for (i = 0; i < numUiListItems; i++) {
 		if (!uiListItemStillExists[i]) {
@@ -200,6 +288,56 @@ void dbgw_ui_tree_update_before_present()
 			strcpy(uiListItemStrings[i], uiListItemStrings[numUiListItems]);
 		}
 	}
+
+	if (anyElementsInserted) {
+		tvsortcb.hParent = 0;
+		tvsortcb.lpfnCompare = dbgw_ui_tree_compare_fng_tree_items;
+		SendMessage(hUITree, TVM_SORTCHILDRENCB, 0, (LPARAM) &tvsortcb);
+	}
+
+	verts[0].spec = verts[1].spec = verts[2].spec
+	= verts[3].spec = verts[4].spec = 0;
+
+	itm = (HTREEITEM) SendMessage(hUITree, TVM_GETNEXTITEM, TVGN_CARET, 0);
+	if (dbgw_ui_tree_get_rect_for_tree_item(itm, &u2rect)) {
+		u2rect.top /= -*canvasHeight_2;
+		u2rect.bottom /= -*canvasHeight_2;
+		u2rect.left /= *canvasWidth_2;
+		u2rect.right /= *canvasWidth_2;
+		verts[0].x = u2rect.left;
+		verts[0].y = u2rect.top;
+		verts[1].x = u2rect.right;
+		verts[1].y = u2rect.top;
+		verts[2].x = u2rect.right;
+		verts[2].y = u2rect.bottom;
+		verts[3].x = u2rect.left;
+		verts[3].y = u2rect.bottom;
+		verts[4].x = u2rect.left;
+		verts[4].y = u2rect.top;
+		verts[0].z = verts[1].z = verts[2].z = verts[3].z = verts[4].z = 0.0f;
+		verts[0].col = verts[1].col = verts[2].col
+		= verts[3].col = verts[4].col = 0xFFFF00FF;
+		d3d9_draw_line_strip(verts, 4);
+	}
+
+	u2rect.top = -(_mouseData->cursorY * 2 / *canvasHeight - 1.0f) - .05f;
+	u2rect.left = _mouseData->cursorX * 2 / *canvasWidth - 1.0f - .05f;
+	u2rect.right = u2rect.left + .1f;
+	u2rect.bottom = u2rect.top + .1f;
+	verts[0].x = u2rect.left;
+	verts[0].y = u2rect.top;
+	verts[1].x = u2rect.right;
+	verts[1].y = u2rect.top;
+	verts[2].x = u2rect.right;
+	verts[2].y = u2rect.bottom;
+	verts[3].x = u2rect.left;
+	verts[3].y = u2rect.bottom;
+	verts[4].x = u2rect.left;
+	verts[4].y = u2rect.top;
+	verts[0].z = verts[1].z = verts[2].z = verts[3].z = verts[4].z = 0.0f;
+	verts[0].col = verts[1].col = verts[2].col
+	= verts[3].col = verts[4].col = 0xFF00FFFF;
+	d3d9_draw_line_strip(verts, 4);
 
 	PRESENT_HOOK_FUNC();
 #undef PRESENT_HOOK_FUNC
@@ -216,7 +354,7 @@ void dbgw_create_tab_ui_controls(HWND hWnd)
 	CreateWindowEx(0, WC_TREEVIEW,
 		0,
 		TVS_HASLINES | TVS_LINESATROOT | TVS_HASBUTTONS | TVS_DISABLEDRAGDROP
-		| WS_CHILD | WS_VISIBLE,
+		| WS_CHILD | WS_VISIBLE | TVS_SHOWSELALWAYS,
 		rc.left, rc.top,
 		rc.right, rc.bottom,
 		hWnd, (HMENU) IDC_UITREE, hModule, 0);

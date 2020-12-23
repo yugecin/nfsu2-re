@@ -5,6 +5,7 @@
 #define log mathlog
 #include <math.h>
 #undef log
+#include <d3d9.h>
 #pragma pack(push,1)
 
 #define STATIC_ASSERT(E) typedef char __static_assert_[(E)?1:-1]
@@ -28,6 +29,7 @@ static void stub() {}
 #define INIT_FUNC stub
 #define DEBUG_WMCHAR_FUNC stub
 #define DEBUG_DOUI_FUNC stub
+#define PRESENT_HOOK_FUNC stub
 
 /*note: hash hooks can get called A LOT so this may slow down the game*/
 #define WIDESCREEN_MOD /*define when external widescreen mod is active*/
@@ -83,6 +85,7 @@ static void stub() {}
 //#include "debug-custom-remove-all-received-engage-markers.c"
 #include "debug-hook-wm_char.c" // needs to be after all "debug-custom-*" files
 #include "debug-hook-doui.c" // needs to be after all "debug-custom-*" files
+#include "debug-hook-beforepresent.c" // needs to be after all "debug-custom-*" files
 
 BOOL APIENTRY DllMain(HMODULE hModule, DWORD reason_for_call, LPVOID lpResrvd)
 {
