@@ -1206,27 +1206,8 @@ movies end.)
 work), <code>LS_PSAMovie</code> (because I like the Q button and it can be a good dialog
 test, it means I still need to skip the PSA movie but I can handle that),
 <code>MC_Background</code> (so I can load a profile at start) and
-<code>UI_Main</code> (obviously). Code can be found in the <code>speedyboot</code> function.
-</p><pre>static int zero = 0;
-static
-void speedyboot()
-{
-	*(int**) (0x7F65E8) = &amp;zero; /*discerrorpc*/
-	*(int**) (0x7F65EC) = &amp;zero; /*??nothing*/
-	//*(int**) (0x7F65F0) = &amp;zero; /*mc_bootup*/
-	*(int**) (0x7F65F4) = &amp;zero; /*??nothing*/
-	*(int**) (0x7F65F8) = &amp;zero; /*??nothing*/
-	*(int**) (0x7F65FC) = &amp;zero; /*blankmovie*/
-	*(int**) (0x7F6600) = &amp;zero; /*ealogo*/
-	*(int**) (0x7F6604) = &amp;zero; /*??nothing*/
-	*(int**) (0x7F6608) = &amp;zero; /*thxmovie*/
-	//*(int**) (0x7F660C) = &amp;zero; /*psamovie*/
-	*(int**) (0x7F6610) = &amp;zero; /*introfmv*/
-	*(int**) (0x7F6614) = &amp;zero; /*splash*/
-	//*(int**) (0x7F6618) = &amp;zero; /*mc_background*/
-	//*(int**) (0x7F661C) = &amp;zero; /*ui_main*/
-}
-</pre><p style='margin-bottom:0'><a href='#index'>Index</a></p></div><span id='consoleleftover'></span><div><h2>Console leftovers <a href="#consoleleftover">#</a></h2>
+<code>UI_Main</code> (obviously). Code in <code><a href='https://github.com/yugecin/nfsu2-re/blob/master/nfsu2-re-hooks/speedyboot.c'>nfsu2-re-hooks/speedyboot.c</a></code>.
+</p><p style='margin-bottom:0'><a href='#index'>Index</a></p></div><span id='consoleleftover'></span><div><h2>Console leftovers <a href="#consoleleftover">#</a></h2>
 <p><em>Note: console as in somewhere you type in, not a videogame console</em>
 </p><p>In the hooks project, I "enabled" this console in the functions <code>initConsolePOC</code>
 in the file <code><a href='https://github.com/yugecin/nfsu2-re/blob/master/nfsu2-re-hooks/faux-enable-console.c'>nfsu2-re-hooks/faux-enable-console.c</a></code>.

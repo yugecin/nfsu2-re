@@ -1621,13 +1621,13 @@ EXPECT_SIZE(struct bFileSystemPoolEntry, 0xF0);
 
 {Speedy boot}  ||| h id=speedyboot
 
-{I want a fast startup because I'm booting the game so many times               ||| em
+{I want a fast startup because I'm booting the game so many times                               ||| em
 (not to mention the numerious crashes)}
 
 During startup, with the debug string output enabled, there are a few entries
-showing loading and unloading states, such as {LS_THXMovie.fng}.                        ||| code
-I already sped up boot by replacing the {MOVIES/THX_logo.vp6} with                      ||| code
-{MOVIES/blank.vp6}. While that skips the unskippable intro logos,                       ||| code
+showing loading and unloading states, such as {LS_THXMovie.fng}.                                ||| code
+I already sped up boot by replacing the {MOVIES/THX_logo.vp6} with                              ||| code
+{MOVIES/blank.vp6}. While that skips the unskippable intro logos,                               ||| code
 it still takes some time because it switches to a state where it tries loading
 and it takes slightly under a second to switch to the next state.
 
@@ -1651,7 +1651,7 @@ So by following the debug prints, I found following section:
 .pop ida
 
 This very much looks like the boot states the game goes through.
-{byte_783FE5} is basically an empty string, so maybe there used to                        ||| code
+{byte_783FE5} is basically an empty string, so maybe there used to                              ||| code
 be more states, or some are for different game versions?
 
 
@@ -1662,20 +1662,20 @@ shows, then it goes to a black screen and you can move the cursor. So the game i
 running but nothing of UI is running so you can't do much.
 
 
-Only leaving {UG_LS_Splash.fng} shows the splash screen with Rachel and                   ||| code
+Only leaving {UG_LS_Splash.fng} shows the splash screen with Rachel and                         ||| code
 the cars, the famous music starts playing and when the beat drops the EA TRAX message
 shows and "Press enter" shows. When pressing enter, we're back to the black screen
 with a moveable cursor.
 
 
-Only leaving {MC_BACKGROUND.fng} shows the splash screen with Rachel and                  ||| code
+Only leaving {MC_BACKGROUND.fng} shows the splash screen with Rachel and                        ||| code
 the cars and the prompt if I want to create a new profile. When pressing 'no', we're
 back to the black screen. When pressing 'yes' I get to enter a name but when it then
 asks to save the profile, it says 'Unable to save profile' so I have to choose 'no'.
 Then black screen again.
 
 
-Only leaving {UI_MAIN.fng} directly jumps to the main menu where you see                  ||| code
+Only leaving {UI_MAIN.fng} directly jumps to the main menu where you see                        ||| code
 Rachel's car after a short moment after the loading screen showed. It didn't ask
 for a profile to load and when I try to load a profile it says that no profiles
 were found. Scary. I can create a new profile but it says 'Unable to save'. There
@@ -1684,53 +1684,31 @@ the menus stops the music again. Going to EA TRAX in the option does suddenly
 start the music in the menus.
 
 
-When only leaving {LS_EALogo.fng}, the ea logo movie sound starts to play                 ||| code
+When only leaving {LS_EALogo.fng}, the ea logo movie sound starts to play                       ||| code
 while the 'loading' screen is still showing, then there's one frame of the logo movie
 when it's about halfway the sound of the movie and then it goes to black screen with
-cursor. Leaving {LS_BlankMovie.fng} in as well fixes that problem.                        ||| code
+cursor. Leaving {LS_BlankMovie.fng} in as well fixes that problem.                              ||| code
 
 
-Leaving just {MC_Bootup.fng} doesn't seem to change much, not even timing                 ||| code
+Leaving just {MC_Bootup.fng} doesn't seem to change much, not even timing                       ||| code
 wise. It does sound important, so I tried this in combination with
-{UI_MAIN.fng}. It jumps into the main menu, but when I go to the profile                  ||| code
+{UI_MAIN.fng}. It jumps into the main menu, but when I go to the profile                        ||| code
 manager now, I can load my profiles. Nice. The main menu music still doesn't load
 without going to EA TRAX, but I'm okay with that. One weird thing is that the Q button
 doesn't show the 'quit game' dialog. After searching a bit, it seems like
-{LS_PSAMovie.fng} is the one that makes the Q to quit keybind happen. That's              ||| code
+{LS_PSAMovie.fng} is the one that makes the Q to quit keybind happen. That's                    ||| code
 quite interesting, definitely something to research when/if I get more into the workings
 of the UI.
 
-(Later I found the PSA screen(s) put {836494} on 1 after they're done, I'm guessing for   ||| ref
+(Later I found the PSA screen(s) put {836494} on 1 after they're done, I'm guessing for         ||| ref
 some reason they don't want us to exit while the PSA is playing, or before the intro
 movies end.)
 
-So my final setup is to only leave in {MC_Bootup} (because it makes profiles              ||| code
-work), {LS_PSAMovie} (because I like the Q button and it can be a good dialog             ||| code
+So my final setup is to only leave in {MC_Bootup} (because it makes profiles                    ||| code
+work), {LS_PSAMovie} (because I like the Q button and it can be a good dialog                   ||| code
 test, it means I still need to skip the PSA movie but I can handle that),
-{MC_Background} (so I can load a profile at start) and                                    ||| code
-{UI_Main} (obviously). Code can be found in the {speedyboot} function.                    ||| code, code
-
-.push pre
-static int zero = 0;
-static
-void speedyboot()
-{
-	*(int**) (0x7F65E8) = &zero; /*discerrorpc*/
-	*(int**) (0x7F65EC) = &zero; /*??nothing*/
-	//*(int**) (0x7F65F0) = &zero; /*mc_bootup*/
-	*(int**) (0x7F65F4) = &zero; /*??nothing*/
-	*(int**) (0x7F65F8) = &zero; /*??nothing*/
-	*(int**) (0x7F65FC) = &zero; /*blankmovie*/
-	*(int**) (0x7F6600) = &zero; /*ealogo*/
-	*(int**) (0x7F6604) = &zero; /*??nothing*/
-	*(int**) (0x7F6608) = &zero; /*thxmovie*/
-	//*(int**) (0x7F660C) = &zero; /*psamovie*/
-	*(int**) (0x7F6610) = &zero; /*introfmv*/
-	*(int**) (0x7F6614) = &zero; /*splash*/
-	//*(int**) (0x7F6618) = &zero; /*mc_background*/
-	//*(int**) (0x7F661C) = &zero; /*ui_main*/
-}
-.pop pre
+{MC_Background} (so I can load a profile at start) and                                          ||| code
+{UI_Main} (obviously). Code in {nfsu2-re-hooks/speedyboot.c}.                                   ||| code, hookfileref
 
 .pop section
 .push section
