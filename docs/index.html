@@ -1199,6 +1199,9 @@ doesn't show the 'quit game' dialog. After searching a bit, it seems like
 <code>LS_PSAMovie.fng</code> is the one that makes the Q to quit keybind happen. That's
 quite interesting, definitely something to research when/if I get more into the workings
 of the UI.
+</p><p>(Later I found the PSA screen(s) put <a class='fieldref' href='#836494'>836494:canUseQToExit</a> on 1 after they're done, I'm guessing for
+some reason they don't want us to exit while the PSA is playing, or before the intro
+movies end.)
 </p><p>So my final setup is to only leave in <code>MC_Bootup</code> (because it makes profiles
 work), <code>LS_PSAMovie</code> (because I like the Q button and it can be a good dialog
 test, it means I still need to skip the PSA movie but I can handle that),
@@ -2860,6 +2863,8 @@ return visitor.<a href='#structUIElementVisitor_FindByHash_8'>foundUIelement</a>
   <code>vtable-&gt;<a href='#structUIElementVisitor_vtable_0'>func_0</a> = <a class='funcref' href='#5047C0'>5047C0:sub_5047C0</a>;</code>
   <code>vtable-&gt;<a href='#structUIElementVisitor_vtable_4'>acceptElement</a> = <a class='funcref' href='#5048D0'>5048D0:UIElementVisitor_FindByHash::acceptElement()</a>;</code>
 </li><li><span class='field' id='79BCD8'>79BCD8 vtable_UIData</span>
+</li><li><span class='field' id='836494'>836494 char canUseQToExit</span>
+  When 1, pressing Q is allowed to bring up a dialog to exit the game.
 </li><li><span class='field' id='8384C4'>8384C4 <a href='#struct_UIData'>struct UIData</a> *pUIData</span>
 </li><li><span class='field' id='838528'>838528 char someThingKeyboardInput</span>
   Seems keyboard related due to:

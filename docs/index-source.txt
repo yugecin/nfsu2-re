@@ -1700,6 +1700,9 @@ doesn't show the 'quit game' dialog. After searching a bit, it seems like
 quite interesting, definitely something to research when/if I get more into the workings
 of the UI.
 
+(Later I found the PSA screen(s) put {836494} on 1 after they're done, I'm guessing for   ||| ref
+some reason they don't want us to exit while the PSA is playing, or before the intro
+movies end.)
 
 So my final setup is to only leave in {MC_Bootup} (because it makes profiles              ||| code
 work), {LS_PSAMovie} (because I like the Q button and it can be a good dialog             ||| code
@@ -3703,6 +3706,9 @@ UI keys seem to be hashed with the case insensitive hash.
   {vtable->{structUIElementVisitor$vtable+4} = {5048D0};}                                                       ||| code,refto,ref
 
 - {79BCD8 vtable_UIData}                                                                                        ||| field
+
+- {836494 char canUseQToExit}                                                                                   ||| field
+  When 1, pressing Q is allowed to bring up a dialog to exit the game.
 
 - {8384C4 {struct UIData} *pUIData}                                                                             ||| field,refto
 
