@@ -152,8 +152,10 @@ static
 void dbgw_ui_tree_element_format(struct UIElement *element, char *dst, int *out_len)
 {
 	int len;
+	char *str;
 	short *src;
 	struct UIElement *child;
+	struct UILabel *label;
 	int numchilds;
 
 	if (element->type == 5) {
@@ -166,16 +168,22 @@ void dbgw_ui_tree_element_format(struct UIElement *element, char *dst, int *out_
 		len = sprintf(dst, "container %08x (%d)", element->hash, numchilds);
 	} else if (element-> type == 2) {
 		len = sprintf(dst, "label %08x: ", element->hash);
-		src = ((struct UILabel*) element)->string.ptrString;
-		if (src) {
-			dst += len;
-			while ((*(dst++) = (0xFF & *(src++)))) {
-				if (++len >= UI_LIST_ITM_MAX_LEN) {
-					break;
-				}
-			}
+		label = (void*) element;
+		str = GetLanguageStringOrNull(label->textLanguageString);
+		if (str) {
+			len += sprintf(dst + len, "%s", str);
 		} else {
-			len += sprintf(buf + len, "(null)");
+			src = label->string.ptrString;
+			if (src) {
+				dst += len;
+				while ((*(dst++) = (0xFF & *(src++)))) {
+					if (++len >= UI_LIST_ITM_MAX_LEN) {
+						break;
+					}
+				}
+			} else {
+				len += sprintf(dst + len, "(null)");
+			}
 		}
 	} else {
 		len = sprintf(dst, "type %d %08x", element->type, element->hash);

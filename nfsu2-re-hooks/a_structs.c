@@ -10,11 +10,11 @@ struct DialogInfo {
 	int unused31C;
 	char *pParentFNG; /*read in 5580EB*/
 	char *pMyFNG;
-	int unused_328;
+	int numButtons;
 	char unused_32C;
 	char isHelpDialog;
 	char unused_32E;
-	char something32F; /*set to 0 in 55806D*/
+	char textNeedsSomeWcharConversion; /*set to 0 in 55806D*/
 	int something330; /*set to 0 in 558074*/
 	int unused334;
 };
@@ -207,7 +207,7 @@ struct UILabel {
 	int field_54;
 	int field_58;
 	int field_5C;
-	int field_60;
+	unsigned int textLanguageString;
 	struct WideCharString string;
 	int field_6C;
 	int field_70;
@@ -229,7 +229,7 @@ struct UIContainer {
 	int field_54;
 	int field_58;
 	int field_5C;
-	int field_60;
+	int numChildren;
 	struct UIElement *children;
 };
 EXPECT_SIZE(struct UIContainer, 0x68);
