@@ -2664,7 +2664,8 @@ where it would set any of the labels' text.
         float <span id='structU2RECT_0C'></span>bottom
 };
 
-#define UIELEMENT_FLAG_VISIBLE 0x2
+#define UIELEMENT_FLAG_HIDDEN 0x1
+#define UIELEMENT_FLAG_USE_CUSTOM_TEXT 0x2
 #define UIELEMENT_FLAG_TEXT_CHANGED 0x400000
 
 <span id='struct_UIElement'></span>struct UIElement {
@@ -2769,17 +2770,16 @@ where it would set any of the labels' text.
   Hashes <code>str</code> and delegates to <a class='funcref' href='#537A10'>537A10:FindUILabelByHash()</a>.
 </li><li><span class='func' id='4953E0'>4953E0 <a href='#struct_UIElementType1'>struct UIElementType1</a> *FindUIElementType1ByName(char *fngName, char *str)</span>
 </li><li><span class='func' id='495460'>495460 int SetUILabelByHashLanguageString(char *fngName, unsigned int hash, unsigned int languageString)</span>
+</li><li><span class='func' id='495490'>495490 int SetUILabelByNameLanguageString(char *fngName, char *name, unsigned int languageString)</span>
+  Uses <a class='funcref' href='#505450'>505450:SomeHashCI505450()</a>.
+</li><li><span class='func' id='4954C0'>4954C0 int HideUIElementAndChildrenByName(char *fngName, char *name)</span>
+  Uses <a class='funcref' href='#505450'>505450:SomeHashCI505450()</a>.
+</li><li><span class='func' id='4954E0'>4954E0 void HideUIElementAndChildrenByHash(char *fngName, unsigned int hash)</span>
+</li><li><span class='func' id='495500'>495500 int ShowUIElementAndChildrenByName(char *fngName, char *name)</span>
+  Uses <a class='funcref' href='#505450'>505450:SomeHashCI505450()</a>.
+</li><li><span class='func' id='495520'>495520 void ShowUIElementAndChildrenByHash(char *fngName, unsigned int hash)</span>
 </li><li><span class='func' id='4FDAD0'>4FDAD0 void __thiscall U2RECT::Add(<a href='#struct_U2RECT'>struct U2RECT</a> *this, <a href='#struct_U2RECT'>struct U2RECT</a> *rect)</span>
   Sums <code>this</code> and <code>rect</code> into <code>this</code>.
-</li><li><span class='func' id='5048D0'>5048D0 int __thiscall UIElementVisitor_FindByHash::acceptElement(<a href='#struct_UIElementVisitor_FindByHash'>struct UIElementVisitor_FindByHash</a> *this,
-                                                                    <a href='#struct_UIElement'>struct UIElement</a> *element)</span>
-  If <code>element-&gt;<a href='#structUIElement_10'>hash</a> == this-&gt;<a href='#structUIElementVisitor_FindByHash_4'>searchingHash</a></code>,
-  set <code>this-&gt;<a href='#structUIElementVisitor_FindByHash_8'>foundUIelement</a></code> to <code>element</code> and return 0.
-</li><li><span class='func' id='50B460'>50B460 int RenderCursor(int x, int y)</span>
-</li><li><span class='func' id='50CA00'>50CA00 void SetUIElementAndChildrenVisible(<a href='#struct_UIElement'>struct UIElement</a> *uielement)</span>
-</li><li><span class='func' id='50CD00'>50CD00 int IsPointInRect(float x, float y, struct { float x; float y} *pos,
-  struct { float width; float height; } *size)</span>
-  Only seen this being called when there's a list on screen so far.
 </li><li><span class='func' id='504830'>504830 int __thiscall FNGInfo::VisitContainerRecursively(<a href='#struct_FNGInfo'>struct FNGInfo</a> *this,
                                                             <a href='#struct_UIContainer'>struct UIContainer</a> *container,
                                                             <a href='#struct_UIElementVisitor'>struct UIElementVisitor</a> *visitor)</span>
@@ -2794,7 +2794,17 @@ where it would set any of the labels' text.
   calls <code>visitor-&gt;<a href='#structUIElementVisitor_0'>vtable</a>-&gt;<a href='#structUIElementVisitor_vtable_4'>acceptElement</a></code> for every child,
   calls <a class='funcref' href='#504830'>504830:FNGInfo::VisitContainerRecursively()</a> for every child that is of type 5 (<code><a href='#struct_UIContainer'>struct UIContainer</a></code>),
   returns 0 when either calls return 0.
+</li><li><span class='func' id='5048D0'>5048D0 int __thiscall UIElementVisitor_FindByHash::acceptElement(<a href='#struct_UIElementVisitor_FindByHash'>struct UIElementVisitor_FindByHash</a> *this,
+                                                                    <a href='#struct_UIElement'>struct UIElement</a> *element)</span>
+  If <code>element-&gt;<a href='#structUIElement_10'>hash</a> == this-&gt;<a href='#structUIElementVisitor_FindByHash_4'>searchingHash</a></code>,
+  set <code>this-&gt;<a href='#structUIElementVisitor_FindByHash_8'>foundUIelement</a></code> to <code>element</code> and return 0.
+</li><li><span class='func' id='50B460'>50B460 int RenderCursor(int x, int y)</span>
 </li><li><span class='func' id='50C900'>50C900 int SetUILabelLanguageString(<a href='#struct_UILabel'>struct UILabel</a> *label, unsigned int languageString)</span>
+</li><li><span class='func' id='50CA00'>50CA00 void HideUIElementAndChildren(<a href='#struct_UIElement'>struct UIElement</a> *uielement)</span>
+</li><li><span class='func' id='50CA50'>50CA50 void ShowUIElementAndChildren(<a href='#struct_UIElement'>struct UIElement</a> *uielement)</span>
+</li><li><span class='func' id='50CD00'>50CD00 int IsPointInRect(float x, float y, struct { float x; float y} *pos,
+  struct { float width; float height; } *size)</span>
+  Only seen this being called when there's a list on screen so far.
 </li><li><span class='func' id='517F80'>517F80 <a href='#struct_UIElement'>struct UIElement</a> *__thiscall FNGInfo::FindUIElementByHash(<a href='#struct_FNGInfo'>struct FNGInfo</a> *this,
                                                                       unsigned int hash)</span>
 <pre><a href='#struct_UIElementVisitor_FindByHash'>struct UIElementVisitor_FindByHash</a> visitor;

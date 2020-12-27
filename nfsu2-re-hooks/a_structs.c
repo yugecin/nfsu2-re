@@ -178,6 +178,28 @@ struct WideCharString {
 	int allocatedWcharLength; /*amount of wchars that can fit, excluding zero term*/
 };
 
+struct UIPos {
+	int field_0;
+	int field_4;
+	int field_8;
+	int field_C;
+	int field_10;
+	int field_14;
+	int field_18;
+	float leftOffset;
+	float topOffset;
+	int field_24;
+	int field_28;
+	int field_2C;
+	int field_30;
+	int field_34;
+	float field_38;
+	float field_3C;
+};
+
+#define UIELEMENT_FLAG_HIDDEN 1
+#define UIELEMENT_FLAG_USE_CUSTOM_TEXT 2
+
 struct UIElement {
 	int vtable;
 	struct UIElement *nextSibling;
@@ -190,7 +212,7 @@ struct UIElement {
 	int field_20;
 	int field_24;
 	int field_28;
-	int ptrField_2C;
+	struct UIPos *pos;
 };
 
 struct UILabel {

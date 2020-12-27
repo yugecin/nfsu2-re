@@ -39,3 +39,25 @@ __declspec(naked) char *nfsu2_GetLanguageString(int hash)
 		jmp eax
 	}
 }
+
+unsigned int hatoi(char *text)
+{
+	unsigned int col;
+	int j, c;
+
+	col = 0;
+	for (j = 0; j < 8; j++) {
+		c = text[j] - '0';
+		if (c < 0 || 9 < c) {
+			c = text[j] - 'A' + 10;
+			if (c < 10 || 15 < c) {
+				c = text[j] - 'a' + 10;
+				if (c < 10 || 15 < c) {
+					return 0;
+				}
+			}
+		}
+		col |= c << ((7 - j) * 4);
+	}
+	return col;
+}

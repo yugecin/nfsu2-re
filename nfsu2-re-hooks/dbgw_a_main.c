@@ -3,13 +3,20 @@
 
 #define ERRMSG(parent,text) MessageBoxA(parent,text,"oops",MB_ICONWARNING|MB_OK)
 
+#define IDC_LABL 8
+#define IDC_LABL_FLAGS 9
 #define IDC_TAB 10
-#define IDC_LABL 18
 #define IDC_BTN_RENDERMODE_NORMAL 19
 #define IDC_BTN_RENDERMODE_WIRE 20
 #define IDC_BTN_RENDERMODE_PTS 21
 #define IDC_BTN_RENDERMODE_FLATSHADE 22
 #define IDC_UITREE 23
+#define IDC_EDIT_UIPROP_X 24
+#define IDC_EDIT_UIPROP_Y 25
+#define IDC_EDIT_UIPROP_LBLLANGSTR 26
+
+#define IDC_BTN_UIPROP_FLAG1 9024
+#define IDC_BTN_UIPROP_FLAG32 9055
 
 #define UI_LIST_ITM_MAX_LEN 128
 struct UiListItem {
@@ -24,12 +31,31 @@ char uiListItemStrings[MAX_UI_LIST_ITEMS][UI_LIST_ITM_MAX_LEN];
 char uiListItemStillExists[MAX_UI_LIST_ITEMS];
 int numUiListItems;
 
+#define UIPROPS_WIDTH 350
+#define UITREE_MINWIDTH 200
+
+#define PX_INDENT 20
+#define PX_SPACING_Y 18
+
+const char* flagnames[32] = {
+	"hidden", "use custom text",
+	"", "", "", "", "", "", "", "", "", "",
+	"", "", "", "", "", "", "", "", "", "",
+	"", "", "", "", "", "", "", "", "", ""
+};
+
 HGDIOBJ font;
 HMODULE hModule;
 HWND hMain, hTab;
 HWND hBtnRenderModeNormal, hBtnRenderModeWire, hBtnRenderModePts, hBtnRenderFlatshade;
 #define numtabpanes 2
 HWND hTabpane[numtabpanes];
+struct {
+	HWND window;
+	HWND chk_flags[32];
+	HWND posX, posY;
+	HWND lblLangStr;
+} hUiProp;
 HWND hUITree;
 
 static
@@ -60,6 +86,15 @@ struct UIElement *dbgw_ui_tree_get_uielement_for_tree_item(HTREEITEM itm)
 		}
 	}
 	return 0;
+}
+
+static
+struct UIElement *dbgw_get_selected_uielement()
+{
+	HTREEITEM itm;
+
+	itm = (HTREEITEM) SendMessage(hUITree, TVM_GETNEXTITEM, TVGN_CARET, 0);
+	return dbgw_ui_tree_get_uielement_for_tree_item(itm);
 }
 
 static
@@ -166,10 +201,13 @@ void dbgw_ui_tree_element_format(struct UIElement *element, char *dst, int *out_
 			child = child->nextSibling;
 		}
 		len = sprintf(dst, "container %08x (%d)", element->hash, numchilds);
-	} else if (element-> type == 2) {
+	} else if (element->type == 2) {
 		len = sprintf(dst, "label %08x: ", element->hash);
 		label = (void*) element;
-		str = GetLanguageStringOrNull(label->textLanguageString);
+		str = 0;
+		if (!(element->someFlags & UIELEMENT_FLAG_USE_CUSTOM_TEXT)) {
+			str = GetLanguageStringOrNull(label->textLanguageString);
+		}
 		if (str) {
 			len += sprintf(dst + len, "%s", str);
 		} else {
@@ -216,6 +254,68 @@ int CALLBACK dbgw_ui_tree_compare_fng_tree_items(LPARAM a, LPARAM b, LPARAM lPar
 }
 
 static
+void dbgw_ui_props_update_before_present()
+{
+	struct UIElement *uielement;
+	char buf1[32];
+	char buf2[32];
+	int i;
+
+	PRESENT_HOOK_FUNC();
+#undef PRESENT_HOOK_FUNC
+#define PRESENT_HOOK_FUNC dbgw_ui_props_update_before_present
+
+	if (!hMain ||
+		!(GetWindowLongA(hTabpane[0], GWL_STYLE) & WS_VISIBLE) ||
+		!(GetWindowLongA(hUiProp.window, GWL_STYLE) & WS_VISIBLE) ||
+		!(uielement = dbgw_get_selected_uielement()))
+	{
+		return;
+	}
+
+	for (i = 0; i < 32; i++) {
+		if (uielement->someFlags & (1 << i)) {
+			SendMessage(hUiProp.chk_flags[i], BM_SETCHECK, BST_CHECKED, 0);
+		} else {
+			SendMessage(hUiProp.chk_flags[i], BM_SETCHECK, BST_UNCHECKED, 0);
+		}
+	}
+	if (uielement->pos) {
+		sprintf(buf2, "%.2f", uielement->pos->leftOffset);
+	} else {
+		strcpy(buf2, "(null)");
+	}
+	SendMessage(hUiProp.posX, WM_GETTEXT, sizeof(buf1), (LPARAM) buf1);
+	if (strcmp(buf1, buf2)) {
+		SendMessage(hUiProp.posX, WM_SETTEXT, 0, (LPARAM) buf2);
+	}
+	if (uielement->pos) {
+		sprintf(buf2, "%.2f", uielement->pos->topOffset);
+	} else {
+		strcpy(buf2, "(null)");
+	}
+	SendMessage(hUiProp.posY, WM_GETTEXT, sizeof(buf1), (LPARAM) buf1);
+	if (strcmp(buf1, buf2)) {
+		SendMessage(hUiProp.posY, WM_SETTEXT, 0, (LPARAM) buf2);
+	}
+
+	SendMessage(hUiProp.lblLangStr, WM_GETTEXT, sizeof(buf1), (LPARAM) buf1);
+	if (uielement->type == 2) {
+		SendMessage(hUiProp.lblLangStr, EM_SETREADONLY, 0, 0);
+		if (((struct UILabel*) uielement)->textLanguageString != hatoi(buf1)) {
+			sprintf(buf1, "%08X", ((struct UILabel*) uielement)->textLanguageString);
+			SendMessage(hUiProp.lblLangStr, WM_SETTEXT, 0, (LPARAM) buf1);
+		}
+	} else {
+		SendMessage(hUiProp.lblLangStr, EM_SETREADONLY, 1, 0);
+		if (buf1[0]) {
+			buf1[0] = 0;
+			SendMessage(hUiProp.lblLangStr, WM_SETTEXT, 0, (LPARAM) buf1);
+		}
+	}
+}
+
+static
 void dbgw_ui_tree_update_before_present()
 {
 #define MAX_CONTAINER_STACK 20
@@ -235,11 +335,11 @@ void dbgw_ui_tree_update_before_present()
 	int anyElementsInserted;
 	int lastElementCount;
 
-	if (!hMain) {
-		return;
-	}
+	PRESENT_HOOK_FUNC();
+#undef PRESENT_HOOK_FUNC
+#define PRESENT_HOOK_FUNC dbgw_ui_tree_update_before_present
 
-	if (!(GetWindowLongA(hTabpane[0], GWL_STYLE) & WS_VISIBLE)) {
+	if (!hMain || !(GetWindowLongA(hTabpane[0], GWL_STYLE) & WS_VISIBLE)) {
 		return;
 	}
 
@@ -346,26 +446,191 @@ void dbgw_ui_tree_update_before_present()
 	verts[0].col = verts[1].col = verts[2].col
 	= verts[3].col = verts[4].col = 0xFF00FFFF;
 	d3d9_draw_line_strip(verts, 4);
+}
 
-	PRESENT_HOOK_FUNC();
-#undef PRESENT_HOOK_FUNC
-#define PRESENT_HOOK_FUNC dbgw_ui_tree_update_before_present
+static
+void dbgw_on_resize(HWND hwnd)
+{
+	int selectedTabIndex;
+	RECT rc;
+	int w, w2, h;
+
+	if (hwnd == hMain) {
+		selectedTabIndex = SendMessage(hTab, TCM_GETCURSEL, 0, 0);
+		GetClientRect(hwnd, &rc);
+		SendMessage(hTab, TCM_ADJUSTRECT, 0, (LPARAM) &rc);
+		MoveWindow(hTabpane[selectedTabIndex],
+			rc.left, rc.top,
+			rc.right - rc.left, rc.bottom - rc.top,
+			0);
+		GetClientRect(hwnd, &rc);
+		MoveWindow(hTab,
+			rc.left, rc.top,
+			rc.right - rc.left, rc.bottom - rc.top,
+			1);
+	} else if (hwnd == hTabpane[0]) {
+		GetClientRect(hwnd, &rc);
+		w = rc.right - rc.left;
+		h = rc.bottom - rc.top;
+		if (w < UITREE_MINWIDTH) {
+			MoveWindow(hUITree,
+				rc.left, rc.top,
+				w, h,
+				1);
+			MoveWindow(hUiProp.window,
+				rc.left + 200, rc.top,
+				0, h,
+				0);
+		} else {
+			if (w < UITREE_MINWIDTH + UIPROPS_WIDTH) {
+				w2 = w - UITREE_MINWIDTH;
+			} else {
+				w2 = UIPROPS_WIDTH;
+			}
+			MoveWindow(hUITree,
+				rc.left, rc.top,
+				w - w2, h,
+				1);
+			MoveWindow(hUiProp.window,
+				rc.left + (w - w2), rc.top,
+				w2, h,
+				1);
+		}
+	}
 }
 
 static
 void dbgw_create_tab_ui_controls(HWND hWnd)
 {
+	HWND hTmp;
 	RECT rc;
+	int w, h;
+	int x, y;
+	int i;
+	char buf[32];
 
-	GetClientRect(hWnd, &rc);
 	hUITree =
 	CreateWindowEx(0, WC_TREEVIEW,
 		0,
 		TVS_HASLINES | TVS_LINESATROOT | TVS_HASBUTTONS | TVS_DISABLEDRAGDROP
 		| WS_CHILD | WS_VISIBLE | TVS_SHOWSELALWAYS,
-		rc.left, rc.top,
-		rc.right, rc.bottom,
+		0, 0,
+		0, 0,
 		hWnd, (HMENU) IDC_UITREE, hModule, 0);
+
+	hUiProp.window =
+	CreateWindowExA(0, "nfsu2-re-dbgw-child-class",
+		0,
+		WS_CHILD,
+		0, 0,
+		0, 0,
+		hWnd, 0, hModule, 0);
+
+	x = 10; y = 10;
+	w = 200; h = PX_SPACING_Y;
+	hTmp =
+	CreateWindowExA(0, "Static",
+		"Element flags:",
+		WS_CHILD | WS_VISIBLE | SS_LEFT,
+		x,	y,
+		w,	h,
+		hUiProp.window, (HMENU) IDC_LABL_FLAGS, hModule, 0);
+	SendMessage(hTmp, WM_SETFONT, (WPARAM) font, 0);
+	x += PX_INDENT;
+	y += h;
+	w = (UIPROPS_WIDTH - PX_INDENT) / 2;
+	for (i = 0; i < 32; i++) {
+		sprintf(buf, "%d %s", i + 1, flagnames[i]);
+		hTmp =
+		CreateWindowExA(0, "Button",
+			buf,
+			WS_CHILD | WS_VISIBLE | BS_AUTOCHECKBOX,
+			x,	y,
+			w,	h,
+			hUiProp.window, (HMENU) (IDC_BTN_UIPROP_FLAG1 + i), hModule, 0);
+		SendMessage(hTmp, WM_SETFONT, (WPARAM) font, 0);
+		hUiProp.chk_flags[i] = hTmp;
+		if (i % 2) {
+			x -= w;
+			y += h;
+		} else {
+			x += w;
+		}
+	}
+	x -= PX_INDENT;
+	y += h;
+
+	hTmp =
+	CreateWindowExA(0, "Static",
+		"Position:",
+		WS_CHILD | WS_VISIBLE | SS_LEFT,
+		x,	y,
+		w,	h,
+		hUiProp.window, (HMENU) IDC_LABL, hModule, 0);
+	SendMessage(hTmp, WM_SETFONT, (WPARAM) font, 0);
+
+	y += h;
+	x += PX_INDENT;
+	w = (UIPROPS_WIDTH - PX_INDENT) / 2;
+	hTmp =
+	CreateWindowExA(0, "Static",
+		"x:",
+		WS_CHILD | WS_VISIBLE | SS_LEFT,
+		x,	y,
+		w,	h,
+		hUiProp.window, (HMENU) IDC_LABL, hModule, 0);
+	SendMessage(hTmp, WM_SETFONT, (WPARAM) font, 0);
+	hTmp =
+	CreateWindowExA(0, "Static",
+		"y:",
+		WS_CHILD | WS_VISIBLE | SS_LEFT,
+		x + w,	y,
+		w,	h,
+		hUiProp.window, (HMENU) IDC_LABL, hModule, 0);
+	SendMessage(hTmp, WM_SETFONT, (WPARAM) font, 0);
+	hUiProp.posX =
+	CreateWindowExA(WS_EX_CLIENTEDGE, "Edit",
+		"",
+		WS_CHILD | WS_VISIBLE | ES_LEFT,
+		x + 20,	y,
+		w - 40,	h,
+		hUiProp.window, (HMENU) IDC_EDIT_UIPROP_X, hModule, 0);
+	SendMessage(hUiProp.posX, WM_SETFONT, (WPARAM) font, 0);
+	x += w;
+	hUiProp.posY =
+	CreateWindowExA(WS_EX_CLIENTEDGE , "Edit",
+		"",
+		WS_CHILD | WS_VISIBLE | ES_LEFT,
+		x + 20,	y,
+		w - 40,	h,
+		hUiProp.window, (HMENU) IDC_EDIT_UIPROP_Y, hModule, 0);
+	SendMessage(hUiProp.posY, WM_SETFONT, (WPARAM) font, 0);
+	x -= w;
+	x -= PX_INDENT;
+
+	y += h + h;
+
+	UIPROPS_WIDTH - PX_INDENT - 20;
+	hTmp =
+	CreateWindowExA(0, "Static",
+		"Label language string:",
+		WS_CHILD | WS_VISIBLE | SS_LEFT,
+		x,	y,
+		w,	h,
+		hUiProp.window, (HMENU) IDC_LABL, hModule, 0);
+	SendMessage(hTmp, WM_SETFONT, (WPARAM) font, 0);
+	x += PX_INDENT;
+	y += h;
+	hUiProp.lblLangStr =
+	CreateWindowExA(WS_EX_CLIENTEDGE , "Edit",
+		"",
+		WS_CHILD | WS_VISIBLE | ES_LEFT,
+		x + 20,	y,
+		w - 40,	h,
+		hUiProp.window, (HMENU) IDC_EDIT_UIPROP_LBLLANGSTR, hModule, 0);
+	SendMessage(hUiProp.lblLangStr, WM_SETFONT, (WPARAM) font, 0);
+	y += h;
+	x -= PX_INDENT;
 }
 
 static
@@ -375,7 +640,7 @@ void dbgw_create_tab_d3_controls(HWND hWnd)
 	HWND hLabel;
 
 	x = 10; y = 10;
-	w = 200; h = 20;
+	w = 200; h = PX_SPACING_Y;
 
 	hLabel =
 	CreateWindowExA(0, "Static",
@@ -384,7 +649,7 @@ void dbgw_create_tab_d3_controls(HWND hWnd)
 		x,	y,
 		w,	h,
 		hWnd, (HMENU) IDC_LABL, hModule, 0);
-	x += 10;
+	x += PX_INDENT;
 	y += h;
 	hBtnRenderModeNormal =
 	CreateWindowExA(0, "Button",
@@ -466,18 +731,23 @@ void dbgw_create_main_window_controls(HWND hWnd)
 
 	dbgw_create_tab_d3_controls(hTabpane[1]);
 	dbgw_create_tab_ui_controls(hTabpane[0]);
+
+	dbgw_on_resize(hMain);
 }
 
 static
 LRESULT CALLBACK WndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
+	int idc;
+
 	switch (msg)
 	{
 	case WM_COMMAND:
 		// https://docs.microsoft.com/en-us/windows/win32/direct3d9/d3drenderstatetype
 		// https://docs.microsoft.com/en-us/windows/win32/direct3d9/d3dfillmode
 		// https://docs.microsoft.com/en-us/windows/win32/direct3d9/d3dshademode
-		switch (LOWORD(wParam)) {
+		idc = LOWORD(wParam);
+		switch (idc) {
 		case IDC_BTN_RENDERMODE_NORMAL:
 			d3device9_SetRenderState(D3DRS_FILLMODE, D3DFILL_SOLID);
 			break;
@@ -498,13 +768,76 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 			d3device9_SetRenderState(D3DRS_SHADEMODE, mode);
 			break;
 		}
+		case IDC_EDIT_UIPROP_X:
+		{
+			struct UIElement *element;
+			char buf[32];
+
+			if (HIWORD(wParam) == EN_CHANGE) {
+				element = dbgw_get_selected_uielement();
+				if (element) {
+					SendMessage(hUiProp.posX, WM_GETTEXT, sizeof(buf), (LPARAM) buf);
+					element->pos->leftOffset = atof(buf);
+				}
+			}
+			break;
+		}
+		case IDC_EDIT_UIPROP_Y:
+		{
+			struct UIElement *element;
+			char buf[32];
+
+			if (HIWORD(wParam) == EN_CHANGE) {
+				element = dbgw_get_selected_uielement();
+				if (element) {
+					SendMessage(hUiProp.posY, WM_GETTEXT, sizeof(buf), (LPARAM) buf);
+					element->pos->topOffset = atof(buf);
+				}
+			}
+			break;
+		}
+		case IDC_EDIT_UIPROP_LBLLANGSTR:
+		{
+			struct UIElement *element;
+			char buf[32];
+
+			if (HIWORD(wParam) == EN_CHANGE) {
+				element = dbgw_get_selected_uielement();
+				if (element && element->type == 2) {
+					SendMessage(hUiProp.lblLangStr, WM_GETTEXT, sizeof(buf), (LPARAM) buf);
+					((struct UILabel*) element)->textLanguageString = hatoi(buf);
+				}
+			}
+			break;
+		}
+		default:
+		{
+			struct UIElement *uielement;
+			HWND hFlag;
+			int idx;
+
+			if (IDC_BTN_UIPROP_FLAG1 <= idc && idc <= IDC_BTN_UIPROP_FLAG32) {
+				idx = idc - IDC_BTN_UIPROP_FLAG1;
+				hFlag = hUiProp.chk_flags[idx];
+				uielement = dbgw_get_selected_uielement();
+				if (uielement) {
+					if (SendMessage(hFlag, BM_GETCHECK, 0, 0) == BST_CHECKED) {
+						uielement->someFlags |= 1 << idx;
+					} else {
+						uielement->someFlags &= ~(1 << idx);
+					}
+				}
+			}
+			break;
+		}
 		}
 		break;
 	case WM_NOTIFY:
 	{
 		RECT rc;
-		NMHDR* nmhdr = (void*) lParam;
+		NMHDR *nmhdr = (void*) lParam;
 		int sel;
+		int i;
 
 		if (nmhdr->hwndFrom == hTab) {
 			if (nmhdr->code == TCN_SELCHANGING) {
@@ -521,6 +854,15 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 				ShowWindow(hTabpane[sel], SW_SHOW);
 				UpdateWindow(hTabpane[sel]);
 			}
+		} if (nmhdr->hwndFrom == hUITree && nmhdr->code == TVN_SELCHANGED) {
+			if (dbgw_get_selected_uielement()) {
+				if (!(GetWindowLong(hUiProp.window, GWL_STYLE) & WS_VISIBLE)) {
+					ShowWindow(hUiProp.window, SW_SHOW);
+					UpdateWindow(hUiProp.window);
+				}
+			} else {
+				ShowWindow(hUiProp.window, SW_HIDE);
+			}
 		}
 		break;
 	}
@@ -536,32 +878,8 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 		break;
 	}
 	case WM_SIZE:
-	{
-		int selectedTabIndex;
-		RECT rc;
-
-		if (hwnd == hMain) {
-			selectedTabIndex = SendMessage(hTab, TCM_GETCURSEL, 0, 0);
-			GetClientRect(hwnd, &rc);
-			SendMessage(hTab, TCM_ADJUSTRECT, 0, (LPARAM) &rc);
-			MoveWindow(hTabpane[selectedTabIndex],
-				rc.left, rc.top,
-				rc.right - rc.left, rc.bottom - rc.top,
-				0);
-			GetClientRect(hwnd, &rc);
-			MoveWindow(hTab,
-				rc.left, rc.top,
-				rc.right - rc.left, rc.bottom - rc.top,
-				1);
-		} else if (hwnd == hTabpane[0]) {
-			GetClientRect(hwnd, &rc);
-			MoveWindow(hUITree,
-				rc.left, rc.top,
-				rc.right - rc.left, rc.bottom - rc.top,
-				1);
-		}
+		dbgw_on_resize(hwnd);
 		break;
-	}
 	case WM_DESTROY:
 		hMain = 0;
 		break;
@@ -627,7 +945,7 @@ failinitcomm:
 		wc.lpszClassName,
 		"nfsu2-re-dbgw",
 		WS_OVERLAPPEDWINDOW,
-		CW_USEDEFAULT, CW_USEDEFAULT, 333, 250,
+		CW_USEDEFAULT, CW_USEDEFAULT, 500, 650,
 		NULL, NULL, hModule, NULL
 	);
 	if (hMain == NULL) {
@@ -635,7 +953,7 @@ failinitcomm:
 		return;
 	}
 
-	ShowWindow(hMain, 1);
+	ShowWindow(hMain, SW_SHOW);
 	UpdateWindow(hMain);
 }
 

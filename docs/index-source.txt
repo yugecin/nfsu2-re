@@ -3468,7 +3468,8 @@ UI keys seem to be hashed with the case insensitive hash.
         float {bottom}                                                                                          ||| mkref name=structU2RECT+0C
 };
 
-#define UIELEMENT_FLAG_VISIBLE 0x2
+#define UIELEMENT_FLAG_HIDDEN 0x1
+#define UIELEMENT_FLAG_USE_CUSTOM_TEXT 0x2
 #define UIELEMENT_FLAG_TEXT_CHANGED 0x400000
 
 {struct UIElement} \{                                                                                           ||| mkref
