@@ -46,7 +46,7 @@ unsigned int hatoi(char *text)
 	int j, c;
 
 	col = 0;
-	for (j = 0; j < 8; j++) {
+	for (j = 0; text[j] && j < 8; j++) {
 		c = text[j] - '0';
 		if (c < 0 || 9 < c) {
 			c = text[j] - 'A' + 10;
@@ -57,7 +57,8 @@ unsigned int hatoi(char *text)
 				}
 			}
 		}
-		col |= c << ((7 - j) * 4);
+		col <<= 4;
+		col |= c;
 	}
 	return col;
 }
@@ -114,4 +115,43 @@ char *languagelabel(unsigned int key)
 		}
 	}
 	return "<not found>";
+}
+
+static
+char *animationname(unsigned int key)
+{
+	static struct {
+		unsigned int hash;
+		char *name;
+	} animations[] = {
+		{ 0x001744B3, "Init" },
+		{ 0x5B0D9106, "FadeIn" },
+		{ 0xBCBFCC87, "FadeOut" },
+		{ 0xBCC00F05, "Fade_In" }, // with squish, like playername/money swap effect
+		{ 0x54C20A66, "Fade_Out" }, // with squish, like playername/money swap effect
+		{ 0x0016A259, "HIDE" },
+		{ 0x001CA7C0, "SHOW" },
+		{ 0x249DB7B7, "HIGHLIGHT" },
+		{ 0x7AB5521A, "UnHighlight" },
+		{ 0x0013C37B, "CALL" },
+		{ 0xDE6EFF34, "FORWARD" },
+		{ 0x03826A28, "Pulse" },
+		{ 0x7AB70D67, "STATIC" },
+		{ 0x4F90CF9B, "Active" },
+		{ 0x03D8EABC, "UNDIM" },
+		{ 0x00009E99, "DIM" },
+		// questionable ones:
+		{ 0xA95DB9D5, "Pause_Menu_Main" },
+		{ 0x2B5A03A8, "Pause_Options" },
+		{ 0xFCC020D2, "Event_Results" },
+	};
+	static int num = sizeof(animations)/sizeof(animations[0]);
+
+	int i;
+	for (i = 0; i < num; i++) {
+		if (animations[i].hash == key) {
+			return animations[i].name;
+		}
+	}
+	return "<unknown>";
 }

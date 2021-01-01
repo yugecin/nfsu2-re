@@ -20,6 +20,10 @@
 #define IDC_EDIT_UIPROP_LBLSTR 30
 #define IDC_BTN_PCHELPBAR_HIDE 31
 #define IDC_BTN_PCHELPBAR_SHOW 32
+#define IDC_EDIT_ELEMANIMS_ADDR 33
+#define IDC_BTN_ELEMANIMS_ADDR 34
+#define IDC_EDIT_ELEMANIMS_SETANIM 35
+#define IDC_BTN_ELEMANIMS_SETANIM 36
 
 #define IDC_BTN_UIPROP_FLAG1 9024
 #define IDC_BTN_UIPROP_FLAG32 9055
@@ -74,7 +78,7 @@ HGDIOBJ font;
 HMODULE hModule;
 HWND hMain, hTab;
 HWND hBtnRenderModeNormal, hBtnRenderModeWire, hBtnRenderModePts, hBtnRenderFlatshade;
-#define numtabpanes 3
+#define numtabpanes 4
 HWND hTabpane[numtabpanes];
 struct {
 	HWND window;
@@ -91,6 +95,11 @@ struct {
 	HWND buttonBits[32];
 	unsigned int lastButtonMask;
 } hPcHelpBar;
+struct {
+	HWND editAddr;
+	HWND editSet;
+	HWND btnSet;
+} hElementAnim;
 HWND hUITree;
 
 static
@@ -591,10 +600,76 @@ void dbgw_on_resize(HWND hwnd)
 }
 
 static
+void dbgw_create_tab_elementanims_controls(HWND hWnd)
+{
+	HWND hTmp;
+	int w, w2, h, h2;
+	int x, y;
+	int i;
+	char buf[64];
+
+	x = PX_PADDING; y = PX_PADDING;
+	w = 500 - PX_PADDING * 2; h = PX_SPACING_Y; h2 = PX_SPACING_Y / 2;
+
+	hTmp =
+	CreateWindowExA(0, "Static",
+		"Query element@:",
+		WS_CHILD | WS_VISIBLE | SS_LEFT,
+		x,	y,
+		w,	h,
+		hWnd, (HMENU) IDC_LABL, hModule, 0);
+	SendMessage(hTmp, WM_SETFONT, (WPARAM) font, 0);
+	x += PX_INDENT;
+	y += h;
+	hElementAnim.editAddr =
+	CreateWindowExA(WS_EX_CLIENTEDGE , "Edit",
+		"",
+		WS_CHILD | WS_VISIBLE | ES_LEFT,
+		x,	y,
+		150,	h,
+		hWnd, (HMENU) IDC_EDIT_ELEMANIMS_ADDR, hModule, 0);
+	SendMessage(hElementAnim.editAddr, WM_SETFONT, (WPARAM) font, 0);
+	hTmp =
+	CreateWindowExA(0 , "Button",
+		"Print info",
+		WS_CHILD | WS_VISIBLE,
+		x + 155,	y,
+		100,	h,
+		hWnd, (HMENU) IDC_BTN_ELEMANIMS_ADDR, hModule, 0);
+	SendMessage(hTmp, WM_SETFONT, (WPARAM) font, 0);
+	y += h + h2;
+	hTmp =
+	CreateWindowExA(0, "Static",
+		"Set to:",
+		WS_CHILD | WS_VISIBLE | SS_LEFT,
+		x,	y,
+		50,	h,
+		hWnd, (HMENU) IDC_LABL, hModule, 0);
+	SendMessage(hTmp, WM_SETFONT, (WPARAM) font, 0);
+	hElementAnim.editSet =
+	CreateWindowExA(WS_EX_CLIENTEDGE , "Edit",
+		"",
+		WS_CHILD | WS_VISIBLE | ES_LEFT,
+		x + 50,	y,
+		150,	h,
+		hWnd, (HMENU) IDC_EDIT_ELEMANIMS_SETANIM, hModule, 0);
+	SendMessage(hElementAnim.editSet, WM_SETFONT, (WPARAM) font, 0);
+	hElementAnim.btnSet =
+	CreateWindowExA(0 , "Button",
+		"Apply",
+		WS_CHILD | WS_VISIBLE,
+		x + 205,	y,
+		100,	h,
+		hWnd, (HMENU) IDC_BTN_ELEMANIMS_SETANIM, hModule, 0);
+	SendMessage(hElementAnim.btnSet, WM_SETFONT, (WPARAM) font, 0);
+	x -= PX_INDENT;
+	y += h;
+}
+
+static
 void dbgw_create_tab_pchelpbar_controls(HWND hWnd)
 {
 	HWND hTmp;
-	RECT rc;
 	int w, w2, h, h2;
 	int x, y;
 	int i;
@@ -920,7 +995,10 @@ void dbgw_create_main_window_controls(HWND hWnd)
 	ti.pszText = "d3d9";
 	ti.cchTextMax = strlen(ti.pszText);
 	SendMessage(hTab, TCM_INSERTITEM, 1, (LPARAM) &ti);
-	ti.pszText = "pchelpbar";
+	ti.pszText = "PC Help Bar";
+	ti.cchTextMax = strlen(ti.pszText);
+	SendMessage(hTab, TCM_INSERTITEM, 2, (LPARAM) &ti);
+	ti.pszText = "UI Element Anims";
 	ti.cchTextMax = strlen(ti.pszText);
 	SendMessage(hTab, TCM_INSERTITEM, 3, (LPARAM) &ti);
 
@@ -935,6 +1013,7 @@ void dbgw_create_main_window_controls(HWND hWnd)
 			hTab, 0, hModule, 0);
 	}
 
+	dbgw_create_tab_elementanims_controls(hTabpane[3]);
 	dbgw_create_tab_pchelpbar_controls(hTabpane[2]);
 	dbgw_create_tab_d3_controls(hTabpane[1]);
 	dbgw_create_tab_ui_controls(hTabpane[0]);
@@ -1060,6 +1139,47 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 		case IDC_BTN_PCHELPBAR_SHOW:
 			PCHelpBarFNGObject__Show();
 			break;
+		case IDC_BTN_ELEMANIMS_ADDR:
+		{
+			char buf[32];
+			struct UIElement *element;
+			struct UIElement_Animation *animation;
+
+			SendMessage(hElementAnim.editAddr, WM_GETTEXT, sizeof(buf), (LPARAM) buf);
+			element = (void*) hatoi(buf);
+			if (!element || IsBadReadPtr(element, sizeof(struct UIElement))) {
+				ERRMSG(hElementAnim.editAddr, "Invalid element address");
+			} else {
+				printf("dumping animations for %p\n", element);
+				animation = (void*) element->animationLink_.next;
+				while (animation && animation != (void*) &element->animationLink_)
+				{
+					printf("animation@%p hash %8X (%s)%s\n",
+						animation, animation->hash,
+						animationname(animation->hash),
+						animation == element->currentAnimation_ ?
+							" CURRENT" : "");
+					animation = (void*) animation->next;
+				}
+			}
+			break;
+		}
+		case IDC_BTN_ELEMANIMS_SETANIM:
+		{
+			char buf[32];
+			struct UIElement *element;
+			unsigned int hash;
+
+			SendMessage(hElementAnim.editAddr, WM_GETTEXT, sizeof(buf), (LPARAM) buf);
+			element = (void*) hatoi(buf);
+			if (!element || IsBadReadPtr(element, sizeof(struct UIElement))) {
+				ERRMSG(hElementAnim.editAddr, "Invalid element address");
+			} else {
+				SendMessage(hElementAnim.editSet, WM_GETTEXT, sizeof(buf), (LPARAM) buf);
+				((void (__cdecl*)(struct UIElement*,char*,char))0x51CF70)(element, buf, 1);
+			}
+			break;
+		}
 		default:
 		{
 			struct UIElement *uielement;

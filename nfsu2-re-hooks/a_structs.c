@@ -36,8 +36,8 @@ EXPECT_SIZE(struct CarModelInfo, 0x890);
 ASSERT_OFFSET(struct CarModelInfo, manufacturer, 0xC0);
 
 struct ObjectLink {
-	struct ObjectLink *prev;
 	struct ObjectLink *next;
+	struct ObjectLink *prev;
 };
 EXPECT_SIZE(struct ObjectLink, 0x8);
 
@@ -203,6 +203,23 @@ struct UIPos {
 	float field_3C;
 };
 
+struct UIElement_Animation {
+	int field_0;
+	struct UIElement_Animation *next;
+	int field_8;
+	int field_C;
+	int maybeTimer_;
+	int field_14;
+	int field_18;
+	int field_1C;
+	int ptrField_20;
+	int field_24;
+	int field_28;
+	int field_2C;
+	unsigned int hash;
+};
+EXPECT_SIZE(struct UIElement_Animation, 0x34);
+
 #define UIELEMENT_FLAG_HIDDEN 1
 #define UIELEMENT_FLAG_USE_CUSTOM_TEXT 2
 #define UIELEMENT_FLAG_NEED_UPDATE_0 0x400000
@@ -222,10 +239,6 @@ struct UIElement {
 	int field_24;
 	int field_28;
 	struct UIPos *pos;
-};
-
-struct UILabel {
-	struct UIElement __parent;
 	int field_30;
 	int field_34;
 	int field_38;
@@ -233,10 +246,14 @@ struct UILabel {
 	int field_40;
 	int field_44;
 	int field_48;
-	int field_4C;
-	int field_50;
-	int field_54;
-	int field_58;
+	struct ObjectLink animationLink_;
+	struct UIElement_Animation *currentAnimation_;
+	void *feRenderObject;
+};
+EXPECT_SIZE(struct UIElement, 0x5C);
+
+struct UILabel {
+	struct UIElement __parent;
 	int field_5C;
 	unsigned int textLanguageString;
 	struct WideCharString string; /*is used when textLanguageString is invalid or flag 2 is set*/
@@ -248,17 +265,6 @@ ASSERT_OFFSET(struct UILabel, string, 0x64);
 
 struct UIContainer {
 	struct UIElement __parent;
-	int field_30;
-	int field_34;
-	int field_38;
-	int field_3C;
-	int field_40;
-	int field_44;
-	int field_48;
-	int field_4C;
-	int field_50;
-	int field_54;
-	int field_58;
 	int field_5C;
 	int numChildren;
 	struct UIElement *children;
