@@ -3576,6 +3576,7 @@ mask gets placed on button1, and so on.
 </li><li><span class='func' id='54E6A0'>54E6A0 void __thiscall PCHelpBarFNGObject::Show(<a href='#struct_PCHelpBarFNGObject'>struct PCHelpBarFNGObject</a> *this)</span>
 </li><li><span class='func' id='54E6B0'>54E6B0 void __thiscall PCHelpBarFNGObject::Hide(<a href='#struct_PCHelpBarFNGObject'>struct PCHelpBarFNGObject</a> *this)</span>
 </li><li><span class='func' id='54E6E0'>54E6E0 void __thiscall PCHelpBarFNGObject::SyncByMask(<a href='#struct_PCHelpBarFNGObject'>struct PCHelpBarFNGObject</a> *this, int someMask, char *fngName)</span>
+  Sets buttons and background of the help bar, updates profile name display.
   mask:
 <pre>-        1: BUTTON_PC_NAV_QUIT: Quit Game
 -        2: BUTTON_PC_NAV_LOGOFF: Logoff
@@ -4590,6 +4591,8 @@ EXPECT_SIZE(struct WorldAnimStuff, 0x4C);
 </li><li><span class='func' id='43DC30'>43DC30 int strcmp(char *a, char *b)</span>
 </li><li><span class='func' id='43DC60'>43DC60 int strncmp(char *a, char *b, int maxlen)</span>
 </li><li><span class='func' id='43DCC0'>43DCC0 int stricmp(char *a, char *b)</span>
+</li><li><span class='func' id='43DDA0'>43DDA0 void strcatcpy(char *dest, char *src1, char *src2)</span>
+  Equivalent to <code>strcpy(dest, src1); strcpy(dest + strlen(src1), src2);</code>.
 </li><li><span class='func' id='43E000'>43E000 void *NaiveStrcpyCharToWchar(wchar_t *dest, char *src)</span>
   Uses sign extension. See also <a class='funcref' href='#50D3C0'>50D3C0:LanguageConversionStrcpyCharToWchar()</a> and <a class='funcref' href='#512530'>512530:LanguageAwareStrcpyCharToWchar()</a>.
 </li><li><span class='func' id='43E950'>43E950 int FormatWithSinglePlaceholderPtr(char *dst, char *format, void *parameter)</span>

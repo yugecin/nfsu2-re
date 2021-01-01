@@ -45,6 +45,7 @@ static void stub() {}
 //#include "hook-52CEF0-GetFNGInfoByName.c"
 //#include "hook-535FE0-UILabel__setString.c"
 //#include "hook-555D00-AddFNGToUIObject.c"
+#include "hook-55B5C0-FNGObject__BaseNotify.c"
 //#include "hook-55DC20-SendSomethingToFNG.c"
 //#include "hook-57CAC0-SomethingWithABinFile.c"
 #include "hook-74A6ED-recv.c"
@@ -70,6 +71,7 @@ static void stub() {}
 //#include "focusloss-nopause.c" // note that cause of this it will still accept keys while in bg
 #include "replaceloadingscreen.c"
 #include "skipinsertdisc2.c"
+#include "ignorefocuslossintextboxandlist.c"
 
 #include "dbgw_a_main.c"
 

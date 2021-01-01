@@ -5702,6 +5702,9 @@ EXPECT_SIZE(struct WorldAnimStuff, 0x4C);
 
 - {43DCC0 int stricmp(char *a, char *b)}                                                        ||| func
 
+- {43DDA0 void strcpycat(char *dest, char *src1, char *src2)}                                   ||| func
+  Functionally equivalent to {strcpy(dest, src1); strcpy(dest + strlen(src1), src2);}.          ||| code
+
 - {43E000 void *NaiveStrcpyCharToWchar(wchar_t *dest, char *src)}                               ||| func
   Uses sign extension. See also {50D3C0} and {512530}.                                          ||| ref,ref
 

@@ -479,6 +479,18 @@
 			</FileConfiguration>
 		</File>
 		<File
+			RelativePath=".\hook-55B5C0-FNGObject__BaseNotify.c"
+			>
+			<FileConfiguration
+				Name="Debug|Win32"
+				ExcludedFromBuild="true"
+				>
+				<Tool
+					Name="VCCLCompilerTool"
+				/>
+			</FileConfiguration>
+		</File>
+		<File
 			RelativePath=".\hook-55DC20-SendSomethingToFNG.c"
 			>
 			<FileConfiguration
@@ -528,6 +540,18 @@
 		</File>
 		<File
 			RelativePath=".\hook-realcore-filesystem.c"
+			>
+			<FileConfiguration
+				Name="Debug|Win32"
+				ExcludedFromBuild="true"
+				>
+				<Tool
+					Name="VCCLCompilerTool"
+				/>
+			</FileConfiguration>
+		</File>
+		<File
+			RelativePath=".\ignorefocuslossintextboxandlist.c"
 			>
 			<FileConfiguration
 				Name="Debug|Win32"
