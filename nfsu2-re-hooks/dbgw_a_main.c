@@ -252,7 +252,13 @@ void dbgw_ui_tree_element_format(struct UIElement *element, char *dst, int *out_
 			str = GetLanguageStringOrNull(label->textLanguageString);
 		}
 		if (str) {
-			len += sprintf(dst + len, "%s", str);
+			if (strlen(str) > UI_LIST_ITM_MAX_LEN - len) {
+				memcpy(dst + len, str, UI_LIST_ITM_MAX_LEN - len);
+				dst[UI_LIST_ITM_MAX_LEN - 1] = 0;
+				len = UI_LIST_ITM_MAX_LEN - 1;
+			} else {
+				len += sprintf(dst + len, "%s", str);
+			}
 		} else {
 			src = label->string.ptrString;
 			if (src) {
