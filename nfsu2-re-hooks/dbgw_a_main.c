@@ -158,11 +158,10 @@ int dbgw_ui_tree_get_rect_for_tree_item(HTREEITEM itm, struct U2RECT *rect)
 		if (!element) {
 			return 1;
 		}
-		((void (__cdecl *)(void*,struct U2RECT*))0x51D9F0)(element, &rect2);
-		rect->top += (rect2.top + rect2.bottom) / 2;
-		rect->bottom += (rect2.top + rect2.bottom) / 2;
-		rect->left += (rect2.left + rect2.right) / 2;
-		rect->right += (rect2.left + rect2.right) / 2;
+		rect->top += element->pos->topOffset;
+		rect->bottom += element->pos->topOffset;
+		rect->left += element->pos->leftOffset;
+		rect->right += element->pos->leftOffset;
 	}
 }
 
