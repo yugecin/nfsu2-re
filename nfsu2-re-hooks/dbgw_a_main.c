@@ -14,9 +14,17 @@
 #define IDC_EDIT_UIPROP_X 24
 #define IDC_EDIT_UIPROP_Y 25
 #define IDC_EDIT_UIPROP_LBLLANGSTR 26
+#define IDC_EDIT_UIPROP_ADDR 27
+#define IDC_BTN_UIPROP_HIDEALL 28
+#define IDC_BTN_UIPROP_SHOWALL 29
+#define IDC_EDIT_UIPROP_LBLSTR 30
+#define IDC_BTN_PCHELPBAR_HIDE 31
+#define IDC_BTN_PCHELPBAR_SHOW 32
 
 #define IDC_BTN_UIPROP_FLAG1 9024
 #define IDC_BTN_UIPROP_FLAG32 9055
+#define IDC_BTN_PCHELPBARMASK_FLAG1 9056
+#define IDC_BTN_PCHELPBARMASK_FLAG32 9087
 
 #define UI_LIST_ITM_MAX_LEN 128
 struct UiListItem {
@@ -34,28 +42,55 @@ int numUiListItems;
 #define UIPROPS_WIDTH 350
 #define UITREE_MINWIDTH 200
 
+#define PX_PADDING 10
 #define PX_INDENT 20
 #define PX_SPACING_Y 18
 
-const char* flagnames[32] = {
+const char *flagnames[32] = {
 	"hidden", "use custom text",
 	"", "", "", "", "", "", "", "", "", "",
 	"", "", "", "", "", "", "", "", "", "",
-	"", "", "", "", "", "", "", "", "", ""
+	"needs update(0)", "needs update(1)", "needs update(2)", "", "", "", "", "", "", ""
 };
+
+const char *pcHelpBarButtons[32] = {
+	"PC_NAV_QUIT", "PC_NAV_LOGOFF", "PC_NAV_CONTINUE",
+	"PC_NAV_INSTALL_PART", "PC_NAV_INSTALL_VINYL",
+	"PC_NAV_INSTALL_DECAL", "PC_NAV_INSTALL_PACKAGE",
+	"PC_NAV_INSTALL_PAINT", "PC_NAV_READ_MESSAGE", "CANCEL_CHANGES", "PC_NAV_BACK",
+	"DYNO_RESET/PC_NAV_RESET_KEYS", "PC_NAV_CUSTOMIZE", "PC_NAV_DELETE",
+	"PC_NAV_EA_MESSENGER",
+	"LAYOUT_WORLDMAP_POSITION", "LAYOUT_ONE_LINE_NO_BG", "LAYOUT_PAUSEMENU_POSITION",
+	"DELETE_TUNED_CAR",
+	"ICE_TEST_NOS_PURGE", "ICE_OPEN_CLOSE_HOOD", "ICE_OPEN_CLOSE_DOORS",
+	"DYNO_TIP", "DECAL_COLOR/FE_REPAINT", "MU_PAUSE_RESTART",
+	"STRING_WORLD_MAP_SELECT", "FILTER_EVENT_OFF", "FILTER_EVENT_ON",
+	"ACTIVATE_GPS", "DEACTIVATE_GPS", "OL_HOST_LAN_SERVER", "LAYOUT_RIGHT_POSITION"
+};
+
+#define DBGW_UI_LABEL_STRING_MAX_LEN 512
 
 HGDIOBJ font;
 HMODULE hModule;
 HWND hMain, hTab;
 HWND hBtnRenderModeNormal, hBtnRenderModeWire, hBtnRenderModePts, hBtnRenderFlatshade;
-#define numtabpanes 2
+#define numtabpanes 3
 HWND hTabpane[numtabpanes];
 struct {
 	HWND window;
+	HWND addr;
 	HWND chk_flags[32];
 	HWND posX, posY;
 	HWND lblLangStr;
+	HWND lblStr;
+	char wasLblLangStrReadOnly;
+	char wasLblStrReadOnly;
+	unsigned int lastFlags;
 } hUiProp;
+struct {
+	HWND buttonBits[32];
+	unsigned int lastButtonMask;
+} hPcHelpBar;
 HWND hUITree;
 
 static
@@ -254,18 +289,37 @@ int CALLBACK dbgw_ui_tree_compare_fng_tree_items(LPARAM a, LPARAM b, LPARAM lPar
 }
 
 static
+void dbgw_pchelpbar_update_before_present()
+{
+	unsigned int currentMask;
+	int i;
+
+	currentMask = pcHelpbar[0]->currentButtonMask;
+	if (hPcHelpBar.lastButtonMask != currentMask) {
+		hPcHelpBar.lastButtonMask = currentMask;
+		for (i = 0; i < 32; i++) {
+			if (currentMask & (1 << i)) {
+				SendMessage(hPcHelpBar.buttonBits[i], BM_SETCHECK, BST_CHECKED, 0);
+			} else {
+				SendMessage(hPcHelpBar.buttonBits[i], BM_SETCHECK, BST_UNCHECKED, 0);
+			}
+		}
+	}
+}
+
+static
 void dbgw_ui_props_update_before_present()
 {
 	struct UIElement *uielement;
+	struct UILabel *lbl;
 	char buf1[32];
 	char buf2[32];
+	char buf3[DBGW_UI_LABEL_STRING_MAX_LEN];
+	char *b;
+	short *w;
 	int i;
 
-	PRESENT_HOOK_FUNC();
-#undef PRESENT_HOOK_FUNC
-#define PRESENT_HOOK_FUNC dbgw_ui_props_update_before_present
-
-	if (!hMain ||
+	if (
 		!(GetWindowLongA(hTabpane[0], GWL_STYLE) & WS_VISIBLE) ||
 		!(GetWindowLongA(hUiProp.window, GWL_STYLE) & WS_VISIBLE) ||
 		!(uielement = dbgw_get_selected_uielement()))
@@ -273,11 +327,14 @@ void dbgw_ui_props_update_before_present()
 		return;
 	}
 
-	for (i = 0; i < 32; i++) {
-		if (uielement->someFlags & (1 << i)) {
-			SendMessage(hUiProp.chk_flags[i], BM_SETCHECK, BST_CHECKED, 0);
-		} else {
-			SendMessage(hUiProp.chk_flags[i], BM_SETCHECK, BST_UNCHECKED, 0);
+	if (hUiProp.lastFlags != uielement->someFlags) {
+		hUiProp.lastFlags = uielement->someFlags;
+		for (i = 0; i < 32; i++) {
+			if (uielement->someFlags & (1 << i)) {
+				SendMessage(hUiProp.chk_flags[i], BM_SETCHECK, BST_CHECKED, 0);
+			} else {
+				SendMessage(hUiProp.chk_flags[i], BM_SETCHECK, BST_UNCHECKED, 0);
+			}
 		}
 	}
 	if (uielement->pos) {
@@ -299,18 +356,56 @@ void dbgw_ui_props_update_before_present()
 		SendMessage(hUiProp.posY, WM_SETTEXT, 0, (LPARAM) buf2);
 	}
 
-	SendMessage(hUiProp.lblLangStr, WM_GETTEXT, sizeof(buf1), (LPARAM) buf1);
 	if (uielement->type == 2) {
-		SendMessage(hUiProp.lblLangStr, EM_SETREADONLY, 0, 0);
-		if (((struct UILabel*) uielement)->textLanguageString != hatoi(buf1)) {
+		if (hUiProp.wasLblLangStrReadOnly) {
+			SendMessage(hUiProp.lblLangStr, EM_SETREADONLY, 0, 0);
+			hUiProp.wasLblLangStrReadOnly = 0;
+		}
+		SendMessage(hUiProp.lblLangStr, WM_GETTEXT, sizeof(buf1), (LPARAM) buf1);
+		lbl = (struct UILabel*) uielement;
+		if (lbl->textLanguageString != hatoi(buf1)) {
 			sprintf(buf1, "%08X", ((struct UILabel*) uielement)->textLanguageString);
 			SendMessage(hUiProp.lblLangStr, WM_SETTEXT, 0, (LPARAM) buf1);
 		}
+		if (lbl->string.ptrString) {
+			SendMessage(hUiProp.lblStr, WM_GETTEXT, sizeof(buf3), (LPARAM) buf3);
+			b = buf3;
+			w = lbl->string.ptrString;
+			while (*(b++) == *(w++)) {
+				if (!*b) {
+					goto ok;
+				}
+			}
+			b = buf3;
+			w = lbl->string.ptrString;
+			while (b < (buf3 + sizeof(buf3)) && (*(b++) = *(w++)));
+			if (hUiProp.wasLblStrReadOnly) {
+				hUiProp.wasLblStrReadOnly = 0;
+				SendMessage(hUiProp.lblStr, EM_SETREADONLY, 0, 0);
+			}
+			SendMessage(hUiProp.lblStr, WM_SETTEXT, 0, (LPARAM) buf3);
+ok:
+			;
+		} else {
+			if (!hUiProp.wasLblStrReadOnly) {
+				hUiProp.wasLblStrReadOnly = 1;
+				buf3[0] = 0;
+				SendMessage(hUiProp.lblStr, WM_SETTEXT, 0, (LPARAM) buf3);
+				SendMessage(hUiProp.lblStr, EM_SETREADONLY, 1, 0);
+			}
+		}
 	} else {
-		SendMessage(hUiProp.lblLangStr, EM_SETREADONLY, 1, 0);
-		if (buf1[0]) {
+		if (!hUiProp.wasLblLangStrReadOnly) {
+			hUiProp.wasLblLangStrReadOnly = 1;
 			buf1[0] = 0;
 			SendMessage(hUiProp.lblLangStr, WM_SETTEXT, 0, (LPARAM) buf1);
+			SendMessage(hUiProp.lblLangStr, EM_SETREADONLY, 1, 0);
+		}
+		if (!hUiProp.wasLblStrReadOnly) {
+			hUiProp.wasLblStrReadOnly = 1;
+			buf1[0] = 0;
+			SendMessage(hUiProp.lblStr, WM_SETTEXT, 0, (LPARAM) buf1);
+			SendMessage(hUiProp.lblStr, EM_SETREADONLY, 1, 0);
 		}
 	}
 }
@@ -335,11 +430,7 @@ void dbgw_ui_tree_update_before_present()
 	int anyElementsInserted;
 	int lastElementCount;
 
-	PRESENT_HOOK_FUNC();
-#undef PRESENT_HOOK_FUNC
-#define PRESENT_HOOK_FUNC dbgw_ui_tree_update_before_present
-
-	if (!hMain || !(GetWindowLongA(hTabpane[0], GWL_STYLE) & WS_VISIBLE)) {
+	if (!(GetWindowLongA(hTabpane[0], GWL_STYLE) & WS_VISIBLE)) {
 		return;
 	}
 
@@ -500,11 +591,74 @@ void dbgw_on_resize(HWND hwnd)
 }
 
 static
+void dbgw_create_tab_pchelpbar_controls(HWND hWnd)
+{
+	HWND hTmp;
+	RECT rc;
+	int w, w2, h, h2;
+	int x, y;
+	int i;
+	char buf[64];
+
+	x = PX_PADDING; y = PX_PADDING;
+	w = 500 - PX_PADDING * 2; h = PX_SPACING_Y; h2 = PX_SPACING_Y / 2;
+
+	hTmp =
+	CreateWindowExA(0, "Static",
+		"Buttons/flags:",
+		WS_CHILD | WS_VISIBLE | SS_LEFT,
+		x,	y,
+		w,	h,
+		hWnd, (HMENU) IDC_LABL, hModule, 0);
+	SendMessage(hTmp, WM_SETFONT, (WPARAM) font, 0);
+	x += PX_INDENT;
+	y += h;
+	w2 = (w - PX_INDENT) / 2;
+	for (i = 0; i < 32;) {
+		sprintf(buf, "%x %s", 1 << i, pcHelpBarButtons[i]);
+		hTmp =
+		CreateWindowExA(0, "Button",
+			buf,
+			WS_CHILD | WS_VISIBLE | BS_AUTOCHECKBOX,
+			x,	y,
+			w2,	h,
+			hWnd, (HMENU) (IDC_BTN_PCHELPBARMASK_FLAG1 + i), hModule, 0);
+		SendMessage(hTmp, WM_SETFONT, (WPARAM) font, 0);
+		hPcHelpBar.buttonBits[i] = hTmp;
+		i++;
+		if (i % 2) {
+			x += w2;
+		} else {
+			x -= w2;
+			y += h;
+		}
+	}
+	x -= PX_INDENT;
+	y += h2;
+	hTmp =
+	CreateWindowExA(0, "Button",
+		"Hide",
+		WS_CHILD | WS_VISIBLE,
+		x, y,
+		97, h,
+		hWnd, (HMENU) IDC_BTN_PCHELPBAR_HIDE, hModule, 0);
+	SendMessage(hTmp, WM_SETFONT, (WPARAM) font, 0);
+	hTmp =
+	CreateWindowExA(0, "Button",
+		"Show",
+		WS_CHILD | WS_VISIBLE,
+		x + 103, y,
+		97, h,
+		hWnd, (HMENU) IDC_BTN_PCHELPBAR_SHOW, hModule, 0);
+	SendMessage(hTmp, WM_SETFONT, (WPARAM) font, 0);
+}
+
+static
 void dbgw_create_tab_ui_controls(HWND hWnd)
 {
 	HWND hTmp;
 	RECT rc;
-	int w, h;
+	int w, h, h2;
 	int x, y;
 	int i;
 	char buf[32];
@@ -526,8 +680,36 @@ void dbgw_create_tab_ui_controls(HWND hWnd)
 		0, 0,
 		hWnd, 0, hModule, 0);
 
-	x = 10; y = 10;
-	w = 200; h = PX_SPACING_Y;
+	x = PX_PADDING; y = PX_PADDING;
+	w = (UIPROPS_WIDTH - PX_INDENT) / 2; h = PX_SPACING_Y; h2 = PX_SPACING_Y / 2;
+	hUiProp.addr =
+	CreateWindowExA(WS_EX_CLIENTEDGE , "Edit",
+		"",
+		WS_CHILD | WS_VISIBLE | ES_LEFT | ES_READONLY,
+		x,	y,
+		200,	h,
+		hUiProp.window, (HMENU) IDC_EDIT_UIPROP_ADDR, hModule, 0);
+	SendMessage(hUiProp.addr, WM_SETFONT, (WPARAM) font, 0);
+	y += h + h2;
+
+	hTmp =
+	CreateWindowExA(0, "Button",
+		"Hide hierarchy",
+		WS_CHILD | WS_VISIBLE,
+		x, y,
+		97, h,
+		hUiProp.window, (HMENU) IDC_BTN_UIPROP_HIDEALL, hModule, 0);
+	SendMessage(hTmp, WM_SETFONT, (WPARAM) font, 0);
+	hTmp =
+	CreateWindowExA(0, "Button",
+		"Show hierarchy",
+		WS_CHILD | WS_VISIBLE,
+		x + 103, y,
+		97, h,
+		hUiProp.window, (HMENU) IDC_BTN_UIPROP_SHOWALL, hModule, 0);
+	SendMessage(hTmp, WM_SETFONT, (WPARAM) font, 0);
+
+	y += h + h2;
 	hTmp =
 	CreateWindowExA(0, "Static",
 		"Element flags:",
@@ -538,7 +720,6 @@ void dbgw_create_tab_ui_controls(HWND hWnd)
 	SendMessage(hTmp, WM_SETFONT, (WPARAM) font, 0);
 	x += PX_INDENT;
 	y += h;
-	w = (UIPROPS_WIDTH - PX_INDENT) / 2;
 	for (i = 0; i < 32; i++) {
 		sprintf(buf, "%d %s", i + 1, flagnames[i]);
 		hTmp =
@@ -558,7 +739,7 @@ void dbgw_create_tab_ui_controls(HWND hWnd)
 		}
 	}
 	x -= PX_INDENT;
-	y += h;
+	y += h2;
 
 	hTmp =
 	CreateWindowExA(0, "Static",
@@ -608,7 +789,7 @@ void dbgw_create_tab_ui_controls(HWND hWnd)
 	x -= w;
 	x -= PX_INDENT;
 
-	y += h + h;
+	y += h + h2;
 
 	UIPROPS_WIDTH - PX_INDENT - 20;
 	hTmp =
@@ -625,10 +806,32 @@ void dbgw_create_tab_ui_controls(HWND hWnd)
 	CreateWindowExA(WS_EX_CLIENTEDGE , "Edit",
 		"",
 		WS_CHILD | WS_VISIBLE | ES_LEFT,
-		x + 20,	y,
+		x,	y,
 		w - 40,	h,
 		hUiProp.window, (HMENU) IDC_EDIT_UIPROP_LBLLANGSTR, hModule, 0);
 	SendMessage(hUiProp.lblLangStr, WM_SETFONT, (WPARAM) font, 0);
+	y += h;
+	x -= PX_INDENT;
+
+	hTmp =
+	CreateWindowExA(0, "Static",
+		"Label string:",
+		WS_CHILD | WS_VISIBLE | SS_LEFT,
+		x,	y,
+		w,	h,
+		hUiProp.window, (HMENU) IDC_LABL, hModule, 0);
+	SendMessage(hTmp, WM_SETFONT, (WPARAM) font, 0);
+	x += PX_INDENT;
+	y += h;
+	w = UIPROPS_WIDTH - PX_PADDING * 2 - PX_INDENT;
+	hUiProp.lblStr =
+	CreateWindowExA(WS_EX_CLIENTEDGE , "Edit",
+		"",
+		WS_CHILD | WS_VISIBLE | ES_AUTOHSCROLL | ES_LEFT,
+		x,	y,
+		w,	h,
+		hUiProp.window, (HMENU) IDC_EDIT_UIPROP_LBLSTR, hModule, 0);
+	SendMessage(hUiProp.lblStr, WM_SETFONT, (WPARAM) font, 0);
 	y += h;
 	x -= PX_INDENT;
 }
@@ -717,6 +920,9 @@ void dbgw_create_main_window_controls(HWND hWnd)
 	ti.pszText = "d3d9";
 	ti.cchTextMax = strlen(ti.pszText);
 	SendMessage(hTab, TCM_INSERTITEM, 1, (LPARAM) &ti);
+	ti.pszText = "pchelpbar";
+	ti.cchTextMax = strlen(ti.pszText);
+	SendMessage(hTab, TCM_INSERTITEM, 3, (LPARAM) &ti);
 
 	SendMessage(hTab, TCM_ADJUSTRECT, 0, (LPARAM) &rc);
 	for (i = 0; i < numtabpanes; i++) {
@@ -729,6 +935,7 @@ void dbgw_create_main_window_controls(HWND hWnd)
 			hTab, 0, hModule, 0);
 	}
 
+	dbgw_create_tab_pchelpbar_controls(hTabpane[2]);
 	dbgw_create_tab_d3_controls(hTabpane[1]);
 	dbgw_create_tab_ui_controls(hTabpane[0]);
 
@@ -778,6 +985,7 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 				if (element) {
 					SendMessage(hUiProp.posX, WM_GETTEXT, sizeof(buf), (LPARAM) buf);
 					element->pos->leftOffset = atof(buf);
+					element->someFlags |= UIELEMENT_FLAG_NEED_UPDATE_0;
 				}
 			}
 			break;
@@ -792,6 +1000,7 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 				if (element) {
 					SendMessage(hUiProp.posY, WM_GETTEXT, sizeof(buf), (LPARAM) buf);
 					element->pos->topOffset = atof(buf);
+					element->someFlags |= UIELEMENT_FLAG_NEED_UPDATE_0;
 				}
 			}
 			break;
@@ -806,15 +1015,58 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 				if (element && element->type == 2) {
 					SendMessage(hUiProp.lblLangStr, WM_GETTEXT, sizeof(buf), (LPARAM) buf);
 					((struct UILabel*) element)->textLanguageString = hatoi(buf);
+					element->someFlags |= UIELEMENT_FLAG_NEED_UPDATE_0;
 				}
 			}
 			break;
 		}
+		case IDC_EDIT_UIPROP_LBLSTR:
+		{
+			struct UIElement *element;
+			char buf[DBGW_UI_LABEL_STRING_MAX_LEN];
+
+			if (HIWORD(wParam) == EN_CHANGE) {
+				element = dbgw_get_selected_uielement();
+				if (element && element->type == 2) {
+					SendMessage(hUiProp.lblStr, WM_GETTEXT, sizeof(buf), (LPARAM) buf);
+					UILabel__setString((void*) element, buf); // sets update flag
+				}
+			}
+			break;
+		}
+		case IDC_BTN_UIPROP_HIDEALL:
+		{
+			struct UIElement *uielement;
+
+			uielement = dbgw_get_selected_uielement();
+			if (uielement) {
+				((void (__cdecl*)(struct UIElement*))0x50CA00)(uielement);
+			}
+			break;
+		}
+		case IDC_BTN_UIPROP_SHOWALL:
+		{
+			struct UIElement *uielement;
+
+			uielement = dbgw_get_selected_uielement();
+			if (uielement) {
+				((void (__cdecl*)(struct UIElement*))0x50CA50)(uielement);
+			}
+			break;
+		}
+		case IDC_BTN_PCHELPBAR_HIDE:
+			PCHelpBarFNGObject__Hide();
+			break;
+		case IDC_BTN_PCHELPBAR_SHOW:
+			PCHelpBarFNGObject__Show();
+			break;
 		default:
 		{
 			struct UIElement *uielement;
 			HWND hFlag;
 			int idx;
+			unsigned int mask;
+			char *oldOwner;
 
 			if (IDC_BTN_UIPROP_FLAG1 <= idc && idc <= IDC_BTN_UIPROP_FLAG32) {
 				idx = idc - IDC_BTN_UIPROP_FLAG1;
@@ -823,10 +1075,33 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 				if (uielement) {
 					if (SendMessage(hFlag, BM_GETCHECK, 0, 0) == BST_CHECKED) {
 						uielement->someFlags |= 1 << idx;
+						hUiProp.lastFlags |= 1 << idx;
 					} else {
 						uielement->someFlags &= ~(1 << idx);
+						hUiProp.lastFlags &= ~(1 << idx);
+					}
+					if (idx == 1) {
+						// toggling 'use custom text', requires update
+						uielement->someFlags |= UIELEMENT_FLAG_NEED_UPDATE_0;
 					}
 				}
+			} else if (IDC_BTN_PCHELPBARMASK_FLAG1 <= idc && idc <= IDC_BTN_PCHELPBARMASK_FLAG32) {
+				idx = idc - IDC_BTN_PCHELPBARMASK_FLAG1;
+				hFlag = hPcHelpBar.buttonBits[idx];
+				if (SendMessage(hFlag, BM_GETCHECK, 0, 0) == BST_CHECKED) {
+					hPcHelpBar.lastButtonMask |= 1 << idx;
+				} else {
+					hPcHelpBar.lastButtonMask &= ~(1 << idx);
+				}
+				mask = 0;
+				for (idx = 0; idx < 32; idx++) {
+					if (SendMessage(hPcHelpBar.buttonBits[idx], BM_GETCHECK, 0, 0) == BST_CHECKED) {
+						mask |= (1 << idx);
+					}
+				}
+				oldOwner = pcHelpbar[0]->oldButtonOwnerFngName;
+				PCHelpBarFNGObject__SyncByMask(mask, pcHelpbar[0]->buttonOwnerFngName);
+				pcHelpbar[0]->oldButtonOwnerFngName = oldOwner;
 			}
 			break;
 		}
@@ -834,8 +1109,10 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 		break;
 	case WM_NOTIFY:
 	{
+		struct UIElement *element;
 		RECT rc;
 		NMHDR *nmhdr = (void*) lParam;
+		char buf[32];
 		int sel;
 		int i;
 
@@ -855,12 +1132,17 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 				UpdateWindow(hTabpane[sel]);
 			}
 		} if (nmhdr->hwndFrom == hUITree && nmhdr->code == TVN_SELCHANGED) {
-			if (dbgw_get_selected_uielement()) {
+			element = dbgw_get_selected_uielement();
+			if (element) {
+				sprintf(buf, "Element@%08X", element);
+				SendMessage(hUiProp.addr, WM_SETTEXT, 0, (LPARAM) buf);
 				if (!(GetWindowLong(hUiProp.window, GWL_STYLE) & WS_VISIBLE)) {
 					ShowWindow(hUiProp.window, SW_SHOW);
 					UpdateWindow(hUiProp.window);
 				}
 			} else {
+				buf[0] = 0;
+				SendMessage(hUiProp.addr, WM_SETTEXT, 0, (LPARAM) buf);
 				ShowWindow(hUiProp.window, SW_HIDE);
 			}
 		}
@@ -963,6 +1245,20 @@ __declspec(naked) void CreateWindowHook()
 	_asm { mov eax, 0x5D24F0 }
 	_asm { call eax }
 	_asm { jmp dbgw_init }
+}
+
+static
+void dbgw_before_present()
+{
+	PRESENT_HOOK_FUNC();
+#undef PRESENT_HOOK_FUNC
+#define PRESENT_HOOK_FUNC dbgw_before_present
+
+	if (hMain) {
+		dbgw_ui_tree_update_before_present();
+		dbgw_ui_props_update_before_present();
+		dbgw_pchelpbar_update_before_present();
+	}
 }
 
 static

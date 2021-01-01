@@ -2464,8 +2464,8 @@ Thanks to {558020} code, following things were discovered:                      
 {struct FNGShowData} \{                                                                         ||| mkref
 	char *fngname;
 	int arg1;
-	int fngdata_field8;
-	int fngdata_fieldC;
+	unsigned int helpTextLanguageString; /*set to {structFNGData+8}*/
+	unsigned int helpBarMask; /*set to {structFNGData+C}*/
 	int arg2;
 };
 EXPECT_SIZE(struct FNGMessage, 0x14);
@@ -2475,8 +2475,8 @@ typedef int ({fnginithandler})({struct FNGShowData} *msg);                      
 {struct FNGData} \{                                                                             ||| mkref
 	char *name;
 	{fnginithandler} *initializeHandler;                                                    ||| refto
-	int field_8;
-	int field_C;
+	unsigned int {helpTextLanguageString};                                                  ||| mkref name=structFNGData+8
+	unsigned int {helpBarMask};                                                             ||| mkref name=structFNGData+C
 	int field_10;
 	int field_14;
 	int field_18;
@@ -2521,188 +2521,1091 @@ EXPECT_SIZE(struct FNGData, 0x1C);
 struct FNGData {7F7DC8}[] = \{                                                                  ||| refplain
 {{collapsed data} ||| details,summary
 .controlchars []
-	{ "UI_Main.fng", 0x4ED6B0, 0x0D6DFCF20, 0x5, 0x0, 0x100, 0x0 }, // 0
-	{ "UI_OptionsMain.fng", 0x4EFDE0, 0x9323DF57, 0x405, 0x0, 0x80, 0x0 }, // 1
-	{ "UI_Options.fng", 0x4E3710, 0x2F735833, 0x401, 0x0, 0x1CA, 0x0 }, // 2
-	{ "UI_Wheel_Options.fng", 0x4E3770, 0x18CDD1FC, 0x401, 0x0, 0x1CA, 0x0 }, // 3
-	{ "UI_PC_Customize_Options.fng", 0x4E36B0, 0x0, 0x401, 0x0, 0x1CA, 0x0 }, // 4
-	{ "UI_Options_PC_Controller.fng", 0x4F92E0, 0x0, 0x0C01, 0x0, 0x1CA,0 }, // 5
-	{ "UI_PC_LAN_ServerSelect.fng", 0x4FD4B0, 0x0, 0x40000405, 0x0, 0x1CA, 0x0 }, // 6
-	{ "UI_PC_LAN.fng", 0x4D6C90, 0x0, 0x405, 0x0, 0x1CA, 0x0 }, // 7
-	{ "UI_PC_Help_Bar.fng", 0x552280, 0x0, 0x0, 0x0, 0x80, 0x0 }, // 8
-	{ "UI_Trailers.fng", 0x4CFB20, 0x0B5B3AB78, 0x401, 0x0, 0x80, 0x0 }, // 9
-	{ "Credits.fng", 0x4B8720, 0x844FEB00, 0x401, 0x0, 0x80, 0x0 }, // 10
-	{ "ScreenPrintf.fng", 0x0, 0x0, 0x0, 0x0, 0x100, 0x1 }, // 11
-	{ "loading_boot.fng", 0x0, 0x0, 0x0, 0x0, 0x80, 0x2 }, // 12
-	{ "UI_CareerCrib.fng", 0x4ED780, 0x8778F27, 0x405, 0x0,0C0, 0x0 }, // 13
-	{ "UI_CribRewardOptionsMain.fng", 0x4ED7E0, 0x10965456, 0x405, 0x0, 0x0C0, 0x0 }, // 14
-	{ "UI_CareerCarSelect.fng", 0x4FC110, 0x0FAB1B6BB, 0x405, 0x0, 0x0C0, 0x0 }, // 15
-	{ "UI_StartCareer.fng", 0x4ED710, 0x0FBFCE084, 0x405, 0x0, 0x0C0, 0x0 }, // 16
-	{ "UI_MagazineBack.fng", 0x554E60, 0x0, 0x0, 0x0, 0x0C0, 0x0 }, // 17
-	{ "UI_MagazineReward.fng", 0x56B140, 0x0, 0x0, 0x0, 0x0C0, 0x0 }, // 18
-	{ "UI_MagazineSelect.fng", 0x55B520, 0x82F20772, 0x405, 0x0, 0x0C0, 0x0 }, // 19
-	{ "UI_MagazineView.fng", 0x554EC0, 0x0, 0x0, 0x0, 0x0C0, 0x0 }, // 20
-	{ "UI_RewardsSponsor.fng", 0x4ED840, 0x0C91B17F1, 0x401, 0x0, 0x0C0, 0x0 }, // 21
-	{ "UI_CareerWorldMap.fng", 0x4F9D30, 0x0C090500B, 0x8401,0, 0x80, 0x0 }, // 22
-	{ "UI_Status_Master.fng", 0x4E1B80, 0x0, 0x18400, 0x0, 0x80,0 }, // 23
-	{ "UI_Status_Career.fng", 0x4EEB10, 0x0, 0x0, 0x0, 0x80, 0x0 }, // 24
-	{ "UI_Status_Region.fng", 0x4B1C90, 0x0, 0x0, 0x0, 0x80, 0x0 }, // 25
-	{ "UI_Status_DVD.fng", 0x4B1D90, 0x0, 0x0, 0x0, 0x80, 0x0 }, // 26
-	{ "EA_Trax_Jukebox.fng", 0x554F20, 0x0D8F5EDF7, 0x401, 0x0, 0x80, 0x0 }, // 27
-	{ "UI_Menu_Asset_Reputation.fng", 0x553B00, 0x0, 0x0, 0x0, 0x80, 0x0 }, // 28
-	{ "UI_CareerCarLot.fng", 0x4FC0B0, 0x0C3CABAFD, 0x405, 0x0, 0x0C0, 0x0 }, // 29
-	{ "UI_EngageEventDialog.fng", 0x4CE650, 0x0, 0x0, 0x0, 0x0C0, 0x0 }, // 30
-	{ "UI_EngageRaceDialog.fng", 0x4E34A0, 0x0, 0x0, 0x0, 0x0C0, 0x0 }, // 31
-	{ "UI_EngageShopDialog.fng", 0x4CE6B0, 0x0, 0x0, 0x0, 0x0C0, 0x0 }, // 32
-	{ "UI_Showcase_Preview.fng", 0x4E3500, 0x0, 0x0, 0x0, 0x0C0, 0x0 }, // 33
-	{ "UI_Showcase_DPAD.fng", 0x4CF5C0, 0x0, 0x0, 0x0, 0x0C0, 0x0 }, // 34
-	{ "IG_PlayMovie.fng", 0x554E00, 0x0, 0x0, 0x0, 0x0C0, 0x0 }, // 35
-	{ "UI_Pause.fng", 0x4F4790, 0x0, 0x30404, 0x0, 0x0C0, 0x0 }, // 36
-	{ "UI_PauseOptionsMain.fng", 0x4F47F0, 0x0, 0x30404, 0x0, 0x80,0 }, // 37
-	{ "UI_PauseOptions.fng", 0x4EB650, 0x0, 0x10400, 0x0, 0x440, 0x0 }, // 38
-	{ "UI_ReplayControl.fng", 0x4D7AD0, 0x0, 0x0, 0x0, 0x80, 0x0 }, // 39
-	{ "HUD_SingleRace.fng", 0x0, 0x0, 0x0, 0x0, 0x168, 0x1 }, // 40
-	{ "HUD_Drift.fng", 0x0, 0x0, 0x0, 0x0, 0x80, 0x1 }, // 41
-	{ "HUD_Drag.fng", 0x0, 0x0, 0x0, 0x0, 0x80, 0x1 }, // 42
-	{ "UI_InGame_WorldMap.fng", 0x4F9C10, 0x0, 0x18400, 0x0, 0x80,0 }, // 43
-	{ "UI_EngageMessageDialog.fng", [4B2240], 0x0, 0x18404, 0x0, 0x80,0 }, // 44                            ||| refplain
-	{ "UI_SMS_Mailbox.fng", 0x4E2050, 0x0, 0x1A500, 0x0, 0x80,0 }, // 45
-	{ "GarageMain.fng", 0x4EB130, 0x0, 0x0, 0x0, 0x80, 0x0 }, // 46
-	{ "DiscError.fng", 0x5522D0, 0x0, 0x0, 0x0, 0x80, 0x0 }, // 47
-	{ "GenericDialog.fng", 0x0, 0x0, 0x0, 0x0, 0x80, 0x0 }, // 48
-	{ "GenericDialog_LARGE.fng", 0x0, 0x0, 0x0, 0x0, 0x80, 0x0 }, // 49
-	{ "GenericDialog_MED.fng", 0x0, 0x0, 0x0, 0x0, 0x80, 0x0 }, // 50
-	{ "GenericDialog_SMALL.fng", 0x0, 0x0, 0x0, 0x0, 0x80, 0x0 }, // 51
-	{ "GenericDialog_Animate_LARGE.fng", 0x0, 0x0, 0x0, 0x0, 0x80, 0x0 }, // 52
-	{ "GenericDialog_Animate_MED.fng", 0x0, 0x0, 0x0, 0x0, 0x80, 0x0 }, // 53
-	{ "GenericDialog_Animate_SMALL.fng", 0x0, 0x0, 0x0, 0x0, 0x80, 0x0 }, // 54
-	{ "GenericDialog_ThreeButton.fng", 0x0, 0x0, 0x0, 0x0, 0x80, 0x0 }, // 55
-	{ "IG_GenericDialog_LARGE.fng", 0x0, 0x0, 0x0, 0x0, 0x80, 0x0 }, // 56
-	{ "IG_GenericDialog_MED.fng", 0x0, 0x0, 0x0, 0x0, 0x80, 0x0 }, // 57
-	{ "IG_GenericDialog_SMALL.fng", 0x0, 0x0, 0x0, 0x0, 0x80, 0x0 }, // 58
-	{ "HelpDialog_LARGE.fng", 0x0, 0x0, 0x0, 0x0, 0x80, 0x0 }, // 59
-	{ "HelpDialog_MED.fng", 0x0, 0x0, 0x0, 0x0, 0x80, 0x0 }, // 60
-	{ "HelpDialog_SMALL.fng", 0x0, 0x0, 0x0, 0x0, 0x80, 0x0 }, // 61
-	{ "GenericerDialog.fng", 0x0, 0x0, 0x0, 0x0, 0x80, 0x0 }, // 62
-	{ "MU_QRTransmissionSelect.fng", 0x0, 0x0, 0x0, 0x0, 0x80, 0x0 }, // 63
-	{ "MU_QuickRaceCarSelect.fng", 0x4EB1A0, 0x0, 0x0, 0x0, 0x80, 0x0 }, // 64
-	{ "Chyron_FE.fng", 0x4CB180, 0x0, 0x0, 0x0, 0x80, 0x0 }, // 65
-	{ "Chyron_IG.fng", 0x4CB180, 0x0, 0x0, 0x0, 0x80, 0x0 }, // 66
-	{ "UI_DebugTest.fng", 0x4B89B0, 0x0, 0x0, 0x0, 0x80, 0x0 }, // 67
-	{ "UI_InGameDialog.fng", 0x0, 0x0, 0x0, 0x0, 0x80, 0x0 }, // 68
-	{ "UI_VirtualKeyboard.fng", 0x4EFD40, 0x0CAF6D39E, 0x0, 0x0, 0x258, 0x0 }, // 69
-	{ "UI_QRModeSelect.fng", 0x4EF280, 0x0C6923ECD, 0x405, 0x0, 0x80, 0x0 }, // 70
-	{ "UI_QRModeOptions.fng", 0x4FA550, 0x7F2D0C79, 0x405, 0x0, 0x200, 0x0 }, // 71
-	{ "UI_QRTrackSelect.fng", 0x4EF9B0, 0x0F4AA6D5B, 0x405, 0x0, 0x80, 0x0 }, // 72
-	{ "UI_QRCarSelect.fng", 0x4FC190, 0x6C6C43FE, 0x1405, 0x0, 0x100, 0x0 }, // 73
-	{ "UI_OLCarSelect.fng", 0x4FC190, 0x0A7FA00B6, 0x1405,0, 0x100, 0x0 }, // 74
-	{ "2P_PressStart.fng", 0x4CCED0, 0x0, 0x0, 0x0, 0x100, 0x0 }, // 75
-	{ "UI_DebugCarCustomize.fng", 0x554A00, 0x0, 0x405, 0x0, 0x80, 0x0 }, // 76
-	{ "UI_ChooseCustomizeCategory.fng", 0x5591E0, 0x0EBF23E40, 0x405, 0x0, 0x80, 0x0 }, // 77
-	{ "UI_ChoosePerformanceCategory.fng", 0x559C30, 0x0C3A914F6, 0x405, 0x0, 0x80, 0x0 }, // 78
-	{ "UI_GenericParts_Browser.fng", 0x566430, 0x72F7569A, 0x405, 0x0FFFFFFFF, 0x80, 0x0 }, // 79
-	{ "UI_ChoosePaintCategory.fng", 0x55A400, 0x0A9E93FF5, 0x605, 0x0, 0x80, 0x0 }, // 80
-	{ "UI_ChoosePerformancePackage.fng", 0x55C8D0, 0x0C3A914F6, 0x441, 0x0, 0x80, 0x0 }, // 81
-	{ "UI_BuyPerformanceParts.fng", 0x56C150, 0x0A0F26827, 0x409, 0x0, 0x80, 0x0 }, // 82
-	{ "UI_PerformanceBrandSelect.fng", 0x554B80, 0x0, 0x5, 0x0, 0x80, 0x0 }, // 83
-	{ "UI_Paint.fng", 0x56C1B0, 0x0DC884CB, 0x405, 0x0, 0x80, 0x0 }, // 84
-	{ "UI_ChooseVinylLayer.fng", 0x555440, 0x9DA9E93D, 0x405, 0x0, 0x80, 0x0 }, // 85
-	{ "UI_ChooseUniquePart.fng", 0x554B20, 0x0AF93FE34, 0x409, 0x0, 0x80, 0x0 }, // 86
-	{ "UI_DecalMain.fng", 0x554AC0, 0x0AADE3025, 0x405, 0x0, 0x80, 0x0 }, // 87
-	{ "UI_DecalsOverlay.fng", 0x56B900, 0x0, 0x405, 0x0, 0x80, 0x0 }, // 88
-	{ "UI_DecalsOverlayInvis.fng", 0x56B900, 0x0, 0x0, 0x0, 0x80, 0x0 }, // 89
-	{ "UI_ChooseCustomHUD.fng", 0x554DA0, 0x0ADA7304B, 0x405, 0x0, 0x80, 0x0 }, // 90
-	{ "UI_ChooseRimBrand.fng", 0x554A60, 0x7A4C4AB2, 0x405, 0x0, 0x80, 0x0 }, // 91
-	{ "UI_Rims_Browser.fng", 0x56B350, 0x7A4C4AB2, 0x405, 0x0, 0x80, 0x0 }, // 92
-	{ "UI_ChooseSpinner.fng", 0x56C0F0, 0x7A4C4AB2, 0x405, 0x0, 0x80, 0x0 }, // 93
-	{ "UI_PerformanceDyno_MAIN.fng", 0x55D7F0, 0x0, 0x404, 0x0, 0x100, 0x0 }, // 94
-	{ "UI_PerformanceTuning_Master.fng", 0x55D8B0, 0x0, 0x404, 0x0, 0x80, 0x0 }, // 95
-	{ "UI_PerformanceTuning_Graph.fng", 0x55DB70, 0x0, 0x400C00, 0x0, 0x100, 0x0 }, // 96
-	{ "UI_PerformanceTuning_NOS.fng", 0x55DB70, 0x0, 0x400C00, 0x0, 0x100, 0x0 }, // 97
-	{ "UI_PerformanceTuning_Sliders.fng", 0x55DB10, 0x0, 0x0C00, 0x0, 0x100,0 }, // 98
-	{ "UI_PerformanceTuning_Drivetrain.fng", 0x55DB10, 0x0, 0x400C00, 0x0, 0x100, 0x0 }, // 99
-	{ "UI_PerformanceTuning_Setting.fng", 0x55D850, 0x0, 0x404, 0x0, 0x100, 0x0 }, // 100
-	{ "UI_PerformanceDyno_Chart.fng", 0x55AF20, 0x0, 0x4, 0x0, 0x100, 0x0 }, // 101
-	{ "UI_PerformanceDyno_Results.fng", 0x55AF80, 0x0, 0x404, 0x0, 0x100, 0x0 }, // 102
-	{ "UI_ICEMAIN.fng", 0x560550, 0x264A5F10, 0x405, 0x0, 0x100, 0x0 }, // 103
-	{ "UI_IcePartsOverlay.fng", 0x56C3C0, 0x0, 0x409, 0x0, 0x100, 0x0 }, // 104
-	{ "UI_CustomNeonMain.fng", 0x554C40, 0x0, 0x405, 0x0, 0x100, 0x0 }, // 105
-	{ "UI_NeonPartsOverlay.fng", 0x554BE0, 0x0, 0x409, 0x0, 0x100, 0x0 }, // 106
-	{ "UI_CustomHUDOverlay.fng", 0x56C420, 0x1B2794C7, 0x409,0, 0x100, 0x0 }, // 107
-	{ "UI_PostRaceResults.fng", 0x4FBB60, 0x0, 0x80010004, 0x0, 0x80, 0x0 }, // 108
-	{ "UI_PostRaceReward.fng", 0x4D72F0, 0x0, 0x404, 0x0, 0x80, 0x0 }, // 109
-	{ "UI_SponsorPopup.fng", 0x4C1280, 0x0, 0x400, 0x0, 0x80, 0x0 }, // 110
-	{ "UI_Sponsorship_new.fng", 0x4F4730, 0x0, 0x400, 0x0, 0x80, 0x0 }, // 111
-	{ "UI_PostRace_TournResults.fng", 0x4FBF00, 0x0, 0x80010004, 0x0, 0x80, 0x0 }, // 112
-	{ "UI_PostRace_TournStandings.fng", 0x4FBF60, 0x0, 0x4, 0x0, 0x80, 0x0 }, // 113
-	{ "UI_PostRaceStats.fng", 0x4FD6C0, 0x0, 0x10400, 0x0, 0x80,0 }, // 114
-	{ "UI_PostRace.fng", 0x4F3940, 0x0, 0x30404, 0x0, 0x80,0 }, // 115
-	{ "MU_PostRaceConfirm.fng", 0x0, 0x0, 0x0, 0x0, 0x80, 0x0 }, // 116
-	{ "LS_BlankMovie.fng", 0x4A8AD0, 0x0, 0x0, 0x0, 0x80, 0x0 }, // 117
-	{ "LS_EALogo.fng", 0x4A89D0, 0x0, 0x0, 0x0, 0x80, 0x0 }, // 118
-	{ "MW_LS_IntroFMV.fng", 0x4C52D0, 0x0, 0x0, 0x0, 0x80, 0x0 }, // 119
-	{ "MW_LS_Splash.fng", 0x4C5500, 0x0, 0x0, 0x0, 0x80, 0x0 }, // 120
-	{ "UG_LS_IntroFMV.fng", 0x4C52D0, 0x0, 0x0, 0x0, 0x80, 0x0 }, // 121
-	{ "UG_LS_Splash.fng", 0x4C5500, 0x0, 0x0, 0x0, 0x80, 0x0 }, // 122
-	{ "LS_THXMovie.fng", 0x4A8D90, 0x0, 0x0, 0x0, 0x80, 0x0 }, // 123
-	{ "LS_PSAMovie.fng", 0x4A8C60, 0x0, 0x0, 0x0, 0x80, 0x0 }, // 124
-	{ "LS_Demo_Legal.fng", 0x4C50C0, 0x0, 0x0, 0x0, 0x80, 0x0 }, // 125
-	{ "LS_Demo_PSA.fng", 0x4A8EC0, 0x0, 0x0, 0x0, 0x80, 0x0 }, // 126
-	{ "LS_Demo_ESRB.fng", 0x4A8F50, 0x0, 0x0, 0x0, 0x80, 0x0 }, // 127
-	{ "LS_Demo_Warning.fng", 0x4A9080, 0x0, 0x0, 0x0, 0x80, 0x0 }, // 128
-	{ "UI_EngageMessageDialog.fng", [4B2240], 0x0, 0x12400, 0x0, 0x80,0 }, // 129                           ||| refplain
-	{ "Loading_Tips.fng", 0x4D9480, 0x0, 0x0, 0x0, 0x80, 0x0 }, // 130
-	{ "LS_LangSelect.fng", 0x4F48A0, 0x0, 0x0, 0x0, 0x80, 0x0 }, // 131
-	{ "LS_Chinese_Health.fng", 0x4A87E0, 0x0, 0x0, 0x0, 0x80, 0x0 }, // 132
-	{ "UI_OL_Disconnect.fng", 0x4D0390, 0x0, 0x0, 0x0, 0x80, 0x0 }, // 133
-	{ "UI_OL_Disconnect_BG.fng", 0x4D03F0, 0x0, 0x0, 0x0, 0x80, 0x0 }, // 134
-	{ "UI_OL_WebOffer.fng", 0x49D550, 0x0, 0x0, 0x0, 0x80, 0x0 }, // 135
-	{ "UI_OL_WebOffer2.fng", 0x4B9E80, 0x0, 0x0, 0x0, 0x0, 0x0 }, // 136
-	{ "UI_OL_News.fng", 0x49D4F0, 0x0, 0x0, 0x0, 0x80, 0x0 }, // 137
-	{ "UI_OLLobbyRoom.fng", 0x4FA990, 0x3D43F19, 0x0, 0x0, 0x200, 0x0 }, // 138
-	{ "UI_OLGameRoom.fng", 0x4F1820, 0x0CCD1A5D8, 0x0, 0x0, 0x200, 0x0 }, // 139
-	{ "UI_OLGameRoom_host.fng", 0x4F1880, 0x0, 0x0, 0x0, 0x200, 0x0 }, // 140
-	{ "UI_OLGameRoom_client.fng", 0x4F18E0, 0x0, 0x0, 0x0, 0x200, 0x0 }, // 141
-	{ "UI_OLPreRaceStart.fng", 0x4D3430, 0x0, 0x0, 0x0, 0x80, 0x0 }, // 142
-	{ "UI_OL_ViewCar.fng", 0x4FB260, 0x3DE94DB2, 0x400, 0x0, 0x100, 0x0 }, // 143
-	{ "UI_OL_ViewTrack.fng", 0x4FB2C0, 0x5EB035D1, 0x400, 0x0, 0x80, 0x0 }, // 144
-	{ "UI_OLCarLot.fng", 0x4FD450, 0x452606CA, 0x405, 0x0, 0x80, 0x0 }, // 145
-	{ "UI_OLMAIN.fng", 0x4F1940, 0x3F07D3A, 0x4405, 0x0,80, 0x0 }, // 146
-	{ "UI_OLFilters.fng", 0x4E6530, 0x0, 0x4405, 0x0,80, 0x0 }, // 147
-	{ "PC_OL_Lobby.fng", 0x4FA990, 0x0, 0x4401, 0x0, 0x80, 0x0 }, // 148
-	{ "PC_OL_GameRoom.fng", 0x4F1820, 0x67F34517, 0x4400, 0x0, 0x200, 0x0 }, // 149
-	{ "UI_OLPassword.fng", 0x4E42C0, 0x0, 0x0, 0x0, 0x80, 0x0 }, // 150
-	{ "UI_OLRankings_Personal.fng", 0x4F1BC0, 0x392CDCB0, 0x4401, 0x0, 0x80, 0x0 }, // 151
-	{ "UI_OLRankings_Overall.fng", 0x4FB1A0, 0x2BBA4B21, 0x4405, 0x0, 0x80, 0x0 }, // 152
-	{ "UI_OLRankings_Monthly.fng", 0x4E64D0, 0x0C5C27A17, 0x4401, 0x0, 0x80, 0x0 }, // 153
-	{ "UI_OLEAMessenger.fng", 0x4F22F0, 0x0C092120A, 0x0, 0x0, 0x80, 0x0 }, // 154
-	{ "PC_OL_SEARCH.fng", 0x4D5070, 0x0, 0x0, 0x0, 0x80, 0x0 }, // 155
-	{ "UI_OL_FriendDialogue.fng", 0x4FB200, 0x0, 0x405, 0x0, 0x80, 0x0 }, // 156
-	{ "UI_OLX_Message.fng", 0x4F24E0, 0x0, 0x405, 0x0, 0x80, 0x0 }, // 157
-	{ "UI_OLRankings.fng", 0x4F2540, 0x19A5232, 0x4405, 0x0, 0x80, 0x0 }, // 158
-	{ "UI_OLX_FindResults.fng", 0x4F25A0, 0x0, 0x405, 0x0, 0x80, 0x0 }, // 159
-	{ "UI_OL_Feedback.fng", 0x4F27E0, 0x0A4F8464E, 0x0, 0x0, 0x80, 0x0 }, // 160
-	{ "UI_OL_Challenge.fng", 0x4D6940, 0x0, 0x0, 0x0, 0x80, 0x0 }, // 161
-	{ "UI_OLViewCareer.fng", 0x4E88C0, 0x0, 0x400, 0x0, 0x80, 0x0 }, // 162
-	{ "UI_OLISPConnect.fng", 0x4B9750, 0x0, 0x405, 0x0, 0x0, 0x0 }, // 163
-	{ "UI_OLSelectPersona.fng", 0x4E3CD0, 0x3F1409CC, 0x2405, 0x0, 0x100, 0x0 }, // 164
-	{ "UI_OLCreateUser.fng", 0x4E3D50, 0x6B42F6F6, 0x401, 0x0, 0x0, 0x0 }, // 165
-	{ "UI_OLCreateUser_2.fng", 0x4BAA60, 0x0, 0x401, 0x0, 0x0, 0x0 }, // 166
-	{ "UI_OLAgeVerif.fng", 0x4E3DD0, 0x0, 0x405, 0x0, 0x0, 0x0 }, // 167
-	{ "UI_OLAgeTooYoung.fng", 0x49E780, 0x0, 0x405, 0x0, 0x0, 0x0 }, // 168
-	{ "UI_OLUseExisting.fng", 0x4E3E30, 0x36DA152D, 0x405, 0x0, 0x100, 0x0 }, // 169
-	{ "UI_OLForgotAccountName.fng", 0x4E3BD0, 0x0, 0x405, 0x0, 0x100, 0x0 }, // 170
-	{ "UI_OLEALogin.fng", 0x4E3C50, 0x0E720F694, 0x405, 0x0, 0x100, 0x0 }, // 171
-	{ "UI_DateEntry.fng", 0x552720, 0x1BE259F7, 0x405, 0x0, 0x0, 0x0 }, // 172
-	{ "DiscErrorPC.fng", 0x4D97A0, 0x0, 0x405, 0x0, 0x80, 0x0 }, // 173
-	{ "UI_ProfileManager.fng", 0x4F4900, 0x9323DF57, 0x405, 0x0, 0x80, 0x0 }, // 174
-	{ "UI_Deleteprofile.fng", 0x4F4960, 0x9323DF57, 0x0, 0x0, 0x80, 0x0 }, // 175
-	{ "MC_Bootup.fng", 0x4F32B0, 0x0, 0x0, 0x0, 0x80, 0x0 }, // 176
-	{ "MC_List.fng", 0x4D7070, 0x8C4D03EA, 0x1, 0x0, 0x80,0 }, // 177
-	{ "MC_Main.fng", 0x4F3320, 0x0, 0x1, 0x0, 0x80, 0x0 }, // 178
-	{ "MC_Background.fng", 0x4A8740, 0x0, 0x0, 0x0, 0x80, 0x0 }, // 179
+/*7F7DC8*/{ "UI_Main.fng", // 0
+            0x4ED6B0,
+            HELP_MAIN_MENU,
+            BUTTON_PC_NAV_QUIT | BUTTON_PC_NAV_CONTINUE,
+            0x0, 0x100, 0x0 },
+
+/*7F7DE4*/{ "UI_OptionsMain.fng", // 1
+            0x4EFDE0,
+            HELP_OPTIONS_MAIN,
+            BUTTON_PC_NAV_QUIT | BUTTON_PC_NAV_CONTINUE | BUTTON_PC_NAV_BACK,
+            0x0, 0x80, 0x0 },
+
+/*7F7E00*/{ "UI_Options.fng", // 2
+            0x4E3710,
+            HELP_OPTIONS,
+            BUTTON_PC_NAV_QUIT | BUTTON_PC_NAV_BACK,
+            0x0, 0x1CA, 0x0 },
+
+/*7F7E1C*/{ "UI_Wheel_Options.fng", // 3
+            0x4E3770,
+            HELP_WHEEL,
+            BUTTON_PC_NAV_QUIT | BUTTON_PC_NAV_BACK,
+            0x0, 0x1CA, 0x0 },
+
+/*7F7E38*/{ "UI_PC_Customize_Options.fng", // 4
+            0x4E36B0,
+            0,
+            BUTTON_PC_NAV_QUIT | BUTTON_PC_NAV_BACK,
+            0x0, 0x1CA, 0x0 },
+
+/*7F7E54*/{ "UI_Options_PC_Controller.fng", // 5
+            0x4F92E0,
+            0,
+            BUTTON_PC_NAV_QUIT | BUTTON_PC_NAV_BACK | BUTTON_DYNO_RESET_OR_PC_NAV_RESET_KEYS,
+            0x0, 0x1CA, 0x0 },
+
+/*7F7E70*/{ "UI_PC_LAN_ServerSelect.fng", // 6
+            0x4FD4B0,
+            0,
+            BUTTON_PC_NAV_QUIT | BUTTON_PC_NAV_CONTINUE | BUTTON_PC_NAV_BACK | BUTTON_OL_HOST_LAN_SERVER,
+            0x0, 0x1CA, 0x0 },
+
+/*7F7E8C*/{ "UI_PC_LAN.fng", // 7
+            0x4D6C90,
+            0,
+            BUTTON_PC_NAV_QUIT | BUTTON_PC_NAV_CONTINUE | BUTTON_PC_NAV_BACK,
+            0x0, 0x1CA, 0x0 },
+
+/*7F7EA8*/{ "UI_PC_Help_Bar.fng", // 8
+            0x552280,
+            0,
+            0,
+            0x0, 0x80, 0x0 },
+
+/*7F7EC4*/{ "UI_Trailers.fng", // 9
+            0x4CFB20,
+            HELP_OPTIONS_TRAILERS,
+            BUTTON_PC_NAV_QUIT | BUTTON_PC_NAV_BACK,
+            0x0, 0x80, 0x0 },
+
+/*7F7EE0*/{ "Credits.fng", // 10
+            0x4B8720,
+            HELP_OPTIONS_CREDITS,
+            BUTTON_PC_NAV_QUIT | BUTTON_PC_NAV_BACK,
+            0x0, 0x80, 0x0 },
+
+/*7F7EFC*/{ "ScreenPrintf.fng", // 11
+            0x0,
+            0,
+            0,
+            0x0, 0x100, 0x1 },
+
+/*7F7F18*/{ "loading_boot.fng", // 12
+            0x0,
+            0,
+            0,
+            0x0, 0x80, 0x2 },
+
+/*7F7F34*/{ "UI_CareerCrib.fng", // 13
+            0x4ED780,
+            HELP_CRIB,
+            BUTTON_PC_NAV_QUIT | BUTTON_PC_NAV_CONTINUE | BUTTON_PC_NAV_BACK,
+            0x0, 0xC0, 0x0 },
+
+/*7F7F50*/{ "UI_CribRewardOptionsMain.fng", // 14
+            0x4ED7E0,
+            HELP_CRIB_REWARD_OPTIONS,
+            BUTTON_PC_NAV_QUIT | BUTTON_PC_NAV_CONTINUE | BUTTON_PC_NAV_BACK,
+            0x0, 0xC0, 0x0 },
+
+/*7F7F6C*/{ "UI_CareerCarSelect.fng", // 15
+            0x4FC110,
+            HELP_CRIB_CAR_SELECT,
+            BUTTON_PC_NAV_QUIT | BUTTON_PC_NAV_CONTINUE | BUTTON_PC_NAV_BACK,
+            0x0, 0xC0, 0x0 },
+
+/*7F7F88*/{ "UI_StartCareer.fng", // 16
+            0x4ED710,
+            HELP_CAREER_OPTIONS,
+            BUTTON_PC_NAV_QUIT | BUTTON_PC_NAV_CONTINUE | BUTTON_PC_NAV_BACK,
+            0x0, 0xC0, 0x0 },
+
+/*7F7FA4*/{ "UI_MagazineBack.fng", // 17
+            0x554E60,
+            0,
+            0,
+            0x0, 0xC0, 0x0 },
+
+/*7F7FC0*/{ "UI_MagazineReward.fng", // 18
+            0x56B140,
+            0,
+            0,
+            0x0, 0xC0, 0x0 },
+
+/*7F7FDC*/{ "UI_MagazineSelect.fng", // 19
+            0x55B520,
+            HELP_CRIB_MAGAZINE,
+            BUTTON_PC_NAV_QUIT | BUTTON_PC_NAV_CONTINUE | BUTTON_PC_NAV_BACK,
+            0x0, 0xC0, 0x0 },
+
+/*7F7FF8*/{ "UI_MagazineView.fng", // 20
+            0x554EC0,
+            0,
+            0,
+            0x0, 0xC0, 0x0 },
+
+/*7F8014*/{ "UI_RewardsSponsor.fng", // 21
+            0x4ED840,
+            HELP_CRIB_REWARD_SPONSORS,
+            BUTTON_PC_NAV_QUIT | BUTTON_PC_NAV_BACK,
+            0x0, 0xC0, 0x0 },
+
+/*7F8030*/{ "UI_CareerWorldMap.fng", // 22
+            0x4F9D30,
+            HELP_CRIB_WORLD_MAP,
+            BUTTON_PC_NAV_QUIT | BUTTON_PC_NAV_BACK | LAYOUT_WORLDMAP_POSITION,
+            0x0, 0x80, 0x0 },
+
+/*7F804C*/{ "UI_Status_Master.fng", // 23
+            0x4E1B80,
+            0,
+            BUTTON_PC_NAV_BACK | LAYOUT_WORLDMAP_POSITION | LAYOUT_ONE_LINE_NO_BG,
+            0x0, 0x80, 0x0 },
+
+/*7F8068*/{ "UI_Status_Career.fng", // 24
+            0x4EEB10,
+            0,
+            0,
+            0x0, 0x80, 0x0 },
+
+/*7F8084*/{ "UI_Status_Region.fng", // 25
+            0x4B1C90,
+            0,
+            0,
+            0x0, 0x80, 0x0 },
+
+/*7F80A0*/{ "UI_Status_DVD.fng", // 26
+            0x4B1D90,
+            0,
+            0,
+            0x0, 0x80, 0x0 },
+
+/*7F80BC*/{ "EA_Trax_Jukebox.fng", // 27
+            0x554F20,
+            HELP_OPTIONS_EATRAX,
+            BUTTON_PC_NAV_QUIT | BUTTON_PC_NAV_BACK,
+            0x0, 0x80, 0x0 },
+
+/*7F80D8*/{ "UI_Menu_Asset_Reputation.fng", // 28
+            0x553B00,
+            0,
+            0,
+            0x0, 0x80, 0x0 },
+
+/*7F80F4*/{ "UI_CareerCarLot.fng", // 29
+            0x4FC0B0,
+            HELP_CAREER_CARLOT,
+            BUTTON_PC_NAV_QUIT | BUTTON_PC_NAV_CONTINUE | BUTTON_PC_NAV_BACK,
+            0x0, 0xC0, 0x0 },
+
+/*7F8110*/{ "UI_EngageEventDialog.fng", // 30
+            0x4CE650,
+            0,
+            0,
+            0x0, 0xC0, 0x0 },
+
+/*7F812C*/{ "UI_EngageRaceDialog.fng", // 31
+            0x4E34A0,
+            0,
+            0,
+            0x0, 0xC0, 0x0 },
+
+/*7F8148*/{ "UI_EngageShopDialog.fng", // 32
+            0x4CE6B0,
+            0,
+            0,
+            0x0, 0xC0, 0x0 },
+
+/*7F8164*/{ "UI_Showcase_Preview.fng", // 33
+            0x4E3500,
+            0,
+            0,
+            0x0, 0xC0, 0x0 },
+
+/*7F8180*/{ "UI_Showcase_DPAD.fng", // 34
+            0x4CF5C0,
+            0,
+            0,
+            0x0, 0xC0, 0x0 },
+
+/*7F819C*/{ "IG_PlayMovie.fng", // 35
+            0x554E00,
+            0,
+            0,
+            0x0, 0xC0, 0x0 },
+
+/*7F81B8*/{ "UI_Pause.fng", // 36
+            0x4F4790,
+            0,
+            BUTTON_PC_NAV_CONTINUE | BUTTON_PC_NAV_BACK | LAYOUT_ONE_LINE_NO_BG | LAYOUT_PAUSEMENU_POSITION,
+            0x0, 0xC0, 0x0 },
+
+/*7F81D4*/{ "UI_PauseOptionsMain.fng", // 37
+            0x4F47F0,
+            0,
+            BUTTON_PC_NAV_CONTINUE | BUTTON_PC_NAV_BACK | LAYOUT_ONE_LINE_NO_BG | LAYOUT_PAUSEMENU_POSITION,
+            0x0, 0x80, 0x0 },
+
+/*7F81F0*/{ "UI_PauseOptions.fng", // 38
+            0x4EB650,
+            0,
+            BUTTON_PC_NAV_BACK | LAYOUT_ONE_LINE_NO_BG,
+            0x0, 0x440, 0x0 },
+
+/*7F820C*/{ "UI_ReplayControl.fng", // 39
+            0x4D7AD0,
+            0,
+            0,
+            0x0, 0x80, 0x0 },
+
+/*7F8228*/{ "HUD_SingleRace.fng", // 40
+            0x0,
+            0,
+            0,
+            0x0, 0x168, 0x1 },
+
+/*7F8244*/{ "HUD_Drift.fng", // 41
+            0x0,
+            0,
+            0,
+            0x0, 0x80, 0x1 },
+
+/*7F8260*/{ "HUD_Drag.fng", // 42
+            0x0,
+            0,
+            0,
+            0x0, 0x80, 0x1 },
+
+/*7F827C*/{ "UI_InGame_WorldMap.fng", // 43
+            0x4F9C10,
+            0,
+            BUTTON_PC_NAV_BACK | LAYOUT_WORLDMAP_POSITION | LAYOUT_ONE_LINE_NO_BG,
+            0x0, 0x80, 0x0 },
+
+/*7F8298*/{ "UI_EngageMessageDialog.fng", // 44
+            0x4B2240,
+            0,
+            BUTTON_PC_NAV_CONTINUE | BUTTON_PC_NAV_BACK | LAYOUT_WORLDMAP_POSITION | LAYOUT_ONE_LINE_NO_BG,
+            0x0, 0x80, 0x0 },
+
+/*7F82B4*/{ "UI_SMS_Mailbox.fng", // 45
+            0x4E2050,
+            0,
+            BUTTON_PC_NAV_READ_MESSAGE | BUTTON_PC_NAV_BACK | BUTTON_PC_NAV_DELETE | LAYOUT_WORLDMAP_POSITION | LAYOUT_ONE_LINE_NO_BG,
+            0x0, 0x80, 0x0 },
+
+/*7F82D0*/{ "GarageMain.fng", // 46
+            0x4EB130,
+            0,
+            0,
+            0x0, 0x80, 0x0 },
+
+/*7F82EC*/{ "DiscError.fng", // 47
+            0x5522D0,
+            0,
+            0,
+            0x0, 0x80, 0x0 },
+
+/*7F8308*/{ "GenericDialog.fng", // 48
+            0x0,
+            0,
+            0,
+            0x0, 0x80, 0x0 },
+
+/*7F8324*/{ "GenericDialog_LARGE.fng", // 49
+            0x0,
+            0,
+            0,
+            0x0, 0x80, 0x0 },
+
+/*7F8340*/{ "GenericDialog_MED.fng", // 50
+            0x0,
+            0,
+            0,
+            0x0, 0x80, 0x0 },
+
+/*7F835C*/{ "GenericDialog_SMALL.fng", // 51
+            0x0,
+            0,
+            0,
+            0x0, 0x80, 0x0 },
+
+/*7F8378*/{ "GenericDialog_Animate_LARGE.fng", // 52
+            0x0,
+            0,
+            0,
+            0x0, 0x80, 0x0 },
+
+/*7F8394*/{ "GenericDialog_Animate_MED.fng", // 53
+            0x0,
+            0,
+            0,
+            0x0, 0x80, 0x0 },
+
+/*7F83B0*/{ "GenericDialog_Animate_SMALL.fng", // 54
+            0x0,
+            0,
+            0,
+            0x0, 0x80, 0x0 },
+
+/*7F83CC*/{ "GenericDialog_ThreeButton.fng", // 55
+            0x0,
+            0,
+            0,
+            0x0, 0x80, 0x0 },
+
+/*7F83E8*/{ "IG_GenericDialog_LARGE.fng", // 56
+            0x0,
+            0,
+            0,
+            0x0, 0x80, 0x0 },
+
+/*7F8404*/{ "IG_GenericDialog_MED.fng", // 57
+            0x0,
+            0,
+            0,
+            0x0, 0x80, 0x0 },
+
+/*7F8420*/{ "IG_GenericDialog_SMALL.fng", // 58
+            0x0,
+            0,
+            0,
+            0x0, 0x80, 0x0 },
+
+/*7F843C*/{ "HelpDialog_LARGE.fng", // 59
+            0x0,
+            0,
+            0,
+            0x0, 0x80, 0x0 },
+
+/*7F8458*/{ "HelpDialog_MED.fng", // 60
+            0x0,
+            0,
+            0,
+            0x0, 0x80, 0x0 },
+
+/*7F8474*/{ "HelpDialog_SMALL.fng", // 61
+            0x0,
+            0,
+            0,
+            0x0, 0x80, 0x0 },
+
+/*7F8490*/{ "GenericerDialog.fng", // 62
+            0x0,
+            0,
+            0,
+            0x0, 0x80, 0x0 },
+
+/*7F84AC*/{ "MU_QRTransmissionSelect.fng", // 63
+            0x0,
+            0,
+            0,
+            0x0, 0x80, 0x0 },
+
+/*7F84C8*/{ "MU_QuickRaceCarSelect.fng", // 64
+            0x4EB1A0,
+            0,
+            0,
+            0x0, 0x80, 0x0 },
+
+/*7F84E4*/{ "Chyron_FE.fng", // 65
+            0x4CB180,
+            0,
+            0,
+            0x0, 0x80, 0x0 },
+
+/*7F8500*/{ "Chyron_IG.fng", // 66
+            0x4CB180,
+            0,
+            0,
+            0x0, 0x80, 0x0 },
+
+/*7F851C*/{ "UI_DebugTest.fng", // 67
+            0x4B89B0,
+            0,
+            0,
+            0x0, 0x80, 0x0 },
+
+/*7F8538*/{ "UI_InGameDialog.fng", // 68
+            0x0,
+            0,
+            0,
+            0x0, 0x80, 0x0 },
+
+/*7F8554*/{ "UI_VirtualKeyboard.fng", // 69
+            0x4EFD40,
+            HELP_VIRTUAL_KEYBOARD,
+            0,
+            0x0, 0x258, 0x0 },
+
+/*7F8570*/{ "UI_QRModeSelect.fng", // 70
+            0x4EF280,
+            HELP_QR_MODE_SELECT,
+            BUTTON_PC_NAV_QUIT | BUTTON_PC_NAV_CONTINUE | BUTTON_PC_NAV_BACK,
+            0x0, 0x80, 0x0 },
+
+/*7F858C*/{ "UI_QRModeOptions.fng", // 71
+            0x4FA550,
+            HELP_QR_MODE_OPTIONS,
+            BUTTON_PC_NAV_QUIT | BUTTON_PC_NAV_CONTINUE | BUTTON_PC_NAV_BACK,
+            0x0, 0x200, 0x0 },
+
+/*7F85A8*/{ "UI_QRTrackSelect.fng", // 72
+            0x4EF9B0,
+            HELP_TRACK_SELECT,
+            BUTTON_PC_NAV_QUIT | BUTTON_PC_NAV_CONTINUE | BUTTON_PC_NAV_BACK,
+            0x0, 0x80, 0x0 },
+
+/*7F85C4*/{ "UI_QRCarSelect.fng", // 73
+            0x4FC190,
+            HELP_QR_CAR_SELECT,
+            BUTTON_PC_NAV_QUIT | BUTTON_PC_NAV_CONTINUE | BUTTON_PC_NAV_BACK | BUTTON_PC_NAV_CUSTOMIZE,
+            0x0, 0x100, 0x0 },
+
+/*7F85E0*/{ "UI_OLCarSelect.fng", // 74
+            0x4FC190,
+            HELP_OL_CAR_SELECT,
+            BUTTON_PC_NAV_QUIT | BUTTON_PC_NAV_CONTINUE | BUTTON_PC_NAV_BACK | BUTTON_PC_NAV_CUSTOMIZE,
+            0x0, 0x100, 0x0 },
+
+/*7F85FC*/{ "2P_PressStart.fng", // 75
+            0x4CCED0,
+            0,
+            0,
+            0x0, 0x100, 0x0 },
+
+/*7F8618*/{ "UI_DebugCarCustomize.fng", // 76
+            0x554A00,
+            0,
+            BUTTON_PC_NAV_QUIT | BUTTON_PC_NAV_CONTINUE | BUTTON_PC_NAV_BACK,
+            0x0, 0x80, 0x0 },
+
+/*7F8634*/{ "UI_ChooseCustomizeCategory.fng", // 77
+            0x5591E0,
+            HELP_SHOP_SELECT,
+            BUTTON_PC_NAV_QUIT | BUTTON_PC_NAV_CONTINUE | BUTTON_PC_NAV_BACK,
+            0x0, 0x80, 0x0 },
+
+/*7F8650*/{ "UI_ChoosePerformanceCategory.fng", // 78
+            0x559C30,
+            HELP_PERFORMANCE_SHOP_MAIN,
+            BUTTON_PC_NAV_QUIT | BUTTON_PC_NAV_CONTINUE | BUTTON_PC_NAV_BACK,
+            0x0, 0x80, 0x0 },
+
+/*7F866C*/{ "UI_GenericParts_Browser.fng", // 79
+            0x566430,
+            HELP_CRIB_CHANGEPARTS_MAIN,
+            BUTTON_PC_NAV_QUIT | BUTTON_PC_NAV_CONTINUE | BUTTON_PC_NAV_BACK,
+            0xFFFFFFFF, 0x80, 0x0 },
+
+/*7F8688*/{ "UI_ChoosePaintCategory.fng", // 80
+            0x55A400,
+            HELP_GRAPHICS_SHOP_MAIN,
+            BUTTON_PC_NAV_QUIT | BUTTON_PC_NAV_CONTINUE | BUTTON_CANCEL_CHANGES | BUTTON_PC_NAV_BACK,
+            0x0, 0x80, 0x0 },
+
+/*7F86A4*/{ "UI_ChoosePerformancePackage.fng", // 81
+            0x55C8D0,
+            HELP_PERFORMANCE_SHOP_MAIN,
+            BUTTON_PC_NAV_QUIT | BUTTON_PC_NAV_INSTALL_PACKAGE | BUTTON_PC_NAV_BACK,
+            0x0, 0x80, 0x0 },
+
+/*7F86C0*/{ "UI_BuyPerformanceParts.fng", // 82
+            0x56C150,
+            HELP_PERFORMANCE_SHOP_PART_SELECT,
+            BUTTON_PC_NAV_QUIT | BUTTON_PC_NAV_INSTALL_PART | BUTTON_PC_NAV_BACK,
+            0x0, 0x80, 0x0 },
+
+/*7F86DC*/{ "UI_PerformanceBrandSelect.fng", // 83
+            0x554B80,
+            0,
+            BUTTON_PC_NAV_QUIT | BUTTON_PC_NAV_CONTINUE,
+            0x0, 0x80, 0x0 },
+
+/*7F86F8*/{ "UI_Paint.fng", // 84
+            0x56C1B0,
+            HELP_GRAPHICS_SHOP_PAINT_SELECT,
+            BUTTON_PC_NAV_QUIT | BUTTON_PC_NAV_CONTINUE | BUTTON_PC_NAV_BACK,
+            0x0, 0x80, 0x0 },
+
+/*7F8714*/{ "UI_ChooseVinylLayer.fng", // 85
+            0x555440,
+            HELP_GRAPHICS_SHOP_VINYL_LAYER_SELECT,
+            BUTTON_PC_NAV_QUIT | BUTTON_PC_NAV_CONTINUE | BUTTON_PC_NAV_BACK,
+            0x0, 0x80, 0x0 },
+
+/*7F8730*/{ "UI_ChooseUniquePart.fng", // 86
+            0x554B20,
+            HELP_UNIQUES_BROWSER,
+            BUTTON_PC_NAV_QUIT | BUTTON_PC_NAV_INSTALL_PART | BUTTON_PC_NAV_BACK,
+            0x0, 0x80, 0x0 },
+
+/*7F874C*/{ "UI_DecalMain.fng", // 87
+            0x554AC0,
+            HELP_GRAPHICS_SHOP_DECAL_SELECT_CATEGORY,
+            BUTTON_PC_NAV_QUIT | BUTTON_PC_NAV_CONTINUE | BUTTON_PC_NAV_BACK,
+            0x0, 0x80, 0x0 },
+
+/*7F8768*/{ "UI_DecalsOverlay.fng", // 88
+            0x56B900,
+            0,
+            BUTTON_PC_NAV_QUIT | BUTTON_PC_NAV_CONTINUE | BUTTON_PC_NAV_BACK,
+            0x0, 0x80, 0x0 },
+
+/*7F8784*/{ "UI_DecalsOverlayInvis.fng", // 89
+            0x56B900,
+            0,
+            0,
+            0x0, 0x80, 0x0 },
+
+/*7F87A0*/{ "UI_ChooseCustomHUD.fng", // 90
+            0x554DA0,
+            HELP_CHANGE_HUD_COLOR,
+            BUTTON_PC_NAV_QUIT | BUTTON_PC_NAV_CONTINUE | BUTTON_PC_NAV_BACK,
+            0x0, 0x80, 0x0 },
+
+/*7F87BC*/{ "UI_ChooseRimBrand.fng", // 91
+            0x554A60,
+            HELP_BODY_SHOP_MAIN,
+            BUTTON_PC_NAV_QUIT | BUTTON_PC_NAV_CONTINUE | BUTTON_PC_NAV_BACK,
+            0x0, 0x80, 0x0 },
+
+/*7F87D8*/{ "UI_Rims_Browser.fng", // 92
+            0x56B350,
+            HELP_BODY_SHOP_MAIN,
+            BUTTON_PC_NAV_QUIT | BUTTON_PC_NAV_CONTINUE | BUTTON_PC_NAV_BACK,
+            0x0, 0x80, 0x0 },
+
+/*7F87F4*/{ "UI_ChooseSpinner.fng", // 93
+            0x56C0F0,
+            HELP_BODY_SHOP_MAIN,
+            BUTTON_PC_NAV_QUIT | BUTTON_PC_NAV_CONTINUE | BUTTON_PC_NAV_BACK,
+            0x0, 0x80, 0x0 },
+
+/*7F8810*/{ "UI_PerformanceDyno_MAIN.fng", // 94
+            0x55D7F0,
+            0,
+            BUTTON_PC_NAV_CONTINUE | BUTTON_PC_NAV_BACK,
+            0x0, 0x100, 0x0 },
+
+/*7F882C*/{ "UI_PerformanceTuning_Master.fng", // 95
+            0x55D8B0,
+            0,
+            BUTTON_PC_NAV_CONTINUE | BUTTON_PC_NAV_BACK,
+            0x0, 0x80, 0x0 },
+
+/*7F8848*/{ "UI_PerformanceTuning_Graph.fng", // 96
+            0x55DB70,
+            0,
+            BUTTON_PC_NAV_BACK | BUTTON_DYNO_RESET_OR_PC_NAV_RESET_KEYS | BUTTON_DYNO_TIP,
+            0x0, 0x100, 0x0 },
+
+/*7F8864*/{ "UI_PerformanceTuning_NOS.fng", // 97
+            0x55DB70,
+            0,
+            BUTTON_PC_NAV_BACK | BUTTON_DYNO_RESET_OR_PC_NAV_RESET_KEYS | BUTTON_DYNO_TIP,
+            0x0, 0x100, 0x0 },
+
+/*7F8880*/{ "UI_PerformanceTuning_Sliders.fng", // 98
+            0x55DB10,
+            0,
+            BUTTON_PC_NAV_BACK | BUTTON_DYNO_RESET_OR_PC_NAV_RESET_KEYS,
+            0x0, 0x100, 0x0 },
+
+/*7F889C*/{ "UI_PerformanceTuning_Drivetrain.fng", // 99
+            0x55DB10,
+            0,
+            BUTTON_PC_NAV_BACK | BUTTON_DYNO_RESET_OR_PC_NAV_RESET_KEYS | BUTTON_DYNO_TIP,
+            0x0, 0x100, 0x0 },
+
+/*7F88B8*/{ "UI_PerformanceTuning_Setting.fng", // 100
+            0x55D850,
+            0,
+            BUTTON_PC_NAV_CONTINUE | BUTTON_PC_NAV_BACK,
+            0x0, 0x100, 0x0 },
+
+/*7F88D4*/{ "UI_PerformanceDyno_Chart.fng", // 101
+            0x55AF20,
+            0,
+            BUTTON_PC_NAV_CONTINUE,
+            0x0, 0x100, 0x0 },
+
+/*7F88F0*/{ "UI_PerformanceDyno_Results.fng", // 102
+            0x55AF80,
+            0,
+            BUTTON_PC_NAV_CONTINUE | BUTTON_PC_NAV_BACK,
+            0x0, 0x100, 0x0 },
+
+/*7F890C*/{ "UI_ICEMAIN.fng", // 103
+            0x560550,
+            HELP_CARSPECIALTIES_SHOP_MAIN,
+            BUTTON_PC_NAV_QUIT | BUTTON_PC_NAV_CONTINUE | BUTTON_PC_NAV_BACK,
+            0x0, 0x100, 0x0 },
+
+/*7F8928*/{ "UI_IcePartsOverlay.fng", // 104
+            0x56C3C0,
+            0,
+            BUTTON_PC_NAV_QUIT | BUTTON_PC_NAV_INSTALL_PART | BUTTON_PC_NAV_BACK,
+            0x0, 0x100, 0x0 },
+
+/*7F8944*/{ "UI_CustomNeonMain.fng", // 105
+            0x554C40,
+            0,
+            BUTTON_PC_NAV_QUIT | BUTTON_PC_NAV_CONTINUE | BUTTON_PC_NAV_BACK,
+            0x0, 0x100, 0x0 },
+
+/*7F8960*/{ "UI_NeonPartsOverlay.fng", // 106
+            0x554BE0,
+            0,
+            BUTTON_PC_NAV_QUIT | BUTTON_PC_NAV_INSTALL_PART | BUTTON_PC_NAV_BACK,
+            0x0, 0x100, 0x0 },
+
+/*7F897C*/{ "UI_CustomHUDOverlay.fng", // 107
+            0x56C420,
+            HELP_HUD_SELECT,
+            BUTTON_PC_NAV_QUIT | BUTTON_PC_NAV_INSTALL_PART | BUTTON_PC_NAV_BACK,
+            0x0, 0x100, 0x0 },
+
+/*7F8998*/{ "UI_PostRaceResults.fng", // 108
+            0x4FBB60,
+            0,
+            BUTTON_PC_NAV_CONTINUE | LAYOUT_ONE_LINE_NO_BG | LAYOUT_RIGHT_POSITION,
+            0x0, 0x80, 0x0 },
+
+/*7F89B4*/{ "UI_PostRaceReward.fng", // 109
+            0x4D72F0,
+            0,
+            BUTTON_PC_NAV_CONTINUE | BUTTON_PC_NAV_BACK,
+            0x0, 0x80, 0x0 },
+
+/*7F89D0*/{ "UI_SponsorPopup.fng", // 110
+            0x4C1280,
+            0,
+            BUTTON_PC_NAV_BACK,
+            0x0, 0x80, 0x0 },
+
+/*7F89EC*/{ "UI_Sponsorship_new.fng", // 111
+            0x4F4730,
+            0,
+            BUTTON_PC_NAV_BACK,
+            0x0, 0x80, 0x0 },
+
+/*7F8A08*/{ "UI_PostRace_TournResults.fng", // 112
+            0x4FBF00,
+            0,
+            BUTTON_PC_NAV_CONTINUE | LAYOUT_ONE_LINE_NO_BG | LAYOUT_RIGHT_POSITION,
+            0x0, 0x80, 0x0 },
+
+/*7F8A24*/{ "UI_PostRace_TournStandings.fng", // 113
+            0x4FBF60,
+            0,
+            BUTTON_PC_NAV_CONTINUE,
+            0x0, 0x80, 0x0 },
+
+/*7F8A40*/{ "UI_PostRaceStats.fng", // 114
+            0x4FD6C0,
+            0,
+            BUTTON_PC_NAV_BACK | LAYOUT_ONE_LINE_NO_BG,
+            0x0, 0x80, 0x0 },
+
+/*7F8A5C*/{ "UI_PostRace.fng", // 115
+            0x4F3940,
+            0,
+            BUTTON_PC_NAV_CONTINUE | BUTTON_PC_NAV_BACK | LAYOUT_ONE_LINE_NO_BG | LAYOUT_PAUSEMENU_POSITION,
+            0x0, 0x80, 0x0 },
+
+/*7F8A78*/{ "MU_PostRaceConfirm.fng", // 116
+            0x0,
+            0,
+            0,
+            0x0, 0x80, 0x0 },
+
+/*7F8A94*/{ "LS_BlankMovie.fng", // 117
+            0x4A8AD0,
+            0,
+            0,
+            0x0, 0x80, 0x0 },
+
+/*7F8AB0*/{ "LS_EALogo.fng", // 118
+            0x4A89D0,
+            0,
+            0,
+            0x0, 0x80, 0x0 },
+
+/*7F8ACC*/{ "MW_LS_IntroFMV.fng", // 119
+            0x4C52D0,
+            0,
+            0,
+            0x0, 0x80, 0x0 },
+
+/*7F8AE8*/{ "MW_LS_Splash.fng", // 120
+            0x4C5500,
+            0,
+            0,
+            0x0, 0x80, 0x0 },
+
+/*7F8B04*/{ "UG_LS_IntroFMV.fng", // 121
+            0x4C52D0,
+            0,
+            0,
+            0x0, 0x80, 0x0 },
+
+/*7F8B20*/{ "UG_LS_Splash.fng", // 122
+            0x4C5500,
+            0,
+            0,
+            0x0, 0x80, 0x0 },
+
+/*7F8B3C*/{ "LS_THXMovie.fng", // 123
+            0x4A8D90,
+            0,
+            0,
+            0x0, 0x80, 0x0 },
+
+/*7F8B58*/{ "LS_PSAMovie.fng", // 124
+            0x4A8C60,
+            0,
+            0,
+            0x0, 0x80, 0x0 },
+
+/*7F8B74*/{ "LS_Demo_Legal.fng", // 125
+            0x4C50C0,
+            0,
+            0,
+            0x0, 0x80, 0x0 },
+
+/*7F8B90*/{ "LS_Demo_PSA.fng", // 126
+            0x4A8EC0,
+            0,
+            0,
+            0x0, 0x80, 0x0 },
+
+/*7F8BAC*/{ "LS_Demo_ESRB.fng", // 127
+            0x4A8F50,
+            0,
+            0,
+            0x0, 0x80, 0x0 },
+
+/*7F8BC8*/{ "LS_Demo_Warning.fng", // 128
+            0x4A9080,
+            0,
+            0,
+            0x0, 0x80, 0x0 },
+
+/*7F8BE4*/{ "UI_EngageMessageDialog.fng", // 129
+            0x4B2240,
+            0,
+            BUTTON_PC_NAV_BACK | BUTTON_PC_NAV_DELETE | LAYOUT_ONE_LINE_NO_BG,
+            0x0, 0x80, 0x0 },
+
+/*7F8C00*/{ "", // 130
+            0x4D9480,
+            0,
+            0,
+            0x0, 0x80, 0x0 },
+
+/*7F8C1C*/{ "LS_LangSelect.fng", // 131
+            0x4F48A0,
+            0,
+            0,
+            0x0, 0x80, 0x0 },
+
+/*7F8C38*/{ "LS_Chinese_Health.fng", // 132
+            0x4A87E0,
+            0,
+            0,
+            0x0, 0x80, 0x0 },
+
+/*7F8C54*/{ "UI_OL_Disconnect.fng", // 133
+            0x4D0390,
+            0,
+            0,
+            0x0, 0x80, 0x0 },
+
+/*7F8C70*/{ "UI_OL_Disconnect_BG.fng", // 134
+            0x4D03F0,
+            0,
+            0,
+            0x0, 0x80, 0x0 },
+
+/*7F8C8C*/{ "UI_OL_WebOffer.fng", // 135
+            0x49D550,
+            0,
+            0,
+            0x0, 0x80, 0x0 },
+
+/*7F8CA8*/{ "UI_OL_WebOffer2.fng", // 136
+            0x4B9E80,
+            0,
+            0,
+            0x0, 0x0, 0x0 },
+
+/*7F8CC4*/{ "UI_OL_News.fng", // 137
+            0x49D4F0,
+            0,
+            0,
+            0x0, 0x80, 0x0 },
+
+/*7F8CE0*/{ "UI_OLLobbyRoom.fng", // 138
+            0x4FA990,
+            HELP_OL_LOBBY,
+            0,
+            0x0, 0x200, 0x0 },
+
+/*7F8CFC*/{ "UI_OLGameRoom.fng", // 139
+            0x4F1820,
+            HELP_OL_GAMEROOM,
+            0,
+            0x0, 0x200, 0x0 },
+
+/*7F8D18*/{ "UI_OLGameRoom_host.fng", // 140
+            0x4F1880,
+            0,
+            0,
+            0x0, 0x200, 0x0 },
+
+/*7F8D34*/{ "UI_OLGameRoom_client.fng", // 141
+            0x4F18E0,
+            0,
+            0,
+            0x0, 0x200, 0x0 },
+
+/*7F8D50*/{ "UI_OLPreRaceStart.fng", // 142
+            0x4D3430,
+            0,
+            0,
+            0x0, 0x80, 0x0 },
+
+/*7F8D6C*/{ "UI_OL_ViewCar.fng", // 143
+            0x4FB260,
+            HELP_OL_VIEWCAR,
+            BUTTON_PC_NAV_BACK,
+            0x0, 0x100, 0x0 },
+
+/*7F8D88*/{ "UI_OL_ViewTrack.fng", // 144
+            0x4FB2C0,
+            HELP_OL_VIEWTRACK,
+            BUTTON_PC_NAV_BACK,
+            0x0, 0x80, 0x0 },
+
+/*7F8DA4*/{ "UI_OLCarLot.fng", // 145
+            0x4FD450,
+            HELP_OL__TRADECAR_MAIN,
+            BUTTON_PC_NAV_QUIT | BUTTON_PC_NAV_CONTINUE | BUTTON_PC_NAV_BACK,
+            0x0, 0x80, 0x0 },
+
+/*7F8DC0*/{ "UI_OLMAIN.fng", // 146
+            0x4F1940,
+            HELP_OL_MAIN_MENU,
+            BUTTON_PC_NAV_QUIT | BUTTON_PC_NAV_CONTINUE | BUTTON_PC_NAV_BACK | BUTTON_PC_NAV_EA_MESSENGER,
+            0x0, 0x80, 0x0 },
+
+/*7F8DDC*/{ "UI_OLFilters.fng", // 147
+            0x4E6530,
+            0,
+            BUTTON_PC_NAV_QUIT | BUTTON_PC_NAV_CONTINUE | BUTTON_PC_NAV_BACK | BUTTON_PC_NAV_EA_MESSENGER,
+            0x0, 0x80, 0x0 },
+
+/*7F8DF8*/{ "PC_OL_Lobby.fng", // 148
+            0x4FA990,
+            0,
+            BUTTON_PC_NAV_QUIT | BUTTON_PC_NAV_BACK | BUTTON_PC_NAV_EA_MESSENGER,
+            0x0, 0x80, 0x0 },
+
+/*7F8E14*/{ "PC_OL_GameRoom.fng", // 149
+            0x4F1820,
+            HELP_OL_GAME_ROOM,
+            BUTTON_PC_NAV_BACK | BUTTON_PC_NAV_EA_MESSENGER,
+            0x0, 0x200, 0x0 },
+
+/*7F8E30*/{ "UI_OLPassword.fng", // 150
+            0x4E42C0,
+            0,
+            0,
+            0x0, 0x80, 0x0 },
+
+/*7F8E4C*/{ "UI_OLRankings_Personal.fng", // 151
+            0x4F1BC0,
+            HELP_OL_PERSONAL_RANK,
+            BUTTON_PC_NAV_QUIT | BUTTON_PC_NAV_BACK | BUTTON_PC_NAV_EA_MESSENGER,
+            0x0, 0x80, 0x0 },
+
+/*7F8E68*/{ "UI_OLRankings_Overall.fng", // 152
+            0x4FB1A0,
+            HELP_OL_OVERALL_RANK,
+            BUTTON_PC_NAV_QUIT | BUTTON_PC_NAV_CONTINUE | BUTTON_PC_NAV_BACK | BUTTON_PC_NAV_EA_MESSENGER,
+            0x0, 0x80, 0x0 },
+
+/*7F8E84*/{ "UI_OLRankings_Monthly.fng", // 153
+            0x4E64D0,
+            HELP_OL_MONTHLY_RANK,
+            BUTTON_PC_NAV_QUIT | BUTTON_PC_NAV_BACK | BUTTON_PC_NAV_EA_MESSENGER,
+            0x0, 0x80, 0x0 },
+
+/*7F8EA0*/{ "UI_OLEAMessenger.fng", // 154
+            0x4F22F0,
+            HELP_OL_MESSENGER,
+            0,
+            0x0, 0x80, 0x0 },
+
+/*7F8EBC*/{ "PC_OL_SEARCH.fng", // 155
+            0x4D5070,
+            0,
+            0,
+            0x0, 0x80, 0x0 },
+
+/*7F8ED8*/{ "UI_OL_FriendDialogue.fng", // 156
+            0x4FB200,
+            0,
+            BUTTON_PC_NAV_QUIT | BUTTON_PC_NAV_CONTINUE | BUTTON_PC_NAV_BACK,
+            0x0, 0x80, 0x0 },
+
+/*7F8EF4*/{ "UI_OLX_Message.fng", // 157
+            0x4F24E0,
+            0,
+            BUTTON_PC_NAV_QUIT | BUTTON_PC_NAV_CONTINUE | BUTTON_PC_NAV_BACK,
+            0x0, 0x80, 0x0 },
+
+/*7F8F10*/{ "UI_OLRankings.fng", // 158
+            0x4F2540,
+            HELP_OL_RANKINGS_MENU,
+            BUTTON_PC_NAV_QUIT | BUTTON_PC_NAV_CONTINUE | BUTTON_PC_NAV_BACK | BUTTON_PC_NAV_EA_MESSENGER,
+            0x0, 0x80, 0x0 },
+
+/*7F8F2C*/{ "UI_OLX_FindResults.fng", // 159
+            0x4F25A0,
+            0,
+            BUTTON_PC_NAV_QUIT | BUTTON_PC_NAV_CONTINUE | BUTTON_PC_NAV_BACK,
+            0x0, 0x80, 0x0 },
+
+/*7F8F48*/{ "UI_OL_Feedback.fng", // 160
+            0x4F27E0,
+            HELP_OL_MESSENGER_FEEDBACK,
+            0,
+            0x0, 0x80, 0x0 },
+
+/*7F8F64*/{ "UI_OL_Challenge.fng", // 161
+            0x4D6940,
+            0,
+            0,
+            0x0, 0x80, 0x0 },
+
+/*7F8F80*/{ "UI_OLViewCareer.fng", // 162
+            0x4E88C0,
+            0,
+            BUTTON_PC_NAV_BACK,
+            0x0, 0x80, 0x0 },
+
+/*7F8F9C*/{ "UI_OLISPConnect.fng", // 163
+            0x4B9750,
+            0,
+            BUTTON_PC_NAV_QUIT | BUTTON_PC_NAV_CONTINUE | BUTTON_PC_NAV_BACK,
+            0x0, 0x0, 0x0 },
+
+/*7F8FB8*/{ "UI_OLSelectPersona.fng", // 164
+            0x4E3CD0,
+            HELP_OL_PS2_PERSONA_SELECT,
+            BUTTON_PC_NAV_QUIT | BUTTON_PC_NAV_CONTINUE | BUTTON_PC_NAV_BACK | BUTTON_PC_NAV_DELETE,
+            0x0, 0x100, 0x0 },
+
+/*7F8FD4*/{ "UI_OLCreateUser.fng", // 165
+            0x4E3D50,
+            HELP_OL_PS2_CREATEACCOUNT,
+            BUTTON_PC_NAV_QUIT | BUTTON_PC_NAV_BACK,
+            0x0, 0x0, 0x0 },
+
+/*7F8FF0*/{ "UI_OLCreateUser_2.fng", // 166
+            0x4BAA60,
+            0,
+            BUTTON_PC_NAV_QUIT | BUTTON_PC_NAV_BACK,
+            0x0, 0x0, 0x0 },
+
+/*7F900C*/{ "UI_OLAgeVerif.fng", // 167
+            0x4E3DD0,
+            0,
+            BUTTON_PC_NAV_QUIT | BUTTON_PC_NAV_CONTINUE | BUTTON_PC_NAV_BACK,
+            0x0, 0x0, 0x0 },
+
+/*7F9028*/{ "UI_OLAgeTooYoung.fng", // 168
+            0x49E780,
+            0,
+            BUTTON_PC_NAV_QUIT | BUTTON_PC_NAV_CONTINUE | BUTTON_PC_NAV_BACK,
+            0x0, 0x0, 0x0 },
+
+/*7F9044*/{ "UI_OLUseExisting.fng", // 169
+            0x4E3E30,
+            HELP_OL_PS2_USEEXISTING,
+            BUTTON_PC_NAV_QUIT | BUTTON_PC_NAV_CONTINUE | BUTTON_PC_NAV_BACK,
+            0x0, 0x100, 0x0 },
+
+/*7F9060*/{ "UI_OLForgotAccountName.fng", // 170
+            0x4E3BD0,
+            0,
+            BUTTON_PC_NAV_QUIT | BUTTON_PC_NAV_CONTINUE | BUTTON_PC_NAV_BACK,
+            0x0, 0x100, 0x0 },
+
+/*7F907C*/{ "UI_OLEALogin.fng", // 171
+            0x4E3C50,
+            HELP_OL_PS2_EALOGIN,
+            BUTTON_PC_NAV_QUIT | BUTTON_PC_NAV_CONTINUE | BUTTON_PC_NAV_BACK,
+            0x0, 0x100, 0x0 },
+
+/*7F9098*/{ "UI_DateEntry.fng", // 172
+            0x552720,
+            HELP_OL_PS2_DATEWIDGET,
+            BUTTON_PC_NAV_QUIT | BUTTON_PC_NAV_CONTINUE | BUTTON_PC_NAV_BACK,
+            0x0, 0x0, 0x0 },
+
+/*7F90B4*/{ "DiscErrorPC.fng", // 173
+            0x4D97A0,
+            0,
+            BUTTON_PC_NAV_QUIT | BUTTON_PC_NAV_CONTINUE | BUTTON_PC_NAV_BACK,
+            0x0, 0x80, 0x0 },
+
+/*7F90D0*/{ "UI_ProfileManager.fng", // 174
+            0x4F4900,
+            HELP_OPTIONS_MAIN,
+            BUTTON_PC_NAV_QUIT | BUTTON_PC_NAV_CONTINUE | BUTTON_PC_NAV_BACK,
+            0x0, 0x80, 0x0 },
+
+/*7F90EC*/{ "UI_Deleteprofile.fng", // 175
+            0x4F4960,
+            HELP_OPTIONS_MAIN,
+            0,
+            0x0, 0x80, 0x0 },
+
+/*7F9108*/{ "MC_Bootup.fng", // 176
+            0x4F32B0,
+            0,
+            0,
+            0x0, 0x80, 0x0 },
+
+/*7F9124*/{ "MC_List.fng", // 177
+            0x4D7070,
+            HELP_LOAD_PROFILE_BOOT,
+            BUTTON_PC_NAV_QUIT,
+            0x0, 0x80, 0x0 },
+
+/*7F9140*/{ "MC_Main.fng", // 178
+            0x4F3320,
+            0,
+            BUTTON_PC_NAV_QUIT,
+            0x0, 0x80, 0x0 },
+
+/*7F915C*/{ "MC_Background.fng", // 179
+            0x4A8740,
+            0,
+            0,
+            0x0, 0x80, 0x0 },
 .controlchars {}
 }\};
+
+{struct PCHelpBarFNGObject} \{                                                                                  ||| mkref
+        // todo
+}
 .pop pre
 
 {{Short excerpt from hooking {50B790}}                                                          ||| details,summary,ref
@@ -3455,6 +4358,97 @@ A quick search of all the label hashes did not give any result, so it seems like
 where it would set any of the labels' text.
 
 .pop section
+.push section
+
+{PC help bar} ||| h id=pc_help_bar
+
+This is the button bar at the bottom of the screen, with the player name and money text. It also has some elements
+that are only shown when you're connected online (TODO).
+
+Buttons are changed by using {54E6E0}. Buttons are predetermined, you can only specify which buttons you want and       ||| ref
+not set an arbitrary text label. The positions are shown below. See {54E6E0} for the button masks. The lowest matching  ||| ref
+mask gets placed on button1, and so on.
+
+{Normal bar}                                                            ||| imgcaptioned src=PCHELPBAR.JPG alt="two line button bar with 6 buttons"
+
+{{LAYOUT_ONE_LINE_NO_BG}}                                               ||| imgcaptioned src=PCHELPBAR10000.JPG alt="wide button bar with 3 buttons",code
+
+{{LAYOUT_ONE_LINE_NO_BG | LAYOUT_WORLDMAP_POSITION}}                    ||| imgcaptioned src=PCHELPBAR10000-8000.JPG alt="wide button bar with 3 buttons, slighty up",code
+
+{{LAYOUT_ONE_LINE_NO_BG | LAYOUT_PAUSEMENU_POSITION}}                   ||| imgcaptioned src=PCHELPBAR10000-20000.JPG alt="wide button bar with 3 buttons, up",code
+
+{{LAYOUT_ONE_LINE_NO_BG | LAYOUT_RIGHT_POSITION}}                       ||| imgcaptioned src=PCHELPBAR10000-80000000.JPG alt="right aligned button bar with 2 buttons",code
+
+.push symbols
+- {50CF10 int __thiscall PCHelpBarFNGObject::IsSomethingStillAnimating({struct PCHelpBarFNGObject} *this)}                      ||| func,refto
+
+- {52D330 unsigned int __thiscall PCHelpBarFNGObject::GetButtonLanguageKey({struct PCHelpBarFNGObject} *this, int mask)}        ||| func,refto
+  See {54E6E0} for mask. {BUTTON_PC_NAV_CONTINUE} is returned if it's not any of the other {BUTTON_} masks.                     ||| ref,code,code
+
+- {542990 void __thiscall PCHelpBarFNGObject::SetVisible({struct PCHelpBarFNGObject} *this, int show)}                          ||| func,refto
+
+- {54E6A0 void __thiscall PCHelpBarFNGObject::Show({struct PCHelpBarFNGObject} *this)}                                          ||| func,refto
+
+- {54E6B0 void __thiscall PCHelpBarFNGObject::Hide({struct PCHelpBarFNGObject} *this)}                                          ||| func,refto
+
+- {54E6E0 void __thiscall PCHelpBarFNGObject::SyncByMask({struct PCHelpBarFNGObject} *this, int someMask, char *fngName)}       ||| func,refto
+  Sets buttons and background of the help bar, updates profile name display.
+  mask:
+  .push pre
+  -        1: BUTTON_PC_NAV_QUIT: Quit Game
+  -        2: BUTTON_PC_NAV_LOGOFF: Logoff
+  -        4: BUTTON_PC_NAV_CONTINUE: Continue
+  -        8: BUTTON_PC_NAV_INSTALL_PART: Install Part
+  -       10: BUTTON_PC_NAV_INSTALL_VINYL: Install Vinyl
+  -       20: BUTTON_PC_NAV_INSTALL_DECAL: Install Decal
+  -       40: BUTTON_PC_NAV_INSTALL_PACKAGE: Install Package
+  -       80: BUTTON_PC_NAV_INSTALL_PAINT: Install Paint
+  -      100: BUTTON_PC_NAV_READ_MESSAGE: Read Message
+  -      200: BUTTON_CANCEL_CHANGES: Cancel Changes
+  -      400: BUTTON_PC_NAV_BACK: Back
+  -      800: if {89E7E6}                                                                                                       ||| refplain
+              BUTTON_DYNO_RESET: Reset to default
+              else
+              BUTTON_PC_NAV_RESET_KEYS: Reset Keys To Default
+  -     1000: BUTTON_PC_NAV_CUSTOMIZE: Customize
+  -     2000: BUTTON_PC_NAV_DELETE: Delete
+  -     4000: BUTTON_PC_NAV_EA_MESSENGER: EA Messenger
+  -     8000: LAYOUT_WORLDMAP_POSITION: moves the button bar up slightly, three buttons, only has an effect when 10000 is set
+  -    10000: LAYOUT_ONE_LINE_NO_BG: used for pause options (display settings etc)/world map/pause menu
+  -    20000: LAYOUT_PAUSEMENU_POSITION: moves the button bar up, three buttons, only has an effect when 10000 is set
+  -    40000: BUTTON_DELETE_TUNED_CAR: Delete Tuned Car
+  -    80000: BUTTON_ICE_TEST_NOS_PURGE: Test N20 Purge
+  -   100000: BUTTON_ICE_OPEN_CLOSE_HOOD: Open/Close Hood
+  -   200000: BUTTON_ICE_OPEN_CLOSE_DOORS: Open/Close Doors
+  -   400000: BUTTON_DYNO_TIP: Tip
+  -   800000: if (in UI_ChooseVinylLayer.fng)
+              BUTTON_DECAL_COLOR: Decal Color
+              else
+              BUTTON_FE_REPAINT: Repaint
+  -  1000000: BUTTON_MU_PAUSE_RESTART: Restart
+  -  2000000: BUTTON_STRING_WORLD_MAP_SELECT: Select Event
+  -  4000000: BUTTON_FILTER_EVENT_OFF: Hide on World Map
+  -  8000000: BUTTON_FILTER_EVENT_ON: Show on World Map
+  - 10000000: BUTTON_ACTIVATE_GPS: Activate GPS
+  - 20000000: BUTTON_DEACTIVATE_GPS: Deactivate GPS
+  - 40000000: BUTTON_OL_HOST_LAN_SERVER: Host LAN Server
+  - 80000000: LAYOUT_RIGHT_POSITION: puts buttons at the right, two buttons, only has an effect when 10000 is set
+  .pop pre
+
+  Mask gets adjusted based on {850078} and {8654A4}:                                                                            ||| ref,ref
+  .controlchars [] .push pre
+  if (([850078] == 8 || [850078] == 0x100) && [8654A4] == 3 && (mask & BUTTON_PC_NAV_QUIT)) {                                   ||| refplain,refplain,refplain
+          mask = (mask & ~PC_NAV_QUIT) | BUTTON_PC_NAV_LOGOFF;
+  }
+  if ([850078] == 0x200 && (mask & BUTTON_PC_NAV_EA_MESSENGER)) {                                                               ||| refplain
+          mask &= ~BUTTON_PC_NAV_EA_MESSENGER;
+  }
+  .controlchars {} .pop pre
+
+- {8384D8 {struct PCHelpBarFNGObject} *pcHelpBarFNGObject}                                                                      ||| field,refto
+.pop symbols
+
+.pop section
 
 Stuff
 
@@ -3566,9 +4560,6 @@ UI keys seem to be hashed with the case insensitive hash.
         {struct UIElementVisitor} {__parent};                                                                   ||| refto,mkref name=structUIElementVisitor_FindByHash+0
         unsigned int {searchingHash};                                                                           ||| mkref name=structUIElementVisitor_FindByHash+4
         {struct UIElement} *{foundUIelement};                                                                   ||| refto,mkref name=structUIElementVisitor_FindByHash+8
-        int field_C;
-        int field_10;
-        int {field_14};                                                                                         ||| mkref name=structUIElementVisitor_FindByHash+14
 };
 .pop pre
 
@@ -3617,6 +4608,9 @@ UI keys seem to be hashed with the case insensitive hash.
   If {element->{structUIElement+10} == this->{structUIElementVisitor_FindByHash+4}},                            ||| code,refto,refto
   set {this->{structUIElementVisitor_FindByHash+8}} to {element} and return 0.                                  ||| code,refto,code
 
+- {5048F0 int __thiscall UIElementVisitor_FindByFieldC::acceptElement(struct UIElementVisitor_FindByFieldC *this,       ||| func
+                                                                      {struct UIElement} *element)}                     ||| refto
+
 - {50B460 int RenderCursor(int x, int y)}                                                                       ||| func
 
 - {50C900 int SetUILabelLanguageString({struct UILabel} *label, unsigned int languageString)}                   ||| func,refto
@@ -3637,10 +4631,11 @@ UI keys seem to be hashed with the case insensitive hash.
   visitor.[structUIElementVisitor_FindByHash+0].[structUIElementVisitor+0] = &[79AAF4];                                 ||| refto,refto,refplain
   visitor.[structUIElementVisitor_FindByHash+4] = hash;                                                                 ||| refto
   visitor.[structUIElementVisitor_FindByHash+8] = 0;                                                                    ||| refto
-  visitor.[structUIElementVisitor_FindByHash+14] = 0;                                                                   ||| refto
   [504880](this, visitor);                                                                                              ||| refplain
   return visitor.[structUIElementVisitor_FindByHash+8];                                                                 ||| refto
   .controlchars {} .pop pre
+
+- {517FE0 int __thiscall FNGInfo::FindElementByFieldC({struct FNGInfo} *this, int searchingUIElementFieldC)}            ||| func,refto
 
 - {51D070 void GetUIElementTopLeft({struct UIElement} *element, float *top, float *left)}                               ||| func,refto
   TODO
@@ -4645,6 +5640,9 @@ EXPECT_SIZE(struct CriticalSectionWrapper_3, 0x24);
 {.rdata:007A5BF8}                 db {'// HotPosition - %s'},{0Ah}                              ||| comment,str,num
 {.rdata:007A5BF8}                 db {'//'},{0Ah}                                               ||| comment,str,num
 {.rdata:007A5BF8}                 db {'HOTPOSITION: %8.2f,%8.2f,%8.2f  Angle=0x%04x'},{0Ah},{0} ||| comment,str,num,num
+
+{.rdata:00787568} {aSeeulator}      db {'Seeulator'},{0}                                        ||| comment,ident,str,num
+{.rdata:00787574} {aJr2server}      db {'JR2Server'},{0}                                        ||| comment,ident,str,num
 .pop ida
 
 .push pre
@@ -4795,6 +5793,16 @@ EXPECT_SIZE(struct WorldAnimStuff, 0x4C);
 - {8A1CCC void *ptrCarData}                                                                     ||| field
 
 - {835BB8 wchar_t loadedProfileName[32]}                                                        ||| field
+
+- {83A9E0 char loadedProfileName[32]}                                                           ||| field
+
+- {850078 int someOLState}                                                                      ||| field
+  Related to LAN/OL.
+
+- {8654A4 int _??gameStateSomething}                                                            ||| field
+  3 in menus, 4 5 loading, 6 in race
+
+- {89E7E6 char isInPerformanceTuning}                                                           ||| field
 .pop symbols
 .pop section
 .push plain

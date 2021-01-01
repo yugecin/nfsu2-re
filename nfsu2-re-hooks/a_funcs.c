@@ -172,6 +172,17 @@ void SetUILabelByHashFormattedString(char *fngName, unsigned int hash, char *for
 
 static
 __declspec(naked)
+void UILabel__setString(struct UILabel *this, char *str)
+{
+	_asm { pop eax }
+	_asm { pop ecx }
+	_asm { push eax }
+	_asm { mov eax, 0x535FE0 }
+	_asm { jmp eax }
+}
+
+static
+__declspec(naked)
 struct UIElement* __stdcall GetUIElementByHashInFngName(unsigned int hash, char *fngname)
 {
 	_asm { mov ecx, 0x8384C4 }
@@ -187,5 +198,35 @@ void *__stdcall Markers__FindAtPosWithTypeAfterIndex(void *_near, int type, void
 {
 	_asm { mov ecx, 0x88F298 }
 	_asm { mov eax, 0x5D9BF0 }
+	_asm { jmp eax }
+}
+
+static
+__declspec(naked)
+void __stdcall PCHelpBarFNGObject__SyncByMask(int someMask, char *fngName)
+{
+	_asm { mov ecx, 0x8384D8 }
+	_asm { mov ecx, [ecx] }
+	_asm { mov eax, 0x54E6E0 }
+	_asm { jmp eax }
+}
+
+static
+__declspec(naked)
+void __stdcall PCHelpBarFNGObject__Show()
+{
+	_asm { mov ecx, 0x8384D8 }
+	_asm { mov ecx, [ecx] }
+	_asm { mov eax, 0x54E6A0 }
+	_asm { jmp eax }
+}
+
+static
+__declspec(naked)
+void __stdcall PCHelpBarFNGObject__Hide()
+{
+	_asm { mov ecx, 0x8384D8 }
+	_asm { mov ecx, [ecx] }
+	_asm { mov eax, 0x54E6B0 }
 	_asm { jmp eax }
 }

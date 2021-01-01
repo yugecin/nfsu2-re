@@ -35,6 +35,12 @@ struct CarModelInfo {
 EXPECT_SIZE(struct CarModelInfo, 0x890);
 ASSERT_OFFSET(struct CarModelInfo, manufacturer, 0xC0);
 
+struct ObjectLink {
+	struct ObjectLink *prev;
+	struct ObjectLink *next;
+};
+EXPECT_SIZE(struct ObjectLink, 0x8);
+
 struct U2RECT {
 	float left, top, right, bottom;
 };
@@ -55,8 +61,8 @@ typedef int (fnginithandler)(struct FNGShowData *msg);
 struct FNGData {
 	char *name;
 	fnginithandler *initializeHandler;
-	int field_8;
-	int field_C;
+	unsigned int helpTextLanguageString;
+	unsigned int helpBarMask;
 	int field_10;
 	int field_14;
 	int field_18;
@@ -66,8 +72,8 @@ EXPECT_SIZE(struct FNGData, 0x1C);
 struct FNGShowData {
 	char *fngname;
 	int arg1;
-	int fngdata_field8;
-	int fngdata_fieldC;
+	unsigned int helpTextLanguageString;
+	unsigned int helpBarMask;
 	int arg2;
 };
 EXPECT_SIZE(struct FNGShowData, 0x14);
@@ -199,6 +205,9 @@ struct UIPos {
 
 #define UIELEMENT_FLAG_HIDDEN 1
 #define UIELEMENT_FLAG_USE_CUSTOM_TEXT 2
+#define UIELEMENT_FLAG_NEED_UPDATE_0 0x400000
+#define UIELEMENT_FLAG_NEED_UPDATE_1 0x1000000
+#define UIELEMENT_FLAG_NEED_UPDATE_2 0x2000000
 
 struct UIElement {
 	int vtable;
@@ -230,7 +239,7 @@ struct UILabel {
 	int field_58;
 	int field_5C;
 	unsigned int textLanguageString;
-	struct WideCharString string;
+	struct WideCharString string; /*is used when textLanguageString is invalid or flag 2 is set*/
 	int field_6C;
 	int field_70;
 };
@@ -318,3 +327,47 @@ struct Marker {
         float pos_x;
         float pos_y;
 };
+
+struct FNGObject {
+	int *vtable;
+	char *fngName;
+	char field_8;
+	char field_9;
+	char field_A;
+	char field_B;
+	int field_C;
+	char field_10;
+	char field_11;
+	char field_12;
+	char field_13;
+	struct FNGShowData fngShowData;
+	int fngdata_field8;
+	char field_2C;
+	char field_2D;
+	char field_2E;
+	char field_2F;
+	int field_30;
+	struct UIElement *uiElement_34;
+	struct UIElement *uiElement_38;
+	struct UIElement *uiElement_3C;
+	float floatField_40;
+	float floatField_44;
+	int field_48;
+};
+EXPECT_SIZE(struct FNGObject, 0x4C);
+
+struct PCHelpBarFNGObject {
+	struct FNGObject __parent;
+	struct ObjectLink buttonsLink;
+	int field_54;
+	char *buttonOwnerFngName;
+	char *oldButtonOwnerFngName;
+	int field_60;
+	unsigned int currentButtonMask;
+	int someTimingField;
+	char shouldShow;
+	char field_6D;
+	char field_6E;
+	char field_6F;
+};
+EXPECT_SIZE(struct PCHelpBarFNGObject, 0x70);

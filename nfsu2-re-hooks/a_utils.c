@@ -61,3 +61,57 @@ unsigned int hatoi(char *text)
 	}
 	return col;
 }
+
+static
+char *languagelabel(unsigned int key)
+{
+	static char *data = 0;
+	static struct {
+		int wcharTableOffset;
+		int numStrings;
+		int tableOffset;
+		int stringsOffset;
+	} *language_header;
+	static char *strings;
+	static struct {
+		unsigned int hash;
+		int stringOffset;
+	} *table;
+
+	FILE *in;
+	struct {
+		int magic;
+		int size;
+	} section_header;
+	int offset;
+	int i;
+
+	if (!data) {
+		if (!(in = fopen("../LANGUAGES/Labels.bin", "rb"))) {
+			return "<failed to open labels file>";
+		}
+
+		offset = 0;
+		while (fread(&section_header, 1, sizeof(section_header), in)) {
+			offset += sizeof(section_header);
+			if (section_header.magic == 0x39000) {
+				data = malloc(section_header.size);
+				fread(data, section_header.size, 1, in);
+				language_header = (void*) data;
+				strings = data + language_header->stringsOffset;
+				table = (void*) (data + language_header->tableOffset);
+				break;
+			}
+			offset += section_header.size;
+			fseek(in, section_header.size, SEEK_CUR);
+		}
+		fclose(in);
+	}
+
+	for (i = 0; i < language_header->numStrings; i++) {
+		if (table[i].hash == key) {
+			return strings + table[i].stringOffset;
+		}
+	}
+	return "<not found>";
+}

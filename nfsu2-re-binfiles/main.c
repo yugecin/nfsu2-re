@@ -80,8 +80,8 @@ void read_language_strings(FILE *in, int size)
 	int i;
 	char *data;
 
-	fread(data, size, 1, in);
 	data = malloc(size);
+	fread(data, size, 1, in);
 	language_header = (void*) data;
 	language_table_entry = (void*) (data + language_header->tableOffset);
 	wchar_table = (void*) (data + language_header->wcharTableOffset);

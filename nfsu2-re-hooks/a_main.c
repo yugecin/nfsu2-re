@@ -69,10 +69,11 @@ static void stub() {}
 #include "speedyboot.c"
 //#include "focusloss-nopause.c" // note that cause of this it will still accept keys while in bg
 #include "replaceloadingscreen.c"
-#include "winconsole.c"
 #include "skipinsertdisc2.c"
 
 #include "dbgw_a_main.c"
+
+//#include "generate-fngdata-list.c"
 
 //#include "ol-replace-7583E0.c"
 //#include "ol-replace-759B4A.c"
@@ -86,6 +87,7 @@ static void stub() {}
 #include "debug-hook-wm_char.c" // needs to be after all "debug-custom-*" files
 #include "debug-hook-doui.c" // needs to be after all "debug-custom-*" files
 #include "debug-hook-beforepresent.c" // needs to be after all "debug-custom-*" files
+#include "winconsole.c" // needs to be at the end (or anything else using printf might not show)
 
 BOOL APIENTRY DllMain(HMODULE hModule, DWORD reason_for_call, LPVOID lpResrvd)
 {
