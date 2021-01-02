@@ -4385,6 +4385,9 @@ mask gets placed on button1, and so on.
 - {52D330 unsigned int __thiscall PCHelpBarFNGObject::GetButtonLanguageKey({struct PCHelpBarFNGObject} *this, int mask)}        ||| func,refto
   See {54E6E0} for mask. {BUTTON_PC_NAV_CONTINUE} is returned if it's not any of the other {BUTTON_} masks.                     ||| ref,code,code
 
+- {52D4F0 void __thiscall PCHelpBarFNGObject::OnCursorMoved({struct PCHelpBarFNGObject} *this)}                                 ||| func,refto
+  Called from {55DFA0}.                                                                                                         ||| ref
+
 - {542990 void __thiscall PCHelpBarFNGObject::SetVisible({struct PCHelpBarFNGObject} *this, int show)}                          ||| func,refto
 
 - {54E6A0 void __thiscall PCHelpBarFNGObject::Show({struct PCHelpBarFNGObject} *this)}                                          ||| func,refto
@@ -4444,6 +4447,11 @@ mask gets placed on button1, and so on.
           mask &= ~BUTTON_PC_NAV_EA_MESSENGER;
   }
   .controlchars {} .pop pre
+
+- {55DE00 void __thiscall PCHelpBarFNGObject::OnPrimaryCursorJustPressed({struct PCHelpBarFNGObject} *this)}                    ||| func,refto
+  Called from {55DFA0}.                                                                                                         ||| ref
+
+- {55DFA0 int __thiscall PCHelpBarFNGObject::MessageHandler({struct PCHelpBarFNGObject} *this, unsigned int message, int, int, int)}    ||| func,refto
 
 - {8384D8 {struct PCHelpBarFNGObject} *pcHelpBarFNGObject}                                                                      ||| field,refto
 .pop symbols

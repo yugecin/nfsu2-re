@@ -3572,6 +3572,8 @@ mask gets placed on button1, and so on.
 <p><strong>Symbols:</strong></p><ul><li><span class='func' id='50CF10'>50CF10 int __thiscall PCHelpBarFNGObject::IsSomethingStillAnimating(<a href='#struct_PCHelpBarFNGObject'>struct PCHelpBarFNGObject</a> *this)</span>
 </li><li><span class='func' id='52D330'>52D330 unsigned int __thiscall PCHelpBarFNGObject::GetButtonLanguageKey(<a href='#struct_PCHelpBarFNGObject'>struct PCHelpBarFNGObject</a> *this, int mask)</span>
   See <a class='funcref' href='#54E6E0'>54E6E0:PCHelpBarFNGObject::SyncByMask()</a> for mask. <code>BUTTON_PC_NAV_CONTINUE</code> is returned if it's not any of the other <code>BUTTON_</code> masks.
+</li><li><span class='func' id='52D4F0'>52D4F0 void __thiscall PCHelpBarFNGObject::OnCursorMoved(<a href='#struct_PCHelpBarFNGObject'>struct PCHelpBarFNGObject</a> *this)</span>
+  Called from <a class='funcref' href='#55DFA0'>55DFA0:PCHelpBarFNGObject::MessageHandler()</a>.
 </li><li><span class='func' id='542990'>542990 void __thiscall PCHelpBarFNGObject::SetVisible(<a href='#struct_PCHelpBarFNGObject'>struct PCHelpBarFNGObject</a> *this, int show)</span>
 </li><li><span class='func' id='54E6A0'>54E6A0 void __thiscall PCHelpBarFNGObject::Show(<a href='#struct_PCHelpBarFNGObject'>struct PCHelpBarFNGObject</a> *this)</span>
 </li><li><span class='func' id='54E6B0'>54E6B0 void __thiscall PCHelpBarFNGObject::Hide(<a href='#struct_PCHelpBarFNGObject'>struct PCHelpBarFNGObject</a> *this)</span>
@@ -3623,7 +3625,10 @@ mask gets placed on button1, and so on.
 if (<a class='fieldref' href='#850078'>someOLState</a> == 0x200 &amp;&amp; (mask &amp; BUTTON_PC_NAV_EA_MESSENGER)) {
         mask &amp;= ~BUTTON_PC_NAV_EA_MESSENGER;
 }
-</pre></li><li><span class='field' id='8384D8'>8384D8 <a href='#struct_PCHelpBarFNGObject'>struct PCHelpBarFNGObject</a> *pcHelpBarFNGObject</span>
+</pre></li><li><span class='func' id='55DE00'>55DE00 void __thiscall PCHelpBarFNGObject::OnPrimaryCursorJustPressed(<a href='#struct_PCHelpBarFNGObject'>struct PCHelpBarFNGObject</a> *this)</span>
+  Called from <a class='funcref' href='#55DFA0'>55DFA0:PCHelpBarFNGObject::MessageHandler()</a>.
+</li><li><span class='func' id='55DFA0'>55DFA0 int __thiscall PCHelpBarFNGObject::MessageHandler(<a href='#struct_PCHelpBarFNGObject'>struct PCHelpBarFNGObject</a> *this, unsigned int message, int, int, int)</span>
+</li><li><span class='field' id='8384D8'>8384D8 <a href='#struct_PCHelpBarFNGObject'>struct PCHelpBarFNGObject</a> *pcHelpBarFNGObject</span>
 </li></ul><p style='margin-bottom:0'><a href='#index'>Index</a></p></div><div><p style='margin-top:0'><small><a href='#ui'>UI</a> (continuation)</small></p><p>Stuff
 </p><p>UI keys seem to be hashed with the case insensitive hash.
 </p><pre><span id='struct_U2RECT'></span>struct U2RECT {
@@ -4591,8 +4596,8 @@ EXPECT_SIZE(struct WorldAnimStuff, 0x4C);
 </li><li><span class='func' id='43DC30'>43DC30 int strcmp(char *a, char *b)</span>
 </li><li><span class='func' id='43DC60'>43DC60 int strncmp(char *a, char *b, int maxlen)</span>
 </li><li><span class='func' id='43DCC0'>43DCC0 int stricmp(char *a, char *b)</span>
-</li><li><span class='func' id='43DDA0'>43DDA0 void strcatcpy(char *dest, char *src1, char *src2)</span>
-  Equivalent to <code>strcpy(dest, src1); strcpy(dest + strlen(src1), src2);</code>.
+</li><li><span class='func' id='43DDA0'>43DDA0 void strcpycat(char *dest, char *src1, char *src2)</span>
+  Functionally equivalent to <code>strcpy(dest, src1); strcpy(dest + strlen(src1), src2);</code>.
 </li><li><span class='func' id='43E000'>43E000 void *NaiveStrcpyCharToWchar(wchar_t *dest, char *src)</span>
   Uses sign extension. See also <a class='funcref' href='#50D3C0'>50D3C0:LanguageConversionStrcpyCharToWchar()</a> and <a class='funcref' href='#512530'>512530:LanguageAwareStrcpyCharToWchar()</a>.
 </li><li><span class='func' id='43E950'>43E950 int FormatWithSinglePlaceholderPtr(char *dst, char *format, void *parameter)</span>

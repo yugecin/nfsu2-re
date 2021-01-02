@@ -24,6 +24,8 @@
 #define IDC_BTN_ELEMANIMS_ADDR 34
 #define IDC_EDIT_ELEMANIMS_SETANIM 35
 #define IDC_BTN_ELEMANIMS_SETANIM 36
+#define IDC_BTN_PCHELPBAR_SHOWOLICONGROUP 37
+#define IDC_BTN_VARIOUS_DEBUGCARCUSTOMIZE 38
 
 #define IDC_BTN_UIPROP_FLAG1 9024
 #define IDC_BTN_UIPROP_FLAG32 9055
@@ -78,7 +80,7 @@ HGDIOBJ font;
 HMODULE hModule;
 HWND hMain, hTab;
 HWND hBtnRenderModeNormal, hBtnRenderModeWire, hBtnRenderModePts, hBtnRenderFlatshade;
-#define numtabpanes 4
+#define numtabpanes 5
 HWND hTabpane[numtabpanes];
 struct {
 	HWND window;
@@ -100,6 +102,9 @@ struct {
 	HWND editSet;
 	HWND btnSet;
 } hElementAnim;
+struct {
+	HWND btnDebugCarCustomize;
+} hVarious;
 HWND hUITree;
 
 static
@@ -605,6 +610,26 @@ void dbgw_on_resize(HWND hwnd)
 }
 
 static
+void dbgw_create_tab_various_controls(HWND hWnd)
+{
+	HWND hTmp;
+	int w, w2, h, h2;
+	int x, y;
+
+	x = PX_PADDING; y = PX_PADDING;
+	w = 500 - PX_PADDING * 2; h = PX_SPACING_Y; h2 = PX_SPACING_Y / 2;
+
+	hVarious.btnDebugCarCustomize =
+	CreateWindowExA(0, "Button",
+		"Debug car customize",
+		WS_CHILD | WS_VISIBLE | BS_AUTOCHECKBOX,
+		x,	y,
+		w,	h,
+		hWnd, (HMENU) IDC_BTN_VARIOUS_DEBUGCARCUSTOMIZE, hModule, 0);
+	SendMessage(hVarious.btnDebugCarCustomize, WM_SETFONT, (WPARAM) font, 0);
+}
+
+static
 void dbgw_create_tab_elementanims_controls(HWND hWnd)
 {
 	HWND hTmp;
@@ -730,6 +755,15 @@ void dbgw_create_tab_pchelpbar_controls(HWND hWnd)
 		x + 103, y,
 		97, h,
 		hWnd, (HMENU) IDC_BTN_PCHELPBAR_SHOW, hModule, 0);
+	SendMessage(hTmp, WM_SETFONT, (WPARAM) font, 0);
+	y += h + h2;
+	hTmp =
+	CreateWindowExA(0, "Button",
+		"Make OL_ICON_GROUP show (needs EA_MESSENGER)",
+		WS_CHILD | WS_VISIBLE,
+		x, y,
+		400, h,
+		hWnd, (HMENU) IDC_BTN_PCHELPBAR_SHOWOLICONGROUP, hModule, 0);
 	SendMessage(hTmp, WM_SETFONT, (WPARAM) font, 0);
 }
 
@@ -1006,6 +1040,9 @@ void dbgw_create_main_window_controls(HWND hWnd)
 	ti.pszText = "UI Element Anims";
 	ti.cchTextMax = strlen(ti.pszText);
 	SendMessage(hTab, TCM_INSERTITEM, 3, (LPARAM) &ti);
+	ti.pszText = "Various";
+	ti.cchTextMax = strlen(ti.pszText);
+	SendMessage(hTab, TCM_INSERTITEM, 4, (LPARAM) &ti);
 
 	SendMessage(hTab, TCM_ADJUSTRECT, 0, (LPARAM) &rc);
 	for (i = 0; i < numtabpanes; i++) {
@@ -1018,6 +1055,7 @@ void dbgw_create_main_window_controls(HWND hWnd)
 			hTab, 0, hModule, 0);
 	}
 
+	dbgw_create_tab_various_controls(hTabpane[4]);
 	dbgw_create_tab_elementanims_controls(hTabpane[3]);
 	dbgw_create_tab_pchelpbar_controls(hTabpane[2]);
 	dbgw_create_tab_d3_controls(hTabpane[1]);
@@ -1182,6 +1220,18 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 			} else {
 				SendMessage(hElementAnim.editSet, WM_GETTEXT, sizeof(buf), (LPARAM) buf);
 				((void (__cdecl*)(struct UIElement*,char*,char))0x51CF70)(element, buf, 1);
+			}
+			break;
+		}
+		case IDC_BTN_PCHELPBAR_SHOWOLICONGROUP:
+			*(char*) 0x838528 = 1;
+			break;
+		case IDC_BTN_VARIOUS_DEBUGCARCUSTOMIZE:
+		{
+			if (SendMessage(hVarious.btnDebugCarCustomize, BM_GETCHECK, 0, 0) == BST_CHECKED) {
+				*(char**) 0x7FA1B0 = "UI_DebugCarCustomize.fng";
+			} else {
+				*(char**) 0x7FA1B0 = "UI_ChooseCustomizeCategory.fng";
 			}
 			break;
 		}

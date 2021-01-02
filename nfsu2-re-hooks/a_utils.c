@@ -140,6 +140,11 @@ char *animationname(unsigned int key)
 		{ 0x4F90CF9B, "Active" },
 		{ 0x03D8EABC, "UNDIM" },
 		{ 0x00009E99, "DIM" },
+		{ 0x5A8E4EBE, "animate" }, // like in animate dialog progress bar
+		{ 0x375D11BF, "animation" }, // untested
+		{ 0x8AB83EDB, "ZoomIn" }, // untested
+		{ 0xA19BB14C, "ZoomInGreen" }, // untested
+		{ 0x5230FAF6, "ZoomInRed" }, // untested
 		// questionable ones:
 		{ 0xA95DB9D5, "Pause_Menu_Main" },
 		{ 0x2B5A03A8, "Pause_Options" },
