@@ -72,10 +72,12 @@ static void stub() {}
 #include "replaceloadingscreen.c"
 #include "skipinsertdisc2.c"
 #include "ignorefocuslossintextboxandlist.c"
+#include "switch-joyids-in-career.c"
 
 #include "dbgw_a_main.c"
 
 //#include "generate-fngdata-list.c"
+//#include "generate-joyname-list.c"
 
 //#include "ol-replace-7583E0.c"
 //#include "ol-replace-759B4A.c"

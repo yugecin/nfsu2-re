@@ -127,7 +127,7 @@ Need For Speed Underground 2, otherwise knows as nfsu2.
 </p><p>This normally belongs to <a href="https://github.com/yugecin/nfsu2-re">https://github.com/yugecin/nfsu2-re</a>.
 </p><p>Other pages: <a href="cheatsheet.html">(fpu) cheatsheet</a>
 </p><p style='margin-bottom:0'><a href='#index'>Index</a></p></div><span id='index'></span><div><h2>Index <a href="#index">#</a></h2>
-<ul><li><a href="#prologue">Prologue</a></li><li><a href="#index">Index</a></li><li><a href="#injectedcode">Injected code</a></li><li><a href="#displaysettings">Display settings</a></li><li><a href="#registry">Registry</a></li><li><a href="#gameregion">Game region</a></li><li><a href="#bindata">Bin data</a></li><li><a href="#language">Language</a><ul><li><a href="#language_metadata">Language metadata</a></li><li><a href="#language_files">Language files</a></li></ul></li><li><a href="#pools">Pools</a></li><li><a href="#speedyboot">Speedy boot</a></li><li><a href="#consoleleftover">Console leftovers</a><ul><li><a href="#console_consume_key">ConsoleConsumeKey</a><ul><li><a href="#console_consume_key_check">A hardcoded key check</a></li></ul></li><li><a href="#console_move_caret">ConsoleMoveCaret</a></li></ul></li><li><a href="#hashfuncs">Hash functions</a><ul><li><a href="#hashmess">Messing with hash results</a></li></ul></li><li><a href="#debugprint">Debug print</a></li><li><a href="#ui">UI</a><ul><li><a href="#ui_dialog">Dialogs</a><ul><li><a href="#ui_dialog_getfngfordialog">GetFNGForDialog</a></li></ul></li><li><a href="#fngthings">FNG things</a></li><li><a href="#some_fng_screens">Some FNG screens</a><ul><li><a href="#replace_loading_screen">Replacing the loading screen</a></li></ul></li><li><a href="#screenprintf">ScreenPrintf.fng</a></li><li><a href="#pc_help_bar">PC help bar</a></li></ul></li><li><a href="#mouseinput">Mouse input</a></li><li><a href="#cheats">Cheats</a></li><li><a href="#carmodeldata">Car model data</a></li><li><a href="#sound">Sound</a></li><li><a href="#career">Career</a><ul><li><a href="#markers">Markers</a></li><li><a href="#sms_stuff">SMS stuff</a></li></ul></li><li><a href="#networkstuff">LAN/OL</a></li><li><a href="#d3d9stuff">D3D9 Stuff</a></li><li><a href="#other_symbols">Other symbols</a></ul><p style='margin-bottom:0'><a href='#index'>Index</a></p></div><span id='injectedcode'></span><div><h2>Injected code <a href="#injectedcode">#</a></h2>
+<ul><li><a href="#prologue">Prologue</a></li><li><a href="#index">Index</a></li><li><a href="#injectedcode">Injected code</a></li><li><a href="#displaysettings">Display settings</a></li><li><a href="#registry">Registry</a></li><li><a href="#gameregion">Game region</a></li><li><a href="#bindata">Bin data</a></li><li><a href="#language">Language</a><ul><li><a href="#language_metadata">Language metadata</a></li><li><a href="#language_files">Language files</a></li></ul></li><li><a href="#pools">Pools</a></li><li><a href="#speedyboot">Speedy boot</a></li><li><a href="#consoleleftover">Console leftovers</a><ul><li><a href="#console_consume_key">ConsoleConsumeKey</a><ul><li><a href="#console_consume_key_check">A hardcoded key check</a></li></ul></li><li><a href="#console_move_caret">ConsoleMoveCaret</a></li></ul></li><li><a href="#hashfuncs">Hash functions</a><ul><li><a href="#hashmess">Messing with hash results</a></li></ul></li><li><a href="#debugprint">Debug print</a></li><li><a href="#ui">UI</a><ul><li><a href="#ui_dialog">Dialogs</a><ul><li><a href="#ui_dialog_getfngfordialog">GetFNGForDialog</a></li></ul></li><li><a href="#fngthings">FNG things</a></li><li><a href="#some_fng_screens">Some FNG screens</a><ul><li><a href="#replace_loading_screen">Replacing the loading screen</a></li></ul></li><li><a href="#screenprintf">ScreenPrintf.fng</a></li><li><a href="#pc_help_bar">PC help bar</a></li></ul></li><li><a href="#input">Input</a><ul><li><a href="#mouseinput">Mouse input</a></li><li><a href="#joyinput">Key (Joy) input</a></li></ul></li><li><a href="#cheats">Cheats</a></li><li><a href="#carmodeldata">Car model data</a></li><li><a href="#sound">Sound</a></li><li><a href="#career">Career</a><ul><li><a href="#markers">Markers</a></li><li><a href="#sms_stuff">SMS stuff</a></li></ul></li><li><a href="#networkstuff">LAN/OL</a></li><li><a href="#d3d9stuff">D3D9 Stuff</a></li><li><a href="#other_symbols">Other symbols</a></ul><p style='margin-bottom:0'><a href='#index'>Index</a></p></div><span id='injectedcode'></span><div><h2>Injected code <a href="#injectedcode">#</a></h2>
 <p>The code for all injected things I did can be found in <code>nfsu2-re-hooks/*.c</code>.
 It's configured as a VC2005 project in a VC2005 solution.
 The project emits a compiled file to <code>..\NeedForSpeed U2\scripts\nfsu2-re-hooks.asi</code>.
@@ -1766,7 +1766,7 @@ ASSERT_OFFSET(<a href='#struct_DialogInfo'>struct DialogInfo</a>, <a href='#stru
 };
 EXPECT_SIZE(struct FNGMessage, 0x14);
 
-typedef int (<span id='fnginithandler'></span>fnginithandler)(<a href='#struct_FNGShowData'>struct FNGShowData</a> *msg);
+typedef <a href='#struct_FNGShowData'>struct FNGShowData</a>* (<span id='fnginithandler'></span>fnginithandler)(<a href='#struct_FNGShowData'>struct FNGShowData</a> *msg);
 
 <span id='struct_FNGData'></span>struct FNGData {
 	char *name;
@@ -3569,7 +3569,43 @@ mask gets placed on button1, and so on.
 <p class='center'><img src="PCHELPBAR10000-8000.JPG" alt="wide button bar with 3 buttons, slighty up"/><br/><code>LAYOUT_ONE_LINE_NO_BG | LAYOUT_WORLDMAP_POSITION</code></p>
 <p class='center'><img src="PCHELPBAR10000-20000.JPG" alt="wide button bar with 3 buttons, up"/><br/><code>LAYOUT_ONE_LINE_NO_BG | LAYOUT_PAUSEMENU_POSITION</code></p>
 <p class='center'><img src="PCHELPBAR10000-80000000.JPG" alt="right aligned button bar with 2 buttons"/><br/><code>LAYOUT_ONE_LINE_NO_BG | LAYOUT_RIGHT_POSITION</code></p>
-<p><strong>Symbols:</strong></p><ul><li><span class='func' id='50CF10'>50CF10 int __thiscall PCHelpBarFNGObject::IsSomethingStillAnimating(<a href='#struct_PCHelpBarFNGObject'>struct PCHelpBarFNGObject</a> *this)</span>
+<pre><span id='enum_PCHELPBARFLAGS'></span>enum PCHELPBARFLAGS {
+        BUTTON_PC_NAV_QUIT = 0x1,
+        BUTTON_PC_NAV_LOGOFF = 0x2,
+        BUTTON_PC_NAV_CONTINUE = 0x4,
+        BUTTON_PC_NAV_INSTALL_PART = 0x8,
+        BUTTON_PC_NAV_INSTALL_VINYL = 0x10,
+        BUTTON_PC_NAV_INSTALL_DECAL = 0x20,
+        BUTTON_PC_NAV_INSTALL_PACKAGE = 0x40,
+        BUTTON_PC_NAV_INSTALL_PAINT = 0x80,
+        BUTTON_PC_NAV_READ_MESSAGE = 0x100,
+        BUTTON_CANCEL_CHANGES = 0x200,
+        BUTTON_PC_NAV_BACK = 0x400,
+        BUTTON_DYNO_RESET_OR_PC_NAV_RESET_KEYS = 0x800,
+        BUTTON_PC_NAV_CUSTOMIZE = 0x1000,
+        BUTTON_PC_NAV_DELETE = 0x2000,
+        BUTTON_PC_NAV_EA_MESSENGER = 0x4000,
+        LAYOUT_WORLDMAP_POSITION = 0x8000,
+        LAYOUT_ONE_LINE_NO_BG = 0x10000,
+        LAYOUT_PAUSEMENU_POSITION = 0x20000,
+        BUTTON_DELETE_TUNED_CAR = 0x40000,
+        BUTTON_ICE_TEST_NOS_PURGE = 0x80000,
+        BUTTON_ICE_OPEN_CLOSE_HOOD = 0x100000,
+        BUTTON_ICE_OPEN_CLOSE_DOORS = 0x200000,
+        BUTTON_DYNO_TIP = 0x400000,
+        BUTTON_DECAL_COLOR_OR_FE_REPAINT = 0x800000,
+        BUTTON_MU_PAUSE_RESTART = 0x1000000,
+        BUTTON_STRING_WORLD_MAP = 0x2000000,
+        BUTTON_FILTER_EVENT_OFF = 0x4000000,
+        BUTTON_FILTER_EVENT_ON = 0x8000000,
+        BUTTON_ACTIVATE_GPS = 0x10000000,
+        BUTTON_DEACTIVATE_GPS = 0x20000000,
+        BUTTON_OL_HOST_LAN_SERVER = 0x40000000,
+        LAYOUT_RIGHT_POSITION = 0x80000000,
+};
+</pre><p><strong>Symbols:</strong></p><ul><li><span class='func' id='50CF10'>50CF10 int __thiscall PCHelpBarFNGObject::IsSomethingStillAnimating(<a href='#struct_PCHelpBarFNGObject'>struct PCHelpBarFNGObject</a> *this)</span>
+</li><li><span class='func' id='52D170'>52D170 int __thiscall PCHelpBarFNGObject::GetMessageToSendFromMask(<a href='#struct_PCHelpBarFNGObject'>struct PCHelpBarFNGObject</a> *this, <a href='#enum_PCHELPBARFLAGS'>enum PCHELPBARFLAGS</a> mask)</span>
+  Used when a button is pressed, to send the appropriate message.
 </li><li><span class='func' id='52D330'>52D330 unsigned int __thiscall PCHelpBarFNGObject::GetButtonLanguageKey(<a href='#struct_PCHelpBarFNGObject'>struct PCHelpBarFNGObject</a> *this, int mask)</span>
   See <a class='funcref' href='#54E6E0'>54E6E0:PCHelpBarFNGObject::SyncByMask()</a> for mask. <code>BUTTON_PC_NAV_CONTINUE</code> is returned if it's not any of the other <code>BUTTON_</code> masks.
 </li><li><span class='func' id='52D4F0'>52D4F0 void __thiscall PCHelpBarFNGObject::OnCursorMoved(<a href='#struct_PCHelpBarFNGObject'>struct PCHelpBarFNGObject</a> *this)</span>
@@ -3788,6 +3824,10 @@ visitor.<a href='#structUIElementVisitor_FindByHash_8'>foundUIelement</a> = 0;
 <a class='funcref' href='#504880'>FNGInfo::VisitUIRecursively</a>(this, visitor);
 return visitor.<a href='#structUIElementVisitor_FindByHash_8'>foundUIelement</a>;
 </pre></li><li><span class='func' id='517FE0'>517FE0 int __thiscall FNGInfo::FindElementByFieldC(<a href='#struct_FNGInfo'>struct FNGInfo</a> *this, int searchingUIElementFieldC)</span>
+</li><li><span class='func' id='51CF70'>51CF70 void SetUIElementAnimationByName(<a href='#struct_UIElement'>struct UIElement</a> *uielement, char *animationStr,
+                                           char resetAnimationWhenThisAnimationAlreadyActive)</span>
+</li><li><span class='func' id='51CFE0'>51CFE0 void SetUIElementAnimationByHash(<a href='#struct_UIElement'>struct UIElement</a> *element, unsigned int hash,
+                                           char resetAnimationWhenThisAnimationAlreadyActive)</span>
 </li><li><span class='func' id='51D070'>51D070 void GetUIElementTopLeft(<a href='#struct_UIElement'>struct UIElement</a> *element, float *top, float *left)</span>
   TODO
 </li><li><span class='func' id='51D170'>51D170 void GetUIElementRightBottom(<a href='#struct_UIElement'>struct UIElement</a> *element, float *right, float *bottom)</span>
@@ -3850,7 +3890,8 @@ if (!strcmp(x,"UI_OLEAMessenger.fng") ||
         <a class='fieldref' href='#838528'>someThingKeyboardInput</a> = 0;
 }
 </pre>  </details>
-</li></ul><p style='margin-bottom:0'><a href='#index'>Index</a></p></div><span id='mouseinput'></span><div><h2>Mouse input <a href="#mouseinput">#</a></h2>
+</li></ul><p style='margin-bottom:0'><a href='#index'>Index</a></p></div><span id='input'></span><div><h2>Input <a href="#input">#</a></h2>
+<p style='margin-bottom:0'><a href='#index'>Index</a></p></div><span id='mouseinput'></span><div class='indent' style='margin-left:5em'><p style='margin-top:0'><small><a href='#input'>Input</a> &gt; Mouse input</small></p><h3>Mouse input <a href="#mouseinput">#</a></h3>
 <p>While the canvas is <code>640x480</code>, mouse position seems to be handled mostly
 as <code>([-320,+320],[-240,+240])</code>.
 </p><pre><span id='struct_MouseData'></span>struct MouseData {
@@ -3887,10 +3928,12 @@ struct MouseData *_mouseData = (struct MouseData*) 0x8763D0;
 </pre></li><li><span class='func' id='50CDB0'>50CDB0 int DidCursorPressInRect(struct { float x; float y; } *pos,
   struct { float width; float height; } *size)</span>
   Gets called in one location, but still haven't actually seen it being called. TODO
-</li><li><span class='func' id='52D090'>52D090 DidCursorPressIn??SomethingUI(void *somethingui)</span>
+</li><li><span class='func' id='52D090'>52D090 int IsCursorDownInUIElement(<a href='#struct_UIElement'>struct UIElement</a> *uiElement)</span>
+  Checks if the primary mouse button is held down.
   Delegates to <a class='funcref' href='#52D020'>52D020:IsPointInUIElement()</a>
-</li><li><span class='func' id='52D100'>52D100 DidCursorPressIn??SomethingUI_2(void *something2)</span>
-  same as above, probably for some other type UI element
+</li><li><span class='func' id='52D100'>52D100 int DidCursorPressInUIElement(<a href='#struct_UIElement'>struct UIElement</a> *element)</span>
+  Checks is the primary mouse button is just down.
+  Delegates to <a class='funcref' href='#52D020'>52D020:IsPointInUIElement()</a>
 </li><li><span class='func' id='5BF6E0'>5BF6E0 int __thiscall CreateDinputDevice(<a href='#struct_MouseData'>struct MouseData</a> *this)</span>
   Creates and sets <code><a class='fieldref' href='#8763D0'>8763D0:_mouseData</a>.<a href='#structMouseData_0'>dinputdevice</a></code>
 </li><li><span class='func' id='5BF750'>5BF750 int __thiscall UpdateCursorPosition(<a href='#struct_MouseData'>struct MouseData</a> *this)</span>
@@ -3905,6 +3948,238 @@ struct MouseData *_mouseData = (struct MouseData*) 0x8763D0;
 </li><li><span class='func' id='5C8600'>5C8600 int __thiscall MouseData::ctor(<a href='#struct_MouseData'>struct MouseData</a> *this)</span>
   Called once, from <a class='funcref' href='#77E580'>77E580:init_function_77E580_MouseData_ctor()</a>.
 </li><li><span class='field' id='8763D0'>8763D0 struct MouseData _mouseData</span>
+</li></ul><p style='margin-bottom:0'><a href='#index'>Index</a></p></div><span id='joyinput'></span><div class='indent' style='margin-left:5em'><p style='margin-top:0'><small><a href='#input'>Input</a> &gt; Key (Joy) input</small></p><h3>Key (Joy) input <a href="#joyinput">#</a></h3>
+<pre><span id='struct_JoyData'></span>struct JoyData {
+        int id;
+        char *name;
+};
+</pre><p>List from <a class='fieldref' href='#7FABA8'>7FABA8:joydata</a>:
+</p><pre>00 JOY_EVENT_NULL
+01 JOY_EVENT_TYPE_CHANGED
+02 JOY_EVENT_LIVE_TYPE_CHANGED
+03 JOY_EVENT_EXIT_DEMO_DISC
+04 JOY_EVENT_SCROLL_UP
+05 JOY_EVENT_SCROLL_DOWN
+06 JOY_EVENT_SCROLL_LEFT
+07 JOY_EVENT_SCROLL_RIGHT
+08 JOY_EVENT_START
+09 JOY_EVENT_SELECT
+0A JOY_EVENT_MENU_SELECT
+0B JOY_EVENT_MENU_CANCEL
+0C JOY_EVENT_MENU_BACK
+0D JOY_EVENT_MENU_HELP
+0E JOY_EVENT_MENU_L1
+0F JOY_EVENT_MENU_L2
+10 JOY_EVENT_MENU_R1
+11 JOY_EVENT_MENU_R2
+12 JOY_EVENT_MENU_SQUARE
+13 JOY_EVENT_MENU_ANALOG_LEFT
+14 JOY_EVENT_MENU_ANALOG_RIGHT
+15 JOY_EVENT_MENU_ANALOG_UP
+16 JOY_EVENT_MENU_ANALOG_DOWN
+17 JOY_EVENT_DEBUG_MENU_ACTIVATE
+1E JOY_EVENT_FENG_START
+1F JOY_EVENT_FENG_BUTTON0
+20 JOY_EVENT_FENG_BUTTON1
+21 JOY_EVENT_FENG_BUTTON2
+22 JOY_EVENT_FENG_BUTTON3
+23 JOY_EVENT_FENG_LTRIGGER
+24 JOY_EVENT_FENG_RTRIGGER
+25 JOY_EVENT_FENG_SELECT
+26 JOY_EVENT_FENG_SELECT_ALTERNATE
+27 JOY_EVENT_FENG_CANCEL
+28 JOY_EVENT_FENG_CANCEL_ALTERNATE
+29 JOY_EVENT_FENG_HELP
+2A JOY_EVENT_FENG_PAD_UP
+2B JOY_EVENT_FENG_PAD_DOWN
+2C JOY_EVENT_FENG_PAD_LEFT
+2D JOY_EVENT_FENG_PAD_RIGHT
+2E JOY_EVENT_FENG_PAD_UP_ALTERNATE
+2F JOY_EVENT_FENG_PAD_DOWN_ALTERNATE
+30 JOY_EVENT_FENG_PAD_LEFT_ALTERNATE
+31 JOY_EVENT_FENG_PAD_RIGHT_ALTERNATE
+32 JOY_EVENT_FENG_QUIT
+33 JOY_EVENT_FENG_RACEOPTIONS
+35 JOY_EVENT_SKIP_DEMO_MODE
+36 JOY_EVENT_MAIN_MENU_SELECT_TRANSMISSION
+37 JOY_EVENT_ANY
+38 JOY_EVENT_EXIT_EDIT_TEXT
+39 JOY_EVENT_CLEAR_TEXT
+3A JOY_EVENT_CANCEL_EDIT_TEXT
+3B JOY_EVENT_DELETE_CHAR
+3C JOY_EVENT_ROTATE_LETTER_UP
+3D JOY_EVENT_ROTATE_LETTER_DOWN
+3E JOY_EVENT_PREV_CHAR
+3F JOY_EVENT_NEXT_CHAR
+40 JOY_EVENT_CARSEL_CHANGE_MODE
+41 JOY_EVENT_CARSEL_UNLOCK
+42 JOY_EVENT_CARSEL_ORBIT_LEFT
+43 JOY_EVENT_CARSEL_ORBIT_RIGHT
+44 JOY_EVENT_CARSEL_ORBIT_UP
+45 JOY_EVENT_CARSEL_ORBIT_DOWN
+46 JOY_EVENT_CARSEL_ORBIT_IN
+47 JOY_EVENT_CARSEL_ORBIT_OUT
+48 JOY_EVENT_CARSEL_ORBIT_LEFTRIGHT
+49 JOY_EVENT_CARSEL_ORBIT_UPDOWN
+4A JOY_EVENT_CARSEL_ORBIT_INOUT
+4C JOY_EVENT_CHANGE_DEBUG_CAMERA
+4D JOY_EVENT_DEBUG_CAMERA_ROTATE_RIGHT
+4E JOY_EVENT_DEBUG_CAMERA_ROTATE_LEFT
+4F JOY_EVENT_DEBUG_CAMERA_ROTATE_UP
+50 JOY_EVENT_DEBUG_CAMERA_ROTATE_DOWN
+51 JOY_EVENT_DEBUG_CAMERA_MOVE_CLOSER
+52 JOY_EVENT_DEBUG_CAMERA_MOVE_FARTHER
+53 JOY_EVENT_DEBUG_CAMERA_NEXT_CAR
+54 JOY_EVENT_DEBUG_CAMERA_PREV_CAR
+55 JOY_EVENT_DEBUG_CAMERA_FOLLOW_CHOPPER
+56 JOY_EVENT_DEBUG_CAMERA_TURN_LEFT
+57 JOY_EVENT_DEBUG_CAMERA_TURN_RIGHT
+58 JOY_EVENT_DEBUG_CAMERA_TURN_DOWN
+59 JOY_EVENT_DEBUG_CAMERA_TURN_UP
+5A JOY_EVENT_DEBUG_CAMERA_MOVE_DOWN
+5B JOY_EVENT_DEBUG_CAMERA_MOVE_UP
+5C JOY_EVENT_DEBUG_CAMERA_MOVE_FWD
+5D JOY_EVENT_DEBUG_CAMERA_MOVE_BACK
+5E JOY_EVENT_DEBUG_CAMERA_MOVE_LEFT
+5F JOY_EVENT_DEBUG_CAMERA_MOVE_RIGHT
+60 JOY_EVENT_DEBUG_CAMERA_TURBO
+61 JOY_EVENT_DEBUG_CAMERA_SUPER_TURBO
+62 JOY_EVENT_DEBUG_CAMERA_SLOW
+63 JOY_EVENT_DEBUG_CAMERA_FORWARD_BLINK
+64 JOY_EVENT_DEBUG_CAMERA_BACKWARD_BLINK
+65 JOY_EVENT_DEBUG_CAMERA_DROP_CAR
+66 JOY_EVENT_DEBUG_CAMERA_ROTATE_LEFTRIGHT
+67 JOY_EVENT_DEBUG_CAMERA_ROTATE_UPDOWN
+68 JOY_EVENT_DEBUG_CAMERA_STRAFE_LEFTRIGHT
+69 JOY_EVENT_DEBUG_CAMERA_INOUT
+6A JOY_EVENT_TRACKROUTE_EDITOR_TURN_LEFTRIGHT
+6B JOY_EVENT_TRACKROUTE_EDITOR_TURN_UPDOWN
+6C JOY_EVENT_TRACKROUTE_EDITOR_DRIVE_FORWARDBACKWARD
+6D JOY_EVENT_TRACKROUTE_EDITOR_DRIVE_LEFTRIGHT
+6E JOY_EVENT_TRACKROUTE_EDITOR_DRIVE_TURBO
+6F JOY_EVENT_TRACKROUTE_EDITOR_MOVE_UP
+70 JOY_EVENT_TRACKROUTE_EDITOR_MOVE_DOWN
+71 JOY_EVENT_TRACKROUTE_EDITOR_DPAD_UP
+72 JOY_EVENT_TRACKROUTE_EDITOR_DPAD_DOWN
+73 JOY_EVENT_TRACKROUTE_EDITOR_DPAD_LEFT
+74 JOY_EVENT_TRACKROUTE_EDITOR_DPAD_RIGHT
+75 JOY_EVENT_TRACKROUTE_EDITOR_NEXT_ROUTE
+76 JOY_EVENT_TRACKROUTE_EDITOR_NEXT_POINT
+77 JOY_EVENT_TRACKROUTE_EDITOR_PREV_POINT
+78 JOY_EVENT_TRACKROUTE_EDITOR_RESET_POS
+79 JOY_EVENT_TRACKROUTE_EDITOR_EDIT_RIGHT_WIDTH
+7A JOY_EVENT_TRACKROUTE_EDITOR_EDIT_LEFT_WIDTH
+7B JOY_EVENT_TRACKROUTE_EDITOR_EDIT_POSITION
+7C JOY_EVENT_TOGGLE_TRACK_MARKER
+7D JOY_EVENT_CAMERA_POV_CHANGE
+7E JOY_EVENT_CAMERA_LOOKBACK
+7F JOY_EVENT_ZONE_FREEZE
+80 JOY_EVENT_ZONE_PREVIEW
+81 JOY_EVENT_ZONE_SLOMO
+82 JOY_EVENT_ZONE_WARP
+83 JOY_EVENT_REPLAY_SKIP
+84 JOY_EVENT_REPLAY_PAUSE
+85 JOY_EVENT_REPLAY_PREVIOUS_MARKER
+86 JOY_EVENT_REPLAY_NEXT_MARKER
+87 JOY_EVENT_REPLAY_PLAYBACK_SPEED
+88 JOY_EVENT_REPLAY_CAMERA_ANGLE
+89 JOY_EVENT_REPLAY_CAMERA_TARGET
+8A JOY_EVENT_REPLAY_HELP
+8B JOY_EVENT_REPLAY_HIDE_TIMELINE
+8C JOY_EVENT_REPLAY_MARK_DEMO
+8D JOY_EVENT_REPLAY_TEST_DEMO
+8E JOY_EVENT_REPLAY_ERASE_DEMO
+8F JOY_EVENT_STEER
+90 JOY_EVENT_STEER_ANALOG
+91 JOY_EVENT_THROTTLE
+92 JOY_EVENT_THROTTLE_ANALOG
+93 JOY_EVENT_THROTTLE_ANALOG_ALTERNATE
+94 JOY_EVENT_BRAKE
+95 JOY_EVENT_BRAKE_ANALOG
+96 JOY_EVENT_BRAKE_ANALOG_ALTERNATE
+97 JOY_EVENT_REVERSE
+98 JOY_EVENT_REVERSE_ANALOG
+99 JOY_EVENT_EBRAKE
+9A JOY_EVENT_EBRAKE_ANALOG
+9B JOY_EVENT_SHIFTUP
+9C JOY_EVENT_SHIFTDOWN
+9D JOY_EVENT_SHIFTUP_ALTERNATE
+9E JOY_EVENT_SHIFTDOWN_ALTERNATE
+9F JOY_EVENT_DISENGAGE_CLUTCH
+A0 JOY_EVENT_DISENGAGE_CLUTCH_ANALOG
+A1 JOY_EVENT_RESET_CAR
+A2 JOY_EVENT_HONK_HORN
+A3 JOY_EVENT_NITRO_BOOST
+A4 JOY_EVENT_NITRO_BOOST_ALTERNATE
+A5 JOY_EVENT_HYDRAULIC_BOUNCE
+A6 JOY_EVENT_HYDRAULIC_BOUNCE_SELX
+A7 JOY_EVENT_HYDRAULIC_BOUNCE_SELY
+A8 JOY_EVENT_HYDRAULIC_BOUNCE_ANALOG_UD
+A9 JOY_EVENT_HYDRAULIC_BOUNCE_ANALOG_LR
+AA JOY_EVENT_HYDRAULIC_PRESSURIZE
+AB JOY_EVENT_HYDRAULIC_PRESSURIZE_SELX
+AC JOY_EVENT_HYDRAULIC_PRESSURIZE_SELY
+AD JOY_EVENT_HYDRAULIC_PRESSURIZE_ANALOG_UD
+AE JOY_EVENT_HYDRAULIC_PRESSURIZE_ANALOG_LR
+AF JOY_EVENT_REQUEST_ROADBLOCK
+B0 JOY_EVENT_REQUEST_HELICOPTER
+B1 JOY_EVENT_FIRE_ROCKET
+B2 JOY_EVENT_AIM_ROCKET_LR
+B3 JOY_EVENT_AIM_ROCKET_UD
+B4 JOY_EVENT_AIM_ZOOM
+B5 JOY_EVENT_AUTO_PILOT
+B8 JOY_EVENT_DRAG_RACE_CHANGE_LANE_LEFT
+B9 JOY_EVENT_DRAG_RACE_CHANGE_LANE_RIGHT
+BA JOY_EVENT_DRAG_RACE_CHANGE_LANE_LEFT_ANALOG
+BB JOY_EVENT_DRAG_RACE_CHANGE_LANE_RIGHT_ANALOG
+BC JOY_EVENT_CYCLE_HUD
+BD JOY_EVENT_PAUSE
+BE JOY_EVENT_SKIP
+BF JOY_EVENT_REQUEST_ENGAGE_INFO
+C0 JOY_EVENT_REQUEST_WORLD_MAP
+C1 JOY_EVENT_REQUEST_LEGEND
+C2 JOY_EVENT_REQUEST_MESSAGE_SYSTEM
+D3 JOY_EVENT_CAMERA_EDITOR_HOLD_LEFT
+D4 JOY_EVENT_CAMERA_EDITOR_HOLD_RIGHT
+D5 JOY_EVENT_CAMERA_EDITOR_UP
+D6 JOY_EVENT_CAMERA_EDITOR_DOWN
+D7 JOY_EVENT_CAMERA_EDITOR_LEFT
+D8 JOY_EVENT_CAMERA_EDITOR_RIGHT
+D9 JOY_EVENT_CAMERA_EDITOR_HELP
+DA JOY_EVENT_CAMERA_EDITOR_HIDE
+DB JOY_EVENT_CAMERA_EDITOR_SCREENSHOT
+DC JOY_EVENT_CAMERA_EDITOR_CUT,
+DD JOY_EVENT_CAMERA_EDITOR_COPY
+DE JOY_EVENT_CAMERA_EDITOR_UNDO
+DF JOY_EVENT_CAMERA_EDITOR_PLAY_ANIMATION
+E0 JOY_EVENT_CAMERA_EDITOR_PASTE
+E1 JOY_EVENT_CAMERA_EDITOR_INSERT
+E2 JOY_EVENT_CAMERA_EDITOR_SELECT
+E3 JOY_EVENT_CAMERA_EDITOR_CANCEL
+E4 JOY_EVENT_CAMERA_EDITOR_ALT_1
+E5 JOY_EVENT_CAMERA_EDITOR_CLIP_IN
+E6 JOY_EVENT_CAMERA_EDITOR_CLIP_OUT
+E7 JOY_EVENT_CAMERA_EDITOR_ZOOM_IN
+E8 JOY_EVENT_CAMERA_EDITOR_ZOOM_OUT
+E9 JOY_EVENT_CAMERA_EDITOR_APERTURE_INC
+EA JOY_EVENT_CAMERA_EDITOR_APERTURE_DEC
+EB JOY_EVENT_CAMERA_EDITOR_LETTERBOX_IN
+EC JOY_EVENT_CAMERA_EDITOR_LETTERBOX_OUT
+ED JOY_EVENT_CAMERA_EDITOR_BUBBLE_IN
+EE JOY_EVENT_CAMERA_EDITOR_BUBBLE_OUT
+EF JOY_EVENT_CAMERA_EDITOR_BUBBLE_UP
+F0 JOY_EVENT_CAMERA_EDITOR_BUBBLE_DOWN
+F1 JOY_EVENT_CAMERA_EDITOR_BUBBLE_TILT
+F2 JOY_EVENT_CAMERA_EDITOR_BUBBLE_SPIN
+F3 JOY_EVENT_CAMERA_EDITOR_BUBBLE_LEFT_RIGHT
+F4 JOY_EVENT_CAMERA_EDITOR_BUBBLE_BACK_FORTH
+F5 JOY_EVENT_CAMERA_EDITOR_SHAKE_MAG
+F6 JOY_EVENT_CAMERA_EDITOR_SHAKE_FRQ
+F7 JOY_EVENT_CAMERA_EDITOR_SHUTTLE_LEFT_RIGHT
+F8 JOY_EVENT_CAMERA_EDITOR_SHUTTLE_SPEED
+</pre><p>Patching in the <code>B5 JOY_EVENT_AUTO_PILOT</code> id (by for example replacing the world-map key in career
+to this key), makes it so the player's car starts driving like an AI car.
+</p><p><strong>Symbols:</strong></p><ul><li><span class='field' id='7FABA8'>7FABA8 <a href='#struct_JoyData'>struct JoyData</a> joydata[223]</span>
 </li></ul><p style='margin-bottom:0'><a href='#index'>Index</a></p></div><span id='cheats'></span><div><h2>Cheats <a href="#cheats">#</a></h2>
 <pre><span id='struct_CheatScreenData'></span>struct CheatScreenData {
 	void **ppFunc;
