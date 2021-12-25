@@ -5113,7 +5113,8 @@ F8 JOY_EVENT_CAMERA_EDITOR_SHUTTLE_SPEED
 .pop pre
 
 Patching in the {B5 JOY_EVENT_AUTO_PILOT} id (by for example replacing the world-map key in career      ||| code
-to this key), makes it so the player's car starts driving like an AI car.
+to this key), makes it so the player's car starts driving like an AI car. Example in
+{nfsu2-re-hooks/switch-joyids-in-career.c}.                                                             ||| hookfileref
 
 .push symbols
 - {7FABA8 {struct JoyData} joydata[223]}                                                                ||| field,refto
