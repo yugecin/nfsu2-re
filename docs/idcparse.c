@@ -1,0 +1,321 @@
+/**
+Code to naively parse an IDA .idc file
+*/
+
+#define IDCP_MAX_TOKENS 6000000
+
+/*verbose*/
+#if 0
+#define idcp_dprintf(...) printf(__VA_ARGS__)
+#else
+#define idcp_dprintf(...)
+#endif
+/*even more verbose*/
+#if 0
+#define idcp_dprintf1(...) printf(__VA_ARGS__)
+#else
+#define idcp_dprintf1(...)
+#endif
+
+#define IDCP_TOKENTYPE_IDENTIFIER 1
+#define IDCP_TOKENTYPE_LPAREN 2
+#define IDCP_TOKENTYPE_RPAREN 3
+#define IDCP_TOKENTYPE_LBRACE 4
+#define IDCP_TOKENTYPE_RBRACE 5
+#define IDCP_TOKENTYPE_COMMA 6
+#define IDCP_TOKENTYPE_SEMICOLON 7
+#define IDCP_TOKENTYPE_PIPE 8
+#define IDCP_TOKENTYPE_TILDE 9
+#define IDCP_TOKENTYPE_AMP 10
+#define IDCP_TOKENTYPE_STRING 11
+#define IDCP_TOKENTYPE_NUMBER 12
+#define IDCP_TOKENTYPE_HEXNUMBER 13
+#define IDCP_TOKENTYPE_EQ 14
+#define IDCP_TOKENTYPE_PLUS 15
+
+struct idcp_token {
+	char type;
+	union {
+		struct {
+			char *name;
+			short name_len;
+		} identifier;
+		struct {
+			char *value;
+			short value_len;
+		} string;
+		struct {
+			int value;
+			char negative;
+		} integer;
+	} data;
+};
+
+struct idcparse {
+	int num_tokens;
+	struct idcp_token tokens[IDCP_MAX_TOKENS];
+	char *token_str_pool;
+	char *token_str_pool_ptr;
+};
+
+static
+struct idcp_token *idcp_get_next_token(struct idcparse *idcp)
+{
+	assert(((void)"hit IDCP_MAX_TOKENS limit", idcp->num_tokens < IDCP_MAX_TOKENS));
+	return idcp->tokens + idcp->num_tokens++;
+}
+
+#define IDCP_CHARTYPE_IDENTIFIER 1
+#define IDCP_CHARTYPE_IDENTIFIER_NOTFIRST 2
+#define IDCP_CHARTYPE_NUMBER 4
+#define IDCP_CHARTYPE_HEXNUMBER 8
+/**
+May exit the program.
+
+Things that are not accounted for:
+- assuming LF or CRLF line endings, CR alone won't work (only used for reporting errors though)
+- lines ending with \
+- many operators (|| && + - etc), because that stuff does not usually occur in database-dumped idc files
+- ...a whole bunch more stuff probably
+
+@param idcp an uninitialized instance of struct idcparse
+*/
+void idcparse(struct idcparse *idcp, char *chars, int length)
+{
+	unsigned char charmap[255];
+	struct idcp_token *token;
+	int i, line_number, charsleft;
+	char c, c_type, *tmp_str_ptr;
+
+	charsleft = length;
+
+	/*init idcp*/
+	memset(idcp, 0, sizeof(struct idcparse));
+	/*Mallocing a token str pool size of 'length' should mean we'll never overrun that buffer.*/
+	idcp->token_str_pool = idcp->token_str_pool_ptr = malloc(length);
+	assert(((void)"failed str pool malloc", idcp->token_str_pool));
+
+	/*init charmap for parsing*/
+	memset(charmap, 0, sizeof(charmap));
+	for (i = 'a'; i <= 'z'; i++) {
+		charmap[i] |= IDCP_CHARTYPE_IDENTIFIER | IDCP_CHARTYPE_IDENTIFIER_NOTFIRST;
+	}
+	for (i = 'A'; i <= 'Z'; i++) {
+		charmap[i] |= IDCP_CHARTYPE_IDENTIFIER | IDCP_CHARTYPE_IDENTIFIER_NOTFIRST;
+	}
+	for (i = '0'; i <= '9'; i++) {
+		charmap[i] |= IDCP_CHARTYPE_IDENTIFIER_NOTFIRST | IDCP_CHARTYPE_NUMBER;
+	}
+	for (i = 'a'; i <= 'f'; i++) {
+		charmap[i] |= IDCP_CHARTYPE_HEXNUMBER;
+	}
+	for (i = 'A'; i <= 'F'; i++) {
+		charmap[i] |= IDCP_CHARTYPE_HEXNUMBER;
+	}
+	charmap['_'] = IDCP_CHARTYPE_IDENTIFIER;
+	charmap['@'] = IDCP_CHARTYPE_IDENTIFIER | IDCP_CHARTYPE_IDENTIFIER_NOTFIRST;
+
+	line_number = 1;
+	/*char reading loop*/
+	do {
+		c = *chars;
+		chars++; charsleft--;
+havechar:
+		c_type = charmap[c];
+
+		if (c == ' ' || c == '\t' || c == '\r') {
+			;
+		} else if (c == '\n') {
+			line_number++;
+		}
+		/*macro*/
+		else if (c == '#') {
+			idcp_dprintf("%d: found #...", line_number);
+			/*we ignore these for now, skip until next line*/
+			while (charsleft && c != '\n') {
+				c = *chars;
+				chars++; charsleft--;
+			}
+			idcp_dprintf(" skipped macro\n");
+			line_number++;
+		}
+		/*line comment*/
+		else if (c == '/') {
+			idcp_dprintf("%d: found /...", line_number);
+			assert(((void)"single slash at EOF", charsleft));
+			assert(((void)"single slash followed by non-slash", *chars == '/'));
+			while (charsleft && c != '\n') {
+				c = *chars;
+				chars++; charsleft--;
+			}
+			idcp_dprintf("skipped line comment\n");
+			line_number++;
+		}
+		/*identifier*/
+		else if (c_type & IDCP_CHARTYPE_IDENTIFIER) {
+			token = idcp_get_next_token(idcp);
+			token->type = IDCP_TOKENTYPE_IDENTIFIER;
+			token->data.identifier.name = tmp_str_ptr = idcp->token_str_pool_ptr;
+			goto ident_first_char;
+			while (charsleft) {
+				c = *chars;
+				chars++; charsleft--;
+				if (!(charmap[c] & (IDCP_CHARTYPE_IDENTIFIER | IDCP_CHARTYPE_IDENTIFIER_NOTFIRST))) {
+					break;
+				}
+ident_first_char:
+				*tmp_str_ptr = c; tmp_str_ptr++;
+			}
+			*tmp_str_ptr = 0;
+			idcp->token_str_pool_ptr = tmp_str_ptr + 1;
+			token->data.identifier.name_len = tmp_str_ptr - token->data.identifier.name;
+			idcp_dprintf("%d: T_IDENTIFIER '%s'\n", line_number, token->data.identifier.name);
+			if (charsleft) {
+				goto havechar;
+			}
+		}
+		/*possibly negative number*/
+		else if (c == '-' && charsleft && charmap[*chars] & IDCP_CHARTYPE_NUMBER) {
+			token = idcp_get_next_token(idcp);
+			token->data.integer.negative = 1;
+			tmp_str_ptr = idcp->token_str_pool_ptr;
+			*tmp_str_ptr = c; tmp_str_ptr++;
+			c = *chars; c_type = charmap[c];
+			chars++; charsleft--;
+			goto parse_chartype_token;
+		}
+		/*number*/
+		else if (c_type & IDCP_CHARTYPE_NUMBER) {
+			token = idcp_get_next_token(idcp);
+			token->data.integer.negative = 0;
+			tmp_str_ptr = idcp->token_str_pool_ptr;
+parse_chartype_token:
+			*tmp_str_ptr = c; tmp_str_ptr++;
+			if (charsleft && c == '0' && (*chars == 'x' || *chars == 'X')) {
+				token->type = IDCP_TOKENTYPE_HEXNUMBER;
+				i = IDCP_CHARTYPE_NUMBER | IDCP_CHARTYPE_HEXNUMBER;
+				*tmp_str_ptr = *chars; tmp_str_ptr++;
+				chars++; charsleft--;
+			} else {
+				token->type = IDCP_TOKENTYPE_NUMBER;
+				i = IDCP_CHARTYPE_NUMBER;
+			}
+			while (charsleft) {
+				c = *chars;
+				chars++; charsleft--;
+				if (!(charmap[c] & i)) {
+					break;
+				}
+				*tmp_str_ptr = c; tmp_str_ptr++;
+			}
+			*tmp_str_ptr = 0;
+			tmp_str_ptr = idcp->token_str_pool_ptr;
+			if (*tmp_str_ptr == '-') {
+				tmp_str_ptr++;
+			}
+			token->data.integer.value = 0;
+			if (token->type == IDCP_TOKENTYPE_HEXNUMBER) {
+				tmp_str_ptr += 2;
+				while (*tmp_str_ptr) {
+					token->data.integer.value <<= 4;
+					if ('a' <= *tmp_str_ptr && *tmp_str_ptr <= 'f') {
+						token->data.integer.value |= *tmp_str_ptr - 'a' + 10;
+					} else if ('A' <= *tmp_str_ptr && *tmp_str_ptr <= 'F') {
+						token->data.integer.value |= *tmp_str_ptr - 'A' + 10;
+					} else {
+						token->data.integer.value |= *tmp_str_ptr - '0';
+					}
+					tmp_str_ptr++;
+				}
+				if (token->data.integer.negative) {
+					token->data.integer.value = -token->data.integer.value;
+				}
+				idcp_dprintf("%d: T_HEXNUMBER '%s' %x\n",
+					line_number, idcp->token_str_pool_ptr, token->data.integer.value);
+			} else {
+				while (*tmp_str_ptr) {
+					token->data.integer.value *= 10;
+					token->data.integer.value += *tmp_str_ptr - '0';
+					tmp_str_ptr++;
+				}
+				if (token->data.integer.negative) {
+					token->data.integer.value = -token->data.integer.value;
+				}
+				idcp_dprintf("%d: T_NUMBER '%s' %d\n",
+					line_number, idcp->token_str_pool_ptr, token->data.integer.value);
+			}
+			if (charsleft) {
+				goto havechar;
+			}
+		}
+		/*string*/
+		else if (c == '"') {
+			token = idcp_get_next_token(idcp);
+			token->type = IDCP_TOKENTYPE_STRING;
+			token->data.string.value = tmp_str_ptr = idcp->token_str_pool_ptr;
+			for (;;) {
+				assert(((void)"EOF while string is open", charsleft));
+				c = *chars;
+				chars++; charsleft--;
+				if (c == '\\') {
+					assert(((void)"EOF while escape char in string", charsleft));
+					if (*chars == '"') {
+						c = '"';
+					} else if (*chars == 'n') {
+						c = '\n';
+					} else {
+						assert(((void)"unexpected character after \\ in string", *chars));
+					}
+					c = '"';
+					chars++; charsleft--;
+				} else if (c == '"') {
+					break;
+				}
+				*tmp_str_ptr = c; tmp_str_ptr++;
+			}
+			*tmp_str_ptr = 0;
+			idcp->token_str_pool_ptr = tmp_str_ptr + 1;
+			token->data.string.value_len = tmp_str_ptr - token->data.string.value;
+			idcp_dprintf("%d: T_STRING '%s'\n", line_number, token->data.string.value);
+		}
+		else if (c == '(') {
+			idcp_get_next_token(idcp)->type = IDCP_TOKENTYPE_LPAREN;
+			idcp_dprintf1("%d: T_LPAREN\n", line_number);
+		} else if (c == ')') {
+			idcp_get_next_token(idcp)->type = IDCP_TOKENTYPE_RPAREN;
+			idcp_dprintf1("%d: T_RPAREN\n", line_number);
+		} else if (c == '{') {
+			idcp_get_next_token(idcp)->type = IDCP_TOKENTYPE_LBRACE;
+			idcp_dprintf1("%d: T_LBRACE\n", line_number);
+		} else if (c == '}') {
+			idcp_get_next_token(idcp)->type = IDCP_TOKENTYPE_RBRACE;
+			idcp_dprintf1("%d: T_RBRACE\n", line_number);
+		} else if (c == ',') {
+			idcp_get_next_token(idcp)->type = IDCP_TOKENTYPE_COMMA;
+			idcp_dprintf1("%d: T_COMMA\n", line_number);
+		} else if (c == ';') {
+			idcp_get_next_token(idcp)->type = IDCP_TOKENTYPE_SEMICOLON;
+			idcp_dprintf1("%d: T_SEMICOLON\n", line_number);
+		} else if (c == '=') {
+			idcp_get_next_token(idcp)->type = IDCP_TOKENTYPE_EQ;
+			idcp_dprintf1("%d: T_EQ\n", line_number);
+		} else if (c == '+') {
+			idcp_get_next_token(idcp)->type = IDCP_TOKENTYPE_PLUS;
+			idcp_dprintf1("%d: T_PLUS\n", line_number);
+		} else if (c == '|') {
+			idcp_get_next_token(idcp)->type = IDCP_TOKENTYPE_PIPE;
+			idcp_dprintf1("%d: T_PIPE\n", line_number);
+		} else if (c == '~') {
+			idcp_get_next_token(idcp)->type = IDCP_TOKENTYPE_TILDE;
+			idcp_dprintf1("%d: T_TILDE\n", line_number);
+		} else if (c == '&') {
+			idcp_get_next_token(idcp)->type = IDCP_TOKENTYPE_AMP;
+			idcp_dprintf1("%d: T_AMP\n", line_number);
+		} else {
+			printf("%d: unexpected character '%c'\n", line_number, c);
+			assert(0);
+		}
+	} while (charsleft);
+
+	printf("%d tokens %d lines\n", idcp->num_tokens, line_number);
+}
