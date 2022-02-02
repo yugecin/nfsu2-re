@@ -5,17 +5,47 @@ Code to naively parse an IDA .idc file
 #define IDCP_MAX_TOKENS 6000000
 #define IDCP_MAX_FUNCTIONS 500
 
+#define IDCP_VERBOSE_LEVEL 3
+
 /*verbose*/
-#if 0
-#define idcp_dprintf(...) printf(__VA_ARGS__)
-#else
-#define idcp_dprintf(...)
-#endif
-/*even more verbose*/
-#if 0
+#if IDCP_VERBOSE_LEVEL == 5
+#define idcp_dprintf5(...) printf(__VA_ARGS__)
+#define idcp_dprintf4(...) printf(__VA_ARGS__)
+#define idcp_dprintf3(...) printf(__VA_ARGS__)
+#define idcp_dprintf2(...) printf(__VA_ARGS__)
 #define idcp_dprintf1(...) printf(__VA_ARGS__)
-#else
+#elif IDCP_VERBOSE_LEVEL == 4
+#define idcp_dprintf5(...)
+#define idcp_dprintf4(...) printf(__VA_ARGS__)
+#define idcp_dprintf3(...) printf(__VA_ARGS__)
+#define idcp_dprintf2(...) printf(__VA_ARGS__)
+#define idcp_dprintf1(...) printf(__VA_ARGS__)
+#elif IDCP_VERBOSE_LEVEL == 3
+#define idcp_dprintf5(...)
+#define idcp_dprintf4(...)
+#define idcp_dprintf3(...) printf(__VA_ARGS__)
+#define idcp_dprintf2(...) printf(__VA_ARGS__)
+#define idcp_dprintf1(...) printf(__VA_ARGS__)
+#elif IDCP_VERBOSE_LEVEL == 2
+#define idcp_dprintf5(...)
+#define idcp_dprintf4(...)
+#define idcp_dprintf3(...)
+#define idcp_dprintf2(...) printf(__VA_ARGS__)
+#define idcp_dprintf1(...) printf(__VA_ARGS__)
+#elif IDCP_VERBOSE_LEVEL == 1
+#define idcp_dprintf5(...)
+#define idcp_dprintf4(...)
+#define idcp_dprintf3(...)
+#define idcp_dprintf2(...)
+#define idcp_dprintf1(...) printf(__VA_ARGS__)
+#elif IDCP_VERBOSE_LEVEL == 0
+#define idcp_dprintf5(...)
+#define idcp_dprintf4(...)
+#define idcp_dprintf3(...)
+#define idcp_dprintf2(...)
 #define idcp_dprintf1(...)
+#else
+#error invalid IDCP_VERBOSE_LEVEL value
 #endif
 
 #define IDCP_TOKENTYPE_IDENTIFIER 1
@@ -105,10 +135,10 @@ void idcp_print_function_info(struct idcparse *idcp)
 	struct idcp_function *f;
 	int i;
 
-	idcp_dprintf1("%d functions\n", idcp->num_functions);
+	idcp_dprintf3("%d functions\n", idcp->num_functions);
 	for (i = 0; i < idcp->num_functions; i++) {
 		f = idcp->functions + i;
-		idcp_dprintf1("  function %s start %d end %d\n", f->name, f->start_token_idx, f->end_token_idx);
+		idcp_dprintf4("  function %s start %d end %d\n", f->name, f->start_token_idx, f->end_token_idx);
 	}
 }
 /*jeanine:p:i:1;p:4;a:r;x:125.44;*/
@@ -180,25 +210,25 @@ havechar:
 		}
 		/*macro*/
 		else if (c == '#') {
-			idcp_dprintf("%d: found #...", line_number);
+			idcp_dprintf5("%d: found #...", line_number);
 			/*we ignore these for now, skip until next line*/
 			while (charsleft && c != '\n') {
 				c = *chars;
 				chars++; charsleft--;
 			}
-			idcp_dprintf(" skipped macro\n");
+			idcp_dprintf5(" skipped macro\n");
 			line_number++;
 		}
 		/*line comment*/
 		else if (c == '/') {
-			idcp_dprintf("%d: found /...", line_number);
+			idcp_dprintf5("%d: found /...", line_number);
 			assert(((void)"single slash at EOF", charsleft));
 			assert(((void)"single slash followed by non-slash", *chars == '/'));
 			while (charsleft && c != '\n') {
 				c = *chars;
 				chars++; charsleft--;
 			}
-			idcp_dprintf("skipped line comment\n");
+			idcp_dprintf5("skipped line comment\n");
 			line_number++;
 		}
 		/*identifier*/
@@ -219,7 +249,7 @@ ident_first_char:
 			*tmp_str_ptr = 0;
 			idcp->token_str_pool_ptr = tmp_str_ptr + 1;
 			token->data.identifier.name_len = tmp_str_ptr - token->data.identifier.name;
-			idcp_dprintf("%d: T_IDENTIFIER '%s'\n", line_number, token->data.identifier.name);
+			idcp_dprintf5("%d: T_IDENTIFIER '%s'\n", line_number, token->data.identifier.name);
 			if (charsleft) {
 				goto havechar;
 			}
@@ -280,7 +310,7 @@ parse_chartype_token:
 				if (token->data.integer.negative) {
 					token->data.integer.value = -token->data.integer.value;
 				}
-				idcp_dprintf("%d: T_HEXNUMBER '%s' %x\n",
+				idcp_dprintf5("%d: T_HEXNUMBER '%s' %x\n",
 					line_number, idcp->token_str_pool_ptr, token->data.integer.value);
 			} else {
 				while (*tmp_str_ptr) {
@@ -291,7 +321,7 @@ parse_chartype_token:
 				if (token->data.integer.negative) {
 					token->data.integer.value = -token->data.integer.value;
 				}
-				idcp_dprintf("%d: T_NUMBER '%s' %d\n",
+				idcp_dprintf5("%d: T_NUMBER '%s' %d\n",
 					line_number, idcp->token_str_pool_ptr, token->data.integer.value);
 			}
 			if (charsleft) {
@@ -326,17 +356,17 @@ parse_chartype_token:
 			*tmp_str_ptr = 0;
 			idcp->token_str_pool_ptr = tmp_str_ptr + 1;
 			token->data.string.value_len = tmp_str_ptr - token->data.string.value;
-			idcp_dprintf("%d: T_STRING '%s'\n", line_number, token->data.string.value);
+			idcp_dprintf5("%d: T_STRING '%s'\n", line_number, token->data.string.value);
 		}
 		else if (c == '(') {
 			idcp_get_next_token(idcp)->type = IDCP_TOKENTYPE_LPAREN;
-			idcp_dprintf1("%d: T_LPAREN\n", line_number);
+			idcp_dprintf5("%d: T_LPAREN\n", line_number);
 		} else if (c == ')') {
 			idcp_get_next_token(idcp)->type = IDCP_TOKENTYPE_RPAREN;
-			idcp_dprintf1("%d: T_RPAREN\n", line_number);
+			idcp_dprintf5("%d: T_RPAREN\n", line_number);
 		} else if (c == '{') {
 			idcp_get_next_token(idcp)->type = IDCP_TOKENTYPE_LBRACE;
-			idcp_dprintf1("%d: T_LBRACE\n", line_number);
+			idcp_dprintf5("%d: T_LBRACE\n", line_number);
 			if (!brace_depth) {
 				tmp_str_ptr = idcp_find_function_name_from_lbrace_token(idcp);/*jeanine:r:i:2;*/
 				if (tmp_str_ptr) {
@@ -350,7 +380,7 @@ parse_chartype_token:
 			brace_depth++;
 		} else if (c == '}') {
 			idcp_get_next_token(idcp)->type = IDCP_TOKENTYPE_RBRACE;
-			idcp_dprintf1("%d: T_RBRACE\n", line_number);
+			idcp_dprintf5("%d: T_RBRACE\n", line_number);
 			brace_depth--;
 			if (!brace_depth && current_function) {
 				current_function->end_token_idx = idcp->num_tokens;
@@ -358,31 +388,31 @@ parse_chartype_token:
 			}
 		} else if (c == ',') {
 			idcp_get_next_token(idcp)->type = IDCP_TOKENTYPE_COMMA;
-			idcp_dprintf1("%d: T_COMMA\n", line_number);
+			idcp_dprintf5("%d: T_COMMA\n", line_number);
 		} else if (c == ';') {
 			idcp_get_next_token(idcp)->type = IDCP_TOKENTYPE_SEMICOLON;
-			idcp_dprintf1("%d: T_SEMICOLON\n", line_number);
+			idcp_dprintf5("%d: T_SEMICOLON\n", line_number);
 		} else if (c == '=') {
 			idcp_get_next_token(idcp)->type = IDCP_TOKENTYPE_EQ;
-			idcp_dprintf1("%d: T_EQ\n", line_number);
+			idcp_dprintf5("%d: T_EQ\n", line_number);
 		} else if (c == '+') {
 			idcp_get_next_token(idcp)->type = IDCP_TOKENTYPE_PLUS;
-			idcp_dprintf1("%d: T_PLUS\n", line_number);
+			idcp_dprintf5("%d: T_PLUS\n", line_number);
 		} else if (c == '|') {
 			idcp_get_next_token(idcp)->type = IDCP_TOKENTYPE_PIPE;
-			idcp_dprintf1("%d: T_PIPE\n", line_number);
+			idcp_dprintf5("%d: T_PIPE\n", line_number);
 		} else if (c == '~') {
 			idcp_get_next_token(idcp)->type = IDCP_TOKENTYPE_TILDE;
-			idcp_dprintf1("%d: T_TILDE\n", line_number);
+			idcp_dprintf5("%d: T_TILDE\n", line_number);
 		} else if (c == '&') {
 			idcp_get_next_token(idcp)->type = IDCP_TOKENTYPE_AMP;
-			idcp_dprintf1("%d: T_AMP\n", line_number);
+			idcp_dprintf5("%d: T_AMP\n", line_number);
 		} else {
 			printf("%d: unexpected character '%c'\n", line_number, c);
 			assert(0);
 		}
 	} while (charsleft);
 
-	printf("%d tokens %d lines\n", idcp->num_tokens, line_number);
+	idcp_dprintf1("%d tokens %d lines\n", idcp->num_tokens, line_number);
 	idcp_print_function_info(idcp);/*jeanine:r:i:3;*/
 }
