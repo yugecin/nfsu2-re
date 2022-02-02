@@ -147,17 +147,16 @@ void idcp_print_function_info(struct idcparse *idcp)
 #define IDCP_CHARTYPE_NUMBER 4
 #define IDCP_CHARTYPE_HEXNUMBER 8
 /**
-May exit the program.
+Also populates idcp->functions/idcp->num_functions
 
 Things that are not accounted for:
 - assuming LF or CRLF line endings, CR alone won't work (only used for reporting errors though)
 - lines ending with \
 - many operators (|| && + - etc), because that stuff does not usually occur in database-dumped idc files
 - ...a whole bunch more stuff probably
-
-@param idcp an uninitialized instance of struct idcparse
 */
-void idcparse(struct idcparse *idcp, char *chars, int length)
+static
+int idcparse_tokenize(struct idcparse *idcp, char *chars, int length)
 {
 	unsigned char charmap[255];
 	struct idcp_token *token;
@@ -168,12 +167,6 @@ void idcparse(struct idcparse *idcp, char *chars, int length)
 	current_function = NULL;
 	brace_depth = 0;
 	charsleft = length;
-
-	/*init idcp*/
-	memset(idcp, 0, sizeof(struct idcparse));
-	/*Mallocing a token str pool size of 'length' should mean we'll never overrun that buffer.*/
-	idcp->token_str_pool = idcp->token_str_pool_ptr = malloc(length);
-	assert(((void)"failed str pool malloc", idcp->token_str_pool));
 
 	/*init charmap for parsing*/
 	memset(charmap, 0, sizeof(charmap));
@@ -413,6 +406,25 @@ parse_chartype_token:
 		}
 	} while (charsleft);
 
+	return line_number;
+}
+/*jeanine:p:i:4;p:0;a:t;x:3.33;*/
+/**
+May exit the program.
+
+@param idcp an uninitialized instance of struct idcparse
+*/
+void idcparse(struct idcparse *idcp, char *chars, int length)
+{
+	int line_number;
+
+	/*init idcp*/
+	memset(idcp, 0, sizeof(struct idcparse));
+	/*Mallocing a token str pool size of 'length' should mean we'll never overrun that buffer.*/
+	idcp->token_str_pool = idcp->token_str_pool_ptr = malloc(length);
+	assert(((void)"failed str pool malloc", idcp->token_str_pool));
+
+	line_number = idcparse_tokenize(idcp, chars, length);/*jeanine:r:i:1;*/
 	idcp_dprintf1("%d tokens %d lines\n", idcp->num_tokens, line_number);
 	idcp_print_function_info(idcp);/*jeanine:r:i:3;*/
 }
