@@ -3,6 +3,7 @@ Code to naively parse an IDA .idc file
 */
 
 #define IDCP_MAX_TOKENS 6000000
+#define IDCP_MAX_FUNCTIONS 500
 
 /*verbose*/
 #if 0
@@ -51,9 +52,19 @@ struct idcp_token {
 	} data;
 };
 
+struct idcp_function {
+	char *name;
+	/**first token in idcparse.tokens that is part of the function*/
+	int start_token_idx;
+	/**last token in idcparse.tokens that is part of the function, exclusive*/
+	int end_token_idx;
+};
+
 struct idcparse {
 	int num_tokens;
 	struct idcp_token tokens[IDCP_MAX_TOKENS];
+	int num_functions;
+	struct idcp_function functions[IDCP_MAX_FUNCTIONS];
 	char *token_str_pool;
 	char *token_str_pool_ptr;
 };
@@ -64,7 +75,43 @@ struct idcp_token *idcp_get_next_token(struct idcparse *idcp)
 	assert(((void)"hit IDCP_MAX_TOKENS limit", idcp->num_tokens < IDCP_MAX_TOKENS));
 	return idcp->tokens + idcp->num_tokens++;
 }
+/*jeanine:p:i:2;p:1;a:r;x:3.33;*/
+static
+char *idcp_find_function_name_from_lbrace_token(struct idcparse *idcp)
+{
+	int i, type;
 
+	/*current token is LBRACE+1*/
+	i = idcp->num_tokens - 2;
+	if (idcp->tokens[i].type == IDCP_TOKENTYPE_RPAREN) {
+		for (;;) {
+			i--;
+			assert(i);
+			type = idcp->tokens[i].type;
+			if (type == IDCP_TOKENTYPE_LPAREN) {
+				assert(i);
+				assert(idcp->tokens[i - 1].type == IDCP_TOKENTYPE_IDENTIFIER);
+				return idcp->tokens[i - 1].data.identifier.name;
+			}
+			assert(type == IDCP_TOKENTYPE_IDENTIFIER || type == IDCP_TOKENTYPE_COMMA);
+		}
+	}
+	return NULL;
+}
+/*jeanine:p:i:3;p:4;a:r;x:6.11;y:2.94;*/
+static
+void idcp_print_function_info(struct idcparse *idcp)
+{
+	struct idcp_function *f;
+	int i;
+
+	idcp_dprintf1("%d functions\n", idcp->num_functions);
+	for (i = 0; i < idcp->num_functions; i++) {
+		f = idcp->functions + i;
+		idcp_dprintf1("  function %s start %d end %d\n", f->name, f->start_token_idx, f->end_token_idx);
+	}
+}
+/*jeanine:p:i:1;p:4;a:r;x:125.44;*/
 #define IDCP_CHARTYPE_IDENTIFIER 1
 #define IDCP_CHARTYPE_IDENTIFIER_NOTFIRST 2
 #define IDCP_CHARTYPE_NUMBER 4
@@ -84,9 +131,12 @@ void idcparse(struct idcparse *idcp, char *chars, int length)
 {
 	unsigned char charmap[255];
 	struct idcp_token *token;
-	int i, line_number, charsleft;
+	struct idcp_function *current_function;
+	int i, line_number, charsleft, brace_depth;
 	char c, c_type, *tmp_str_ptr;
 
+	current_function = NULL;
+	brace_depth = 0;
 	charsleft = length;
 
 	/*init idcp*/
@@ -287,9 +337,25 @@ parse_chartype_token:
 		} else if (c == '{') {
 			idcp_get_next_token(idcp)->type = IDCP_TOKENTYPE_LBRACE;
 			idcp_dprintf1("%d: T_LBRACE\n", line_number);
+			if (!brace_depth) {
+				tmp_str_ptr = idcp_find_function_name_from_lbrace_token(idcp);/*jeanine:r:i:2;*/
+				if (tmp_str_ptr) {
+					assert(((void)"hit IDCP_MAX_FUNCTIONS limit", idcp->num_functions < IDCP_MAX_FUNCTIONS));
+					current_function = idcp->functions + idcp->num_functions++;
+					current_function->name = tmp_str_ptr;
+					current_function->start_token_idx = idcp->num_tokens;
+					current_function->end_token_idx = idcp->num_tokens;
+				}
+			}
+			brace_depth++;
 		} else if (c == '}') {
 			idcp_get_next_token(idcp)->type = IDCP_TOKENTYPE_RBRACE;
 			idcp_dprintf1("%d: T_RBRACE\n", line_number);
+			brace_depth--;
+			if (!brace_depth && current_function) {
+				current_function->end_token_idx = idcp->num_tokens;
+				current_function = NULL;
+			}
 		} else if (c == ',') {
 			idcp_get_next_token(idcp)->type = IDCP_TOKENTYPE_COMMA;
 			idcp_dprintf1("%d: T_COMMA\n", line_number);
@@ -318,4 +384,5 @@ parse_chartype_token:
 	} while (charsleft);
 
 	printf("%d tokens %d lines\n", idcp->num_tokens, line_number);
+	idcp_print_function_info(idcp);/*jeanine:r:i:3;*/
 }
