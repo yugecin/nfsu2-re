@@ -65,6 +65,7 @@ Code to naively parse an IDA .idc file
 #define IDCP_TOKENTYPE_PLUS 15
 
 struct idcp_token {
+	int line;
 	char type;
 	union {
 		struct {
@@ -97,13 +98,18 @@ struct idcparse {
 	struct idcp_function functions[IDCP_MAX_FUNCTIONS];
 	char *token_str_pool;
 	char *token_str_pool_ptr;
+	int num_lines;
 };
 
 static
 struct idcp_token *idcp_get_next_token(struct idcparse *idcp)
 {
+	struct idcp_token *token;
+
 	assert(((void)"hit IDCP_MAX_TOKENS limit", idcp->num_tokens < IDCP_MAX_TOKENS));
-	return idcp->tokens + idcp->num_tokens++;
+	token = idcp->tokens + idcp->num_tokens++;
+	token->line = idcp->num_lines;
+	return token;
 }
 /*jeanine:p:i:2;p:1;a:r;x:3.33;*/
 static
@@ -156,12 +162,12 @@ Things that are not accounted for:
 - ...a whole bunch more stuff probably
 */
 static
-int idcparse_tokenize(struct idcparse *idcp, char *chars, int length)
+void idcparse_tokenize(struct idcparse *idcp, char *chars, int length)
 {
 	unsigned char charmap[255];
 	struct idcp_token *token;
 	struct idcp_function *current_function;
-	int i, line_number, charsleft, brace_depth;
+	int i, charsleft, brace_depth;
 	char c, c_type, *tmp_str_ptr;
 
 	current_function = NULL;
@@ -188,7 +194,7 @@ int idcparse_tokenize(struct idcparse *idcp, char *chars, int length)
 	charmap['_'] = IDCP_CHARTYPE_IDENTIFIER;
 	charmap['@'] = IDCP_CHARTYPE_IDENTIFIER | IDCP_CHARTYPE_IDENTIFIER_NOTFIRST;
 
-	line_number = 1;
+	idcp->num_lines = 1;
 	/*char reading loop*/
 	do {
 		c = *chars;
@@ -199,22 +205,22 @@ havechar:
 		if (c == ' ' || c == '\t' || c == '\r') {
 			;
 		} else if (c == '\n') {
-			line_number++;
+			idcp->num_lines++;
 		}
 		/*macro*/
 		else if (c == '#') {
-			idcp_dprintf5("%d: found #...", line_number);
+			idcp_dprintf5("%d: found #...", idcp->num_lines);
 			/*we ignore these for now, skip until next line*/
 			while (charsleft && c != '\n') {
 				c = *chars;
 				chars++; charsleft--;
 			}
 			idcp_dprintf5(" skipped macro\n");
-			line_number++;
+			idcp->num_lines++;
 		}
 		/*line comment*/
 		else if (c == '/') {
-			idcp_dprintf5("%d: found /...", line_number);
+			idcp_dprintf5("%d: found /...", idcp->num_lines);
 			assert(((void)"single slash at EOF", charsleft));
 			assert(((void)"single slash followed by non-slash", *chars == '/'));
 			while (charsleft && c != '\n') {
@@ -222,7 +228,7 @@ havechar:
 				chars++; charsleft--;
 			}
 			idcp_dprintf5("skipped line comment\n");
-			line_number++;
+			idcp->num_lines++;
 		}
 		/*identifier*/
 		else if (c_type & IDCP_CHARTYPE_IDENTIFIER) {
@@ -242,7 +248,7 @@ ident_first_char:
 			*tmp_str_ptr = 0;
 			idcp->token_str_pool_ptr = tmp_str_ptr + 1;
 			token->data.identifier.name_len = tmp_str_ptr - token->data.identifier.name;
-			idcp_dprintf5("%d: T_IDENTIFIER '%s'\n", line_number, token->data.identifier.name);
+			idcp_dprintf5("%d: T_IDENTIFIER '%s'\n", idcp->num_lines, token->data.identifier.name);
 			if (charsleft) {
 				goto havechar;
 			}
@@ -304,7 +310,7 @@ parse_chartype_token:
 					token->data.integer.value = -token->data.integer.value;
 				}
 				idcp_dprintf5("%d: T_HEXNUMBER '%s' %x\n",
-					line_number, idcp->token_str_pool_ptr, token->data.integer.value);
+					idcp->num_lines, idcp->token_str_pool_ptr, token->data.integer.value);
 			} else {
 				while (*tmp_str_ptr) {
 					token->data.integer.value *= 10;
@@ -315,7 +321,7 @@ parse_chartype_token:
 					token->data.integer.value = -token->data.integer.value;
 				}
 				idcp_dprintf5("%d: T_NUMBER '%s' %d\n",
-					line_number, idcp->token_str_pool_ptr, token->data.integer.value);
+					idcp->num_lines, idcp->token_str_pool_ptr, token->data.integer.value);
 			}
 			if (charsleft) {
 				goto havechar;
@@ -349,17 +355,17 @@ parse_chartype_token:
 			*tmp_str_ptr = 0;
 			idcp->token_str_pool_ptr = tmp_str_ptr + 1;
 			token->data.string.value_len = tmp_str_ptr - token->data.string.value;
-			idcp_dprintf5("%d: T_STRING '%s'\n", line_number, token->data.string.value);
+			idcp_dprintf5("%d: T_STRING '%s'\n", idcp->num_lines, token->data.string.value);
 		}
 		else if (c == '(') {
 			idcp_get_next_token(idcp)->type = IDCP_TOKENTYPE_LPAREN;
-			idcp_dprintf5("%d: T_LPAREN\n", line_number);
+			idcp_dprintf5("%d: T_LPAREN\n", idcp->num_lines);
 		} else if (c == ')') {
 			idcp_get_next_token(idcp)->type = IDCP_TOKENTYPE_RPAREN;
-			idcp_dprintf5("%d: T_RPAREN\n", line_number);
+			idcp_dprintf5("%d: T_RPAREN\n", idcp->num_lines);
 		} else if (c == '{') {
 			idcp_get_next_token(idcp)->type = IDCP_TOKENTYPE_LBRACE;
-			idcp_dprintf5("%d: T_LBRACE\n", line_number);
+			idcp_dprintf5("%d: T_LBRACE\n", idcp->num_lines);
 			if (!brace_depth) {
 				tmp_str_ptr = idcp_find_function_name_from_lbrace_token(idcp);/*jeanine:r:i:2;*/
 				if (tmp_str_ptr) {
@@ -373,7 +379,7 @@ parse_chartype_token:
 			brace_depth++;
 		} else if (c == '}') {
 			idcp_get_next_token(idcp)->type = IDCP_TOKENTYPE_RBRACE;
-			idcp_dprintf5("%d: T_RBRACE\n", line_number);
+			idcp_dprintf5("%d: T_RBRACE\n", idcp->num_lines);
 			brace_depth--;
 			if (!brace_depth && current_function) {
 				current_function->end_token_idx = idcp->num_tokens;
@@ -381,32 +387,30 @@ parse_chartype_token:
 			}
 		} else if (c == ',') {
 			idcp_get_next_token(idcp)->type = IDCP_TOKENTYPE_COMMA;
-			idcp_dprintf5("%d: T_COMMA\n", line_number);
+			idcp_dprintf5("%d: T_COMMA\n", idcp->num_lines);
 		} else if (c == ';') {
 			idcp_get_next_token(idcp)->type = IDCP_TOKENTYPE_SEMICOLON;
-			idcp_dprintf5("%d: T_SEMICOLON\n", line_number);
+			idcp_dprintf5("%d: T_SEMICOLON\n", idcp->num_lines);
 		} else if (c == '=') {
 			idcp_get_next_token(idcp)->type = IDCP_TOKENTYPE_EQ;
-			idcp_dprintf5("%d: T_EQ\n", line_number);
+			idcp_dprintf5("%d: T_EQ\n", idcp->num_lines);
 		} else if (c == '+') {
 			idcp_get_next_token(idcp)->type = IDCP_TOKENTYPE_PLUS;
-			idcp_dprintf5("%d: T_PLUS\n", line_number);
+			idcp_dprintf5("%d: T_PLUS\n", idcp->num_lines);
 		} else if (c == '|') {
 			idcp_get_next_token(idcp)->type = IDCP_TOKENTYPE_PIPE;
-			idcp_dprintf5("%d: T_PIPE\n", line_number);
+			idcp_dprintf5("%d: T_PIPE\n", idcp->num_lines);
 		} else if (c == '~') {
 			idcp_get_next_token(idcp)->type = IDCP_TOKENTYPE_TILDE;
-			idcp_dprintf5("%d: T_TILDE\n", line_number);
+			idcp_dprintf5("%d: T_TILDE\n", idcp->num_lines);
 		} else if (c == '&') {
 			idcp_get_next_token(idcp)->type = IDCP_TOKENTYPE_AMP;
-			idcp_dprintf5("%d: T_AMP\n", line_number);
+			idcp_dprintf5("%d: T_AMP\n", idcp->num_lines);
 		} else {
-			printf("%d: unexpected character '%c'\n", line_number, c);
+			printf("%d: unexpected character '%c'\n", idcp->num_lines, c);
 			assert(0);
 		}
 	} while (charsleft);
-
-	return line_number;
 }
 /*jeanine:p:i:4;p:0;a:t;x:3.33;*/
 /**
@@ -416,15 +420,13 @@ May exit the program.
 */
 void idcparse(struct idcparse *idcp, char *chars, int length)
 {
-	int line_number;
-
 	/*init idcp*/
 	memset(idcp, 0, sizeof(struct idcparse));
 	/*Mallocing a token str pool size of 'length' should mean we'll never overrun that buffer.*/
 	idcp->token_str_pool = idcp->token_str_pool_ptr = malloc(length);
 	assert(((void)"failed str pool malloc", idcp->token_str_pool));
 
-	line_number = idcparse_tokenize(idcp, chars, length);/*jeanine:r:i:1;*/
-	idcp_dprintf1("%d tokens %d lines\n", idcp->num_tokens, line_number);
+	idcparse_tokenize(idcp, chars, length);/*jeanine:r:i:1;*/
+	idcp_dprintf1("%d tokens %d lines\n", idcp->num_tokens, idcp->num_lines);
 	idcp_print_function_info(idcp);/*jeanine:r:i:3;*/
 }
