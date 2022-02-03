@@ -254,7 +254,7 @@ ident_first_char:
 			}
 		}
 		/*possibly negative number*/
-		else if (c == '-' && charsleft && charmap[*chars] & IDCP_CHARTYPE_NUMBER) {
+		else if (c == '-' && charsleft && (charmap[*chars] & IDCP_CHARTYPE_NUMBER)) {
 			token = idcp_get_next_token(idcp);
 			token->data.integer.negative = 1;
 			tmp_str_ptr = idcp->token_str_pool_ptr;
@@ -342,10 +342,10 @@ parse_chartype_token:
 						c = '"';
 					} else if (*chars == 'n') {
 						c = '\n';
-					} else {
-						assert(((void)"unexpected character after \\ in string", *chars));
+					} else if (*chars != '\\') {
+						printf("unexpected character '%c' after \\ in string\n", *chars);
+						assert(0);
 					}
-					c = '"';
 					chars++; charsleft--;
 				} else if (c == '"') {
 					break;
