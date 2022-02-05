@@ -119,8 +119,10 @@ struct idcp_token {
 
 struct idcp_function {
 	char *name;
+	int name_len;
 	int num_parameters;
 	char *parameters[IDCP_MAX_PARAMETERS];
+	int parameters_len[IDCP_MAX_PARAMETERS];
 	/**first token in idcparse.tokens that is part of the function*/
 	int start_token_idx;
 	/**last token in idcparse.tokens that is part of the function, exclusive*/
@@ -217,6 +219,7 @@ struct idcp_function* idcp_create_function_from_lbrace_token(struct idcparse *id
 	assert(((void)"hit IDCP_MAX_FUNCTIONS limit", idcp->num_functions < IDCP_MAX_FUNCTIONS));
 	f = idcp->functions + idcp->num_functions++;
 	f->name = tok->data.identifier.name;
+	f->name_len = tok->data.identifier.name_len;
 	f->start_token_idx = idcp->num_tokens;
 	f->end_token_idx = idcp->num_tokens;
 	f->num_parameters = 0;
@@ -231,6 +234,7 @@ struct idcp_function* idcp_create_function_from_lbrace_token(struct idcparse *id
 				assert(tok->type == IDCP_TOKENTYPE_IDENTIFIER);
 				assert(((void)"hit IDCP_MAX_PARAMETERS limit", f->num_parameters < IDCP_MAX_PARAMETERS));
 				f->parameters[f->num_parameters] = tok->data.identifier.name;
+				f->parameters_len[f->num_parameters] = tok->data.identifier.name_len;
 				f->num_parameters++;
 				tok++;
 				if (tok->type == IDCP_TOKENTYPE_RPAREN) {
@@ -521,6 +525,7 @@ parse_chartype_token:
 
 struct idcp_variable {
 	char *name;
+	int name_len;
 	char type;
 	union {
 		int integer;
@@ -531,13 +536,14 @@ struct idcp_variable {
 /*shitty name*/
 struct idcp_functioncallframe {
 	char *function_name;
+	int function_name_len;
 	struct idcp_variable arguments[IDCP_MAX_ARGUMENTS];
 	int num_arguments;
 	struct idcp_variable variables[IDCP_MAX_LOCAL_VARIABLES];
 	int num_variables;
 	struct idcp_variable returnvalue;
 };
-/*jeanine:p:i:12;p:10;a:r;x:13.66;y:-3.00;*/
+/*jeanine:p:i:12;p:10;a:r;x:15.10;y:-41.13;*/
 static
 void idcp_func_add_enum(struct idcparse *idcp, struct idcp_functioncallframe *frame)
 {
@@ -564,7 +570,7 @@ void idcp_func_add_enum(struct idcparse *idcp, struct idcp_functioncallframe *fr
 	frame->returnvalue.type = IDCP_VARIABLE_TYPE_INT;
 	frame->returnvalue.value.integer = idcp->num_enums - 1;
 }
-/*jeanine:p:i:14;p:10;a:r;x:13.78;y:-32.63;*/
+/*jeanine:p:i:14;p:10;a:r;x:14.78;y:-1.62;*/
 static
 void idcp_func_add_enum_member(struct idcparse *idcp, struct idcp_functioncallframe *frame)
 {
@@ -594,7 +600,7 @@ void idcp_func_add_enum_member(struct idcparse *idcp, struct idcp_functioncallfr
 	m->bmask = bmask;
 	frame->returnvalue.type = IDCP_VARIABLE_TYPE_VOID;
 }
-/*jeanine:p:i:15;p:10;a:r;x:13.67;y:23.31;*/
+/*jeanine:p:i:15;p:10;a:r;x:14.89;y:-14.57;*/
 static
 void idcp_func_set_enum_cmt(struct idcparse *idcp, struct idcp_functioncallframe *frame)
 {
@@ -617,7 +623,7 @@ void idcp_func_set_enum_cmt(struct idcparse *idcp, struct idcp_functioncallframe
 	}
 	frame->returnvalue.type = IDCP_VARIABLE_TYPE_VOID;
 }
-/*jeanine:p:i:16;p:10;a:r;x:13.67;y:45.75;*/
+/*jeanine:p:i:16;p:10;a:r;x:14.67;y:28.25;*/
 static
 void idcp_func_get_enum_member(struct idcparse *idcp, struct idcp_functioncallframe *frame)
 {
@@ -652,7 +658,7 @@ void idcp_func_get_enum_member(struct idcparse *idcp, struct idcp_functioncallfr
 	}
 	assert(0);
 }
-/*jeanine:p:i:17;p:10;a:r;x:13.56;y:80.25;*/
+/*jeanine:p:i:17;p:10;a:r;x:14.56;y:47.56;*/
 static
 void idcp_func_set_enum_member_cmt(struct idcparse *idcp, struct idcp_functioncallframe *frame)
 {
@@ -675,7 +681,7 @@ void idcp_func_set_enum_member_cmt(struct idcparse *idcp, struct idcp_functionca
 	}
 	frame->returnvalue.type = IDCP_VARIABLE_TYPE_VOID;
 }
-/*jeanine:p:i:18;p:10;a:r;x:13.56;y:102.81;*/
+/*jeanine:p:i:18;p:10;a:r;x:15.00;y:-24.25;*/
 static
 void idcp_func_set_enum_bf(struct idcparse *idcp, struct idcp_functioncallframe *frame)
 {
@@ -699,55 +705,89 @@ int idcp_execute_internal_function(struct idcparse *idcp, struct idcp_functionca
 	register char *name;
 
 	name = frame->function_name;
-	if (!strcmp("add_enum_member", name)) {
-		idcp_func_add_enum_member(idcp, frame);/*jeanine:r:i:14;*/
-		return 1;
-	} else if (!strcmp("add_enum", name)) {
-		idcp_func_add_enum(idcp, frame);/*jeanine:r:i:12;*/
-		return 1;
-	} else if (!strcmp("set_enum_cmt", name)) {
-		idcp_func_set_enum_cmt(idcp, frame);/*jeanine:r:i:15;*/
-		return 1;
-	} else if (!strcmp("get_enum_member", name)) {
-		idcp_func_get_enum_member(idcp, frame);/*jeanine:r:i:16;*/
-		return 1;
-	} else if (!strcmp("set_enum_member_cmt", name)) {
-		idcp_func_set_enum_member_cmt(idcp, frame);/*jeanine:r:i:17;*/
-		return 1;
-	} else if (!strcmp("set_enum_bf", frame->function_name)) {
-		idcp_func_set_enum_bf(idcp, frame);/*jeanine:r:i:18;*/
-		return 1;
-	} else if (
-		!strcmp("delete_all_segments", name) ||
-		!strcmp("get_inf_attr", name) ||
-		!strcmp("begin_type_updating", name) ||
-		!strcmp("end_type_updating", name) ||
-		!strcmp("add_default_til", name) ||
-		!strcmp("SegRename", name) ||
-		!strcmp("SegClass", name) ||
-		!strcmp("set_selector", name) ||
-		!strcmp("set_processor_type", name) ||
-		!strcmp("set_segm_type", name) ||
-		!strcmp("set_inf_attr", name) ||
-		!strcmp("SegDefReg", name) ||
-		!strcmp("set_flag", name) ||
-		!strcmp("add_segm_ex", name))
-	{
-		frame->returnvalue.type = IDCP_VARIABLE_TYPE_INT;
-		frame->returnvalue.value.integer = 0;
-		return 1;
+	switch (frame->function_name_len) {
+	case 8:
+		if (!strcmp("add_enum", name)) {
+			idcp_func_add_enum(idcp, frame);/*jeanine:r:i:12;*/
+			return 1;
+		} else if (!strcmp("SegClass", name) || !strcmp("set_flag", name)) {
+			goto ignoredbuiltin;
+		}
+		break;
+	case 9:
+		if (!strcmp("SegRename", name) || !strcmp("SegDefReg", name)) {
+			goto ignoredbuiltin;
+		}
+		break;
+	case 11:
+		if (!strcmp("set_enum_bf", name)) {
+			idcp_func_set_enum_bf(idcp, frame);/*jeanine:r:i:18;*/
+			return 1;
+		} else if (!strcmp("add_segm_ex", name)) {
+			goto ignoredbuiltin;
+		}
+		break;
+	case 12:
+		if (!strcmp("set_enum_cmt", name)) {
+			idcp_func_set_enum_cmt(idcp, frame);/*jeanine:r:i:15;*/
+			return 1;
+		} else if (!strcmp("set_selector", name) || !strcmp("get_inf_attr", name) || !strcmp("set_inf_attr", name)) {
+			goto ignoredbuiltin;
+		}
+		break;
+	case 13:
+		if (!strcmp("set_segm_type", name)) {
+			goto ignoredbuiltin;
+		}
+		break;
+	case 15:
+		if (!strcmp("add_enum_member", name)) {
+			idcp_func_add_enum_member(idcp, frame);/*jeanine:r:i:14;*/
+			return 1;
+		} else if (!strcmp("get_enum_member", name)) {
+			idcp_func_get_enum_member(idcp, frame);/*jeanine:r:i:16;*/
+			return 1;
+		} else if (!strcmp("add_default_til", name)) {
+			goto ignoredbuiltin;
+		}
+		break;
+	case 17:
+		if (!strcmp("end_type_updating", name)) {
+			goto ignoredbuiltin;
+		}
+		break;
+	case 18:
+		if (!strcmp("set_processor_type", name)) {
+			goto ignoredbuiltin;
+		}
+		break;
+	case 19:
+		if (!strcmp("set_enum_member_cmt", name)) {
+			idcp_func_set_enum_member_cmt(idcp, frame);/*jeanine:r:i:17;*/
+			return 1;
+		} else if (!strcmp("delete_all_segments", name) || !strcmp("begin_type_updating", name)) {
+			goto ignoredbuiltin;
+		}
+		break;
 	}
 	return 0;
+ignoredbuiltin:
+	frame->returnvalue.type = IDCP_VARIABLE_TYPE_INT;
+	frame->returnvalue.value.integer = 0;
+	return 1;
 }
 /*jeanine:p:i:9;p:8;a:r;x:8.89;y:8.00;*/
 /**
-@param tok only used to report line number in case of error
+@param tok should be the identifier doing the variable access
 */
 static
-void idcp_get_variable_value(struct idcparse *idcp, struct idcp_variable *result, struct idcp_token *tok, struct idcp_functioncallframe *frame, char *name)
+void idcp_get_variable_value(struct idcparse *idcp, struct idcp_variable *result, struct idcp_token *tok, struct idcp_functioncallframe *frame)
 {
-	int i;
+	char *name;
+	int i, name_len;
 
+	name = tok->data.identifier.name;
+	name_len = tok->data.identifier.name_len;
 	idcp_dprintf4("access variable %s\n", name);
 	for (i = 0; i < frame->num_variables; i++) {
 		if (!strcmp(name, frame->variables[i].name)) {
@@ -757,31 +797,58 @@ void idcp_get_variable_value(struct idcparse *idcp, struct idcp_variable *result
 		}
 	}
 	/*bunchof global definitions*/
-	if (!strcmp(name, "INF_GENFLAGS") ||
-		!strcmp(name, "INFFL_LOADIDC") ||
-		!strcmp(name, "INF_COMPILER") ||
-		!strcmp(name, "INF_STRLIT_BREAK") ||
-		!strcmp(name, "INF_OUTFLAGS") ||
-		!strcmp(name, "INF_CMTFLAG") ||
-		!strcmp(name, "INF_XREFNUM") ||
-		!strcmp(name, "INF_INDENT") ||
-		!strcmp(name, "INF_COMMENT") ||
-		!strcmp(name, "INF_MAXREF") ||
-		!strcmp(name, "INF_LOW_OFF") ||
-		!strcmp(name, "INF_HIGH_OFF") ||
-		!strcmp(name, "UTP_ENUM") ||
-		!strcmp(name, "ADDSEG_NOSREG") ||
-		!strcmp(name, "OFLG_SHOW_VOID") ||
-		!strcmp(name, "OFLG_SHOW_AUTO") ||
-		!strcmp(name, "SW_ALLCMT") ||
-		!strcmp(name, "SETPROC_USER"))
-	{
-		result->type = IDCP_VARIABLE_TYPE_INT;
-		result->value.integer = 0;
-		return;
+	switch (name_len) {
+	case 8:
+		if (!strcmp(name, "UTP_ENUM")) {
+			goto ignoredvariable;
+		}
+		break;
+	case 9:
+		if (!strcmp(name, "SW_ALLCMT")) {
+			goto ignoredvariable;
+		}
+		break;
+	case 10:
+		if (!strcmp(name, "INF_MAXREF") || !strcmp(name, "INF_INDENT")) {
+			goto ignoredvariable;
+		}
+		break;
+	case 11:
+		if (!strcmp(name, "INF_LOW_OFF") || !strcmp(name, "INF_CMTFLAG") ||
+			!strcmp(name, "INF_XREFNUM") || !strcmp(name, "INF_COMMENT"))
+		{
+			goto ignoredvariable;
+		}
+		break;
+	case 12:
+		if (!strcmp(name, "INF_HIGH_OFF") || !strcmp(name, "INF_GENFLAGS") ||
+			!strcmp(name, "INF_COMPILER") || !strcmp(name, "INF_OUTFLAGS") ||
+			!strcmp(name, "SETPROC_USER"))
+		{
+			goto ignoredvariable;
+		}
+		break;
+	case 13:
+		if (!strcmp(name, "ADDSEG_NOSREG") || !strcmp(name, "INFFL_LOADIDC")) {
+			goto ignoredvariable;
+		}
+		break;
+	case 14:
+		if (!strcmp(name, "OFLG_SHOW_VOID") || !strcmp(name, "OFLG_SHOW_AUTO")) {
+			goto ignoredvariable;
+		}
+		break;
+	case 16:
+		if (!strcmp(name, "INF_STRLIT_BREAK")) {
+			goto ignoredvariable;
+		}
+		break;
 	}
 	printf("%d: failed to find variable '%s' for reading\n", tok->line, name);
 	assert(0);
+ignoredvariable:
+	result->type = IDCP_VARIABLE_TYPE_INT;
+	result->value.integer = 0;
 }
 /*jeanine:p:i:13;p:8;a:r;x:8.78;y:-10.63;*/
 /**
@@ -836,6 +903,7 @@ void idcp_eval_expression_value(struct idcparse *idcp, struct idcp_variable *res
 			if ((tok + 1)->type == IDCP_TOKENTYPE_LPAREN) {
 				idcp_dprintf4("    has lparen, is function\n");
 				childframe.function_name = tok->data.identifier.name;
+				childframe.function_name_len = tok->data.identifier.name_len;
 				childframe.num_variables = 0;
 				childframe.num_arguments = 0;
 				tok++; tokensleft--; /*now lparen*/
@@ -884,7 +952,7 @@ void idcp_eval_expression_value(struct idcparse *idcp, struct idcp_variable *res
 				tok--; tokensleft++;
 			} else {
 				idcp_dprintf4("    no lparen nor eq, is variable\n");
-				idcp_get_variable_value(idcp, &tmp_var, tok, frame, tok->data.identifier.name);/*jeanine:r:i:9;*/
+				idcp_get_variable_value(idcp, &tmp_var, tok, frame);/*jeanine:r:i:9;*/
 				assert(tmp_var.type != IDCP_VARIABLE_TYPE_VOID);
 			}
 			break;
@@ -1021,6 +1089,7 @@ void idcp_execute_function(struct idcparse *idcp, struct idcp_functioncallframe 
 		assert(frame->num_variables < IDCP_MAX_LOCAL_VARIABLES);
 		frame->variables[frame->num_variables] = frame->arguments[i];
 		frame->variables[frame->num_variables].name = func->parameters[i];
+		frame->variables[frame->num_variables].name_len = func->parameters_len[i];
 		frame->num_variables++;
 	}
 	frame->returnvalue.type = IDCP_VARIABLE_TYPE_VOID;
@@ -1034,7 +1103,7 @@ void idcp_execute_function(struct idcparse *idcp, struct idcp_functioncallframe 
 			continue;
 		}
 		assert(tok->type == IDCP_TOKENTYPE_IDENTIFIER);
-		if (!strcmp("return", tok->data.identifier.name)) {
+		if (tok->data.identifier.name_len == 6 && !strcmp("return", tok->data.identifier.name)) {
 			tok++; tokensleft--;
 			assert(tokensleft);
 			if (tok->type != IDCP_TOKENTYPE_SEMICOLON) {
@@ -1042,13 +1111,14 @@ void idcp_execute_function(struct idcparse *idcp, struct idcp_functioncallframe 
 				assert(frame->returnvalue.type != IDCP_VARIABLE_TYPE_VOID);
 			}
 			goto ret;
-		} else if (!strcmp("auto", tok->data.identifier.name)) {
+		} else if (tok->data.identifier.name_len == 4 && !strcmp("auto", tok->data.identifier.name)) {
 			/*declaring a variable*/
 			tok++; tokensleft--;
 			assert(tokensleft);
 			assert(tok->type == IDCP_TOKENTYPE_IDENTIFIER);
 			assert(frame->num_variables < IDCP_MAX_LOCAL_VARIABLES);
 			frame->variables[frame->num_variables].name = tok->data.identifier.name;
+			frame->variables[frame->num_variables].name_len = tok->data.identifier.name_len;
 			frame->variables[frame->num_variables].type = IDCP_VARIABLE_TYPE_INT;
 			frame->variables[frame->num_variables].value.integer = 0;
 			frame->num_variables++;
@@ -1085,6 +1155,7 @@ void idcp_execute(struct idcparse *idcp)
 	struct idcp_functioncallframe frame;
 
 	frame.function_name = "main";
+	frame.function_name_len = 4;
 	frame.num_arguments = 0;
 	frame.num_variables = 0;
 	idcp_execute_function(idcp, &frame);/*jeanine:r:i:11;*/
