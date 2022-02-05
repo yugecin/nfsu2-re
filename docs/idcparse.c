@@ -14,6 +14,8 @@ function defined in the idc file.*/
 #define IDCP_MAX_LOCAL_VARIABLES 10
 #define IDCP_MAX_ENUMS 50
 #define IDCP_MAX_TOTAL_ENUM_MEMBERS 7000
+#define IDCP_MAX_STRUCTS 300
+#define IDCP_MAX_TOTAL_STRUCT_MEMBERS 14000
 
 #define IDCP_VERBOSE_LEVEL 3
 /*useful when debugging segfaults*/
@@ -147,6 +149,34 @@ struct idcp_enum_member {
 	char *comment, *rep_comment;
 };
 
+struct idcp_struct {
+	char *name;
+	char is_union;
+	/**Set by set_struc_align, which is undocumented.
+	Is this alignment of members, or on which boundary this struct is aligned?*/
+	int align;
+	/**idx in idcp->struct_members where members of this struct start*/
+	int start_idx;
+	/**idx in idcp->struct_members where members of this struct end, exclusive*/
+	int end_idx;
+	char *comment, *rep_comment;
+	/**idcp internal usage only*/
+	char idcp_finished_adding_members;
+};
+
+struct idcp_struct_member {
+	char *name;
+	int offset;
+	int flag;
+	int typeid; /*TODO: this can by struct or enum, but we can't disntinguis their ids atm*/
+	int nbytes;
+	int target;
+	int tdelta;
+	int reftype;
+	char *type;
+	char *comment, *rep_comment;
+};
+
 struct idcparse {
 	int num_tokens;
 	struct idcp_token tokens[IDCP_MAX_TOKENS];
@@ -154,8 +184,14 @@ struct idcparse {
 	struct idcp_function functions[IDCP_MAX_FUNCTIONS];
 	int num_enum_members;
 	struct idcp_enum_member enum_members[IDCP_MAX_TOTAL_ENUM_MEMBERS];
+	int last_added_enum_member_enum_id;
 	int num_enums;
 	struct idcp_enum enums[IDCP_MAX_ENUMS];
+	int num_struct_members;
+	struct idcp_struct_member struct_members[IDCP_MAX_TOTAL_STRUCT_MEMBERS];
+	int last_added_struct_member_struct_id;
+	int num_structs;
+	struct idcp_struct structs[IDCP_MAX_STRUCTS];
 	char *token_str_pool;
 	char *token_str_pool_ptr;
 	int num_lines;
@@ -543,7 +579,7 @@ struct idcp_functioncallframe {
 	int num_variables;
 	struct idcp_variable returnvalue;
 };
-/*jeanine:p:i:12;p:10;a:r;x:15.10;y:-41.13;*/
+/*jeanine:p:i:12;p:10;a:r;x:14.88;y:-64.69;*/
 static
 void idcp_func_add_enum(struct idcparse *idcp, struct idcp_functioncallframe *frame)
 {
@@ -565,12 +601,12 @@ void idcp_func_add_enum(struct idcparse *idcp, struct idcp_functioncallframe *fr
 	e = idcp->enums + idcp->num_enums++;
 	e->name = name;
 	e->flags = flags;
-	e->start_idx = idcp->num_enum_members;
-	e->end_idx = idcp->num_enum_members;
+	e->start_idx = 0;
+	e->end_idx = 0;
 	frame->returnvalue.type = IDCP_VARIABLE_TYPE_INT;
 	frame->returnvalue.value.integer = idcp->num_enums - 1;
 }
-/*jeanine:p:i:14;p:10;a:r;x:14.78;y:-1.62;*/
+/*jeanine:p:i:14;p:10;a:r;x:14.45;y:-13.18;*/
 static
 void idcp_func_add_enum_member(struct idcparse *idcp, struct idcp_functioncallframe *frame)
 {
@@ -588,11 +624,19 @@ void idcp_func_add_enum_member(struct idcparse *idcp, struct idcp_functioncallfr
 	value   = frame->arguments[2].value.integer;
 	bmask   = frame->arguments[3].value.integer;
 
+	assert(idcp->num_enum_members < IDCP_MAX_TOTAL_ENUM_MEMBERS);
+
 	/*All enum members are added in one array and each enum holds indices where its members start and stop.
 	So all members of a single enum must be consecutive entries in that array, and the easiest
-	way to ensure that is to assert that members are only added to the most recently created enum.*/
-	assert(enum_id == idcp->num_enums - 1);
-	assert(idcp->num_enum_members < IDCP_MAX_TOTAL_ENUM_MEMBERS);
+	way to ensure that is to assert that members are only added to an enum with an equal or higher id
+	as the enum id that the last member was added to.*/
+	assert(enum_id >= idcp->last_added_enum_member_enum_id);
+	if (enum_id > idcp->last_added_enum_member_enum_id) {
+		idcp->enums[enum_id].start_idx = idcp->num_enum_members;
+		idcp->enums[enum_id].end_idx = idcp->num_enum_members;
+		idcp->last_added_enum_member_enum_id = enum_id;
+	}
+
 	idcp->enums[enum_id].end_idx++;
 	m = idcp->enum_members + idcp->num_enum_members++;
 	m->name = name;
@@ -622,6 +666,30 @@ void idcp_func_set_enum_cmt(struct idcparse *idcp, struct idcp_functioncallframe
 		idcp->enums[enum_id].comment = cmt;
 	}
 	frame->returnvalue.type = IDCP_VARIABLE_TYPE_VOID;
+}
+/*jeanine:p:i:21;p:10;a:r;x:152.33;y:36.13;*/
+static
+void idcp_func_get_struc_id(struct idcparse *idcp, struct idcp_functioncallframe *frame)
+{
+	struct idcp_struct *str, *end;
+	char* name;
+
+	assert(frame->num_arguments == 1);
+	assert(frame->arguments[0].type == IDCP_VARIABLE_TYPE_STRING);
+	name = frame->arguments[0].value.string;
+
+	str = idcp->structs;
+	end = idcp->structs + idcp->num_structs;
+	while (str < end) {
+		if (!strcmp(str->name, name)) {
+			frame->returnvalue.type = IDCP_VARIABLE_TYPE_INT;
+			frame->returnvalue.value.integer = str - idcp->structs;
+			return;
+		}
+		str++;
+	}
+	printf("get_struc_id: can't find struct for name '%s'\n", name);
+	assert(0);
 }
 /*jeanine:p:i:16;p:10;a:r;x:14.67;y:28.25;*/
 static
@@ -656,6 +724,7 @@ void idcp_func_get_enum_member(struct idcparse *idcp, struct idcp_functioncallfr
 		mbr++;
 		idx++;
 	}
+	printf("get_enum_member: can't find member for value 0x%x\n", value);
 	assert(0);
 }
 /*jeanine:p:i:17;p:10;a:r;x:14.56;y:47.56;*/
@@ -681,7 +750,7 @@ void idcp_func_set_enum_member_cmt(struct idcparse *idcp, struct idcp_functionca
 	}
 	frame->returnvalue.type = IDCP_VARIABLE_TYPE_VOID;
 }
-/*jeanine:p:i:18;p:10;a:r;x:15.00;y:-24.25;*/
+/*jeanine:p:i:18;p:10;a:r;x:14.89;y:-24.13;*/
 static
 void idcp_func_set_enum_bf(struct idcparse *idcp, struct idcp_functioncallframe *frame)
 {
@@ -696,6 +765,242 @@ void idcp_func_set_enum_bf(struct idcparse *idcp, struct idcp_functioncallframe 
 	assert(0 <= enum_id && enum_id < idcp->num_enums);
 	idcp->enums[enum_id].is_bitfield = is_bitfield;
 }
+/*jeanine:p:i:19;p:10;a:r;x:14.56;y:-45.44;*/
+static
+void idcp_func_add_struc(struct idcparse *idcp, struct idcp_functioncallframe *frame)
+{
+	struct idcp_struct *s;
+	int index, is_union;
+	char *name;
+
+	assert(frame->num_arguments == 3);
+	assert(frame->arguments[0].type == IDCP_VARIABLE_TYPE_INT);
+	assert(frame->arguments[1].type == IDCP_VARIABLE_TYPE_STRING);
+	assert(frame->arguments[2].type == IDCP_VARIABLE_TYPE_INT);
+	index    = frame->arguments[0].value.integer;
+	name     = frame->arguments[1].value.string;
+	is_union = frame->arguments[2].value.integer;
+	idcp_dprintf3("add_struc: allocating '%s' id %d is_union %d\n", name, idcp->num_structs, is_union);
+
+	assert(idcp->num_structs < IDCP_MAX_STRUCTS);
+	s = idcp->structs + idcp->num_structs++;
+	s->name = name;
+	s->is_union = is_union;
+	s->start_idx = 0;
+	s->end_idx = 0;
+	frame->returnvalue.type = IDCP_VARIABLE_TYPE_INT;
+	frame->returnvalue.value.integer = idcp->num_structs - 1;
+}
+/*jeanine:p:i:20;p:10;a:r;x:153.22;y:-0.06;*/
+static
+void idcp_func_set_struc_cmt(struct idcparse *idcp, struct idcp_functioncallframe *frame)
+{
+	int struct_id, repeatable;
+	char *cmt;
+
+	assert(frame->num_arguments == 3);
+	assert(frame->arguments[0].type == IDCP_VARIABLE_TYPE_INT);
+	assert(frame->arguments[1].type == IDCP_VARIABLE_TYPE_STRING);
+	assert(frame->arguments[2].type == IDCP_VARIABLE_TYPE_INT);
+	struct_id  = frame->arguments[0].value.integer;
+	cmt        = frame->arguments[1].value.string;
+	repeatable = frame->arguments[2].value.integer;
+
+	assert(0 <= struct_id && struct_id < idcp->num_structs);
+	if (repeatable) {
+		idcp->structs[struct_id].rep_comment = cmt;
+	} else {
+		idcp->structs[struct_id].comment = cmt;
+	}
+	frame->returnvalue.type = IDCP_VARIABLE_TYPE_VOID;
+}
+/*jeanine:p:i:22;p:10;a:r;x:149.44;y:24.88;*/
+static
+void idcp_func_add_struc_member(struct idcparse *idcp, struct idcp_functioncallframe *frame)
+{
+	struct idcp_struct_member *m;
+	struct idcp_struct *s;
+	int struct_id, offset, flag, typeid, nbytes, target, tdelta, reftype;
+	char *name;
+
+	assert(frame->num_arguments == 6 || frame->num_arguments == 9);
+	assert(frame->arguments[0].type == IDCP_VARIABLE_TYPE_INT);
+	assert(frame->arguments[1].type == IDCP_VARIABLE_TYPE_STRING);
+	assert(frame->arguments[2].type == IDCP_VARIABLE_TYPE_INT);
+	assert(frame->arguments[3].type == IDCP_VARIABLE_TYPE_INT);
+	assert(frame->arguments[4].type == IDCP_VARIABLE_TYPE_INT);
+	assert(frame->arguments[5].type == IDCP_VARIABLE_TYPE_INT);
+	struct_id = frame->arguments[0].value.integer;
+	name      = frame->arguments[1].value.string;
+	offset    = frame->arguments[2].value.integer;
+	flag      = frame->arguments[3].value.integer;
+	typeid    = frame->arguments[4].value.integer;
+	nbytes    = frame->arguments[5].value.integer;
+	if (frame->num_arguments == 9) {
+		assert(frame->arguments[6].type == IDCP_VARIABLE_TYPE_INT);
+		assert(frame->arguments[7].type == IDCP_VARIABLE_TYPE_INT);
+		assert(frame->arguments[8].type == IDCP_VARIABLE_TYPE_INT);
+		target  = frame->arguments[6].value.integer;
+		tdelta  = frame->arguments[7].value.integer;
+		reftype = frame->arguments[8].value.integer;
+	} else {
+		target = -1;
+		tdelta = 0;
+		reftype = 0;
+	}
+
+	assert(idcp->num_struct_members < IDCP_MAX_TOTAL_STRUCT_MEMBERS);
+	assert(0 <= struct_id && struct_id < idcp->num_structs);
+	s = idcp->structs + struct_id;
+
+	/*All struct members are added in one array and each struct holds indices where its members start and stop.
+	So all members of a single struct must be consecutive entries in that array. It seems like structs are
+	filled in an non-consecutive order, but a struct is filled completely before going to the next struct.*/
+	if (struct_id != idcp->last_added_struct_member_struct_id) {
+		/*If this fails, it means that struct A's members were added, then some other structs's
+		member(s) were added, and now it's trying to add more members to struct A. That would suck,
+		because of reasons in the comment above.*/
+		assert(!s->idcp_finished_adding_members);
+		/*Since we're adding members to a different struct, mark the last one as finished.*/
+		if (idcp->last_added_struct_member_struct_id != -1) {
+			idcp->structs[idcp->last_added_struct_member_struct_id].idcp_finished_adding_members = 1;
+		}
+		idcp->last_added_struct_member_struct_id = struct_id;
+		s->start_idx = idcp->num_struct_members;
+		s->end_idx = idcp->num_struct_members;
+	}
+
+	/*Ensure that members are added in order, because otherwise we'd need to sort and I don't want to*/
+	if (s->start_idx != s->end_idx) {
+		if (s->is_union) {
+			assert(offset == idcp->struct_members[s->end_idx - 1].offset);
+		} else {
+			assert(offset > idcp->struct_members[s->end_idx - 1].offset);
+		}
+	}
+	s->end_idx++;
+	m = idcp->struct_members + idcp->num_struct_members++;
+	m->name = name;
+	m->offset = offset;
+	m->flag = flag;
+	m->typeid = typeid;
+	m->nbytes = nbytes;
+	m->target = target;
+	m->tdelta = tdelta;
+	m->reftype = reftype;
+	frame->returnvalue.type = IDCP_VARIABLE_TYPE_INT;
+	frame->returnvalue.value.integer = 0; /*ok*/
+}
+/*jeanine:p:i:23;p:10;a:r;x:149.22;y:117.88;*/
+static
+void idcp_func_set_struc_align(struct idcparse *idcp, struct idcp_functioncallframe *frame)
+{
+	int struct_id, align;
+
+	assert(frame->num_arguments == 2);
+	assert(frame->arguments[0].type == IDCP_VARIABLE_TYPE_INT);
+	assert(frame->arguments[1].type == IDCP_VARIABLE_TYPE_INT);
+	struct_id = frame->arguments[0].value.integer;
+	align     = frame->arguments[1].value.integer;
+
+	assert(0 <= struct_id && struct_id < idcp->num_structs);
+	idcp->structs[struct_id].align = align;
+	frame->returnvalue.type = IDCP_VARIABLE_TYPE_VOID;
+}
+/*jeanine:p:i:24;p:10;a:r;x:148.22;y:150.19;*/
+static
+void idcp_func_set_member_cmt(struct idcparse *idcp, struct idcp_functioncallframe *frame)
+{
+	int struct_id, member_offset, repeatable;
+	char *comment;
+
+	assert(frame->num_arguments == 4);
+	assert(frame->arguments[0].type == IDCP_VARIABLE_TYPE_INT);
+	assert(frame->arguments[1].type == IDCP_VARIABLE_TYPE_INT);
+	assert(frame->arguments[2].type == IDCP_VARIABLE_TYPE_STRING);
+	assert(frame->arguments[3].type == IDCP_VARIABLE_TYPE_INT);
+	struct_id     = frame->arguments[0].value.integer;
+	member_offset = frame->arguments[1].value.integer;
+	comment       = frame->arguments[2].value.string;
+	repeatable    = frame->arguments[3].value.integer;
+
+	assert(0 <= struct_id && struct_id < idcp->num_structs);
+	if (repeatable) {
+		idcp->structs[struct_id].rep_comment = comment;
+	} else {
+		idcp->structs[struct_id].comment = comment;
+	}
+	frame->returnvalue.type = IDCP_VARIABLE_TYPE_VOID;
+}
+/*jeanine:p:i:25;p:10;a:t;x:153.89;y:-11.56;*/
+static
+void idcp_func_get_enum(struct idcparse *idcp, struct idcp_functioncallframe *frame)
+{
+	struct idcp_enum *enu, *end;
+	char* name;
+
+	assert(frame->num_arguments == 1);
+	assert(frame->arguments[0].type == IDCP_VARIABLE_TYPE_STRING);
+	name = frame->arguments[0].value.string;
+
+	enu = idcp->enums;
+	end = idcp->enums + idcp->num_enums;
+	while (enu < end) {
+		if (!strcmp(enu->name, name)) {
+			frame->returnvalue.type = IDCP_VARIABLE_TYPE_INT;
+			frame->returnvalue.value.integer = enu - idcp->enums;
+			return;
+		}
+		enu++;
+	}
+	printf("get_enum: can't find enum for name '%s'\n", name);
+	assert(0);
+}
+/*jeanine:p:i:26;p:10;a:r;x:153.67;y:3.06;*/
+static
+void idcp_func_get_member_id(struct idcparse *idcp, struct idcp_functioncallframe *frame)
+{
+	struct idcp_struct_member *mem, *end;
+	int struct_id, member_offset;
+
+	assert(frame->num_arguments == 2);
+	assert(frame->arguments[0].type == IDCP_VARIABLE_TYPE_INT);
+	assert(frame->arguments[1].type == IDCP_VARIABLE_TYPE_INT);
+	struct_id =     frame->arguments[0].value.integer;
+	member_offset = frame->arguments[1].value.integer;
+
+	assert(0 <= struct_id && struct_id < idcp->num_structs);
+	mem = idcp->struct_members + idcp->structs[struct_id].start_idx;
+	end = idcp->struct_members + idcp->structs[struct_id].end_idx;
+	while (mem < end) {
+		/*member_offset can be any offset within the member's size*/
+		if (mem->offset <= member_offset && member_offset < mem->offset + mem->nbytes) {
+			frame->returnvalue.type = IDCP_VARIABLE_TYPE_INT;
+			frame->returnvalue.value.integer = mem - idcp->struct_members;
+			return;
+		}
+		mem++;
+	}
+	printf("get_member_id: can't find member in struct '%s' at offset 0x%x\n", idcp->structs[struct_id].name, member_offset);
+	assert(0);
+}
+/*jeanine:p:i:27;p:10;a:r;x:308.22;y:5.63;*/
+static
+void idcp_func_SetType(struct idcparse *idcp, struct idcp_functioncallframe *frame)
+{
+	int struct_member_id;
+	char *type;
+
+	assert(frame->num_arguments == 2);
+	assert(frame->arguments[0].type == IDCP_VARIABLE_TYPE_INT);
+	assert(frame->arguments[1].type == IDCP_VARIABLE_TYPE_STRING);
+	struct_member_id = frame->arguments[0].value.integer;
+	type             = frame->arguments[1].value.string;
+
+	assert(0 <= struct_member_id && struct_member_id <= idcp->num_struct_members);
+	idcp->struct_members[struct_member_id].type = type;
+	frame->returnvalue.type = IDCP_VARIABLE_TYPE_VOID;
+}
 /*jeanine:p:i:10;p:11;a:r;x:330.22;*/
 /*see https://hex-rays.com/products/ida/support/idadoc/162.shtml for a list of built-in idc functions,
 or simply check the compiled help files included in your IDA installation (press F1).*/
@@ -706,16 +1011,28 @@ int idcp_execute_internal_function(struct idcparse *idcp, struct idcp_functionca
 
 	name = frame->function_name;
 	switch (frame->function_name_len) {
+	case 7:
+		if (!strcmp("SetType", name)) {
+			idcp_func_SetType(idcp, frame);/*jeanine:r:i:27;*/
+			return 1;
+		}
+		break;
 	case 8:
 		if (!strcmp("add_enum", name)) {
 			idcp_func_add_enum(idcp, frame);/*jeanine:r:i:12;*/
+			return 1;
+		} else if (!strcmp("get_enum", name)) {
+			idcp_func_get_enum(idcp, frame);/*jeanine:r:i:26;*/
 			return 1;
 		} else if (!strcmp("SegClass", name) || !strcmp("set_flag", name)) {
 			goto ignoredbuiltin;
 		}
 		break;
 	case 9:
-		if (!strcmp("SegRename", name) || !strcmp("SegDefReg", name)) {
+		if (!strcmp("add_struc", name)) {
+			idcp_func_add_struc(idcp, frame);/*jeanine:r:i:19;*/
+			return 1;
+		} else if (!strcmp("SegRename", name) || !strcmp("SegDefReg", name)) {
 			goto ignoredbuiltin;
 		}
 		break;
@@ -731,13 +1048,28 @@ int idcp_execute_internal_function(struct idcparse *idcp, struct idcp_functionca
 		if (!strcmp("set_enum_cmt", name)) {
 			idcp_func_set_enum_cmt(idcp, frame);/*jeanine:r:i:15;*/
 			return 1;
+		} else if (!strcmp("get_struc_id", name)) {
+			idcp_func_get_struc_id(idcp, frame);/*jeanine:r:i:21;*/
+			return 1;
 		} else if (!strcmp("set_selector", name) || !strcmp("get_inf_attr", name) || !strcmp("set_inf_attr", name)) {
 			goto ignoredbuiltin;
 		}
 		break;
 	case 13:
-		if (!strcmp("set_segm_type", name)) {
+		if (!strcmp("set_struc_cmt", name)) {
+			idcp_func_set_struc_cmt(idcp, frame);/*jeanine:r:i:20;*/
+			return 1;
+		} else if (!strcmp("get_member_id", name)) {
+			idcp_func_get_member_id(idcp, frame);
+			return 1;
+		} else if (!strcmp("set_segm_type", name)) {
 			goto ignoredbuiltin;
+		}
+		break;
+	case 14:
+		if (!strcmp("set_member_cmt", name)) {
+			idcp_func_set_member_cmt(idcp, frame);/*jeanine:r:i:24;*/
+			return 1;
 		}
 		break;
 	case 15:
@@ -747,8 +1079,17 @@ int idcp_execute_internal_function(struct idcparse *idcp, struct idcp_functionca
 		} else if (!strcmp("get_enum_member", name)) {
 			idcp_func_get_enum_member(idcp, frame);/*jeanine:r:i:16;*/
 			return 1;
+		} else if (!strcmp("set_struc_align", name)) {
+			idcp_func_set_struc_align(idcp, frame);/*jeanine:r:i:23;*/
+			return 1;
 		} else if (!strcmp("add_default_til", name)) {
 			goto ignoredbuiltin;
+		}
+		break;
+	case 16:
+		if (!strcmp("add_struc_member", name)) {
+			idcp_func_add_struc_member(idcp, frame);/*jeanine:r:i:22;*/
+			return 1;
 		}
 		break;
 	case 17:
@@ -809,7 +1150,9 @@ void idcp_get_variable_value(struct idcparse *idcp, struct idcp_variable *result
 		}
 		break;
 	case 10:
-		if (!strcmp(name, "INF_MAXREF") || !strcmp(name, "INF_INDENT")) {
+		if (!strcmp(name, "INF_MAXREF") || !strcmp(name, "INF_INDENT") ||
+			!strcmp(name, "UTP_STRUCT"))
+		{
 			goto ignoredvariable;
 		}
 		break;
@@ -1170,6 +1513,7 @@ void idcparse(struct idcparse *idcp, char *chars, int length)
 {
 	/*init idcp*/
 	memset(idcp, 0, sizeof(struct idcparse));
+	idcp->last_added_struct_member_struct_id = -1;
 	/*Mallocing a token str pool size of 'length' should mean we'll never overrun that buffer.*/
 	idcp->token_str_pool = idcp->token_str_pool_ptr = malloc(length);
 	assert(((void)"failed str pool malloc", idcp->token_str_pool));
