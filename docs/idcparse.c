@@ -204,7 +204,7 @@ struct idcparse {
 	char *token_str_pool_ptr;
 	int num_lines;
 };
-
+/*jeanine:p:i:28;p:1;a:t;x:3.33;*/
 static
 struct idcp_token *idcp_get_next_token(struct idcparse *idcp)
 {
@@ -214,21 +214,6 @@ struct idcp_token *idcp_get_next_token(struct idcparse *idcp)
 	token = idcp->tokens + idcp->num_tokens++;
 	token->line = idcp->num_lines;
 	return token;
-}
-
-static
-struct idcp_function *idcp_get_function(struct idcparse *idcp, char *name)
-{
-	struct idcp_function *f;
-	int i;
-
-	f = idcp->functions;
-	for (i = idcp->num_functions; i > 0; i--, f++) {
-		if (!strcmp(name, f->name)) {
-			return f;
-		}
-	}
-	return NULL;
 }
 /*jeanine:p:i:2;p:1;a:r;x:3.33;*/
 static
@@ -1009,7 +994,7 @@ void idcp_func_SetType(struct idcparse *idcp, struct idcp_functioncallframe *fra
 	idcp->struct_members[struct_member_id].type = type;
 	frame->returnvalue.type = IDCP_VARIABLE_TYPE_VOID;
 }
-/*jeanine:p:i:10;p:11;a:r;x:330.22;*/
+/*jeanine:p:i:10;p:11;a:r;x:347.66;*/
 /*see https://hex-rays.com/products/ida/support/idadoc/162.shtml for a list of built-in idc functions,
 or simply check the compiled help files included in your IDA installation (press F1).*/
 static
@@ -1396,12 +1381,16 @@ ret:
 	*_tok = tok;
 	*_tokensleft = tokensleft;
 }
-/*jeanine:p:i:6;p:11;a:r;x:8.78;y:-24.06;*/
+/*jeanine:p:i:11;p:7;a:r;x:3.33;*/
 static
-void idcp_debug_print_function_invocation(struct idcp_functioncallframe *frame)
+void idcp_execute_function(struct idcparse *idcp, struct idcp_functioncallframe *frame)
 {
-	int i;
+	struct idcp_variable tmp_variable;
+	struct idcp_function *func;
+	struct idcp_token *tok;
+	int tokensleft, i;
 
+#if IDCP_VERBOSE_LEVEL >= 3
 	idcp_dprintf3("start function '%s' num args %d:", frame->function_name, frame->num_arguments);
 	for (i = 0; i < frame->num_arguments; i++) {
 		switch (frame->arguments[i].type) {
@@ -1418,23 +1407,21 @@ void idcp_debug_print_function_invocation(struct idcp_functioncallframe *frame)
 		}
 	}
 	idcp_dprintf3("\n");
-}
-/*jeanine:p:i:11;p:7;a:r;x:3.33;*/
-static
-void idcp_execute_function(struct idcparse *idcp, struct idcp_functioncallframe *frame)
-{
-	struct idcp_variable tmp_variable;
-	struct idcp_function *func;
-	struct idcp_token *tok;
-	int tokensleft, i;
-
-#if IDCP_VERBOSE_LEVEL >= 3
-	idcp_debug_print_function_invocation(frame);/*jeanine:r:i:6;*/
 #endif
 	if (idcp_execute_internal_function(idcp, frame)) {/*jeanine:r:i:10;*/
 		goto ret;
 	}
-	assert(func = idcp_get_function(idcp, frame->function_name));
+	/*find the function*/
+	for (i = 0, func = idcp->functions;; i++, func++) {
+		if (i >= idcp->num_functions) {
+			printf("can't find function '%s'\n", frame->function_name);
+			assert(0);
+		}
+		if (!strcmp(func->name, frame->function_name)) {
+			break;
+		}
+	}
+	/*put arguments into local variables as determined by parameters*/
 	assert(func->num_parameters == frame->num_arguments);
 	for (i = 0; i < frame->num_arguments; i++) {
 		assert(frame->num_variables < IDCP_MAX_LOCAL_VARIABLES);
@@ -1443,6 +1430,7 @@ void idcp_execute_function(struct idcparse *idcp, struct idcp_functioncallframe 
 		frame->variables[frame->num_variables].name_len = func->parameters_len[i];
 		frame->num_variables++;
 	}
+	/*walk through the tokens and execute*/
 	frame->returnvalue.type = IDCP_VARIABLE_TYPE_VOID;
 	tok = idcp->tokens + func->start_token_idx;
 	tokensleft = func->end_token_idx - func->start_token_idx;
