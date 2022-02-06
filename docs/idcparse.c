@@ -168,7 +168,15 @@ struct idcp_struct_member {
 	char *name;
 	int offset;
 	int flag;
-	int typeid; /*TODO: this can by struct or enum, but we can't disntinguis their ids atm*/
+	/**
+	value depends on 'flag', see definitions in your IDA's idc.idc file:
+	if is_enum0(flag) then enum id
+	if is_struct0(flag) then struct id
+	if is_stroff0(flag) then struct id
+	if is_off0(flag) then offset base (?)
+	if is_strlit(flag) then string type (?)
+	*/
+	int typeid;
 	int nbytes;
 	int target;
 	int tdelta;
