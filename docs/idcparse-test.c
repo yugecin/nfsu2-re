@@ -23,7 +23,6 @@ int main(int argc, char **argv)
 	}
 	fseek(in, 0l, SEEK_END);
 	size = ftell(in);
-	printf("size is %d\n", size);
 	rewind(in);
 	buf = (char*) malloc(size);
 	assert(buf);

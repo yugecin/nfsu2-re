@@ -4,8 +4,6 @@ files that are the output of a "dump database to IDC file" operation,
 with the purpose to read common database stuff like enums, structs, functions etc.
 */
 
-/*TODO: printf to stderr if they're for the next assert(0)*/
-
 #define IDCP_MAX_TOKENS 6000000
 #define IDCP_MAX_FUNCTIONS 500
 /*Max args max be more than max parameters because functioncalls can
@@ -32,44 +30,30 @@ function defined in the idc file.*/
 #endif
 
 /*verbose*/
-#if IDCP_VERBOSE_LEVEL == 5
-#define idcp_dprintf5(...) printf(__VA_ARGS__);IDCP_FFLUSH
-#define idcp_dprintf4(...) printf(__VA_ARGS__);IDCP_FFLUSH
-#define idcp_dprintf3(...) printf(__VA_ARGS__);IDCP_FFLUSH
-#define idcp_dprintf2(...) printf(__VA_ARGS__);IDCP_FFLUSH
-#define idcp_dprintf1(...) printf(__VA_ARGS__);IDCP_FFLUSH
-#elif IDCP_VERBOSE_LEVEL == 4
-#define idcp_dprintf5(...)
-#define idcp_dprintf4(...) printf(__VA_ARGS__);IDCP_FFLUSH
-#define idcp_dprintf3(...) printf(__VA_ARGS__);IDCP_FFLUSH
-#define idcp_dprintf2(...) printf(__VA_ARGS__);IDCP_FFLUSH
-#define idcp_dprintf1(...) printf(__VA_ARGS__);IDCP_FFLUSH
-#elif IDCP_VERBOSE_LEVEL == 3
-#define idcp_dprintf5(...)
-#define idcp_dprintf4(...)
-#define idcp_dprintf3(...) printf(__VA_ARGS__);IDCP_FFLUSH
-#define idcp_dprintf2(...) printf(__VA_ARGS__);IDCP_FFLUSH
-#define idcp_dprintf1(...) printf(__VA_ARGS__);IDCP_FFLUSH
-#elif IDCP_VERBOSE_LEVEL == 2
-#define idcp_dprintf5(...)
-#define idcp_dprintf4(...)
-#define idcp_dprintf3(...)
-#define idcp_dprintf2(...) printf(__VA_ARGS__);IDCP_FFLUSH
-#define idcp_dprintf1(...) printf(__VA_ARGS__);IDCP_FFLUSH
-#elif IDCP_VERBOSE_LEVEL == 1
-#define idcp_dprintf5(...)
-#define idcp_dprintf4(...)
-#define idcp_dprintf3(...)
-#define idcp_dprintf2(...)
-#define idcp_dprintf1(...) printf(__VA_ARGS__);IDCP_FFLUSH
-#elif IDCP_VERBOSE_LEVEL == 0
 #define idcp_dprintf5(...)
 #define idcp_dprintf4(...)
 #define idcp_dprintf3(...)
 #define idcp_dprintf2(...)
 #define idcp_dprintf1(...)
-#else
-#error invalid IDCP_VERBOSE_LEVEL value
+#if IDCP_VERBOSE_LEVEL >= 5
+#undef idcp_dprintf5
+#define idcp_dprintf5(...) printf(__VA_ARGS__);IDCP_FFLUSH
+#endif
+#if IDCP_VERBOSE_LEVEL >= 4
+#undef idcp_dprintf4
+#define idcp_dprintf4(...) printf(__VA_ARGS__);IDCP_FFLUSH
+#endif
+#if IDCP_VERBOSE_LEVEL >= 3
+#undef idcp_dprintf3
+#define idcp_dprintf3(...) printf(__VA_ARGS__);IDCP_FFLUSH
+#endif
+#if IDCP_VERBOSE_LEVEL >= 2
+#undef idcp_dprintf2
+#define idcp_dprintf2(...) printf(__VA_ARGS__);IDCP_FFLUSH
+#endif
+#if IDCP_VERBOSE_LEVEL >= 1
+#undef idcp_dprintf1
+#define idcp_dprintf1(...) printf(__VA_ARGS__);IDCP_FFLUSH
 #endif
 
 #define IDCP_TOKENTYPE_IDENTIFIER 1
@@ -204,7 +188,7 @@ struct idcp_struct_member {
 #define IDCP_DATA_DOUBLE 4
 
 struct idcp_stuff {
-	char type;
+	unsigned char type;
 	int addr;
 	union {
 		struct {
@@ -261,7 +245,10 @@ struct idcparse {
 #define IDCP_VARIABLE_TYPE_VOID 0
 #define IDCP_VARIABLE_TYPE_INT 1
 #define IDCP_VARIABLE_TYPE_STRING 2
-#define IDCP_VARIABLE_TYPE_STRUCT_MEMBER_ID 3
+#define IDCP_VARIABLE_TYPE_ENUM_ID 3
+#define IDCP_VARIABLE_TYPE_ENUM_MEMBER_ID 4
+#define IDCP_VARIABLE_TYPE_STRUCT_ID 5
+#define IDCP_VARIABLE_TYPE_STRUCT_MEMBER_ID 6
 
 struct idcp_variable {
 	char *name;
@@ -294,7 +281,7 @@ struct idcp_token *idcp_get_next_token(struct idcparse *idcp)
 	token->line = idcp->num_lines;
 	return token;
 }
-/*jeanine:p:i:2;p:1;a:r;x:3.33;*/
+/*jeanine:p:i:2;p:1;a:r;x:10.84;y:-21.53;*/
 static
 struct idcp_function* idcp_create_function_from_lbrace_token(struct idcparse *idcp)
 {
@@ -355,20 +342,7 @@ struct idcp_function* idcp_create_function_from_lbrace_token(struct idcparse *id
 	}
 	return f;
 }
-/*jeanine:p:i:3;p:4;a:r;x:50.15;y:-2.98;*/
-static
-void idcp_print_function_info(struct idcparse *idcp)
-{
-	struct idcp_function *f;
-	int i;
-
-	idcp_dprintf3("%d functions\n", idcp->num_functions);
-	for (i = 0; i < idcp->num_functions; i++) {
-		f = idcp->functions + i;
-		idcp_dprintf4("  function %s start %d end %d\n", f->name, f->start_token_idx, f->end_token_idx);
-	}
-}
-/*jeanine:p:i:1;p:4;a:r;x:208.82;y:-248.47;*/
+/*jeanine:p:i:1;p:4;a:r;x:316.54;y:-233.33;*/
 #define IDCP_CHARTYPE_IDENTIFIER 1
 #define IDCP_CHARTYPE_IDENTIFIER_NOTFIRST 2
 #define IDCP_CHARTYPE_NUMBER 4
@@ -564,7 +538,7 @@ parse_chartype_token:
 					} else if (*chars == 'n') {
 						c = '\n';
 					} else if (*chars != '\\') {
-						printf("unexpected character '%c' after \\ in string\n", *chars);
+						fprintf(stderr, "unexpected character '%c' after \\ in string\n", *chars);
 						assert(0);
 					}
 					chars++; charsleft--;
@@ -621,7 +595,7 @@ parse_chartype_token:
 			idcp_get_next_token(idcp)->type = IDCP_TOKENTYPE_AMP;
 			idcp_dprintf5("%d: T_AMP\n", idcp->num_lines);
 		} else {
-			printf("%d: unexpected character '%c'\n", idcp->num_lines, c);
+			fprintf(stderr, "%d: unexpected character '%c'\n", idcp->num_lines, c);
 			assert(0);
 		}
 	} while (charsleft);
@@ -729,7 +703,7 @@ void idcp_func_add_enum(struct idcparse *idcp, struct idcp_functioncallframe *fr
 	char *name;
 
 	assert(frame->num_arguments == 3);
-	assert(frame->arguments[0].type == IDCP_VARIABLE_TYPE_INT);
+	assert(frame->arguments[0].type == IDCP_VARIABLE_TYPE_INT); /*not enum id since it's a new one*/
 	assert(frame->arguments[1].type == IDCP_VARIABLE_TYPE_STRING);
 	assert(frame->arguments[2].type == IDCP_VARIABLE_TYPE_INT);
 	enum_id = frame->arguments[0].value.integer;
@@ -744,7 +718,7 @@ void idcp_func_add_enum(struct idcparse *idcp, struct idcp_functioncallframe *fr
 	e->flags = flags;
 	e->start_idx = 0;
 	e->end_idx = 0;
-	frame->returnvalue.type = IDCP_VARIABLE_TYPE_INT;
+	frame->returnvalue.type = IDCP_VARIABLE_TYPE_ENUM_ID;
 	frame->returnvalue.value.integer = idcp->num_enums - 1;
 }
 /*jeanine:p:i:14;p:10;a:r;x:28.89;y:107.00;*/
@@ -756,7 +730,7 @@ void idcp_func_add_enum_member(struct idcparse *idcp, struct idcp_functioncallfr
 	char *name;
 
 	assert(frame->num_arguments == 4);
-	assert(frame->arguments[0].type == IDCP_VARIABLE_TYPE_INT);
+	assert(frame->arguments[0].type == IDCP_VARIABLE_TYPE_ENUM_ID);
 	assert(frame->arguments[1].type == IDCP_VARIABLE_TYPE_STRING);
 	assert(frame->arguments[2].type == IDCP_VARIABLE_TYPE_INT);
 	assert(frame->arguments[3].type == IDCP_VARIABLE_TYPE_INT);
@@ -793,7 +767,7 @@ void idcp_func_set_enum_cmt(struct idcparse *idcp, struct idcp_functioncallframe
 	char *cmt;
 
 	assert(frame->num_arguments == 3);
-	assert(frame->arguments[0].type == IDCP_VARIABLE_TYPE_INT);
+	assert(frame->arguments[0].type == IDCP_VARIABLE_TYPE_ENUM_ID);
 	assert(frame->arguments[1].type == IDCP_VARIABLE_TYPE_STRING);
 	assert(frame->arguments[2].type == IDCP_VARIABLE_TYPE_INT);
 	enum_id    = frame->arguments[0].value.integer;
@@ -823,13 +797,13 @@ void idcp_func_get_struc_id(struct idcparse *idcp, struct idcp_functioncallframe
 	end = idcp->structs + idcp->num_structs;
 	while (str < end) {
 		if (!strcmp(str->name, name)) {
-			frame->returnvalue.type = IDCP_VARIABLE_TYPE_INT;
+			frame->returnvalue.type = IDCP_VARIABLE_TYPE_STRUCT_ID;
 			frame->returnvalue.value.integer = str - idcp->structs;
 			return;
 		}
 		str++;
 	}
-	printf("get_struc_id: can't find struct for name '%s'\n", name);
+	fprintf(stderr, "get_struc_id: can't find struct for name '%s'\n", name);
 	assert(0);
 }
 /*jeanine:p:i:16;p:10;a:r;x:28.89;y:144.00;*/
@@ -840,7 +814,7 @@ void idcp_func_get_enum_member(struct idcparse *idcp, struct idcp_functioncallfr
 	struct idcp_enum_member *mbr;
 
 	assert(frame->num_arguments == 4);
-	assert(frame->arguments[0].type == IDCP_VARIABLE_TYPE_INT);
+	assert(frame->arguments[0].type == IDCP_VARIABLE_TYPE_ENUM_ID);
 	assert(frame->arguments[1].type == IDCP_VARIABLE_TYPE_INT);
 	assert(frame->arguments[2].type == IDCP_VARIABLE_TYPE_INT);
 	assert(frame->arguments[3].type == IDCP_VARIABLE_TYPE_INT);
@@ -856,7 +830,7 @@ void idcp_func_get_enum_member(struct idcparse *idcp, struct idcp_functioncallfr
 	while (idx < end) {
 		if (mbr->value == value) {
 			if (!serial) {
-				frame->returnvalue.type = IDCP_VARIABLE_TYPE_INT;
+				frame->returnvalue.type = IDCP_VARIABLE_TYPE_ENUM_MEMBER_ID;
 				frame->returnvalue.value.integer = idx;
 				return;
 			}
@@ -865,7 +839,7 @@ void idcp_func_get_enum_member(struct idcparse *idcp, struct idcp_functioncallfr
 		mbr++;
 		idx++;
 	}
-	printf("get_enum_member: can't find member for value 0x%x\n", value);
+	fprintf(stderr, "get_enum_member: can't find member for value 0x%x\n", value);
 	assert(0);
 }
 /*jeanine:p:i:17;p:10;a:r;x:28.89;y:245.00;*/
@@ -876,7 +850,7 @@ void idcp_func_set_enum_member_cmt(struct idcparse *idcp, struct idcp_functionca
 	char *cmt;
 
 	assert(frame->num_arguments == 3);
-	assert(frame->arguments[0].type == IDCP_VARIABLE_TYPE_INT);
+	assert(frame->arguments[0].type == IDCP_VARIABLE_TYPE_ENUM_MEMBER_ID);
 	assert(frame->arguments[1].type == IDCP_VARIABLE_TYPE_STRING);
 	assert(frame->arguments[2].type == IDCP_VARIABLE_TYPE_INT);
 	member_id  = frame->arguments[0].value.integer;
@@ -898,7 +872,7 @@ void idcp_func_set_enum_bf(struct idcparse *idcp, struct idcp_functioncallframe 
 	int enum_id, is_bitfield;
 
 	assert(frame->num_arguments == 2);
-	assert(frame->arguments[0].type == IDCP_VARIABLE_TYPE_INT);
+	assert(frame->arguments[0].type == IDCP_VARIABLE_TYPE_ENUM_ID);
 	assert(frame->arguments[1].type == IDCP_VARIABLE_TYPE_INT);
 	enum_id     = frame->arguments[0].value.integer;
 	is_bitfield = frame->arguments[1].value.integer;
@@ -929,7 +903,7 @@ void idcp_func_add_struc(struct idcparse *idcp, struct idcp_functioncallframe *f
 	s->is_union = is_union;
 	s->start_idx = 0;
 	s->end_idx = 0;
-	frame->returnvalue.type = IDCP_VARIABLE_TYPE_INT;
+	frame->returnvalue.type = IDCP_VARIABLE_TYPE_STRUCT_ID;
 	frame->returnvalue.value.integer = idcp->num_structs - 1;
 }
 /*jeanine:p:i:20;p:10;a:r;x:28.89;y:44.00;*/
@@ -940,7 +914,7 @@ void idcp_func_set_struc_cmt(struct idcparse *idcp, struct idcp_functioncallfram
 	char *cmt;
 
 	assert(frame->num_arguments == 3);
-	assert(frame->arguments[0].type == IDCP_VARIABLE_TYPE_INT);
+	assert(frame->arguments[0].type == IDCP_VARIABLE_TYPE_STRUCT_ID);
 	assert(frame->arguments[1].type == IDCP_VARIABLE_TYPE_STRING);
 	assert(frame->arguments[2].type == IDCP_VARIABLE_TYPE_INT);
 	struct_id  = frame->arguments[0].value.integer;
@@ -965,11 +939,13 @@ void idcp_func_add_struc_member(struct idcparse *idcp, struct idcp_functioncallf
 	char *name;
 
 	assert(frame->num_arguments == 6 || frame->num_arguments == 9);
-	assert(frame->arguments[0].type == IDCP_VARIABLE_TYPE_INT);
+	assert(frame->arguments[0].type == IDCP_VARIABLE_TYPE_STRUCT_ID);
 	assert(frame->arguments[1].type == IDCP_VARIABLE_TYPE_STRING);
 	assert(frame->arguments[2].type == IDCP_VARIABLE_TYPE_INT);
 	assert(frame->arguments[3].type == IDCP_VARIABLE_TYPE_INT);
-	assert(frame->arguments[4].type == IDCP_VARIABLE_TYPE_INT);
+	assert(frame->arguments[4].type == IDCP_VARIABLE_TYPE_INT ||
+		frame->arguments[4].type == IDCP_VARIABLE_TYPE_STRUCT_ID ||
+		frame->arguments[4].type == IDCP_VARIABLE_TYPE_ENUM_ID);
 	assert(frame->arguments[5].type == IDCP_VARIABLE_TYPE_INT);
 	struct_id = frame->arguments[0].value.integer;
 	name      = frame->arguments[1].value.string;
@@ -1039,7 +1015,7 @@ void idcp_func_set_struc_align(struct idcparse *idcp, struct idcp_functioncallfr
 	int struct_id, align;
 
 	assert(frame->num_arguments == 2);
-	assert(frame->arguments[0].type == IDCP_VARIABLE_TYPE_INT);
+	assert(frame->arguments[0].type == IDCP_VARIABLE_TYPE_STRUCT_ID);
 	assert(frame->arguments[1].type == IDCP_VARIABLE_TYPE_INT);
 	struct_id = frame->arguments[0].value.integer;
 	align     = frame->arguments[1].value.integer;
@@ -1056,7 +1032,7 @@ void idcp_func_set_member_cmt(struct idcparse *idcp, struct idcp_functioncallfra
 	char *comment;
 
 	assert(frame->num_arguments == 4);
-	assert(frame->arguments[0].type == IDCP_VARIABLE_TYPE_INT);
+	assert(frame->arguments[0].type == IDCP_VARIABLE_TYPE_STRUCT_ID);
 	assert(frame->arguments[1].type == IDCP_VARIABLE_TYPE_INT);
 	assert(frame->arguments[2].type == IDCP_VARIABLE_TYPE_STRING);
 	assert(frame->arguments[3].type == IDCP_VARIABLE_TYPE_INT);
@@ -1094,7 +1070,7 @@ void idcp_func_get_enum(struct idcparse *idcp, struct idcp_functioncallframe *fr
 		}
 		enu++;
 	}
-	printf("get_enum: can't find enum for name '%s'\n", name);
+	fprintf(stderr, "get_enum: can't find enum for name '%s'\n", name);
 	assert(0);
 }
 /*jeanine:p:i:26;p:10;a:r;x:28.89;y:67.00;*/
@@ -1105,7 +1081,7 @@ void idcp_func_get_member_id(struct idcparse *idcp, struct idcp_functioncallfram
 	int struct_id, member_offset;
 
 	assert(frame->num_arguments == 2);
-	assert(frame->arguments[0].type == IDCP_VARIABLE_TYPE_INT);
+	assert(frame->arguments[0].type == IDCP_VARIABLE_TYPE_STRUCT_ID);
 	assert(frame->arguments[1].type == IDCP_VARIABLE_TYPE_INT);
 	struct_id =     frame->arguments[0].value.integer;
 	member_offset = frame->arguments[1].value.integer;
@@ -1122,7 +1098,7 @@ void idcp_func_get_member_id(struct idcparse *idcp, struct idcp_functioncallfram
 		}
 		mem++;
 	}
-	printf("get_member_id: can't find member in struct '%s' at offset 0x%x\n", idcp->structs[struct_id].name, member_offset);
+	fprintf(stderr, "get_member_id: can't find member in struct '%s' at offset 0x%x\n", idcp->structs[struct_id].name, member_offset);
 	assert(0);
 }
 /*jeanine:p:i:27;p:10;a:r;x:28.89;y:-249.00;*/
@@ -1567,7 +1543,7 @@ ignoredbuiltin:
 	frame->returnvalue.value.integer = 0;
 	return 1;
 }
-/*jeanine:p:i:9;p:8;a:r;x:4.29;y:-29.27;*/
+/*jeanine:p:i:9;p:8;a:r;x:8.89;y:10.50;*/
 /**
 @param tok should be the identifier doing the variable access
 */
@@ -1646,13 +1622,13 @@ void idcp_get_variable_value(struct idcparse *idcp, struct idcp_variable *result
 		}
 		break;
 	}
-	printf("%d: failed to find variable '%s' for reading\n", tok->line, name);
+	fprintf(stderr, "%d: failed to find variable '%s' for reading\n", tok->line, name);
 	assert(0);
 ignoredvariable:
 	result->type = IDCP_VARIABLE_TYPE_INT;
 	result->value.integer = 0;
 }
-/*jeanine:p:i:13;p:8;a:r;x:4.44;y:-48.00;*/
+/*jeanine:p:i:13;p:8;a:r;x:9.33;y:-9.00;*/
 /**
 Will set the local variable (found in param 'frame') with the same name as provided in param 'value' to the value in param 'value'.
 
@@ -1671,7 +1647,7 @@ void idcp_set_variable_value(struct idcparse *idcp, struct idcp_variable *value,
 			return;
 		}
 	}
-	printf("%d: failed to find variable '%s' for writing\n", tok->line, name);
+	fprintf(stderr, "%d: failed to find variable '%s' for writing\n", tok->line, name);
 	assert(0);
 }
 /*jeanine:p:i:8;p:11;a:r;x:3.33;*/
@@ -1805,7 +1781,7 @@ void idcp_eval_expression_value(struct idcparse *idcp, struct idcp_variable *res
 			assert(have_value && current_operation == IDCP_EVAL_OP_NONE);
 			goto ret;
 		default:
-			printf("%d: unexpected token %s while evaluating expression\n", tok->line, IDCP_TOKEN_NAME[tok->type]);
+			fprintf(stderr, "%d: unexpected token %s while evaluating expression\n", tok->line, IDCP_TOKEN_NAME[tok->type]);
 			assert(0);
 		}
 		switch (current_operation) {
@@ -1860,6 +1836,9 @@ ret:
 		idcp_dprintf4("end eval, result void\n");
 		break;
 	case IDCP_VARIABLE_TYPE_INT:
+	case IDCP_VARIABLE_TYPE_ENUM_ID:
+	case IDCP_VARIABLE_TYPE_ENUM_MEMBER_ID:
+	case IDCP_VARIABLE_TYPE_STRUCT_ID:
 	case IDCP_VARIABLE_TYPE_STRUCT_MEMBER_ID:
 		idcp_dprintf4("end eval, result int 0x%x\n", result->value.integer);
 		break;
@@ -1873,7 +1852,7 @@ ret:
 	*_tok = tok;
 	*_tokensleft = tokensleft;
 }
-/*jeanine:p:i:11;p:4;a:r;x:42.94;y:12.42;*/
+/*jeanine:p:i:11;p:4;a:r;x:128.99;y:-10.97;*/
 static
 void idcp_execute_function(struct idcparse *idcp, struct idcp_functioncallframe *frame)
 {
@@ -1889,6 +1868,9 @@ void idcp_execute_function(struct idcparse *idcp, struct idcp_functioncallframe 
 		case IDCP_VARIABLE_TYPE_VOID:
 			assert(0);
 		case IDCP_VARIABLE_TYPE_INT:
+		case IDCP_VARIABLE_TYPE_ENUM_ID:
+		case IDCP_VARIABLE_TYPE_ENUM_MEMBER_ID:
+		case IDCP_VARIABLE_TYPE_STRUCT_ID:
 		case IDCP_VARIABLE_TYPE_STRUCT_MEMBER_ID:
 			idcp_dprintf3(" 0x%x", frame->arguments[i].value.integer);
 			break;
@@ -1907,7 +1889,7 @@ void idcp_execute_function(struct idcparse *idcp, struct idcp_functioncallframe 
 	/*find the function*/
 	for (i = 0, func = idcp->functions;; i++, func++) {
 		if (i >= idcp->num_functions) {
-			printf("can't find function '%s'\n", frame->function_name);
+			fprintf(stderr, "can't find function '%s'\n", frame->function_name);
 			assert(0);
 		}
 		if (!strcmp(func->name, frame->function_name)) {
@@ -1971,6 +1953,9 @@ ret:
 		idcp_dprintf3("done function '%s', result void\n", frame->function_name);
 		break;
 	case IDCP_VARIABLE_TYPE_INT:
+	case IDCP_VARIABLE_TYPE_ENUM_ID:
+	case IDCP_VARIABLE_TYPE_ENUM_MEMBER_ID:
+	case IDCP_VARIABLE_TYPE_STRUCT_ID:
 	case IDCP_VARIABLE_TYPE_STRUCT_MEMBER_ID:
 		idcp_dprintf3("done function '%s', result int 0x%x\n", frame->function_name, frame->returnvalue.value.integer);
 		break;
@@ -1981,6 +1966,44 @@ ret:
 		assert(0);
 	}
 #endif
+}
+/*jeanine:p:i:42;p:4;a:r;x:23.44;*/
+static
+void idcp_print_final_stats(struct idcparse *idcp)
+{
+	struct idcp_stuff *stuff;
+	int num[5];
+
+	memset(num, 0, sizeof(num));
+	stuff = idcp->stuffs + idcp->num_stuffs;
+	while (stuff != idcp->stuffs) {
+		stuff--;
+		assert(stuff->type < sizeof(num)/sizeof(num[0]));
+		num[stuff->type]++;
+	}
+	idcp_dprintf1("%d stuffs: %d unk %d data %d func %d instr %d named_instr\n",
+		idcp->num_stuffs, num[0], num[1], num[2], num[3], num[4]);
+}
+/*jeanine:p:i:43;p:4;a:r;x:23.50;y:18.41;*/
+/**
+After this, stuff will only contain datas & funcs.
+*/
+static
+void idcp_remove_unneeded_stuffs(struct idcparse *idcp)
+{
+	struct idcp_stuff *a, *b, *end;
+
+	a = b = idcp->stuffs;
+	end = idcp->stuffs + idcp->num_stuffs;
+	idcp->num_stuffs = 0;
+	while (b != end) {
+		if (b->type == IDCP_STUFF_TYPE_DATA || b->type == IDCP_STUFF_TYPE_FUNC) {
+			*a = *b;
+			a++;
+		}
+		b++;
+	}
+	idcp->num_stuffs = a - idcp->stuffs;
 }
 /*jeanine:p:i:4;p:0;a:t;x:3.33;*/
 /**
@@ -2001,11 +2024,12 @@ void idcparse(struct idcparse *idcp, char *chars, int length)
 
 	idcparse_tokenize(idcp, chars, length);/*jeanine:r:i:1;*/
 	idcp_dprintf1("%d tokens %d lines\n", idcp->num_tokens, idcp->num_lines);
-	idcp_print_function_info(idcp);/*jeanine:r:i:3;*/
 
 	frame.function_name = "main";
 	frame.function_name_len = 4;
 	frame.num_arguments = 0;
 	frame.num_variables = 0;
 	idcp_execute_function(idcp, &frame);/*jeanine:r:i:11;*/
+	idcp_print_final_stats(idcp);/*jeanine:r:i:42;*/
+	idcp_remove_unneeded_stuffs(idcp);/*jeanine:r:i:43;*/
 }
