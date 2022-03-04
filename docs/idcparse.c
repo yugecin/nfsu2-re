@@ -21,7 +21,9 @@ function defined in the idc file.*/
 /*Some IDA definitions.*/
 #define IDCP_IDA_SN_LOCAL 0x200
 
+#ifndef IDCP_VERBOSE_LEVEL
 #define IDCP_VERBOSE_LEVEL 0
+#endif
 /*useful when debugging segfaults*/
 #if 0
 #define IDCP_FFLUSH fflush(stdout)
@@ -1980,7 +1982,7 @@ ret:
 	}
 #endif
 }
-/*jeanine:p:i:42;p:4;a:r;x:23.44;*/
+/*jeanine:p:i:42;p:4;a:r;x:20.22;y:0.50;*/
 static
 void idcp_print_final_stats(struct idcparse *idcp)
 {
@@ -1994,10 +1996,12 @@ void idcp_print_final_stats(struct idcparse *idcp)
 		assert(stuff->type < sizeof(num)/sizeof(num[0]));
 		num[stuff->type]++;
 	}
-	idcp_dprintf1("%d stuffs: %d unk %d data %d func %d instr %d named_instr\n",
+	idcp_dprintf1("%d enums %d members, %d structs %d members\n",
+		idcp->num_enums, idcp->num_enum_members, idcp->num_structs, idcp->num_struct_members);
+	idcp_dprintf1("%d stuffs: %d unk, %d data, %d func, %d instr, %d named_instr\n",
 		idcp->num_stuffs, num[0], num[1], num[2], num[3], num[4]);
 }
-/*jeanine:p:i:43;p:4;a:r;x:23.50;y:18.41;*/
+/*jeanine:p:i:43;p:4;a:r;x:20.17;y:20.84;*/
 /**
 After this, stuff will only contain datas & funcs.
 */

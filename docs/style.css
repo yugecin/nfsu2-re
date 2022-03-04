@@ -1,0 +1,58 @@
+body {
+	font-family: Tahoma,Arial,sans-serif;
+	background: #888;
+	color: #000;
+}
+header,
+nav,
+body > div {
+	background: #fff;
+	box-shadow: 0px 0px 4px #000;
+	border: 1px solid #efefef;
+	padding: 0 1em;
+	margin: 1em auto;
+}
+header {
+	background: linear-gradient(45deg, #8ff 0%, #eff 30%, #fef 70%, #fce 100%);
+}
+nav,
+header {
+	text-align: center;
+}
+nav,
+body > div {
+	max-width: 60em;
+}
+pre {
+	border: 2px solid #cdcdcd;
+	background: #f7f7f7;
+	padding: .2em .5em;
+	overflow-x: auto;
+}
+.struc h3 + p {
+	font-family: monospace;
+}
+.struc i {
+	font-style: normal;
+	color: #aaa;
+}
+.struc em {
+	font-style: normal;
+	background: #fca;
+	border: 1px solid #f94;
+	font-size: 80%;
+	border-radius: 6px;
+	color: #000;
+}
+.struc strong {
+	background: #f00;
+	color: #fff;
+}
+/*doccomment*/
+.struc span {
+	color: #080;
+	display: inline-block;
+	margin-left: 5em; /*why 5 and not 8?*/
+	/*so doccomments on their own don't cause scrollbars*/
+	white-space: pre-wrap;
+}
