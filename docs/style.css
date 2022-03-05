@@ -53,8 +53,24 @@ pre h3 {
 	font-size: 80%;
 	color: #777;
 }
-.struc em {
+.struc h3 + i + em::after {
+	content: "/*class*/";
 	font-style: normal;
+	background: #d4aaff;
+	border: 1px solid #94f;
+	font-size: 80%;
+	border-radius: 3px;
+}
+/*union emphasis*/
+.struc b {
+	font-weight: normal;
+	background: #aadfff;
+	border: 1px solid #44b9ff;
+	font-size: 90%;
+	border-radius: 3px;
+}
+.struc u {
+	text-decoration: none;
 	background: #fca;
 	border: 1px solid #f94;
 	font-size: 80%;

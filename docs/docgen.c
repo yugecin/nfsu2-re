@@ -34,6 +34,8 @@ See <IDA path>/idc/idc.idc (without the IDC_ prefix in the definitions' names)*/
 struct docgen_structinfo {
 	struct idcp_struct *struc;
 	int name_len;
+	/**struct is a class when at least one func's 'methodof' refers this struct*/
+	char is_class;
 };
 
 struct docgen_funcinfo {
@@ -342,6 +344,7 @@ void docgen_gen_func_signature(struct docgen_tmpbuf **signaturebuf, struct docge
 		memcpy(classname, originalname, classname_len);
 		classname[classname_len] = 0;
 		if ((funcinfo->methodof = docgen_find_struct(dg, classname))) {
+			funcinfo->methodof->is_class = 1;
 			b += sprintf(b, "<a href='structs.html#struc_%s'>%s</a>", classname, classname);
 		} else {
 			printf("warn: cannot find struct '%s' for func %X '%s'\n", classname, func->addr, originalname);
@@ -517,7 +520,7 @@ void docgen_print_struct_member(FILE *f, struct docgen *dg, struct idcp_struct *
 				break;
 			};
 			if (!isplaceholder) {
-				strcat(typeandname->data, " <em>/*unk type*/</em>");
+				strcat(typeandname->data, " <u>/*unk type*/</u>");
 			}
 		}
 		assert(!mem->comment);
@@ -552,15 +555,13 @@ void docgen_print_struct(FILE *f, struct docgen *dg, struct docgen_structinfo *s
 	size = docgen_get_struct_size(dg->idcp, struc);
 
 	/*TODO: check if struct name is valid to use as anchor, or replace invalid chars?*/
-	fprintf(f, "<pre id='struc_%s'>%s <h3>%s</h3>%s%d%s%X%s",
+	fprintf(f, "<pre id='struc_%s'>%s <h3>%s</h3> { <i>/*%d members, size %Xh*/</i>%s\n",
 		struc->name,
-		struc->is_union ? "union" : "struct",
+		struc->is_union ? "<b>union</b>" : "struct",
 		struc->name,
-		" { <i>/*",
 		num_members,
-		" members, size ",
 		size,
-		"h*/</i>\n"
+		structinfo->is_class ? " <em></em>" : ""
 	);
 	mem = dg->idcp->struct_members + struc->start_idx;
 	membersleft = struc->end_idx - struc->start_idx;
@@ -583,29 +584,25 @@ void docgen_print_struct(FILE *f, struct docgen *dg, struct docgen_structinfo *s
 		/*TODO: mmparse*/
 		fprintf(f, "<p>%s</p>", struc->rep_comment);
 	}
-	has_symbol_header = 0;
-	funcsignature = docgen_get_tmpbuf(10000);
-	for (i = 0, funcinfo = dg->funcinfos; i < dg->num_funcinfos; i++, funcinfo++) {
-		if (funcinfo->methodof == structinfo) {
-			if (!has_symbol_header) {
-				has_symbol_header = 1;
-				fprintf(f, "<p><strong>Methods:</strong></p><ul>");
+	if (structinfo->is_class) {
+		fprintf(f, "<p><strong>Methods:</strong></p><ul>");
+		funcsignature = docgen_get_tmpbuf(10000);
+		for (i = 0, funcinfo = dg->funcinfos; i < dg->num_funcinfos; i++, funcinfo++) {
+			if (funcinfo->methodof == structinfo) {
+				func = funcinfo->func;
+				if (func->data.func.type) {
+					strcpy(funcsignature->data, func->data.func.type);
+					docgen_get_func_friendlyname(friendlyfuncname, func->data.func.name);
+					namepos = strstr(funcsignature->data, friendlyfuncname);
+					assert(namepos); /*Shouldn't fail, it should've been caught when the functions were being processed.*/
+					memcpy(namepos, func->data.func.name, funcinfo->name_len);
+				} else {
+					strcpy(funcsignature->data, func->data.func.name);
+				}
+				fprintf(f, "<li><pre><a href='funcs.html#%X'>%s</a> <i>%X</i></pre></li>", func->addr, funcsignature->data, func->addr);
 			}
-			func = funcinfo->func;
-			if (func->data.func.type) {
-				strcpy(funcsignature->data, func->data.func.type);
-				docgen_get_func_friendlyname(friendlyfuncname, func->data.func.name);
-				namepos = strstr(funcsignature->data, friendlyfuncname);
-				assert(namepos); /*Shouldn't fail, it should've been caught when the functions were being processed.*/
-				memcpy(namepos, func->data.func.name, funcinfo->name_len);
-			} else {
-				strcpy(funcsignature->data, func->data.func.name);
-			}
-			fprintf(f, "<li><pre><a href='funcs.html#%X'>%s</a> <i>%X</i></pre></li>", func->addr, funcsignature->data, func->addr);
 		}
-	}
-	docgen_free_tmpbuf(funcsignature);
-	if (has_symbol_header) {
+		docgen_free_tmpbuf(funcsignature);
 		fprintf(f, "</ul>");
 	}
 }
