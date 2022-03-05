@@ -46,6 +46,10 @@ pre {
 	background: #fee;
 	border: 1px solid #f66;
 }
+.var > pre {
+	background: #efe;
+	border: 1px solid #5a5;
+}
 pre h3 {
 	display: inline;
 	font-size: 1em;
@@ -74,11 +78,17 @@ body > div > pre b {
 }
 body > div > pre u {
 	text-decoration: none;
+}
+body > div > pre u::after {
+	content: "/*unknown type*/";
 	background: #fca;
 	border: 1px solid #f94;
 	font-size: 80%;
 	border-radius: 6px;
 	color: #000;
+}
+body > div.var > pre u::after {
+	content: "/*unconfirmed type*/";
 }
 /*reference to unknown struct/enum*/
 body > div > pre > strong {

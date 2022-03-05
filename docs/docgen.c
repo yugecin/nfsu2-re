@@ -49,6 +49,10 @@ struct docgen_enuminfo {
 	int name_len;
 };
 
+struct docgen_datainfo {
+	struct idcp_stuff *data;
+};
+
 struct docgen {
 	struct idcparse *idcp;
 	int num_structinfos;
@@ -57,6 +61,8 @@ struct docgen {
 	struct docgen_funcinfo *funcinfos;
 	int num_enuminfos;
 	struct docgen_enuminfo *enuminfos;
+	int num_datainfos;
+	struct docgen_datainfo *datainfos;
 };
 /*jeanine:p:i:20;p:0;a:b;x:-104.54;y:12.48;*/
 static
@@ -574,7 +580,7 @@ void docgen_print_struct_member(FILE *f, struct docgen *dg, struct idcp_struct *
 				break;
 			};
 			if (!isplaceholder) {
-				strcat(typeandname->data, " <u>/*unk type*/</u>");
+				strcat(typeandname->data, " <u></u>");
 			}
 		}
 		assert(!mem->comment);
@@ -701,15 +707,73 @@ int docgen_enum_sort_compar(const void *_a, const void *_b)
 
 	return docgen_stricmp(a->name, b->name);
 }
+/*jeanine:p:i:23;p:7;a:r;x:10.27;y:50.29;*/
+static
+void docgen_print_data(FILE *f, struct docgen *dg, struct docgen_datainfo *datainfo, struct idcp_stuff *data)
+{
+	struct docgen_tmpbuf *type;
+	char unconfirmed_type, *st;
+
+	type = docgen_get_tmpbuf(10000);
+	unconfirmed_type = 0;
+	if (data->data.data.struct_type) {
+		st = data->data.data.struct_type;
+		if (docgen_find_struct(dg, st)) {
+			sprintf(type->data, "<a href='structs.html#struc_%s'>struct %s</a>", st, st);
+		} else {
+			printf("warn: cannot find struct '%s' for var %X '%s'\n", st, data->addr, data->name);
+			sprintf(type->data, "<strong>struct %s<strong>", st);
+		}
+	} else if (data->data.data.flags & IDCP_DATA_FLOAT) {
+		assert(data->data.data.size == 4);
+		strcpy(type->data, "float");
+	} else if (data->data.data.flags & IDCP_DATA_DOUBLE) {
+		assert(data->data.data.size == 8);
+		strcpy(type->data, "double");
+	} else {
+		switch (data->data.data.size) {
+		case 1:
+			strcpy(type->data, "char");
+			break;
+		case 2:
+			strcpy(type->data, "short");
+			break;
+		case 4:
+			strcpy(type->data, "int");
+			break;
+		default:
+			assert(0);
+			break;
+		};
+		unconfirmed_type = 1;
+	}
+	fprintf(f, "<pre id='%X'><i>%X</i> %s <h3>%s</h3>", data->addr, data->addr, type->data, data->name);
+	docgen_free_tmpbuf(type);
+	if (data->data.data.arraysize) {
+		fprintf(f, "[%d]", data->data.data.arraysize);
+	}
+	if (unconfirmed_type) {
+		fprintf(f, " <u></u></pre>");
+	}
+	fprintf(f, "</pre>");
+	if (data->comment) {
+		/*TODO: mmparse*/
+		fprintf(f, "<p>%s</p>", data->comment);
+	}
+	if (data->rep_comment) {
+		/*TODO: mmparse*/
+		fprintf(f, "<p>%s</p>", data->rep_comment);
+	}
+}
 /*jeanine:p:i:7;p:0;a:b;x:116.00;y:12.13;*/
 int main(int argc, char **argv)
 {
+	FILE *f_structs, *f_funcs, *f_enums, *f_datas;
 	struct docgen_structinfo *structinfo;
-	FILE *f_structs, *f_funcs, *f_enums;
+	struct docgen_datainfo *datainfo;
 	struct docgen_enuminfo *enuminfo;
 	struct docgen_funcinfo *funcinfo;
 	struct idcp_struct **struc;
-	struct idcp_stuff **stuff;
 	struct idcparse *idcp;
 	struct docgen *dg;
 	char *css, *name;
@@ -753,6 +817,15 @@ int main(int argc, char **argv)
 	}
 	dg->num_enuminfos = idcp->num_enums;
 	qsort((void*) dg->enuminfos, dg->num_enuminfos, sizeof(struct docgen_enuminfo), docgen_enum_sort_compar);/*jeanine:r:i:21;*/
+	/*read datas (not sorting these...)*/
+	dg->datainfos = malloc(sizeof(struct docgen_datainfo) * idcp->num_datas);
+	assert(((void)"failed to malloc for dg->datainfos", dg->datainfos));
+	for (dg->num_datainfos = 0, j = 0; j < idcp->num_stuffs; j++) {
+		if (idcp->stuffs[j].type == IDCP_STUFF_TYPE_DATA && idcp->stuffs[j].name) {
+			dg->datainfos[dg->num_datainfos].data = idcp->stuffs + j;
+			dg->num_datainfos++;
+		}
+	}
 
 	/*funcs*/
 	f_funcs = fopen("funcs.html", "wb");
@@ -815,6 +888,26 @@ int main(int argc, char **argv)
 	}
 	fprintf(f_enums, "%s", "</div></body></html>");
 	fclose(f_enums);
+
+	/*datas*/
+	f_datas = fopen("vars.html", "wb");
+	assert(((void)"failed to open file vars.html for writing", f_datas));
+	fprintf(f_datas,
+		"%s%s%s",
+		"<!DOCTYPE html><html lang='en'><head><meta charset='utf-8'/><title>nfsu2-re/vars</title><style>",
+		css,
+		"</style></head><body><header><h1>nfsu2-re</h1><p>link</p></header><nav><p>Home</p></nav>"
+	);
+	fprintf(f_datas, "%s%d%s", "<div><h2>Vars (", dg->num_datainfos, ")</h2><ul>\n");
+	for (i = 0, datainfo = dg->datainfos; i < dg->num_datainfos; i++, datainfo++) {
+		fprintf(f_datas, "<li><a href='#%X'>%s</a></li>\n", datainfo->data->addr, datainfo->data->name);
+	}
+	fprintf(f_datas, "%s", "</ul></div><div class='var'>");
+	for (i = 0, datainfo = dg->datainfos; i < dg->num_datainfos; i++, datainfo++) {
+		docgen_print_data(f_datas, dg, datainfo, datainfo->data);/*jeanine:r:i:23;*/
+	}
+	fprintf(f_datas, "%s", "</div></body></html>");
+	fclose(f_datas);
 
 	return 0;
 }
