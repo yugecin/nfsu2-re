@@ -236,6 +236,8 @@ struct idcparse {
 	int num_structs;
 	struct idcp_struct structs[IDCP_MAX_STRUCTS];
 	int num_stuffs;
+	int num_funcs;
+	int num_datas;
 	struct idcp_stuff stuffs[IDCP_MAX_STUFFS];
 	char *token_str_pool;
 	char *token_str_pool_ptr;
@@ -1984,7 +1986,7 @@ ret:
 }
 /*jeanine:p:i:42;p:4;a:r;x:20.22;y:0.50;*/
 static
-void idcp_print_final_stats(struct idcparse *idcp)
+void idcp_finalize(struct idcparse *idcp)
 {
 	struct idcp_stuff *stuff;
 	int num[5];
@@ -1996,12 +1998,15 @@ void idcp_print_final_stats(struct idcparse *idcp)
 		assert(stuff->type < sizeof(num)/sizeof(num[0]));
 		num[stuff->type]++;
 	}
+	idcp->num_funcs = num[IDCP_STUFF_TYPE_FUNC];
+	idcp->num_datas = num[IDCP_STUFF_TYPE_DATA];
+
 	idcp_dprintf1("%d enums %d members, %d structs %d members\n",
 		idcp->num_enums, idcp->num_enum_members, idcp->num_structs, idcp->num_struct_members);
 	idcp_dprintf1("%d stuffs: %d unk, %d data, %d func, %d instr, %d named_instr\n",
 		idcp->num_stuffs, num[0], num[1], num[2], num[3], num[4]);
 }
-/*jeanine:p:i:43;p:4;a:r;x:20.17;y:20.84;*/
+/*jeanine:p:i:43;p:4;a:r;x:20.17;y:23.84;*/
 /**
 After this, stuff will only contain datas & funcs.
 */
@@ -2047,6 +2052,6 @@ void idcparse(struct idcparse *idcp, char *chars, int length)
 	frame.num_arguments = 0;
 	frame.num_variables = 0;
 	idcp_execute_function(idcp, &frame);/*jeanine:r:i:11;*/
-	idcp_print_final_stats(idcp);/*jeanine:r:i:42;*/
+	idcp_finalize(idcp);/*jeanine:r:i:42;*/
 	idcp_remove_unneeded_stuffs(idcp);/*jeanine:r:i:43;*/
 }
