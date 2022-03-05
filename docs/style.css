@@ -29,12 +29,22 @@ pre {
 	padding: .2em .5em;
 	overflow-x: auto;
 }
+.func > pre {
+	background: #fef;
+	border: 1px solid #f6f;
+}
+.struc > pre {
+	background: #eef;
+	border: 1px solid #66f;
+}
 .struc h3 + p {
 	font-family: monospace;
 }
+.func i,
 .struc i {
 	font-style: normal;
-	color: #aaa;
+	font-size: 80%;
+	color: #777;
 }
 .struc em {
 	font-style: normal;
@@ -44,6 +54,8 @@ pre {
 	border-radius: 6px;
 	color: #000;
 }
+/*reference to unknown struct*/
+.func strong,
 .struc strong {
 	background: #f00;
 	color: #fff;

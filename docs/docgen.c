@@ -17,8 +17,6 @@ html documentation for the structs/enums/functions/data.
 #define IDCP_VERBOSE_LEVEL 0
 #include "idcparse.c"
 
-#define DOCGEN_WARN_UNKNOWN_STRUCT_REFERENCES
-
 /*These definitions are specific to your IDA's version.
 See <IDA path>/idc/idc.idc (without the IDC_ prefix in the definitions' names)*/
 #define IDC_FF_STRUCT 0x60000000
@@ -37,6 +35,48 @@ struct docgen_structinfo {
 	struct idcp_struct *struc;
 	int name_len;
 };
+
+struct docgen_funcinfo {
+	struct idcp_stuff *stuff;
+	int name_len;
+};
+
+struct docgen {
+	struct idcparse *idcp;
+	int num_structinfos;
+	struct docgen_structinfo *structinfos;
+	int num_funcinfos;
+	struct docgen_funcinfo *funcinfos;
+};
+/*jeanine:p:i:20;p:0;a:b;x:-104.54;y:12.48;*/
+
+static
+struct docgen_structinfo* docgen_find_struct(struct docgen *dg, char *name)
+{
+	struct docgen_structinfo *structinfo;
+	int i, len;
+
+	len = strlen(name);
+	for (i = 0, structinfo = dg->structinfos; i < dg->num_structinfos; i++, structinfo++) {
+		if (len == structinfo->name_len && !strcmp(name, structinfo->struc->name)) {
+			return structinfo;
+		}
+	}
+	return NULL;
+}
+
+static
+int docgen_get_struct_size(struct idcparse *idcp, struct idcp_struct *struc)
+{
+	struct idcp_struct_member *mem;
+
+	if (struc->end_idx > struc->start_idx) {
+		mem = idcp->struct_members + struc->end_idx - 1;
+		return mem->offset + mem->nbytes;
+	} else {
+		return 0;
+	}
+}
 
 static
 int docgen_stricmp(char *a, char *b)
@@ -67,8 +107,7 @@ nchr:
 	b++;
 	goto nchr;
 }
-
-/*jeanine:p:i:14;p:0;a:b;x:-78.78;y:11.75;*/
+/*jeanine:p:i:14;p:0;a:b;y:12.13;*/
 struct docgen_tmpbuf {
 	char used;
 	char *data;
@@ -94,6 +133,7 @@ struct docgen_tmpbuf* docgen_get_tmpbuf(int minsize)
 	for (i = 0, b = bufs; i < DOCGEN_MAX_TMPBUFS; i++, b++) {
 		if (!b->used && b->size >= minsize) {
 			b->used = 1;
+			b->data[0] = 0;
 			return b;
 		}
 	}
@@ -104,6 +144,7 @@ struct docgen_tmpbuf* docgen_get_tmpbuf(int minsize)
 			b->size = minsize;
 			b->data = malloc(minsize);
 			assert(b->data);
+			b->data[0] = 0;
 			return b;
 		}
 	}
@@ -114,6 +155,7 @@ struct docgen_tmpbuf* docgen_get_tmpbuf(int minsize)
 			b->size = minsize;
 			b->data = realloc(b->data, minsize);
 			assert(b->data);
+			b->data[0] = 0;
 			return b;
 		}
 	}
@@ -125,62 +167,55 @@ void docgen_free_tmpbuf(struct docgen_tmpbuf *buf)
 {
 	buf->used = 0;
 }
-/*jeanine:p:i:12;p:11;a:r;x:6.67;y:24.00;*/
+/*jeanine:p:i:12;p:11;a:r;x:39.37;y:-68.98;*/
 /**
 @param tmpbuf might get swapped with a different buffer
 @return nonzero if there were unknown structs
 */
+/*TODO: enum refs*/
 static
-int docgen_mark_unknown_structs(struct docgen_tmpbuf **tmpbuf)
+int docgen_link_structs(struct docgen *dg, struct docgen_tmpbuf **tmpbuf)
 {
-	char *bufp, *sub, *end, *strp, c;
+	char *bufp, *sub, *end, *strp, c, structname[200], *sn, hasunknown;
 	struct docgen_tmpbuf *newbuf, *original;
 
+	hasunknown = 0;
 	original = *tmpbuf;
-	sub = strstr(original->data, "struct #");
+	sub = strstr(original->data, "struct ");
 	if (sub) {
 		newbuf = docgen_get_tmpbuf(original->size);
 		bufp = newbuf->data;
 		strp = original->data;
 		do {
+			/*Copy segment before struct*/
 			memcpy(bufp, strp, sub - strp);
 			bufp += sub - strp;
-			memcpy(bufp, "<strong>", 8);
-			bufp += 8;
-			end = sub + 8;
+			/*Get struct name*/
+			end = sub + 6;
+			sn = structname - 1;
 			do {
-				end++;
-				c = *end;
-			} while ('0' <= c && c <= '9');
-			memcpy(bufp, sub, end - sub);
-			bufp += end - sub;
-			memcpy(bufp, "</strong>", 9);
-			bufp += 9;
+				end++; sn++;
+				*sn = c = *end;
+			} while (c != ' ' && c != ')' && c != '*' && c != '[');
+			*sn = 0;
+			if (structname[0] != '#' && docgen_find_struct(dg, structname)) {
+				bufp += sprintf(bufp, "<a href='structs.html#struc_%s'>struct %s</a>", structname, structname);
+			} else {
+				hasunknown = 1;
+				bufp += sprintf(bufp, "<strong>struct %s</strong>", structname);
+			}
 			strp = end;
-			sub = strstr(strp, "struct #");
+			sub = strstr(strp, "struct ");
 		} while (sub);
 		*bufp = 0;
 		strcat(bufp, strp);
 		*tmpbuf = newbuf;
 		docgen_free_tmpbuf(original);
-		return 1;
+		return hasunknown;
 	}
 	return 0;
 }
-/*jeanine:p:i:6;p:5;a:r;x:287.66;*/
-static
-int docgen_get_struct_size(struct idcparse *idcp, struct idcp_struct *struc)
-{
-	struct idcp_struct_member *mem;
-
-	if (struc->end_idx > struc->start_idx) {
-		mem = idcp->struct_members + struc->end_idx - 1;
-		return mem->offset + mem->nbytes;
-	} else {
-		return 0;
-	}
-}
-/*jeanine:p:i:1;p:7;a:r;x:6.67;y:-42.00;*/
+/*jeanine:p:i:1;p:7;a:r;x:8.89;y:-49.00;*/
 static
 void docgen_parseidc(struct idcparse *idcp)
 {
@@ -205,7 +240,7 @@ void docgen_parseidc(struct idcparse *idcp)
 	}
 	FREE(buf);
 }
-/*jeanine:p:i:8;p:7;a:r;x:6.67;y:-17.00;*/
+/*jeanine:p:i:8;p:7;a:r;x:8.89;y:-23.00;*/
 static
 char* docgen_readcss()
 {
@@ -239,7 +274,134 @@ char* docgen_readcss()
 	fclose(in);
 	return buf;
 }
-/*jeanine:p:i:4;p:7;a:r;x:6.67;y:12.00;*/
+/*jeanine:p:i:15;p:7;a:r;x:8.89;y:-2.00;*/
+static
+int docgen_func_sort_compar(const void *_a, const void *_b)
+{
+	register const struct idcp_stuff *a = ((struct docgen_funcinfo*) _a)->stuff;
+	register const struct idcp_stuff *b = ((struct docgen_funcinfo*) _b)->stuff;
+
+	return docgen_stricmp(a->data.func.name, b->data.func.name);
+}
+/*jeanine:p:i:16;p:19;a:r;x:3.33;*/
+/**
+@return length or zero if friendlyname is no different
+*/
+static
+int docgen_get_func_friendlyname(char *dest, char *name)
+{
+	int len, mask;
+	char c;
+
+	len = -1;
+	mask = 0;
+	do {
+		c = *(name++);
+		if (c == ':' || c == '?') {
+			mask = -1;
+			c = '_';
+		}
+		*(dest++) = c;
+		len++;
+	} while (c);
+	return len & mask;
+}
+/*jeanine:p:i:19;p:17;a:r;x:44.11;y:-62.81;*/
+/**
+@param tmpbuf might get swapped with a different buffer
+*/
+static
+void docgen_gen_func_signature(struct docgen_tmpbuf **signaturebuf, struct docgen *dg, struct idcp_stuff *func)
+{
+	char *originalname, friendlyname[200], *namepos, *coloncolon, *b, *originalsignature, classname[200], *classlinkend;
+	int name_len, len, classname_len;
+	struct docgen_tmpbuf *newbuf;
+
+	if (!func->data.func.type) {
+		strcpy((*signaturebuf)->data, func->data.func.name);
+		return;
+	}
+
+	/*Function names like 'clazz::func?' get 'friendly' names like 'clazz__func_' in their signatures.*/
+	originalsignature = func->data.func.type;
+	originalname = func->data.func.name;
+	name_len = docgen_get_func_friendlyname(friendlyname, originalname);/*jeanine:r:i:16;*/
+	if (name_len) {
+		namepos = strstr(originalsignature, friendlyname);
+		if (!namepos) {
+			fprintf(stderr, "cannot find func friendlyname '%s' (original '%s') in signature '%s'\n",
+				friendlyname,
+				originalname,
+				originalsignature
+			);
+			assert(0);
+		}
+		coloncolon = strstr(originalname, "::");
+		if (coloncolon) {
+			newbuf = docgen_get_tmpbuf((*signaturebuf)->size);
+			b = newbuf->data;
+			/*Copy part until start of name*/
+			len = namepos - originalsignature;
+			memcpy(b, originalsignature, len);
+			b += len;
+			/*Copy class name (part of name until ::), find its struct and link it*/
+			classname_len = coloncolon - originalname;
+			memcpy(classname, originalname, classname_len);
+			classname[classname_len] = 0;
+			if (docgen_find_struct(dg, classname)) {
+				b += sprintf(b, "<a href='structs.html#struc_%s'>%s", classname, classname);
+				classlinkend = "</a>";
+			} else {
+				printf("warn: cannot find struct '%s' for func %X '%s'\n", classname, func->addr, originalname);
+				b += sprintf(b, "<strong>%s", classname);
+				classlinkend = "</strong>";
+			}
+			/*Finalize link and copy rest of name from ::*/
+			b += sprintf(b, "%s%s", classlinkend, coloncolon);
+			/*Copy rest of signature*/
+			strcpy(b, namepos + name_len);
+			docgen_free_tmpbuf(*signaturebuf);
+			*signaturebuf = newbuf;
+		} else {
+			strcpy((*signaturebuf)->data, originalsignature);
+			memcpy((*signaturebuf)->data, originalname, name_len);
+		}
+	} else {
+		strcpy((*signaturebuf)->data, originalsignature);
+	}
+
+	if (docgen_link_structs(dg, signaturebuf)) {/*jeanine:s:a:r;i:12;*/
+		printf("warn: func '%X %s' references an unknown struct\n", func->addr, func->data.func.name);
+	}
+}
+/*jeanine:p:i:17;p:7;a:r;x:8.89;y:-6.00;*/
+static
+void docgen_print_func(FILE *f, struct docgen *dg, struct idcp_stuff *func)
+{
+	struct docgen_tmpbuf *signaturebuf;
+
+	fprintf(f, "<a id='%X'></a><div class='func'><h3>%s</h3>\n",
+		func->addr,
+		func->data.func.name
+	);
+
+	if (func->comment) {
+		/*TODO: mmparse*/
+		fprintf(f, "<p>%s</p>\n", func->comment);
+	}
+	if (func->rep_comment) {
+		/*TODO: mmparse*/
+		fprintf(f, "<p>%s</p>\n", func->rep_comment);
+	}
+
+	signaturebuf = docgen_get_tmpbuf(10000);
+	docgen_gen_func_signature(&signaturebuf, dg, func);/*jeanine:r:i:19;*/
+	fprintf(f, "<pre><i>%X</i> %s</pre>", func->addr, signaturebuf->data);
+	docgen_free_tmpbuf(signaturebuf);
+
+	fprintf(f, "</div>");
+}
+/*jeanine:p:i:4;p:7;a:r;x:8.89;y:1.00;*/
 static
 int docgen_struct_sort_compar(const void *_a, const void *_b)
 {
@@ -248,7 +410,7 @@ int docgen_struct_sort_compar(const void *_a, const void *_b)
 
 	return docgen_stricmp(a->name, b->name);
 }
-/*jeanine:p:i:9;p:11;a:r;x:6.67;y:-62.00;*/
+/*jeanine:p:i:9;p:11;a:r;x:39.11;y:-13.00;*/
 static
 void docgen_format_struct_member_typeandname_when_enum(char *buf, struct idcparse *idcp, struct idcp_struct_member *mem)
 {
@@ -260,7 +422,7 @@ void docgen_format_struct_member_typeandname_when_enum(char *buf, struct idcpars
 	en = idcp->enums + mem->typeid;
 	buf += sprintf(buf, "<a href='enums.html#enum_%s'>enum %s</a> %s", en->name, en->name, mem->name);
 }
-/*jeanine:p:i:13;p:11;a:r;x:6.67;y:-49.00;*/
+/*jeanine:p:i:13;p:11;a:r;x:38.67;y:-0.50;*/
 static
 void docgen_format_struct_member_typeandname_when_struct(char *buf, struct idcparse *idcp, struct idcp_struct_member *mem)
 {
@@ -275,13 +437,13 @@ void docgen_format_struct_member_typeandname_when_struct(char *buf, struct idcpa
 	struc = idcp->structs + mem->typeid;
 	buf += sprintf(buf, "<a href='#struc_%s'>struct %s</a> %s", struc->name, struc->name, mem->name);
 	/*member struct type can't be an empty struct*/
-	assert((struc_size = docgen_get_struct_size(idcp, struc)));/*jeanine:s:a:r;i:6;*/
+	assert((struc_size = docgen_get_struct_size(idcp, struc)));
 	if (mem->nbytes > struc_size) {
 		assert(!(mem->nbytes % struc_size));
 		sprintf(buf, "[%d]", mem->nbytes / struc_size);
 	}
 }
-/*jeanine:p:i:10;p:11;a:r;x:6.67;y:-28.00;*/
+/*jeanine:p:i:10;p:11;a:r;x:37.78;y:22.25;*/
 static
 void docgen_format_struct_member_typeandname_when_type(char *buf, struct idcp_struct_member *mem)
 {
@@ -333,7 +495,7 @@ void docgen_format_struct_member_typeandname_when_type(char *buf, struct idcp_st
 }
 /*jeanine:p:i:11;p:5;a:r;x:3.33;*/
 static
-void docgen_print_struct_member(FILE *f, struct idcparse *idcp, struct idcp_struct *struc, int offset, int size, struct idcp_struct_member *mem)
+void docgen_print_struct_member(FILE *f, struct docgen *dg, struct idcp_struct *struc, int offset, int size, struct idcp_struct_member *mem)
 {
 	int offsetstrlen, isplaceholder, member_struc_size;
 	struct docgen_tmpbuf *typeandname;
@@ -347,21 +509,18 @@ void docgen_print_struct_member(FILE *f, struct idcparse *idcp, struct idcp_stru
 		offsetstr[offsetstrlen+1] = 0;
 	}
 
-	typeandname = docgen_get_tmpbuf(1000);
+	typeandname = docgen_get_tmpbuf(10000);
 	if (mem) {
 		isplaceholder = !strncmp(mem->name, "field_", 6) || !strncmp(mem->name, "floatField_", 11);
 		if (IDC_is_enum(mem->flag)) {
-			docgen_format_struct_member_typeandname_when_enum(typeandname->data, idcp, mem);/*jeanine:r:i:9;*/
+			docgen_format_struct_member_typeandname_when_enum(typeandname->data, dg->idcp, mem);/*jeanine:r:i:9;*/
 		} else if (IDC_is_struct(mem->flag)) {
-			docgen_format_struct_member_typeandname_when_struct(typeandname->data, idcp, mem);/*jeanine:r:i:13;*/
+			docgen_format_struct_member_typeandname_when_struct(typeandname->data, dg->idcp, mem);/*jeanine:r:i:13;*/
 		} else if (mem->type) {
 			docgen_format_struct_member_typeandname_when_type(typeandname->data, mem);/*jeanine:r:i:10;*/
-			if (docgen_mark_unknown_structs(&typeandname)) {/*jeanine:r:i:12;*/
-#ifdef DOCGEN_WARN_UNKNOWN_STRUCT_REFERENCES
+			if (docgen_link_structs(dg, &typeandname)) {/*jeanine:r:i:12;*/
 				printf("warn: struct '%s' member '%s' references an unknown struct\n", struc->name, mem->name);
-#endif
 			}
-			/*TODO: make struct/enum references into links*/
 		} else {
 			switch (mem->nbytes) {
 			case 1:
@@ -398,16 +557,16 @@ yesplaceholder:
 	}
 	docgen_free_tmpbuf(typeandname);
 }
-/*jeanine:p:i:5;p:7;a:r;x:6.67;y:13.00;*/
+/*jeanine:p:i:5;p:7;a:r;x:8.89;y:2.00;*/
 static
-void docgen_print_struct(FILE *f, struct idcparse *idcp, struct idcp_struct *struc)
+void docgen_print_struct(FILE *f, struct docgen *dg, struct idcp_struct *struc)
 {
 	int tmp, num_members, size, membersleft, lastoffset, nextoffset;
 	struct idcp_struct_member *mem;
 	char offsetstr[16];
 
 	num_members = struc->end_idx - struc->start_idx;
-	size = docgen_get_struct_size(idcp, struc);/*jeanine:r:i:6;*/
+	size = docgen_get_struct_size(dg->idcp, struc);
 
 	/*TODO: check if struct name is valid to use as anchor, or replace invalid chars?*/
 	fprintf(f, "<a id='struc_%s'></a><div class='struc'><h3>%s</h3>",
@@ -428,29 +587,32 @@ void docgen_print_struct(FILE *f, struct idcparse *idcp, struct idcp_struct *str
 		size,
 		"h*/</i>\n"
 	);
-	mem = idcp->struct_members + struc->start_idx;
+	mem = dg->idcp->struct_members + struc->start_idx;
 	membersleft = struc->end_idx - struc->start_idx;
 	lastoffset = 0;
 	while (membersleft) {
 		if (mem->offset > lastoffset) {
-			docgen_print_struct_member(f, idcp, struc, lastoffset, mem->offset - lastoffset, NULL);/*jeanine:s:a:r;i:11;*/
+			docgen_print_struct_member(f, dg, struc, lastoffset, mem->offset - lastoffset, NULL);/*jeanine:s:a:r;i:11;*/
 		}
-		docgen_print_struct_member(f, idcp, struc, mem->offset, mem->nbytes, mem);/*jeanine:r:i:11;*/
+		docgen_print_struct_member(f, dg, struc, mem->offset, mem->nbytes, mem);/*jeanine:r:i:11;*/
 		lastoffset = mem->offset + mem->nbytes;
 		membersleft--;
 		mem++;
 	}
 	fprintf(f, "};%s", "</pre></div>");
 }
-/*jeanine:p:i:7;p:0;a:b;x:52.00;y:11.88;*/
+/*jeanine:p:i:7;p:0;a:b;x:116.00;y:12.13;*/
 int main(int argc, char **argv)
 {
-	struct docgen_structinfo *structinfos, *structinfo;
+	struct docgen_structinfo *structinfo;
+	struct docgen_funcinfo *funcinfo;
 	struct idcp_struct **struc;
+	struct idcp_stuff **stuff;
 	struct idcparse *idcp;
-	FILE *f_structs;
+	FILE *f_structs, *f_funcs;
+	struct docgen *dg;
 	char *css, *name;
-	int i;
+	int i, j;
 
 	idcp = malloc(sizeof(struct idcparse));
 	assert(((void)"failed to malloc for idcparse", idcp));
@@ -458,14 +620,52 @@ int main(int argc, char **argv)
 
 	css = docgen_readcss();/*jeanine:r:i:8;*/
 
-	/*structs*/
-	structinfos = malloc(sizeof(struct docgen_structinfo) * idcp->num_structs);
-	assert(structinfos);
-	for (i = 0; i < idcp->num_structs; i++) {
-		structinfos[i].struc = idcp->structs + i;
-		structinfos[i].name_len = strlen(idcp->structs[i].name);
+	dg = malloc(sizeof(struct docgen));
+	assert(((void)"failed to malloc for docgen", dg));
+	dg->idcp = idcp;
+	/*read functions*/
+	dg->funcinfos = malloc(sizeof(struct docgen_funcinfo) * idcp->num_funcs);
+	assert(((void)"failed to malloc for dg->funcinfos", dg->funcinfos));
+	for (dg->num_funcinfos = 0, j = 0; j < idcp->num_stuffs; j++) {
+		if (idcp->stuffs[j].type == IDCP_STUFF_TYPE_FUNC && idcp->stuffs[j].data.func.name) {
+			dg->funcinfos[dg->num_funcinfos].stuff = idcp->stuffs + j;
+			dg->funcinfos[dg->num_funcinfos].name_len = strlen(idcp->stuffs[j].data.func.name);
+			dg->num_funcinfos++;
+		}
 	}
-	qsort((void*) structinfos, idcp->num_structs, sizeof(struct docgen_structinfo), docgen_struct_sort_compar);/*jeanine:r:i:4;*/
+	qsort((void*) dg->funcinfos, dg->num_funcinfos, sizeof(struct docgen_funcinfo), docgen_func_sort_compar);/*jeanine:r:i:15;*/
+	/*read structs*/
+	dg->structinfos = malloc(sizeof(struct docgen_structinfo) * idcp->num_structs);
+	assert(((void)"failed to malloc for dg->structinfos", dg->structinfos));
+	for (i = 0; i < idcp->num_structs; i++) {
+		dg->structinfos[i].struc = idcp->structs + i;
+		dg->structinfos[i].name_len = strlen(idcp->structs[i].name);
+	}
+	dg->num_structinfos = idcp->num_structs;
+	qsort((void*) dg->structinfos, dg->num_structinfos, sizeof(struct docgen_structinfo), docgen_struct_sort_compar);/*jeanine:r:i:4;*/
+
+	/*funcs*/
+	f_funcs = fopen("funcs.html", "wb");
+	assert(((void)"failed to open file funcs.html for writing", f_funcs));
+	fprintf(f_funcs,
+		"%s%s%s",
+		"<!DOCTYPE html><html lang='en'><head><meta charset='utf-8'/><title>nfsu2-re/funcs</title><style>",
+		css,
+		"</style></head><body><header><h1>nfsu2-re</h1><p>link</p></header><nav><p>Home</p></nav>"
+	);
+	fprintf(f_funcs, "%s%d%s", "<div><h2>Functions (", dg->num_funcinfos, ")</h2><ul>\n");
+	for (i = 0, funcinfo = dg->funcinfos; i < dg->num_funcinfos; i++, funcinfo++) {
+		fprintf(f_funcs, "<li><a href='#%X'>%s</a></li>\n", funcinfo->stuff->addr, funcinfo->stuff->data.func.name);
+		/*TODO: anchor link*/
+	}
+	fprintf(f_funcs, "%s", "</ul></div>");
+	for (i = 0, funcinfo = dg->funcinfos; i < dg->num_funcinfos; i++, funcinfo++) {
+		docgen_print_func(f_funcs, dg, funcinfo->stuff);/*jeanine:r:i:17;*/
+	}
+	fprintf(f_funcs, "%s", "</body></html>");
+	fclose(f_funcs);
+
+	/*structs*/
 	f_structs = fopen("structs.html", "wb");
 	assert(((void)"failed to open file structs.html for writing", f_structs));
 	fprintf(f_structs,
@@ -474,15 +674,15 @@ int main(int argc, char **argv)
 		css,
 		"</style></head><body><header><h1>nfsu2-re</h1><p>link</p></header><nav><p>Home</p></nav>"
 	);
-	fprintf(f_structs, "%s%d%s", "<div><h2>Structs (", idcp->num_structs, ")</h2><ul>");
-	for (i = 0, structinfo = structinfos; i < idcp->num_structs; i++, structinfo++) {
+	fprintf(f_structs, "%s%d%s", "<div><h2>Structs (", dg->num_structinfos, ")</h2><ul>\n");
+	for (i = 0, structinfo = dg->structinfos; i < dg->num_structinfos; i++, structinfo++) {
 		name = structinfo->struc->name;
-		fprintf(f_structs, "<li><a href='#struc_%s'>%s</a></li>", name, name);
+		fprintf(f_structs, "<li><a href='#struc_%s'>%s</a></li>\n", name, name);
 		/*TODO: anchor link*/
 	}
 	fprintf(f_structs, "%s", "</ul></div>");
-	for (i = 0, structinfo = structinfos; i < idcp->num_structs; i++, structinfo++) {
-		docgen_print_struct(f_structs, idcp, structinfo->struc);/*jeanine:r:i:5;*/
+	for (i = 0, structinfo = dg->structinfos; i < dg->num_structinfos; i++, structinfo++) {
+		docgen_print_struct(f_structs, dg, structinfo->struc);/*jeanine:r:i:5;*/
 	}
 	fprintf(f_structs, "%s", "</body></html>");
 	fclose(f_structs);
