@@ -29,9 +29,14 @@ pre {
 	padding: .2em .5em;
 	overflow-x: auto;
 }
-.func > pre {
+.func > pre,
+.struc > ul > li > pre {
 	background: #fef;
 	border: 1px solid #f6f;
+}
+.struc > ul > li > pre {
+	white-space: pre-wrap;
+	margin: .5em 0;
 }
 .struc > pre {
 	background: #eef;
@@ -57,8 +62,8 @@ pre h3 {
 	color: #000;
 }
 /*reference to unknown struct*/
-.func strong,
-.struc strong {
+.func pre strong,
+.struc pre strong {
 	background: #f00;
 	color: #fff;
 }

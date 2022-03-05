@@ -37,8 +37,9 @@ struct docgen_structinfo {
 };
 
 struct docgen_funcinfo {
-	struct idcp_stuff *stuff;
+	struct idcp_stuff *func;
 	int name_len;
+	struct docgen_structinfo *methodof;
 };
 
 struct docgen {
@@ -106,6 +107,20 @@ nchr:
 	a++;
 	b++;
 	goto nchr;
+}
+
+static
+void docgen_get_func_friendlyname(char *dest, char *name)
+{
+	char c;
+
+	do {
+		c = *(name++);
+		if (c == ':' || c == '?' || c == '.') {
+			c = '_';
+		}
+		*(dest++) = c;
+	} while (c);
 }
 /*jeanine:p:i:14;p:0;a:b;y:12.13;*/
 struct docgen_tmpbuf {
@@ -215,7 +230,7 @@ int docgen_link_structs(struct docgen *dg, struct docgen_tmpbuf **tmpbuf)
 	}
 	return 0;
 }
-/*jeanine:p:i:1;p:7;a:r;x:8.89;y:-49.00;*/
+/*jeanine:p:i:1;p:7;a:r;x:6.98;y:-47.96;*/
 static
 void docgen_parseidc(struct idcparse *idcp)
 {
@@ -240,7 +255,7 @@ void docgen_parseidc(struct idcparse *idcp)
 	}
 	FREE(buf);
 }
-/*jeanine:p:i:8;p:7;a:r;x:8.89;y:-23.00;*/
+/*jeanine:p:i:8;p:7;a:r;x:7.15;y:-22.28;*/
 static
 char* docgen_readcss()
 {
@@ -274,46 +289,25 @@ char* docgen_readcss()
 	fclose(in);
 	return buf;
 }
-/*jeanine:p:i:15;p:7;a:r;x:8.89;y:-2.00;*/
+/*jeanine:p:i:15;p:7;a:r;x:7.12;*/
 static
 int docgen_func_sort_compar(const void *_a, const void *_b)
 {
-	register const struct idcp_stuff *a = ((struct docgen_funcinfo*) _a)->stuff;
-	register const struct idcp_stuff *b = ((struct docgen_funcinfo*) _b)->stuff;
+	register const struct idcp_stuff *a = ((struct docgen_funcinfo*) _a)->func;
+	register const struct idcp_stuff *b = ((struct docgen_funcinfo*) _b)->func;
 
 	return docgen_stricmp(a->data.func.name, b->data.func.name);
-}
-/*jeanine:p:i:16;p:19;a:r;x:3.33;*/
-/**
-@return length or zero if friendlyname is no different
-*/
-static
-int docgen_get_func_friendlyname(char *dest, char *name)
-{
-	int len;
-	char c;
-
-	len = -1;
-	do {
-		c = *(name++);
-		if (c == ':' || c == '?' || c == '.') {
-			c = '_';
-		}
-		*(dest++) = c;
-		len++;
-	} while (c);
-	return len;
 }
 /*jeanine:p:i:19;p:17;a:r;x:44.11;y:-62.81;*/
 /**
 @param tmpbuf might get swapped with a different buffer
 */
 static
-void docgen_gen_func_signature(struct docgen_tmpbuf **signaturebuf, struct docgen *dg, struct idcp_stuff *func)
+void docgen_gen_func_signature(struct docgen_tmpbuf **signaturebuf, struct docgen *dg, struct docgen_funcinfo *funcinfo, struct idcp_stuff *func)
 {
 	char *originalname, friendlyname[200], *namepos, *coloncolon, *b, *originalsignature, classname[200];
-	int name_len, len, classname_len;
 	struct docgen_tmpbuf *newbuf;
+	int len, classname_len;
 
 	if (!func->data.func.type) {
 		sprintf((*signaturebuf)->data, "<h3>%s</h3>", func->data.func.name);
@@ -323,7 +317,7 @@ void docgen_gen_func_signature(struct docgen_tmpbuf **signaturebuf, struct docge
 	/*Function names like 'clazz::func?' get 'friendly' names like 'clazz__func_' in their signatures.*/
 	originalsignature = func->data.func.type;
 	originalname = func->data.func.name;
-	name_len = docgen_get_func_friendlyname(friendlyname, originalname);/*jeanine:r:i:16;*/
+	docgen_get_func_friendlyname(friendlyname, originalname);
 	namepos = strstr(originalsignature, friendlyname);
 	if (!namepos) {
 		fprintf(stderr, "cannot find func friendlyname '%s' (original '%s') in signature '%s'\n",
@@ -347,7 +341,7 @@ void docgen_gen_func_signature(struct docgen_tmpbuf **signaturebuf, struct docge
 		classname_len = coloncolon - originalname;
 		memcpy(classname, originalname, classname_len);
 		classname[classname_len] = 0;
-		if (docgen_find_struct(dg, classname)) {
+		if ((funcinfo->methodof = docgen_find_struct(dg, classname))) {
 			b += sprintf(b, "<a href='structs.html#struc_%s'>%s</a>", classname, classname);
 		} else {
 			printf("warn: cannot find struct '%s' for func %X '%s'\n", classname, func->addr, originalname);
@@ -359,7 +353,7 @@ void docgen_gen_func_signature(struct docgen_tmpbuf **signaturebuf, struct docge
 	}
 	b += sprintf(b, "</h3>");
 	/*Copy rest of signature*/
-	strcpy(b, namepos + name_len);
+	strcpy(b, namepos + funcinfo->name_len);
 	docgen_free_tmpbuf(*signaturebuf);
 	*signaturebuf = newbuf;
 
@@ -367,14 +361,14 @@ void docgen_gen_func_signature(struct docgen_tmpbuf **signaturebuf, struct docge
 		printf("warn: func '%X %s' references an unknown struct\n", func->addr, func->data.func.name);
 	}
 }
-/*jeanine:p:i:17;p:7;a:r;x:8.89;y:-6.00;*/
+/*jeanine:p:i:17;p:7;a:r;x:6.81;*/
 static
-void docgen_print_func(FILE *f, struct docgen *dg, struct idcp_stuff *func)
+void docgen_print_func(FILE *f, struct docgen *dg, struct docgen_funcinfo *funcinfo, struct idcp_stuff *func)
 {
 	struct docgen_tmpbuf *signaturebuf;
 
 	signaturebuf = docgen_get_tmpbuf(10000);
-	docgen_gen_func_signature(&signaturebuf, dg, func);/*jeanine:r:i:19;*/
+	docgen_gen_func_signature(&signaturebuf, dg, funcinfo, func);/*jeanine:r:i:19;*/
 	fprintf(f, "<pre id='%X'><i>%X</i> %s</pre>", func->addr, func->addr, signaturebuf->data);
 	docgen_free_tmpbuf(signaturebuf);
 
@@ -387,7 +381,7 @@ void docgen_print_func(FILE *f, struct docgen *dg, struct idcp_stuff *func)
 		fprintf(f, "<p>%s</p>\n", func->rep_comment);
 	}
 }
-/*jeanine:p:i:4;p:7;a:r;x:8.89;y:1.00;*/
+/*jeanine:p:i:4;p:7;a:r;x:6.81;y:2.54;*/
 static
 int docgen_struct_sort_compar(const void *_a, const void *_b)
 {
@@ -543,13 +537,16 @@ yesplaceholder:
 	}
 	docgen_free_tmpbuf(typeandname);
 }
-/*jeanine:p:i:5;p:7;a:r;x:8.89;y:2.00;*/
+/*jeanine:p:i:5;p:7;a:r;x:6.60;*/
 static
-void docgen_print_struct(FILE *f, struct docgen *dg, struct idcp_struct *struc)
+void docgen_print_struct(FILE *f, struct docgen *dg, struct docgen_structinfo *structinfo, struct idcp_struct *struc)
 {
-	int tmp, num_members, size, membersleft, lastoffset, nextoffset;
+	char offsetstr[16], has_symbol_header, friendlyfuncname[200], *namepos;
+	int tmp, num_members, size, membersleft, lastoffset, nextoffset, i;
+	struct docgen_tmpbuf *funcsignature;
+	struct docgen_funcinfo *funcinfo;
 	struct idcp_struct_member *mem;
-	char offsetstr[16];
+	struct idcp_stuff *func;
 
 	num_members = struc->end_idx - struc->start_idx;
 	size = docgen_get_struct_size(dg->idcp, struc);
@@ -586,6 +583,31 @@ void docgen_print_struct(FILE *f, struct docgen *dg, struct idcp_struct *struc)
 		/*TODO: mmparse*/
 		fprintf(f, "<p>%s</p>", struc->rep_comment);
 	}
+	has_symbol_header = 0;
+	funcsignature = docgen_get_tmpbuf(10000);
+	for (i = 0, funcinfo = dg->funcinfos; i < dg->num_funcinfos; i++, funcinfo++) {
+		if (funcinfo->methodof == structinfo) {
+			if (!has_symbol_header) {
+				has_symbol_header = 1;
+				fprintf(f, "<p><strong>Methods:</strong></p><ul>");
+			}
+			func = funcinfo->func;
+			if (func->data.func.type) {
+				strcpy(funcsignature->data, func->data.func.type);
+				docgen_get_func_friendlyname(friendlyfuncname, func->data.func.name);
+				namepos = strstr(funcsignature->data, friendlyfuncname);
+				assert(namepos); /*Shouldn't fail, it should've been caught when the functions were being processed.*/
+				memcpy(namepos, func->data.func.name, funcinfo->name_len);
+			} else {
+				strcpy(funcsignature->data, func->data.func.name);
+			}
+			fprintf(f, "<li><pre><a href='funcs.html#%X'>%s</a> <i>%X</i></pre></li>", func->addr, funcsignature->data, func->addr);
+		}
+	}
+	docgen_free_tmpbuf(funcsignature);
+	if (has_symbol_header) {
+		fprintf(f, "</ul>");
+	}
 }
 /*jeanine:p:i:7;p:0;a:b;x:116.00;y:12.13;*/
 int main(int argc, char **argv)
@@ -614,7 +636,7 @@ int main(int argc, char **argv)
 	assert(((void)"failed to malloc for dg->funcinfos", dg->funcinfos));
 	for (dg->num_funcinfos = 0, j = 0; j < idcp->num_stuffs; j++) {
 		if (idcp->stuffs[j].type == IDCP_STUFF_TYPE_FUNC && idcp->stuffs[j].data.func.name) {
-			dg->funcinfos[dg->num_funcinfos].stuff = idcp->stuffs + j;
+			dg->funcinfos[dg->num_funcinfos].func = idcp->stuffs + j;
 			dg->funcinfos[dg->num_funcinfos].name_len = strlen(idcp->stuffs[j].data.func.name);
 			dg->num_funcinfos++;
 		}
@@ -641,12 +663,12 @@ int main(int argc, char **argv)
 	);
 	fprintf(f_funcs, "%s%d%s", "<div><h2>Functions (", dg->num_funcinfos, ")</h2><ul>\n");
 	for (i = 0, funcinfo = dg->funcinfos; i < dg->num_funcinfos; i++, funcinfo++) {
-		fprintf(f_funcs, "<li><a href='#%X'>%s</a></li>\n", funcinfo->stuff->addr, funcinfo->stuff->data.func.name);
+		fprintf(f_funcs, "<li><a href='#%X'>%s</a></li>\n", funcinfo->func->addr, funcinfo->func->data.func.name);
 		/*TODO: anchor link*/
 	}
 	fprintf(f_funcs, "%s", "</ul></div><div class='func'>");
 	for (i = 0, funcinfo = dg->funcinfos; i < dg->num_funcinfos; i++, funcinfo++) {
-		docgen_print_func(f_funcs, dg, funcinfo->stuff);/*jeanine:r:i:17;*/
+		docgen_print_func(f_funcs, dg, funcinfo, funcinfo->func);/*jeanine:r:i:17;*/
 	}
 	fprintf(f_funcs, "%s", "</div></body></html>");
 	fclose(f_funcs);
@@ -668,7 +690,7 @@ int main(int argc, char **argv)
 	}
 	fprintf(f_structs, "%s", "</ul></div><div class='struc'>");
 	for (i = 0, structinfo = dg->structinfos; i < dg->num_structinfos; i++, structinfo++) {
-		docgen_print_struct(f_structs, dg, structinfo->struc);/*jeanine:r:i:5;*/
+		docgen_print_struct(f_structs, dg, structinfo, structinfo->struc);/*jeanine:r:i:5;*/
 	}
 	fprintf(f_structs, "%s", "</div></body></html>");
 	fclose(f_structs);
