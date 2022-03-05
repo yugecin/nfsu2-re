@@ -180,10 +180,8 @@ struct idcp_struct_member {
 #define IDCP_STUFF_TYPE_UNK 0
 #define IDCP_STUFF_TYPE_DATA 1
 #define IDCP_STUFF_TYPE_FUNC 2
-/*instruction, can be a lot of things*/
+/*instruction, can be a lot of things (including a function)*/
 #define IDCP_STUFF_TYPE_INSTR 3
-/*instruction with set_name called afterwards, probably a function*/
-#define IDCP_STUFF_TYPE_NAMED_INSTR 4
 
 #define IDCP_DATA_STRLIT 1
 #define IDCP_DATA_FLOAT 2
@@ -192,6 +190,7 @@ struct idcp_struct_member {
 struct idcp_stuff {
 	unsigned char type;
 	int addr;
+	char *name;
 	union {
 		struct {
 			/*TODO: check if in rodata?*/
@@ -210,10 +209,6 @@ struct idcp_stuff {
 			char *struct_type;
 		} data;
 		struct {
-			char *name;
-		} named_insn;
-		struct {
-			char *name;
 			char *type;
 		} func;
 	} data;
@@ -625,7 +620,6 @@ struct idcp_stuff* idcp_get_or_allocate_stuff(struct idcparse *idcp, int addr, i
 		case IDCP_STUFF_TYPE_UNK:
 			goto reuse;
 		case IDCP_STUFF_TYPE_INSTR:
-		case IDCP_STUFF_TYPE_NAMED_INSTR:
 		case IDCP_STUFF_TYPE_DATA:
 			assert(addr > stuff->addr);
 			break;
@@ -652,7 +646,6 @@ struct idcp_stuff* idcp_get_func(struct idcparse *idcp, int addr)
 
 	struct idcp_stuff *stuff;
 	int idx, min, max, current;
-	char *name;
 
 	/*Binary search will work as long as the 'new_addr > addr'
 	assertion in 'idcp_get_or_allocate_stuff' still stands.*/
@@ -672,12 +665,8 @@ struct idcp_stuff* idcp_get_func(struct idcparse *idcp, int addr)
 		current = idcp->stuffs[idx].addr;
 		if (current == addr) {
 			stuff = idcp->stuffs + idx;
-			if (stuff->type == IDCP_STUFF_TYPE_NAMED_INSTR ||
-				stuff->type == IDCP_STUFF_TYPE_INSTR)
-			{
-				name = stuff->data.named_insn.name;
+			if (stuff->type == IDCP_STUFF_TYPE_INSTR) {
 				stuff->type = IDCP_STUFF_TYPE_FUNC;
-				stuff->data.func.name = name;
 			} else {
 				assert(stuff->type == IDCP_STUFF_TYPE_FUNC);
 			}
@@ -1216,13 +1205,8 @@ void idcp_func_set_name(struct idcparse *idcp, struct idcp_functioncallframe *fr
 	the case, it is probably just a local name and can be ignored.*/
 	if (idcp->num_stuffs) {
 		stuff = idcp->stuffs + idcp->num_stuffs - 1;
-		if (stuff->addr == addr &&
-			/*It could be a TYPE_UNK if it's a local name and also
-			has a 'set_cmt' on this addr...*/
-			stuff->type == IDCP_STUFF_TYPE_INSTR)
-		{
-			stuff->type = IDCP_STUFF_TYPE_NAMED_INSTR;
-			stuff->data.named_insn.name = name;
+		if (stuff->addr == addr) {
+			stuff->name = name;
 		}
 	}
 	frame->returnvalue.type = IDCP_VARIABLE_TYPE_VOID;

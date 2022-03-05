@@ -352,7 +352,7 @@ int docgen_func_sort_compar(const void *_a, const void *_b)
 	register const struct idcp_stuff *a = ((struct docgen_funcinfo*) _a)->func;
 	register const struct idcp_stuff *b = ((struct docgen_funcinfo*) _b)->func;
 
-	return docgen_stricmp(a->data.func.name, b->data.func.name);
+	return docgen_stricmp(a->name, b->name);
 }
 /*jeanine:p:i:19;p:17;a:r;x:44.11;y:-62.81;*/
 /**
@@ -366,13 +366,13 @@ void docgen_gen_func_signature(struct docgen_tmpbuf **signaturebuf, struct docge
 	int len, classname_len;
 
 	if (!func->data.func.type) {
-		sprintf((*signaturebuf)->data, "<h3>%s</h3>", func->data.func.name);
+		sprintf((*signaturebuf)->data, "<h3>%s</h3>", func->name);
 		return;
 	}
 
 	/*Function names like 'clazz::func?' get 'friendly' names like 'clazz__func_' in their signatures.*/
 	originalsignature = func->data.func.type;
-	originalname = func->data.func.name;
+	originalname = func->name;
 	docgen_get_func_friendlyname(friendlyname, originalname);
 	namepos = strstr(originalsignature, friendlyname);
 	if (!namepos) {
@@ -415,7 +415,7 @@ void docgen_gen_func_signature(struct docgen_tmpbuf **signaturebuf, struct docge
 	*signaturebuf = newbuf;
 
 	if (docgen_link_structs_enums(dg, signaturebuf)) {/*jeanine:s:a:r;i:12;*/
-		printf("warn: func '%X %s' references an unknown struct/enum\n", func->addr, func->data.func.name);
+		printf("warn: func '%X %s' references an unknown struct/enum\n", func->addr, func->name);
 	}
 }
 /*jeanine:p:i:17;p:7;a:r;x:11.11;y:-19.00;*/
@@ -642,12 +642,12 @@ void docgen_print_struct(FILE *f, struct docgen *dg, struct docgen_structinfo *s
 				func = funcinfo->func;
 				if (func->data.func.type) {
 					strcpy(funcsignature->data, func->data.func.type);
-					docgen_get_func_friendlyname(friendlyfuncname, func->data.func.name);
+					docgen_get_func_friendlyname(friendlyfuncname, func->name);
 					namepos = strstr(funcsignature->data, friendlyfuncname);
 					assert(namepos); /*Shouldn't fail, it should've been caught when the functions were being processed.*/
-					memcpy(namepos, func->data.func.name, funcinfo->name_len);
+					memcpy(namepos, func->name, funcinfo->name_len);
 				} else {
-					strcpy(funcsignature->data, func->data.func.name);
+					strcpy(funcsignature->data, func->name);
 				}
 				fprintf(f, "<li><pre><a href='funcs.html#%X'>%s</a> <i>%X</i></pre></li>", func->addr, funcsignature->data, func->addr);
 			}
@@ -728,9 +728,9 @@ int main(int argc, char **argv)
 	dg->funcinfos = malloc(sizeof(struct docgen_funcinfo) * idcp->num_funcs);
 	assert(((void)"failed to malloc for dg->funcinfos", dg->funcinfos));
 	for (dg->num_funcinfos = 0, j = 0; j < idcp->num_stuffs; j++) {
-		if (idcp->stuffs[j].type == IDCP_STUFF_TYPE_FUNC && idcp->stuffs[j].data.func.name) {
+		if (idcp->stuffs[j].type == IDCP_STUFF_TYPE_FUNC && idcp->stuffs[j].name) {
 			dg->funcinfos[dg->num_funcinfos].func = idcp->stuffs + j;
-			dg->funcinfos[dg->num_funcinfos].name_len = strlen(idcp->stuffs[j].data.func.name);
+			dg->funcinfos[dg->num_funcinfos].name_len = strlen(idcp->stuffs[j].name);
 			dg->num_funcinfos++;
 		}
 	}
@@ -765,7 +765,7 @@ int main(int argc, char **argv)
 	);
 	fprintf(f_funcs, "%s%d%s", "<div><h2>Functions (", dg->num_funcinfos, ")</h2><ul>\n");
 	for (i = 0, funcinfo = dg->funcinfos; i < dg->num_funcinfos; i++, funcinfo++) {
-		fprintf(f_funcs, "<li><a href='#%X'>%s</a></li>\n", funcinfo->func->addr, funcinfo->func->data.func.name);
+		fprintf(f_funcs, "<li><a href='#%X'>%s</a></li>\n", funcinfo->func->addr, funcinfo->func->name);
 	}
 	fprintf(f_funcs, "%s", "</ul></div><div class='func'>");
 	for (i = 0, funcinfo = dg->funcinfos; i < dg->num_funcinfos; i++, funcinfo++) {
