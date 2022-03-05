@@ -59,7 +59,6 @@ struct docgen {
 	struct docgen_enuminfo *enuminfos;
 };
 /*jeanine:p:i:20;p:0;a:b;x:-104.54;y:12.48;*/
-
 static
 struct docgen_structinfo* docgen_find_struct(struct docgen *dg, char *name)
 {
@@ -70,6 +69,21 @@ struct docgen_structinfo* docgen_find_struct(struct docgen *dg, char *name)
 	for (i = 0, structinfo = dg->structinfos; i < dg->num_structinfos; i++, structinfo++) {
 		if (len == structinfo->name_len && !strcmp(name, structinfo->struc->name)) {
 			return structinfo;
+		}
+	}
+	return NULL;
+}
+
+static
+struct docgen_enuminfo* docgen_find_enum(struct docgen *dg, char *name)
+{
+	struct docgen_enuminfo *enuminfo;
+	int i, len;
+
+	len = strlen(name);
+	for (i = 0, enuminfo = dg->enuminfos; i < dg->num_enuminfos; i++, enuminfo++) {
+		if (len == enuminfo->name_len && !strcmp(name, enuminfo->enu->name)) {
+			return enuminfo;
 		}
 	}
 	return NULL;
@@ -191,19 +205,19 @@ void docgen_free_tmpbuf(struct docgen_tmpbuf *buf)
 {
 	buf->used = 0;
 }
-/*jeanine:p:i:12;p:11;a:r;x:39.37;y:-68.98;*/
+/*jeanine:p:i:12;p:11;a:r;x:39.37;y:-103.42;*/
 /**
 @param tmpbuf might get swapped with a different buffer
-@return nonzero if there were unknown structs
+@return nonzero if there were unknown structs/enums
 */
-/*TODO: enum refs*/
 static
-int docgen_link_structs(struct docgen *dg, struct docgen_tmpbuf **tmpbuf)
+int docgen_link_structs_enums(struct docgen *dg, struct docgen_tmpbuf **tmpbuf)
 {
-	char *bufp, *sub, *end, *strp, c, structname[200], *sn, hasunknown;
+	char *bufp, *sub, *end, *strp, c, name[200], *n, hasunknown;
 	struct docgen_tmpbuf *newbuf, *original;
 
 	hasunknown = 0;
+	/*structs*/
 	original = *tmpbuf;
 	sub = strstr(original->data, "struct ");
 	if (sub) {
@@ -216,17 +230,17 @@ int docgen_link_structs(struct docgen *dg, struct docgen_tmpbuf **tmpbuf)
 			bufp += sub - strp;
 			/*Get struct name*/
 			end = sub + 6;
-			sn = structname - 1;
+			n = name - 1;
 			do {
-				end++; sn++;
-				*sn = c = *end;
+				end++; n++;
+				*n = c = *end;
 			} while (c != ' ' && c != ')' && c != '*' && c != '[');
-			*sn = 0;
-			if (structname[0] != '#' && docgen_find_struct(dg, structname)) {
-				bufp += sprintf(bufp, "<a href='structs.html#struc_%s'>struct %s</a>", structname, structname);
+			*n = 0;
+			if (name[0] != '#' && docgen_find_struct(dg, name)) {
+				bufp += sprintf(bufp, "<a href='structs.html#struc_%s'>struct %s</a>", name, name);
 			} else {
 				hasunknown = 1;
-				bufp += sprintf(bufp, "<strong>struct %s</strong>", structname);
+				bufp += sprintf(bufp, "<strong>struct %s</strong>", name);
 			}
 			strp = end;
 			sub = strstr(strp, "struct ");
@@ -235,9 +249,42 @@ int docgen_link_structs(struct docgen *dg, struct docgen_tmpbuf **tmpbuf)
 		strcat(bufp, strp);
 		*tmpbuf = newbuf;
 		docgen_free_tmpbuf(original);
+	}
+	/*enums*/
+	original = *tmpbuf;
+	sub = strstr(original->data, "enum ");
+	if (sub) {
+		newbuf = docgen_get_tmpbuf(original->size);
+		bufp = newbuf->data;
+		strp = original->data;
+		do {
+			/*Copy segment before struct*/
+			memcpy(bufp, strp, sub - strp);
+			bufp += sub - strp;
+			/*Get struct name*/
+			end = sub + 4;
+			n = name - 1;
+			do {
+				end++; n++;
+				*n = c = *end;
+			} while (c != ' ' && c != ')' && c != '*' && c != '[');
+			*n = 0;
+			if (docgen_find_enum(dg, name)) {
+				bufp += sprintf(bufp, "<a href='enums.html#enu_%s'>enum %s</a>", name, name);
+			} else {
+				hasunknown = 1;
+				bufp += sprintf(bufp, "<strong>enum %s</strong>", name);
+			}
+			strp = end;
+			sub = strstr(strp, "enum ");
+		} while (sub);
+		*bufp = 0;
+		strcat(bufp, strp);
+		*tmpbuf = newbuf;
+		docgen_free_tmpbuf(original);
 		return hasunknown;
 	}
-	return 0;
+	return hasunknown;
 }
 /*jeanine:p:i:1;p:7;a:r;x:11.11;y:-65.00;*/
 static
@@ -367,8 +414,8 @@ void docgen_gen_func_signature(struct docgen_tmpbuf **signaturebuf, struct docge
 	docgen_free_tmpbuf(*signaturebuf);
 	*signaturebuf = newbuf;
 
-	if (docgen_link_structs(dg, signaturebuf)) {/*jeanine:s:a:r;i:12;*/
-		printf("warn: func '%X %s' references an unknown struct\n", func->addr, func->data.func.name);
+	if (docgen_link_structs_enums(dg, signaturebuf)) {/*jeanine:s:a:r;i:12;*/
+		printf("warn: func '%X %s' references an unknown struct/enum\n", func->addr, func->data.func.name);
 	}
 }
 /*jeanine:p:i:17;p:7;a:r;x:11.11;y:-19.00;*/
@@ -508,8 +555,8 @@ void docgen_print_struct_member(FILE *f, struct docgen *dg, struct idcp_struct *
 			docgen_format_struct_member_typeandname_when_struct(typeandname->data, dg->idcp, mem);/*jeanine:r:i:13;*/
 		} else if (mem->type) {
 			docgen_format_struct_member_typeandname_when_type(typeandname->data, mem);/*jeanine:r:i:10;*/
-			if (docgen_link_structs(dg, &typeandname)) {/*jeanine:r:i:12;*/
-				printf("warn: struct '%s' member '%s' references an unknown struct\n", struc->name, mem->name);
+			if (docgen_link_structs_enums(dg, &typeandname)) {/*jeanine:r:i:12;*/
+				printf("warn: struct '%s' member '%s' references an unknown struct/enum\n", struc->name, mem->name);
 			}
 		} else {
 			switch (mem->nbytes) {
