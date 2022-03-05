@@ -655,7 +655,7 @@ void docgen_print_struct(FILE *f, struct docgen *dg, struct docgen_structinfo *s
 				} else {
 					strcpy(funcsignature->data, func->name);
 				}
-				fprintf(f, "<li><pre><a href='funcs.html#%X'>%s</a> <i>%X</i></pre></li>", func->addr, funcsignature->data, func->addr);
+				fprintf(f, "<li><pre><i>%X</i> <a href='funcs.html#%X'>%s</a></pre></li>", func->addr, func->addr, funcsignature->data);
 			}
 		}
 		docgen_free_tmpbuf(funcsignature);
@@ -765,7 +765,7 @@ void docgen_print_data(FILE *f, struct docgen *dg, struct docgen_datainfo *datai
 		fprintf(f, "<p>%s</p>", data->rep_comment);
 	}
 }
-/*jeanine:p:i:7;p:0;a:b;x:116.00;y:12.13;*/
+/*jeanine:p:i:7;p:0;a:b;x:123.13;y:12.13;*/
 int main(int argc, char **argv)
 {
 	FILE *f_structs, *f_funcs, *f_enums, *f_datas;
@@ -773,9 +773,9 @@ int main(int argc, char **argv)
 	struct docgen_datainfo *datainfo;
 	struct docgen_enuminfo *enuminfo;
 	struct docgen_funcinfo *funcinfo;
+	char *css, *name, *header;
 	struct idcparse *idcp;
 	struct docgen *dg;
-	char *css, *name;
 	int i, j;
 
 	idcp = malloc(sizeof(struct idcparse));
@@ -826,14 +826,24 @@ int main(int argc, char **argv)
 		}
 	}
 
+	header = "<header><h1>nfsu2-re</h1><p><a href='https://github.com/yugecin/nfsu2-re'>https://github.com/yugecin/nfsu2-re</a></p>"
+		"<nav><a href='index.html'>Home</a> "
+		"<a href='funcs.html' class='func'>functions</a> "
+		"<a href='structs.html' class='struc'>structs</a> "
+		"<a href='enums.html' class='enum'>enums</a> "
+		"<a href='vars.html' class='var'>variables</a> "
+		"<a href='cheatsheet.html'>cheatsheet</a> "
+		"</nav></header>";
+
 	/*funcs*/
 	f_funcs = fopen("funcs.html", "wb");
 	assert(((void)"failed to open file funcs.html for writing", f_funcs));
 	fprintf(f_funcs,
-		"%s%s%s",
+		"%s%s%s%s",
 		"<!DOCTYPE html><html lang='en'><head><meta charset='utf-8'/><title>nfsu2-re/funcs</title><style>",
 		css,
-		"</style></head><body><header><h1>nfsu2-re</h1><p>link</p></header><nav><p>Home</p></nav>"
+		"</style></head><body>",
+		header
 	);
 	fprintf(f_funcs, "%s%d%s", "<div><h2>Functions (", dg->num_funcinfos, ")</h2><ul>\n");
 	for (i = 0, funcinfo = dg->funcinfos; i < dg->num_funcinfos; i++, funcinfo++) {
@@ -850,10 +860,11 @@ int main(int argc, char **argv)
 	f_structs = fopen("structs.html", "wb");
 	assert(((void)"failed to open file structs.html for writing", f_structs));
 	fprintf(f_structs,
-		"%s%s%s",
+		"%s%s%s%s",
 		"<!DOCTYPE html><html lang='en'><head><meta charset='utf-8'/><title>nfsu2-re/structs</title><style>",
 		css,
-		"</style></head><body><header><h1>nfsu2-re</h1><p>link</p></header><nav><p>Home</p></nav>"
+		"</style></head><body>",
+		header
 	);
 	fprintf(f_structs, "%s%d%s", "<div><h2>Structs (", dg->num_structinfos, ")</h2><ul>\n");
 	for (i = 0, structinfo = dg->structinfos; i < dg->num_structinfos; i++, structinfo++) {
@@ -871,10 +882,11 @@ int main(int argc, char **argv)
 	f_enums = fopen("enums.html", "wb");
 	assert(((void)"failed to open file enums.html for writing", f_enums));
 	fprintf(f_enums,
-		"%s%s%s",
+		"%s%s%s%s",
 		"<!DOCTYPE html><html lang='en'><head><meta charset='utf-8'/><title>nfsu2-re/enums</title><style>",
 		css,
-		"</style></head><body><header><h1>nfsu2-re</h1><p>link</p></header><nav><p>Home</p></nav>"
+		"</style></head><body>",
+		header
 	);
 	fprintf(f_enums, "%s%d%s", "<div><h2>Enums (", dg->num_enuminfos, ")</h2><ul>\n");
 	for (i = 0, enuminfo = dg->enuminfos; i < dg->num_enuminfos; i++, enuminfo++) {
@@ -892,12 +904,13 @@ int main(int argc, char **argv)
 	f_datas = fopen("vars.html", "wb");
 	assert(((void)"failed to open file vars.html for writing", f_datas));
 	fprintf(f_datas,
-		"%s%s%s",
+		"%s%s%s%s",
 		"<!DOCTYPE html><html lang='en'><head><meta charset='utf-8'/><title>nfsu2-re/vars</title><style>",
 		css,
-		"</style></head><body><header><h1>nfsu2-re</h1><p>link</p></header><nav><p>Home</p></nav>"
+		"</style></head><body>",
+		header
 	);
-	fprintf(f_datas, "%s%d%s", "<div><h2>Vars (", dg->num_datainfos, ")</h2><ul>\n");
+	fprintf(f_datas, "%s%d%s", "<div><h2>Variables (", dg->num_datainfos, ")</h2><ul>\n");
 	for (i = 0, datainfo = dg->datainfos; i < dg->num_datainfos; i++, datainfo++) {
 		fprintf(f_datas, "<li><a href='#%X'>%s</a></li>\n", datainfo->data->addr, datainfo->data->name);
 	}
