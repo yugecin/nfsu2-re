@@ -42,13 +42,16 @@ pre {
 	background: #eef;
 	border: 1px solid #66f;
 }
+.enum > pre {
+	background: #fee;
+	border: 1px solid #f66;
+}
 pre h3 {
 	display: inline;
 	font-size: 1em;
 	font-weight: bold;
 }
-.func i,
-.struc i {
+body > div > pre i {
 	font-style: normal;
 	font-size: 80%;
 	color: #777;
@@ -62,14 +65,14 @@ pre h3 {
 	border-radius: 3px;
 }
 /*union emphasis*/
-.struc b {
+body > div > pre b {
 	font-weight: normal;
 	background: #aadfff;
 	border: 1px solid #44b9ff;
 	font-size: 90%;
 	border-radius: 3px;
 }
-.struc u {
+body > div > pre u {
 	text-decoration: none;
 	background: #fca;
 	border: 1px solid #f94;
@@ -77,14 +80,13 @@ pre h3 {
 	border-radius: 6px;
 	color: #000;
 }
-/*reference to unknown struct*/
-.func pre strong,
-.struc pre strong {
+/*reference to unknown struct/enum*/
+body > div > pre > strong {
 	background: #f00;
 	color: #fff;
 }
 /*doccomment*/
-.struc span {
+body > div > pre > span {
 	color: #080;
 	display: inline-block;
 	margin-left: 5em; /*why 5 and not 8?*/

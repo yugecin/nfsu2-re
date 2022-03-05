@@ -44,12 +44,19 @@ struct docgen_funcinfo {
 	struct docgen_structinfo *methodof;
 };
 
+struct docgen_enuminfo {
+	struct idcp_enum *enu;
+	int name_len;
+};
+
 struct docgen {
 	struct idcparse *idcp;
 	int num_structinfos;
 	struct docgen_structinfo *structinfos;
 	int num_funcinfos;
 	struct docgen_funcinfo *funcinfos;
+	int num_enuminfos;
+	struct docgen_enuminfo *enuminfos;
 };
 /*jeanine:p:i:20;p:0;a:b;x:-104.54;y:12.48;*/
 
@@ -232,7 +239,7 @@ int docgen_link_structs(struct docgen *dg, struct docgen_tmpbuf **tmpbuf)
 	}
 	return 0;
 }
-/*jeanine:p:i:1;p:7;a:r;x:6.98;y:-47.96;*/
+/*jeanine:p:i:1;p:7;a:r;x:11.11;y:-65.00;*/
 static
 void docgen_parseidc(struct idcparse *idcp)
 {
@@ -257,14 +264,14 @@ void docgen_parseidc(struct idcparse *idcp)
 	}
 	FREE(buf);
 }
-/*jeanine:p:i:8;p:7;a:r;x:7.15;y:-22.28;*/
+/*jeanine:p:i:8;p:7;a:r;x:11.11;y:-40.00;*/
 static
 char* docgen_readcss()
 {
-	FILE *in;
 	char *buf, *a, *b, *end;
 	register char c;
 	int size;
+	FILE *in;
 
 	in = fopen("style.css", "rb");
 	assert(((void)"failed to open file style.css for reading", in));
@@ -291,7 +298,7 @@ char* docgen_readcss()
 	fclose(in);
 	return buf;
 }
-/*jeanine:p:i:15;p:7;a:r;x:7.12;*/
+/*jeanine:p:i:15;p:7;a:r;x:11.11;y:-18.00;*/
 static
 int docgen_func_sort_compar(const void *_a, const void *_b)
 {
@@ -364,7 +371,7 @@ void docgen_gen_func_signature(struct docgen_tmpbuf **signaturebuf, struct docge
 		printf("warn: func '%X %s' references an unknown struct\n", func->addr, func->data.func.name);
 	}
 }
-/*jeanine:p:i:17;p:7;a:r;x:6.81;*/
+/*jeanine:p:i:17;p:7;a:r;x:11.11;y:-19.00;*/
 static
 void docgen_print_func(FILE *f, struct docgen *dg, struct docgen_funcinfo *funcinfo, struct idcp_stuff *func)
 {
@@ -384,7 +391,7 @@ void docgen_print_func(FILE *f, struct docgen *dg, struct docgen_funcinfo *funci
 		fprintf(f, "<p>%s</p>\n", func->rep_comment);
 	}
 }
-/*jeanine:p:i:4;p:7;a:r;x:6.81;y:2.54;*/
+/*jeanine:p:i:4;p:7;a:r;x:11.11;y:-16.00;*/
 static
 int docgen_struct_sort_compar(const void *_a, const void *_b)
 {
@@ -540,12 +547,12 @@ yesplaceholder:
 	}
 	docgen_free_tmpbuf(typeandname);
 }
-/*jeanine:p:i:5;p:7;a:r;x:6.60;*/
+/*jeanine:p:i:5;p:7;a:r;x:11.11;y:-17.00;*/
 static
 void docgen_print_struct(FILE *f, struct docgen *dg, struct docgen_structinfo *structinfo, struct idcp_struct *struc)
 {
-	char offsetstr[16], has_symbol_header, friendlyfuncname[200], *namepos;
-	int tmp, num_members, size, membersleft, lastoffset, nextoffset, i;
+	int tmp, num_members, size, lastoffset, nextoffset, i;
+	char offsetstr[16], friendlyfuncname[200], *namepos;
 	struct docgen_tmpbuf *funcsignature;
 	struct docgen_funcinfo *funcinfo;
 	struct idcp_struct_member *mem;
@@ -554,7 +561,6 @@ void docgen_print_struct(FILE *f, struct docgen *dg, struct docgen_structinfo *s
 	num_members = struc->end_idx - struc->start_idx;
 	size = docgen_get_struct_size(dg->idcp, struc);
 
-	/*TODO: check if struct name is valid to use as anchor, or replace invalid chars?*/
 	fprintf(f, "<pre id='struc_%s'>%s <h3>%s</h3> { <i>/*%d members, size %Xh*/</i>%s\n",
 		struc->name,
 		struc->is_union ? "<b>union</b>" : "struct",
@@ -564,21 +570,18 @@ void docgen_print_struct(FILE *f, struct docgen *dg, struct docgen_structinfo *s
 		structinfo->is_class ? " <em></em>" : ""
 	);
 	mem = dg->idcp->struct_members + struc->start_idx;
-	membersleft = struc->end_idx - struc->start_idx;
 	lastoffset = 0;
-	while (membersleft) {
+	for (; num_members; num_members--, mem++) {
 		if (mem->offset > lastoffset) {
 			docgen_print_struct_member(f, dg, struc, lastoffset, mem->offset - lastoffset, NULL);/*jeanine:s:a:r;i:11;*/
 		}
 		docgen_print_struct_member(f, dg, struc, mem->offset, mem->nbytes, mem);/*jeanine:r:i:11;*/
 		lastoffset = mem->offset + mem->nbytes;
-		membersleft--;
-		mem++;
 	}
 	fprintf(f, "};%s", "</pre>");
 	if (struc->comment) {
 		/*TODO: mmparse*/
-		fprintf(f, "<p>%s</p>", struc->rep_comment);
+		fprintf(f, "<p>%s</p>", struc->comment);
 	}
 	if (struc->rep_comment) {
 		/*TODO: mmparse*/
@@ -606,15 +609,61 @@ void docgen_print_struct(FILE *f, struct docgen *dg, struct docgen_structinfo *s
 		fprintf(f, "</ul>");
 	}
 }
+/*jeanine:p:i:22;p:7;a:r;x:11.11;y:27.00;*/
+static
+void docgen_print_enum(FILE *f, struct docgen *dg, struct docgen_enuminfo *enuminfo, struct idcp_enum *enu)
+{
+	struct idcp_enum_member *mem;
+	int num_members;
+
+	num_members = enu->end_idx - enu->start_idx;
+
+	fprintf(f, "<pre id='enu_%s'>enum <h3>%s</h3> { <i>/*%d members*/</i>\n", enu->name, enu->name, num_members);
+	mem = dg->idcp->enum_members + enu->start_idx;
+	for (; num_members; num_members--, mem++) {
+		if (mem->comment) {
+			if (mem->rep_comment) {
+				/*TODO: mmparse*/
+				fprintf(f, "<span>/**%s\n\n%s*/</span>\n", mem->comment, mem->rep_comment);
+			} else {
+				/*TODO: mmparse*/
+				fprintf(f, "<span>/**%s*/</span>\n", mem->comment);
+			}
+		} else if (mem->rep_comment) {
+			/*TODO: mmparse*/
+			fprintf(f, "<span>/**%s*/</span>\n", mem->rep_comment);
+		}
+		fprintf(f, "\t%s = 0x%X,\n", mem->name, mem->value);
+	}
+	fprintf(f, "};%s", "</pre>");
+	if (enu->comment) {
+		/*TODO: mmparse*/
+		fprintf(f, "<p>%s</p>", enu->comment);
+	}
+	if (enu->rep_comment) {
+		/*TODO: mmparse*/
+		fprintf(f, "<p>%s</p>", enu->rep_comment);
+	}
+}
+/*jeanine:p:i:21;p:7;a:r;x:11.11;y:-13.00;*/
+static
+int docgen_enum_sort_compar(const void *_a, const void *_b)
+{
+	register const struct idcp_enum *a = ((struct docgen_enuminfo*) _a)->enu;
+	register const struct idcp_enum *b = ((struct docgen_enuminfo*) _b)->enu;
+
+	return docgen_stricmp(a->name, b->name);
+}
 /*jeanine:p:i:7;p:0;a:b;x:116.00;y:12.13;*/
 int main(int argc, char **argv)
 {
 	struct docgen_structinfo *structinfo;
+	FILE *f_structs, *f_funcs, *f_enums;
+	struct docgen_enuminfo *enuminfo;
 	struct docgen_funcinfo *funcinfo;
 	struct idcp_struct **struc;
 	struct idcp_stuff **stuff;
 	struct idcparse *idcp;
-	FILE *f_structs, *f_funcs;
 	struct docgen *dg;
 	char *css, *name;
 	int i, j;
@@ -648,6 +697,15 @@ int main(int argc, char **argv)
 	}
 	dg->num_structinfos = idcp->num_structs;
 	qsort((void*) dg->structinfos, dg->num_structinfos, sizeof(struct docgen_structinfo), docgen_struct_sort_compar);/*jeanine:r:i:4;*/
+	/*read enums*/
+	dg->enuminfos = malloc(sizeof(struct docgen_enuminfo) * idcp->num_enums);
+	assert(((void)"failed to malloc for dg->enuminfos", dg->enuminfos));
+	for (i = 0; i < idcp->num_enums; i++) {
+		dg->enuminfos[i].enu = idcp->enums + i;
+		dg->enuminfos[i].name_len = strlen(idcp->enums[i].name);
+	}
+	dg->num_enuminfos = idcp->num_enums;
+	qsort((void*) dg->enuminfos, dg->num_enuminfos, sizeof(struct docgen_enuminfo), docgen_enum_sort_compar);/*jeanine:r:i:21;*/
 
 	/*funcs*/
 	f_funcs = fopen("funcs.html", "wb");
@@ -661,7 +719,6 @@ int main(int argc, char **argv)
 	fprintf(f_funcs, "%s%d%s", "<div><h2>Functions (", dg->num_funcinfos, ")</h2><ul>\n");
 	for (i = 0, funcinfo = dg->funcinfos; i < dg->num_funcinfos; i++, funcinfo++) {
 		fprintf(f_funcs, "<li><a href='#%X'>%s</a></li>\n", funcinfo->func->addr, funcinfo->func->data.func.name);
-		/*TODO: anchor link*/
 	}
 	fprintf(f_funcs, "%s", "</ul></div><div class='func'>");
 	for (i = 0, funcinfo = dg->funcinfos; i < dg->num_funcinfos; i++, funcinfo++) {
@@ -683,7 +740,6 @@ int main(int argc, char **argv)
 	for (i = 0, structinfo = dg->structinfos; i < dg->num_structinfos; i++, structinfo++) {
 		name = structinfo->struc->name;
 		fprintf(f_structs, "<li><a href='#struc_%s'>%s</a></li>\n", name, name);
-		/*TODO: anchor link*/
 	}
 	fprintf(f_structs, "%s", "</ul></div><div class='struc'>");
 	for (i = 0, structinfo = dg->structinfos; i < dg->num_structinfos; i++, structinfo++) {
@@ -691,6 +747,27 @@ int main(int argc, char **argv)
 	}
 	fprintf(f_structs, "%s", "</div></body></html>");
 	fclose(f_structs);
+
+	/*enums*/
+	f_enums = fopen("enums.html", "wb");
+	assert(((void)"failed to open file enums.html for writing", f_enums));
+	fprintf(f_enums,
+		"%s%s%s",
+		"<!DOCTYPE html><html lang='en'><head><meta charset='utf-8'/><title>nfsu2-re/enums</title><style>",
+		css,
+		"</style></head><body><header><h1>nfsu2-re</h1><p>link</p></header><nav><p>Home</p></nav>"
+	);
+	fprintf(f_enums, "%s%d%s", "<div><h2>Enums (", dg->num_enuminfos, ")</h2><ul>\n");
+	for (i = 0, enuminfo = dg->enuminfos; i < dg->num_enuminfos; i++, enuminfo++) {
+		name = enuminfo->enu->name;
+		fprintf(f_enums, "<li><a href='#enu_%s'>%s</a></li>\n", name, name);
+	}
+	fprintf(f_enums, "%s", "</ul></div><div class='enum'>");
+	for (i = 0, enuminfo = dg->enuminfos; i < dg->num_enuminfos; i++, enuminfo++) {
+		docgen_print_enum(f_enums, dg, enuminfo, enuminfo->enu);/*jeanine:r:i:22;*/
+	}
+	fprintf(f_enums, "%s", "</div></body></html>");
+	fclose(f_enums);
 
 	return 0;
 }
