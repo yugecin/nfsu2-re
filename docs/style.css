@@ -37,8 +37,10 @@ pre {
 	background: #eef;
 	border: 1px solid #66f;
 }
-.struc h3 + p {
-	font-family: monospace;
+pre h3 {
+	display: inline;
+	font-size: 1em;
+	font-weight: bold;
 }
 .func i,
 .struc i {

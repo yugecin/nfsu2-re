@@ -290,21 +290,19 @@ int docgen_func_sort_compar(const void *_a, const void *_b)
 static
 int docgen_get_func_friendlyname(char *dest, char *name)
 {
-	int len, mask;
+	int len;
 	char c;
 
 	len = -1;
-	mask = 0;
 	do {
 		c = *(name++);
-		if (c == ':' || c == '?') {
-			mask = -1;
+		if (c == ':' || c == '?' || c == '.') {
 			c = '_';
 		}
 		*(dest++) = c;
 		len++;
 	} while (c);
-	return len & mask;
+	return len;
 }
 /*jeanine:p:i:19;p:17;a:r;x:44.11;y:-62.81;*/
 /**
@@ -313,12 +311,12 @@ int docgen_get_func_friendlyname(char *dest, char *name)
 static
 void docgen_gen_func_signature(struct docgen_tmpbuf **signaturebuf, struct docgen *dg, struct idcp_stuff *func)
 {
-	char *originalname, friendlyname[200], *namepos, *coloncolon, *b, *originalsignature, classname[200], *classlinkend;
+	char *originalname, friendlyname[200], *namepos, *coloncolon, *b, *originalsignature, classname[200];
 	int name_len, len, classname_len;
 	struct docgen_tmpbuf *newbuf;
 
 	if (!func->data.func.type) {
-		strcpy((*signaturebuf)->data, func->data.func.name);
+		sprintf((*signaturebuf)->data, "<h3>%s</h3>", func->data.func.name);
 		return;
 	}
 
@@ -326,49 +324,44 @@ void docgen_gen_func_signature(struct docgen_tmpbuf **signaturebuf, struct docge
 	originalsignature = func->data.func.type;
 	originalname = func->data.func.name;
 	name_len = docgen_get_func_friendlyname(friendlyname, originalname);/*jeanine:r:i:16;*/
-	if (name_len) {
-		namepos = strstr(originalsignature, friendlyname);
-		if (!namepos) {
-			fprintf(stderr, "cannot find func friendlyname '%s' (original '%s') in signature '%s'\n",
-				friendlyname,
-				originalname,
-				originalsignature
-			);
-			assert(0);
-		}
-		coloncolon = strstr(originalname, "::");
-		if (coloncolon) {
-			newbuf = docgen_get_tmpbuf((*signaturebuf)->size);
-			b = newbuf->data;
-			/*Copy part until start of name*/
-			len = namepos - originalsignature;
-			memcpy(b, originalsignature, len);
-			b += len;
-			/*Copy class name (part of name until ::), find its struct and link it*/
-			classname_len = coloncolon - originalname;
-			memcpy(classname, originalname, classname_len);
-			classname[classname_len] = 0;
-			if (docgen_find_struct(dg, classname)) {
-				b += sprintf(b, "<a href='structs.html#struc_%s'>%s", classname, classname);
-				classlinkend = "</a>";
-			} else {
-				printf("warn: cannot find struct '%s' for func %X '%s'\n", classname, func->addr, originalname);
-				b += sprintf(b, "<strong>%s", classname);
-				classlinkend = "</strong>";
-			}
-			/*Finalize link and copy rest of name from ::*/
-			b += sprintf(b, "%s%s", classlinkend, coloncolon);
-			/*Copy rest of signature*/
-			strcpy(b, namepos + name_len);
-			docgen_free_tmpbuf(*signaturebuf);
-			*signaturebuf = newbuf;
-		} else {
-			strcpy((*signaturebuf)->data, originalsignature);
-			memcpy((*signaturebuf)->data, originalname, name_len);
-		}
-	} else {
-		strcpy((*signaturebuf)->data, originalsignature);
+	namepos = strstr(originalsignature, friendlyname);
+	if (!namepos) {
+		fprintf(stderr, "cannot find func friendlyname '%s' (original '%s') in signature '%s'\n",
+			friendlyname,
+			originalname,
+			originalsignature
+		);
+		assert(0);
 	}
+	newbuf = docgen_get_tmpbuf((*signaturebuf)->size);
+	b = newbuf->data;
+	/*Copy part until start of name*/
+	len = namepos - originalsignature;
+	memcpy(b, originalsignature, len);
+	b += len;
+	/*Copy and format name*/
+	b += sprintf(b, "<h3>");
+	coloncolon = strstr(originalname, "::");
+	if (coloncolon) {
+		/*Find the struct class and link it*/
+		classname_len = coloncolon - originalname;
+		memcpy(classname, originalname, classname_len);
+		classname[classname_len] = 0;
+		if (docgen_find_struct(dg, classname)) {
+			b += sprintf(b, "<a href='structs.html#struc_%s'>%s</a>", classname, classname);
+		} else {
+			printf("warn: cannot find struct '%s' for func %X '%s'\n", classname, func->addr, originalname);
+			b += sprintf(b, "<strong>%s</strong>", classname);
+		}
+		b += sprintf(b, "%s", coloncolon);
+	} else {
+		b += sprintf(b, "%s", originalname);
+	}
+	b += sprintf(b, "</h3>");
+	/*Copy rest of signature*/
+	strcpy(b, namepos + name_len);
+	docgen_free_tmpbuf(*signaturebuf);
+	*signaturebuf = newbuf;
 
 	if (docgen_link_structs(dg, signaturebuf)) {/*jeanine:s:a:r;i:12;*/
 		printf("warn: func '%X %s' references an unknown struct\n", func->addr, func->data.func.name);
@@ -380,10 +373,10 @@ void docgen_print_func(FILE *f, struct docgen *dg, struct idcp_stuff *func)
 {
 	struct docgen_tmpbuf *signaturebuf;
 
-	fprintf(f, "<a id='%X'></a><div class='func'><h3>%s</h3>\n",
-		func->addr,
-		func->data.func.name
-	);
+	signaturebuf = docgen_get_tmpbuf(10000);
+	docgen_gen_func_signature(&signaturebuf, dg, func);/*jeanine:r:i:19;*/
+	fprintf(f, "<pre id='%X'><i>%X</i> %s</pre>", func->addr, func->addr, signaturebuf->data);
+	docgen_free_tmpbuf(signaturebuf);
 
 	if (func->comment) {
 		/*TODO: mmparse*/
@@ -393,13 +386,6 @@ void docgen_print_func(FILE *f, struct docgen *dg, struct idcp_stuff *func)
 		/*TODO: mmparse*/
 		fprintf(f, "<p>%s</p>\n", func->rep_comment);
 	}
-
-	signaturebuf = docgen_get_tmpbuf(10000);
-	docgen_gen_func_signature(&signaturebuf, dg, func);/*jeanine:r:i:19;*/
-	fprintf(f, "<pre><i>%X</i> %s</pre>", func->addr, signaturebuf->data);
-	docgen_free_tmpbuf(signaturebuf);
-
-	fprintf(f, "</div>");
 }
 /*jeanine:p:i:4;p:7;a:r;x:8.89;y:1.00;*/
 static
@@ -569,16 +555,8 @@ void docgen_print_struct(FILE *f, struct docgen *dg, struct idcp_struct *struc)
 	size = docgen_get_struct_size(dg->idcp, struc);
 
 	/*TODO: check if struct name is valid to use as anchor, or replace invalid chars?*/
-	fprintf(f, "<a id='struc_%s'></a><div class='struc'><h3>%s</h3>",
+	fprintf(f, "<pre id='struc_%s'>%s <h3>%s</h3>%s%d%s%X%s",
 		struc->name,
-		struc->name
-	);
-	assert (!struc->comment);
-	if (struc->rep_comment) {
-		/*TODO: mmparse*/
-		fprintf(f, "<p>%s</p>", struc->rep_comment);
-	}
-	fprintf(f, "<pre>%s %s%s%d%s%X%s",
 		struc->is_union ? "union" : "struct",
 		struc->name,
 		" { <i>/*",
@@ -599,7 +577,15 @@ void docgen_print_struct(FILE *f, struct docgen *dg, struct idcp_struct *struc)
 		membersleft--;
 		mem++;
 	}
-	fprintf(f, "};%s", "</pre></div>");
+	fprintf(f, "};%s", "</pre>");
+	if (struc->comment) {
+		/*TODO: mmparse*/
+		fprintf(f, "<p>%s</p>", struc->rep_comment);
+	}
+	if (struc->rep_comment) {
+		/*TODO: mmparse*/
+		fprintf(f, "<p>%s</p>", struc->rep_comment);
+	}
 }
 /*jeanine:p:i:7;p:0;a:b;x:116.00;y:12.13;*/
 int main(int argc, char **argv)
@@ -658,11 +644,11 @@ int main(int argc, char **argv)
 		fprintf(f_funcs, "<li><a href='#%X'>%s</a></li>\n", funcinfo->stuff->addr, funcinfo->stuff->data.func.name);
 		/*TODO: anchor link*/
 	}
-	fprintf(f_funcs, "%s", "</ul></div>");
+	fprintf(f_funcs, "%s", "</ul></div><div class='func'>");
 	for (i = 0, funcinfo = dg->funcinfos; i < dg->num_funcinfos; i++, funcinfo++) {
 		docgen_print_func(f_funcs, dg, funcinfo->stuff);/*jeanine:r:i:17;*/
 	}
-	fprintf(f_funcs, "%s", "</body></html>");
+	fprintf(f_funcs, "%s", "</div></body></html>");
 	fclose(f_funcs);
 
 	/*structs*/
@@ -680,11 +666,11 @@ int main(int argc, char **argv)
 		fprintf(f_structs, "<li><a href='#struc_%s'>%s</a></li>\n", name, name);
 		/*TODO: anchor link*/
 	}
-	fprintf(f_structs, "%s", "</ul></div>");
+	fprintf(f_structs, "%s", "</ul></div><div class='struc'>");
 	for (i = 0, structinfo = dg->structinfos; i < dg->num_structinfos; i++, structinfo++) {
 		docgen_print_struct(f_structs, dg, structinfo->struc);/*jeanine:r:i:5;*/
 	}
-	fprintf(f_structs, "%s", "</body></html>");
+	fprintf(f_structs, "%s", "</div></body></html>");
 	fclose(f_structs);
 
 	return 0;
