@@ -204,6 +204,7 @@ struct docgen_tmpbuf* docgen_get_tmpbuf(int minsize)
 		}
 	}
 	assert(((void) "failed to allocate tmpbuf, try increasing DOCGEN_MAX_TMPBUFS", 0));
+	return NULL; /*make gcc -Wall happy*/
 }
 
 static
@@ -540,9 +541,8 @@ void docgen_format_struct_member_typeandname_when_type(char *buf, struct idcp_st
 static
 void docgen_print_struct_member(FILE *f, struct docgen *dg, struct idcp_struct *struc, int offset, int size, struct idcp_struct_member *mem)
 {
-	int offsetstrlen, isplaceholder, member_struc_size;
 	struct docgen_tmpbuf *typeandname;
-	struct idcp_struct *member_struc;
+	int offsetstrlen, isplaceholder;
 	char offsetstr[16];
 
 	memset(offsetstr, ' ', 8);
@@ -604,8 +604,8 @@ yesplaceholder:
 static
 void docgen_print_struct(FILE *f, struct docgen *dg, struct docgen_structinfo *structinfo, struct idcp_struct *struc)
 {
-	int tmp, num_members, size, lastoffset, nextoffset, i;
-	char offsetstr[16], friendlyfuncname[200], *namepos;
+	int num_members, size, lastoffset, i;
+	char friendlyfuncname[200], *namepos;
 	struct docgen_tmpbuf *funcsignature;
 	struct docgen_funcinfo *funcinfo;
 	struct idcp_struct_member *mem;
@@ -773,7 +773,6 @@ int main(int argc, char **argv)
 	struct docgen_datainfo *datainfo;
 	struct docgen_enuminfo *enuminfo;
 	struct docgen_funcinfo *funcinfo;
-	struct idcp_struct **struc;
 	struct idcparse *idcp;
 	struct docgen *dg;
 	char *css, *name;
