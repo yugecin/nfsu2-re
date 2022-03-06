@@ -753,7 +753,7 @@ void docgen_print_data(FILE *f, struct docgen *dg, struct docgen_datainfo *datai
 			strcpy(type->data, "int");
 			break;
 		default:
-			assert(0);
+			sprintf(type->data, "i%d", data->data.data.size * 8);
 			break;
 		};
 		unconfirmed_type = 1;
