@@ -73,6 +73,8 @@ body > div > pre i {
 	font-size: 80%;
 	color: #777;
 }
+/*class label*/
+.struc h2 + ul em::after,
 .struc h3 + i + em::after {
 	content: "/*class*/";
 	font-style: normal;
@@ -81,7 +83,12 @@ body > div > pre i {
 	font-size: 80%;
 	border-radius: 3px;
 }
-/*union emphasis*/
+.struc h2 + ul em::after {
+	content: "class";
+	padding: 0 .2em;
+}
+/*union emphasis/label*/
+.struc h2 + ul b::after,
 body > div > pre b {
 	font-weight: normal;
 	background: #aadfff;
@@ -89,6 +96,15 @@ body > div > pre b {
 	font-size: 90%;
 	border-radius: 3px;
 }
+.struc h2 + ul b::after {
+	content: "union";
+	padding: 0 .2em;
+	font-size: 80%;
+}
+.struc h2 + ul b {
+	font-weight: normal;
+}
+/*unknown type*/
 body > div > pre u {
 	text-decoration: none;
 }

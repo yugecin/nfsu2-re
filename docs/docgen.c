@@ -845,7 +845,7 @@ int main(int argc, char **argv)
 		"</style></head><body>",
 		header
 	);
-	fprintf(f_funcs, "%s%d%s", "<div><h2>Functions (", dg->num_funcinfos, ")</h2><ul>\n");
+	fprintf(f_funcs, "%s%d%s", "<div class='func'><h2>Functions (", dg->num_funcinfos, ")</h2><ul>\n");
 	for (i = 0, funcinfo = dg->funcinfos; i < dg->num_funcinfos; i++, funcinfo++) {
 		fprintf(f_funcs, "<li><a href='#%X'>%s</a></li>\n", funcinfo->func->addr, funcinfo->func->name);
 	}
@@ -866,10 +866,17 @@ int main(int argc, char **argv)
 		"</style></head><body>",
 		header
 	);
-	fprintf(f_structs, "%s%d%s", "<div><h2>Structs (", dg->num_structinfos, ")</h2><ul>\n");
+	fprintf(f_structs, "%s%d%s", "<div class='struc'><h2>Structs (", dg->num_structinfos, ")</h2><ul>\n");
 	for (i = 0, structinfo = dg->structinfos; i < dg->num_structinfos; i++, structinfo++) {
 		name = structinfo->struc->name;
-		fprintf(f_structs, "<li><a href='#struc_%s'>%s</a></li>\n", name, name);
+		fprintf(f_structs, "<li><a href='#struc_%s'>%s</a>", name, name);
+		if (structinfo->struc->is_union) {
+			fprintf(f_structs, " <b></b>");
+		}
+		if (structinfo->is_class) {
+			fprintf(f_structs, " <em></em>");
+		}
+		fprintf(f_structs, "</li>\n");
 	}
 	fprintf(f_structs, "%s", "</ul></div><div class='struc'>");
 	for (i = 0, structinfo = dg->structinfos; i < dg->num_structinfos; i++, structinfo++) {
@@ -888,7 +895,7 @@ int main(int argc, char **argv)
 		"</style></head><body>",
 		header
 	);
-	fprintf(f_enums, "%s%d%s", "<div><h2>Enums (", dg->num_enuminfos, ")</h2><ul>\n");
+	fprintf(f_enums, "%s%d%s", "<div class='enum'><h2>Enums (", dg->num_enuminfos, ")</h2><ul>\n");
 	for (i = 0, enuminfo = dg->enuminfos; i < dg->num_enuminfos; i++, enuminfo++) {
 		name = enuminfo->enu->name;
 		fprintf(f_enums, "<li><a href='#enu_%s'>%s</a></li>\n", name, name);
@@ -910,7 +917,7 @@ int main(int argc, char **argv)
 		"</style></head><body>",
 		header
 	);
-	fprintf(f_datas, "%s%d%s", "<div><h2>Variables (", dg->num_datainfos, ")</h2><ul>\n");
+	fprintf(f_datas, "%s%d%s", "<div class='var'><h2>Variables (", dg->num_datainfos, ")</h2><ul>\n");
 	for (i = 0, datainfo = dg->datainfos; i < dg->num_datainfos; i++, datainfo++) {
 		fprintf(f_datas, "<li><a href='#%X'>%s</a></li>\n", datainfo->data->addr, datainfo->data->name);
 	}
