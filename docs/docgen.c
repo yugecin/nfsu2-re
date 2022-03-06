@@ -369,27 +369,29 @@ static
 void docgen_gen_func_signature(struct docgen_tmpbuf **signaturebuf, struct docgen *dg, struct docgen_funcinfo *funcinfo, struct idcp_stuff *func)
 {
 	char *originalname, friendlyname[200], *namepos, *coloncolon, *b, *originalsignature, classname[200];
-	struct docgen_tmpbuf *newbuf;
-	int len, classname_len;
+	struct docgen_tmpbuf *newbuf, *checkbuf;
+	int len, classname_len, has_signature;
 
-	if (!func->data.func.type) {
-		sprintf((*signaturebuf)->data, "<h3>%s</h3>", func->name);
-		return;
-	}
-
-	/*Function names like 'clazz::func?' get 'friendly' names like 'clazz__func_' in their signatures.*/
-	originalsignature = func->data.func.type;
 	originalname = func->name;
-	docgen_get_func_friendlyname(friendlyname, originalname);
-	namepos = strstr(originalsignature, friendlyname);
-	if (!namepos) {
-		fprintf(stderr, "cannot find func friendlyname '%s' (original '%s') in signature '%s'\n",
-			friendlyname,
-			originalname,
-			originalsignature
-		);
-		assert(0);
+	if ((has_signature = func->data.func.type)) {
+		originalsignature = func->data.func.type;
+		/*Function names like 'clazz::func?' get 'friendly' names like 'clazz__func_' in their signatures.*/
+		docgen_get_func_friendlyname(friendlyname, originalname);
+		namepos = strstr(originalsignature, friendlyname);
+		if (!namepos) {
+			fprintf(stderr, "cannot find func friendlyname '%s' (original '%s') in signature '%s'\n",
+				friendlyname,
+				originalname,
+				originalsignature
+			);
+			assert(0);
+		}
+	} else {
+		originalsignature = func->name;
+		strcpy(friendlyname, func->name);
+		namepos = originalsignature;
 	}
+
 	newbuf = docgen_get_tmpbuf((*signaturebuf)->size);
 	b = newbuf->data;
 	/*Copy part until start of name*/
@@ -407,6 +409,15 @@ void docgen_gen_func_signature(struct docgen_tmpbuf **signaturebuf, struct docge
 		if ((funcinfo->methodof = docgen_find_struct(dg, classname))) {
 			funcinfo->methodof->is_class = 1;
 			b += sprintf(b, "<a href='structs.html#struc_%s'>%s</a>", classname, classname);
+			/*Check that the 'this' argument is of the expected type.*/
+			if (has_signature) {
+				checkbuf = docgen_get_tmpbuf(10000);
+				sprintf(checkbuf->data, "%s(struct %s *this", friendlyname, classname);
+				if (!strstr(originalsignature, checkbuf->data)) {
+					printf("warn: func %X '%s' has wrong thisarg (searching '%s')\n", func->addr, originalname, checkbuf->data);
+				}
+				docgen_free_tmpbuf(checkbuf);
+			}
 		} else {
 			printf("warn: cannot find struct '%s' for func %X '%s'\n", classname, func->addr, originalname);
 			b += sprintf(b, "<strong>%s</strong>", classname);
