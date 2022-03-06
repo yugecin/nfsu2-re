@@ -120,7 +120,7 @@ body > div.var > pre u::after {
 	content: "/*unconfirmed type*/";
 }
 /*reference to unknown struct/enum*/
-body > div > pre > strong {
+body > div > pre strong {
 	background: #f00;
 	color: #fff;
 }
