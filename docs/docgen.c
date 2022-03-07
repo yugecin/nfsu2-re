@@ -370,10 +370,10 @@ void docgen_gen_func_signature(struct docgen_tmpbuf **signaturebuf, struct docge
 {
 	char *originalname, friendlyname[200], *namepos, *coloncolon, *b, *originalsignature, classname[200];
 	struct docgen_tmpbuf *newbuf, *checkbuf;
-	int len, classname_len, has_signature;
+	int len, classname_len;
 
 	originalname = func->name;
-	if ((has_signature = func->data.func.type)) {
+	if (func->data.func.type) {
 		originalsignature = func->data.func.type;
 		/*Function names like 'clazz::func?' get 'friendly' names like 'clazz__func_' in their signatures.*/
 		docgen_get_func_friendlyname(friendlyname, originalname);
@@ -410,7 +410,7 @@ void docgen_gen_func_signature(struct docgen_tmpbuf **signaturebuf, struct docge
 			funcinfo->methodof->is_class = 1;
 			b += sprintf(b, "<a href='structs.html#struc_%s'>%s</a>", classname, classname);
 			/*Check that the 'this' argument is of the expected type.*/
-			if (has_signature) {
+			if (func->data.func.type) {
 				checkbuf = docgen_get_tmpbuf(10000);
 				sprintf(checkbuf->data, "%s(struct %s *this", friendlyname, classname);
 				if (!strstr(originalsignature, checkbuf->data)) {
