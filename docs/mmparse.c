@@ -1,1258 +1,856 @@
 /**
 margin markup parser
-
-Some markup language I suppose. I hope this will stay relatively simple.
 */
-#define _CRT_SECURE_NO_DEPRECATE
-#include <stdlib.h>
-#include <stdio.h>
-#include <string.h>
+#define MMPARSE_MAX_DIRECTIVES 20 /*On a single line*/
+#define MMPARSE_LINE_RAW_MAX_LEN 2000
+#define MMPARSE_LINE_EXPANDED_MAX_LEN 20000
+#define MMPARSE_TAGSTACK_SIZE 100
+#define MMPARSE_TAGSTACK_TAG_MAX_LEN 50
+#define MMPARSE_MAX_PLACEHOLDERS 100
+#define MMPARSE_DIRECTIVE_NAME_MAX_LEN 30
+#define MMPARSE_DIRECTIVE_MAX_ARGS 4
+#define MMPARSE_DIRECTIVE_ARGN_MAX_LEN 15
+#define MMPARSE_DIRECTIVE_ARGV_MAX_LEN 200
+#define MMPARSE_MODE_STACK_SIZE 20
 
-#define TAG_STACK_SIZE 100
-/*Max amount of { or } on a single line.*/
-#define MAX_MARKS 20
-#define HANDLER_STACK_SIZE 20
+struct mmparse;
 
-#define DIR_NAME_LEN 30
-#define MAX_DIR_ARGS 4
-#define DIR_ARGN_LEN 15
-#define DIR_ARGV_LEN 200
-struct DIRECTIVE {
-	char name[DIR_NAME_LEN];
-	int num_args;
-	char argn[MAX_DIR_ARGS][DIR_ARGN_LEN];
-	char argv[MAX_DIR_ARGS][DIR_ARGV_LEN];
+struct mmp_directive {
+	char name[MMPARSE_DIRECTIVE_NAME_MAX_LEN];
+	unsigned char argc;
+	char argn[MMPARSE_DIRECTIVE_MAX_ARGS][MMPARSE_DIRECTIVE_ARGN_MAX_LEN];
+	char argv[MMPARSE_DIRECTIVE_MAX_ARGS][MMPARSE_DIRECTIVE_ARGV_MAX_LEN];
 };
 
-enum DIR_CONTENT_ACTION {
-	DELETE_CONTENT,
-	LEAVE_CONTENT,
+enum mmp_directive_content_action {
+	DELETE_CONTENTS,
+	LEAVE_CONTENTS,
 };
 
-struct HANDLER {
-	void (*start)(); /*called after handler is pushed*/
-	void (*text)();
-	void (*end)(); /*called after handler is popped*/
-	enum DIR_CONTENT_ACTION (*directive_start)(char**,char*,struct DIRECTIVE*);
-	void (*directive_end)(char**);
-	char name[12];
+struct mmp_directive_content_data {
+	struct mmp_directive *directive;
+	/*Size of this buffer is MMPARSE_TAGSTACK_TAG_MAX_LEN.*/
+	char *closing_tag;
+	int content_len;
+	char contents[MMPARSE_LINE_RAW_MAX_LEN];
 };
 
-/*Yes, global variables.*/
-struct HANDLER *current_handler;
-struct HANDLER *handler[HANDLER_STACK_SIZE];
-int num_handlers;
-int replace_html_entities = 1;
-char last_handler[100];
-char line_raw[2000]; /*Lines should be way shorter than this.*/
-char line_expanded[20000];
-char *line;
-int line_len;
-int current_line;
-#define TAG_STACK_TAG_LEN 25
-char tag_stack[TAG_STACK_SIZE][TAG_STACK_TAG_LEN];
-char controlchar_open = '{';
-char controlchar_close = '}';
-int tag_stack_pos;
-int open_mark_position[MAX_MARKS];
-int num_open_marks;
-int close_mark_position[MAX_MARKS];
-int num_close_marks;
-struct DIRECTIVE directive[MAX_MARKS];
-int num_directives;
-#define MAX_HEADERS 100
-char header_id[MAX_HEADERS][50];
-char header_name[MAX_HEADERS][200];
-char header_level[MAX_HEADERS];
-int num_headers;
-char outbuffer[2000000];
-char *out = outbuffer;
-int current_line_offset; /*used for placeholders*/
-int extra_line_offset; /*used for placeholders, when handlers prepend stuff*/
-#define MAX_PLACEHOLDER_DATA_LENGTH 200
-struct PLACEHOLDER {
-	int position;
+struct mmp_directive_handler {
+	char *name;
+	/**
+	Write output by using function 'mmparse_append_to_expanded_line'.
+	This may use function 'mmparse_allocate_placeholder' to create a placeholder.
+	*/
+	enum mmp_directive_content_action (*handle)(struct mmparse*, struct mmp_directive_content_data*);
+};
+
+enum mmp_mode_line_parsing {
+	MMPARSE_DONT_PARSE_LINES,
+	MMPARSE_DO_PARSE_LINES,
+};
+
+struct mmp_mode {
+	/*called after mode is pushed*/
+	void (*start)(struct mmparse*);
+	/**
+	Input is 'mm->pd.line' which has a length of 'mm->pd.line_len'.
+	Extra output can be written before and after,
+	but the input line must be written without modifications.
+	Write output by using function 'mmparse_append_to_main_output'.
+	@return number of characters written *before* 'mm->pd.line' was written.
+	*/
+	int (*println)(struct mmparse*);
+	/**called after mode is popped*/
+	void (*end)(struct mmparse*);
+	enum mmp_directive_content_action (*directive)(struct mmparse*, struct mmp_directive_content_data*);
+	char *name;
+	enum mmp_mode_line_parsing parse_lines;
+};
+
+struct mmp_output_part {
+	/**main data of this part, not zero terminated!*/
+	char *data0;
+	/**length of the main data of this part*/
+	int data0_len;
+	/**placeholder data of this part, not zero terminated!*/
+	char *data1;
+	/**length of the placeholder data of this part*/
+	int data1_len;
+};
+
+struct mmp_placeholder {
+	/**used during parsing*/
+	int line_offset;
+	/**used for error reporting*/
 	int line_number;
-	void (*cb)(FILE*,struct PLACEHOLDER*);
+	/**custom data that may be allocated by the placeholder*/
 	void *data;
-	char needs_adjustment;
-	char _data[MAX_PLACEHOLDER_DATA_LENGTH];
-};
-#define MAX_PLACEHOLDERS 2000
-struct PLACEHOLDER placeholders[MAX_PLACEHOLDERS];
-int num_placeholders;
-int num_placeholders_before_this_line;
-int placeholder_needs_adjustment;
-struct PLACEHOLDER dummyplaceholder;
-
-#define PLACEHOLDER_INDEX 0
-
-struct PLACEHOLDER_BREADCRUMB_DATA {
-	int continuation_index_offset;
-	int is_continuation;
-	int continuation_level;
+	/**Action function that will be called when placeholders are processed.
+	Write output by using function 'mmparse_append_to_placeholder_output'.*/
+	void (*action)(struct mmparse*,struct mmp_output_part*,void *data);
 };
 
-#define MAX_REGISTERED_HANDLERS 20
-struct HANDLER *registered_handlers[MAX_REGISTERED_HANDLERS];
-int num_registered_handlers;
+struct mmp_config {
+	/**anything*/
+	void *userdata;
+	/**some distinctive name that will be printed when an error message is generated*/
+	char *debug_subject;
+	/**source text to parse*/
+	char *source;
+	/**length of string in 'source'*/
+	int source_len;
+	/**last entry must be NULL*/
+	struct mmp_mode **modes;
+	/**last entry's name and cb must be NULL*/
+	struct mmp_directive_handler *directive_handlers;
+	/**see docs of the 'mmparse' function to see how to use the output data*/
+	struct {
+		/**primary output buffer to be written to, this should be the largest*/
+		char *data0;
+		/**length of the primary output buffer*/
+		int data0_len;
+		/**secondary output buffer to be written to,
+		this is allowed to be NULL if no placeholders are being used during parsing*/
+		char *data1;
+		/**length of the secondary output buffer*/
+		int data1_len;
+	} dest;
+};
 
-#define MAX_REGISTERED_DIRS 50
-char registered_dir_names[MAX_REGISTERED_DIRS][50];
-enum DIR_CONTENT_ACTION (*registered_dir_cbs[MAX_REGISTERED_DIRS])(char**,char*,struct DIRECTIVE*);
-int num_registered_dirs;
+struct mmparse {
+	struct mmp_config config;
+	/**array of struct 'mmp_output_part'.
+	An entry with its 'data0' set to NULL denotes the end of the array*/
+	struct mmp_output_part *output;
+	struct {
+		char *charptr;
+		int charsleft;
+		int current_line;
+	} in; /*input*/
+	struct {
+		char hasmargin;
+		char ctrlchar_open;
+		char ctrlchar_close;
+		unsigned char num_open_marks;
+		int open_mark_positions[MMPARSE_MAX_DIRECTIVES];
+		unsigned char num_close_marks;
+		int close_mark_positions[MMPARSE_MAX_DIRECTIVES];
+		unsigned char num_directives;
+		struct mmp_directive directives[MMPARSE_MAX_DIRECTIVES];
+		/**value to set for 'struct placeholder.line_offset' when allocating a placeholder*/
+		int next_placeholder_line_offset;
+		/**Length of string in 'line' buffer.*/
+		int line_len;
+		/**Will either point to 'line_raw' or 'line_expanded' after parsing.*/
+		char *line;
+		/**Raw current input line until the '|||' mark.*/
+		char line_raw[MMPARSE_LINE_RAW_MAX_LEN];
+		/**Current input line after expanding, if applicable.*/
+		char line_expanded[MMPARSE_LINE_EXPANDED_MAX_LEN];
+		int tag_stack_size;
+		char tag_stack[MMPARSE_TAGSTACK_SIZE][MMPARSE_TAGSTACK_TAG_MAX_LEN];
+		int tag_opened_on_line[MMPARSE_TAGSTACK_SIZE];
+	} pd; /*parsedata*/
+	struct {
+		struct mmp_mode *current;
+		int num_pushed_modes;
+		struct mmp_mode *pushed_modes[MMPARSE_MODE_STACK_SIZE];
+	} md; /*mode*/
+	struct {
+		int size;
+		struct mmp_placeholder placeholders[MMPARSE_MAX_PLACEHOLDERS];
+	} ph; /*placeholders*/
+	struct {
+		int data0buf_sizeleft;
+		int data1buf_sizeleft;
+		/**max+1 because one last dummy entry is always needed, see docs of 'mmparse.output'
+		amount of used parts is equal to 'ph.size'+1*/
+		struct mmp_output_part parts[MMPARSE_MAX_PLACEHOLDERS + 1];
+		struct mmp_output_part *current_part;
+	} op; /*output*/
+};
 
-/*Returns ptr to placeholder data.*/
 static
-void *next_placeholder(void (*cb)(FILE*,struct PLACEHOLDER*))
+void mmparse_prefailmsg(struct mmparse *mm)
 {
-	if (num_placeholders == MAX_PLACEHOLDERS) {
-		printf("MAX_PLACEHOLDERS reached\n");
-		fflush(stdout);
-		return &dummyplaceholder.data;
-	}
-	placeholders[num_placeholders].position = out - outbuffer + current_line_offset;
-	placeholders[num_placeholders].line_number = current_line;
-	placeholders[num_placeholders].needs_adjustment = placeholder_needs_adjustment;
-	placeholders[num_placeholders].data = placeholders[num_placeholders]._data;;
-	placeholders[num_placeholders].cb = cb;
-	num_placeholders++;
-	return placeholders[num_placeholders - 1].data;
+	fprintf(stderr, "mmparse: while parsing target '%s':\n", mm->config.debug_subject);
 }
 
 static
-void cb_placeholder_section_anchor(FILE *out, struct PLACEHOLDER *placeholder)
+void mmparse_failmsg(struct mmparse *mm, char *msg)
 {
-	static int index = 0;
-
-	char buf[100];
-	int len;
-
-	len = sprintf(buf, "<span id='%s'></span>", header_id[index]);
-	fwrite(buf, len, 1, out);
-	index++;
+	mmparse_prefailmsg(mm);
+	fprintf(stderr, "line %d: %s\n", mm->in.current_line, msg);
 }
-
-static
-void cb_placeholder_breadcrumbs(FILE *out, struct PLACEHOLDER *placeholder)
+#define mmparse_failmsgf(MM,MSG,...) mmparse_prefailmsg(mm);\
+                                     fprintf(stderr, "%d: "MSG"\n", MM->in.current_line, __VA_ARGS__)
+/*jeanine:p:i:6;p:1;a:t;x:36.32;*/
+void mmparse_append_to_expanded_line(struct mmparse *mm, char *from, int len)
 {
-	static int absolute_index = 0;
-
-	struct PLACEHOLDER_BREADCRUMB_DATA *placeholder_data = placeholder->data;
-	char buf[1000];
-	int len;
-	int i;
-	int index;
-	int next_level;
-
-	index = absolute_index - placeholder_data->continuation_index_offset;
-	absolute_index++;
-	if (header_level[index] == 1 && !placeholder_data->is_continuation) {
-		/*Root level, no breadcrumb.*/
-		return;
+	if (mm->pd.line_len + len >= MMPARSE_LINE_EXPANDED_MAX_LEN) {
+		mmparse_failmsg(mm, "increase MMPARSE_LINE_EXPANDED_MAX_LEN");
+		assert(0);
 	}
-	len = sprintf(buf, "<p style='margin-top:0'><small>");
-	next_level = 1;
-	if (placeholder_data->is_continuation) {
-		while (header_level[index] != placeholder_data->continuation_level) {
-			index--;
-			if (index < 0) {
-				printf("shit\n");
-				fflush(stdout);
-			}
-		}
-	}
-	while (next_level < header_level[index]) {
-		for (i = index; i >= 0; i--) {
-			if (header_level[i] == next_level) {
-				len += sprintf(buf + len,
-					"<a href='#%s'>%s</a> &gt; ",
-					header_id[i],
-					header_name[i]);
-				break;
-			}
-		}
-		next_level++;
-	}
-	if (placeholder_data->is_continuation) {
-		absolute_index++;
-		len += sprintf(buf + len, "<a href='#%s'>%s</a> (continuation)",
-			header_id[index],
-			header_name[index]);
-	} else {
-		len += sprintf(buf + len, "%s", header_name[index]);
-	}
-	len += sprintf(buf + len, "</small></p>");
-
-	fwrite(buf, len, 1, out);
-	index++;
+	memcpy(mm->pd.line + mm->pd.line_len, from, len);
+	mm->pd.line_len += len;
+	mm->pd.line[mm->pd.line_len] = 0;
 }
-
-static
-void cb_placeholder_index(FILE *out, struct PLACEHOLDER *placeholder)
+/*jeanine:p:i:13;p:6;a:b;y:1.88;*/
+void mmparse_append_to_main_output(struct mmparse *mm, char *from, int len)
 {
-	int i;
-	int last_level;
-	int this_level;
-	char buf[2000];
-	int len;
-
-	last_level = 1;
-	fwrite("<ul>", 4, 1, out);
-	for (i = 0; i < num_headers; i++) {
-		this_level = header_level[i];
-		if (i) {
-			if (this_level > last_level) {
-				fwrite("<ul>", 4, 1, out);
-			} else {
-				while (last_level > this_level) {
-					fwrite("</li>", 5, 1, out);
-					fwrite("</ul>", 5, 1, out);
-					last_level--;
-				}
-				fwrite("</li>", 5, 1, out);
-			}
-		}
-		len = sprintf(buf, "<li><a href=\"#%s\">%s</a>", header_id[i], header_name[i]);
-		fwrite(buf, len, 1, out);
-		last_level = this_level;
+	if (mm->op.data0buf_sizeleft - len < 0) {
+		mmparse_failmsg(mm, "output buffer data0 too small");
+		assert(0);
 	}
-	while (last_level > 1) {
-		fwrite("</ul></li>", 10, 1, out);
-		last_level--;
-	}
-	fwrite("</ul>", 5, 1, out);
+	mm->op.data0buf_sizeleft -= len;
+	memcpy(mm->op.current_part->data0 + mm->op.current_part->data0_len, from, len);
+	mm->op.current_part->data0_len += len;
 }
-
-static
-void cb_placeholder_href(FILE *out, struct PLACEHOLDER *placeholder)
+/*jeanine:p:i:14;p:13;a:b;y:1.88;*/
+void mmparse_append_to_placeholder_output(struct mmparse *mm, struct mmp_output_part *output_part, char *from, int len)
 {
-	char *id = placeholder->data;
-	char buf[300];
-	int len;
-	int i;
-
-	for (i = 0; i < num_headers; i++) {
-		if (!strcmp(header_id[i], id)) {
-			len = sprintf(buf, "<a href='#%s'>%s</a>", id, header_name[i]);
-			goto write;
-		}
+	if (mm->op.data1buf_sizeleft - len < 0) {
+		mmparse_failmsg(mm, "output buffer data1 too small");
+		assert(0);
 	}
-
-	printf("line %d: href to '%s' not found\n", placeholder->line_number, id);
-	len = sprintf(buf, "MISSING HREF:%s", id);
-write:
-	fwrite(buf, len, 1, out);
+	mm->op.data1buf_sizeleft -= len;
+	memcpy(output_part->data1 + output_part->data1_len, from, len);
+	output_part->data1_len += len;
 }
+/*jeanine:p:i:2;p:3;a:r;x:28.67;y:-129.53;*/
+/**
+Parses the part after the margin (|||).
 
+A directive looks like:
+  directive [{argumentlist}]
+The argumentlist looks like:
+  {argument}[,{argument},...]
+An argument looks like:
+  name
+  name=value
+  name="value with whitespace"
+*/
 static
-int get_section_depth()
+void mmparse_read_directives(struct mmparse *mm)
 {
-	int section_depth;
-	int i;
-
-	section_depth = 0;
-	for (i = 0; i < num_handlers; i++) {
-		if (!strcmp(handler[i]->name, "section")) {
-			section_depth++;
-		}
-	}
-	return section_depth;
-}
-
-static
-int line_can_have_paragraph()
-{
-	char *tag;
-
-	if (line[0] != '<') {
-		return 1;
-	}
-	tag = line + 1;
-	return !(line[1] == 'h' ||
-		!strncmp(tag, "table", 5) ||
-		!strncmp(tag, "ul", 2) ||
-		!strncmp(tag, "p", 1));
-}
-
-/*
-This is kind of disgusting, but will do for now (the only problem really is nested stuff).
-Will not work for multi-line directives,
-but those don't need the text for now.*/
-static
-void get_directive_text(struct DIRECTIVE *dir, char *dest)
-{
-	int dir_index;
-	int offset;
-	char c;
-	int open_braces;
-
-	open_braces = 1;
-	dir_index = dir - directive;
-	offset = open_mark_position[dir_index] + 1;
-	for (;;) {
-		c = line_raw[offset];
-		if (c == 0) {
-			*dest = 0;
-			break;
-		}
-		if (c == controlchar_close) {
-			open_braces--;
-			if (!open_braces) {
-				*dest = 0;
-				break;
-			}
-		} else if (c == controlchar_open && line_raw[offset - 1] != '\\') {
-			open_braces++;
-		}
-		*dest = c;
-		dest++;
-		offset++;
-	}
-}
-
-static
-void mmparse_read_directives(FILE *in)
-{
-	struct DIRECTIVE *dir;
-	char c;
-	int dir_name_len;
-	int arg_name_len;
-	int arg_val_len;
-	int val_uses_quotes;
+	int dir_name_len, arg_name_len, arg_val_len;
+	struct mmp_directive *dir;
+	char c, val_uses_quotes;
 
 next_directive:
-	do {
-		c = fgetc(in);
-		if (c == EOF || c == '\n') {
-			return;
-		}
-	} while (c == ' ');
-
-	if (num_directives >= MAX_MARKS) {
-		printf("line %d: too many directives\n", current_line);
+	while (mm->in.charsleft && (mm->in.charsleft--, c = *(mm->in.charptr++)) == ' ');
+	if (c == '\n') {
 		return;
 	}
 
-	dir = &directive[num_directives];
-	dir->num_args = 0;
+	if (mm->pd.num_directives >= MMPARSE_MAX_DIRECTIVES) {
+		mmparse_failmsg(mm, "increase MMPARSE_MAX_DIRECTIVES");
+		assert(0);
+	}
+
+	dir = mm->pd.directives + mm->pd.num_directives;
+	dir->argc = 0;
 
 	/* directive name */
 	dir_name_len = 0;
 	dir->name[0] = 0;
 	for (;;) {
-		if (c == EOF || c == '\n') {
-			if (dir_name_len) {
-				num_directives++;
+		switch (c) {
+		case ',':
+			if (!dir_name_len) {
+				mmparse_failmsg(mm, "found comma while directive is still empty");
+				assert(0);
 			}
-			return;
-		}
-		if (c == ',') {
-			num_directives++;
+			mm->pd.num_directives++;
 			goto next_directive;
+		case ' ':
+			if (!dir_name_len) {
+				mmparse_failmsg(mm, "found space while directive is still empty");
+				assert(0);
+			}
+			mm->pd.num_directives++;
+			goto next_argument;
 		}
-		if (c == ' ') {
-			num_directives++;
-			break;
-		}
-		if (dir_name_len >= DIR_NAME_LEN - 1) {
-			printf("line %d: directive name too long\n", current_line);
-			num_directives++;
-			goto ret_eol;
+		if (dir_name_len >= MMPARSE_DIRECTIVE_NAME_MAX_LEN - 1) {
+			mmparse_failmsg(mm, "increase MMPARSE_DIRECTIVE_NAME_MAX_LEN");
+			assert(0);
 		}
 		dir->name[dir_name_len++] = c;
 		dir->name[dir_name_len] = 0;
-		c = fgetc(in);
+		if (!mm->in.charsleft || (mm->in.charsleft--, c = *(mm->in.charptr++)) == '\n') {
+			mm->pd.num_directives++;
+			return;
+		}
 	}
 
 next_argument:
-	if (dir->num_args >= MAX_DIR_ARGS) {
-		printf("line %d: too many directive arguments\n", current_line);
+	while (mm->in.charsleft && (mm->in.charsleft--, c = *(mm->in.charptr++)) == ' ');
+	if (c == '\n') {
 		return;
 	}
 
-	/* argument name */
-	arg_name_len = 0;
-	dir->argn[dir->num_args][0] = 0;
-	dir->argv[dir->num_args][0] = 0;
-	for (;;) {
-		c = fgetc(in);
-		if (c == EOF || c == '\n') {
-			dir->num_args++;
-			return;
-		}
-		if (c == ',') {
-			dir->num_args++;
-			goto next_directive;
-		}
-		if (c == '=') {
-			break;
-		}
-		if (arg_name_len == DIR_ARGN_LEN - 1) {
-			printf("line %d: directive argument name too long\n", current_line);
-			goto ret_eol;
-		}
-		dir->argn[dir->num_args][arg_name_len++] = c;
-		dir->argn[dir->num_args][arg_name_len] = 0;
+	if (dir->argc >= MMPARSE_DIRECTIVE_MAX_ARGS) {
+		mmparse_failmsg(mm, "increase MMPARSE_DIRECTIVE_MAX_ARGS");
+		assert(0);
 	}
 
-	/* argument value */
-	val_uses_quotes = 0;
-	arg_val_len = 0;
+	arg_name_len = 0;
+	dir->argn[dir->argc][0] = 0;
+	dir->argv[dir->argc][0] = 0;
 	for (;;) {
-		c = fgetc(in);
-		if (c == EOF || c == '\n') {
-			dir->num_args++;
+		switch (c) {
+		case ',':
+			if (!arg_name_len) {
+				mmparse_failmsg(mm, "found comma while arg name is still empty");
+				assert(0);
+			}
+			dir->argc++;
+			goto next_directive;
+		case ' ':
+			if (!arg_name_len) {
+				mmparse_failmsg(mm, "found space while arg name is still empty");
+				assert(0);
+			}
+			dir->argc++;
+			goto next_argument;
+		case '=':
+			if (!arg_name_len) {
+				mmparse_failmsg(mm, "found eq while arg name is still empty");
+				assert(0);
+			}
+			goto argument_value;
+		}
+		if (arg_name_len >= MMPARSE_DIRECTIVE_ARGN_MAX_LEN - 1) {
+			mmparse_failmsg(mm, "increase MMPARSE_DIRECTIVE_ARGN_MAX_LEN");
+			assert(0);
+		}
+		dir->argn[dir->argc][arg_name_len++] = c;
+		dir->argn[dir->argc][arg_name_len] = 0;
+		if (!mm->in.charsleft || (mm->in.charsleft--, c = *(mm->in.charptr++)) == '\n') {
+			dir->argc++;
 			return;
 		}
+	}
+
+argument_value:
+	if (!mm->in.charsleft-- || (c = *(mm->in.charptr++)) == ' ' || c == '\n') {
+		mmparse_failmsg(mm, "space or EOL after 'directive argname=' is not allowed");
+		assert(0);
+	}
+	if (c == '"' || c == '\'') {
+		val_uses_quotes = c;
+		if (!mm->in.charsleft--) {
+			assert(0);
+		}
+		c = *(mm->in.charptr++);
+	} else {
+		val_uses_quotes = 0;
+	}
+	arg_val_len = 0;
+	for (;;) {
 		if (val_uses_quotes) {
-			if (c == '"') { /*TODO: escapes?*/
-				c = fgetc(in);
-				if (c == EOF || c == '\n') {
-					dir->num_args++;
+			if (c == val_uses_quotes) { /*TODO: escapes?*/
+				if (!mm->in.charsleft || (mm->in.charsleft--, c = *(mm->in.charptr++)) == '\n') {
+					dir->argc++;
 					return;
 				}
-				goto donewith; /*this is incorrect when input is invalid*/
+				goto donewith;
 			}
 		} else {
 donewith:
-			if (c == ',') {
-				dir->num_args++;
+			switch (c) {
+			case ',':
+				dir->argc++;
 				goto next_directive;
-			}
-			if (c == ' ') {
-				dir->num_args++;
+			case ' ':
+				dir->argc++;
 				goto next_argument;
 			}
 		}
-		if (arg_val_len == DIR_ARGV_LEN - 1) {
-			printf("line %d: directive argument value too long\n", current_line);
-			goto ret_eol;
+		if (arg_val_len >= MMPARSE_DIRECTIVE_ARGV_MAX_LEN - 1) {
+			mmparse_failmsg(mm, "increase MMPARSE_DIRECTIVE_ARGV_MAX_LEN");
+			assert(0);
 		}
-		if (arg_val_len == 0 && c == '"') {
-			val_uses_quotes = 1;
-			continue;
+		dir->argv[dir->argc][arg_val_len++] = c;
+		dir->argv[dir->argc][arg_val_len] = 0;
+		if (!mm->in.charsleft || (mm->in.charsleft--, c = *(mm->in.charptr++)) == '\n') {
+			if (val_uses_quotes) {
+				mmparse_failmsg(mm, "EOL while in quoted argument value");
+				assert(0);
+			}
+			dir->argc++;
+			return;
 		}
-		dir->argv[dir->num_args][arg_val_len++] = c;
-		dir->argv[dir->num_args][arg_val_len] = 0;
 	}
-
-	return;
-ret_eol:
-	do {
-		c = fgetc(in);
-	} while (c != EOF && c != '\n');
 }
-
+/*jeanine:p:i:5;p:3;a:r;x:27.72;y:32.64;*/
 static
-void mmparse_read_line(FILE *in, int handle_directives)
+void mmparse_expand_line(struct mmparse *mm)
 {
-	int c;
-	char last_char;
-	char num_pipes;
+	static struct mmp_directive_content_data dir_data;
 
-	line = line_raw;
-	current_line++;
-	line_len = 0;
-	last_char = 0;
-	num_pipes = 0;
-	num_open_marks = 0;
-	num_close_marks = 0;
-	num_directives = 0;
+	int open_pos, close_pos, open_idx, close_idx, len, raw_pos, raw_line_len;
+	enum mmp_directive_content_action eat_contents;
+	char *raw_line, *closing_tag;
+
+	open_idx = 0;
+	close_idx = 0;
+	raw_pos = 0;
+	raw_line = mm->pd.line_raw;
+	raw_line_len = mm->pd.line_len;
+	mm->pd.line_len = 0;
+	mm->pd.line = mm->pd.line_expanded;
+	eat_contents = LEAVE_CONTENTS;
 
 	for (;;) {
-		c = fgetc(in);
+		open_pos = 0x0FFFFFFF;
+		if (open_idx < mm->pd.num_open_marks) {
+			open_pos = mm->pd.open_mark_positions[open_idx];
+		}
+		close_pos = 0x0FFFFFFF;
+		if (close_idx < mm->pd.num_close_marks) {
+			close_pos = mm->pd.close_mark_positions[close_idx];
+		}
+
+		/*The whole 'eat_contents' thing will only work well if
+		there is no nested stuff.. Otherwise this could use a
+		rework so it handles directives 'inside out'.*/
+		/*But then we'd need to take into account that placeholders may not
+		be ordered anymore, since right now they always go from left to right,
+		but that may be different once the order or handling directives changes.*/
+		if (open_pos < close_pos) {
+			len = open_pos - raw_pos;
+			if (len) {
+				mmparse_append_to_expanded_line(mm, raw_line + raw_pos, len);/*jeanine:s:a:r;i:6;*/
+			}
+			raw_pos += len + 1;
+			if (mm->pd.tag_stack_size >= MMPARSE_TAGSTACK_SIZE) {
+				mmparse_failmsg(mm, "increase MMPARSE_TAGSTACK_SIZE");
+				assert(0);
+			}
+			mm->pd.next_placeholder_line_offset = mm->pd.line_len;
+			if (close_pos == 0x0FFFFFFF) {
+				dir_data.content_len = 0;
+				dir_data.contents[0] = 0;
+			} else {
+				dir_data.content_len = len = close_pos - open_pos - 1;
+				memcpy(dir_data.contents, raw_line + open_pos + 1,len);
+				dir_data.contents[len] = 0;
+			}
+			mm->pd.tag_opened_on_line[mm->pd.tag_stack_size] = mm->in.current_line;
+			dir_data.closing_tag = mm->pd.tag_stack[mm->pd.tag_stack_size++];
+			dir_data.closing_tag[0] = 0;
+			dir_data.directive = mm->pd.directives + open_idx;
+			eat_contents = mm->md.current->directive(mm, &dir_data);
+			open_idx++;
+		} else if (close_pos < open_pos) {
+			len = close_pos - raw_pos;
+			if (len && eat_contents == LEAVE_CONTENTS) {
+				mmparse_append_to_expanded_line(mm, raw_line + raw_pos, len);/*jeanine:s:a:r;i:6;*/
+			}
+			raw_pos += len + 1;
+
+			close_idx++;
+
+			if (!mm->pd.tag_stack_size--) {
+				mmparse_failmsgf(mm, "tag stack empty at column %d", close_pos + 1);
+				assert(0);
+			}
+
+			if (eat_contents == LEAVE_CONTENTS) {
+				closing_tag = mm->pd.tag_stack[mm->pd.tag_stack_size];
+				len = strlen(closing_tag);
+				mmparse_append_to_expanded_line(mm, closing_tag, len);/*jeanine:s:a:r;i:6;*/
+			} else {
+				eat_contents = LEAVE_CONTENTS;
+			}
+		} else {
+			len = raw_line_len - raw_pos;
+			mmparse_append_to_expanded_line(mm, raw_line + raw_pos, len);
+			break;
+		}
+	}
+}
+/*jeanine:p:i:3;p:12;a:r;x:16.39;y:-111.56;*/
+static
+void mmparse_read_line(struct mmparse *mm)
+{
+	char c, *line, last_char, num_consecutive_pipes;
+	int line_len;
+
+	mm->in.current_line++;
+	mm->pd.hasmargin = 0;
+	mm->pd.num_open_marks = 0;
+	mm->pd.num_close_marks = 0;
+	mm->pd.num_directives = 0;
+	mm->pd.line = line = mm->pd.line_raw;
+	line_len = 0;
+	if (mm->md.current->parse_lines == MMPARSE_DONT_PARSE_LINES) {
+		while (mm->in.charsleft && (mm->in.charsleft--, c = *(mm->in.charptr++)) != '\n') {
+			line[line_len++] = c;
+		}
+		line[line_len] = 0;
+		mm->pd.line_len = line_len;
+		return;
+	}
+	last_char = 0;
+	num_consecutive_pipes = 0;
+	while (mm->in.charsleft && (mm->in.charsleft--, c = *(mm->in.charptr++)) != '\n') {
 		if (c == '|') {
-			num_pipes++;
-			if (num_pipes == 3) {
+			num_consecutive_pipes++;
+			if (num_consecutive_pipes == 3) {
+				mm->pd.hasmargin = 1;
 				line_len -= 2; /*Because 2 of them are already read.*/
-				while (line_len &&
-					(line[line_len - 1] == ' ' || line[line_len - 1] == '\t'))
-				{
+				while (line_len && (line[line_len - 1] == ' ' || line[line_len - 1] == '\t')) {
 					line_len--;
 				}
 				line[line_len] = 0;
-				mmparse_read_directives(in);
-				break;
+				mm->pd.line_len = line_len;
+				mmparse_read_directives(mm);/*jeanine:r:i:2;*/
+				if (mm->pd.num_open_marks != mm->pd.num_directives) {
+					mmparse_failmsgf(mm,
+						"got %d directive(s) but %d mark(s)",
+						mm->pd.num_directives,
+						mm->pd.num_open_marks
+					);
+					assert(0);
+				}
+				mmparse_expand_line(mm);/*jeanine:r:i:5;*/
+				return;
 			}
 		} else {
-			num_pipes = 0;
+			num_consecutive_pipes = 0;
 		}
-		switch (c) {
-		case '&':
-			if (replace_html_entities) {
+		if (c == mm->pd.ctrlchar_open) {
+			if (last_char == '\\') {
+				last_char = 0;
+				line_len--;
+				continue;
+			}
+			mm->pd.open_mark_positions[mm->pd.num_open_marks++] = line_len;
+			last_char = 0;
+		} else if (c == mm->pd.ctrlchar_close) {
+			if (last_char == '\\') {
+				last_char = 0;
+				line_len--;
+				continue;
+			}
+			mm->pd.close_mark_positions[mm->pd.num_close_marks++] = line_len;
+			last_char = 0;
+		} else {
+			switch (c) {
+			case '&':
 				line[line_len++] = '&';
 				line[line_len++] = 'a';
 				line[line_len++] = 'm';
 				line[line_len++] = 'p';
 				line[line_len++] = ';';
-				last_char = (char) c;
+				last_char = c;
 				continue;
-			}
-			break;
-		case '>':
-			if (replace_html_entities) {
+			case '>':
 				line[line_len++] = '&';
 				line[line_len++] = 'g';
 				line[line_len++] = 't';
 				line[line_len++] = ';';
-				last_char = (char) c;
+				last_char = c;
 				continue;
-			}
-			break;
-		case '<':
-			if (replace_html_entities) {
+			case '<':
 				line[line_len++] = '&';
 				line[line_len++] = 'l';
 				line[line_len++] = 't';
 				line[line_len++] = ';';
-				last_char = (char) c;
-				continue;
-			}
-			break;
-		case EOF:
-		case '\n':
-			line[line_len] = 0;
-			return;
-		default:
-			if (c == controlchar_open) {
-				if (handle_directives) {
-					if (last_char == '\\') {
-						line_len--;
-						break;
-					}
-					open_mark_position[num_open_marks++] = line_len;
-					last_char = 0;
-				}
-			} else if (c == controlchar_close) {
-				if (handle_directives) {
-					if (last_char == '\\') {
-						line_len--;
-						break;
-					}
-					close_mark_position[num_close_marks++] = line_len;
-					last_char = 0;
-				}
-			}
-			break;
-		}
-
-		last_char = (char) c;
-		line[line_len++] = (char) c;
-	}
-}
-
-static
-void mmparse_expand_line()
-{
-	int open_idx;
-	int close_idx;
-	int open_position;
-	int close_position;
-	int len;
-	enum DIR_CONTENT_ACTION eat_contents;
-	int was_contents_eaten;
-	char *from, *to;
-
-	line = line_expanded;
-	from = line_raw;
-	to = line_expanded;
-	open_idx = 0;
-	close_idx = 0;
-
-	was_contents_eaten = 0;
-	eat_contents = LEAVE_CONTENT;
-
-	for (;;) {
-		open_position = -1;
-		/*Not using num_open_marks, because a line might have no
-		directives (but still open marks), but they still need
-		to process close marks.*/
-		if (open_idx < num_directives) {
-			open_position = open_mark_position[open_idx];
-		}
-		close_position = -1;
-		if (close_idx < num_close_marks) {
-			close_position = close_mark_position[close_idx];
-		}
-
-		if (open_position != -1) {
-			if (open_position < close_position || close_position == -1) {
-				len = open_position - (from - line_raw);
-				if (len) {
-					memcpy(to, from, len);
-				}
-				to += len;
-				from += len + 1;
-				if (tag_stack_pos < TAG_STACK_SIZE) {
-					current_line_offset = to - line_expanded;
-					eat_contents =
-						current_handler->directive_start(
-									&to,
-									from,
-									&directive[open_idx]);
-				} else {
-					printf("line %d: tag stack depleted (TAG_STACK_SIZE)\n",
-						current_line);
-				}
-				open_idx++;
+				last_char = c;
 				continue;
 			}
 		}
-		if (close_position != -1) {
-			if (close_position < open_position || open_position == -1) {
-				len = close_position - (from - line_raw);
-				if (len) {
-					if (eat_contents == DELETE_CONTENT) {
-						eat_contents = LEAVE_CONTENT;
-						was_contents_eaten = 1;
-					} else {
-						memcpy(to, from, len);
-						to += len;
-					}
-				}
-				from += len + 1;
-
-				close_idx++;
-				if (was_contents_eaten) {
-					was_contents_eaten = 0;
-					continue;
-				}
-
-				if (tag_stack_pos) {
-					current_line_offset = to - line_expanded;
-					current_handler->directive_end(&to);
-				} else {
-					/*Should we warn? It then requires escaping all closing
-					placeholders in 'pre' blocks when tag stack is empty,
-					but in the current way it's not consistent because they're
-					still needed when the stack is not empty...*/
-					/*printf("line %d: tag stack empty\n", current_line);*/
-					*to = '}';
-					to++;
-				}
-				continue;
-			}
+		last_char = c;
+		line[line_len++] = c;
+		if (line_len > MMPARSE_LINE_RAW_MAX_LEN - /*leeway for '&amp;' etc replacements*/6) {
+			mmparse_failmsg(mm, "increase MMPARSE_LINE_RAW_MAX_LEN");
+			assert(0);
 		}
-		to += sprintf(to, "%s", from);
-		line_len = to - line_expanded;
-		break;
 	}
-	current_line_offset = 0;
+	line[line_len] = 0;
+	mm->pd.line_len = line_len;
 }
-
-static
-void append(char *text, int len)
+/*jeanine:p:i:15;p:6;a:t;x:42.33;*/
+/**
+The caller must ensure the 'action' member will be set.
+*/
+struct mmp_placeholder* mmparse_allocate_placeholder(struct mmparse *mm)
 {
-	memcpy(out, text, len);
-	out += len;
-	extra_line_offset += len;
-}
+	struct mmp_placeholder *ph;
 
-static
-char *next_close_tag()
-{
-	static char dummy_tag_buf[TAG_STACK_TAG_LEN];
-
-	if (tag_stack_pos == TAG_STACK_SIZE) {
-		printf("TAG_STACK_SIZE reached\n");
-		return dummy_tag_buf;
+	if (mm->ph.size >= MMPARSE_MAX_PLACEHOLDERS) {
+		mmparse_failmsg(mm, "increase MMPARSE_MAX_PLACEHOLDERS");
+		assert(0);
 	}
-	return tag_stack[tag_stack_pos++];
+	ph = mm->ph.placeholders + mm->ph.size++;
+	ph->line_offset = mm->pd.next_placeholder_line_offset;
+	ph->line_number = mm->in.current_line;
+	return ph;
 }
-
-static
-void cb_handler_nop()
+/*jeanine:p:i:1;p:8;a:t;x:143.93;*/
+void mmparse_print_tag_with_directives(struct mmparse *mm, struct mmp_directive *dir, char *tagclose)
 {
-}
+	static char tmp[MMPARSE_LINE_RAW_MAX_LEN];
 
-static
-void cb_handler_normal_text()
-{
-	if (!line_len) return;
-	line[line_len++] = '\n';
-	memcpy(out, line, line_len); out += line_len;
-}
+	int i, len;
 
-static
-void print_tag_with_directives(char **to, struct DIRECTIVE *dir, char *closestr)
-{
-	int i;
-
-	*to += sprintf(*to, "<%s", dir->name);
-	for (i = 0; i < dir->num_args; i++) {
+	len = sprintf(tmp, "<%s", dir->name);
+	mmparse_append_to_expanded_line(mm, tmp, len);
+	for (i = 0; i < dir->argc; i++) {
 		if (dir->argn[i][0]) {
-			*to += sprintf(*to, " %s=\"%s\"", dir->argn[i], dir->argv[i]);
+			len = sprintf(tmp, " %s=\"%s\"", dir->argn[i], dir->argv[i]);
+			mmparse_append_to_expanded_line(mm, tmp, len);
 		}
 	}
-	*to += sprintf(*to, "%s", closestr);
+	mmparse_append_to_expanded_line(mm, tagclose, strlen(tagclose));
 }
-
+/*jeanine:p:i:7;p:8;a:r;x:19.67;y:9.22;*/
 static
-enum DIR_CONTENT_ACTION
-cb_handler_normal_directive_start(char** to, char *from, struct DIRECTIVE *dir)
+void mmparse_cb_mode_nop_start_end(struct mmparse *mm)
 {
-	int i;
-
-	for (i = 0; i < num_registered_dirs; i++) {
-		if (!strcmp(dir->name, registered_dir_names[i])) {
-			return registered_dir_cbs[i](to, from, dir);
-		}
-	}
-
-	print_tag_with_directives(to, dir, ">");
-	sprintf(next_close_tag(), "</%s>", dir->name);
-	return LEAVE_CONTENT;
 }
-
+/*jeanine:p:i:18;p:8;a:r;x:19.67;*/
 static
-void cb_handler_normal_directive_end(char** to)
+int mmparse_cb_mode_nop_println(struct mmparse *mm)
 {
-	--tag_stack_pos;
-	*to += sprintf(*to, tag_stack[tag_stack_pos]);
-}
-
-static
-void cb_handler_plain_start()
-{
-	replace_html_entities = 0;
-}
-
-static
-void cb_handler_plain_end()
-{
-	replace_html_entities = 1;
-}
-
-static
-void section_print_link_to_index()
-{
-	append("<p style='margin-bottom:0'><a href='#index'>Index</a></p>", 57);
-}
-
-static int section_is_open[HANDLER_STACK_SIZE];
-static int section_is_continuation[HANDLER_STACK_SIZE];
-static int section_has_p;
-static int section_was_empty_line;
-
-static
-void cb_handler_section_start()
-{
-	section_was_empty_line = 1;
-	/*minus one is the current handler*/
-	section_is_continuation[num_handlers - 1] = 0;
-}
-
-static
-void section_write_div_open(int continuation)
-{
-	static int number_of_section_continuations = 0;
-
-	struct PLACEHOLDER_BREADCRUMB_DATA *placeholder_data;
-	char buf[100];
-	int len;
-	int section_depth;
-
-	section_depth = get_section_depth() - 1;
-	if (section_depth) {
-		len = sprintf(buf,
-			"<div class='indent' style='margin-left:%dem'>",
-			section_depth * 5
-		);
-		append(buf, len);
-	} else {
-		append("<div>", 5);
-	}
-
-	if (continuation) {
-		number_of_section_continuations++;
-	}
-	placeholder_data = next_placeholder(cb_placeholder_breadcrumbs);
-	placeholder_data->continuation_index_offset = number_of_section_continuations * 2;
-	placeholder_data->is_continuation = continuation;
-	placeholder_data->continuation_level = section_depth + 1;
-}
-
-static
-void cb_handler_section_text()
-{
-	int is_empty_line;
-	int cur_idx;
-	int prev_idx;
-
-	is_empty_line = !line_len;
-	if (section_was_empty_line) {
-		if (!is_empty_line) {
-			/*minus one is current handler*/
-			cur_idx = num_handlers - 1;
-			if (!section_is_open[cur_idx]) {
-				/*minus two is parent handler*/
-				prev_idx = cur_idx - 1;
-				if (!strcmp(handler[prev_idx]->name, "section")) {
-					if (section_is_open[prev_idx]) {
-						section_print_link_to_index();
-						append("</div>", 6);
-						section_is_open[prev_idx] = 0;
-					}
-				}
-				if (section_is_continuation[cur_idx]) {
-					section_write_div_open(1);
-				} else {
-					next_placeholder(cb_placeholder_section_anchor);
-					section_write_div_open(0);
-				}
-				section_is_open[cur_idx] = 1;
-				section_is_continuation[cur_idx] = 1;
-			}
-			if (line_can_have_paragraph()) {
-				append("<p>", 3);
-				section_has_p = 1;
-			}
-		}
-	} else {
-		if (is_empty_line && section_has_p) {
-			append("</p>", 4);
-			section_has_p = 0;
-		}
-	}
-	section_was_empty_line = is_empty_line;
-
-	if (line_len) {
-		line[line_len++] = '\n';
-		memcpy(out, line, line_len); out += line_len;
-	}
-}
-
-static
-void cb_handler_section_end()
-{
-	/*minus one is current, but handler is already popped at this point*/
-	if (section_is_open[num_handlers]) {
-		section_print_link_to_index();
-		append("</div>", 6);
-		section_is_open[num_handlers] = 0;
-		section_is_continuation[num_handlers] = 0;
-	}
-}
-
-int pre_leading_ws_length;
-
-static
-void handler_pre_calc_whitespace()
-{
-	pre_leading_ws_length = 0;
-	while (line[pre_leading_ws_length] == ' ') {
-		pre_leading_ws_length++;
-	}
-}
-
-static
-void cb_handler_pre_start()
-{
-	handler_pre_calc_whitespace();
-	append("<pre>", 5);
-}
-
-static
-void cb_handler_pre_text()
-{
-	if (!line_len || pre_leading_ws_length >= line_len) {
-		append("\n", 1);
-	} else {
-		line[line_len++] = '\n';
-		memcpy(out, line + pre_leading_ws_length, line_len - pre_leading_ws_length);
-		out += line_len - pre_leading_ws_length;
-	}
-	extra_line_offset -= pre_leading_ws_length;
-}
-static
-void cb_handler_pre_end()
-{
-	append("</pre>", 6);
-}
-
-static
-void cb_handler_ul_start()
-{
-	append("<ul>", 4);
-}
-
-static int ul_needs_closing_li;
-
-static
-void cb_handler_ul_text()
-{
-	if (line_len) {
-		line[line_len++] = '\n';
-		if (line[0] == '-') {
-			if (ul_needs_closing_li) {
-				append("</li>", 5);
-			}
-			append("<li>", 4);
-			ul_needs_closing_li = 1;
-			line_len -= 2;
-			line += 2;
-			extra_line_offset -= 2; /*because of the line+=2*/
-		}
-		memcpy(out, line, line_len); out += line_len;
-	}
-}
-
-static
-void cb_handler_ul_end()
-{
-	if (ul_needs_closing_li) {
-		append("</li>", 5);
-		ul_needs_closing_li = 0;
-	}
-	append("</ul>", 5);
-}
-
-struct HANDLER handler_nop = {
-	cb_handler_nop,
-	cb_handler_nop,
-	cb_handler_nop,
-	(void*) cb_handler_nop,
-	(void*) cb_handler_nop,
-	"nop"
-};
-
-struct HANDLER handler_normal = {
-	cb_handler_nop,
-	cb_handler_normal_text,
-	cb_handler_nop,
-	cb_handler_normal_directive_start,
-	cb_handler_normal_directive_end,
-	"normal"
-};
-
-struct HANDLER handler_plain = {
-	cb_handler_plain_start,
-	cb_handler_normal_text,
-	cb_handler_plain_end,
-	(void*) cb_handler_nop,
-	(void*) cb_handler_nop,
-	"plain"
-};
-
-struct HANDLER handler_section = {
-	cb_handler_section_start,
-	cb_handler_section_text,
-	cb_handler_section_end,
-	cb_handler_normal_directive_start,
-	cb_handler_normal_directive_end,
-	"section"
-};
-
-struct HANDLER handler_pre = {
-	cb_handler_pre_start,
-	cb_handler_pre_text,
-	cb_handler_pre_end,
-	cb_handler_normal_directive_start,
-	cb_handler_normal_directive_end,
-	"pre"
-};
-
-struct HANDLER handler_ul = {
-	cb_handler_ul_start,
-	cb_handler_ul_text,
-	cb_handler_ul_end,
-	cb_handler_normal_directive_start,
-	cb_handler_normal_directive_end,
-	"ul"
-};
-
-static
-enum DIR_CONTENT_ACTION mmparse_directive_href(char **to, char *from, struct DIRECTIVE *dir)
-{
-	get_directive_text(dir, next_placeholder(cb_placeholder_href));
-	return DELETE_CONTENT;
-}
-
-static
-enum DIR_CONTENT_ACTION mmparse_directive_index(char **to, char *from, struct DIRECTIVE *dir)
-{
-	next_placeholder(cb_placeholder_index);
-	next_close_tag()[0] = 0;
-	return LEAVE_CONTENT;
-}
-
-static
-enum DIR_CONTENT_ACTION mmparse_directive_imgcaptioned(char **to, char *from, struct DIRECTIVE *dir)
-{
-	strcpy(dir->name, "img");
-	*to += sprintf(*to, "<p class='center'>");
-	print_tag_with_directives(to, dir, "/><br/>");
-	strcpy(next_close_tag(), "</p>");
-	return LEAVE_CONTENT;
-}
-
-static
-enum DIR_CONTENT_ACTION mmparse_directive_h(char **to, char *from, struct DIRECTIVE *dir)
-{
-	int i;
-	int section_depth;
-	char *id_argument;
-
-	section_depth = get_section_depth();
-	/*Overwriting this might not be the best idea but ok*/
-	dir->name[1] = '1' + section_depth;
-	dir->name[2] = 0;
-	id_argument = 0;
-	for (i = 0; i < dir->num_args; i++) {
-		if (!strcmp(dir->argn[i], "id")) {
-			id_argument = dir->argv[i];
-			break;
-		}
-	}
-	if (id_argument) {
-		if (num_headers < MAX_HEADERS) {
-			header_level[num_headers] = section_depth;
-			strcpy(header_id[num_headers], id_argument);
-			get_directive_text(dir, header_name[num_headers]);
-			num_headers++;
-		} else {
-			printf("exceeded MAX_HEADERS\n");
-		}
-		/*Remove the id attribute because it will be placed by a placeholder.*/
-		dir->argn[id_argument - dir->argv[0]][0] = 0;
-	} else {
-		if (section_depth) {
-			printf("line %d: no id for header\n", current_line);
-		}
-	}
-	print_tag_with_directives(to, dir, ">");
-	if (id_argument && section_depth) {
-		sprintf(next_close_tag(), " <a href=\"#%s\">#</a></%s>", id_argument, dir->name);
-	} else {
-		sprintf(next_close_tag(), "</%s>", dir->name);
-	}
-	return LEAVE_CONTENT;
-}
-
-static
-void mmparse_register_handler(struct HANDLER *handler)
-{
-	if (num_registered_handlers == MAX_REGISTERED_HANDLERS) {
-		printf("MAX_REGISTERED_HANDLERS reached\n");
-		return;
-	}
-	registered_handlers[num_registered_handlers++] = handler;
-}
-
-static
-void mmparse_register_directive(
-	char *name,
-	enum DIR_CONTENT_ACTION (*cb)(char**,char*,struct DIRECTIVE*))
-{
-	if (num_registered_dirs == MAX_REGISTERED_DIRS) {
-		printf("MAX_REGISTERED_DIRS reached\n");
-		return;
-	}
-	strcpy(registered_dir_names[num_registered_dirs], name);
-	registered_dir_cbs[num_registered_dirs] = cb;
-	num_registered_dirs++;
-}
-
-static
-void mmparse_init()
-{
-	mmparse_register_handler(&handler_pre);
-	mmparse_register_handler(&handler_ul);
-	mmparse_register_handler(&handler_section);
-	mmparse_register_handler(&handler_plain);
-	mmparse_register_handler(&handler_nop);
-	mmparse_register_directive("href", mmparse_directive_href);
-	mmparse_register_directive("index", mmparse_directive_index);
-	mmparse_register_directive("imgcaptioned", mmparse_directive_imgcaptioned);
-	mmparse_register_directive("h", mmparse_directive_h);
-}
-#define MMPARSE_EXT_INIT mmparse_init
-
-#include "mmparse_handler_ida.c"
-#include "mmparse_handler_symbols.c"
-#include "mmparse_directive_funcfield.c"
-#include "mmparse_directive_anchors.c"
-#include "mmparse_directive_hookfileref.c"
-
-char infile[500], outfile[500];
-
-static
-int write()
-{
-	FILE *f;
-	struct PLACEHOLDER *placeholder;
-	int placeholder_idx;
-	int total_length;
-	int to;
-	int at;
-
-	f = fopen(outfile, "wb");
-	if (!f) {
-		printf("Can't open '%s' for writing", outfile);
-		return 1;
-	}
-
-	placeholder_idx = 0;
-	at = 0;
-	total_length = out - outbuffer;
-
-	do {
-		if (placeholder_idx < num_placeholders) {
-			placeholder = placeholders + placeholder_idx;
-			to = placeholder->position;
-			placeholder_idx++;
-		} else {
-			placeholder = 0;
-			to = total_length;
-		}
-		fwrite(outbuffer + at, to - at, 1, f);
-		at = to;
-		if (placeholder) {
-			placeholder->cb(f, placeholder);
-		}
-	} while (at < total_length);
-
-	fclose(f);
 	return 0;
 }
-
-int main(int argc, char **argv)
+/*jeanine:p:i:19;p:8;a:r;x:19.22;y:47.44;*/
+static
+enum mmp_directive_content_action mmparse_cb_mode_nop_directive(struct mmparse *mm, struct mmp_directive_content_data *data)
 {
-	struct HANDLER *tmp_handler;
-	FILE *in;
-	int i;
-	char *next_arg_location;
-	char *line_start;
+	return LEAVE_CONTENTS;
+}
+/*jeanine:p:i:9;p:8;a:r;x:19.33;y:25.94;*/
+static
+int mmparse_cb_mode_normal_println(struct mmparse *mm)
+{
+	register int len;
 
-	if (argc <= 1) {
-		goto printhelp;
+	if ((len = mm->pd.line_len)) {
+		mm->pd.line[len++] = '\n';
+		mmparse_append_to_main_output(mm, mm->pd.line, len);/*jeanine:s:a:r;i:13;*/
 	}
-	MMPARSE_EXT_INIT();
-	next_arg_location = 0;
-	for (i = 1; i < argc; i++) {
-		if (next_arg_location) {
-			strcpy(next_arg_location, argv[i]);
-			next_arg_location = 0;
-		} else if (!strcmp(argv[i], "--in")) {
-			next_arg_location = infile;
-		} else if (!strcmp(argv[i], "--out")) {
-			next_arg_location = outfile;
-		} else {
-			printf("unexpected argument: %s\n", argv[i]);
-			goto printhelp;
+	return 0;
+}
+/*jeanine:p:i:10;p:8;a:r;x:19.67;y:4.63;*/
+static
+enum mmp_directive_content_action mmparse_cb_mode_normal_directive(mm, data)
+	struct mmparse *mm;
+	struct mmp_directive_content_data *data;
+{
+	struct mmp_directive_handler *handler;
+
+	for (handler = mm->config.directive_handlers; handler->name; handler++) {
+		if (!strcmp(data->directive->name, handler->name)) {
+			return handler->handle(mm, data);
 		}
 	}
-	if (next_arg_location) {
-		printf("expected a value for: %s\n", argv[argc - 1]);
-		return 1;
-	}
-	if (!infile[0] || !outfile[0]) {
-		goto printhelp;
-	}
+	mmparse_print_tag_with_directives(mm, data->directive, ">");/*jeanine:s:a:r;i:1;*/
+	sprintf(data->closing_tag, "</%s>", data->directive->name);
+	return LEAVE_CONTENTS;
+}
+/*jeanine:p:i:8;p:0;a:t;x:17.22;y:-32.81;*/
+struct mmp_mode mmparse_mode_nop = {
+	mmparse_cb_mode_nop_start_end,/*jeanine:r:i:7;*/
+	mmparse_cb_mode_nop_println,/*jeanine:r:i:18;*/
+	mmparse_cb_mode_nop_start_end,/*jeanine:s:a:r;i:7;*/
+	mmparse_cb_mode_nop_directive,/*jeanine:r:i:19;*/
+	"nop",
+	MMPARSE_DONT_PARSE_LINES
+};
 
-	in = fopen(infile, "r");
-	if (!in) {
-		printf("Can't open '%s' for reading", infile);
-		return 1;
+struct mmp_mode mmparse_mode_normal = {
+	mmparse_cb_mode_nop_start_end,/*jeanine:s:a:r;i:7;*/
+	mmparse_cb_mode_normal_println,/*jeanine:r:i:9;*/
+	mmparse_cb_mode_nop_start_end,/*jeanine:s:a:r;i:7;*/
+	mmparse_cb_mode_normal_directive,/*jeanine:r:i:10;*/
+	"normal",
+	MMPARSE_DO_PARSE_LINES
+};
+
+struct mmp_mode mmparse_mode_plain = {
+	mmparse_cb_mode_nop_start_end,/*jeanine:s:a:r;i:7;*/
+	mmparse_cb_mode_normal_println,/*jeanine:s:a:r;i:9;*/
+	mmparse_cb_mode_nop_start_end,/*jeanine:s:a:r;i:7;*/
+	mmparse_cb_mode_nop_directive,/*jeanine:s:a:r;i:19;*/
+	"plain",
+	MMPARSE_DONT_PARSE_LINES
+};
+/*jeanine:p:i:11;p:12;a:r;x:16.39;y:-5.61;*/
+/**
+@return 0 when no dotcommands were present
+*/
+static
+int mmparse_handle_dotcommands(struct mmparse *mm)
+{
+	struct mmp_mode **mode, *tmp_current_mode;
+	char *line_start, had_cmds;
+
+	line_start = mm->pd.line;
+	while (*line_start == ' ') {
+		line_start++;
 	}
-
-	current_handler = &handler_normal;
-	current_handler->start();
-	handler[0] = current_handler;
-	num_handlers = 1;
-
-	current_line = 0;
-	while (!feof(in)) {
-		mmparse_read_line(in, current_handler != &handler_plain);
-		if (!line_len) {
-			current_handler->text();
-			continue;
-		}
-		if (num_directives) {
-			if (num_open_marks != num_directives) {
-				printf("line %d: got %d directives but %d marks\n",
-					current_line, num_directives, num_open_marks);
-				goto ret_err;
-			}
-		}
-		line_start = line;
-		while (*line_start == ' ') {
-			line_start++;
-		}
+	had_cmds = 0;
 more_dotcommands:
-		if (!strncmp(line_start, ".controlchars ", 14)) {
-			controlchar_open = line_start[14];
-			controlchar_close = line_start[15];
-			if (line_start[16] == ' ' && line_start[17] == '.') {
-				line_start += 17;
-				goto more_dotcommands;
+	if (!strncmp(line_start, ".controlchars ", 14)) {
+		mm->pd.ctrlchar_open = line_start[14];
+		mm->pd.ctrlchar_close = line_start[15];
+		if (line_start[16] == ' ' && line_start[17] == '.') {
+			line_start += 17;
+			had_cmds = 1;
+			goto more_dotcommands;
+		}
+		return 1;
+	} else if (!strncmp(line_start, ".pushmode ", 10)) {
+		if (mm->md.num_pushed_modes == MMPARSE_MODE_STACK_SIZE) {
+			mmparse_failmsg(mm, "increase MMPARSE_MODE_STACK_SIZE");
+			assert(0);
+		}
+		for (mode = mm->config.modes; *mode; mode++) {
+			if (!strcmp(line_start + 10, (*mode)->name)) {
+				mm->md.pushed_modes[mm->md.num_pushed_modes++] = mm->md.current;
+				mm->md.current = *mode;
+				mm->md.current->start(mm);
+				return 1;
 			}
-			continue;
-		} else if (!strncmp(line_start, ".push ", 6)) {
-			if (num_handlers == HANDLER_STACK_SIZE) {
-				printf("line %d: handler stack is full\n", current_line);
-				goto ret_err;
-			}
-			for (i = 0; i < num_registered_handlers; i++) {
-				if (!strcmp(line_start + 6, registered_handlers[i]->name)) {
-					goto have_handler;
-				}
-			}
-			printf("line %d: handler '%s' unknown\n", current_line, line_start + 6);
-			goto ret_err;
-have_handler:
-			current_handler = registered_handlers[i];
-			handler[num_handlers++] = current_handler;
-			current_handler->start();
-			continue;
-		} else if (!strncmp(line_start, ".pop ", 5)) {
-			if (strcmp(line_start + 5, current_handler->name)) {
-				printf("line %d: popping handler '%s' but current is '%s'\n",
-					current_line, line_start + 5, current_handler->name);
-			}
-			if (num_handlers == 1) {
-				printf("line %d: popping handler but stack is empty\n",
-					current_line);
-				goto ret_err;
-			}
-			tmp_handler = current_handler;
-			num_handlers--;
-			current_handler = handler[num_handlers - 1];
-			tmp_handler->end();
-		} else {
-			extra_line_offset = 0;
-			num_placeholders_before_this_line = num_placeholders;
-			placeholder_needs_adjustment = 1;
-			if (num_directives || num_close_marks) {
-				mmparse_expand_line();
-			}
-			placeholder_needs_adjustment = 0;
-			current_handler->text();
-			for (i = num_placeholders_before_this_line; i < num_placeholders; i++) {
-				if (placeholders[i].needs_adjustment) {
-					placeholders[i].position += extra_line_offset;
-				}
+		}
+		mmparse_failmsgf(mm, "unknown mode '%s'", line_start + 10);
+		assert(0);
+	} else if (!strncmp(line_start, ".popmode ", 9)) {
+		if (!mm->md.num_pushed_modes) {
+			mmparse_failmsg(mm, "trying to pop mode but none is pushed");
+			assert(0);
+		}
+		if (strcmp(line_start + 9, mm->md.current->name)) {
+			mmparse_failmsgf(mm,
+				"trying to pop mode '%s' but current is '%s'",
+				line_start + 9,
+				mm->md.current->name
+			);
+			assert(0);
+		}
+		tmp_current_mode = mm->md.current;
+		mm->md.current = mm->md.pushed_modes[--mm->md.num_pushed_modes];
+		tmp_current_mode->end(mm);
+		return 1;
+	}
+	return had_cmds;
+}
+/*jeanine:p:i:16;p:12;a:r;x:15.70;y:54.39;*/
+/**
+Split parts based on placeholders.
+
+Since every part contains a buffer of main contents and a buffer of placeholder contents,
+The current part needs to be split into 'num_placeholders+1' part(s).
+
+Case study:
+part0.data0: this is the previous line
+                                      ^ data0_len_before_line
+             (stuff inserted by mode 'println' function)this is the current line with a placeholder and stuff
+             ^ a                                        ^ extra_line_offset  ^ placeholder.line_offset       ^ part0.data0_len
+extra_line_offset is from 'a'
+placeholder.line_offset is from 'extra_line_offset'
+after:
+part0.data0: this is the previous line
+             (stuff inserted by mode 'println' function)this is the current l
+                                                                             ^ part0.data0_len
+part1.data0: ine with a placeholder and stuff
+                                             ^ part1.data0_len
+*/
+static
+void mmparse_split_parts(struct mmparse *mm, int data0_len_before_line, int extra_line_offset, int prev_ph_size)
+{
+	int original_line_len, i, last_ph_line_offset, offset_since_last_ph;
+	struct mmp_output_part *part;
+	struct mmp_placeholder *ph;
+
+	part = mm->op.current_part;
+	original_line_len = part->data0_len - data0_len_before_line - extra_line_offset;
+	part->data0_len = data0_len_before_line + extra_line_offset;
+	last_ph_line_offset = 0;
+	for (i = 0, ph = mm->ph.placeholders + prev_ph_size; i < mm->ph.size - prev_ph_size; i++, ph++) {
+		offset_since_last_ph = ph->line_offset - last_ph_line_offset;
+		last_ph_line_offset = ph->line_offset;
+		part->data0_len += offset_since_last_ph;
+		(part + 1)->data0 = part->data0 + part->data0_len;
+		part++;
+	}
+	part->data0_len += original_line_len - last_ph_line_offset;
+	mm->op.current_part = part;
+}
+/*jeanine:p:i:12;p:0;a:b;y:29.38;*/
+/**
+When returning, call 'mmparse_process_placeholders' (or not if no placeholders are used),
+then the final output can be constructed as following:
+    struct mmp_output_part *part;
+    for (part = mm->output; part->data0; part++) {
+      write(part->data0, part->data0_len);
+      write(part->data1, part->data1_len);
+    }
+
+@param mm allocated 'struct mmparse' with its 'config' member fully set.
+          All other data may be undefined and will be overwritten.
+*/
+void mmparse(struct mmparse *mm)
+{
+	int prev_ph_size, data0_len_before_line, extra_line_offset;
+	struct mmp_config config_copy;
+
+	config_copy = mm->config;
+	memset(mm, 0, sizeof(struct mmparse));
+	mm->config = config_copy;
+
+	mm->in.charptr = mm->config.source;
+	mm->in.charsleft = mm->config.source_len;
+	mm->pd.ctrlchar_open = '{';
+	mm->pd.ctrlchar_close = '}';
+	mm->md.current = mm->config.modes[0];
+	assert(((void)"mmparse: must have at least one mode", mm->md.current));
+	mm->op.data0buf_sizeleft = mm->config.dest.data0_len;
+	mm->op.data1buf_sizeleft = mm->config.dest.data1_len;
+	mm->op.current_part = mm->op.parts;
+	mm->op.current_part->data0 = mm->config.dest.data0;
+	mm->op.current_part->data1 = mm->config.dest.data1;
+	mm->output = mm->op.current_part;
+
+	while (mm->in.charsleft) {
+		prev_ph_size = mm->ph.size;
+		mmparse_read_line(mm);/*jeanine:r:i:3;*/
+		if (mm->pd.hasmargin || !mmparse_handle_dotcommands(mm)) {/*jeanine:r:i:11;*/
+			data0_len_before_line = mm->op.current_part->data0_len;
+			extra_line_offset = mm->md.current->println(mm);
+			if (prev_ph_size != mm->ph.size) {
+				mmparse_split_parts(mm, data0_len_before_line, extra_line_offset, prev_ph_size);/*jeanine:r:i:16;*/
 			}
 		}
 	}
-
-	if (num_handlers != 1) {
-		printf("have %d handlers at EOF, should be 1\n", num_handlers);
+	if (mm->pd.tag_stack_size) {
+		mmparse_failmsgf(mm,
+			"still have %d entries in tag stack, first is '%s', opened on line %d",
+			mm->pd.tag_stack_size,
+			mm->pd.tag_stack[mm->pd.tag_stack_size - 1],
+			mm->pd.tag_opened_on_line[mm->pd.tag_stack_size - 1]
+		);
+		assert(0);
 	}
-	current_handler->end();
-	if (tag_stack_pos) {
-		printf("tag stack not empty (%d)\n", tag_stack_pos);
-	}
+}
 
-	fclose(in);
-	return write();
-ret_err:
-	fclose(in);
-	return 1;
-printhelp:
-	puts("Options:");
-	puts("--in [filename]      input file");
-	puts("--out [filename]     output file");
-	return 1;
+void mmparse_process_placeholders(struct mmparse *mm)
+{
+	struct mmp_output_part *lp, *cp;
+	struct mmp_placeholder *ph;
+	int i;
+
+	lp = NULL;
+	for (i = 0, ph = mm->ph.placeholders, cp = mm->op.parts; i < mm->ph.size; i++, ph++, cp++) {
+		if (lp) {
+			cp->data1 = lp->data1 + lp->data1_len;
+		}
+		ph->action(mm, cp, ph->data);
+		lp = cp;
+	}
 }
