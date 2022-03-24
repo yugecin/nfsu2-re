@@ -100,7 +100,7 @@ struct mmp_config {
 	char *source;
 	/**length of string in 'source'*/
 	int source_len;
-	/**last entry must be NULL*/
+	/**last entry must be NULL, first entry will be active when starting*/
 	struct mmp_mode **modes;
 	/**last entry's name and cb must be NULL*/
 	struct mmp_directive_handler *directive_handlers;
@@ -835,6 +835,7 @@ void mmparse(struct mmparse *mm)
 	mm->op.current_part->data1 = mm->config.dest.data1;
 	mm->output = mm->op.current_part;
 
+	mm->md.current->start(mm);
 	while (mm->in.charsleft) {
 		prev_ph_size = mm->ph.size;
 		mmparse_read_line(mm);/*jeanine:r:i:3;*/
@@ -855,6 +856,15 @@ void mmparse(struct mmparse *mm)
 		);
 		assert(0);
 	}
+	if (mm->md.num_pushed_modes) {
+		mmparse_failmsgf(mm,
+			"still have %d pushed mode(s), current is '%s'",
+			mm->md.num_pushed_modes,
+			mm->md.current->name
+		);
+		assert(0);
+	}
+	mm->md.current->end(mm);
 }
 
 void mmparse_process_placeholders(struct mmparse *mm)
