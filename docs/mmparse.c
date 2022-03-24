@@ -83,11 +83,12 @@ struct mmp_placeholder {
 	int line_offset;
 	/**used for error reporting*/
 	int line_number;
-	/**custom data that may be allocated by the placeholder*/
+	/**custom data that is allocated (from mm->config.data3) during placeholder allocation*/
 	void *data;
+	int data_size;
 	/**Action function that will be called when placeholders are processed.
 	Write output by using function 'mmparse_append_to_placeholder_output'.*/
-	void (*action)(struct mmparse*,struct mmp_output_part*,void *data);
+	void (*action)(struct mmparse*,struct mmp_output_part*,void *data,int data_size);
 };
 
 struct mmp_config {
@@ -114,6 +115,13 @@ struct mmp_config {
 		char *data1;
 		/**length of the secondary output buffer*/
 		int data1_len;
+		/**fourth output buffer to be written to,
+		this is allowed to be NULL if no placeholders are being used during parsing,
+		or no placeholders need to allocate data, or if those placeholders use their
+		own allocators.*/
+		char *data3;
+		/**length of the 4th output buffer*/
+		int data3_len;
 	} dest;
 };
 
@@ -159,6 +167,8 @@ struct mmparse {
 	struct {
 		int size;
 		struct mmp_placeholder placeholders[MMPARSE_MAX_PLACEHOLDERS];
+		char *databuf;
+		int databuf_sizeleft;
 	} ph; /*placeholders*/
 	struct {
 		int data0buf_sizeleft;
@@ -574,13 +584,14 @@ void mmparse_read_line(struct mmparse *mm)
 	mm->pd.line_len = line_len;
 }
 /*jeanine:p:i:15;p:6;a:t;x:42.33;*/
-/**
-The caller must ensure the 'action' member will be set.
-*/
-struct mmp_placeholder* mmparse_allocate_placeholder(struct mmparse *mm)
+struct mmp_placeholder* mmparse_allocate_placeholder(struct mmparse *mm, void (*action)(struct mmparse*,struct mmp_output_part*,void*,int), int data_size)
 {
 	struct mmp_placeholder *ph;
 
+	if (mm->ph.databuf_sizeleft < data_size) {
+		mmparse_failmsg(mm, "output buffer data3 too small");
+		assert(0);
+	}
 	if (mm->ph.size >= MMPARSE_MAX_PLACEHOLDERS) {
 		mmparse_failmsg(mm, "increase MMPARSE_MAX_PLACEHOLDERS");
 		assert(0);
@@ -588,6 +599,11 @@ struct mmp_placeholder* mmparse_allocate_placeholder(struct mmparse *mm)
 	ph = mm->ph.placeholders + mm->ph.size++;
 	ph->line_offset = mm->pd.next_placeholder_line_offset;
 	ph->line_number = mm->in.current_line;
+	ph->action = action;
+	ph->data_size = data_size;
+	ph->data = mm->ph.databuf;
+	mm->ph.databuf += data_size;
+	mm->ph.databuf_sizeleft -= data_size;
 	return ph;
 }
 /*jeanine:p:i:1;p:8;a:t;x:143.93;*/
@@ -812,6 +828,8 @@ void mmparse(struct mmparse *mm)
 	assert(((void)"mmparse: must have at least one mode", mm->md.current));
 	mm->op.data0buf_sizeleft = mm->config.dest.data0_len;
 	mm->op.data1buf_sizeleft = mm->config.dest.data1_len;
+	mm->ph.databuf_sizeleft = mm->config.dest.data3_len;
+	mm->ph.databuf = mm->config.dest.data3;
 	mm->op.current_part = mm->op.parts;
 	mm->op.current_part->data0 = mm->config.dest.data0;
 	mm->op.current_part->data1 = mm->config.dest.data1;
@@ -850,7 +868,10 @@ void mmparse_process_placeholders(struct mmparse *mm)
 		if (lp) {
 			cp->data1 = lp->data1 + lp->data1_len;
 		}
-		ph->action(mm, cp, ph->data);
+		/*Set the current line number to the line where the placeholder was allocated,
+		so any possible errors reported by mmparse_failmsg will have a relevant line number.*/
+		mm->in.current_line = ph->line_number;
+		ph->action(mm, cp, ph->data, ph->data_size);
 		lp = cp;
 	}
 }
