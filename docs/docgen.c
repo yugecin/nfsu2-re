@@ -616,8 +616,6 @@ static
 void docgen_print_struct(FILE *f, struct docgen *dg, struct docgen_structinfo *structinfo, struct idcp_struct *struc)
 {
 	int num_members, size, lastoffset, i;
-	char friendlyfuncname[200], *namepos;
-	struct docgen_tmpbuf *funcsignature;
 	struct docgen_funcinfo *funcinfo;
 	struct idcp_struct_member *mem;
 	struct idcp_stuff *func;
@@ -653,23 +651,17 @@ void docgen_print_struct(FILE *f, struct docgen *dg, struct docgen_structinfo *s
 	}
 	if (structinfo->is_class) {
 		fprintf(f, "<p><strong>Methods:</strong></p><ul>");
-		funcsignature = docgen_get_tmpbuf(10000);
 		for (i = 0, funcinfo = dg->funcinfos; i < dg->num_funcinfos; i++, funcinfo++) {
 			if (funcinfo->methodof == structinfo) {
 				func = funcinfo->func;
-				if (func->data.func.type) {
-					strcpy(funcsignature->data, func->data.func.type);
-					docgen_get_func_friendlyname(friendlyfuncname, func->name);
-					namepos = strstr(funcsignature->data, friendlyfuncname);
-					assert(namepos); /*Shouldn't fail, it should've been caught when the functions were being processed.*/
-					memcpy(namepos, func->name, funcinfo->name_len);
-				} else {
-					strcpy(funcsignature->data, func->name);
-				}
-				fprintf(f, "<li><pre><i>%X</i> <a href='funcs.html#%X'>%s</a></pre></li>", func->addr, func->addr, funcsignature->data);
+				fprintf(f, "<li><pre><i>%X</i> <a href='funcs.html#%X' title='%s'>%s</a></pre></li>",
+					func->addr,
+					func->addr,
+					func->data.func.type ? func->data.func.type : func->name,
+					func->name
+				);
 			}
 		}
-		docgen_free_tmpbuf(funcsignature);
 		fprintf(f, "</ul>");
 	}
 }
