@@ -5,7 +5,6 @@ margin markup parser
 #define MMPARSE_LINE_RAW_MAX_LEN 2000
 #define MMPARSE_LINE_EXPANDED_MAX_LEN 20000
 #define MMPARSE_TAGSTACK_SIZE 100
-#define MMPARSE_TAGSTACK_TAG_MAX_LEN 50
 #define MMPARSE_MAX_PLACEHOLDERS 100
 #define MMPARSE_DIRECTIVE_NAME_MAX_LEN 30
 #define MMPARSE_DIRECTIVE_MAX_ARGS 4
@@ -29,8 +28,6 @@ enum mmp_directive_content_action {
 
 struct mmp_directive_content_data {
 	struct mmp_directive *directive;
-	/*Size of this buffer is MMPARSE_TAGSTACK_TAG_MAX_LEN.*/
-	char *closing_tag;
 	int content_len;
 	char contents[MMPARSE_LINE_RAW_MAX_LEN];
 };
@@ -38,7 +35,9 @@ struct mmp_directive_content_data {
 struct mmp_directive_handler {
 	char *name;
 	/**
-	Write output by using function 'mmparse_append_to_expanded_line'.
+	Write output by using function 'mmparse_append_to_expanded_line', this output will
+	be put where the directive open mark is placed. Use 'mmparse_append_to_closing_tag' to
+	write (to a buffer whos contents will be put) at the directive's closing mark position.
 	This may use function 'mmparse_allocate_placeholder' to create a placeholder.
 	*/
 	enum mmp_directive_content_action (*handle)(struct mmparse*, struct mmp_directive_content_data*);
@@ -62,6 +61,12 @@ struct mmp_mode {
 	int (*println)(struct mmparse*);
 	/**called after mode is popped*/
 	void (*end)(struct mmparse*);
+	/**
+	Write output by using function 'mmparse_append_to_expanded_line', this output will
+	be put where the directive open mark is placed. Use 'mmparse_append_to_closing_tag' to
+	write (to a buffer whos contents will be put) at the directive's closing mark position.
+	This may use function 'mmparse_allocate_placeholder' to create a placeholder.
+	*/
 	enum mmp_directive_content_action (*directive)(struct mmparse*, struct mmp_directive_content_data*);
 	char *name;
 	enum mmp_mode_line_parsing parse_lines;
@@ -115,12 +120,17 @@ struct mmp_config {
 		char *data1;
 		/**length of the secondary output buffer*/
 		int data1_len;
-		/**fourth output buffer to be written to,
+		/**first temp buffer, to be written to,
+		will be used to hold text that should be appended when directive close marks are found*/
+		char *data2;
+		/**length of the first temp buffer*/
+		int data2_len;
+		/**second temp buffer to be written to,
 		this is allowed to be NULL if no placeholders are being used during parsing,
 		or no placeholders need to allocate data, or if those placeholders use their
 		own allocators.*/
 		char *data3;
-		/**length of the 4th output buffer*/
+		/**length of the second temp buffer*/
 		int data3_len;
 	} dest;
 };
@@ -155,8 +165,10 @@ struct mmparse {
 		char line_raw[MMPARSE_LINE_RAW_MAX_LEN];
 		/**Current input line after expanding, if applicable.*/
 		char line_expanded[MMPARSE_LINE_EXPANDED_MAX_LEN];
+		char *tagbuf;
+		int tagbuf_sizeleft;
 		int tag_stack_size;
-		char tag_stack[MMPARSE_TAGSTACK_SIZE][MMPARSE_TAGSTACK_TAG_MAX_LEN];
+		char tag_length[MMPARSE_TAGSTACK_SIZE];
 		int tag_opened_on_line[MMPARSE_TAGSTACK_SIZE];
 	} pd; /*parsedata*/
 	struct {
@@ -226,6 +238,18 @@ void mmparse_append_to_placeholder_output(struct mmparse *mm, struct mmp_output_
 	mm->op.data1buf_sizeleft -= len;
 	memcpy(output_part->data1 + output_part->data1_len, from, len);
 	output_part->data1_len += len;
+}
+/*jeanine:p:i:20;p:14;a:b;y:1.88;*/
+void mmparse_append_to_closing_tag(struct mmparse *mm, char *from, int len)
+{
+	if (mm->pd.tagbuf_sizeleft - len < 0) {
+		mmparse_failmsg(mm, "output buffer data2 too small");
+		assert(0);
+	}
+	mm->pd.tagbuf_sizeleft -= len;
+	memcpy(mm->pd.tagbuf, from, len);
+	mm->pd.tagbuf += len;
+	mm->pd.tag_length[mm->pd.tag_stack_size - 1] += len;
 }
 /*jeanine:p:i:2;p:3;a:r;x:28.67;y:-129.53;*/
 /**
@@ -401,7 +425,7 @@ void mmparse_expand_line(struct mmparse *mm)
 
 	int open_pos, close_pos, open_idx, close_idx, len, raw_pos, raw_line_len;
 	enum mmp_directive_content_action eat_contents;
-	char *raw_line, *closing_tag;
+	char *raw_line;
 
 	open_idx = 0;
 	close_idx = 0;
@@ -448,8 +472,8 @@ void mmparse_expand_line(struct mmparse *mm)
 				dir_data.contents[len] = 0;
 			}
 			mm->pd.tag_opened_on_line[mm->pd.tag_stack_size] = mm->in.current_line;
-			dir_data.closing_tag = mm->pd.tag_stack[mm->pd.tag_stack_size++];
-			dir_data.closing_tag[0] = 0;
+			mm->pd.tag_length[mm->pd.tag_stack_size] = 0;
+			mm->pd.tag_stack_size++;
 			dir_data.directive = mm->pd.directives + open_idx;
 			eat_contents = mm->md.current->directive(mm, &dir_data);
 			open_idx++;
@@ -468,9 +492,9 @@ void mmparse_expand_line(struct mmparse *mm)
 			}
 
 			if (eat_contents == LEAVE_CONTENTS) {
-				closing_tag = mm->pd.tag_stack[mm->pd.tag_stack_size];
-				len = strlen(closing_tag);
-				mmparse_append_to_expanded_line(mm, closing_tag, len);/*jeanine:s:a:r;i:6;*/
+				len = mm->pd.tag_length[mm->pd.tag_stack_size];
+				mm->pd.tagbuf -= len;
+				mmparse_append_to_expanded_line(mm, mm->pd.tagbuf, len);/*jeanine:s:a:r;i:6;*/
 			} else {
 				eat_contents = LEAVE_CONTENTS;
 			}
@@ -634,13 +658,13 @@ int mmparse_cb_mode_nop_println(struct mmparse *mm)
 {
 	return 0;
 }
-/*jeanine:p:i:19;p:8;a:r;x:19.22;y:47.44;*/
+/*jeanine:p:i:19;p:8;a:r;x:19.44;y:50.31;*/
 static
 enum mmp_directive_content_action mmparse_cb_mode_nop_directive(struct mmparse *mm, struct mmp_directive_content_data *data)
 {
 	return LEAVE_CONTENTS;
 }
-/*jeanine:p:i:9;p:8;a:r;x:19.33;y:25.94;*/
+/*jeanine:p:i:9;p:8;a:r;x:19.55;y:28.32;*/
 static
 int mmparse_cb_mode_normal_println(struct mmparse *mm)
 {
@@ -666,7 +690,9 @@ enum mmp_directive_content_action mmparse_cb_mode_normal_directive(mm, data)
 		}
 	}
 	mmparse_print_tag_with_directives(mm, data->directive, ">");/*jeanine:s:a:r;i:1;*/
-	sprintf(data->closing_tag, "</%s>", data->directive->name);
+	mmparse_append_to_closing_tag(mm, "</", 2);/*jeanine:s:a:r;i:20;*/
+	mmparse_append_to_closing_tag(mm, data->directive->name, strlen(data->directive->name));/*jeanine:s:a:r;i:20;*/
+	mmparse_append_to_closing_tag(mm, ">", 1);/*jeanine:s:a:r;i:20;*/
 	return LEAVE_CONTENTS;
 }
 /*jeanine:p:i:8;p:0;a:t;x:17.22;y:-32.81;*/
@@ -815,6 +841,8 @@ void mmparse(struct mmparse *mm)
 {
 	int prev_ph_size, data0_len_before_line, extra_line_offset;
 	struct mmp_config config_copy;
+	char *tag;
+	int len;
 
 	config_copy = mm->config;
 	memset(mm, 0, sizeof(struct mmparse));
@@ -828,7 +856,9 @@ void mmparse(struct mmparse *mm)
 	assert(((void)"mmparse: must have at least one mode", mm->md.current));
 	mm->op.data0buf_sizeleft = mm->config.dest.data0_len;
 	mm->op.data1buf_sizeleft = mm->config.dest.data1_len;
+	mm->pd.tagbuf_sizeleft = mm->config.dest.data2_len;
 	mm->ph.databuf_sizeleft = mm->config.dest.data3_len;
+	mm->pd.tagbuf = mm->config.dest.data2;
 	mm->ph.databuf = mm->config.dest.data3;
 	mm->op.current_part = mm->op.parts;
 	mm->op.current_part->data0 = mm->config.dest.data0;
@@ -848,10 +878,14 @@ void mmparse(struct mmparse *mm)
 		}
 	}
 	if (mm->pd.tag_stack_size) {
+		len = mm->pd.tag_length[mm->pd.tag_stack_size - 1];
+		tag = alloca(len + 1);
+		memcpy(tag, mm->pd.tagbuf - len, len);
+		tag[len] = 0;
 		mmparse_failmsgf(mm,
 			"still have %d entries in tag stack, first is '%s', opened on line %d",
 			mm->pd.tag_stack_size,
-			mm->pd.tag_stack[mm->pd.tag_stack_size - 1],
+			tag,
 			mm->pd.tag_opened_on_line[mm->pd.tag_stack_size - 1]
 		);
 		assert(0);
