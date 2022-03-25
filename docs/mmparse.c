@@ -12,6 +12,12 @@ margin markup parser
 #define MMPARSE_DIRECTIVE_ARGV_MAX_LEN 200
 #define MMPARSE_MODE_STACK_SIZE 20
 
+#define MMPARSE_CAN_APPEND_EXPANDED 1
+#define MMPARSE_CAN_APPEND_CLOSING 2
+#define MMPARSE_CAN_ALLOCATE_PH 4
+#define MMPARSE_CAN_APPEND_PH 8
+#define MMPARSE_CAN_APPEND_MAIN 16
+
 struct mmparse;
 
 struct mmp_directive {
@@ -190,6 +196,8 @@ struct mmparse {
 		struct mmp_output_part parts[MMPARSE_MAX_PLACEHOLDERS + 1];
 		struct mmp_output_part *current_part;
 	} op; /*output*/
+	/**to ensure users don't write to the wrong output at the wrong times, see 'MMPARSE_CAN_*'*/
+	int can;
 };
 
 static
@@ -209,6 +217,7 @@ void mmparse_failmsg(struct mmparse *mm, char *msg)
 /*jeanine:p:i:6;p:1;a:t;x:36.32;*/
 void mmparse_append_to_expanded_line(struct mmparse *mm, char *from, int len)
 {
+	assert(((void)"invalid state", mm->can & MMPARSE_CAN_APPEND_EXPANDED));
 	if (mm->pd.line_len + len >= MMPARSE_LINE_EXPANDED_MAX_LEN) {
 		mmparse_failmsg(mm, "increase MMPARSE_LINE_EXPANDED_MAX_LEN");
 		assert(0);
@@ -220,6 +229,7 @@ void mmparse_append_to_expanded_line(struct mmparse *mm, char *from, int len)
 /*jeanine:p:i:13;p:6;a:b;y:1.88;*/
 void mmparse_append_to_main_output(struct mmparse *mm, char *from, int len)
 {
+	assert(((void)"invalid state", mm->can & MMPARSE_CAN_APPEND_MAIN));
 	if (mm->op.data0buf_sizeleft - len < 0) {
 		mmparse_failmsg(mm, "output buffer data0 too small");
 		assert(0);
@@ -231,6 +241,7 @@ void mmparse_append_to_main_output(struct mmparse *mm, char *from, int len)
 /*jeanine:p:i:14;p:13;a:b;y:1.88;*/
 void mmparse_append_to_placeholder_output(struct mmparse *mm, struct mmp_output_part *output_part, char *from, int len)
 {
+	assert(((void)"invalid state", mm->can & MMPARSE_CAN_APPEND_PH));
 	if (mm->op.data1buf_sizeleft - len < 0) {
 		mmparse_failmsg(mm, "output buffer data1 too small");
 		assert(0);
@@ -242,6 +253,7 @@ void mmparse_append_to_placeholder_output(struct mmparse *mm, struct mmp_output_
 /*jeanine:p:i:20;p:14;a:b;y:1.88;*/
 void mmparse_append_to_closing_tag(struct mmparse *mm, char *from, int len)
 {
+	assert(((void)"invalid state", mm->can & MMPARSE_CAN_APPEND_CLOSING));
 	if (mm->pd.tagbuf_sizeleft - len < 0) {
 		mmparse_failmsg(mm, "output buffer data2 too small");
 		assert(0);
@@ -475,7 +487,9 @@ void mmparse_expand_line(struct mmparse *mm)
 			mm->pd.tag_length[mm->pd.tag_stack_size] = 0;
 			mm->pd.tag_stack_size++;
 			dir_data.directive = mm->pd.directives + open_idx;
+			mm->can |= MMPARSE_CAN_APPEND_CLOSING | MMPARSE_CAN_ALLOCATE_PH;
 			eat_contents = mm->md.current->directive(mm, &dir_data);
+			mm->can &= ~(MMPARSE_CAN_APPEND_CLOSING | MMPARSE_CAN_ALLOCATE_PH);
 			open_idx++;
 		} else if (close_pos < open_pos) {
 			len = close_pos - raw_pos;
@@ -549,7 +563,9 @@ void mmparse_read_line(struct mmparse *mm)
 					);
 					assert(0);
 				}
+				mm->can |= MMPARSE_CAN_APPEND_EXPANDED;
 				mmparse_expand_line(mm);/*jeanine:r:i:5;*/
+				mm->can &= ~MMPARSE_CAN_APPEND_EXPANDED;
 				return;
 			}
 		} else {
@@ -612,6 +628,7 @@ struct mmp_placeholder* mmparse_allocate_placeholder(struct mmparse *mm, void (*
 {
 	struct mmp_placeholder *ph;
 
+	assert(((void)"invalid state", mm->can & MMPARSE_CAN_ALLOCATE_PH));
 	if (mm->ph.databuf_sizeleft < data_size) {
 		mmparse_failmsg(mm, "output buffer data3 too small");
 		assert(0);
@@ -722,7 +739,7 @@ struct mmp_mode mmparse_mode_plain = {
 	"plain",
 	MMPARSE_DONT_PARSE_LINES
 };
-/*jeanine:p:i:11;p:12;a:r;x:16.39;y:-5.61;*/
+/*jeanine:p:i:11;p:12;a:r;x:16.08;y:-7.00;*/
 /**
 @return 0 when no dotcommands were present
 */
@@ -756,7 +773,9 @@ more_dotcommands:
 			if (!strcmp(line_start + 10, (*mode)->name)) {
 				mm->md.pushed_modes[mm->md.num_pushed_modes++] = mm->md.current;
 				mm->md.current = *mode;
+				mm->can |= MMPARSE_CAN_APPEND_MAIN;
 				mm->md.current->start(mm);
+				mm->can &= ~MMPARSE_CAN_APPEND_MAIN;
 				return 1;
 			}
 		}
@@ -777,12 +796,14 @@ more_dotcommands:
 		}
 		tmp_current_mode = mm->md.current;
 		mm->md.current = mm->md.pushed_modes[--mm->md.num_pushed_modes];
+		mm->can |= MMPARSE_CAN_APPEND_MAIN;
 		tmp_current_mode->end(mm);
+		mm->can &= ~MMPARSE_CAN_APPEND_MAIN;
 		return 1;
 	}
 	return had_cmds;
 }
-/*jeanine:p:i:16;p:12;a:r;x:15.70;y:54.39;*/
+/*jeanine:p:i:16;p:12;a:r;x:16.01;y:54.91;*/
 /**
 Split parts based on placeholders.
 
@@ -864,12 +885,16 @@ void mmparse(struct mmparse *mm)
 	mm->op.current_part->data1 = mm->config.dest.data1;
 	mm->output = mm->op.current_part;
 
+	mm->can |= MMPARSE_CAN_APPEND_MAIN;
 	mm->md.current->start(mm);
+	mm->can &= ~MMPARSE_CAN_APPEND_MAIN;
 	while (mm->in.charsleft) {
 		prev_ph_size = mm->ph.size;
 		mmparse_read_line(mm);/*jeanine:r:i:3;*/
 		if (mm->pd.hasmargin || !mmparse_handle_dotcommands(mm)) {/*jeanine:r:i:11;*/
+			mm->can |= MMPARSE_CAN_APPEND_MAIN;
 			extra_line_offset = mm->md.current->println(mm);
+			mm->can &= ~MMPARSE_CAN_APPEND_MAIN;
 			if (prev_ph_size != mm->ph.size) {
 				mmparse_split_parts(mm, extra_line_offset, prev_ph_size);/*jeanine:r:i:16;*/
 			}
@@ -896,7 +921,9 @@ void mmparse(struct mmparse *mm)
 		);
 		assert(0);
 	}
+	mm->can |= MMPARSE_CAN_APPEND_MAIN;
 	mm->md.current->end(mm);
+	mm->can &= ~MMPARSE_CAN_APPEND_MAIN;
 }
 
 void mmparse_process_placeholders(struct mmparse *mm)
@@ -913,7 +940,9 @@ void mmparse_process_placeholders(struct mmparse *mm)
 		/*Set the current line number to the line where the placeholder was allocated,
 		so any possible errors reported by mmparse_failmsg will have a relevant line number.*/
 		mm->in.current_line = ph->line_number;
+		mm->can |= MMPARSE_CAN_APPEND_PH;
 		ph->action(mm, cp, ph->data, ph->data_size);
+		mm->can &= ~MMPARSE_CAN_APPEND_PH;
 		lp = cp;
 	}
 }
