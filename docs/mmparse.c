@@ -85,7 +85,7 @@ struct mmp_output_part {
 
 struct mmp_placeholder {
 	/**used during parsing*/
-	int line_offset;
+	int offset;
 	/**used for error reporting*/
 	int line_number;
 	/**custom data that is allocated (from mm->config.data3) during placeholder allocation*/
@@ -155,8 +155,8 @@ struct mmparse {
 		int close_mark_positions[MMPARSE_MAX_DIRECTIVES];
 		unsigned char num_directives;
 		struct mmp_directive directives[MMPARSE_MAX_DIRECTIVES];
-		/**value to set for 'struct placeholder.line_offset' when allocating a placeholder*/
-		int next_placeholder_line_offset;
+		/**value to set for 'struct placeholder.offset' when allocating a placeholder*/
+		int next_placeholder_offset;
 		/**Length of string in 'line' buffer.*/
 		int line_len;
 		/**Will either point to 'line_raw' or 'line_expanded' after parsing.*/
@@ -462,7 +462,7 @@ void mmparse_expand_line(struct mmparse *mm)
 				mmparse_failmsg(mm, "increase MMPARSE_TAGSTACK_SIZE");
 				assert(0);
 			}
-			mm->pd.next_placeholder_line_offset = mm->pd.line_len;
+			mm->pd.next_placeholder_offset = mm->op.current_part->data0_len + mm->pd.line_len;
 			if (close_pos == 0x0FFFFFFF) {
 				dir_data.content_len = 0;
 				dir_data.contents[0] = 0;
@@ -621,7 +621,7 @@ struct mmp_placeholder* mmparse_allocate_placeholder(struct mmparse *mm, void (*
 		assert(0);
 	}
 	ph = mm->ph.placeholders + mm->ph.size++;
-	ph->line_offset = mm->pd.next_placeholder_line_offset;
+	ph->offset = mm->pd.next_placeholder_offset;
 	ph->line_number = mm->in.current_line;
 	ph->action = action;
 	ph->data_size = data_size;
@@ -791,11 +791,10 @@ The current part needs to be split into 'num_placeholders+1' part(s).
 
 Case study:
 part0.data0: this is the previous line
-                                      ^ data0_len_before_line
              (stuff inserted by mode 'println' function)this is the current line with a placeholder and stuff
-             ^ a                                        ^ extra_line_offset  ^ placeholder.line_offset       ^ part0.data0_len
+             ^ a                                        ^ extra_line_offset  ^ placeholder.offset            ^ part0.data0_len
 extra_line_offset is from 'a'
-placeholder.line_offset is from 'extra_line_offset'
+placeholder.offset is from the start of data0
 after:
 part0.data0: this is the previous line
              (stuff inserted by mode 'println' function)this is the current l
@@ -804,24 +803,24 @@ part1.data0: ine with a placeholder and stuff
                                              ^ part1.data0_len
 */
 static
-void mmparse_split_parts(struct mmparse *mm, int data0_len_before_line, int extra_line_offset, int prev_ph_size)
+void mmparse_split_parts(struct mmparse *mm, int extra_line_offset, int prev_ph_size)
 {
-	int original_line_len, i, last_ph_line_offset, offset_since_last_ph;
+	int original_part_len, i, last_ph_offset, delta, off;
 	struct mmp_output_part *part;
 	struct mmp_placeholder *ph;
 
 	part = mm->op.current_part;
-	original_line_len = part->data0_len - data0_len_before_line - extra_line_offset;
-	part->data0_len = data0_len_before_line + extra_line_offset;
-	last_ph_line_offset = 0;
+	original_part_len = part->data0_len;
+	last_ph_offset = 0;
 	for (i = 0, ph = mm->ph.placeholders + prev_ph_size; i < mm->ph.size - prev_ph_size; i++, ph++) {
-		offset_since_last_ph = ph->line_offset - last_ph_line_offset;
-		last_ph_line_offset = ph->line_offset;
-		part->data0_len += offset_since_last_ph;
-		(part + 1)->data0 = part->data0 + part->data0_len;
+		off = ph->offset + extra_line_offset;
+		delta = off - last_ph_offset;
+		part->data0_len = delta;
+		(part + 1)->data0 = part->data0 + delta;
 		part++;
+		last_ph_offset = off;
 	}
-	part->data0_len += original_line_len - last_ph_line_offset;
+	part->data0_len = original_part_len - last_ph_offset;
 	mm->op.current_part = part;
 }
 /*jeanine:p:i:12;p:0;a:b;y:29.38;*/
@@ -839,7 +838,7 @@ then the final output can be constructed as following:
 */
 void mmparse(struct mmparse *mm)
 {
-	int prev_ph_size, data0_len_before_line, extra_line_offset;
+	int prev_ph_size, extra_line_offset;
 	struct mmp_config config_copy;
 	char *tag;
 	int len;
@@ -870,10 +869,9 @@ void mmparse(struct mmparse *mm)
 		prev_ph_size = mm->ph.size;
 		mmparse_read_line(mm);/*jeanine:r:i:3;*/
 		if (mm->pd.hasmargin || !mmparse_handle_dotcommands(mm)) {/*jeanine:r:i:11;*/
-			data0_len_before_line = mm->op.current_part->data0_len;
 			extra_line_offset = mm->md.current->println(mm);
 			if (prev_ph_size != mm->ph.size) {
-				mmparse_split_parts(mm, data0_len_before_line, extra_line_offset, prev_ph_size);/*jeanine:r:i:16;*/
+				mmparse_split_parts(mm, extra_line_offset, prev_ph_size);/*jeanine:r:i:16;*/
 			}
 		}
 	}
