@@ -20,11 +20,15 @@ margin markup parser
 
 struct mmparse;
 
+struct mmp_directive_arg {
+	char name[MMPARSE_DIRECTIVE_ARGN_MAX_LEN];
+	char value[MMPARSE_DIRECTIVE_ARGV_MAX_LEN];
+};
+
 struct mmp_directive {
 	char name[MMPARSE_DIRECTIVE_NAME_MAX_LEN];
 	unsigned char argc;
-	char argn[MMPARSE_DIRECTIVE_MAX_ARGS][MMPARSE_DIRECTIVE_ARGN_MAX_LEN];
-	char argv[MMPARSE_DIRECTIVE_MAX_ARGS][MMPARSE_DIRECTIVE_ARGV_MAX_LEN];
+	struct mmp_directive_arg args[MMPARSE_DIRECTIVE_MAX_ARGS];
 };
 
 enum mmp_directive_content_action {
@@ -342,8 +346,8 @@ next_argument:
 	}
 
 	arg_name_len = 0;
-	dir->argn[dir->argc][0] = 0;
-	dir->argv[dir->argc][0] = 0;
+	dir->args[dir->argc].name[0] = 0;
+	dir->args[dir->argc].value[0] = 0;
 	for (;;) {
 		switch (c) {
 		case ',':
@@ -371,8 +375,8 @@ next_argument:
 			mmparse_failmsg(mm, "increase MMPARSE_DIRECTIVE_ARGN_MAX_LEN");
 			assert(0);
 		}
-		dir->argn[dir->argc][arg_name_len++] = c;
-		dir->argn[dir->argc][arg_name_len] = 0;
+		dir->args[dir->argc].name[arg_name_len++] = c;
+		dir->args[dir->argc].name[arg_name_len] = 0;
 		if (!mm->in.charsleft || (mm->in.charsleft--, c = *(mm->in.charptr++)) == '\n') {
 			dir->argc++;
 			return;
@@ -418,8 +422,8 @@ donewith:
 			mmparse_failmsg(mm, "increase MMPARSE_DIRECTIVE_ARGV_MAX_LEN");
 			assert(0);
 		}
-		dir->argv[dir->argc][arg_val_len++] = c;
-		dir->argv[dir->argc][arg_val_len] = 0;
+		dir->args[dir->argc].value[arg_val_len++] = c;
+		dir->args[dir->argc].value[arg_val_len] = 0;
 		if (!mm->in.charsleft || (mm->in.charsleft--, c = *(mm->in.charptr++)) == '\n') {
 			if (val_uses_quotes) {
 				mmparse_failmsg(mm, "EOL while in quoted argument value");
@@ -658,8 +662,8 @@ void mmparse_print_tag_with_directives(struct mmparse *mm, struct mmp_directive 
 	len = sprintf(tmp, "<%s", dir->name);
 	mmparse_append_to_expanded_line(mm, tmp, len);
 	for (i = 0; i < dir->argc; i++) {
-		if (dir->argn[i][0]) {
-			len = sprintf(tmp, " %s=\"%s\"", dir->argn[i], dir->argv[i]);
+		if (dir->args[i].name[0]) {
+			len = sprintf(tmp, " %s=\"%s\"", dir->args[i].name, dir->args[i].value);
 			mmparse_append_to_expanded_line(mm, tmp, len);
 		}
 	}
