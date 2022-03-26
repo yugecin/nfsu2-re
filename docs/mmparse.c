@@ -20,29 +20,29 @@ margin markup parser
 
 struct mmparse;
 
-struct mmp_directive_arg {
+struct mmp_dir_arg {
 	char name[MMPARSE_DIRECTIVE_ARGN_MAX_LEN];
 	char value[MMPARSE_DIRECTIVE_ARGV_MAX_LEN];
 };
 
-struct mmp_directive {
+struct mmp_dir {
 	char name[MMPARSE_DIRECTIVE_NAME_MAX_LEN];
 	unsigned char argc;
-	struct mmp_directive_arg args[MMPARSE_DIRECTIVE_MAX_ARGS];
+	struct mmp_dir_arg args[MMPARSE_DIRECTIVE_MAX_ARGS];
 };
 
-enum mmp_directive_content_action {
+enum mmp_dir_content_action {
 	DELETE_CONTENTS,
 	LEAVE_CONTENTS,
 };
 
-struct mmp_directive_content_data {
-	struct mmp_directive *directive;
+struct mmp_dir_content_data {
+	struct mmp_dir *directive;
 	int content_len;
 	char contents[MMPARSE_LINE_RAW_MAX_LEN];
 };
 
-struct mmp_directive_handler {
+struct mmp_dir_handler {
 	char *name;
 	/**
 	Write output by using function 'mmparse_append_to_expanded_line', this output will
@@ -50,7 +50,7 @@ struct mmp_directive_handler {
 	write (to a buffer whos contents will be put) at the directive's closing mark position.
 	This may use function 'mmparse_allocate_placeholder' to create a placeholder.
 	*/
-	enum mmp_directive_content_action (*handle)(struct mmparse*, struct mmp_directive_content_data*);
+	enum mmp_dir_content_action (*handle)(struct mmparse*, struct mmp_dir_content_data*);
 };
 
 enum mmp_mode_line_parsing {
@@ -77,7 +77,7 @@ struct mmp_mode {
 	write (to a buffer whos contents will be put) at the directive's closing mark position.
 	This may use function 'mmparse_allocate_placeholder' to create a placeholder.
 	*/
-	enum mmp_directive_content_action (*directive)(struct mmparse*, struct mmp_directive_content_data*);
+	enum mmp_dir_content_action (*directive)(struct mmparse*, struct mmp_dir_content_data*);
 	char *name;
 	enum mmp_mode_line_parsing parse_lines;
 };
@@ -118,7 +118,7 @@ struct mmp_config {
 	/**last entry must be NULL, first entry will be active when starting*/
 	struct mmp_mode **modes;
 	/**last entry's name and cb must be NULL*/
-	struct mmp_directive_handler *directive_handlers;
+	struct mmp_dir_handler *directive_handlers;
 	/**see docs of the 'mmparse' function to see how to use the output data*/
 	struct {
 		/**primary output buffer to be written to, this should be the largest*/
@@ -164,7 +164,7 @@ struct mmparse {
 		unsigned char num_close_marks;
 		int close_mark_positions[MMPARSE_MAX_DIRECTIVES];
 		unsigned char num_directives;
-		struct mmp_directive directives[MMPARSE_MAX_DIRECTIVES];
+		struct mmp_dir directives[MMPARSE_MAX_DIRECTIVES];
 		/**value to set for 'struct placeholder.offset' when allocating a placeholder*/
 		int next_placeholder_offset;
 		/**Length of string in 'line' buffer.*/
@@ -285,7 +285,7 @@ static
 void mmparse_read_directives(struct mmparse *mm)
 {
 	int dir_name_len, arg_name_len, arg_val_len;
-	struct mmp_directive *dir;
+	struct mmp_dir *dir;
 	char c, val_uses_quotes;
 
 next_directive:
@@ -438,10 +438,10 @@ donewith:
 static
 void mmparse_expand_line(struct mmparse *mm)
 {
-	static struct mmp_directive_content_data dir_data;
+	static struct mmp_dir_content_data dir_data;
 
 	int open_pos, close_pos, open_idx, close_idx, len, raw_pos, raw_line_len;
-	enum mmp_directive_content_action eat_contents;
+	enum mmp_dir_content_action eat_contents;
 	char *raw_line;
 
 	open_idx = 0;
@@ -653,7 +653,7 @@ struct mmp_placeholder* mmparse_allocate_placeholder(struct mmparse *mm, void (*
 	return ph;
 }
 /*jeanine:p:i:1;p:8;a:t;x:143.93;*/
-void mmparse_print_tag_with_directives(struct mmparse *mm, struct mmp_directive *dir, char *tagclose)
+void mmparse_print_tag_with_directives(struct mmparse *mm, struct mmp_dir *dir, char *tagclose)
 {
 	static char tmp[MMPARSE_LINE_RAW_MAX_LEN];
 
@@ -682,7 +682,7 @@ int mmparse_cb_mode_nop_println(struct mmparse *mm)
 }
 /*jeanine:p:i:19;p:8;a:r;x:19.44;y:50.31;*/
 static
-enum mmp_directive_content_action mmparse_cb_mode_nop_directive(struct mmparse *mm, struct mmp_directive_content_data *data)
+enum mmp_dir_content_action mmparse_cb_mode_nop_directive(struct mmparse *mm, struct mmp_dir_content_data *data)
 {
 	return LEAVE_CONTENTS;
 }
@@ -700,11 +700,11 @@ int mmparse_cb_mode_normal_println(struct mmparse *mm)
 }
 /*jeanine:p:i:10;p:8;a:r;x:19.67;y:4.63;*/
 static
-enum mmp_directive_content_action mmparse_cb_mode_normal_directive(mm, data)
+enum mmp_dir_content_action mmparse_cb_mode_normal_directive(mm, data)
 	struct mmparse *mm;
-	struct mmp_directive_content_data *data;
+	struct mmp_dir_content_data *data;
 {
-	struct mmp_directive_handler *handler;
+	struct mmp_dir_handler *handler;
 
 	for (handler = mm->config.directive_handlers; handler->name; handler++) {
 		if (!strcmp(data->directive->name, handler->name)) {
