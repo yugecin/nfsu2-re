@@ -225,6 +225,7 @@ void mmparse_append_to_expanded_line(struct mmparse *mm, char *from, int len)
 	memcpy(mm->pd.line + mm->pd.line_len, from, len);
 	mm->pd.line_len += len;
 	mm->pd.line[mm->pd.line_len] = 0;
+	mm->pd.next_placeholder_offset += len;
 }
 /*jeanine:p:i:13;p:6;a:b;y:1.88;*/
 void mmparse_append_to_main_output(struct mmparse *mm, char *from, int len)
