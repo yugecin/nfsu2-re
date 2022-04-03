@@ -212,7 +212,7 @@ void docgen_free_tmpbuf(struct docgen_tmpbuf *buf)
 {
 	buf->used = 0;
 }
-/*jeanine:p:i:12;p:11;a:r;x:39.37;y:-103.42;*/
+/*jeanine:p:i:12;p:11;a:r;x:70.62;y:-79.59;*/
 /**
 @param tmpbuf might get swapped with a different buffer
 @return nonzero if there were unknown structs/enums
@@ -293,53 +293,55 @@ int docgen_link_structs_enums(struct docgen *dg, struct docgen_tmpbuf **tmpbuf)
 	}
 	return hasunknown;
 }
-/*jeanine:p:i:1;p:7;a:r;x:11.11;y:-65.00;*/
+/*jeanine:p:i:1;p:24;a:r;x:17.96;y:9.75;*/
+static
+void docgen_readfile(char *path, char **buf, int *length)
+{
+	register int size;
+	FILE *in;
+
+	in = fopen(path, "rb");
+	if (!in) {
+		fprintf(stderr, "failed to open file %s for reading", path);
+		assert(0);
+	}
+	fseek(in, 0l, SEEK_END);
+	size = *length = ftell(in);
+	rewind(in);
+	assert((*buf = (char*) malloc(size)));
+	fread(*buf, size, 1, in);
+	fclose(in);
+}
+/*jeanine:p:i:24;p:25;a:r;x:7.80;y:-20.07;*/
 static
 void docgen_parseidc(struct idcparse *idcp)
 {
-	FILE *in;
 	char *buf;
-	int size;
+	int length;
 
-	in = fopen(IDCPATH, "rb");
-	assert(((void)"failed to open file "IDCPATH" for reading", in));
-	fseek(in, 0l, SEEK_END);
-	size = ftell(in);
-	rewind(in);
-	buf = (char*) malloc(size);
-	assert(buf);
-	fread(buf, size, 1, in);
-	fclose(in);
-	if (size > 2 && buf[0] == (char) 0xEF) {
+	docgen_readfile(IDCPATH, &buf, &length);/*jeanine:r:i:1;*/
+	if (length > 2 && buf[0] == (char) 0xEF) {
 		/*assume UTF8 BOM*/
-		idcparse(idcp, buf + 3, size - 3);
+		idcparse(idcp, buf + 3, length - 3);
 	} else {
-		idcparse(idcp, buf, size);
+		idcparse(idcp, buf, length);
 	}
 	FREE(buf);
 }
-/*jeanine:p:i:8;p:7;a:r;x:11.11;y:-40.00;*/
+/*jeanine:p:i:8;p:25;a:r;x:7.71;y:-3.05;*/
 static
 char* docgen_readcss()
 {
 	char *buf, *a, *b, *end;
 	register char c;
-	int size;
-	FILE *in;
+	int length;
 
-	in = fopen("style.css", "rb");
-	assert(((void)"failed to open file style.css for reading", in));
-	fseek(in, 0l, SEEK_END);
-	size = ftell(in);
-	rewind(in);
-	buf = (char*) malloc(size);
-	assert(buf);
-	fread(buf, size, 1, in);
+	docgen_readfile("style.css", &buf, &length);/*jeanine:s:a:r;i:1;*/
 	a = b = buf;
-	end = buf + size;
+	end = buf + length;
 	while (b != end) {
 		c = *b;
-		if (c != '\n' && c != '\t') {
+		if (c != '\t') {
 			if (!c) {
 				break;
 			}
@@ -349,10 +351,9 @@ char* docgen_readcss()
 		b++;
 	}
 	*a = 0;
-	fclose(in);
 	return buf;
 }
-/*jeanine:p:i:15;p:7;a:r;x:11.11;y:-18.00;*/
+/*jeanine:p:i:15;p:25;a:r;x:7.69;y:10.62;*/
 static
 int docgen_func_sort_compar(const void *_a, const void *_b)
 {
@@ -436,7 +437,7 @@ void docgen_gen_func_signature(struct docgen_tmpbuf **signaturebuf, struct docge
 		printf("warn: func '%X %s' references an unknown struct/enum\n", func->addr, func->name);
 	}
 }
-/*jeanine:p:i:17;p:7;a:r;x:11.11;y:-19.00;*/
+/*jeanine:p:i:17;p:25;a:r;x:11.11;y:-19.00;*/
 static
 void docgen_print_func(FILE *f, struct docgen *dg, struct docgen_funcinfo *funcinfo, struct idcp_stuff *func)
 {
@@ -456,7 +457,7 @@ void docgen_print_func(FILE *f, struct docgen *dg, struct docgen_funcinfo *funci
 		fprintf(f, "<p>%s</p>\n", func->rep_comment);
 	}
 }
-/*jeanine:p:i:4;p:7;a:r;x:11.11;y:-16.00;*/
+/*jeanine:p:i:4;p:25;a:r;x:7.05;y:14.56;*/
 static
 int docgen_struct_sort_compar(const void *_a, const void *_b)
 {
@@ -465,7 +466,7 @@ int docgen_struct_sort_compar(const void *_a, const void *_b)
 
 	return docgen_stricmp(a->name, b->name);
 }
-/*jeanine:p:i:9;p:11;a:r;x:39.11;y:-13.00;*/
+/*jeanine:p:i:9;p:11;a:r;x:70.36;y:9.66;*/
 static
 void docgen_format_struct_member_typeandname_when_enum(char *buf, struct idcparse *idcp, struct idcp_struct_member *mem)
 {
@@ -477,7 +478,7 @@ void docgen_format_struct_member_typeandname_when_enum(char *buf, struct idcpars
 	en = idcp->enums + mem->typeid;
 	buf += sprintf(buf, "<a href='enums.html#enum_%s'>enum %s</a> %s", en->name, en->name, mem->name);
 }
-/*jeanine:p:i:13;p:11;a:r;x:38.67;y:-0.50;*/
+/*jeanine:p:i:13;p:11;a:r;x:70.61;y:23.33;*/
 static
 void docgen_format_struct_member_typeandname_when_struct(char *buf, struct idcparse *idcp, struct idcp_struct_member *mem)
 {
@@ -498,7 +499,7 @@ void docgen_format_struct_member_typeandname_when_struct(char *buf, struct idcpa
 		sprintf(buf, "[%d]", mem->nbytes / struc_size);
 	}
 }
-/*jeanine:p:i:10;p:11;a:r;x:37.78;y:22.25;*/
+/*jeanine:p:i:10;p:11;a:r;x:69.72;y:45.30;*/
 static
 void docgen_format_struct_member_typeandname_when_type(char *buf, struct idcp_struct_member *mem)
 {
@@ -611,7 +612,7 @@ yesplaceholder:
 	}
 	docgen_free_tmpbuf(typeandname);
 }
-/*jeanine:p:i:5;p:7;a:r;x:11.11;y:-17.00;*/
+/*jeanine:p:i:5;p:25;a:r;x:11.11;y:-17.00;*/
 static
 void docgen_print_struct(FILE *f, struct docgen *dg, struct docgen_structinfo *structinfo, struct idcp_struct *struc)
 {
@@ -665,7 +666,7 @@ void docgen_print_struct(FILE *f, struct docgen *dg, struct docgen_structinfo *s
 		fprintf(f, "</ul>");
 	}
 }
-/*jeanine:p:i:22;p:7;a:r;x:11.11;y:27.00;*/
+/*jeanine:p:i:22;p:25;a:r;x:11.11;y:27.00;*/
 static
 void docgen_print_enum(FILE *f, struct docgen *dg, struct docgen_enuminfo *enuminfo, struct idcp_enum *enu)
 {
@@ -701,7 +702,7 @@ void docgen_print_enum(FILE *f, struct docgen *dg, struct docgen_enuminfo *enumi
 		fprintf(f, "<p>%s</p>", enu->rep_comment);
 	}
 }
-/*jeanine:p:i:21;p:7;a:r;x:11.11;y:-13.00;*/
+/*jeanine:p:i:21;p:25;a:r;x:6.65;y:18.06;*/
 static
 int docgen_enum_sort_compar(const void *_a, const void *_b)
 {
@@ -710,7 +711,7 @@ int docgen_enum_sort_compar(const void *_a, const void *_b)
 
 	return docgen_stricmp(a->name, b->name);
 }
-/*jeanine:p:i:23;p:7;a:r;x:10.27;y:50.29;*/
+/*jeanine:p:i:23;p:25;a:r;x:10.27;y:50.29;*/
 static
 void docgen_print_data(FILE *f, struct docgen *dg, struct docgen_datainfo *datainfo, struct idcp_stuff *data)
 {
@@ -768,22 +769,327 @@ void docgen_print_data(FILE *f, struct docgen *dg, struct docgen_datainfo *datai
 		fprintf(f, "<p>%s</p>", data->rep_comment);
 	}
 }
-/*jeanine:p:i:7;p:0;a:b;x:123.13;y:12.13;*/
+/*jeanine:p:i:7;p:0;a:t;x:99.22;y:-152.30;*/
+#include "mmparse.c"
+
+struct docgen_mmparse_index_entry {
+	int level;
+	char name_len;
+	char name[50];
+	char id_len;
+	char id[30];
+};
+
+struct docgen_mmparse_userdata {
+	struct {
+		int num_entries;
+		struct docgen_mmparse_index_entry entries[50];
+	} index;
+	/**To prevent two or more 'index' links when multiple sections close after each other.*/
+	char section_needs_index_link_at_bottom;
+};
+/*jeanine:p:i:32;p:30;a:r;x:3.33;*/
+static
+void mmparse_cb_placeholder_section_breadcrumbs(struct mmparse *mm, struct mmp_output_part *output, void *data, int data_size)
+{
+	struct docgen_mmparse_index_entry *entry;
+	struct docgen_mmparse_userdata *ud;
+	int entry_idx, level;
+
+	ud = mm->config.userdata;
+	entry_idx = *((int*) data);
+	entry = ud->index.entries + entry_idx;
+	mmparse_append_to_placeholder_output(mm, output, "<p id='", 7);
+	mmparse_append_to_placeholder_output(mm, output, entry->id, entry->id_len);
+	mmparse_append_to_placeholder_output(mm, output, "'><small>", 9);
+	level = entry->level;
+	while (level--) {
+		while ((--entry)->level != level);
+		mmparse_append_to_placeholder_output(mm, output, "<a href='#", 10);
+		mmparse_append_to_placeholder_output(mm, output, entry->id, entry->id_len);
+		mmparse_append_to_placeholder_output(mm, output, "'>", 2);
+		mmparse_append_to_placeholder_output(mm, output, entry->name, entry->name_len);
+		mmparse_append_to_placeholder_output(mm, output, "</a> > ", 7);
+		entry = ud->index.entries + entry_idx;
+	}
+	mmparse_append_to_placeholder_output(mm, output, entry->name, entry->name_len);
+	mmparse_append_to_placeholder_output(mm, output, "</small></p>", 12);
+}
+/*jeanine:p:i:28;p:30;a:r;x:5.33;y:-12.62;*/
+static
+void mmparse_cb_mode_section_start(struct mmparse *mm)
+{
+	mmparse_append_to_main_output(mm, "<div>", 5);
+}
+/*jeanine:p:i:33;p:30;a:r;x:5.44;y:-5.38;*/
+static
+int mmparse_cb_mode_section_println(struct mmparse *mm)
+{
+	struct docgen_mmparse_userdata *ud;
+
+	ud = mm->config.userdata;
+	ud->section_needs_index_link_at_bottom = 1;
+	return mmparse_cb_mode_normal_println(mm);
+}
+/*jeanine:p:i:29;p:30;a:r;x:5.33;y:5.99;*/
+static
+void mmparse_cb_mode_section_end(struct mmparse *mm)
+{
+	struct docgen_mmparse_userdata *ud;
+
+	ud = mm->config.userdata;
+	if (ud->section_needs_index_link_at_bottom) {
+		ud->section_needs_index_link_at_bottom = 0;
+		mmparse_append_to_main_output(mm, "<p><small><a href='#index'>Index</a></small></p></div>", 54);
+	} else {
+		mmparse_append_to_main_output(mm, "</div>", 6);
+	}
+}
+/*jeanine:p:i:26;p:30;a:r;x:3.33;*/
+static
+void mmparse_cb_placeholder_index(struct mmparse *mm, struct mmp_output_part *output, void *data, int data_size)
+{
+	struct docgen_mmparse_index_entry *entry;
+	struct docgen_mmparse_userdata *ud;
+	int i, level, last_level;
+
+	last_level = 0;
+	ud = mm->config.userdata;
+	mmparse_append_to_placeholder_output(mm, output, "<ul>\n", 5);
+	for (i = 0, entry = ud->index.entries;; i++, entry++) {
+		level = i < ud->index.num_entries ? entry->level : 0;
+		if (level > last_level) {
+			while (level > last_level++) {
+				mmparse_append_to_placeholder_output(mm, output, "\n<ul>\n", 6);
+			}
+		} else if (level < last_level) {
+			while (level < last_level--) {
+				mmparse_append_to_placeholder_output(mm, output, "</li>\n</ul>\n", 12);
+			}
+			mmparse_append_to_placeholder_output(mm, output, "</li>\n", 6);
+		} else if (i) {
+			mmparse_append_to_placeholder_output(mm, output, "</li>\n", 6);
+		}
+		if (i >= ud->index.num_entries) {
+			break;
+		}
+		last_level = level;
+		mmparse_append_to_placeholder_output(mm, output, "<li><a href='#", 14);
+		mmparse_append_to_placeholder_output(mm, output, entry->id, entry->id_len);
+		mmparse_append_to_placeholder_output(mm, output, "'>", 2);
+		mmparse_append_to_placeholder_output(mm, output, entry->name, entry->name_len);
+		mmparse_append_to_placeholder_output(mm, output, "</a>", 4);
+	}
+	mmparse_append_to_placeholder_output(mm, output, "</ul>\n", 6);
+}
+/*jeanine:p:i:31;p:30;a:r;x:3.22;*/
+static
+void mmparse_cb_placeholder_href(struct mmparse *mm, struct mmp_output_part *output, void *data, int data_size)
+{
+	struct docgen_mmparse_index_entry *entry;
+	struct docgen_mmparse_userdata *ud;
+	char *ref_id;
+	int i;
+
+	ref_id = data;
+	ud = mm->config.userdata;
+	for (i = ud->index.num_entries, entry = ud->index.entries; i; i--, entry++) {
+		if (!strcmp(entry->id, ref_id)) {
+			mmparse_append_to_placeholder_output(mm, output, "<a href='#", 10);
+			mmparse_append_to_placeholder_output(mm, output, entry->id, entry->id_len);
+			mmparse_append_to_placeholder_output(mm, output, "'>", 2);
+			mmparse_append_to_placeholder_output(mm, output, entry->name, entry->name_len);
+			mmparse_append_to_placeholder_output(mm, output, "</a>", 4);
+			return;
+		}
+	}
+	mmparse_failmsgf(mm, "cannot find a header with id '%s'", ref_id);
+	assert(0);
+}
+/*jeanine:p:i:30;p:7;a:b;y:1.88;*/
+struct mmp_mode mmparse_mode_symbols = {
+	mmparse_cb_mode_nop_start_end,
+	mmparse_cb_mode_normal_println,
+	mmparse_cb_mode_nop_start_end,
+	mmparse_cb_mode_normal_directive,
+	"symbols",
+	MMPARSE_DO_PARSE_LINES
+};
+struct mmp_mode mmparse_mode_pre = {
+	mmparse_cb_mode_nop_start_end,
+	mmparse_cb_mode_normal_println,
+	mmparse_cb_mode_nop_start_end,
+	mmparse_cb_mode_normal_directive,
+	"pre",
+	MMPARSE_DO_PARSE_LINES
+};
+struct mmp_mode mmparse_mode_ul = {
+	mmparse_cb_mode_nop_start_end,
+	mmparse_cb_mode_normal_println,
+	mmparse_cb_mode_nop_start_end,
+	mmparse_cb_mode_normal_directive,
+	"ul",
+	MMPARSE_DO_PARSE_LINES
+};
+struct mmp_mode mmparse_mode_ida = {
+	mmparse_cb_mode_nop_start_end,
+	mmparse_cb_mode_normal_println,
+	mmparse_cb_mode_nop_start_end,
+	mmparse_cb_mode_normal_directive,
+	"ida",
+	MMPARSE_DO_PARSE_LINES
+};
+struct mmp_mode mmparse_mode_section = {
+	mmparse_cb_mode_section_start,/*jeanine:r:i:28;*/
+	mmparse_cb_mode_section_println,/*jeanine:r:i:33;*/
+	mmparse_cb_mode_section_end,/*jeanine:r:i:29;*/
+	mmparse_cb_mode_normal_directive,
+	"section",
+	MMPARSE_DO_PARSE_LINES
+};
+
+static
+struct mmp_dir_arg *mmparse_find_directive_argument(struct mmp_dir *dir, char *name)
+{
+	register int i;
+
+	for (i = 0; i < dir->argc; i++) {
+		if (!strcmp(dir->args[i].name, name)) {
+			return dir->args + i;
+		}
+	}
+	return NULL;
+}
+
+/**
+Aborts if argument not found.
+*/
+static
+struct mmp_dir_arg *mmparse_require_directive_argument(struct mmparse *mm, struct mmp_dir *dir, char *name)
+{
+	struct mmp_dir_arg *arg;
+
+	arg = mmparse_find_directive_argument(dir, name);
+	if (!arg) {
+		mmparse_failmsgf(mm, "required argument '%s' not present on directive '%s'", name, dir->name);
+		assert(0);
+	}
+	return arg;
+}
+
+static
+enum mmp_dir_content_action mmparse_dir_href(struct mmparse *mm, struct mmp_dir_content_data *data)
+{
+	struct mmp_placeholder *ph;
+
+	ph = mmparse_allocate_placeholder(mm, mmparse_cb_placeholder_href, data->content_len + 1);/*jeanine:r:i:31;*/
+	memcpy(ph->data, data->contents, data->content_len + 1);
+	return DELETE_CONTENTS;
+}
+
+static
+enum mmp_dir_content_action mmparse_dir_h(struct mmparse *mm, struct mmp_dir_content_data *data)
+{
+	struct docgen_mmparse_index_entry *entry;
+	struct docgen_mmparse_userdata *ud;
+	register char *directive_name;
+	struct mmp_dir_arg *id_arg;
+	struct mmp_placeholder *ph;
+	int level, i, id_len;
+
+	ud = mm->config.userdata;
+
+	level = 2;
+	for (i = 0; i < mm->md.num_pushed_modes; i++) {
+		if (mm->md.pushed_modes[i] == &mmparse_mode_section) {
+			level++;
+			if (level >= 6) {
+				break;
+			}
+		}
+	}
+
+	directive_name = data->directive->name;
+	directive_name[1] = '0' + level;
+	directive_name[2] = 0;
+	level -= 2;
+	id_arg = mmparse_require_directive_argument(mm, data->directive, "id");
+	id_len = strlen(id_arg->value);
+	if (level) {
+		id_arg->name[0] = 0; /*make it so the 'id' argument doesn't get printed as attribute*/
+		ph = mmparse_allocate_placeholder(mm, mmparse_cb_placeholder_section_breadcrumbs, 4);/*jeanine:r:i:32;*/
+		*((int*) ph->data) = ud->index.num_entries;
+	}
+
+	mmparse_print_tag_with_directives(mm, data->directive, ">");
+	mmparse_append_to_closing_tag(mm, " <a href='#", 11);
+	mmparse_append_to_closing_tag(mm, id_arg->value, id_len);
+	mmparse_append_to_closing_tag(mm, "'>#</a></", 9);
+	mmparse_append_to_closing_tag(mm, directive_name, 2);
+	mmparse_append_to_closing_tag(mm, ">", 1);
+
+	if (ud->index.num_entries >= sizeof(ud->index.entries)/sizeof(ud->index.entries[0])) {
+		mmparse_failmsg(mm, "increase number of index entries");
+		assert(0);
+	}
+	entry = ud->index.entries + ud->index.num_entries++;
+	entry->level = level;
+	if (data->content_len >= sizeof(ud->index.entries[0].name)) {
+		mmparse_failmsgf(mm, "increase max length of index entry name (need %d)", data->content_len);
+		assert(0);
+	}
+	entry->name_len = data->content_len;
+	memcpy(entry->name, data->contents, data->content_len + 1);
+	if (id_len >= sizeof(ud->index.entries[0].id)) {
+		mmparse_failmsgf(mm, "increase max length of index entry id (need %d)", id_len);
+		assert(0);
+	}
+	entry->id_len = id_len;
+	memcpy(entry->id, id_arg->value, id_len + 1);
+	return LEAVE_CONTENTS;
+}
+
+static
+enum mmp_dir_content_action mmparse_dir_index(struct mmparse *mm, struct mmp_dir_content_data *data)
+{
+	mmparse_allocate_placeholder(mm, mmparse_cb_placeholder_index, 0);/*jeanine:r:i:26;*/
+	return LEAVE_CONTENTS;
+}
+/*jeanine:p:i:25;p:0;a:b;x:123.13;y:12.13;*/
 int main(int argc, char **argv)
 {
-	FILE *f_structs, *f_funcs, *f_enums, *f_datas;
+	struct mmp_dir_handler mmdirectivehandlers[] = {
+		{ "index", mmparse_dir_index },
+		{ "href", mmparse_dir_href },
+		{ "h", mmparse_dir_h },
+		{ NULL, NULL }
+	};
+	struct mmp_mode *mmmodes[] = {
+		&mmparse_mode_normal, /*must be first*/
+		&mmparse_mode_section,
+		&mmparse_mode_symbols,
+		&mmparse_mode_plain,
+		&mmparse_mode_nop,
+		&mmparse_mode_ida,
+		&mmparse_mode_pre,
+		&mmparse_mode_ul,
+		NULL
+	};
+	FILE *f_structs, *f_funcs, *f_enums, *f_datas, *f_index;
 	struct docgen_structinfo *structinfo;
 	struct docgen_datainfo *datainfo;
 	struct docgen_enuminfo *enuminfo;
 	struct docgen_funcinfo *funcinfo;
+	struct mmp_output_part *mmpart;
 	char *css, *name, *header;
 	struct idcparse *idcp;
+	struct mmparse *mm;
 	struct docgen *dg;
 	int i, j;
 
 	idcp = malloc(sizeof(struct idcparse));
 	assert(((void)"failed to malloc for idcparse", idcp));
-	docgen_parseidc(idcp);/*jeanine:r:i:1;*/
+	docgen_parseidc(idcp);/*jeanine:r:i:24;*/
 
 	css = docgen_readcss();/*jeanine:r:i:8;*/
 
@@ -829,14 +1135,53 @@ int main(int argc, char **argv)
 		}
 	}
 
-	header = "<header><h1>nfsu2-re</h1><p><a href='https://github.com/yugecin/nfsu2-re'>https://github.com/yugecin/nfsu2-re</a></p>"
-		"<nav><a href='index.html'>Home</a> "
-		"<a href='funcs.html' class='func'>functions</a> "
-		"<a href='structs.html' class='struc'>structs</a> "
-		"<a href='enums.html' class='enum'>enums</a> "
-		"<a href='vars.html' class='var'>variables</a> "
-		"<a href='cheatsheet.html'>cheatsheet</a> "
-		"</nav></header>";
+	header = "<header>\n"
+		"<h1>nfsu2-re</h1>\n"
+		"<p><a href='https://github.com/yugecin/nfsu2-re'>https://github.com/yugecin/nfsu2-re</a></p>\n"
+		"<nav><a href='index.html'>Home</a>\n"
+		"<a href='funcs.html' class='func'>functions</a>\n"
+		"<a href='structs.html' class='struc'>structs</a>\n"
+		"<a href='enums.html' class='enum'>enums</a>\n"
+		"<a href='vars.html' class='var'>variables</a>\n"
+		"<a href='cheatsheet.html'>cheatsheet</a></nav>\n"
+		"</header>\n";
+
+	/*mmparse things*/
+	mm = malloc(sizeof(struct mmparse));
+	assert(((void)"failed to malloc for mm", mm));
+	docgen_readfile(mm->config.debug_subject = "index-source.txt", &mm->config.source, &mm->config.source_len);
+	mm->config.directive_handlers = mmdirectivehandlers;
+	mm->config.modes = mmmodes;
+	assert((mm->config.userdata = calloc(1, sizeof(struct docgen_mmparse_userdata))));
+	assert((mm->config.dest.data0 = malloc(
+		(mm->config.dest.data0_len = 1000000) +
+		(mm->config.dest.data1_len = 10000) +
+		(mm->config.dest.data2_len = 40000) +
+		(mm->config.dest.data3_len = 10000)
+	)));
+	mm->config.dest.data1 = mm->config.dest.data0 + mm->config.dest.data0_len;
+	mm->config.dest.data2 = mm->config.dest.data1 + mm->config.dest.data1_len;
+	mm->config.dest.data3 = mm->config.dest.data2 + mm->config.dest.data2_len;
+	mmparse(mm);
+	mmparse_process_placeholders(mm);
+	f_index = fopen("index.html", "wb");
+	assert(((void)"failed to open file index.html for writing", f_index));
+	fprintf(f_index,
+		"%s%s%s%s%s",
+		"<!DOCTYPE html><html lang='en'><head><meta charset='utf-8'/><title>nfsu2-re</title><style>",
+		css,
+		"</style></head><body>",
+		header,
+		"<div class='mm'>\n"
+	);
+	for (mmpart = mm->output; mmpart->data0; mmpart++) {
+		fwrite(mmpart->data0, mmpart->data0_len, 1, f_index);
+		fflush(f_index);
+		fwrite(mmpart->data1, mmpart->data1_len, 1, f_index);
+		fflush(f_index);
+	}
+	fprintf(f_index, "%s", "\n</div></body></html>");
+	fclose(f_index);
 
 	/*funcs*/
 	f_funcs = fopen("funcs.html", "wb");

@@ -10,6 +10,7 @@ body > div {
 	border: 1px solid #efefef;
 	padding: 0 1em;
 	margin: 1em auto;
+	max-width: 60em;
 }
 h1 {
 	margin: .3em;
@@ -20,9 +21,7 @@ header {
 }
 nav {
 	line-height: 2em;
-}
-body > div {
-	max-width: 60em;
+	margin: 1em 0;
 }
 nav a {
 	padding: .2em .5em;
@@ -131,4 +130,24 @@ body > div > pre > span {
 	margin-left: 5em; /*why 5 and not 8?*/
 	/*so doccomments on their own don't cause scrollbars*/
 	white-space: pre-wrap;
+}
+a.ext::after {
+	display: inline-block;
+	content: '';
+	width: 12px;
+	height: 12px;
+	background: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAAMAgMAAAArG7R0AAAABGdBTUEAALGPC/xhBQAAAAFzUkdCAK7OHOkAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAAJUExURUdwTAD/AAAA//ENIZIAAAABdFJOUwBA5thmAAAAL0lEQVQI12NggAFRBwaG0AQGptAVDFwzsxi4Zq1k4JqaCcZMU1cwMCxbwMCg1QAArE8JoyhJwYoAAAAASUVORK5CYII=') no-repeat;
+}
+div.mm div {
+	margin: 3em 0;
+	padding-left: 1em;
+	border-left: 3px ridge #666;
+}
+code {
+	background: #dfdfdf;
+	padding: 0 .2em;
+	border-radius: 3px;
+}
+div.mm h2 a, div.mm h3 a, div.mm h4 a, div.mm h5 a, div.mm h6 a {
+	color: #A0A0A0;
 }
