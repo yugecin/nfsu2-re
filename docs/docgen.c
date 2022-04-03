@@ -785,8 +785,12 @@ struct docgen_mmparse_userdata {
 		int num_entries;
 		struct docgen_mmparse_index_entry entries[50];
 	} index;
-	/**To prevent two or more 'index' links when multiple sections close after each other.*/
-	char section_needs_index_link_at_bottom;
+	struct {
+		/**To prevent two or more 'index' links when multiple sections close after each other.*/
+		char needs_index_link_at_bottom;
+		char has_p;
+		char should_open_p;
+	} section;
 };
 /*jeanine:p:i:32;p:30;a:r;x:3.33;*/
 static
@@ -815,31 +819,75 @@ void mmparse_cb_placeholder_section_breadcrumbs(struct mmparse *mm, struct mmp_o
 	mmparse_append_to_placeholder_output(mm, output, entry->name, entry->name_len);
 	mmparse_append_to_placeholder_output(mm, output, "</small></p>", 12);
 }
-/*jeanine:p:i:28;p:30;a:r;x:5.33;y:-12.62;*/
+/*jeanine:p:i:28;p:30;a:r;x:5.44;y:-26.62;*/
 static
 void mmparse_cb_mode_section_start(struct mmparse *mm)
-{
-	mmparse_append_to_main_output(mm, "<div>", 5);
-}
-/*jeanine:p:i:33;p:30;a:r;x:5.44;y:-5.38;*/
-static
-int mmparse_cb_mode_section_println(struct mmparse *mm)
 {
 	struct docgen_mmparse_userdata *ud;
 
 	ud = mm->config.userdata;
-	ud->section_needs_index_link_at_bottom = 1;
-	return mmparse_cb_mode_normal_println(mm);
+	ud->section.should_open_p = 1;
+	mmparse_append_to_main_output(mm, "<div>", 5);
 }
-/*jeanine:p:i:29;p:30;a:r;x:5.33;y:5.99;*/
+/*jeanine:p:i:34;p:33;a:r;x:37.56;*/
+static
+int docgen_line_can_have_paragraph(struct mmparse *mm)
+{
+	register char *tag;
+
+	if (mm->pd.line[0] != '<') {
+		return 1;
+	}
+	tag = mm->pd.line + 1;
+	if (*tag == '/') {
+		tag++;
+	}
+	return *tag != 'h' && *tag != 'p' &&
+		strncmp(tag, "details", 7) &&
+		strncmp(tag, "table", 5) &&
+		strncmp(tag, "ul", 2);
+}
+/*jeanine:p:i:33;p:30;a:r;x:5.44;y:-15.00;*/
+static
+int mmparse_cb_mode_section_println(struct mmparse *mm)
+{
+	struct docgen_mmparse_userdata *ud;
+	char is_empty_line;
+	char extra_offset;
+
+	ud = mm->config.userdata;
+	ud->section.needs_index_link_at_bottom = 1;
+
+	extra_offset = 0;
+	is_empty_line = !mm->pd.line_len;
+	if (is_empty_line) {
+		if (ud->section.has_p) {
+			ud->section.has_p = 0;
+			extra_offset = 4;
+			mmparse_append_to_main_output(mm, "</p>", 4);
+		}
+		ud->section.should_open_p = 1;
+	} else {
+		if (ud->section.should_open_p) {
+			ud->section.should_open_p = 0;
+			if (docgen_line_can_have_paragraph(mm)) {/*jeanine:r:i:34;*/
+				ud->section.has_p = 1;
+				extra_offset = 3;
+				mmparse_append_to_main_output(mm, "<p>", 3);
+			}
+		}
+	}
+	return extra_offset + mmparse_cb_mode_normal_println(mm);
+}
+/*jeanine:p:i:29;p:30;a:r;x:5.55;y:18.36;*/
 static
 void mmparse_cb_mode_section_end(struct mmparse *mm)
 {
 	struct docgen_mmparse_userdata *ud;
 
 	ud = mm->config.userdata;
-	if (ud->section_needs_index_link_at_bottom) {
-		ud->section_needs_index_link_at_bottom = 0;
+	if (ud->section.needs_index_link_at_bottom) {
+		ud->section.needs_index_link_at_bottom = 0;
 		mmparse_append_to_main_output(mm, "<p><small><a href='#index'>Index</a></small></p></div>", 54);
 	} else {
 		mmparse_append_to_main_output(mm, "</div>", 6);
