@@ -1113,6 +1113,7 @@ int main(int argc, char **argv)
 	for (i = 0; i < idcp->num_structs; i++) {
 		dg->structinfos[i].struc = idcp->structs + i;
 		dg->structinfos[i].name_len = strlen(idcp->structs[i].name);
+		dg->structinfos[i].is_class = 0;
 	}
 	dg->num_structinfos = idcp->num_structs;
 	qsort((void*) dg->structinfos, dg->num_structinfos, sizeof(struct docgen_structinfo), docgen_struct_sort_compar);/*jeanine:r:i:4;*/
