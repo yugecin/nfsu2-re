@@ -1075,17 +1075,17 @@ int main(int argc, char **argv)
 		&mmparse_mode_ul,
 		NULL
 	};
-	FILE *f_structs, *f_funcs, *f_enums, *f_datas, *f_index;
+	FILE *f_structs, *f_funcs, *f_enums, *f_datas, *f_index, *f_cheatsheet;
+	char *css, *name, *header, *cheatsheet;
 	struct docgen_structinfo *structinfo;
 	struct docgen_datainfo *datainfo;
 	struct docgen_enuminfo *enuminfo;
 	struct docgen_funcinfo *funcinfo;
 	struct mmp_output_part *mmpart;
-	char *css, *name, *header;
 	struct idcparse *idcp;
 	struct mmparse *mm;
 	struct docgen *dg;
-	int i, j;
+	int i, j, cheatsheet_len;
 
 	idcp = malloc(sizeof(struct idcparse));
 	assert(((void)"failed to malloc for idcparse", idcp));
@@ -1182,6 +1182,22 @@ int main(int argc, char **argv)
 	}
 	fprintf(f_index, "%s", "\n</div></body></html>");
 	fclose(f_index);
+
+	/*cheatsheet*/
+	f_cheatsheet = fopen("cheatsheet.html", "wb");
+	assert(((void)"failed to open file cheatsheet.html for writing", f_cheatsheet));
+	docgen_readfile("cheatsheet-bare.html", &cheatsheet, &cheatsheet_len);
+	fprintf(f_cheatsheet,
+		"%s%s%s%s%s",
+		"<!DOCTYPE html><html lang='en'><head><meta charset='utf-8'/><title>nfsu2-re/cheatsheet</title><style>",
+		css,
+		"</style></head><body>",
+		header,
+		"<div>\n"
+	);
+	fwrite(cheatsheet, cheatsheet_len, 1, f_cheatsheet);
+	fprintf(f_cheatsheet, "%s", "\n</div></body></html>");
+	fclose(f_cheatsheet);
 
 	/*funcs*/
 	f_funcs = fopen("funcs.html", "wb");
