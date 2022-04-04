@@ -522,9 +522,17 @@ parse_chartype_token:
 		}
 		/*string*/
 		else if (c == '"') {
-			token = idcp_get_next_token(idcp);
-			token->type = IDCP_TOKENTYPE_STRING;
-			token->data.string.value = tmp_str_ptr = idcp->token_str_pool_ptr;
+			if (idcp->num_tokens && idcp->tokens[idcp->num_tokens - 1].type == IDCP_TOKENTYPE_STRING) {
+				/*Two strings following each other, combine the second value into the first token and
+				handle it as one token.*/
+				tmp_str_ptr = idcp->token_str_pool_ptr - 1; /*-1 to remove last zero term*/
+				idcp->token_str_pool_ptr--; /*because we just removed the last zero term*/
+			} else {
+				token = idcp_get_next_token(idcp);
+				token->type = IDCP_TOKENTYPE_STRING;
+				token->data.string.value = tmp_str_ptr = idcp->token_str_pool_ptr;
+				token->data.string.value_len = 0;
+			}
 			for (;;) {
 				assert(((void)"EOF while string is open", charsleft));
 				c = *chars;
@@ -547,7 +555,7 @@ parse_chartype_token:
 			}
 			*tmp_str_ptr = 0;
 			idcp->token_str_pool_ptr = tmp_str_ptr + 1;
-			token->data.string.value_len = tmp_str_ptr - token->data.string.value;
+			token->data.string.value_len += tmp_str_ptr - token->data.string.value;
 			idcp_dprintf5("%d: T_STRING '%s'\n", idcp->num_lines, token->data.string.value);
 		}
 		else if (c == '(') {
