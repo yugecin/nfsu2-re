@@ -579,7 +579,7 @@ void mmparse_read_line(struct mmparse *mm)
 		if (c == mm->pd.ctrlchar_open) {
 			if (last_char == '\\') {
 				last_char = 0;
-				line_len--;
+				line[line_len - 1] = c;
 				continue;
 			}
 			mm->pd.open_mark_positions[mm->pd.num_open_marks++] = line_len;
