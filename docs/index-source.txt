@@ -38,163 +38,69 @@ Display settings get saved in the windows registry. See {registry}.             
 TODO. I was writing this when I got distracted by the language stuff.
 
 .pushmode symbols
-- {5BE190 void StoreOptLightGlowSetToZero()}                                                    ||| func
-  .pushmode pre
-  {8709D4} = {870CE4};                                                                          ||| refplain,refplain
-  {870CE4} = 0;                                                                                 ||| refplain
-  .popmode pre
-  TODO why
-
-- {5BE1B0 void RestoreOptLightGlow()}                                                           ||| func
-  .pushmode pre
-  {870CE4} = {8709D4};                                                                          ||| refplain,refplain
-  .popmode pre
-  TODO why
-
-- {5BE1C0 int GetWorldDetailClampBetween0And2()}                                                ||| func
-  .pushmode pre
-  return clamp({870CF4}, 0, 2);                                                                 ||| refplain
-  .popmode pre
-
-- {5BE560 int GetRealFilteringLevelForCurrentSetting()}                                         ||| func
-  Returns {{870D18}+1} ({0-2 -> 1-3}), but maxed to {2} if the device doesn't have              ||| code,refplain,code,code
-  {D3DDEVCAPS_RTPATCHES} support.                                                               ||| code
-
-- {5BE200 void DetermineMaxDisplaySettingValuesForDevice()}                                     ||| func
-  Sets maximum values of various options based on the adapter info in {86C120}.                 ||| ref
-  See all {_optMax*} fields.                                                                    ||| code
-  Also seems to do stuff with shaders maybe? TODO
-  Called twice. TODO: where and why
-
-- {5BE5A0 void DetermineSupportedResolutions()}                                                 ||| func
-  Based on the device, for every resolution index,
-  put {1} in {86E880} at that index if available.                                               ||| code,ref
-
-- {5BE690 void EnsureDisplayOptionsDontExceedMaxSettings()}                                     ||| func
-  For each option that has a maximum value field,
-  set it to the maximum value if it was exceeded.
-
-- {5BE870 void SetPresetDisplayLevelFromLevelOfDetail()}                                        ||| func
-
-- {5BE9F0 void SetPresetDisplayLevelFromLevelOfDetaulAndLimit()}                                ||| func
-  Calls {5BE870},                                                                               ||| ref
-  sets {870D08} to 0 for some specific windows version or if the device is from vendor          ||| ref
-  {Advanced Micro Devices, Inc}, then calls {5BE690}                                            ||| em,ref
-
-- {800538 int _resolutionWidths[6]}                                                             ||| field
-  Values {640, 800, 1024, 1280, 1280, 1600}                                                     ||| code
-
-- {800550 int _resolutionHeights[6]}                                                            ||| field
-  Values {480, 600, 768, 960, 1024, 1200}                                                       ||| code
-
-- {86E880 int isSupportedResolutionIdx[6]}                                                      ||| field
-
-- {87099C int _optLevelOfDetail}                                                                ||| field
-
-- {8709D4 tempStoredOptLightGlow}                                                               ||| field
-  Used as temporary store for {5BE190} and {5BE1B0}                                             ||| ref,ref
-
-- {870CB8 int _optCarReflectionUpdateRate}                                                      ||| field
-
-- {870CBC int _optCarReflectionDetail}                                                          ||| field
-
-- {870CC0 int _optCarShadowNeon}                                                                ||| field
-
-- {870CC4 int _optCarHeadlight}                                                                 ||| field
-
-- {870CC8 int _optCarLightingEnableUNUSED}                                                      ||| field
-  Seemingly unused.
-
-- {870CCC int _optCarDamageEnableUNUSED}                                                        ||| field
-  Seemingly unused.
-
-- {870CD0 int _optCrowds}                                                                       ||| field
-
-- {870CD4 int _optWorldReflectionDetail}                                                        ||| field
-
-- {870CD8 int _optFog}                                                                          ||| field
-
-- {870CDC int _optMotionBlur}                                                                   ||| field
-
-- {870CE0 int _optLightTrails}                                                                  ||| field
-
-- {870CE4 int _optLightGlow}                                                                    ||| field
-
-- {870CE8 int _optAnimatedTextureEnable}                                                        ||| field
-  Doesn't seem to be in the display menu, or it's hidden due to my system config.
-
-- {870CEC int _optParticleSystem}                                                               ||| field
-
-- {870CF0 int _optDepthOfField}                                                                 ||| field
-
-- {870CF4 int _optWorldDetail}                                                                  ||| field
-
-- {870CF8 int _optCarGeometryDetail}                                                            ||| field
-
-- {870CFC int _optOverBright}                                                                   ||| field
-
-- {870D00 int _optEnchancedContrast}                                                            ||| field
-
-- {870D04 int _optTinting}                                                                      ||| field
-
-- {870D08 int _optFSAALevel}                                                                    ||| field
-
-- {870D0C int _optHorizonFog}                                                                   ||| field
-
-- {870D10 int _optRainSplatter}                                                                 ||| field
-
-- {870D18 int _optTextureFiltering}                                                             ||| field
-
-- {870D1C int _optRacingResolutionIdx}                                                          ||| field
-  To be used for arrays {800538},{800550} and {86E880}.                                         ||| ref,ref,ref
-
-- {870D24 int _optVsync}                                                                        ||| field
-
-- {8764D0 int _optMaxSettingCarReflectionUpdateRate}                                            ||| field
-
-- {8764D4 int _optMaxSettingCarReflectionDetail}                                                ||| field
-
-- {8764D8 int _optMaxSettingCarShadowNeon}                                                      ||| field
-
-- {8764DC int _optMaxSettingCarHeadlight}                                                       ||| field
-
-- {8764E0 int _optMaxSettingCarLightingEnable}                                                  ||| field
-
-- {8764E4 int _optMaxSettingCarDamageEnable}                                                    ||| field
-
-- {8764E8 int _optMaxSettingCrowds}                                                             ||| field
-
-- {8764EC int _optMaxSettingWorldReflectionDetail}                                              ||| field
-
-- {8764F0 int _optMaxSettingFog}                                                                ||| field
-
-- {8764F4 int _optMaxSettingMotionBlur}                                                         ||| field
-
-- {8764F8 int _optMaxSettingLightTrails}                                                        ||| field
-
-- {8764FC int _optMaxSettingLightGlow}                                                          ||| field
-
-- {876500 int _optMaxSettingAnimatedTextureEnable}                                              ||| field
-
-- {876504 int _optMaxSettingParticleSystem}                                                     ||| field
-
-- {876508 int _optMaxSettingDepthOfField}                                                       ||| field
-
-- {87650C int _optMaxSettingWorldDetail}                                                        ||| field
-
-- {876510 int _optMaxSettingCarGeometryDetail}                                                  ||| field
-
-- {876514 int _optMaxSettingOverBright}                                                         ||| field
-
-- {876518 int _optMaxSettingEnchancedContrast}                                                  ||| field
-
-- {876520 int _optMaxSettingFSAALevel}                                                          ||| field
-
-- {876524 int _optMaxSettingHorizonFog}                                                         ||| field
-
-- {876528 int _optMaxSettingRainSplatter}                                                       ||| field
-
-- {876530 int _optMaxSettingTextureFiltering}                                                   ||| field
+- 5BE190
+- 5BE1B0
+- 5BE1C0
+- 5BE200
+- 5BE560
+- 5BE5A0
+- 5BE690
+- 5BE870
+- 5BE9F0
+- 800538
+- 800550
+- 86E880
+- 87099C
+- 8709D4
+- 870CB8
+- 870CBC
+- 870CC0
+- 870CC4
+- 870CC8
+- 870CCC
+- 870CD0
+- 870CD4
+- 870CD8
+- 870CDC
+- 870CE0
+- 870CE4
+- 870CE8
+- 870CEC
+- 870CF0
+- 870CF4
+- 870CF8
+- 870CFC
+- 870D00
+- 870D04
+- 870D08
+- 870D0C
+- 870D10
+- 870D18
+- 870D1C
+- 870D24
+- 8764D0
+- 8764D4
+- 8764D8
+- 8764DC
+- 8764E0
+- 8764E4
+- 8764E8
+- 8764EC
+- 8764F0
+- 8764F4
+- 8764F8
+- 8764FC
+- 876500
+- 876504
+- 876508
+- 87650C
+- 876510
+- 876514
+- 876518
+- 876520
+- 876524
+- 876528
+- 876530
 .popmode symbols
 
 .popmode section
@@ -289,28 +195,15 @@ information and associated data. See {language_metadata}.                       
 {StreamingInstall} is read. Then something with {75DD6F}. TODO                                  ||| code,ref
 
 .pushmode symbols
-- {5B76F0 void LoadOtherRegistrySettings()}                                                     ||| func
-  Called once during boot, from {5B7A70}                                                        ||| ref
-
-- {5BEA20 void LoadDisplaySettings()}                                                           ||| func
-  Loads display settings from windows registry into their variables.
-  Only called once, at boot.
-
-- {5BEEA0 void SaveDisplaySettings()}                                                           ||| func
-  Stores display settings into windows registry.
-  Called multiple times, TODO.
-
-- {86E8B0 char CDDrivePath[4]}                                                                  ||| field
-
-- {86E9B4 char installDirPath[260]}                                                             ||| field
-
-- {86FF8C char someRegValue_er[20]}                                                             ||| field
-
-- {870CB0 char *VERSION}                                                                        ||| field
-
-- {870CB4 char *SIZE}                                                                           ||| field
-
-- {870D20 int notFirstTime}                                                                     ||| field
+- 5B76F0
+- 5BEA20
+- 5BEEA0
+- 86E8B0
+- 86E9B4
+- 86FF8C
+- 870CB0
+- 870CB4
+- 870D20
 .popmode symbols
 
 .popmode section
@@ -361,48 +254,11 @@ Then some network region stuff at 7FA740 showed a 14th entry:
 .popmode ul
 
 .pushmode symbols
-- {570A30 int GetGameRegion()}                                                                  ||| func
-  {return {864F24};}                                                                            ||| code,refplain
-- {570A40 int UseCarUKNames()}                                                                  ||| func
-  {return {864F24} == 1 || (4 < {864F24} && {864F24} < 10);}                                    ||| code,refplain,refplain,refplain
-  Unsure about this name.
-
-- {571380 char *GetCountryCode()}                                                               ||| func
-
-- {5B7C40 int OpenPatchesWebsite()}                                                             ||| func
-No idea where this is used, TODO
-.pushmode pre
-int OpenPatchesWebsite()
-{
-	char *url;
-
-	switch (GetGameRegion()) {
-	case 0: url = "http://patches.ea.com/nfs_underground2/EN-US/home.html"; break;
-	case 2: url = "http://patches.ea.com/nfs_underground2/KO/home.html"; break;
-	case 3: url = "http://patches.ea.com/nfs_underground2/JP/home.html"; break;
-	case 4: url = "http://patches.ea.com/nfs_underground2/TW/home.html"; break;
-	case 5:
-		switch (GetCurrentLoadedLanguage()) {
-		case 0: url = "http://patches.ea.com/nfs_underground2/EN-UK/home.html"; break;
-		case 5: url = "http://patches.ea.com/nfs_underground2/NL/home.html"; break;
-		case 6: url = "http://patches.ea.com/nfs_underground2/SV/home.html"; break;
-		case 7: url = "http://patches.ea.com/nfs_underground2/DA/home.html"; break;
-		default: goto def;
-		}
-		break;
-	case 6: url = "http://patches.ea.com/nfs_underground2/FR/home.html"; break;
-	case 7: url = "http://patches.ea.com/nfs_underground2/DE/home.html"; break;
-	case 8: url = "http://patches.ea.com/nfs_underground2/IT/home.html"; break;
-	case 9: url = "http://patches.ea.com/nfs_underground2/ES/home.html"; break;
-	case 11: url = "http://patches.ea.com/nfs_underground2/ZH/home.html"; break;
-	case 12: url = "http://patches.ea.com/nfs_underground2/TH/home.html"; break;
-def:
-	default: /*eax??*/ break;
-	}
-	return ShellExecuteA(NULL, "open", url, NULL, NULL, SW_SHOWNORMAL);
-}
-.popmode pre
-- {864F24 int _gameRegion}                                                                      ||| field
+- 570A30
+- 570A40
+- 571380
+- 5B7C40
+- 864F24
 .popmode symbols
 
 .popmode section
@@ -460,459 +316,159 @@ Note that the offset also increments by 8, being {sizeof {struct BinSectionHeade
 Section magic {0} seems to be just for padding/alignment uses.                                  ||| code
 
 .pushmode symbols
-
-- {43C0B0 void __thiscall RegisterBinSectionHandler({struct BinSectionHandler} *this,           ||| func,refto
-                                {struct BinSectionHandler} handler)}                            ||| refto
-  .pushmode pre
-  int magic, index;
-
-  magic = handler.{structBinSectionHandler+0};                                                  ||| refto
-  index = 0x3F & ((magic >> 0x6) + (magic + (magic >> 0xC)));
-  this->{structBinSectionMagicMapEntry+4} = handler;                                            ||| refto
-  this->{structBinSectionMagicMapEntry+0} = {828050}[index];                                    ||| refto,refplain
-  {828050}[index] = this;                                                                       ||| refplain
-  {827FE8}++;                                                                                   ||| refplain
-  .popmode pre
-
-- {408200 int LoadBinSection34B00({struct BinSection} *binsection)}                             ||| func,refto
-
-- {408220 int UnloadBinSection34B00({struct BinSection} *binsection)}                           ||| func,refto
-
-- {40A460 int LoadBinSection3A000({struct BinSection} *binsection)}                             ||| func,refto
-
-- {40A4A0 int UnloadBinSection3A000({struct BinSection} *binsection)}                           ||| func,refto
-
-- {431870 int LoadBinSection80037050({struct BinSection} *binsection)}                          ||| func,refto
-
-- {4318D0 int UnloadBinSection80037050({struct BinSection} *binsection)}                        ||| func,refto
-
-- {432080 int LoadBinSection37140({struct BinSection} *binsection)}                             ||| func,refto
-
-- {4320C0 int UnloadBinSection37140({struct BinSection} *binsection)}                           ||| func,refto
-
-- {4325C0 int UnloadBinSection80037020({struct BinSection} *binsection)}                        ||| func,refto
-
-- {4348F0 int LoadBinSection0E34010({struct BinSection} *binsection)}                           ||| func,refto
-  Uses {Anim_CNFSAnimBank_SlotPool}                                                             ||| code
-
-- {4349A0 int UnloadBinSection0E34010({struct BinSection} *binsection)}                         ||| func,refto
-
-- {434E10 int LoadBinSection0E34009({struct BinSection} *binsection)}                           ||| func,refto
-  Uses {Anim_CAnimSkeleton_SlotPool}                                                            ||| code
-
-- {435A50 int UnloadBinSection37110({struct BinSection} *binsection)}                           ||| func,refto
-
-- {435A90 int LoadBinSection37080({struct BinSection} *binsection)}                             ||| func,refto
-
-- {4365B0 int UnloadBinSection0E34009({struct BinSection} *binsection)}                         ||| func,refto
-
-- {4377F0 int LoadBinSection80037020({struct BinSection} *binsection)}                          ||| func,refto
-
-- {4381B0 int LoadBinSection37100({struct BinSection} *binsection)}                             ||| func,refto
-
-- {438720 int UnloadBinSection37150({struct BinSection} *binsection)}                           ||| func,refto
-
-- {438C20 int UnloadBinSection37080({struct BinSection} *binsection)}                           ||| func,refto
-
-- {438C60 int UnloadBinSection37090({struct BinSection} *binsection)}                           ||| func,refto
-
-- {439D70 int UnloadBinSection37100({struct BinSection} *binsection)}                           ||| func,refto
-
-- {43A1F0 int LoadBinSection37150({struct BinSection} *binsection)}                             ||| func,refto
-
-- {43A260 int LoadBinSection37110({struct BinSection} *binsection)}                             ||| func,refto
-
-- {43A460 int LoadBinSection37090({struct BinSection} *binsection)}                             ||| func,refto
-
-- {43C0A0 int LoadUnloadBinSection0({struct BinSection} *binsection)}                           ||| func,refto
-  Nop handler that returns 1 if {binsection->{structBinSection+0}} is 0.                        ||| code,refto
-
-- {43C100 {struct BinSectionMagicMapEntry} *FindBinSectionHandler(int magic)}                   ||| func,refto
-  Used in {570D70} and {577B10}.                                                                ||| ref,ref
-  .pushmode pre
-  {struct BinSectionMagicMapEntry} *entry;                                                      ||| refto
-  int index;
-
-  index = 0x3F & ((magic >> 0x6) + (magic + (magic >> 0xC)));
-  entry = {828050}[index];                                                                      ||| refplain
-  while (entry) {
-          if (entry->{structBinSectionMagicMapEntry+4}.{structBinSectionHandler+0} == magic) \{ ||| refto,refto
-                  return entry;
-          }
-          entry = entry->{structBinSectionMagicMapEntry+0};                                     ||| refto
-  }
-  return NULL;
-  .popmode pre
-
-
-- {44AB60 int LoadBinSection8003B200_8003B201_8003B202({struct BinSection} *binsection)}        ||| func,refto
-
-- {452E90 int UnloadBinSection8003B200_8003B201_8003B202({struct BinSection} *binsection)}      ||| func,refto
-
-- {47BC30 int LoadBinSection8003B500({struct BinSection} *binsection)}                          ||| func,refto
-
-- {482D20 int UnloadBinSection8003B500({struct BinSection} *binsection)}                        ||| func,refto
-  Does a function call on {82B884}.                                                             ||| ref
-
-- {48A280 int LoadBinSection3B700({struct BinSection} *binsection)}                             ||| func,refto
-
-- {48A2B0 int UnloadBinSection3B700({struct BinSection} *binsection)}                           ||| func,refto
-
-- {48B4A0 int LoadBinSection34202({struct BinSection} *binsection)}                             ||| func,refto
-
-- {48B740 int UnloadBinSection34202({struct BinSection} *binsection)}                           ||| func,refto
-
-- {48E070 int LoadBinSection135200_80135100_80135000({struct BinSection} *binsection)}          ||| func,refto
-
-- {48E270 int UnloadBinSection135200_80135100_80135000({struct BinSection} *binsection)}        ||| func,refto
-
-- {491C70 int LoadBinSection80035000_80035010_35021_35020({struct BinSection} *binsection)}     ||| func,refto
-
-- {491D50 int UnloadBinSection80035000_80035010_35021_35020({struct BinSection} *binsection)}   ||| func,refto
-
-- {494060 int LoadBinSection80134000({struct BinSection} *binsection)}                          ||| func,refto
-
-- {4940E0 int UnloadBinSection80134000({struct BinSection} *binsection)}                        ||| func,refto
-
-- {494EA0 int LoadBinSectionB3300000_B332000_B0300100({struct BinSection} *binsection)}         ||| func,refto
-
-- {495040 int UnloadBinSectionB3300000_B332000_B0300100({struct BinSection} *binsection)}       ||| func,refto
-
-- {500290 int UnloadBinSection80034A10({struct BinSection} *binsection)}                        ||| func,refto
-
-- {5108A0 int LoadBinSection30230({struct BinSection} *binsection)}                             ||| func,refto
-
-- {5108C0 int UnloadBinSection30230({struct BinSection} *binsection)}                           ||| func,refto
-
-- {5108E0 int LoadBinSection30231({struct BinSection} *binsection)}                             ||| func,refto
-
-- {510900 int UnloadBinSection30231({struct BinSection} *binsection)}                           ||| func,refto
-
-- {512C00 int LoadBinSection80034A10({struct BinSection} *binsection)}                          ||| func,refto
-  This gets loaded once (enforced by {8641F4}), data resides in {GLOBAL/GLOBALB.BUN}.           ||| ref,code
-  Career/Sponsor/DVD/Magazines related. The data in this section is more sections, with magic
-  {0x34A11-0x34A1F} (excluding {0x34A13}),                                                      ||| code,code
-
-- {51BD30 int LoadBinSection30203_30210({struct BinSection} *binsection)}                       ||| func,refto
-  Loads FNG packages?
-
-- {51C610 int UnloadBinSection39020({struct BinSection} *binsection)}                           ||| func,refto
-
-- {52CD90 int LoadBinSection39020({struct BinSection} *binsection)}                             ||| func,refto
-
-- {5425A0 int UnloadBinSection30203_30210({struct BinSection} *binsection)}                     ||| func,refto
-  Unloads FNG packages?
-
-- {56C4C0 int LoadBinSection34A07({struct BinSection} *binsection)}                             ||| func,refto
-
-- {56C4E0 int UnloadBinSection34A07({struct BinSection} *binsection)}                           ||| func,refto
-
-- {570D70 int LoadBinSection({struct BinSection} *binsection)}                                  ||| func,refto
-  Only called from {577AB0}.                                                                    ||| ref
-  .pushmode pre
-  {struct BinSectionMagicMapEntry} *entry;                                                      ||| refto
-  int i;
-
-  entry = {43C100}(binsection->{structBinSection+0}.{structBinSectionHeader+0});                ||| refplain,refto,refto
-  if (entry) {
-          return entry->{structBinSectionMagicMapEntry+4}.{structBinSectionHandler+4}(binsection);||| refto,refto
-  }
-  for (i = 0; i < 36; i++) {
-          if ({7FA858}[i](binsection)) \{                                                       ||| refplain
-                  return 1;
-          }
-  }
-  return 0;
-  .popmode pre
-  Returns 1 when something managed to load it.
-  Some loaders that are in the map are also in the array.
-
-- {577B10 void UnloadBinSection(void *arg1, void *arg2)}                                        ||| func
-  Does things and calls the bin section unload handler, similar to {570D70}.                    ||| ref
-
-- {579340 int LoadBinSection39100_39101_39102({struct BinSection} *binsection)}                 ||| func,refto
-
-- {579350 int UnloadBinSection39100_39101_39102({struct BinSection} *binsection)}               ||| func,refto
-
-- {57A470 int LoadBinSection8003B000({struct BinSection} *binsection)}                          ||| func,refto
-
-- {57BCE0 int UnloadBinSection8003B000({struct BinSection} *binsection)}                        ||| func,refto
-
-- {599440 int LoadBinSection80034A30({struct BinSection} *binsection)}                          ||| func,refto
-
-- {5994D0 int UnloadBinSection80034A30({struct BinSection} *binsection)}                        ||| func,refto
-
-- {5A1750 int LoadBinSection80034020({struct BinSection} *binsection)}                          ||| func,refto
-
-- {5A1860 int UnloadBinSection80034020({struct BinSection} *binsection)}                        ||| func,refto
-
-- {5A8BD0 int UnloadBinSection34026_34027({struct BinSection} *binsection)}                     ||| func,refto
-
-- {5B0E30 int LoadBinSection34026_34027({struct BinSection} *binsection)}                       ||| func,refto
-
-- {5D3EB0 int LoadBinSection34201({struct BinSection} *binsection)}                             ||| func,refto
-
-- {5D3EF0 int UnloadBinSection34201({struct BinSection} *binsection)}                           ||| func,refto
-
-- {5D6440 int UnloadBinSection34108({struct BinSection} *binsection)}                           ||| func,refto
-
-- {5D8470 int LoadBinSection34146({struct BinSection} *binsection)}                             ||| func,refto
-
-- {5D84D0 int UnoadBinSection34146({struct BinSection} *binsection)}                            ||| func,refto
-
-- {5DA490 int LoadBinSection80034147({struct BinSection} *binsection)}                          ||| func,refto
-
-- {5DB2E0 int LoadBinSection34108({struct BinSection} *binsection)}                             ||| func,refto
-
-- {5DB5A0 int UnloadBinSection80034150({struct BinSection} *binsection)}                        ||| func,refto
-
-- {5DBF60 int LoadBinSection80036000({struct BinSection} *binsection)}                          ||| func,refto
-
-- {5DC050 int UnloadBinSection80036000({struct BinSection} *binsection)}                        ||| func,refto
-
-- {5DEB80 int LoadBinSection34121_34122_34123_34124({struct BinSection} *binsection)}           ||| func,refto
-
-- {5DEE00 int UnloadBinSection80034147({struct BinSection} *binsection)}                        ||| func,refto
-
-- {5DEF30 int LoadBinSection_34110_34111_34112_34113({struct BinSection} *binsection)}          ||| func,refto
-
-- {5DF8A0 int LoadBinSection80034100_34107({struct BinSection} *binsection)}                    ||| func,refto
-
-- {5DFBA0 int UnloadBinSection80034100_34107({struct BinSection} *binsection)}                  ||| func,refto
-
-- {5E0190 int LoadBinSection34250({struct BinSection} *binsection)}                             ||| func,refto
-
-- {5E0220 int UnloadBinSection34250({struct BinSection} *binsection)}                           ||| func,refto
-
-- {5E4820 int UnloadBinSection34121_34122_34123_34124({struct BinSection} *binsection)}         ||| func,refto
-
-- {5E4E60 int UnloadBinSection_34110_34111_34112_34113({struct BinSection} *binsection)}        ||| func,refto
-
-- {5E81C0 int LoadBinSection80034130_3412F({struct BinSection} *binsection)}                    ||| func,refto
-  Called when exiting to main menu after being in race/freeroam.
-
-- {5E8660 int UnloadBinSection80034130_3412F({struct BinSection} *binsection)}                  ||| func,refto
-
-- {5E9C10 int LoadBinSection80034150_thiscall({struct BinSection} *binsection)}                 ||| func,refto
-
-- {5EA0F0 int LoadBinSection80034150({struct BinSection} *binsection)}                          ||| func,refto
-
-- {60B810 int LoadBinSection8003B600({struct BinSection} *binsection)}                          ||| func,refto
-
-- {60BAC0 int UnloadBinSection8003B600({struct BinSection} *binsection)}                        ||| func,refto
-
-- {61B460 int UnloadBinSection34600_34601_80034602({struct BinSection} *binsection)}            ||| func,refto
-
-- {61C3C0 int LoadBinSection30220({struct BinSection} *binsection)}                             ||| func,refto
-
-- {61C420 int UnloadBinSection30220({struct BinSection} *binsection)}                           ||| func,refto
-
-- {61CB50 int LoadBinSection34030({struct BinSection} *binsection)}                             ||| func,refto
-
-- {61CB90 int UnloadBinSection34030({struct BinSection} *binsection)}                           ||| func,refto
-
-- {636BE0 int LoadBinSection34600_34601_34608_34609_34607_80034602({struct BinSection} *binsection)} ||| func,refto
-  Sets {8A1CCC} data.                                                                           ||| ref
-
-- {77B620 void init_function_77B620_registerBinSectionHandler0()}                               ||| func
-  Registers {7EB3F4} (without using {43C0B0}).                                                  ||| ref,ref
-
-- {77CB00 void init_function_77CB00_registerBinSectionHandler80134000()}                        ||| func
-
-- {77CC20 void init_function_77CC20_registerBinSectionHandler135200()}                          ||| func
-
-- {77CC40 void init_function_77CC40_registerBinSectionHandler80135100()}                        ||| func
-
-- {77CC60 void init_function_77CC60_registerBinSectionHandler80135000()}                        ||| func
-
-- {77CD60 void init_function_77CD60_registerBinSectionHandlerB3300000()}                        ||| func
-
-- {77CDA0 void init_function_77CDA0_registerBinSectionHandlerB0300100()}                        ||| func
-
-- {77CD80 void init_function_77CD80_registerBinSectionHandlerB332000()}                         ||| func
-
-- {77D960 void init_function_77D960_registerBinSectionHandler39100()}                           ||| func
-
-- {77D980 void init_function_77D980_registerBinSectionHandler39101()}                           ||| func
-
-- {77D9A0 void init_function_77D9A0_registerBinSectionHandler39102()}                           ||| func
-
-- {77E190 void init_function_77E190_registerBinSectionHandler34026()}                           ||| func
-
-- {77E1B0 void init_function_77E1B0_registerBinSectionHandler34027()}                           ||| func
-
-- {77E6C0 void init_function_77E6C0_registerBinSectionHandler80034140()}                        ||| func
-
-- {77E6E0 void init_function_77E6E0_registerBinSectionHandler3412F()}                           ||| func
-
-- {77E720 void init_function_77E720_registerBinSectionHandler34146()}                           ||| func
-
-- {77E740 void init_function_77E740_registerBinSectionHandler34201()}                           ||| func
-
-- {77E7A0 void init_function_77E7A0_registerBinSectionHandler80034147()}                        ||| func
-
-- {77E7D0 void init_function_77E7D0_registerBinSectionHandler34110()}                           ||| func
-
-- {77E7F0 void init_function_77E7F0_registerBinSectionHandler34113()}                           ||| func
-
-- {77E810 void init_function_77E781_registerBinSectionHandler34111()}                           ||| func
-
-- {77E830 void init_function_77E783_registerBinSectionHandler34112()}                           ||| func
-
-- {77E890 void init_function_77E890_registerBinSectionHandler34108()}                           ||| func
-
-- {77E8B0 void init_function_77E8B0_registerBinSectionHandler80034100()}                        ||| func
-
-- {77E8D0 void init_function_77E8D0_registerBinSectionHandler34107()}                           ||| func
-
-- {7EB3F4 {struct BinSectionMagicMapEntry} binSectionHandlerMagicMapEntry0}                     ||| field,refto
-  Map entry with {43C0A0} as both {structBinSectionHandler+4} and {structBinSectionHandler+8}.  ||| ref,refto,refto
-
-- {7FA858 int (*binSectionLoadFuncs)({struct BinSection}*)[36]}                                 ||| field,refto
-  Called by {570D70}.                                                                           ||| ref
-  These funcs return 1 if they can process the data.
-  .pushmode pre
-  int (*{7FA858})({struct BinSection}*)[] = \{                                                  ||| refplain,refto
-  /*0*/   {52CD00},                                                                             ||| refplain
-  /*1*/   {491C70},                                                                             ||| refplain
-  /*2*/   {5DBF60},                                                                             ||| refplain
-  /*3*/   {5A1750},                                                                             ||| refplain
-  /*4*/   {5EA0F0},                                                                             ||| refplain
-  /*5*/   {4348F0},                                                                             ||| refplain
-  /*6*/   {434E10},                                                                             ||| refplain
-  /*7*/   {4377F0},                                                                             ||| refplain
-  /*8*/   {431870},                                                                             ||| refplain
-  /*9*/   {435A90},                                                                             ||| refplain
-  /*10*/  {43A460},                                                                             ||| refplain
-  /*11*/  {43A260},                                                                             ||| refplain
-  /*12*/  {432080},                                                                             ||| refplain
-  /*13*/  {43A1F0},                                                                             ||| refplain
-  /*14*/  {4381B0},                                                                             ||| refplain
-  /*15*/  {48B4A0},                                                                             ||| refplain
-  /*16*/  {636BE0},                                                                             ||| refplain
-  /*17*/  {599440},                                                                             ||| refplain
-  /*18*/  {56C4C0},                                                                             ||| refplain
-  /*19*/  {61CB50},                                                                             ||| refplain
-  /*20*/  {5DEB80},                                                                             ||| refplain
-  /*21*/  {408200},                                                                             ||| refplain
-  /*22*/  {5125B0},                                                                             ||| refplain
-  /*23*/  {5E0190},                                                                             ||| refplain
-  /*24*/  {40A460},                                                                             ||| refplain
-  /*25*/  {51BD30},                                                                             ||| refplain
-  /*26*/  {57A470},                                                                             ||| refplain
-  /*27*/  {44AB60},                                                                             ||| refplain
-  /*28*/  {512C00},                                                                             ||| refplain
-  /*29*/  {52CD90},                                                                             ||| refplain
-  /*30*/  {47BC30},                                                                             ||| refplain
-  /*31*/  {61C3C0},                                                                             ||| refplain
-  /*32*/  {60B810},                                                                             ||| refplain
-  /*33*/  {48A280},                                                                             ||| refplain
-  /*34*/  {5108A0},                                                                             ||| refplain
-  /*35*/  {5108E0},                                                                             ||| refplain
-  }
-  .popmode pre
-
-- {7FA8E8 int (*binSectionUnloadFuncs)({struct BinSection}*)[36]}                               ||| field,refto
-  Called by {577B10}.                                                                           ||| ref
-  These funcs return 1 if they can process the data.
-  .pushmode pre
-  int (*{7FA8E8})({struct BinSection}*)[] = \{                                                  ||| refplain,refto
-  /*0*/   {537290},                                                                             ||| refplain
-  /*1*/   {491D50},                                                                             ||| refplain
-  /*2*/   {5DC050},                                                                             ||| refplain
-  /*3*/   {5A1860},                                                                             ||| refplain
-  /*4*/   {5DB5A0},                                                                             ||| refplain
-  /*5*/   {4349A0},                                                                             ||| refplain
-  /*6*/   {4365B0},                                                                             ||| refplain
-  /*7*/   {4325C0},                                                                             ||| refplain
-  /*8*/   {4318D0},                                                                             ||| refplain
-  /*9*/   {438C20},                                                                             ||| refplain
-  /*10*/  {438C60},                                                                             ||| refplain
-  /*11*/  {435A50},                                                                             ||| refplain
-  /*12*/  {4320C0},                                                                             ||| refplain
-  /*13*/  {438720},                                                                             ||| refplain
-  /*14*/  {439D70},                                                                             ||| refplain
-  /*15*/  {48B740},                                                                             ||| refplain
-  /*16*/  {61B460},                                                                             ||| refplain
-  /*17*/  {5994D0},                                                                             ||| refplain
-  /*18*/  {56C4E0},                                                                             ||| refplain
-  /*19*/  {61CB90},                                                                             ||| refplain
-  /*20*/  {5E4820},                                                                             ||| refplain
-  /*21*/  {408220},                                                                             ||| refplain
-  /*22*/  {4FFAE0},                                                                             ||| refplain
-  /*23*/  {5E0220},                                                                             ||| refplain
-  /*24*/  {40A4A0},                                                                             ||| refplain
-  /*25*/  {5425A0},                                                                             ||| refplain
-  /*26*/  {57BCE0},                                                                             ||| refplain
-  /*27*/  {452E90},                                                                             ||| refplain
-  /*28*/  {500290},                                                                             ||| refplain
-  /*29*/  {51C610},                                                                             ||| refplain
-  /*30*/  {482D20},                                                                             ||| refplain
-  /*31*/  {61C420},                                                                             ||| refplain
-  /*32*/  {60BAC0},                                                                             ||| refplain
-  /*33*/  {48A2B0},                                                                             ||| refplain
-  /*34*/  {5108C0},                                                                             ||| refplain
-  /*35*/  {510900},                                                                             ||| refplain
-  }
-  .popmode pre
-
-- {827FE8 char numBinSectionLoadFunctionsInMagicMapBucket[64]}                                  ||| field
-  Written to, but never read. Functions seem to just check if
-  {{struct BinSectionMagicMapEntry}.{structBinSectionMagicMapEntry+0}}                          ||| code,refto,refto
-  is 0 instead of counting entries.
-
-- {828050 {struct BinSectionMagicMapEntry} *binSectionMagicMap[64]}                             ||| field,refto
-
-- {82DBA0 {struct BinSectionMagicMapEntry} binSectionHandlerMagicMapEntryB3300000}              ||| field,refto
-
-- {82DBB0 {struct BinSectionMagicMapEntry} binSectionHandlerMagicMapEntry80135000}              ||| field,refto
-
-- {830AF8 {struct BinSectionMagicMapEntry} binSectionHandlerMagicMapEntry80135100}              ||| field,refto
-
-- {830B08 {struct BinSectionMagicMapEntry} binSectionHandlerMagicMapEntryB0300100}              ||| field,refto
-
-- {835784 {struct BinSectionMagicMapEntry} binSectionHandlerMagicMapEntry135200}                ||| field,refto
-
-- {835840 {struct BinSectionMagicMapEntry} binSectionHandlerMagicMapEntry80134000}              ||| field,refto
-
-- {8358D0 {struct BinSectionMagicMapEntry} binSectionHandlerMagicMapEntryB3320000}              ||| field,refto
-
-- {8641F4 int binSection80034A10loaded}                                                         ||| field
-  Ensures this section only gets loaded once.
-
-- {8653A0 {struct BinSectionMagicMapEntry} binSectionHandlerMagicMapEntry39101}                 ||| field,refto
-
-- {865470 {struct BinSectionMagicMapEntry} binSectionHandlerMagicMapEntry39102}                 ||| field,refto
-
-- {86596C {struct BinSectionMagicMapEntry} binSectionHandlerMagicMapEntry39100}                 ||| field,refto
-
-- {86B4AC {struct BinSectionMagicMapEntry} binSectionHandlerMagicMapEntry34027}                 ||| field,refto
-
-- {86B580 {struct BinSectionMagicMapEntry} binSectionHandlerMagicMapEntry34026}                 ||| field,refto
-
-- {88A2AC {struct BinSectionMagicMapEntry} binSectionHandlerMagicMapEntry80034130}              ||| field,refto
-
-- {88E9B4 {struct BinSectionMagicMapEntry} binSectionHandlerMagicMapEntry80034100}              ||| field,refto
-
-- {88E9CC {struct BinSectionMagicMapEntry} binSectionHandlerMagicMapEntry80034147}              ||| field,refto
-
-- {88E9DC {struct BinSectionMagicMapEntry} binSectionHandlerMagicMapEntry34113}                 ||| field,refto
-
-- {88E9EC {struct BinSectionMagicMapEntry} binSectionHandlerMagicMapEntry3412F}                 ||| field,refto
-
-- {88EA74 {struct BinSectionMagicMapEntry} binSectionHandlerMagicMapEntry34112}                 ||| field,refto
-
-- {88EA94 {struct BinSectionMagicMapEntry} binSectionHandlerMagicMapEntry34107}                 ||| field,refto
-
-- {88EAA4 {struct BinSectionMagicMapEntry} binSectionHandlerMagicMapEntry34108}                 ||| field,refto
-
-- {88EAB4 {struct BinSectionMagicMapEntry} binSectionHandlerMagicMapEntry34110}                 ||| field,refto
-
-- {88EAC4 {struct BinSectionMagicMapEntry} binSectionHandlerMagicMapEntry34146}                 ||| field,refto
-
-- {88F27C {struct BinSectionMagicMapEntry} binSectionHandlerMagicMapEntry34111}                 ||| field,refto
-
-- {88F750 {struct BinSectionMagicMapEntry} binSectionHandlerMagicMapEntry34201}                 ||| field,refto
+- 43C0B0
+- 408200
+- 408220
+- 40A460
+- 40A4A0
+- 431870
+- 4318D0
+- 432080
+- 4320C0
+- 4325C0
+- 4348F0
+- 4349A0
+- 434E10
+- 435A50
+- 435A90
+- 4365B0
+- 4377F0
+- 4381B0
+- 438720
+- 438C20
+- 438C60
+- 439D70
+- 43A1F0
+- 43A260
+- 43A460
+- 43C0A0
+- 43C100
+- 44AB60
+- 452E90
+- 47BC30
+- 482D20
+- 48A280
+- 48A2B0
+- 48B4A0
+- 48B740
+- 48E070
+- 48E270
+- 491C70
+- 491D50
+- 494060
+- 4940E0
+- 494EA0
+- 495040
+- 500290
+- 5108A0
+- 5108C0
+- 5108E0
+- 510900
+- 512C00
+- 51BD30
+- 51C610
+- 52CD90
+- 5425A0
+- 56C4C0
+- 56C4E0
+- 570D70
+- 577B10
+- 579340
+- 579350
+- 57A470
+- 57BCE0
+- 599440
+- 5994D0
+- 5A1750
+- 5A1860
+- 5A8BD0
+- 5B0E30
+- 5D3EB0
+- 5D3EF0
+- 5D6440
+- 5D8470
+- 5D84D0
+- 5DA490
+- 5DB2E0
+- 5DB5A0
+- 5DBF60
+- 5DC050
+- 5DEB80
+- 5DEE00
+- 5DEF30
+- 5DF8A0
+- 5DFBA0
+- 5E0190
+- 5E0220
+- 5E4820
+- 5E4E60
+- 5E81C0
+- 5E8660
+- 5E9C10
+- 5EA0F0
+- 60B810
+- 60BAC0
+- 61B460
+- 61C3C0
+- 61C420
+- 61CB50
+- 61CB90
+- 636BE0
+- 77B620
+- 77CB00
+- 77CC20
+- 77CC40
+- 77CC60
+- 77CD60
+- 77CDA0
+- 77CD80
+- 77D960
+- 77D980
+- 77D9A0
+- 77E190
+- 77E1B0
+- 77E6C0
+- 77E6E0
+- 77E720
+- 77E740
+- 77E7A0
+- 77E7D0
+- 77E7F0
+- 77E810
+- 77E830
+- 77E890
+- 77E8B0
+- 77E8D0
+- 7EB3F4
+- 7FA858
+- 7FA8E8
+- 827FE8
+- 828050
+- 82DBA0
+- 82DBB0
+- 830AF8
+- 830B08
+- 835784
+- 835840
+- 8358D0
+- 8641F4
+- 8653A0
+- 865470
+- 86596C
+- 86B4AC
+- 86B580
+- 88A2AC
+- 88E9B4
+- 88E9CC
+- 88E9DC
+- 88E9EC
+- 88EA74
+- 88EA94
+- 88EAA4
+- 88EAB4
+- 88EAC4
+- 88F27C
+- 88F750
 .popmode symbols
 
 .popmode section
@@ -1081,21 +637,13 @@ Eventually something is called with string {LanguageMemoryPool}.                
 {7983D0 aLanguageselect db 'LanguageSelectScreen',0 TODO}                                       ||| strong
 
 .pushmode symbols
-- {4FF680 void LoadLanguageSomething()}                                                         ||| func
-  TODO
-
-- {512520 LoadLanguageAtBoot?}                                                                  ||| func
-  TODO
-
-- {7F6DE8 {struct LanguageStruct7F6DE8} struct7F6DE8[15]}                                       ||| field,refto
-
-- {7F6E60 {struct LanguageStruct7F6E60} struct7F6E60[4]}                                        ||| field,refto
-
-- {7FCA00 int languageIndex}                                                                    ||| field
-
-- {7FCA08 {struct LanguageData} languageData[15]}                                               ||| field,refto
-
-- {7F7020 {struct LanguageFileData} languageFileData[11]}                                       ||| field,refto
+- 4FF680
+- 512520
+- 7F6DE8
+- 7F6E60
+- 7FCA00
+- 7FCA08
+- 7F7020
 .popmode symbols
 
 .popmode section
@@ -1159,70 +707,18 @@ The original labels are also stored as a language file in {LANGUAGES/Labels.bin}
 TODO: language files also contain bin sections with magic {0x30201}                             ||| code
 
 .pushmode symbols
-- {4FF9D0 char* GetLanguageStringOrNull(unsigned int hash)}                                     ||| func
-  Returns a string ptr or {NULL} for given hash (which is passed through {edx}).                ||| code,code
-  Does a binary search over the hashes in {{8383D0}.{structLoadedLanguage+8}}                   ||| code,ref,refto
-
-- {4FFA50 void GetLanguageStringIntoBuf(char *dst, int dstlen, unsigned int hash)}              ||| func
-  Same as {4FFA80} but copy it into a buffer.                                                   ||| ref
-
-- {4FFA80 char* GetLanguageString(unsigned int hash)}                                           ||| func
-  Calls {4FF9D0} and when it returns {NULL}, call it again but with                             ||| ref,code
-  {0xC01A6F63} as fallback (which results in {FENG: Default string error.})                     ||| code,code
-
-- {4FFAA0 char* GetNumberSuffix(int number)}                                                    ||| func
-  Returns, based on passed index, one of: {th, st, nd, rd, th, th, th, th, th, th th},          ||| code
-  uses default string as fallback.
-  TODO: xref this for fun and profit (only 2 usages?)
-
-- {4FFAE0 int UnloadLanguageBinSection39000({struct BinSection} *section);}                     ||| func,refto
-  .pushmode pre
-  if (section->{structBinSection+0}.{structBinSectionHeader+0} == 0x39000) \{                   ||| refto,refto
-          {8383D0}.{structLoadedLanguage+C} = 0;                                                ||| refplain,refto
-          {8383D0}.{structLoadedLanguage+0} = 0;                                                ||| refplain,refto
-          {8383D0}.{structLoadedLanguage+4} = 0;                                                ||| refplain,refto
-          {8383D0}.{structLoadedLanguage+8} = 0;                                                ||| refplain,refto
-  }
-  .popmode pre
-
-- {50D3C0 int __thiscall LanguageConversionStrcpyCharToWchar({struct LanguageConversionTable}   ||| func,refto
-                                                *this, wchar_t *dest, int maxlen, char *src)} |||
-  If a char could not be converted, it will be {_} and the func will return 1.                  ||| code
-
-- {512530 void LanguageAwareStrcpyCharToWchar(wchar_t *dest, int maxlen, char *src)}            ||| func
-  Uses {50D3C0} when {{8383D0}.{structLoadedLanguage+C}} is set, otherwise {43E000}.            ||| ref,code,ref,refto,ref
-
-- {5125B0 int LoadLanguageBinSection39000({struct BinSection} *section)}                        ||| func,refto
-  .pushmode pre
-  {struct BinDataLanguage39000} *data;                                                          ||| refto
-  {struct LanguageTableEntry} *tableEntry;                                                      ||| refto
-  int i;
-
-  if (section->{structBinSection+0}.{structBinSectionHeader+0} == 0x39000) \{                                  ||| refto,refto
-          data = (void*) section->{structBinSection+8};                                                        ||| refto
-          {8383D0}.{structLoadedLanguage+C} = (void*) (data + (int) data->{structBinDataLanguage39000+0});     ||| refplain,refto,refto
-          {8383D0}.{structLoadedLanguage+0} = data->{structBinDataLanguage39000+4};                            ||| refplain,refto,refto
-          {8383D0}.{structLoadedLanguage+4} = (void*) (data + (int) data->{structBinDataLanguage39000+C});     ||| refplain,refto,refto
-          {8383D0}.{structLoadedLanguage+8} = (void*) (data + (int) data->{structBinDataLanguage39000+8});     ||| refplain,refto,refto
-          tableEntry = {8383D0}.{structLoadedLanguage+8};                                                      ||| refplain,refto
-          for (i = 0; i < {8383D0}.{structLoadedLanguage+0}; i++) \{                                           ||| refplain,refto
-                  tableEntry->{structLanguageTableEntry+4} += {8383D0}.{structLoadedLanguage+8};               ||| refto,refplain,refto
-                  tableEntry++;
-          }
-  }
-  .popmode pre
-
-- {52CD00 int LoadLanguageFontBinSection30201(struct BinData *bindata)}                         ||| func
-  Something with font.
-
-- {537290 int UnloadLanguageFontBinSection30201(struct BinData *bindata)}                       ||| func
-  Something with font.
-
-- {8383D0 {struct LoadedLanguage} loadedLanguage}                                               ||| field,refto
-
-- {838530 int skipLanguageWcharTable}                                                           ||| field
-  When 1, {50D3C0} will just zero extend char to wchar_t instead of using the conversion table  ||| ref
-  in the language file.
+- 4FF9D0
+- 4FFA50
+- 4FFA80
+- 4FFAA0
+- 4FFAE0
+- 50D3C0
+- 512530
+- 5125B0
+- 52CD00
+- 537290
+- 8383D0
+- 838530
 .popmode symbols
 
 .popmode section
@@ -1284,192 +780,41 @@ EXPECT_SIZE(struct bFileSystemPoolEntry, 0xF0);
 .popmode pre
 
 .pushmode symbols
-- {431380 void CreateAnim_CNFSAnimBankPool()}                                                                   ||| func
-  Called by {431380}                                                                                            ||| ref
-
-- {4314E0 void CreateAnim_CAnimSkeletonPool()}                                                                  ||| func
-  Called by {431380}                                                                                            ||| ref
-
-- {431580 void CreateAnim_CAnimPartPool()}                                                                      ||| func
-  Called by {431380}                                                                                            ||| ref
-
-- {43CD40 void __thiscall Pool::Init({struct Pool} *this)}                                                      ||| func,refto
-  Called once, from {440B40}.                                                                                   ||| ref
-  {{Implementation}                                                                                             ||| details,summary
-  .controlchars [] .pushmode pre
-  [struct Pool] *pool;                                                                                          ||| refto
-  [struct PoolEntry] *entry;                                                                                    ||| refto
-  [struct PoolEntry] *next;                                                                                     ||| refto
-  int idx;
-
-  pool = this;
-  do {
-          pool->[structPool+10] = NULL;                                                                         ||| refto
-          if (pool->[structPool+24]) {                                                                          ||| refto
-                  next = (void*) ((char*) pool + sizeof([struct Pool]));                                        ||| refto
-                  pool->[structPool+10] = (void*) next;                                                         ||| refto
-                  for (idx = pool->[structPool+24] - 1; idx >= 0; idx--) {                                      ||| refto
-                          entry = next;
-                          next += pool->[structPool+28];                                                        ||| refto
-                          entry->[structPoolEntry+0] = next;                                                    ||| refto
-                  }
-                  next->[structPoolEntry+0] = 0;                                                                ||| refto
-          }
-          pool = pool->[structPool+8];                                                                          ||| refto
-  } while (pool);
-  .controlchars {} .popmode pre
-  }|||
-
-- {43CD80 int __thiscall Pool::GetIndexOfEntry({struct Pool} *this, {struct PoolEntry} *entry)}                 ||| func,refto,refto
-  -1 when not in this pool (or any linked pools).
-
-- {43CDF0 int __thiscall Pool::UngetEntry({struct Pool} *this, {struct PoolEntry} *entry)}                      ||| func,refto,refto
-  Mark the entry as free again. Returns the amount of used entries in the pool.
-  Same as {43F920}, but a thiscall.                                                                             ||| ref
-
-- {43F8F0 {struct PoolEntry} *RemoveFirstPoolEntry({struct Pool} *pool)}                                        ||| func,refto,refto
-
-- {43F920 void UngetPoolEntry({struct Pool} *pool, {struct PoolEntry} *entry)}                                  ||| func,refto,refto
-  Same as {43CDF0}, but an stdcall.                                                                             ||| ref
-
-- {440390 void AllocateMemoryForPool?(int size, int somestring, int, int)}                                      ||| func
-  TODO, seems to check the string to determine how to alloc?
-
-- {4407B0 void __thiscall PoolControl::Init({struct PoolControl} *this)}                                        ||| func,refto
-  Called by {77B670}.                                                                                           ||| ref
-  .pushmode pre
-  this->{structPoolControl+4}.{structPoolLink+0} = &this->{structPoolControl+4};                                ||| refto,refto,refto
-  this->{structPoolControl+4}.{structPoolLink+4} = &this->{structPoolControl+4};                                ||| refto,refto,refto
-  this->{structPoolControl+0} = 1;                                                                              ||| refto
-  .popmode pre
-
-- {440B40 AllocateAndInitPool(int elementSize, int elementAmount, char *name, int unknown)}                     ||| func
-  Uses {440390} to allocate memory, calls {43CD40}.                                                             ||| ref,ref
-  TODO, has one more XREF
-
-- {440BB0 void __thiscall Pool::Extend({struct Pool} *this, int elementAmount)}                                 ||| func,refto
-  Only called by {440D40}?                                                                                      ||| ref
-  {{Implementation {nfsu2-re-hooks/replace-440BB0-Pool__Extend.c}}                                              ||| details,summary,hookfileref
-  .controlchars [] .pushmode pre
-  [struct Pool] *ext;                                                                                           ||| refto
-  [struct Pool] *lastPool;                                                                                      ||| refto
-  char *ptr;
-
-  ext = [440B40](this->[structPool+28], elementAmount, this->[structPool+C], this->[structPool+20]);            ||| refplain,refto,refto,refto
-  ext->[structPool+14] = this->[structPool+14];                                                                 ||| refto,refto
-
-  lastPool = this;
-  while (lastPool->[structPool+8]) {                                                                            ||| refto
-          lastPool = lastPool->[structPool+8];                                                                  ||| refto
-  }
-  lastPool->[structPool+8] = ext;                                                                               ||| refto
-
-  ptr = (char*) ext + sizeof([struct Pool]); /*offset of first element*/                                        ||| refto
-  ptr += this->[structPool+28] * (elementAmount - 1); /*now offset of last element*/                            ||| refto
-  (([struct PoolEntry]*) ptr)->[structPoolEntry+0] = this->[structPool+10];                                     ||| refto,refto,refto
-
-  this->[structPool+10] = ext->[structPool+10];                                                                 ||| refto,refto
-  ext->[structPool+10] = NULL;                                                                                  ||| refto
-
-  this->[structPool+2C] += elementAmount;                                                                       ||| refto
-  .controlchars {} .popmode pre
-  }|||
-
-- {440DF0 {struct Pool} *CreatePool(int elementSize, int elementAmount, char *name, int unknown)}               ||| func,refto
-  Calls {440B40}.                                                                                               ||| ref
-  {{Implementation {nfsu2-re-hooks/replace-440DF0-CreatePool.c}}                                                ||| details,summary,hookfileref
-  .controlchars [] .pushmode pre
-  [struct Pool] *pool;                                                                                          ||| refto
-  [struct PoolLink] *linkNext;                                                                                  ||| refto
-
-  elementSize += 3;
-  elementSize -= elementSize % 4; /*ceil to multiple of 4*/
-  pool = [440B40](elementSize, elementAmount, name, unknown);                                                   ||| refplain
-  if (pool && [828530].[structPoolControl+0]) {                                                                 ||| refplain,refto
-          linkNext = [828530].[structPoolControl+4].[structPoolLink+4];                                         ||| refplain,refto,refto
-          linkNext->[structPoolLink+0] = pool;                                                                  ||| refto
-          [828530].[structPoolControl+4].[structPoolLink+4] = pool;                                             ||| refplain,refto,refto
-          pool->[structPool+0].[structPoolLink+0] = [828530].[structPoolControl+4];                             ||| refto,refto,refplain,refto
-          pool->[structPool+0].[structPoolLink+4] = linkNext;                                                   ||| refto,refto
-  }
-  return pool
-  .controlchars {} .popmode pre
-  }|||
-
-- {440D40 {struct PoolEntry} *__thiscall PoolGetNextFreeItem({struct Pool} *this)}                              ||| func,refto,refto
-
-- {440E50 int PoolGetNextFreeItem_stdcallwrapper(void *pool)}                                                   ||| func
-  {440D40} but wrapped in an stdcall. ||| ref
-
-- {440DA0 void __thiscall PoolControl::DeletePool({struct PoolControl} *this, {struct Pool} *pool)}             ||| func,refto,refto
-  Frees pool and all its linked pools, remove the pool from the link in {struct PoolControl}.                   ||| refto
-
-- {440E40 int DeletePool({struct Pool} *pool)}                                                                  ||| func,refto
-  .pushmode pre
-  {828530}->{440DA0}(pool);                                                                                     ||| refplain,refplain
-  .popmode pre
-
-- {57ED10 ? ??SetupPools(?,?)}                                                                                  ||| func
-  Called by {57ED10}                                                                                            ||| ref
-
-- {5EA8B0 int isUseMetricSystem()}                                                                              ||| func
-  Returns {83AA1A}.                                                                                             ||| ref
-
-- {77B670 void init_function_77B670()}                                                                          ||| func
-  .pushmode pre
-  {828530}->{4407B0}()                                                                                          ||| refplain,refplain
-  .popmode pre
-
-- {828530 {struct PoolControl} pools}                                                                           ||| field,refto
-
-- {865104 p_bFileSystemPool}                                                                                    ||| field
-
-- {81CB6C {struct Pool} *AIActionPool}                                                                          ||| field,refto
-  Size 560 Amount 23
-  Created by {4035D0}                                                                                           ||| ref
-
-- {81CB70 {struct Pool} *AIGoalPool}                                                                            ||| field,refto
-  Size 40 Amount 22
-  Created by {4035D0}                                                                                           ||| ref
-
-- {81CBB4 {struct Pool} *futurePointPool}                                                                       ||| field,refto
-  Size 120 Amount 600
-  Created by {4035D0}                                                                                           ||| ref
-
-- {81CBB8 {struct Pool} *pathfindingNodePool}                                                                   ||| field,refto
-  Size 192 Amount 161
-  Created by {4035D0}                                                                                           ||| ref
-
-- {81CBBC {struct Pool} *pathfindingNodeLitePool}                                                               ||| field,refto
-  Size 12 Amount 1280
-  Created by {4035D0}                                                                                           ||| ref
-
-- {827B4C {struct Pool} *anim_CNFSAnimBankPool}                                                                 ||| field,refto
-  Size 60 Amount 81
-  Created by {431380} or {4348F0} (whoever is first, checked with {827B50})                                     ||| ref,ref,ref
-
-- {827B50 int anim_CNFSAnimBankPoolCreated}                                                                     ||| field
-  To make sure {827B4C} gets created just once, since two funcs can make it.                                    ||| ref
-
-- {827B54 {struct Pool} *animCtrlPool}                                                                          ||| field,refto
-  Size 128 Amount 64
-  Created by {57ED10}                                                                                           ||| ref
-
-- {827B5C {struct Pool} *anim_CAnimSkeletonPool}                                                                ||| field,refto
-  Size 40 Amount 8
-  Created by {4314E0} or {434E10} (whoever is first, checked with {827B60})                                     ||| ref,ref,ref
-
-- {827B60 int anim_CAnimSkeletonPoolCreated}                                                                    ||| field
-  To make sure {827B5C} gets created just once, since two funcs can make it.                                    ||| ref
-
-- {827B64 {struct Pool} *anim_CAnimPartPool}                                                                    ||| field,refto
-  Size 20 Amount 8
-  Created by {431580}                                                                                           ||| ref
-
-- {827B68 int anim_CAnimPartPoolCreated}                                                                        ||| field
-  To make sure {827B64} gets created just once, although it seems like only one place creates it.               ||| ref
-
-- {83AA1A int useMetricSystem}                                                                                  ||| field
+- 431380
+- 4314E0
+- 431580
+- 43CD40
+- 43CD80
+- 43CDF0
+- 43F8F0
+- 43F920
+- 440390
+- 4407B0
+- 440B40
+- 440BB0
+- 440DF0
+- 440D40
+- 440E50
+- 440DA0
+- 440E40
+- 57ED10
+- 5EA8B0
+- 77B670
+- 828530
+- 865104
+- 81CB6C
+- 81CB70
+- 81CBB4
+- 81CBB8
+- 81CBBC
+- 827B4C
+- 827B50
+- 827B54
+- 827B5C
+- 827B60
+- 827B64
+- 827B68
+- 83AA1A
 .popmode symbols
 
 .popmode section
@@ -1658,48 +1003,18 @@ This is the only other function that checks if {8709BC} is non-zero.            
 I need text here or my parser breaks.
 
 .pushmode symbols
-- {5BF260 int ConsoleIsArgOneOfTheseHardcodedValues(char c)}                                    ||| func
-  .pushmode pre
-  unsigned char values[55] = {
-          ' ', '.', ',', '_', '@', '-', '`', '=', '[', ']', '\\',
-          ';', '\'', '/', '<', '>', '?', ':', '"', '{', '}', '|',
-          '+', '(', ')', '*', '&', '%', '#', '!', '~', 0xE5, 0xE4,
-          0xE0, 0xE2, 0xEB, 0xE8, 0xE9, 0xEA, 0xEF, 0xEE, 0xF6,
-          0xF4, 0xFC, 0xF9, 0xFB, 0xE7, 0x9C, 0xF2, 0xEC, 0xC5,
-          0xC4, 0xD6, 0xDC, 0xA7
-  };
-  int i;
-
-  for (i = 0; i < 55; i++) {
-          if (values[i] == value) {
-                  return 1;
-          }
-  }
-  return 0;
-  .popmode pre
-- {5BF3A0 void ConsoleMoveCaret(int relativePosition)}                                          ||| func
-
-- {80057E char consoleDisallowSpecialChars}                                                     ||| field
-  Never written to?
-
-- {80057D char consoleLastCharTyped?}                                                           ||| field
-  Never read from?
-
-- {8709B0 char *consoleTextString}                                                              ||| field
-
-- {8709B4 int consoleTextStringLength}                                                          ||| field
-
-- {8709B8 int consoleTextCaretPosition}                                                         ||| field
-
-- {8709BC int consoleEnabledFlag}                                                               ||| field
-
-- {8709C0 int consoleTextStringMaxLength}                                                       ||| field
-
-- {8709C4 int consoleIgnoreNextCR}                                                              ||| field
-
-- {8709C5 char ??DebugUnusedLastKeyPressed}                                                     ||| field
-
-- {8709C7 char consoleFilterSpecialChars}                                                       ||| field
+- 5BF260
+- 5BF3A0
+- 80057E
+- 80057D
+- 8709B0
+- 8709B4
+- 8709B8
+- 8709BC
+- 8709C0
+- 8709C4
+- 8709C5
+- 8709C7
 .popmode symbols
 
 .popmode section
@@ -1804,21 +1119,11 @@ of playing gives about a 277MB file, all output was piped to {sort | uniq}.     
 How I collected these can be seen in the {nfsu2-re-hooks/hook-*-hash-*.c} files.                ||| code
 
 .pushmode symbols
-- {43DB50 unsigned int SomeHashCS43DB50(char *str)}                                             ||| func
-  Case sensitive hash function.
-
-- {43DB80 unsigned int __cdecl SomeHashCS_WithStartValue(char *str, unsigned int startValue)}   ||| func
-  Like {43DB50}, but starts with given {startValue} instead of {-1}.                            ||| ref,code,code
-
-- {505450 unsigned int SomeHashCI505450(char *str)}                                             ||| func
-  Case insensitive hash function.
-
-- {50B990 unsigned int FormatWithSinglePlaceholderAndHashCS43DB50(char *src, void *param)}      ||| func
-  Delegates hashing to {43DB50}.                                                                ||| ref
-
-- {50B9C0 unsigned int FormatWithSinglePlaceholderAndHashCI(char *src, void *param)}            ||| func
-  Does its own hashing.
-
+- 43DB50
+- 43DB80
+- 505450
+- 50B990
+- 50B9C0
 .popmode symbols
 
 .pushmode section
@@ -2085,228 +1390,33 @@ ASSERT_OFFSET({struct DialogInfo}, {structDialogInfo+32D}, 0x32D);              
 .popmode pre
 
 .pushmode symbols
-- {4FF250 void __thiscall Dialog__ctor({struct DialogInfo} *this)}                              ||| func,refto
-  Initializes memory that was allocated to be a dialog.
-
-- {526C40 int GetFNGforDialog({struct DialogInfo} *dialog)}                                     ||| func,refto
-  Returns a pointer to a string that says what FNG to display for the dialog that was passed.
-  See {ui_dialog_getfngfordialog}                                                               ||| href
-
-- {540A60 void DismissDialog(int dialogIdToDismiss)}                                            ||| func
-
-- {54C050 int __thiscall DialogFNGMessageHandler(struct DialogFNGObject *this, int, int, int, int)}                     ||| func
-
-- {5542A0 DialogFNGInitHandler}                                                                                         ||| func
-
-- {558020 int ShowDialog({struct DialogInfo} *info)}                                                                    ||| func,refto
-  Returns the new dialog id for it (value in {838974}) or zero when                                                     ||| ref
-  it didn't show because of some override.
-
-- {5582A0 int ShowButtonlessFormattedDialogPtr(char *dialogParentFNGName,                                               ||| func
-                                               char *dialogFNGName,
-                                               char *textFormat,
-                                               void *textParameterPtr)} |||
-  Calls {558020}.                                                                                                       ||| ref
-
-- {558310 int ShowButtonlessFormattedDialog(char *dialogParentFNGName,                                                  ||| func
-                                            char *dialogFNGName,
-                                            char *textFormat,
-                                            int textParameter)} |||
-  Delegates to {5582A0}.                                                                                                ||| ref
-
-- {558330 int ShowButtonlessFormattedLanguageDialog(char *dialogParentFNGName,                                          ||| func
-                                                    char *dialogFNGName,
-                                                    unsigned int textLanguageString,
-                                                    int textParameter)} |||
-  Delegates to {5582A0}.                                                                                                ||| ref
-
-- {558390 int ShowStandardFormattedErrorDialog(char *dialogParentFNGName,                                               ||| func
-                                               char *dialogFNGName,
-                                               char *textFormat,
-                                               void *textParameterPtr)} |||
-  Calls {558020}.                                                                                                       ||| ref
-  Uses {0x639(OK)} for {structDialogInfo+310}, {0x34DC1BEC} for {structDialogInfo+314},                                 ||| code,refto,code,refto
-  {0xB4EDEB6D} for {structDialogInfo+318}, {0} for {structDialogInfo+31C},                                              ||| code,refto,code,refto
-  {1} for {structDialogInfo+328} and {structDialogInfo+32C}.                                                            ||| code,refto,refto
-
-- {558430 int ShowStandardFormattedLanguageErrorDialog(char *dialogParentFNGName,                                       ||| func
-                                                       char *dialogFNGName,
-                                                       unsigned int textFormatLanguageString,
-                                                       int textParameter)} |||
-  Delegates to {558390}.                                                                                                ||| ref
-
-- {558490 int ShowSingleButtonFormattedDialog318_32C(char *dialogParentFNGName,                                         ||| func
-                                                     char *dialogFNGName,
-                                                     unsigned int middleButtonLanguageString,
-                                                     unsigned int middleButtonMessage,
-                                                     int dialogField318,
-                                                     char byteDialogField32C,
-                                                     char *textFormat,
-                                                     void *textParameterPtr)} |||
-  Calls {558020}.                                                                                                       ||| ref
-  Uses {0} for {structDialogInfo+31C} and {1} for {structDialogInfo+328}.                                               ||| code,refto,code,refto
-
-- {558540 int ShowSingleButtonFormattedDialog318(char *dialogParentFNGName,                                             ||| func
-                                                 char *dialogFNGName,
-                                                 unsigned int middleButtonLanguageString,
-                                                 unsigned int middleButtonMessage,
-                                                 int dialogField318,
-                                                 char *textFormat,
-                                                 int textParameter)} |||
-  Delegates to {558490}.                                                                                                ||| ref
-  Uses {1} for {structDialogInfo+32C}.                                                                                  ||| code,refto
-
-- {558570 int ShowSingleButtonFormattedLanguageDialog318(char *dialogParentFNGName,                                     ||| func
-                                                         char *dialogFNGName,
-                                                         unsigned int middleButtonLanguageString,
-                                                         unsigned int middleButtonMessage,
-                                                         int dialogField318,
-                                                         unsigned int textLanguageString,
-                                                         int textParameter)} |||
-  Delegates to {558490}.                                                                                                ||| ref
-  Uses {1} for {structDialogInfo+32C}.                                                                                  ||| code,refto
-
-- {5585E0 int ShowSingleButtonFormattedDialog(char *dialogParentFNGName,                                                ||| func
-                                              char *dialogFNGName,
-                                              unsigned int middleButtonLanguageString,
-                                              unsigned int middleButtonMessage,
-                                              char *textFormat,
-                                              int textParameter)} |||
-  Delegates to {558490}.                                                                                                ||| ref
-  Uses {0} for {structDialogInfo+318} and {structDialogInfo+32C}.                                                       ||| code,refto,refto
-
-- {558610 int ShowSingleButtonFormattedLanguageDialog(char *dialogParentFNGName,                                        ||| func
-                                                      char *dialogFNGName,
-                                                      unsigned int middleButtonLanguageString,
-                                                      unsigned int middleButtonMessage,
-                                                      unsigned int textLanguageString,
-                                                      int textParameter)} |||
-  Delegates to {558490}.                                                                                                ||| ref
-  Uses {0} for {structDialogInfo+318} and {structDialogInfo+32C}.                                                       ||| code,refto,refto
-
-- {558680 int ShowTwoButtonFormattedDialog318_31C_32C(char *dialogParentFNGName,                                        ||| func
-                                                      char *dialogFNGName,
-                                                      unsigned int leftButtonLanguageString,
-                                                      unsigned int rightButtonLanguageString,
-                                                      unsigned int leftButtonMessage,
-                                                      unsigned int rightButtonMessage,
-                                                      int dialogField318,
-                                                      char dialogField_32C,
-                                                      int dialogField_31C,
-                                                      char *textFormat,
-                                                      void *textParameterPtr)} |||
-  Calls {558020}.                                                                                                       ||| ref
-
-- {558750 int ShowTwoButtonFormattedDialog318_31C(char *dialogParentFNGName,                                            ||| func
-                                                  char *dialogFNGName,
-                                                  unsigned int leftButtonLanguageString,
-                                                  unsigned int rightButtonLanguageString,
-                                                  unsigned int leftButtonMessage,
-                                                  unsigned int rightButtonMessage,
-                                                  int dialogField318,
-                                                  int dialogField31C,
-                                                  char *textFormat,
-                                                  int textParameter)} |||
-  Delegates to {558680} with {1} for {structDialogInfo+32C}.                                                            ||| ref,code,refto
-
-- {558790 int ShowTwoButtonFormattedLanguageDialog318_31C(char *dialogParentFNGName,                                    ||| func
-                                                          char *dialogFNGName,
-                                                          unsigned int leftButtonLanguageString,
-                                                          unsigned int rightButtonLanguageString,
-                                                          unsigned int leftButtonMessage,
-                                                          unsigned int rightButtonMessage,
-                                                          int dialogField318,
-                                                          int dialogField31C,
-                                                          unsigned int textFormatLanguageString,
-                                                          int textParameter)} |||
-  Delegates to {558680} with {1} for {structDialogInfo+32C}.                                                            ||| ref,code,refto
-
-- {558820 int ShowTwoButtonFormattedDialog31C(int dialogParentFNGName,                                                  ||| func
-                                              int dialogFNGName,
-                                              unsigned int leftButtonLanguageString,
-                                              unsigned int rightButtonLanguageString,
-                                              unsigned int leftButtonMessage,
-                                              unsigned int rightButtonMessage,
-                                              int dialogField31C,
-                                              char *textFormat,
-                                              int textParameter)} |||
-  Delegates to {558680} with {0} for {structDialogInfo+318} and {structDialogInfo+32C}.                                 ||| ref,code,refto,refto
-
-- {558860 int ShowTwoButtonFormattedLanguageDialog31C(char *dialogParentFNGName,                                        ||| func
-                                                      char *dialogFNGName,
-                                                      unsigned int leftButtonLanguageString,
-                                                      unsigned int rightButtonLanguageString,
-                                                      unsigned int leftButtonMessage,
-                                                      unsigned int rightButtonMessage,
-                                                      int dialogField31C,
-                                                      char *textFormat,
-                                                      int textParameter)} |||
-  Delegates to {558680} with {0} for {structDialogInfo+318} and {structDialogInfo+32C}.                                 ||| ref,code,refto,refto
-
-- {5588F0 int ShowThreeButtonFormattedDialog318_31C(char *dialogParentFNGName,                                          ||| func
-                                                    char *dialogFNGName,
-                                                    unsigned int leftButtonLanguageString,
-                                                    unsigned int rightButtonLanguageString,
-                                                    unsigned int middleButtonLanguageString,
-                                                    unsigned int leftButtonMessage,
-                                                    unsigned int rightButtonMessage,
-                                                    unsigned int middleButtonMessage,
-                                                    int dialogField318,
-                                                    int dialogField31C,
-                                                    char *textFormat,
-                                                    void *textParameterPtr)}|||
-  Calls {558020} with {3} for {structDialogInfo+328}, {1} for {structDialogInfo+32C}.                                   ||| ref,code,refto,code,refto
-
-- {5589D0 int ShowThreeButtonFormattedDialog318_31C(char *dialogParentFNGName,                                          ||| func
-                                                    char *dialogFNGName,
-                                                    unsigned int leftButtonLanguageString,
-                                                    unsigned int rightButtonLanguageString,
-                                                    unsigned int middleButtonLanguageString,
-                                                    unsigned int leftButtonMessage,
-                                                    unsigned int rightButtonMessage,
-                                                    unsigned int middleButtonMessage,
-                                                    int dialogField318,
-                                                    int dialogField31C,
-                                                    char *textFormat,
-                                                    int textParameter)}|||
-  Delegates to {5588F0}.                                                                                                ||| ref
-
-- {558A20 int ShowThreeButtonFormattedLanguageDialog318_31C(char *dialogParentFNGName,                                  ||| func
-                                                            char *dialogFNGName,
-                                                            unsigned int leftButtonLanguageString,
-                                                            unsigned int rightButtonLanguageString,
-                                                            unsigned int middleButtonLanguageString,
-                                                            unsigned int leftButtonMessage,
-                                                            unsigned int rightButtonMessage,
-                                                            unsigned int middleButtonMessage,
-                                                            int dialogField318,
-                                                            int dialogField31C,
-                                                            unsigned int textFormatLanguageString,
-                                                            int textParameter)}|||
-  Delegates to {5588F0}.                                                                                                ||| ref
-
-- {558AC0 int ShowHelpDialog(char *dialogParentFNGName, char *dialogFNGName, unsigned int textLanguageString)}          ||| func
-  Calls {558020} with {1} for {structDialogInfo+328}, {structDialogInfo+32C}, {structDialogInfo+32D}.                   ||| ref,code,refto,refto,refto
-  Uses {0x639(OK)} for {structDialogInfo+310}, {0x34DC1BEC} for {structDialogInfo+314},                                 ||| code,refto,code,refto
-  {0xB4EDEB6D} for {structDialogInfo+318}, {0} for {structDialogInfo+31C}.                                              ||| code,refto,code,refto
-
-- {7F6DE0 int nextDialogId}                                                                     ||| field
-  When {558020} is called, value is put into {838974} and incremented.                          ||| ref,ref
-
-- {838640 {struct DialogInfo} shownDialogData}                                                  ||| field,refto
-  Dialog info passed to {558020} is copied into here, TODO xrefs                                ||| ref
-
-- {838960 char* shownDialogParent}                                                              ||| field
-  Example value: {UI_PerformanceTuning_Setting.fng}.                                            ||| code
-
-- {838964 char* shownDialogType}                                                                ||| field
-  Example value: {GenericDialog_MED.fng}.                                                       ||| code
-
-- {838970 int dialogDismissedByOtherDialogMsg}                                                  ||| field
-  Unsure yet.
-
-- {838974 int shownDialogId}                                                                    ||| field
-  Zero when none.
+- 4FF250
+- 526C40
+- 540A60
+- 54C050
+- 5542A0
+- 558020
+- 5582A0
+- 558310
+- 558330
+- 558390
+- 558430
+- 558490
+- 558540
+- 558570
+- 5585E0
+- 558610
+- 558680
+- 558750
+- 558790
+- 558820
+- 558860
+- 5588F0
+- 5589D0
+- 558A20
+- 558AC0
+- 7F6DE0
+- 838640
 .popmode symbols
 
 .popmode section
@@ -4273,83 +3383,18 @@ mask gets placed on button1, and so on.
 .popmode pre
 
 .pushmode symbols
-- {50CF10 int __thiscall PCHelpBarFNGObject::IsSomethingStillAnimating({struct PCHelpBarFNGObject} *this)}                      ||| func,refto
-
-- {52D170 int __thiscall PCHelpBarFNGObject::GetMessageToSendFromMask({struct PCHelpBarFNGObject} *this, {enum PCHELPBARFLAGS} mask)}   ||| func,refto,refto
-  Used when a button is pressed, to send the appropriate message.
-
-- {52D330 unsigned int __thiscall PCHelpBarFNGObject::GetButtonLanguageKey({struct PCHelpBarFNGObject} *this, int mask)}        ||| func,refto
-  See {54E6E0} for mask. {BUTTON_PC_NAV_CONTINUE} is returned if it's not any of the other {BUTTON_} masks.                     ||| ref,code,code
-
-- {52D4F0 void __thiscall PCHelpBarFNGObject::OnCursorMoved({struct PCHelpBarFNGObject} *this)}                                 ||| func,refto
-  Called from {55DFA0}.                                                                                                         ||| ref
-
-- {542990 void __thiscall PCHelpBarFNGObject::SetVisible({struct PCHelpBarFNGObject} *this, int show)}                          ||| func,refto
-
-- {54E6A0 void __thiscall PCHelpBarFNGObject::Show({struct PCHelpBarFNGObject} *this)}                                          ||| func,refto
-
-- {54E6B0 void __thiscall PCHelpBarFNGObject::Hide({struct PCHelpBarFNGObject} *this)}                                          ||| func,refto
-
-- {54E6E0 void __thiscall PCHelpBarFNGObject::SyncByMask({struct PCHelpBarFNGObject} *this, int someMask, char *fngName)}       ||| func,refto
-  Sets buttons and background of the help bar, updates profile name display.
-  mask:
-  .pushmode pre
-  -        1: BUTTON_PC_NAV_QUIT: Quit Game
-  -        2: BUTTON_PC_NAV_LOGOFF: Logoff
-  -        4: BUTTON_PC_NAV_CONTINUE: Continue
-  -        8: BUTTON_PC_NAV_INSTALL_PART: Install Part
-  -       10: BUTTON_PC_NAV_INSTALL_VINYL: Install Vinyl
-  -       20: BUTTON_PC_NAV_INSTALL_DECAL: Install Decal
-  -       40: BUTTON_PC_NAV_INSTALL_PACKAGE: Install Package
-  -       80: BUTTON_PC_NAV_INSTALL_PAINT: Install Paint
-  -      100: BUTTON_PC_NAV_READ_MESSAGE: Read Message
-  -      200: BUTTON_CANCEL_CHANGES: Cancel Changes
-  -      400: BUTTON_PC_NAV_BACK: Back
-  -      800: if {89E7E6}                                                                                                       ||| refplain
-              BUTTON_DYNO_RESET: Reset to default
-              else
-              BUTTON_PC_NAV_RESET_KEYS: Reset Keys To Default
-  -     1000: BUTTON_PC_NAV_CUSTOMIZE: Customize
-  -     2000: BUTTON_PC_NAV_DELETE: Delete
-  -     4000: BUTTON_PC_NAV_EA_MESSENGER: EA Messenger
-  -     8000: LAYOUT_WORLDMAP_POSITION: moves the button bar up slightly, three buttons, only has an effect when 10000 is set
-  -    10000: LAYOUT_ONE_LINE_NO_BG: used for pause options (display settings etc)/world map/pause menu
-  -    20000: LAYOUT_PAUSEMENU_POSITION: moves the button bar up, three buttons, only has an effect when 10000 is set
-  -    40000: BUTTON_DELETE_TUNED_CAR: Delete Tuned Car
-  -    80000: BUTTON_ICE_TEST_NOS_PURGE: Test N20 Purge
-  -   100000: BUTTON_ICE_OPEN_CLOSE_HOOD: Open/Close Hood
-  -   200000: BUTTON_ICE_OPEN_CLOSE_DOORS: Open/Close Doors
-  -   400000: BUTTON_DYNO_TIP: Tip
-  -   800000: if (in UI_ChooseVinylLayer.fng)
-              BUTTON_DECAL_COLOR: Decal Color
-              else
-              BUTTON_FE_REPAINT: Repaint
-  -  1000000: BUTTON_MU_PAUSE_RESTART: Restart
-  -  2000000: BUTTON_STRING_WORLD_MAP_SELECT: Select Event
-  -  4000000: BUTTON_FILTER_EVENT_OFF: Hide on World Map
-  -  8000000: BUTTON_FILTER_EVENT_ON: Show on World Map
-  - 10000000: BUTTON_ACTIVATE_GPS: Activate GPS
-  - 20000000: BUTTON_DEACTIVATE_GPS: Deactivate GPS
-  - 40000000: BUTTON_OL_HOST_LAN_SERVER: Host LAN Server
-  - 80000000: LAYOUT_RIGHT_POSITION: puts buttons at the right, two buttons, only has an effect when 10000 is set
-  .popmode pre
-
-  Mask gets adjusted based on {850078} and {8654A4}:                                                                            ||| ref,ref
-  .controlchars [] .pushmode pre
-  if (([850078] == 8 || [850078] == 0x100) && [8654A4] == 3 && (mask & BUTTON_PC_NAV_QUIT)) {                                   ||| refplain,refplain,refplain
-          mask = (mask & ~PC_NAV_QUIT) | BUTTON_PC_NAV_LOGOFF;
-  }
-  if ([850078] == 0x200 && (mask & BUTTON_PC_NAV_EA_MESSENGER)) {                                                               ||| refplain
-          mask &= ~BUTTON_PC_NAV_EA_MESSENGER;
-  }
-  .controlchars {} .popmode pre
-
-- {55DE00 void __thiscall PCHelpBarFNGObject::OnPrimaryCursorJustPressed({struct PCHelpBarFNGObject} *this)}                    ||| func,refto
-  Called from {55DFA0}.                                                                                                         ||| ref
-
-- {55DFA0 int __thiscall PCHelpBarFNGObject::MessageHandler({struct PCHelpBarFNGObject} *this, unsigned int message, int, int, int)}    ||| func,refto
-
-- {8384D8 {struct PCHelpBarFNGObject} *pcHelpBarFNGObject}                                                                      ||| field,refto
+- 50CF10
+- 52D170
+- 52D330
+- 52D4F0
+- 542990
+- 54E6A0
+- 54E6B0
+- 54E6E0
+- 55DE00
+- 55DFA0
+- 8384D8
+- enum PCHELPBARFLAGS
 .popmode symbols
 
 .popmode section
@@ -4468,174 +3513,54 @@ UI keys seem to be hashed with the case insensitive hash.
 .popmode pre
 
 .pushmode symbols
-- {4953C0 {struct UILabel} *FindUILabelByName(char *fngName, char *str)}                                        ||| func,refto
-  Hashes {str} and delegates to {537A10}.                                                                       ||| code,ref
-
-- {4953E0 {struct UIElementType1} *FindUIElementType1ByName(char *fngName, char *str)}                          ||| func,refto
-
-- {495460 int SetUILabelByHashLanguageString(char *fngName, unsigned int hash, unsigned int languageString)}    ||| func
-
-- {495490 int SetUILabelByNameLanguageString(char *fngName, char *name, unsigned int languageString)}           ||| func
-  Uses {505450}.                                                                                                ||| ref
-
-- {4954C0 int HideUIElementAndChildrenByName(char *fngName, char *name)}                                        ||| func
-  Uses {505450}.                                                                                                ||| ref
-
-- {4954E0 void HideUIElementAndChildrenByHash(char *fngName, unsigned int hash)}                                ||| func
-
-- {495500 int ShowUIElementAndChildrenByName(char *fngName, char *name)}                                        ||| func
-  Uses {505450}.                                                                                                ||| ref
-
-- {495520 void ShowUIElementAndChildrenByHash(char *fngName, unsigned int hash)}                                ||| func
-
-- {4FDAD0 void __thiscall U2RECT::Add({struct U2RECT} *this, {struct U2RECT} *rect)}                            ||| func,refto,refto
-  Sums {this} and {rect} into {this}.                                                                           ||| code,code,code
-
-- {504830 int __thiscall FNGInfo::VisitContainerRecursively({struct FNGInfo} *this,             ||| func,refto
-                                                            {struct UIContainer} *container,    ||| refto
-                                                            {struct UIElementVisitor} *visitor)}||| refto
-  Starts at {container->{structUIContainer+64}},                                                                        ||| code,refto
-  iterates through all children by traversing {{structUIElement+4}},                                                    ||| code,refto
-  calls {visitor->{structUIElementVisitor+0}->{structUIElementVisitor$vtable+4}} for every child,                       ||| code,refto,refto
-  calls {504830} (itself) for every child that is of type 5 ({{struct UIContainer}}),                                   ||| ref,code,refto
-  returns 0 when either calls return 0.
-
-- {504880 int __thiscall FNGInfo::VisitUIRecursively(struct FNGInfo *this, {struct UIElementVisitor} *visitor)}         ||| func,refto
-  Starts at {this->{structFNGInfo+4C}},                                                                                 ||| code,refto
-  iterates through all children by traversing {{structUIElement+4}},                                                    ||| code,refto
-  calls {visitor->{structUIElementVisitor+0}->{structUIElementVisitor$vtable+4}} for every child,                       ||| code,refto,refto
-  calls {504830} for every child that is of type 5 ({{struct UIContainer}}),                                            ||| ref,code,refto
-  returns 0 when either calls return 0.
-
-- {5048D0 int __thiscall UIElementVisitor_FindByHash::acceptElement({struct UIElementVisitor_FindByHash} *this, ||| func,refto
-                                                                    {struct UIElement} *element)}               ||| refto
-  If {element->{structUIElement+10} == this->{structUIElementVisitor_FindByHash+4}},                            ||| code,refto,refto
-  set {this->{structUIElementVisitor_FindByHash+8}} to {element} and return 0.                                  ||| code,refto,code
-
-- {5048F0 int __thiscall UIElementVisitor_FindByFieldC::acceptElement(struct UIElementVisitor_FindByFieldC *this,       ||| func
-                                                                      {struct UIElement} *element)}                     ||| refto
-
-- {50B460 int RenderCursor(int x, int y)}                                                                       ||| func
-
-- {50C900 int SetUILabelLanguageString({struct UILabel} *label, unsigned int languageString)}                   ||| func,refto
-
-- {50CA00 void HideUIElementAndChildren({struct UIElement} *uielement)}                                         ||| func,refto
-
-- {50CA50 void ShowUIElementAndChildren({struct UIElement} *uielement)}                                         ||| func,refto
-
-- {50CD00 int IsPointInRect(float x, float y, struct \{ float x; float y\} *pos,                                ||| func
-  struct \{ float width; float height; \} *size)} |||
-  Only seen this being called when there's a list on screen so far.
-
-- {517F80 {struct UIElement} *__thiscall FNGInfo::FindUIElementByHash({struct FNGInfo} *this,   ||| func,refto,refto
-                                                                      unsigned int hash)} |||
-  .controlchars [] .pushmode pre
-  [struct UIElementVisitor_FindByHash] visitor;                                                 ||| refto
-
-  visitor.[structUIElementVisitor_FindByHash+0].[structUIElementVisitor+0] = &[79AAF4];                                 ||| refto,refto,refplain
-  visitor.[structUIElementVisitor_FindByHash+4] = hash;                                                                 ||| refto
-  visitor.[structUIElementVisitor_FindByHash+8] = 0;                                                                    ||| refto
-  [504880](this, visitor);                                                                                              ||| refplain
-  return visitor.[structUIElementVisitor_FindByHash+8];                                                                 ||| refto
-  .controlchars {} .popmode pre
-
-- {517FE0 int __thiscall FNGInfo::FindElementByFieldC({struct FNGInfo} *this, int searchingUIElementFieldC)}            ||| func,refto
-
-- {51CF70 void SetUIElementAnimationByName({struct UIElement} *uielement, char *animationStr,                           ||| func,refto
-                                           char resetAnimationWhenThisAnimationAlreadyActive)} |||
-
-- {51CFE0 void SetUIElementAnimationByHash({struct UIElement} *element, unsigned int hash,                              ||| func,refto
-                                           char resetAnimationWhenThisAnimationAlreadyActive)} |||
-
-- {51D070 void GetUIElementTopLeft({struct UIElement} *element, float *top, float *left)}                               ||| func,refto
-  TODO
-
-- {51D170 void GetUIElementRightBottom({struct UIElement} *element, float *right, float *bottom)}                       ||| func,refto
-  TODO
-
-- {51D9F0 int GetUIElementRect({struct UIElement} *element, {struct U2RECT} *out)}                                      ||| func,refto,refto
-  Returns 1 on success.
-
-- {52C570 {struct UIElement} *__thiscall GetUIElementByHashInFngName({struct UIData_Field8} *this,                      ||| func,refto,refto
-                                                                     unsigned int hash,
-                                                                     char *fngName)} |||
-  When {fngName} is null, searches every FNG in {this->{structUIData_Field8+E4}} for the given hash.                    ||| code,code,refto
-  Otherwise, limit the search to the FNG that is in the hierarchy of {this->{structUIData_Field8+E4}}                   ||| code,refto
-  (by using {519E50}).                                                                                                  ||| ref
-
-- {52D020 int IsPointInUIElement(float x, float y, {struct UIElement} *element)}                                        ||| func,refto
-
-- {535FE0 void __thiscall UILabel::setString({struct UILabel} *this, char *str)}              ||| func,refto
-  Only seems to be used for dynamic things such as: money, player name, sms messages, track length...
-
-- {5372E0 {struct UIData} *__thiscall UIData::ctor({struct UIData} *this)}                                      ||| func,refto,refto
-  Called from {57ED10}.                                                                                         ||| ref
-
-- {537750 void __thiscall UIData::PopPackage({struct UIData} *this, char *fngName)}                             ||| func,refto
-
-- {537830 void CreateUI()}                                                                                      ||| func
-  Called from {57ED10}.                                                                                         ||| ref
-
-- {5379C0 {struct UIElement} *FindUIElementByHash(char *fngName, unsigned int hash)}                            ||| func,refto
-
-- {537A10 {struct UILabel} *FindUILabelByHash(char *fngName, unsigned int hash)}                                ||| func,refto
-
-- {537A60 {struct UIElementType1} *FindUIElementType1ByHash(char *fngName, unsigned int hash)}                  ||| func,refto
-
-- {537B30 int SetUILabelFormattedString({struct UILabel} *label, char *format, void *param)}                    ||| func,refto
-  Delegates to {535FE0}. Also makes the element visible.                                                        ||| ref
-
-- {537B80 int SetUILabelByHashFormattedString(char *fngName, unsigned int hash, char *format, int parameter)}   ||| func
-  Only used for a few things, such as: sms 'from', sms 'subject', part name in customize..
-  Delegates to {537B30}                                                                                         ||| ref
-
-- {542600 int SetUILabelByNameFormattedString(char *fngName, char *uiElementName, char *format, int parameter)} ||| func
-  Uses {4953C0}, then {537B30}.                                                                                 ||| ref,ref
-
-- {537BE0 int SetNullableUILabelFormattedString({struct UILabel} *label, char *format, char param)}             ||| func,refto
-  Same as {537B30} but checks if {label} is not null first.                                                     ||| ref,code
-
-- {5663B0 void DoUI()}                                                                                          ||| func
-  TODO document this and go in the last unresolved func.
-
-- {78DA30 float canvasHeight2}                                                                                  ||| field
-  Canvas height divided by 2.
-
-- {797D50 float canvasWith2}                                                                                    ||| field
-  Canvas width divided by 2.
-
-- {797D54 float canvasHeight}                                                                                   ||| field
-
-- {797D58 float canvasWidth}                                                                                    ||| field
-
-- {79AAF4 {struct UIElementVisitor_FindByHash} vtable_UIElementVisitor_FindByHash}                              ||| field,refto
-  vtable for {517F80},                                                                                          ||| ref
-  {vtable->{structUIElementVisitor$vtable+0} = {5047C0};}                                                       ||| code,refto,ref
-  {vtable->{structUIElementVisitor$vtable+4} = {5048D0};}                                                       ||| code,refto,ref
-
-- {79BCD8 vtable_UIData}                                                                                        ||| field
-
-- {836494 char canUseQToExit}                                                                                   ||| field
-  When 1, pressing Q is allowed to bring up a dialog to exit the game.
-
-- {8384C4 {struct UIData} *pUIData}                                                                             ||| field,refto
-
-- {838528 char someThingKeyboardInput}                                                                          ||| field
-  Seems keyboard related due to:
-  {{collapsed code}                                                                                             ||| details,summary
-  .controlchars [] .pushmode pre
-  //551E84
-  if (!strcmp(x,"UI_OLEAMessenger.fng") ||
-          !strcmp(x, "GarageMain.fng") ||
-          !strcmp(x, "Keyboard.fng") ||
-          !strcmp(x, "UI_VirtualKeyboard.fng))
-  {
-          [838528] = 1;                                                                                         ||| refplain
-  } else {
-          [838528] = 0;                                                                                         ||| refplain
-  }
-  .controlchars {} .popmode pre
-  } |||
+- 4953C0
+- 4953E0
+- 495460
+- 495490
+- 4954C0
+- 4954E0
+- 495500
+- 495520
+- 4FDAD0
+- 504830
+- 504880
+- 5048D0
+- 5048F0
+- 50B460
+- 50C900
+- 50CA00
+- 50CA50
+- 50CD00
+- 517F80
+- 517FE0
+- 51CF70
+- 51CFE0
+- 51D070
+- 51D170
+- 51D9F0
+- 52C570
+- 52D020
+- 535FE0
+- 5372E0
+- 537750
+- 537830
+- 5379C0
+- 537A10
+- 537A60
+- 537B30
+- 537B80
+- 542600
+- 537BE0
+- 5663B0
+- 78DA30
+- 797D50
+- 797D54
+- 797D58
+- 79AAF4
+- 79BCD8
+- 836494
+- 8384C4
+- 838528
 .popmode symbols
 
 .popmode section
@@ -4676,55 +3601,19 @@ struct MouseData *_mouseData = (struct MouseData*) 0x8763D0;
 .popmode pre
 
 .pushmode symbols
-- {50CD70 void GetMousePositionFromMiddle(float *cursorX, float *cursorY)}                      ||| func
-  .pushmode pre
-  *cursorX = _mouseData.cursorX - canvasWidth/2;
-  *cursorY = _mouseData.cursorY - canvasHeight/2;
-  .popmode pre
-
-- {50C860 void StoreMousePosButtonsIntoArg(void *arg)}                                          ||| func
-  .pushmode pre
-  *((short*) arg_0 + 0) = _mouseData.cursorX - canvasWidth / 2;
-  *((short*) arg_0 + 1) = _mouseData.cursorY - canvasHeight / 2;
-  *((short*) arg_0 + 2) = _mouseData.button0State << 1 | _mouseData.button1State; (or swapped)
-  .popmode pre
-
-- {50CDA0 void GetMouseWheel(float *mouseWheelData)}                                            ||| func
-  .pushmode pre
-  *mouseWheelData = _mouseData.mousestate.lz;
-  .popmode pre
-
-- {50CDB0 int DidCursorPressInRect(struct \{ float x; float y; \} *pos,                         ||| func
-  struct \{ float width; float height; \} *size)} |||
-  Gets called in one location, but still haven't actually seen it being called. TODO
-
-- {52D090 int IsCursorDownInUIElement({struct UIElement} *uiElement)}                           ||| func,refto
-  Checks if the primary mouse button is held down.
-  Delegates to {52D020}                                                                         ||| ref
-
-- {52D100 int DidCursorPressInUIElement({struct UIElement} *element)}                           ||| func,refto
-  Checks is the primary mouse button is just down.
-  Delegates to {52D020}                                                                         ||| ref
-
-- {5BF6E0 int __thiscall CreateDinputDevice({struct MouseData} *this)}                          ||| func,refto
-  Creates and sets {{8763D0}.{structMouseData+0}}                                               ||| code,ref,refto
-
-- {5BF750 int __thiscall UpdateCursorPosition({struct MouseData} *this)}                        ||| func,refto
-
-- {5BF860 void __thiscall UpdateMouseState({struct MouseData} *this)}                           ||| func,refto
-  Calls {5BF750} and then updates button states.                                                ||| ref
-
-- {5BF940 int __thiscall HaveCursorActivity({struct MouseData} *this)}                          ||| func,refto
-  called once, from {5663B0}. returns 1 if position deltas or scrollwheel or                    ||| ref
-  any of the JustPressed/JustReleased fields are not zero. Always returning 0 here has the
-  effect that ui hover does not work, left click acts as right click (go back) except when
-  clicking on the active ui element (like main menu bar). Dialog box buttons still work
-  somehow. The car showroom can still be rotated with mmb. Mouse still moves.
-
-- {5C8600 int __thiscall MouseData::ctor({struct MouseData} *this)}                             ||| func,refto
-  Called once, from {77E580}.                                                                   ||| ref
-
-- {8763D0 struct MouseData _mouseData}                                                          ||| field
+- 50CD70
+- 50C860
+- 50CDA0
+- 50CDB0
+- 52D090
+- 52D100
+- 5BF6E0
+- 5BF750
+- 5BF860
+- 5BF940
+- 5C8600
+- 8763D0
+- enum PCHELPBARFLAGS
 .popmode symbols
 
 .popmode section
@@ -4973,11 +3862,10 @@ to this key), makes it so the player's car starts driving like an AI car. Exampl
 {nfsu2-re-hooks/switch-joyids-in-career.c}.                                                             ||| hookfileref
 
 .pushmode symbols
-- {7FABA8 {struct JoyData} joydata[223]}                                                                ||| field,refto
+- 7FABA8
 .popmode symbols
 
 .popmode section
-
 .popmode section
 .pushmode section
 
@@ -5092,38 +3980,17 @@ this from looking up cheats in my childhood), but toggling sponsor car cheats wh
 ingame has immediate effect.
 
 .pushmode symbols
-- {575770 void __thiscall InitCheats_({struct CheatScreenData} *this)}                          ||| func,refto
-  Initializes {865930} and {7FB960}.                                                            ||| ref,ref
-
-- {576050 void __thiscall UndoCheat__({struct CheatScreenData} *this, int cheatdata_field28)}   ||| func,refto
-  Weird one, is called on each cheat entry and all cheats with a matching
-  {{structCheatData+28}} has zero written to its {{structCheatData+30}} field.                  ||| code,refto,code,refto
-
-- {576090 int GetExtraCheatedCareerMoney()}                                                     ||| func
-  Basically {return {86512C} + {865130};}                                                       ||| code,refplain,refplain
-
-- {5760A0 int __thiscall DoCareerCheat({struct CheatScreenData} *this, int careerCheatIdx)}     ||| func,refto
-
-- {579CB0 void __thiscall CheatMatched({struct CheatScreenData} *this, int cheat_index)}        ||| func,refto
-  Called from {57B8B0} when a cheat matched.                                                    ||| ref
-
-- {57B8B0 void __thiscall CheatCheck(void *this, int keyCode)}                                  ||| func
-  Called from {55DBD0} when {{865930}.{structCheatScreenData+4}} is non-zero.                   ||| ref,code,ref,refto
-
-- {7FB960 {struct CheatData} cheatData[20]}                                                     ||| field,refto
-
-- {8383C8 cheatCareerNeverPossible}                                                             ||| field
-  This gets only set to one when a career cheat with {7FB960} zero is entered,                  ||| ref
-  but all career cheats have a value of 2-4.
-  It has one XREF, surrounded by some language stuff? TODO
-
-- {86512C cheatExtraCareerMoney200}                                                             ||| field
-  Set to 200 when the {regmybank} cheat was entered.                                            ||| em
-
-- {865130 cheatExtraCareerMoney1000}                                                            ||| field
-  Set to 1000 when the {ordermebaby} cheat was entered.                                         ||| em
-
-- {865930 {struct CheatScreenData} cheatScreenData}                                             ||| field,refto
+- 575770
+- 576050
+- 576090
+- 5760A0
+- 579CB0
+- 57B8B0
+- 7FB960
+- 8383C8
+- 86512C
+- 865130
+- 865930
 .popmode symbols
 
 .popmode section
@@ -5154,8 +4021,7 @@ After hooking and printing addresses, some more obvious data could be seen:
 .popmode ul
 
 .pushmode symbols
-- {511E60 void *GetLogoForCarModel(int car_model_index, char get_manufacturer_logo)}            ||| func
-  TODO: what is the return type?
+- 511E60
 .popmode symbols
 
 .popmode section
@@ -5164,13 +4030,9 @@ After hooking and printing addresses, some more obvious data could be seen:
 {Sound}  ||| h id=sound
 
 .pushmode symbols
-- {458520 void __thiscall PlaySound_(void *this, void *sound)}                                  ||| func
-
-- {51DE60 int PlayUISoundEffect(void *unknownUnused, int soundID)}                              ||| func
-  Discovered when looking at cheats. 8 is some choose sound, 9 too, .. TODO other IDs.
-
-- {82B884 pSoundEffectSystem?}                                                                  ||| field
-  pointer to what is used as {this} for calls to {458520}                                       ||| code, ref
+- 458520
+- 51DE60
+- 82B884
 .popmode symbols
 
 .popmode section
@@ -5244,24 +4106,12 @@ Not loading bin section {0x3414A} results in no career markers at all, and no tr
 .popmode pre
 
 .pushmode symbols
-- {5D3DE0 {struct NeighbourhoodName} *GetNeighbourhoodNameForHash(unsigned int hash)}                                   ||| func,refto
-  On first call (checked with {883D9C}), calculate all the hashes in {800C38}.                                          ||| ref,ref
-
-- {5D9A90 int __thiscall Markers::InitFromBinData({struct Markers} *this, {struct BinSection} *binsection)}             ||| func,refto,refto
-
-- {5D9BF0 {struct Marker} *__thiscall Markers::FindAtPosWithTypeAfterIndex({struct Markers} *this,                      ||| func,refto,refto
-                                                                           float *atPosition,
-                                                                           int type,
-                                                                           {struct Marker} *after)}                     ||| refto
-  {atPosition} can be null, then it'll just return the first marker. When {after} is not null, the search starts        ||| code,code
-  after that specific marker.
-
-- {88F298 {struct Markers} markerData}                                                                                  ||| field,refto
-
-- {800C38 struct NeighbourhoodName neighbourhoodNames[13]}                                                              ||| field
-
-- {883D9C char neighbourhoodHashesCalculatedAlready}                                                                    ||| field
-
+- 5D3DE0
+- 5D9A90
+- 5D9BF0
+- 88F298
+- 800C38
+- 883D9C
 .popmode symbols
 
 .popmode section
@@ -5391,228 +4241,40 @@ which is in file {GLOBAL/GLOBALB.BUN}).                                         
 .popmode pre
 
 .pushmode symbols
-- {4976B0 void __cdecl ShowMailboxOrSingleUnreadSms()}                                                  ||| func
-  TODO check where this is called, it will be the carreer game state's keyhandler.
-  TODO has some references to unknown fields
-  When {514D30} returns {1}, immediately open that message. Show mailbox otherwise.                     ||| ref,code
-
-- {497760 void GetSmsMessageSubjectHeader({struct SmsMessage} *sms, char *dest, int maxLength)}         ||| func,refto
-  Gets the subject from {5149C0} and prepends {Subject: } to it (based on language).                    ||| ref,code
-  Used by {4CC7C0} and {497850}.                                                                        ||| ref,ref
-  {{Implementation {nfsu2-re-hooks/replace-497760-GetSmsMessageSubjectHeader.c}}                        ||| details,summary,hookfileref
-  .pushmode pre
-  char *subjectFormat;
-  char subject[100];
-
-  subjectFormat = {4FF9D0}(0x4B5DE3E9/*SMS_SUBJECT_HEADER*/);                                           ||| refplain
-  {5149C0}(sms, subject, sizeof(subject));                                                              ||| refplain
-  sprintf(dest, subjectFormat, subject);
-  .popmode pre
-  } |||
-
-- {4977C0 void HideSmsMailbox()}                                                                        ||| func
-
-- {497850 int __thiscall ShowSmsMessage(void *this, void *arg)}                                         ||| func
-  TODO, called from {4B2240}                                                                            ||| ref
-
-- {4CBB60 void __thiscall SmsListEntry::dtor({struct SmsListEntry} *this, char doFreeMem)}              ||| func,refto
-
-- {4CC7C0 {struct SmsListEntry} *__thiscall SmsListEntry::ctor({struct SmsListEntry} *this,             ||| func,refto,refto
-                                                               {struct SmsMessage} *sms)}               ||| refto
-
-- {4CC900 void __thiscall ShowSmsList({struct MailboxFNGObject} *this)}                                 ||| func,refto
-
-- {4E1BF0 void __thiscall MailboxFNGObject::ctor(struct MailboxFNGObject *this, void *fnginitarg)}      ||| func
-
-- {4E2050 FNGINIT_UI_SMS_Mailbox_fng}                                                                   ||| func
-  Allocates memory and calls {4E1BF0}.                                                                  ||| ref
-  TODO
-
-- {5012F0 void storeSmsDatas(char *data, int size)}                                                     ||| func
-  Called from {512C00}. Data is a bin section with magic {0x34A17} (which is inside bin section         ||| ref,code
-  {80034A10}).                                                                                          ||| code
-  .pushmode pre
-  {838454} = (void*) data;                                                                              ||| refplain
-  {838450} = size / 20;                                                                                 ||| refplain
-  .popmode pre
-
-- {501310 {struct SmsData} *__cdecl GetSmsDataForHash(int hash)}                                        ||| func,refto
-  Goes through all {838454} and returns the one that has a matching                                     ||| ref
-  {cshash({838428} + {structSmsData+0})}.                                                               ||| code,refplain,refto
-
-- {501470 unsigned int __thiscall GetSmsSenderLanguageHash({struct SmsMessage} *this)}                  ||| func,refto
-  Returns the hash for the language string that is the sms sender.
-  Used once in {497850}.                                                                                ||| ref
-  .pushmode pre
-  return this->{structSmsMessage+0}.{structSmsData+10};                                                 ||| refto,refto
-  .popmode pre
-
-- {5014A0 {struct SmsMessage} *__thiscall SmsMessageList::GetAtIndex({struct SmsMessageList} *this,     ||| func,refto,refto
-                                                                     int index)} |||
-  TODO: check xrefs
-
-- {5014C0 void __thiscall SmsMessageList::MarkMessageDeletedAndRead({struct SmsMessageList} *this,      ||| func,refto
-                                                                    {struct SmsMessage} *sms)}          ||| refto
-  .controlchars [] .pushmode pre
-  if (!sms->[structSmsMessage+6] && !sms->[structSmsMessage+4]) {                                       ||| refto,refto
-        this->[structSmsMessageList+1404]--;                                                            ||| refto
-  }
-  sms->[structSmsMessage+6] = 1;                                                                        ||| refto
-  sms->[structSmsMessage+4] = 1;                                                                        ||| refto
-  .controlchars {} .popmode pre
-
-- {5149C0 void __thiscall GetSmsMessageSubject({struct SmsMessage} *this, char *dest, int maxlen)}      ||| func,refto
-  {{Implementation {nfsu2-re-hooks/replace-5149C0-GetSmsMessageSubject.c}}                              ||| details,summary,hookfileref
-  .controlchars [] .pushmode pre
-  char *format;
-  char *parameter;
-  char *str;
-  char buffer\[50\];
-
-  if (this->[structSmsMessage+10]) {                                                                    ||| refto
-          format = [4FFA80](this->[structSmsMessage+10]);                                               ||| refplain,refto
-          parameter = [4FFA80](this->[structSmsMessage+C]);                                             ||| refplain,refto
-          sprintf(dest, format, parameter);
-          // example format: %s cover opportunity
-          // example param: AutoMaxx Magazine
-          return;
-  }
-
-  str = getCareerString(this->[structSmsMessage+0].[structSmsData+0]);                                  ||| refto,refto
-  if (![43DC60](str, "SMS_CAR_UNLOCK_", [43DBB0]("SMS_CAR_UNLOCK_"))) {                                 ||| refplain,refplain
-          str = [4FFA80](0xF81E6031/*SMS_CAR_UNLOCK_1_SUBJECT*/);                                       ||| refplain
-          [43DBD0](dest, str);                                                                          ||| refplain
-          // example: SMS_CAR_UNLOCK_17
-          // example: SMS_CAR_UNLOCK_16
-          return;
-  }
-
-  [50B990](dest, "%s_SUBJECT", str);                                                                    ||| refplain
-  // example: ENGAGE_TIP_CAREER_PROG_SUBJECT
-  // example: SMS_DVD_COVER_10_SUBJECT
-  .controlchars {} .popmode pre
-  } |||
-
-- {514B00 void __thiscall GetSmsMessageBody({struct SmsMessage} *this, char *dest, int maxlen)}         ||| func,refto
-  Used once in {497850}.                                                                                ||| ref
-  {{Implementation {nfsu2-re-hooks/replace-514B00-GetSmsMessageBody.c}}                                 ||| details,summary,hookfileref
-  .controlchars [] .pushmode pre
-  char *format;
-  char *parameter;
-  char *str;
-  char buffer\[128\];
-  
-  if (this->[structSmsMessage+8]) {                                                                     ||| refto
-          format = [4FFA80](this->[structSmsMessage+8]);                                                ||| refplain,refto
-          parameter = [4FFA80](this->[structSmsMessage+C]);                                             ||| refplain,refto
-          sprintf(dest, format, parameter);
-          // example format: One of my contacts has just called to let me know that a photographer
-                             from %s is in town looking for hot cars for next month's cover.
-                             Head to the star on the map and I'll call you with more details when
-                             you get there.
-          // example param: Street Tuner
-          return;
-  }
-  
-  str = getCareerString(this->[structSmsMessage+0].[structSmsData+0]);                                  ||| refto,refto
-  if (![43DC60](str, "SMS_CAR_UNLOCK_", strlen("SMS_CAR_UNLOCK_"))) {                                   ||| refplain
-          str = [4FFA80](cihash("SMS_CAR_UNLOCK_1_BODY"));                                              ||| refplain
-          [43DBD0](dest, str);                                                                          ||| refplain
-          // example: SMS_CAR_UNLOCK_17
-          // example: SMS_CAR_UNLOCK_16
-          return;
-  }
-  
-  if (![43DC60](str, "ENGAGE_TIPS_AUTO", strlen("ENGAGE_TIPS_AUTO"))) {                                 ||| refplain
-          str = [4FFA80](cihash("ENGAGE_TIPS_AUTO_BODY"));                                              ||| refplain
-          [43DBD0](dest, str);                                                                          ||| refplain
-          // Could not find any of these?
-          // This is a single message about the autosave feature
-          // This func probably prevents ENGAGE_TIPS_AUTO_XBOX from showing
-          return;
-  }
-  
-  sprintf(buffer, "%s_BODY", str);
-  str = [4FFA80](cihash(buffer));                                                                       ||| refplain
-  [43DBD0](dest, str);                                                                                  ||| refplain
-  // example: SMS_OUTRUN_DEFEAT_BODY
-  // example: SMS_END_OF_GAME_MESSAGE_BODY
-  .controlchars {} .popmode pre
-  } |||
-
-- {514CB0 int __thiscall SmsMessageList::IsMessageAlreadyReceived({struct SmsMessageList} *this,        ||| func,refto
-                                                                  {struct SmsData} *smsdata)}           ||| refto
-
-- {514CF0 {struct SmsMessage} *__thiscall GetFirstUnreadSmsMessage({struct SmsMessageList} *this)}      ||| func,refto,refto
-
-- {514D30 int __thiscall GetNumUnreadSmsMessages({struct SmsMessageList} *this, int useCachedFlag)}     ||| func,refto
-  When {useCachedFlag}, just return {{860A60}.{structSmsMessageList+1404}}, otherwise count all         ||| code,code,refplain,refto
-  {{860A60}.{structSmsMessageList+0}} that have both {{structSmsMessage+4}} and                         ||| code,refplain,refto,code,refto
-  {{structSmsMessage+6}} on {0}.                                                                        ||| code,refto,code
-  TODO check other xref, probably for displaying icon ingame
-
-- {514D80 void __thiscall SetReadMessagesMovedToCorrectInbox({struct SmsMessageList} *this)}            ||| func,refto
-  For every message, set flag {{structSmsMessage+7}} when flag {{structSmsMessage+4}} is set.           ||| code,refto,code,refto
-
-- {514E10 int __thiscall SmsMessageList::IsEngageTipUncollected({struct SmsMessageList} *this, void *engageTip)}                ||| func,refto
-
-- {5295F0 {struct SmsMessage} *__thiscall SmsMessageList::SendMessage({struct SmsMessageList} *this,                            ||| func,refto,refto
-                                                                      {struct SmsData} *smsdata)}                               ||| refto
-  Checks with {514CB0} first.                                                                                                   ||| ref
-
-- {529670 {struct SmsMessage} *__thiscall SmsMessageList::SendMessageFormatted({struct SmsMessageList} *this,                   ||| func,refto,refto
-                                                                               {struct SmsData} *smsdata,                       ||| refto
-                                                                               unsigned int bodyFormatLanguageLabel,
-                                                                               unsigned int subjectFormatLanguageLabel,
-                                                                               unsigned int subjectParameterLanguageLabel)} |||
-  Checks with {514CB0} first.                                                                                                   ||| ref
-
-- {529860 int __thiscall SmsMessageList::SendSomeCareerStartMsgs?({struct SmsMessageList} *this, void *arg0)}                   ||| func,refoto
-  Goes through all {838454} and send all unreceived messages with {{structSmsData+2}} 8 (My game files do not have any messages ||| ref,code,refto
-  with that type)? Also checks for type {{SMS_TYPE_CAREER_START}}, then does more checks with {arg0} before sending.            ||| code,refto,code
-
-- {5299B0 void __thiscall SmsMessageList::SendDVDCoverSmsWithIndex({struct SmsMessageList} *this, int index)}                   ||| func,refto
-  Goes through all {838454} and send every one that hasn't been received yet and has {{structSmsData+2} ==                      ||| ref,code,refto
-  {SMS_TYPE_DVD_COVER}} and {{structSmsData+8} == index} by using {5295F0}                                                      ||| refto,code,refto,ref
-  (which already has a check for if it was already received...).
-
-- {529B50 void __thiscall SmsMessageList::SendOutrunInfoSms({struct SmsMessageList} *this)}                                     ||| func,refto
-  Goes through all {838454} and send every one that hasn't been received yet and has {{structSmsData+2} ==                      ||| ref,code,refto
-  {SMS_TYPE_OUTRUN_INFO}} by using {5295F0} when it wasn't received yet.                                                        ||| refto,ref
-  (which already has a check for if it was already received...).
-  This only matches the {SMS_OUTRUN_INTRO} SMS.                                                                                 ||| code
-
-- {529BD0 void __thiscall SmsMessageList::SendOutrunVictoryOrDefeatSms({struct SmsMessageList} *this, int didWin)}              ||| func,refto
-  Goes through all {838454}. When {didWin} is 1, send all with {{structSmsData+2} == {SMS_TYPE_OUTRUN_VICTORY}}, else send      ||| ref,code,code,refto,refto
-  all with {{structSmsData+2} == {SMS_TYPE_OUTRUN_DEFEAT}}. Uses {5295F0}.                                                      ||| code,refto,refto,ref
-
-- {529C40 {struct SmsData} *__thiscall SmsMessageList::SendEngageTipSmsMessage({struct SmsMessageList} *this,                   ||| func,refto,refto
-                                                                               void *engageMarker)} |||
-  Returns null when it was already received.
-
-- {533890 {struct SmsMessage} *__thiscall SmsMessageList::SendMessageByHash({struct SmsMessageList} *this,              ||| func,refto,refto
-                                                                            int hash)} |||
-  Combines {501310}, {514CB0} and {5295F0}.                                                             ||| ref,ref,ref
-
-- {5338C0 void __thiscall SmsMessageList::SendMagOrUnlockMessage({struct SmsMessageList} *this, ?)}     ||| func,refto
-  Uses {529670}.                                                                                        ||| ref
-  TODO
-
-- {83632C int smsOpenType}                                                                              ||| field
-  0 = mailbox is not on screen.
-  1 = mailbox opened from tab straight into sms (when one sms is unread),
-  then esc goes to the category of the msg.
-  2 = mailbox opened from tab into inbox, then esc goes to the index again.
-
-- {838450 numSmsDatas}                                                                                  ||| field
-  Number of stuffs in {838454}.                                                                         ||| ref
-  Loaded in {5012F0}.                                                                                   ||| ref
-
-- {838454 {struct SmsData} *smsDatas}                                                                   ||| field,refto
-  Loaded in {5012F0}.                                                                                   ||| ref
-
-- {860A60 {struct SmsMessageList} smsMessages}                                                          ||| func,refto
-  This is {{85AD40}.{structCareerData+5D20}}.                                                           ||| code,refplain,refto
+- 4976B0
+- 497760
+- 4977C0
+- 497850
+- 4CBB60
+- 4CC7C0
+- 4CC900
+- 4E1BF0
+- 4E2050
+- 5012F0
+- 501310
+- 501470
+- 5014A0
+- 5014C0
+- 5149C0
+- 514B00
+- 514CB0
+- 514CF0
+- 514D30
+- 514D80
+- 514E10
+- 5295F0
+- 529670
+- 529860
+- 5299B0
+- 529B50
+- 529BD0
+- 529C40
+- 533890
+- 5338C0
+- 83632C
+- 838450
+- 838454
+- 860A60
 .popmode symbols
 
 .popmode section
@@ -5653,56 +4315,20 @@ if (![isProfileWithStartedCareerLoaded])  {                                     
 .controlchars {} .popmode pre
 
 .pushmode symbols
-- {495D30 CareerShowSponsorSelectScreen?()}                                                             ||| func
-
-- {500F90 int __thiscall CareerGetMoney({struct CareerMoney} *this)}                                    ||| func,refto
-
-- {500180 char* __thiscall GetCareerLanguageString(short *this)}                                        ||| func
-  Uses {838428} along with offset passed in {this} to return a string.                                  ||| ref,code
-
-- {500F80 void __thiscall CareerGiveMoney({struct CareerMoney} *this, int amount)}                      ||| func,refto
-  Only used in the career money cheats.
-
-- {5129F0 int __thiscall GetCareerSponsorLanguageKey(short *this)}                                      ||| func
-  Uses {838428} along with offset passed in {this} to format a string {SPONSOR_%s} and                  ||| ref,code,code
-  return the hash result to use for getting a language string.
-
-- {528980 void __thiscall Career::RemoveAllReceivedTipEngageMarkers({struct CareerData} *this)}         ||| func,refto
-
-- {532830 void MaybeStartCareer?()}                                                                     ||| func
-  It's the only func that calls {576090}.                                                               ||| ref
-
-- {532D40 void __thiscall Career::EngageTipMarkerHit({struct CareerData} *this, void *engageMarker)}    ||| func,refto
-  {{Implementation}                                                                                     ||| details,summary
-  .controlchars [] .pushmode pre
-  [struct SmsData] *smsdata;                                                                            ||| refto
-
-  smsdata = this->[structCareerData+5D20]->[529C40](engageMarker);                                      ||| refto,refplain
-  if (smsdata) {
-          this->[structCareerData+7134] += smsdata->[structSmsData+C];                                  ||| refto,refto
-          this->[528980]();                                                                             ||| refplain
-  }
-  .controlchars {} .popmode pre
-  } |||
-
-- {83648C char autoLoadLastProfileIntoCareer?}                                                          ||| field
-
-- {83840C ptr83840C}                                                                                    ||| field
-  Pointer to some struct with DVD/SHOW related stuff.
-
-- {838428 ptr838428}                                                                                    ||| field
-  Pointer to career related labels/keys.
-
-- {86347C int isProfileWithStartedCareerLoaded}                                                         ||| field
-  Fun fact: when creating a new profile,
-  this value is set to 0 when the textbox to enter a name appears.
-  When canceling at that point, it's set back to 1
-  (if the loaded profile already had career started).
-
-- {85AD40 {struct CareerData} careerData}                                                               ||| field,refto
-
-- {862838 int _currentStage}                                                                            ||| field
-  Maybe this is part of {struct CareerData}?                                                            ||| refto
+- 495D30
+- 500F90
+- 500180
+- 500F80
+- 5129F0
+- 528980
+- 532830
+- 532D40
+- 83648C
+- 83840C
+- 838428
+- 86347C
+- 85AD40
+- 862838
 .popmode symbols
 
 .popmode section
@@ -5754,26 +4380,10 @@ EXPECT_SIZE(struct CriticalSectionWrapper_3, 0x24);
 .popmode pre
 
 .pushmode symbols
-- {74A220 {struct SocketWrapper} *CreateNonBlockingSocket(int af, int type, int protocol)}                              ||| func,refto
-  Calls Winsock's {socket}, set it nonblocking (with {ioctlsocket}).                                                    ||| code,code
-  In case of {type == SOCK_RAW}, call {setsockopt(s, SOL_SOCKET, SO_BROADCAST, (ptr to 1), 4)}.                         ||| code,code
-  Returned value is stored in {8B7C9C} and the previous value is put in its {{structSocketWrapper+0}} (this seems to be ||| ref,code,refto
-  an atomic operation).
-
-- {74A2D0 int CloseSocketWrapper({struct SocketWrapper} *socketWrapper)}                                                ||| func,refto
-  Calls Winsock's {shutdown} and {closesocket}. Some critical section stuff.                                            ||| code,code
-
-- {74A380 int BindWrapper({struct SocketWrapper} *socketWrapper, int name, int namelen)}                                ||| func,refto
-  Calls Winsock's {bind}.                                                                                               ||| code
-  0 on success or {WSAEWOULDBLOCK}/{WSAECONNRESET},                                                                     ||| code,code
-  -2 on {WSAENOTCONN},                                                                                                  ||| code
-  -5 on {WSAENETUNREACH}/{WSAEHOSTDOWN},                                                                                ||| code,code
-  -6 on {WSAECONNREFUSED},                                                                                              ||| code
-  -7 on other err.
-
-- {8B7C9C {struct SocketWrapper} *socketWrapper}                                                                        ||| field,refto
-  Contains latest created socket.
-
+- 74A220
+- 74A2D0
+- 74A380
+- 8B7C9C
 .popmode symbols
 
 .popmode section
@@ -5782,15 +4392,10 @@ EXPECT_SIZE(struct CriticalSectionWrapper_3, 0x24);
 {D3D9 Stuff}  ||| h id=d3d9stuff
 
 .pushmode symbols
-- {86C120 struct D3DADAPTER_IDENTIFIER9 _d3d9AdapterIdentifier}                                 ||| field
-
-- {870970 IDirect3D9 *_IDirect3D9ptr}                                                           ||| field
-
-- {870974 IDirect3DDevice9 *_IDirect3DDevice9Ptr}                                               ||| field
-
-- {8709AC int _displayAdapter}                                                                  ||| field
-  {Ordinal number that denotes the display adapter.                                             ||| em
-  {D3DADAPTER_DEFAULT(0)} is always the primary display adapter.}                               ||| code
+- 86C120
+- 870970
+- 870974
+- 8709AC
 .popmode symbols
 
 .popmode section
@@ -5851,127 +4456,50 @@ EXPECT_SIZE(struct WorldAnimStuff, 0x4C);
 .popmode pre
 
 .pushmode symbols
-- {4035D0 void LoadAIStuff()}                                                                   ||| func
-
-- {4385B0 void __thiscall WorldAnimStuff::CreatePools?({struct WorldAnimStuff} *this)}          ||| func,refto
-
-- {439EA0 void __thiscall WorldAnimStuff::ctor({struct WorldAnimStuff} *this)}                  ||| func,refto
-
-- {43DBB0 int strlenWithNullcheck(char *str)}                                                   ||| func
-
-- {43DBD0 int strcpy(char *dest, char *src)}                                                    ||| func
-
-- {43DC00 void strncpy(char *dst, char *src, int maxlen)}                                       ||| func
-
-- {43DC30 int strcmp(char *a, char *b)}                                                         ||| func
-
-- {43DC60 int strncmp(char *a, char *b, int maxlen)}                                            ||| func
-
-- {43DCC0 int stricmp(char *a, char *b)}                                                        ||| func
-
-- {43DDA0 void strcpycat(char *dest, char *src1, char *src2)}                                   ||| func
-  Functionally equivalent to {strcpy(dest, src1); strcpy(dest + strlen(src1), src2);}.          ||| code
-
-- {43E000 void *NaiveStrcpyCharToWchar(wchar_t *dest, char *src)}                               ||| func
-  Uses sign extension. See also {50D3C0} and {512530}.                                          ||| ref,ref
-
-- {43E950 int FormatWithSinglePlaceholderPtr(char *dst, char *format, void *parameter)}         ||| func
-  This does a bunch of things that I don't want to figure out,
-  but the the result is that it formats.
-
-- {43FBC0 int FormatWithSinglePlaceholderPtrTimed(char *dst, char *format, void *parameter)}    ||| func
-  Calls {43E950} but does some stuff with {QueryPerformanceCounter} before and after,           ||| ref, code
-  I'm assuming it times. Seems to add the time spent to {828518}, and increments {82851C}       ||| ref,ref
-  every time this func is called.
-
-- {5047C0 sub_5047C0}                                                                           ||| func
-
-- {50D510 void sub_50D510_DebugPrint(?)}                                                        ||| func
-  A nop function.
-  It seems like many calls to different functions that got nopped all redirect here.
-  Some of the calls are used as a debug print, see {debugprint}.                                ||| href
-
-- {50DC70 wchar_t *__thiscall FindNewlineW(void *this, wchar_t *str)}                           ||| func
-  Doesn't actually use {this}, so can be treated as a {__stdcall}.                              ||| code,code
-  Returns a ptr to the first occurrence of {^} or {\n}, nullptr otherwise.                      ||| code,code
-
-- {50DCB0 wchar_t *__thiscall GetEndOfStringW(void *this, wchar_t *str)}                        ||| func
-  Doesn't actually use {this}, so can be treated as a {__stdcall}.                              ||| code,code
-  Returns a ptr to the zero terminator.
-
-- {511630 void strcpyW(wchar_t *dest, wchar_t *src)}                                            ||| func
-  Checks if {dest} is NULL first.                                                               ||| code
-
-- {51DE90 int __thiscall WideCharString::EnsureAllocatedSize({struct WideCharString} *this, int length)}        ||| func,refto
-  If it's already allocated and long enough, NOP.
-  Otherwise allocate new memory, copy existing string, free previous memory.
-  Does not actually check the {{structWideCharString+4}} field, but does a strlen to check if   ||| code,refto
-  the existing string length is less than required.
-
-- {532670 struct WideCharString *__thiscall WideCharString::SetFromCharString({struct WideCharString} *this, char *str)}        ||| func,refto
-  Converts language aware, like {512530} does. Calls {51DE90}.                                  ||| ref,ref
-  Returns itself.
-
-- {575620 void * j_HeapAllocWrapper75C6C8(int bytes)}                                           ||| func
-
-- {575630 void j_HeapFreeWrapper75C6DA(void *mem)}                                              ||| func
-
-- {577AB0 sub_577AB0}                                                                           ||| func
-
-- {5B7A70 void LoadPaths()}                                                                     ||| func
-  TODO
-
-- {5CCD60 LPRESULT MainWndProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)}             ||| func
-
-- {741650 int strncpy_0(char *dest, int maxlen, char *src)}                                     ||| func
-  Returns amount of chars written?
-
-- {75BCC7 start}                                                                                ||| func
-
-- {75D45B sub_75D45B()}                                                                         ||| func
-  Invoked once at boot, does things (todo) and calls all functions in {7E8000}.                 ||| ref
-
-- {75D65B sub_75D65B}                                                                           ||| func
-
-- {75DD6F sub_75DD6F}                                                                           ||| func
-
-- {77B5E0 void init_function_77B5E0()}                                                          ||| func
-  Calls {439EA0}.                                                                               ||| ref
-
-- {77E580 init_function_77E580_MouseData_ctor()}                                                ||| func
-  Calls {5C8600} to initialize mouse data.                                                      ||| ref
-
-- {7E8000 void (*someInitFunctions)()[821]}                                                     ||| field
-  Array of functions that are called at boot, by {75D45B}.                                      ||| ref
-  Some of them are constructors being called.
-
-- {7F91C4 int drawHud}                                                                          ||| field
-
-- {827EF0 {struct WorldAnimStuff} worldAnimStuff}                                               ||| field,refto
-  TODO usages and stuff
-
-- {828518 int _TimeSpentInFormatWithSinglePlaceholder}                                          ||| field
-  Used in {43FBC0}.                                                                             ||| ref
-
-- {82851C int _FormatWithSinglePlaceholderCallCount}                                            ||| field
-  Used in {43FBC0}.                                                                             ||| ref
-- {864F4C int _isGameClosing}                                                                   ||| field
-
-- {8709D8 int _isCTRLKeyDown}                                                                   ||| field
-  Set in {5CCD60}, but seemingly never read from? REVISIT                                       ||| ref
-
-- {8A1CCC void *ptrCarData}                                                                     ||| field
-
-- {835BB8 wchar_t loadedProfileName[32]}                                                        ||| field
-
-- {83A9E0 char loadedProfileName[32]}                                                           ||| field
-
-- {850078 int someOLState}                                                                      ||| field
-  Related to LAN/OL.
-
-- {8654A4 int _??gameStateSomething}                                                            ||| field
-  3 in menus, 4 5 loading, 6 in race
-
-- {89E7E6 char isInPerformanceTuning}                                                           ||| field
+- 4035D0
+- 4385B0
+- 439EA0
+- 43DBB0
+- 43DBD0
+- 43DC00
+- 43DC30
+- 43DC60
+- 43DCC0
+- 43DDA0
+- 43E000
+- 43E950
+- 43FBC0
+- 5047C0
+- 50D510
+- 50DC70
+- 50DCB0
+- 511630
+- 51DE90
+- 532670
+- 575620
+- 575630
+- 577AB0
+- 5B7A70
+- 5CCD60
+- 741650
+- 75BCC7
+- 75D45B
+- 75D65B
+- 75DD6F
+- 77B5E0
+- 77E580
+- 7E8000
+- 7F91C4
+- 827EF0
+- 828518
+- 82851C
+- 864F4C
+- 8709D8
+- 8A1CCC
+- 835BB8
+- 83A9E0
+- 850078
+- 8654A4
+- 89E7E6
 .popmode symbols
 .popmode section

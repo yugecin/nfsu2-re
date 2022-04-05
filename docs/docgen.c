@@ -53,6 +53,14 @@ struct docgen_datainfo {
 	struct idcp_stuff *data;
 };
 
+struct docgen_ref {
+	struct idcp_struct_member *strucmember;
+	struct idcp_struct *struc;
+	struct idcp_stuff *func;
+	struct idcp_stuff *data;
+	struct idcp_enum *enu;
+};
+
 struct docgen {
 	struct idcparse *idcp;
 	int num_structinfos;
@@ -64,16 +72,38 @@ struct docgen {
 	int num_datainfos;
 	struct docgen_datainfo *datainfos;
 };
-/*jeanine:p:i:20;p:0;a:b;x:-104.54;y:12.48;*/
+/*jeanine:p:i:39;p:20;a:r;x:18.44;y:9.69;*/
 static
-struct docgen_structinfo* docgen_find_struct(struct docgen *dg, char *name)
+int docgen_parse_addr(char *addr, int len)
+{
+	register char c;
+	int res;
+
+	res = 0;
+	while (len--) {
+		res <<= 4;
+		c = *(addr++);
+		if ('0' <= c && c <= '9') {
+			res |= c - '0';
+		} else if ('a' <= c && c <= 'f') {
+			res |= c - 'a' + 10;
+		} else if ('A' <= c && c <= 'F') {
+			res |= c - 'A' + 10;
+		} else {
+			printf("bad addr char '%c'\n", c);
+		}
+	}
+	return res;
+}
+/*jeanine:p:i:20;p:0;a:b;x:-113.33;y:12.10;*/
+static
+struct docgen_structinfo* docgen_find_struct(struct docgen *dg, char *name, int len)
 {
 	struct docgen_structinfo *structinfo;
-	int i, len;
+	int i;
 
-	len = strlen(name);
 	for (i = 0, structinfo = dg->structinfos; i < dg->num_structinfos; i++, structinfo++) {
-		if (len == structinfo->name_len && !strcmp(name, structinfo->struc->name)) {
+		if (len == structinfo->name_len && !strncmp(name, structinfo->struc->name, len)) {
 			return structinfo;
 		}
 	}
@@ -105,6 +135,86 @@ int docgen_get_struct_size(struct idcparse *idcp, struct idcp_struct *struc)
 		return mem->offset + mem->nbytes;
 	} else {
 		return 0;
+	}
+}
+
+/**
+@param ref should be zero terminated
+*/
+static
+void docgen_resolve_ref(struct docgen *dg, struct docgen_ref *result, char *ref, int len)
+{
+	int min, max, idx, current, addr, num_members;
+	struct docgen_structinfo *structinfo;
+	struct docgen_enuminfo *enuminfo;
+	struct idcp_struct_member *mem;
+	struct idcp_struct *struc;
+	struct idcp_stuff *stuff;
+	char *plus;
+
+	memset(result, 0, sizeof(struct docgen_ref));
+
+	if (!strncmp("struct ", ref, 7)) {
+		plus = strstr(ref + 7, "+");
+		if (plus) {
+			structinfo = docgen_find_struct(dg, ref + 7, (plus - ref) - 7);
+		} else {
+			structinfo = docgen_find_struct(dg, ref + 7, len - 7);
+		}
+		if (!structinfo) {
+			return;
+		}
+		if (plus) {
+			addr = docgen_parse_addr(plus + 1, len - (plus - ref) - 1);/*jeanine:r:i:39;*/
+			struc = structinfo->struc;
+			num_members = struc->end_idx - struc->start_idx;
+			mem = dg->idcp->struct_members + struc->start_idx;
+			for (; num_members; num_members--, mem++) {
+				if (mem->offset == addr) {
+					result->strucmember = mem;
+					return;
+				}
+			}
+		} else {
+			result->struc = structinfo->struc;
+		}
+	} else if (!strncmp("enum ", ref, 5)) {
+		enuminfo = docgen_find_enum(dg, ref + 5);
+		if (enuminfo) {
+			result->enu = enuminfo->enu;
+		}
+	} else {
+		/*Binary search will work as long as the 'new_addr > addr'
+		assertion in 'idcp_get_or_allocate_stuff' still stands.*/
+		addr = docgen_parse_addr(ref, len);/*jeanine:s:a:r;i:39;*/
+		min = 0;
+		max = dg->idcp->num_stuffs - 1;
+		for (;;) {
+			idx = min + (max - min) / 2;
+			current = dg->idcp->stuffs[idx].addr;
+			if (current == addr) {
+				stuff = dg->idcp->stuffs + idx;
+				if (!stuff->name) {
+					printf("resolved ref '%s' has no name, ignoring\n", ref);
+				} else if (stuff->type == IDCP_STUFF_TYPE_FUNC) {
+					result->func = stuff;
+				} else if (stuff->type == IDCP_STUFF_TYPE_DATA) {
+					result->data = stuff;
+				} else {
+					printf("unknown type '%d' when resolving ref '%s'\n", stuff->type, ref);
+				}
+				return;
+			} else {
+				if (max == min) {
+					return;
+				}
+				if (current > addr) {
+					max = idx - 1;
+				} else if (current < addr) {
+					min = idx + 1;
+				}
+			}
+		}
 	}
 }
 
@@ -243,7 +353,7 @@ int docgen_link_structs_enums(struct docgen *dg, struct docgen_tmpbuf **tmpbuf)
 				*n = c = *end;
 			} while (c != ' ' && c != ')' && c != '*' && c != '[');
 			*n = 0;
-			if (name[0] != '#' && docgen_find_struct(dg, name)) {
+			if (name[0] != '#' && docgen_find_struct(dg, name, strlen(name))) {
 				bufp += sprintf(bufp, "<a href='structs.html#struc_%s'>struct %s</a>", name, name);
 			} else {
 				hasunknown = 1;
@@ -353,7 +463,7 @@ char* docgen_readcss()
 	*a = 0;
 	return buf;
 }
-/*jeanine:p:i:15;p:25;a:r;x:7.69;y:10.62;*/
+/*jeanine:p:i:15;p:25;a:r;x:6.95;y:10.28;*/
 static
 int docgen_func_sort_compar(const void *_a, const void *_b)
 {
@@ -407,7 +517,7 @@ void docgen_gen_func_signature(struct docgen_tmpbuf **signaturebuf, struct docge
 		classname_len = coloncolon - originalname;
 		memcpy(classname, originalname, classname_len);
 		classname[classname_len] = 0;
-		if ((funcinfo->methodof = docgen_find_struct(dg, classname))) {
+		if ((funcinfo->methodof = docgen_find_struct(dg, classname, classname_len))) {
 			funcinfo->methodof->is_class = 1;
 			b += sprintf(b, "<a href='structs.html#struc_%s'>%s</a>", classname, classname);
 			/*Check that the 'this' argument is of the expected type.*/
@@ -457,7 +567,7 @@ void docgen_print_func(FILE *f, struct docgen *dg, struct docgen_funcinfo *funci
 		fprintf(f, "<p>%s</p>\n", func->rep_comment);
 	}
 }
-/*jeanine:p:i:4;p:25;a:r;x:7.05;y:14.56;*/
+/*jeanine:p:i:4;p:25;a:r;x:6.37;y:11.35;*/
 static
 int docgen_struct_sort_compar(const void *_a, const void *_b)
 {
@@ -702,7 +812,7 @@ void docgen_print_enum(FILE *f, struct docgen *dg, struct docgen_enuminfo *enumi
 		fprintf(f, "<p>%s</p>", enu->rep_comment);
 	}
 }
-/*jeanine:p:i:21;p:25;a:r;x:6.65;y:18.06;*/
+/*jeanine:p:i:21;p:25;a:r;x:5.79;y:14.07;*/
 static
 int docgen_enum_sort_compar(const void *_a, const void *_b)
 {
@@ -722,7 +832,7 @@ void docgen_print_data(FILE *f, struct docgen *dg, struct docgen_datainfo *datai
 	unconfirmed_type = 0;
 	if (data->data.data.struct_type) {
 		st = data->data.data.struct_type;
-		if (docgen_find_struct(dg, st)) {
+		if (docgen_find_struct(dg, st, strlen(st))) {
 			sprintf(type->data, "<a href='structs.html#struc_%s'>struct %s</a>", st, st);
 		} else {
 			printf("warn: cannot find struct '%s' for var %X '%s'\n", st, data->addr, data->name);
@@ -769,7 +879,7 @@ void docgen_print_data(FILE *f, struct docgen *dg, struct docgen_datainfo *datai
 		fprintf(f, "<p>%s</p>", data->rep_comment);
 	}
 }
-/*jeanine:p:i:7;p:0;a:t;x:99.22;y:-152.30;*/
+/*jeanine:p:i:7;p:0;a:b;x:105.56;y:12.81;*/
 #include "mmparse.c"
 
 struct docgen_mmparse_index_entry {
@@ -781,6 +891,7 @@ struct docgen_mmparse_index_entry {
 };
 
 struct docgen_mmparse_userdata {
+	struct docgen *dg;
 	struct {
 		int num_entries;
 		struct docgen_mmparse_index_entry entries[50];
@@ -792,7 +903,7 @@ struct docgen_mmparse_userdata {
 		char should_open_p;
 	} section;
 };
-/*jeanine:p:i:32;p:30;a:r;x:3.33;*/
+/*jeanine:p:i:32;p:42;a:r;x:3.33;*/
 static
 void mmparse_cb_placeholder_section_breadcrumbs(struct mmparse *mm, struct mmp_output_part *output, void *data, int data_size)
 {
@@ -819,7 +930,7 @@ void mmparse_cb_placeholder_section_breadcrumbs(struct mmparse *mm, struct mmp_o
 	mmparse_append_to_placeholder_output(mm, output, entry->name, entry->name_len);
 	mmparse_append_to_placeholder_output(mm, output, "</small></p>", 12);
 }
-/*jeanine:p:i:28;p:30;a:r;x:5.44;y:-26.62;*/
+/*jeanine:p:i:28;p:41;a:r;x:5.56;y:-31.00;*/
 static
 void mmparse_cb_mode_section_start(struct mmparse *mm)
 {
@@ -847,7 +958,7 @@ int docgen_line_can_have_paragraph(struct mmparse *mm)
 		strncmp(tag, "table", 5) &&
 		strncmp(tag, "ul", 2);
 }
-/*jeanine:p:i:33;p:30;a:r;x:5.44;y:-15.00;*/
+/*jeanine:p:i:33;p:41;a:r;x:5.56;y:-19.00;*/
 static
 int mmparse_cb_mode_section_println(struct mmparse *mm)
 {
@@ -879,7 +990,7 @@ int mmparse_cb_mode_section_println(struct mmparse *mm)
 	}
 	return extra_offset + mmparse_cb_mode_normal_println(mm);
 }
-/*jeanine:p:i:29;p:30;a:r;x:5.55;y:18.36;*/
+/*jeanine:p:i:29;p:41;a:r;x:5.56;y:14.00;*/
 static
 void mmparse_cb_mode_section_end(struct mmparse *mm)
 {
@@ -893,7 +1004,80 @@ void mmparse_cb_mode_section_end(struct mmparse *mm)
 		mmparse_append_to_main_output(mm, "</div>", 6);
 	}
 }
-/*jeanine:p:i:26;p:30;a:r;x:3.33;*/
+/*jeanine:p:i:35;p:30;a:r;x:6.67;y:-41.00;*/
+static
+void mmparse_cb_mode_symbols_start(struct mmparse *mm)
+{
+	mmparse_append_to_main_output(mm, "<p><strong>Symbols:</strong></p>\n<ul>\n", 38);
+}
+/*jeanine:p:i:37;p:30;a:r;x:6.67;y:-33.00;*/
+static
+int mmparse_cb_mode_symbols_println(struct mmparse *mm)
+{
+	struct docgen_mmparse_userdata *ud;
+	struct docgen_ref ref;
+	char addr[16];
+	int len;
+
+	ud = mm->config.userdata;
+	if (mm->pd.line_len < 3 || mm->pd.line[0] != '-') {
+		mmparse_failmsg(mm, "lines in 'symbols' mode must start with a hyphen");
+		assert(0);
+	}
+	docgen_resolve_ref(ud->dg, &ref, mm->pd.line + 2, mm->pd.line_len - 2);
+	mmparse_append_to_main_output(mm, "<li>", 4);
+	if (ref.func) {
+		len = sprintf(addr, "%X", ref.func->addr);
+		mmparse_append_to_main_output(mm, "<a class='func' href='funcs.html#", 33);
+		mmparse_append_to_main_output(mm, addr, len);
+		mmparse_append_to_main_output(mm, "'>", 2);
+		mmparse_append_to_main_output(mm, ref.func->name, strlen(ref.func->name));
+		mmparse_append_to_main_output(mm, "</a>", 4);
+	} else if (ref.data) {
+		len = sprintf(addr, "%X", ref.data->addr);
+		mmparse_append_to_main_output(mm, "<a class='var' href='vars.html#", 31);
+		mmparse_append_to_main_output(mm, addr, len);
+		mmparse_append_to_main_output(mm, "'>", 2);
+		mmparse_append_to_main_output(mm, ref.data->name, strlen(ref.data->name));
+		mmparse_append_to_main_output(mm, "</a>", 4);
+	} else if (ref.struc) {
+		len = strlen(ref.struc->name);
+		mmparse_append_to_main_output(mm, "<a class='struc' href='structs.html#struc_", 42);
+		mmparse_append_to_main_output(mm, ref.struc->name, len);
+		mmparse_append_to_main_output(mm, "'>struct ", 9);
+		mmparse_append_to_main_output(mm, ref.struc->name, len);
+		mmparse_append_to_main_output(mm, "</a>", 4);
+	} else if (ref.enu) {
+		len = strlen(ref.enu->name);
+		mmparse_append_to_main_output(mm, "<a class='enum' href='enums.html#enu_", 37);
+		mmparse_append_to_main_output(mm, ref.enu->name, len);
+		mmparse_append_to_main_output(mm, "'>enum ", 7);
+		mmparse_append_to_main_output(mm, ref.enu->name, len);
+		mmparse_append_to_main_output(mm, "</a>", 4);
+	} else {
+		mmparse_failmsgf(mm, "unknown ref '%s'", mm->pd.line + 2);
+		mmparse_append_to_main_output(mm, "<strong class='error' style='font-family:monospace'>?", 53);
+		mmparse_append_to_main_output(mm, mm->pd.line + 2, mm->pd.line_len - 2);
+		mmparse_append_to_main_output(mm, "?</strong>", 10);
+	}
+	mmparse_append_to_main_output(mm, "</li>\n", 6);
+	return 0; /*just returning 0 because no placeholders should've been used*/
+}
+/*jeanine:p:i:36;p:30;a:r;x:6.67;y:21.00;*/
+static
+void mmparse_cb_mode_symbols_end(struct mmparse *mm)
+{
+	mmparse_append_to_main_output(mm, "</ul>", 5);
+}
+/*jeanine:p:i:38;p:30;a:r;x:6.67;y:29.00;*/
+static
+enum mmp_dir_content_action mmparse_cb_mode_symbols_directive(struct mmparse *mm, struct mmp_dir_content_data *data)
+{
+	mmparse_failmsg(mm, "don't use directives while in 'symbols' mode");
+	assert(0);
+	return LEAVE_CONTENTS;
+}
+/*jeanine:p:i:26;p:42;a:r;x:3.33;*/
 static
 void mmparse_cb_placeholder_index(struct mmparse *mm, struct mmp_output_part *output, void *data, int data_size)
 {
@@ -930,7 +1114,7 @@ void mmparse_cb_placeholder_index(struct mmparse *mm, struct mmp_output_part *ou
 	}
 	mmparse_append_to_placeholder_output(mm, output, "</ul>\n", 6);
 }
-/*jeanine:p:i:31;p:30;a:r;x:3.22;*/
+/*jeanine:p:i:31;p:42;a:r;x:3.22;*/
 static
 void mmparse_cb_placeholder_href(struct mmparse *mm, struct mmp_output_part *output, void *data, int data_size)
 {
@@ -954,15 +1138,16 @@ void mmparse_cb_placeholder_href(struct mmparse *mm, struct mmp_output_part *out
 	mmparse_failmsgf(mm, "cannot find a header with id '%s'", ref_id);
 	assert(0);
 }
-/*jeanine:p:i:30;p:7;a:b;y:1.88;*/
+/*jeanine:p:i:30;p:7;a:b;y:42.51;*/
 struct mmp_mode mmparse_mode_symbols = {
-	mmparse_cb_mode_nop_start_end,
-	mmparse_cb_mode_normal_println,
-	mmparse_cb_mode_nop_start_end,
-	mmparse_cb_mode_normal_directive,
+	mmparse_cb_mode_symbols_start,/*jeanine:r:i:35;*/
+	mmparse_cb_mode_symbols_println,/*jeanine:r:i:37;*/
+	mmparse_cb_mode_symbols_end,/*jeanine:r:i:36;*/
+	mmparse_cb_mode_symbols_directive,/*jeanine:r:i:38;*/
 	"symbols",
 	MMPARSE_DO_PARSE_LINES
 };
+/*jeanine:p:i:40;p:30;a:b;y:34.99;*/
 struct mmp_mode mmparse_mode_pre = {
 	mmparse_cb_mode_nop_start_end,
 	mmparse_cb_mode_normal_println,
@@ -987,6 +1172,7 @@ struct mmp_mode mmparse_mode_ida = {
 	"ida",
 	MMPARSE_DO_PARSE_LINES
 };
+/*jeanine:p:i:41;p:40;a:b;y:1.88;*/
 struct mmp_mode mmparse_mode_section = {
 	mmparse_cb_mode_section_start,/*jeanine:r:i:28;*/
 	mmparse_cb_mode_section_println,/*jeanine:r:i:33;*/
@@ -995,7 +1181,7 @@ struct mmp_mode mmparse_mode_section = {
 	"section",
 	MMPARSE_DO_PARSE_LINES
 };
-
+/*jeanine:p:i:42;p:41;a:b;y:23.69;*/
 static
 struct mmp_dir_arg *mmparse_find_directive_argument(struct mmp_dir *dir, char *name)
 {
@@ -1103,7 +1289,7 @@ enum mmp_dir_content_action mmparse_dir_index(struct mmparse *mm, struct mmp_dir
 	mmparse_allocate_placeholder(mm, mmparse_cb_placeholder_index, 0);/*jeanine:r:i:26;*/
 	return LEAVE_CONTENTS;
 }
-/*jeanine:p:i:25;p:0;a:b;x:123.13;y:12.13;*/
+/*jeanine:p:i:25;p:42;a:b;y:42.13;*/
 int main(int argc, char **argv)
 {
 	struct mmp_dir_handler mmdirectivehandlers[] = {
@@ -1130,10 +1316,10 @@ int main(int argc, char **argv)
 	struct docgen_enuminfo *enuminfo;
 	struct docgen_funcinfo *funcinfo;
 	struct mmp_output_part *mmpart;
+	int i, j, cheatsheet_len;
 	struct idcparse *idcp;
 	struct mmparse *mm;
 	struct docgen *dg;
-	int i, j, cheatsheet_len;
 
 	idcp = malloc(sizeof(struct idcparse));
 	assert(((void)"failed to malloc for idcparse", idcp));
@@ -1211,6 +1397,7 @@ int main(int argc, char **argv)
 	mm->config.dest.data1 = mm->config.dest.data0 + mm->config.dest.data0_len;
 	mm->config.dest.data2 = mm->config.dest.data1 + mm->config.dest.data1_len;
 	mm->config.dest.data3 = mm->config.dest.data2 + mm->config.dest.data2_len;
+	((struct docgen_mmparse_userdata*) mm->config.userdata)->dg = dg;
 	mmparse(mm);
 	mmparse_process_placeholders(mm);
 	f_index = fopen("index.html", "wb");
