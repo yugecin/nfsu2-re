@@ -902,6 +902,9 @@ struct docgen_mmparse_userdata {
 		char has_p;
 		char should_open_p;
 	} section;
+	struct {
+		int whitespacelen;
+	} pre;
 };
 /*jeanine:p:i:32;p:42;a:r;x:3.33;*/
 static
@@ -1077,6 +1080,42 @@ enum mmp_dir_content_action mmparse_cb_mode_symbols_directive(struct mmparse *mm
 	assert(0);
 	return LEAVE_CONTENTS;
 }
+/*jeanine:p:i:44;p:40;a:r;x:5.56;y:-20.00;*/
+static
+void mmparse_cb_mode_pre_start(struct mmparse *mm)
+{
+	struct docgen_mmparse_userdata *ud;
+	register int wslen;
+
+	wslen = 0;
+	while (mm->pd.line[wslen] == ' ') {
+		wslen++;
+	}
+	ud = mm->config.userdata;
+	ud->pre.whitespacelen = wslen;
+	mmparse_append_to_main_output(mm, "<pre>\n", 6);
+}
+/*jeanine:p:i:45;p:40;a:r;x:5.56;y:-4.00;*/
+static
+int mmparse_cb_mode_pre_println(struct mmparse *mm)
+{
+	struct docgen_mmparse_userdata *ud;
+	register int wslen;
+
+	ud = mm->config.userdata;
+	wslen = ud->pre.whitespacelen;
+	if (mm->pd.line_len > wslen) {
+		mmparse_append_to_main_output(mm, mm->pd.line + wslen, mm->pd.line_len - wslen);
+	}
+	mmparse_append_to_main_output(mm, "\n", 1);
+	return mm->pd.line_len - wslen;
+}
+/*jeanine:p:i:46;p:40;a:r;x:5.56;y:13.00;*/
+static
+void mmparse_cb_mode_pre_end(struct mmparse *mm)
+{
+	mmparse_append_to_main_output(mm, "</pre>\n", 7);
+}
 /*jeanine:p:i:26;p:42;a:r;x:3.33;*/
 static
 void mmparse_cb_placeholder_index(struct mmparse *mm, struct mmp_output_part *output, void *data, int data_size)
@@ -1138,7 +1177,7 @@ void mmparse_cb_placeholder_href(struct mmparse *mm, struct mmp_output_part *out
 	mmparse_failmsgf(mm, "cannot find a header with id '%s'", ref_id);
 	assert(0);
 }
-/*jeanine:p:i:30;p:7;a:b;y:42.51;*/
+/*jeanine:p:i:30;p:7;a:b;y:45.24;*/
 struct mmp_mode mmparse_mode_symbols = {
 	mmparse_cb_mode_symbols_start,/*jeanine:r:i:35;*/
 	mmparse_cb_mode_symbols_println,/*jeanine:r:i:37;*/
@@ -1147,15 +1186,16 @@ struct mmp_mode mmparse_mode_symbols = {
 	"symbols",
 	MMPARSE_DO_PARSE_LINES
 };
-/*jeanine:p:i:40;p:30;a:b;y:34.99;*/
+/*jeanine:p:i:40;p:30;a:b;y:55.80;*/
 struct mmp_mode mmparse_mode_pre = {
-	mmparse_cb_mode_nop_start_end,
-	mmparse_cb_mode_normal_println,
-	mmparse_cb_mode_nop_start_end,
+	mmparse_cb_mode_pre_start,/*jeanine:r:i:44;*/
+	mmparse_cb_mode_pre_println,/*jeanine:r:i:45;*/
+	mmparse_cb_mode_pre_end,/*jeanine:r:i:46;*/
 	mmparse_cb_mode_normal_directive,
 	"pre",
 	MMPARSE_DO_PARSE_LINES
 };
+/*jeanine:p:i:43;p:40;a:b;y:26.75;*/
 struct mmp_mode mmparse_mode_ul = {
 	mmparse_cb_mode_nop_start_end,
 	mmparse_cb_mode_normal_println,
@@ -1172,7 +1212,7 @@ struct mmp_mode mmparse_mode_ida = {
 	"ida",
 	MMPARSE_DO_PARSE_LINES
 };
-/*jeanine:p:i:41;p:40;a:b;y:1.88;*/
+/*jeanine:p:i:41;p:43;a:b;y:1.88;*/
 struct mmp_mode mmparse_mode_section = {
 	mmparse_cb_mode_section_start,/*jeanine:r:i:28;*/
 	mmparse_cb_mode_section_println,/*jeanine:r:i:33;*/
@@ -1181,7 +1221,7 @@ struct mmp_mode mmparse_mode_section = {
 	"section",
 	MMPARSE_DO_PARSE_LINES
 };
-/*jeanine:p:i:42;p:41;a:b;y:23.69;*/
+/*jeanine:p:i:42;p:41;a:b;y:26.03;*/
 static
 struct mmp_dir_arg *mmparse_find_directive_argument(struct mmp_dir *dir, char *name)
 {
