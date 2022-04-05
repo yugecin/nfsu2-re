@@ -905,6 +905,11 @@ struct docgen_mmparse_userdata {
 	struct {
 		int whitespacelen;
 	} pre;
+	struct {
+#define DOCGEN_MAX_UL_LEVELS 10
+		char li_open[DOCGEN_MAX_UL_LEVELS];
+		unsigned char level;
+	} ul;
 };
 /*jeanine:p:i:32;p:42;a:r;x:3.33;*/
 static
@@ -1116,6 +1121,59 @@ void mmparse_cb_mode_pre_end(struct mmparse *mm)
 {
 	mmparse_append_to_main_output(mm, "</pre>\n", 7);
 }
+/*jeanine:p:i:48;p:43;a:r;x:5.56;y:-29.00;*/
+static
+void mmparse_cb_mode_ul_start(struct mmparse *mm)
+{
+	struct docgen_mmparse_userdata *ud;
+
+	ud = mm->config.userdata;
+	mmparse_append_to_main_output(mm, "<ul>", 4);
+	ud->ul.level++;
+	assert(ud->ul.level < DOCGEN_MAX_UL_LEVELS);
+	ud->ul.li_open[ud->ul.level] = 0;
+}
+/*jeanine:p:i:49;p:43;a:r;x:5.56;y:-16.00;*/
+static
+int mmparse_cb_mode_ul_println(struct mmparse *mm)
+{
+	struct docgen_mmparse_userdata *ud;
+	char *line;
+	int len;
+
+	ud = mm->config.userdata;
+	if (mm->pd.line_len) {
+		line = mm->pd.line;
+		len = mm->pd.line_len;
+		line[len++] = '\n';
+		if (mm->pd.line[0] == '-' && mm->pd.line[1] == ' ') {
+			if (ud->ul.li_open[ud->ul.level]) {
+				mmparse_append_to_main_output(mm, "</li>", 5);
+			}
+			ud->ul.li_open[ud->ul.level] = 1;
+			mmparse_append_to_main_output(mm, "<li>", 4);
+			len -= 2;
+			line += 2;
+		}
+		mmparse_append_to_main_output(mm, line, len);
+		return -2;
+	} else {
+		return 0;
+	}
+}
+/*jeanine:p:i:50;p:43;a:r;x:5.56;y:14.00;*/
+static
+void mmparse_cb_mode_ul_end(struct mmparse *mm)
+{
+	struct docgen_mmparse_userdata *ud;
+
+	ud = mm->config.userdata;
+	if (ud->ul.li_open[ud->ul.level]) {
+		mmparse_append_to_main_output(mm, "</li>", 5);
+	}
+	ud->ul.level--;
+	mmparse_append_to_main_output(mm, "</ul>", 5);
+}
 /*jeanine:p:i:26;p:42;a:r;x:3.33;*/
 static
 void mmparse_cb_placeholder_index(struct mmparse *mm, struct mmp_output_part *output, void *data, int data_size)
@@ -1195,15 +1253,16 @@ struct mmp_mode mmparse_mode_pre = {
 	"pre",
 	MMPARSE_DO_PARSE_LINES
 };
-/*jeanine:p:i:43;p:40;a:b;y:26.75;*/
+/*jeanine:p:i:43;p:40;a:b;y:45.94;*/
 struct mmp_mode mmparse_mode_ul = {
-	mmparse_cb_mode_nop_start_end,
-	mmparse_cb_mode_normal_println,
-	mmparse_cb_mode_nop_start_end,
+	mmparse_cb_mode_ul_start,/*jeanine:r:i:48;*/
+	mmparse_cb_mode_ul_println,/*jeanine:r:i:49;*/
+	mmparse_cb_mode_ul_end,/*jeanine:r:i:50;*/
 	mmparse_cb_mode_normal_directive,
 	"ul",
 	MMPARSE_DO_PARSE_LINES
 };
+/*jeanine:p:i:47;p:43;a:b;y:42.91;*/
 struct mmp_mode mmparse_mode_ida = {
 	mmparse_cb_mode_nop_start_end,
 	mmparse_cb_mode_normal_println,
@@ -1212,7 +1271,7 @@ struct mmp_mode mmparse_mode_ida = {
 	"ida",
 	MMPARSE_DO_PARSE_LINES
 };
-/*jeanine:p:i:41;p:43;a:b;y:1.88;*/
+/*jeanine:p:i:41;p:47;a:b;y:1.88;*/
 struct mmp_mode mmparse_mode_section = {
 	mmparse_cb_mode_section_start,/*jeanine:r:i:28;*/
 	mmparse_cb_mode_section_println,/*jeanine:r:i:33;*/

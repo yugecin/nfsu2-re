@@ -234,6 +234,7 @@ List by {571380}:                                                               
 .popmode ul
 
 List by {5B7C40}:                                                                               ||| ref
+
 .pushmode ul
 - 0: US
 - 2: Korea
@@ -249,6 +250,7 @@ List by {5B7C40}:                                                               
 .popmode ul
 
 Then some network region stuff at 7FA740 showed a 14th entry:
+
 .pushmode ul
 - 13: South America
 .popmode ul
