@@ -623,11 +623,11 @@ otherwise id 0 is searched.
 When it's not found the game will segfault because of the code below:
 
 .pushmode ida
-{.text:004FF6A2}                 jl      short loc_4FF693                                       ||| text
-{.text:004FF6A4} loc_4FF6A4:                                                                    ||| text
-{.text:004FF6A4}                 xor     edx, edx                                               ||| text
-{.text:004FF6A6} loc_4FF6A6:                                                                    ||| text
-{.text:004FF6A6}                 mov     ecx, [edx+{0Ch}]                                       ||| text,num
+.text:004FF6A2                 jl      short loc_4FF693
+.text:004FF6A4 loc_4FF6A4:
+.text:004FF6A4                 xor     edx, edx
+.text:004FF6A6 loc_4FF6A6:
+.text:004FF6A6                 mov     ecx, [edx+{0Ch}] ||| text
 .popmode ida
 
 Then {{struct LanguageFileData}.{structLanguageFileData+C}} is read.                            ||| code,refto,refto
@@ -666,11 +666,11 @@ The {tableEntries} are sorted (low hash to high hash),                          
 required because a binary search is used at lookup.
 
 .pushmode ida
-{.text:00497766}                 push    {04B5DE3E9h} {; hash (SMS_SUBJECT_HEADER)}             ||| text,num,comment
-{.text:0049776B}                 lea     eax, [esp+{104h}+{buffer}]                             ||| text,num,str
-{.text:00497772}                 push    {80h}             ; {destlen}                          ||| text,num,comment
-{.text:00497777}                 push    eax             ; {dest}                               ||| text,comment
-{.text:00497778}                 call    {4FFA50}                                               ||| text,refplain
+.text:00497766                 push    {04B5DE3E9h} {; hash (SMS_SUBJECT_HEADER)}               ||| num,comment
+.text:0049776B                 lea     eax, [esp+{104h}+{buffer}]                               ||| num,str
+.text:00497772                 push    {80h}             ; {destlen}                            ||| num,comment
+.text:00497777                 push    eax             ; {dest}                                 ||| comment
+.text:00497778                 call    {4FFA50}                                                 ||| refplain
 .popmode ida
 
 Loading is done in {5125B0}.                                                                    ||| ref
@@ -837,20 +837,20 @@ and it takes slightly under a second to switch to the next state.
 So by following the debug prints, I found following section:
 
 .pushmode ida
-{.data:007F65E8} off_7F65E8  dd offset {aDiscerrorpc_fn}                                        ||| comment,ident
-{.data:007F65EC}             dd offset byte_783FE5                                              ||| comment
-{.data:007F65F0}             dd offset {aMc_bootup_fng} {; "MC_Bootup.fng"}                     ||| comment,ident,comment
-{.data:007F65F4}             dd offset byte_783FE5                                              ||| comment
-{.data:007F65F8}             dd offset byte_783FE5                                              ||| comment
-{.data:007F65FC}             dd offset {aLs_blankmovie_} {; "LS_BlankMovie.fng"}                ||| comment,ident,comment
-{.data:007F6600}             dd offset {aLs_ealogo_fng} {; "LS_EAlogo.fng"}                     ||| comment,ident,comment
-{.data:007F6604}             dd offset byte_783FE5                                              ||| comment
-{.data:007F6608}             dd offset {aLs_thxmovie_fn} {; "LS_THXMovie.fng"}                  ||| comment,ident,comment
-{.data:007F660C}             dd offset {aLs_psamovie_fn} {; "LS_PSAMovie.fng"}                  ||| comment,ident,comment
-{.data:007F6610}             dd offset {aUg_ls_introfmv} {; "UG_LS_IntroFMV.fng"}               ||| comment,ident,comment
-{.data:007F6614}             dd offset {aUg_ls_splash_f} {; "UG_LS_Splash.fng"}                 ||| comment,ident,comment
-{.data:007F6618}             dd offset {aMc_background_} {; "MC_Background.fng"}                ||| comment,ident,comment
-{.data:007F661C}             dd offset {aUi_main_fng}  {; "UI_Main.fng"}                        ||| comment,ident,comment
+.data:007F65E8 off_7F65E8  dd offset {aDiscerrorpc_fn}                                          ||| ident
+.data:007F65EC             dd offset byte_783FE5
+.data:007F65F0             dd offset {aMc_bootup_fng} {; "MC_Bootup.fng"}                       ||| ident,comment
+.data:007F65F4             dd offset byte_783FE5
+.data:007F65F8             dd offset byte_783FE5
+.data:007F65FC             dd offset {aLs_blankmovie_} {; "LS_BlankMovie.fng"}                  ||| ident,comment
+.data:007F6600             dd offset {aLs_ealogo_fng} {; "LS_EAlogo.fng"}                       ||| ident,comment
+.data:007F6604             dd offset byte_783FE5
+.data:007F6608             dd offset {aLs_thxmovie_fn} {; "LS_THXMovie.fng"}                    ||| ident,comment
+.data:007F660C             dd offset {aLs_psamovie_fn} {; "LS_PSAMovie.fng"}                    ||| ident,comment
+.data:007F6610             dd offset {aUg_ls_introfmv} {; "UG_LS_IntroFMV.fng"}                 ||| ident,comment
+.data:007F6614             dd offset {aUg_ls_splash_f} {; "UG_LS_Splash.fng"}                   ||| ident,comment
+.data:007F6618             dd offset {aMc_background_} {; "MC_Background.fng"}                  ||| ident,comment
+.data:007F661C             dd offset {aUi_main_fng}  {; "UI_Main.fng"}                          ||| ident,comment
 .popmode ida
 
 This very much looks like the boot states the game goes through.
@@ -1028,36 +1028,36 @@ While scrolling and looking at references to some strings, I found some parts th
 following excerpt:
 
 .pushmode ida
-{.text:005121AE}     push    offset {aGenericdialo_2} {; "GenericDialog_Animate_SMALL.fng"}     ||| text,ident,comment
-{.text:005121B3}     call    {sub_505450}                                                       ||| text,hi
-{.text:005121B8}     add     esp, {4}                                                           ||| text,num
-{.text:005121BB}     cmp     esi, eax                                                           ||| text
-{.text:005121BD}     jz      short loc_512218                                                   ||| text
-{.text:005121BF}     push    offset {aGenericdialog_} {; "GenericDialog_SMALL.fng"}             ||| text,ident,comment
-{.text:005121C4}     call    {sub_505450}                                                       ||| text,hi
-{.text:005121C9}     add     esp, {4}                                                           ||| text,num
-{.text:005121CC}     cmp     esi, eax                                                           ||| text
-{.text:005121CE}     jz      short loc_512218                                                   ||| text
-{.text:005121D0}     push    offset {aGenericdialo_3} {; "GenericDialog_Animate_MED.fng"}       ||| text,ident,comment
-{.text:005121D5}     call    {sub_505450}                                                       ||| text,hi
-{.text:005121DA}     add     esp, {4}                                                           ||| text,num
-{.text:005121DD}     cmp     esi, eax                                                           ||| text
-{.text:005121DF}     jz      short loc_512218                                                   ||| text
-{.text:005121E1}     push    offset {aGenericdialo_4} {; "GenericDialog_MED.fng"}               ||| text,ident,comment
-{.text:005121E6}     call    {sub_505450}                                                       ||| text,hi
-{.text:005121EB}     add     esp, {4}                                                           ||| text,num
-{.text:005121EE}     cmp     esi, eax                                                           ||| text
-{.text:005121F0}     jz      short loc_512218                                                   ||| text
-{.text:005121F2}     push    offset {aGenericdialo_5} {; "GenericDialog_Animate_LARGE.fng"}     ||| text,ident,comment
-{.text:005121F7}     call    {sub_505450}                                                       ||| text,hi
-{.text:005121FC}     add     esp, {4}                                                           ||| text,num
-{.text:005121FF}     cmp     esi, eax                                                           ||| text
-{.text:00512201}     jz      short loc_512218                                                   ||| text
-{.text:00512203}     push    offset {aGenericdialo_0} {; "GenericDialog_LARGE.fng"}             ||| text,ident,comment
-{.text:00512208}     call    {sub_505450}                                                       ||| text,hi
-{.text:0051220D}     add     esp, {4}                                                           ||| text,num
-{.text:00512210}     cmp     esi, eax                                                           ||| text
-{.text:00512212}     jz      short loc_512218                                                   ||| text
+.text:005121AE     push    offset {aGenericdialo_2} {; "GenericDialog_Animate_SMALL.fng"}       ||| ident,comment
+.text:005121B3     call    {sub_505450}                                                         ||| hi
+.text:005121B8     add     esp, {4}                                                             ||| num
+.text:005121BB     cmp     esi, eax
+.text:005121BD     jz      short loc_512218
+.text:005121BF     push    offset {aGenericdialog_} {; "GenericDialog_SMALL.fng"}               ||| ident,comment
+.text:005121C4     call    {sub_505450}                                                         ||| hi
+.text:005121C9     add     esp, {4}                                                             ||| num
+.text:005121CC     cmp     esi, eax
+.text:005121CE     jz      short loc_512218
+.text:005121D0     push    offset {aGenericdialo_3} {; "GenericDialog_Animate_MED.fng"}         ||| ident,comment
+.text:005121D5     call    {sub_505450}                                                         ||| hi
+.text:005121DA     add     esp, {4}                                                             ||| num
+.text:005121DD     cmp     esi, eax
+.text:005121DF     jz      short loc_512218
+.text:005121E1     push    offset {aGenericdialo_4} {; "GenericDialog_MED.fng"}                 ||| ident,comment
+.text:005121E6     call    {sub_505450}                                                         ||| hi
+.text:005121EB     add     esp, {4}                                                             ||| num
+.text:005121EE     cmp     esi, eax
+.text:005121F0     jz      short loc_512218
+.text:005121F2     push    offset {aGenericdialo_5} {; "GenericDialog_Animate_LARGE.fng"}       ||| ident,comment
+.text:005121F7     call    {sub_505450}                                                         ||| hi
+.text:005121FC     add     esp, {4}                                                             ||| num
+.text:005121FF     cmp     esi, eax
+.text:00512201     jz      short loc_512218
+.text:00512203     push    offset {aGenericdialo_0} {; "GenericDialog_LARGE.fng"}               ||| ident,comment
+.text:00512208     call    {sub_505450}                                                         ||| hi
+.text:0051220D     add     esp, {4}                                                             ||| num
+.text:00512210     cmp     esi, eax
+.text:00512212     jz      short loc_512218
 .popmode ida
 
 The proc {505450} doesn't look very complicated; it has one argument and                        ||| ref
@@ -1203,21 +1203,21 @@ the code to replace cars is in comments.
 While scrolling through the data segment, I found these interesting strings:
 
 .pushmode ida
-{.rdata:0079B160} {aDeletingPackag} db {'Deleting package [%s]'},{0Ah},{0}                      ||| comment,ident,str,num,num
-{.rdata:0079B177}                 align {4}                                                     ||| comment,num
-{.rdata:0079B178} {aUnActivateXX}   db {'Un-Activate!!! %x %x'},{0Ah},{0}                       ||| comment,ident,str,num,num
-{.rdata:0079B18E}                 db {2} dup({0})                                               ||| comment, num, num
-{.rdata:0079B190} {aWillBeUnloaded} db {'Will be unloaded [%s]'},{0Ah},{0}                      ||| comment,ident,str,num,num
+.rdata:0079B160 {aDeletingPackag} db {'Deleting package [%s]'},{0Ah},{0}                        ||| ident,str,num,num
+.rdata:0079B177                 align {4}                                                       ||| num
+.rdata:0079B178 {aUnActivateXX}   db {'Un-Activate!!! %x %x'},{0Ah},{0}                         ||| ident,str,num,num
+.rdata:0079B18E                 db {2} dup({0})                                                 ||| num, num
+.rdata:0079B190 {aWillBeUnloaded} db {'Will be unloaded [%s]'},{0Ah},{0}                        ||| ident,str,num,num
 .popmode ida
 
 Even more interesting is that these strings are using by pushing them on to the stack,
 followed by a call to a specific proc that looks like this:
 
 .pushmode ida
-{.text:0050D510} {sub_50D510  proc near}                                                        ||| text,ident
-{.text:0050D510}                 xor     eax, eax                                               ||| text
-{.text:0050D512}                 retn                                                           ||| text
-{.text:0050D512} {sub_50D510  endp}                                                             ||| text,ident
+.text:0050D510 {sub_50D510  proc near}                                                          ||| ident
+.text:0050D510                 xor     eax, eax
+.text:0050D512                 retn
+.text:0050D512 {sub_50D510  endp}                                                               ||| ident
 .popmode ida
 
 It appears as if this used to be some kind of debug printf function, so I named it
@@ -1291,9 +1291,9 @@ by something that looked like dialog code. These leftover debug strings helped s
 Someone left a trace here:
 
 .pushmode ida
-{.text:005541FC}                 call    {4FF250}                                               ||| text,refplain
-{.text:00554201}                 push    offset {aDialogConstruc} {; "DIALOG :: Constructor\n"} ||| text,ident,comment
-{.text:00554206}                 call    {50D510}                                               ||| text,refplain
+.text:005541FC                 call    {4FF250}                                                 ||| refplain
+.text:00554201                 push    offset {aDialogConstruc} {; "DIALOG :: Constructor\n"}   ||| ident,comment
+.text:00554206                 call    {50D510}                                                 ||| refplain
 .popmode ida
 
 One of the first thing {558020} does is calling {526C40},                                       ||| ref,ref
@@ -2714,14 +2714,14 @@ TODO:
 - {8384E0 gCallingScreenPackageName}                                                            ||| field
   {{Thx to}                                                                                     ||| details,summary
   .pushmode ida
-  {.text:00551F0A}      push    offset {8384E0}                                                              ||| text,refplain
-  {.text:00551F0F}      push    esi                                                                          ||| text
-  {.text:00551F10}      push    offset {aGcallingscreen} {; "gCallingScreenPackageName SETTING %s.  Previously : %s."}    ||| text,ident,comment
-  {.text:00551F15}      call    {50D510}                                                                     ||| text,refplain
-  {.text:00551F1A}      mov     edx, [ebp+4]                                                                 ||| text
-  {.text:00551F1D}      push    edx             {; src}                                                      ||| text,comment
-  {.text:00551F1E}      push    offset {8384E0} {; dest}                                                     ||| text,refplain,comment
-  {.text:00551F23}      call    {43DBD0}                                                                     ||| text,refplain
+  .text:00551F0A      push    offset {8384E0}                                                              ||| refplain
+  .text:00551F0F      push    esi
+  .text:00551F10      push    offset {aGcallingscreen} {; "gCallingScreenPackageName SETTING %s.  Previously : %s."}    ||| ident,comment
+  .text:00551F15      call    {50D510}                                                                     ||| refplain
+  .text:00551F1A      mov     edx, [ebp+4]
+  .text:00551F1D      push    edx             {; src}                                                      ||| comment
+  .text:00551F1E      push    offset {8384E0} {; dest}                                                     ||| refplain,comment
+  .text:00551F23      call    {43DBD0}                                                                     ||| refplain
   .popmode ida
   } |||
 
@@ -2762,7 +2762,7 @@ strcpy((char*) 0x790734, "loading_boot.fng");
 Since the string is longer, it will override this string with an empty string though:
 
 .pushmode ida
-{.rdata:00790744} {aLoadingTipsFng} db {'Loading_Tips.fng'},{0}                                 ||| comment,ident,str,num
+.rdata:00790744 {aLoadingTipsFng} db {'Loading_Tips.fng'},{0}                                   ||| ident,str,num
 .popmode ida
 
 It seems unused, so I guess it's fine. That made me wonder if that one could be used as loading
@@ -4406,17 +4406,17 @@ EXPECT_SIZE(struct CriticalSectionWrapper_3, 0x24);
 {Other symbols}  ||| h id=other_symbols
 
 .pushmode ida
-{.rdata:0079B9F0} {aDDecodercaptur} db {'d:\decodercapture%04d.fss'},{0}                        ||| comment,ident,str,num
+.rdata:0079B9F0 {aDDecodercaptur} db {'d:\decodercapture%04d.fss'},{0}                          ||| ident,str,num
 
-{.rdata:007A1344} {a__IndepSrcOnli} db {'..\indep\src\online/LobbyCore.cpp'},{0}                ||| comment,ident,str,num
+.rdata:007A1344 {a__IndepSrcOnli} db {'..\indep\src\online/LobbyCore.cpp'},{0}                  ||| ident,str,num
 
-{.rdata:007A5BF8} {aHotpositionSHo} db {'//'},{0Ah}                                             ||| comment,ident,str,num
-{.rdata:007A5BF8}                 db {'// HotPosition - %s'},{0Ah}                              ||| comment,str,num
-{.rdata:007A5BF8}                 db {'//'},{0Ah}                                               ||| comment,str,num
-{.rdata:007A5BF8}                 db {'HOTPOSITION: %8.2f,%8.2f,%8.2f  Angle=0x%04x'},{0Ah},{0} ||| comment,str,num,num
+.rdata:007A5BF8 {aHotpositionSHo} db {'//'},{0Ah}                                               ||| ident,str,num
+.rdata:007A5BF8                 db {'// HotPosition - %s'},{0Ah}                                ||| str,num
+.rdata:007A5BF8                 db {'//'},{0Ah}                                                 ||| str,num
+.rdata:007A5BF8                 db {'HOTPOSITION: %8.2f,%8.2f,%8.2f  Angle=0x%04x'},{0Ah},{0}   ||| str,num,num
 
-{.rdata:00787568} {aSeeulator}      db {'Seeulator'},{0}                                        ||| comment,ident,str,num
-{.rdata:00787574} {aJr2server}      db {'JR2Server'},{0}                                        ||| comment,ident,str,num
+.rdata:00787568 {aSeeulator}      db {'Seeulator'},{0}                                          ||| ident,str,num
+.rdata:00787574 {aJr2server}      db {'JR2Server'},{0}                                          ||| ident,str,num
 .popmode ida
 
 .pushmode pre

@@ -173,3 +173,24 @@ div.mm a.struc:hover {
 div.mm a.enum:hover {
 	background: #fdd;
 }
+pre.ida {
+	color: #000080;
+	font-weight: bold;
+}
+pre.ida span.text,
+pre.ida span.mt {
+	color: #000;
+}
+pre.ida span.comment,
+pre.ida span.mc {
+	color: #808080;
+}
+pre.ida span.ident {
+	color: #0000ff;
+}
+pre.ida span.num, pre.ida span.str {
+	color: #008000;
+}
+pre.ida span.hi {
+	background: #ff0;
+}

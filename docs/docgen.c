@@ -1082,13 +1082,13 @@ enum mmp_dir_content_action mmparse_cb_mode_symbols_directive(struct mmparse *mm
 	assert(0);
 	return LEAVE_CONTENTS;
 }
-/*jeanine:p:i:44;p:40;a:r;x:5.56;y:-20.00;*/
+/*jeanine:p:i:44;p:40;a:r;x:5.56;y:-13.00;*/
 static
 void mmparse_cb_mode_pre_start(struct mmparse *mm)
 {
 	mmparse_append_to_main_output(mm, "<pre>\n", 6);
 }
-/*jeanine:p:i:45;p:40;a:r;x:5.56;y:-4.00;*/
+/*jeanine:p:i:45;p:40;a:r;x:5.56;y:-5.00;*/
 static
 int mmparse_cb_mode_pre_println(struct mmparse *mm)
 {
@@ -1096,7 +1096,7 @@ int mmparse_cb_mode_pre_println(struct mmparse *mm)
 	mmparse_append_to_main_output(mm, mm->pd.line, mm->pd.line_len);
 	return 0;
 }
-/*jeanine:p:i:46;p:40;a:r;x:5.56;y:13.00;*/
+/*jeanine:p:i:46;p:40;a:r;x:5.56;y:4.00;*/
 static
 void mmparse_cb_mode_pre_end(struct mmparse *mm)
 {
@@ -1154,6 +1154,62 @@ void mmparse_cb_mode_ul_end(struct mmparse *mm)
 	}
 	ud->ul.level--;
 	mmparse_append_to_main_output(mm, "</ul>", 5);
+}
+/*jeanine:p:i:51;p:47;a:r;x:5.56;y:-31.00;*/
+static
+void mmparse_cb_mode_ida_start(struct mmparse *mm)
+{
+	mmparse_append_to_main_output(mm, "<pre class='ida'>\n", 18);
+}
+/*jeanine:p:i:52;p:47;a:r;x:5.56;y:-23.00;*/
+static
+int mmparse_cb_mode_ida_println(struct mmparse *mm)
+{
+	register char c;
+	int marginlen;
+
+	mm->pd.line[mm->pd.line_len++] = '\n';
+	if (mm->pd.line[0] == '.') {
+		marginlen = 0;
+		do {
+			c = mm->pd.line[++marginlen];
+			if (!c) {
+				goto nomargin;
+			}
+		} while (c != ' ');
+		if (!strncmp(mm->pd.line + 1, "text", 4)) {
+			mmparse_append_to_main_output(mm, "<span class='mt'>", 17);
+		} else {
+			mmparse_append_to_main_output(mm, "<span class='mc'>", 17);
+		}
+		mmparse_append_to_main_output(mm, mm->pd.line, marginlen);
+		mmparse_append_to_main_output(mm, "</span>", 7);
+		mmparse_append_to_main_output(mm, mm->pd.line + marginlen, mm->pd.line_len - marginlen);
+		return 24;
+	} else {
+nomargin:
+		mmparse_append_to_main_output(mm, mm->pd.line, mm->pd.line_len);
+		return 0;
+	}
+}
+/*jeanine:p:i:54;p:47;a:r;x:5.56;y:8.00;*/
+static
+enum mmp_dir_content_action mmparse_cb_mode_ida_directive(struct mmparse *mm, struct mmp_dir_content_data *data)
+{
+	register char *name;
+
+	name = data->directive->name;
+	if (!strcmp(name, "num") || !strcmp(name, "str") || !strcmp(name, "hi") ||
+		!strcmp(name, "comment") || !strcmp(name, "ident"))
+	{
+		mmparse_append_to_expanded_line(mm, "<span class='", 13);
+		mmparse_append_to_expanded_line(mm, name, strlen(name));
+		mmparse_append_to_expanded_line(mm, "'>", 2);
+		mmparse_append_to_closing_tag(mm, "</span>", 7);
+	} else {
+		return mmparse_cb_mode_normal_directive(mm, data);
+	}
+	return LEAVE_CONTENTS;
 }
 /*jeanine:p:i:26;p:42;a:r;x:3.33;*/
 static
@@ -1225,7 +1281,7 @@ struct mmp_mode mmparse_mode_symbols = {
 	"symbols",
 	MMPARSE_DO_PARSE_LINES
 };
-/*jeanine:p:i:40;p:30;a:b;y:55.80;*/
+/*jeanine:p:i:40;p:30;a:b;y:48.74;*/
 struct mmp_mode mmparse_mode_pre = {
 	mmparse_cb_mode_pre_start,/*jeanine:r:i:44;*/
 	mmparse_cb_mode_pre_println,/*jeanine:r:i:45;*/
@@ -1234,7 +1290,7 @@ struct mmp_mode mmparse_mode_pre = {
 	"pre",
 	MMPARSE_DO_PARSE_LINES
 };
-/*jeanine:p:i:43;p:40;a:b;y:45.94;*/
+/*jeanine:p:i:43;p:40;a:b;y:36.76;*/
 struct mmp_mode mmparse_mode_ul = {
 	mmparse_cb_mode_ul_start,/*jeanine:r:i:48;*/
 	mmparse_cb_mode_ul_println,/*jeanine:r:i:49;*/
@@ -1243,16 +1299,16 @@ struct mmp_mode mmparse_mode_ul = {
 	"ul",
 	MMPARSE_DO_PARSE_LINES
 };
-/*jeanine:p:i:47;p:43;a:b;y:42.91;*/
+/*jeanine:p:i:47;p:43;a:b;y:56.48;*/
 struct mmp_mode mmparse_mode_ida = {
-	mmparse_cb_mode_nop_start_end,
-	mmparse_cb_mode_normal_println,
-	mmparse_cb_mode_nop_start_end,
-	mmparse_cb_mode_normal_directive,
+	mmparse_cb_mode_ida_start,/*jeanine:r:i:51;*/
+	mmparse_cb_mode_ida_println,/*jeanine:r:i:52;*/
+	mmparse_cb_mode_pre_end,
+	mmparse_cb_mode_ida_directive,/*jeanine:r:i:54;*/
 	"ida",
 	MMPARSE_DO_PARSE_LINES
 };
-/*jeanine:p:i:41;p:47;a:b;y:1.88;*/
+/*jeanine:p:i:41;p:47;a:b;y:57.32;*/
 struct mmp_mode mmparse_mode_section = {
 	mmparse_cb_mode_section_start,/*jeanine:r:i:28;*/
 	mmparse_cb_mode_section_println,/*jeanine:r:i:33;*/
