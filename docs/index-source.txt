@@ -2640,95 +2640,29 @@ TODO:
 .rdata:0079C194 aIconscroller_2 db 'IconScrollerMenu : UNDIM_COMPLETE.',0Ah,0
 .popmode pre
 
-.pushmode ul
-- {4B2240 int FNGINIT_UI_EngageMessageDialog_fng(void *arg)}                                    ||| func
-  Calls {497850} and passes the arg and freshly allocated memory as {this}.                     ||| ref,code
-  TODO
-
-- {50B840 {struct FNGData}* GetFNGDataForHash(unsigned int hash)}                               ||| func,refto
-  Goes through all the fng data above and returns the one with matching hash.
-
-- {50B8E0 int SetInitializeHandlerForFNG(char *fng, {fnginithandler} *func)}                    ||| func,refto
-  Goes through all the fng data above and set the handler for {43DCC0} matching fng names.      ||| ref
-
-- {50B790 ShowFNG(int fnghash, int arg1, int arg2)}                                             ||| func
-  See {nfsu2-re-hooks/replace-50B790-ShowFNG.c} for a reimplementation.                         ||| hookfileref
-
-- {50C550 void FreeFNGFeRenderObjects({struct FNGInfo} *fng)}                                   ||| func,refto
-  Frees all {{struct UIElement}::{structUIElement+58}} objects by calling {504880}              ||| code,refto,refto,ref
-  using a visitor that has {5374F0} as its {{structUIElementVisitor$vtable+4}}.                 ||| ref,code,refto
-
-- {50CE30 char *FindTopPackage(unsigned int *hashes, int numHashes)}                            ||| func
-  Checks if any of the given hashes conform with
-  {{8384C4}->{structUIData+8}->{structUIData_Field8+E4}->{structFNGInfo+10}}                    ||| code,refplain,refto,refto,refto
-  and return its {{structFNGInfo+C}}.                                                           ||| code,refto
-
-- {519E50 {struct FNGInfo} *__thiscall GetFNGInfoByNameByHierarchy(void *thisUnused,            ||| func,refto
-                                                                   char *str,
-                                                                   {struct FNGInfo} *fnginfo)}  ||| refto
-  Goes through {{structFNGInfo+4}} until the next one is null or its                            ||| code,refto
-  {{structFNGInfo+C}} and {{structFNGInfo+10}} matches.                                         ||| code,refto,code,refto
-  {this} is unused.                                                                             ||| code
-
-- {51CCD0 {struct FNGInfo} *__thiscall UIData::GetFNGInfoForName({struct UIData} *this, char *fngName)}                 ||| func,refto,refto
-  Searches through levelSlotPool.
-
-- {52C390 void __thiscall FERenderObject::FreeAllRenderEPolys({struct FERenderObject} *this)}   ||| func,refto
-
-- {52C3A0 void __thiscall FERenderObject::FreeAllRenderEPolys_0({struct FERenderObject} *this,  ||| func,refto
-                                                                void *unused)} |||
-
-- {52CEF0 {struct FNGInfo} *GetFNGInfoByName(char *fngName)}                                    ||| func,refto
-  TODO, this probably searches everything instead of the hierarchy like {519E50}                ||| ref
-
-- {5374F0 int __thiscall UIElementVisitor_ClearFNGCache::acceptElement(struct UIElementVisitor_ClearFNGCache *this,     ||| func
-                                                                       {struct UIElement} *element)}                    ||| refto
-  Frees {{struct UIElement}::{structUIElement+58}} and its EPoly objects.                                               ||| code,refto,refto
-
-- {5379A0 void RemoveFNGFromUIObject(char *fngName)}                                            ||| func
-
-- {555E80 void AddFngToUIObject_1(char *fngName, void *data)}                                   ||| func
-  Does more stuff.
-
-- {555F10 int AddFngToUIObjectWrapper(char *fngName, char *parentFngName, char controlMask, void *data)}        ||| func
-  Wraps {555D00}.                                                                                               ||| ref
-  {parentFngName} may be null.                                                                                  ||| code
-
-- {555D00 int __thiscall AddFNGToUIObject({struct UIData} *this, int flagsMaybe, char *fngName,                 ||| func,refto
-                                          char *parentFngName, int controlMask, void *data)} |||
-  {parentFngName} may be null.                                                                                  ||| code
-
-- {558B70 void __thiscall UIConsumeKey(void *this, int keyCode)}                                ||| func
-  probably used for Q, but what else?
-
-- {55DBD0 void UIHandleKey(int keyCode)}                                                        ||| func
-  Called from {WM_CHAR} messages in {5CCD60},                                                   ||| code,ref
-  only used to type/press enter in a textbox and Q to quit.
-  Navigating menus seems unaffected
-
-- {55DC20 __thiscall void SendSomethingToFNG?(void *this, char *fng, int data)}                 ||| func
-  Called when menus change.
-
-- {7F7DC8 {struct FNGData} fngdata[180]}                                                        ||| field,refto
-
-- {8384E0 gCallingScreenPackageName}                                                            ||| field
-  {{Thx to}                                                                                     ||| details,summary
-  .pushmode ida
-  .text:00551F0A      push    offset {8384E0}                                                              ||| refplain
-  .text:00551F0F      push    esi
-  .text:00551F10      push    offset {aGcallingscreen} {; "gCallingScreenPackageName SETTING %s.  Previously : %s."}    ||| ident,comment
-  .text:00551F15      call    {50D510}                                                                     ||| refplain
-  .text:00551F1A      mov     edx, [ebp+4]
-  .text:00551F1D      push    edx             {; src}                                                      ||| comment
-  .text:00551F1E      push    offset {8384E0} {; dest}                                                     ||| refplain,comment
-  .text:00551F23      call    {43DBD0}                                                                     ||| refplain
-  .popmode ida
-  } |||
-
-- {83A9C0 int isTextboxFocused}                                                                 ||| field
-
-- {83A9C4 void *focusedTextbox}                                                                 ||| field
-.popmode ul
+.pushmode symbols
+- 4B2240
+- 50B840
+- 50B8E0
+- 50B790
+- 50C550
+- 50CE30
+- 519E50
+- 51CCD0
+- 52C390
+- 52C3A0
+- 52CEF0
+- 5374F0
+- 5379A0
+- 555E80
+- 555F10
+- 555D00
+- 558B70
+- 55DBD0
+- 55DC20
+- 7F7DC8
+- 8384E0
+.popmode symbols
 
 .popmode section
 .pushmode section
