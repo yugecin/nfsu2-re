@@ -903,9 +903,6 @@ struct docgen_mmparse_userdata {
 		char should_open_p;
 	} section;
 	struct {
-		int whitespacelen;
-	} pre;
-	struct {
 #define DOCGEN_MAX_UL_LEVELS 10
 		char li_open[DOCGEN_MAX_UL_LEVELS];
 		unsigned char level;
@@ -1089,31 +1086,15 @@ enum mmp_dir_content_action mmparse_cb_mode_symbols_directive(struct mmparse *mm
 static
 void mmparse_cb_mode_pre_start(struct mmparse *mm)
 {
-	struct docgen_mmparse_userdata *ud;
-	register int wslen;
-
-	wslen = 0;
-	while (mm->pd.line[wslen] == ' ') {
-		wslen++;
-	}
-	ud = mm->config.userdata;
-	ud->pre.whitespacelen = wslen;
 	mmparse_append_to_main_output(mm, "<pre>\n", 6);
 }
 /*jeanine:p:i:45;p:40;a:r;x:5.56;y:-4.00;*/
 static
 int mmparse_cb_mode_pre_println(struct mmparse *mm)
 {
-	struct docgen_mmparse_userdata *ud;
-	register int wslen;
-
-	ud = mm->config.userdata;
-	wslen = ud->pre.whitespacelen;
-	if (mm->pd.line_len > wslen) {
-		mmparse_append_to_main_output(mm, mm->pd.line + wslen, mm->pd.line_len - wslen);
-	}
-	mmparse_append_to_main_output(mm, "\n", 1);
-	return mm->pd.line_len - wslen;
+	mm->pd.line[mm->pd.line_len++] = '\n';
+	mmparse_append_to_main_output(mm, mm->pd.line, mm->pd.line_len);
+	return 0;
 }
 /*jeanine:p:i:46;p:40;a:r;x:5.56;y:13.00;*/
 static
