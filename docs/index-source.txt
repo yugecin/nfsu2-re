@@ -1033,14 +1033,6 @@ of playing gives about a 277MB file, all output was piped to {sort | uniq}.     
 
 How I collected these can be seen in the {nfsu2-re-hooks/hook-*-hash-*.c} files.                ||| code
 
-.pushmode symbols
-- 43DB50
-- 43DB80
-- 505450
-- 50B990
-- 50B9C0
-.popmode symbols
-
 .pushmode section
 
 {Messing with hash results}  ||| h id=hashmess
@@ -1108,6 +1100,15 @@ Check the function {SomeHashCS43DB50Print} in the file                          
 the code to replace cars is in comments.
 
 .popmode section
+
+.pushmode symbols
+- 43DB50
+- 43DB80
+- 505450
+- 50B990
+- 50B9C0
+.popmode symbols
+
 .popmode section
 .pushmode section
 
@@ -3208,7 +3209,6 @@ as {([-320,+320],[-240,+240])}.                                                 
 .popmode symbols
 
 .popmode section
-
 .pushmode section
 
 {Key (Joy) input}  ||| h id=joyinput

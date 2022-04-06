@@ -72,7 +72,7 @@ struct docgen {
 	int num_datainfos;
 	struct docgen_datainfo *datainfos;
 };
-/*jeanine:p:i:39;p:20;a:r;x:18.44;y:9.69;*/
+/*jeanine:p:i:39;p:20;a:r;x:8.33;y:11.38;*/
 static
 int docgen_parse_addr(char *addr, int len)
 {
@@ -266,6 +266,8 @@ struct docgen_tmpbuf {
 	char used;
 	char *data;
 	int size;
+	/**for 'docgen_append_to_tmpbuf'*/
+	int _len;
 };
 
 /**
@@ -287,6 +289,7 @@ struct docgen_tmpbuf* docgen_get_tmpbuf(int minsize)
 	for (i = 0, b = bufs; i < DOCGEN_MAX_TMPBUFS; i++, b++) {
 		if (!b->used && b->size >= minsize) {
 			b->used = 1;
+			b->_len = 0;
 			b->data[0] = 0;
 			return b;
 		}
@@ -295,6 +298,7 @@ struct docgen_tmpbuf* docgen_get_tmpbuf(int minsize)
 	for (i = 0, b = bufs; i < DOCGEN_MAX_TMPBUFS; i++, b++) {
 		if (!b->used && !b->size) {
 			b->used = 1;
+			b->_len = 0;
 			b->size = minsize;
 			b->data = malloc(minsize);
 			assert(b->data);
@@ -306,6 +310,7 @@ struct docgen_tmpbuf* docgen_get_tmpbuf(int minsize)
 	for (i = 0, b = bufs; i < DOCGEN_MAX_TMPBUFS; i++, b++) {
 		if (!b->used) {
 			b->used = 1;
+			b->_len = 0;
 			b->size = minsize;
 			b->data = realloc(b->data, minsize);
 			assert(b->data);
@@ -315,6 +320,20 @@ struct docgen_tmpbuf* docgen_get_tmpbuf(int minsize)
 	}
 	assert(((void) "failed to allocate tmpbuf, try increasing DOCGEN_MAX_TMPBUFS", 0));
 	return NULL; /*make gcc -Wall happy*/
+}
+
+/**
+Wrap in 'assert' when calling.
+*/
+static
+int docgen_append_to_tmpbuf(struct docgen_tmpbuf *buf, char *data, int len)
+{
+	if (len + buf->_len >= buf->size) {
+		return 0;
+	}
+	memcpy(buf->data + buf->_len, data, len);
+	buf->_len += len;
+	return 1;
 }
 
 static
@@ -901,6 +920,14 @@ struct docgen_mmparse_userdata {
 		char needs_index_link_at_bottom;
 		char has_p;
 		char should_open_p;
+		unsigned char current_level;
+		/**If doing a println and this is higher than 'current_level',
+		we need to print continuation breadcrumbs*/
+		char last_level_that_had_println;
+#define DOCGEN_MAX_SECTION_LEVELS 10
+		/**The index entry index that is applicable for this section.
+		Used to print continuation breadcrumbs.*/
+		int matching_index_entry_idx[DOCGEN_MAX_SECTION_LEVELS];
 	} section;
 	struct {
 #define DOCGEN_MAX_UL_LEVELS 10
@@ -908,34 +935,54 @@ struct docgen_mmparse_userdata {
 		unsigned char level;
 	} ul;
 };
+/*jeanine:p:i:55;p:32;a:r;x:14.29;y:-70.83;*/
+static
+void docgen_mmparse_generate_breadcrumbs(struct mmparse *mm, struct docgen_tmpbuf *buf, int for_index_entry_idx, int is_continuation)
+{
+	struct docgen_mmparse_index_entry *entry;
+	struct docgen_mmparse_userdata *ud;
+	int level;
+
+	ud = mm->config.userdata;
+	entry = ud->index.entries + for_index_entry_idx;
+	assert(docgen_append_to_tmpbuf(buf, "<p id='", 7));
+	assert(docgen_append_to_tmpbuf(buf, entry->id, entry->id_len));
+	assert(docgen_append_to_tmpbuf(buf, "'><small># ", 11));
+	level = entry->level;
+	while (level--) {
+		while ((--entry)->level != level);
+		assert(docgen_append_to_tmpbuf(buf, "<a href='#", 10));
+		assert(docgen_append_to_tmpbuf(buf, entry->id, entry->id_len));
+		assert(docgen_append_to_tmpbuf(buf, "'>", 2));
+		assert(docgen_append_to_tmpbuf(buf, entry->name, entry->name_len));
+		assert(docgen_append_to_tmpbuf(buf, "</a> > ", 7));
+		entry = ud->index.entries + for_index_entry_idx;
+	}
+	if (is_continuation) {
+		assert(docgen_append_to_tmpbuf(buf, "<a href='#", 10));
+		assert(docgen_append_to_tmpbuf(buf, entry->id, entry->id_len));
+		assert(docgen_append_to_tmpbuf(buf, "'>", 2));
+		assert(docgen_append_to_tmpbuf(buf, entry->name, entry->name_len));
+		assert(docgen_append_to_tmpbuf(buf, "</a> (continuation)", 19));
+	} else {
+		assert(docgen_append_to_tmpbuf(buf, entry->name, entry->name_len));
+	}
+	assert(docgen_append_to_tmpbuf(buf, "</small></p>", 12));
+}
 /*jeanine:p:i:32;p:42;a:r;x:3.33;*/
 static
 void mmparse_cb_placeholder_section_breadcrumbs(struct mmparse *mm, struct mmp_output_part *output, void *data, int data_size)
 {
-	struct docgen_mmparse_index_entry *entry;
-	struct docgen_mmparse_userdata *ud;
-	int entry_idx, level;
+	struct docgen_tmpbuf *buf;
+	int entry_idx;
 
-	ud = mm->config.userdata;
 	entry_idx = *((int*) data);
-	entry = ud->index.entries + entry_idx;
-	mmparse_append_to_placeholder_output(mm, output, "<p id='", 7);
-	mmparse_append_to_placeholder_output(mm, output, entry->id, entry->id_len);
-	mmparse_append_to_placeholder_output(mm, output, "'><small>", 9);
-	level = entry->level;
-	while (level--) {
-		while ((--entry)->level != level);
-		mmparse_append_to_placeholder_output(mm, output, "<a href='#", 10);
-		mmparse_append_to_placeholder_output(mm, output, entry->id, entry->id_len);
-		mmparse_append_to_placeholder_output(mm, output, "'>", 2);
-		mmparse_append_to_placeholder_output(mm, output, entry->name, entry->name_len);
-		mmparse_append_to_placeholder_output(mm, output, "</a> > ", 7);
-		entry = ud->index.entries + entry_idx;
-	}
-	mmparse_append_to_placeholder_output(mm, output, entry->name, entry->name_len);
-	mmparse_append_to_placeholder_output(mm, output, "</small></p>", 12);
+	buf = docgen_get_tmpbuf(1000);
+	docgen_mmparse_generate_breadcrumbs(mm, buf, entry_idx, 0);/*jeanine:r:i:55;*/
+	mmparse_append_to_placeholder_output(mm, output, buf->data, buf->_len);
+	docgen_free_tmpbuf(buf);
 }
-/*jeanine:p:i:28;p:41;a:r;x:5.56;y:-31.00;*/
+/*jeanine:p:i:28;p:41;a:r;x:5.56;y:-41.00;*/
 static
 void mmparse_cb_mode_section_start(struct mmparse *mm)
 {
@@ -943,6 +990,10 @@ void mmparse_cb_mode_section_start(struct mmparse *mm)
 
 	ud = mm->config.userdata;
 	ud->section.should_open_p = 1;
+	ud->section.current_level++;
+	assert(ud->section.current_level < DOCGEN_MAX_SECTION_LEVELS);
+	ud->section.matching_index_entry_idx[ud->section.current_level] = -1;
+	ud->section.last_level_that_had_println = ud->section.current_level;
 	mmparse_append_to_main_output(mm, "<div>", 5);
 }
 /*jeanine:p:i:34;p:33;a:r;x:37.56;*/
@@ -963,11 +1014,13 @@ int docgen_line_can_have_paragraph(struct mmparse *mm)
 		strncmp(tag, "table", 5) &&
 		strncmp(tag, "ul", 2);
 }
-/*jeanine:p:i:33;p:41;a:r;x:5.56;y:-19.00;*/
+/*jeanine:p:i:33;p:41;a:r;x:5.56;y:-26.00;*/
 static
 int mmparse_cb_mode_section_println(struct mmparse *mm)
 {
 	struct docgen_mmparse_userdata *ud;
+	struct docgen_tmpbuf *buf;
+	int index_entry_idx;
 	char is_empty_line;
 	char extra_offset;
 
@@ -975,11 +1028,25 @@ int mmparse_cb_mode_section_println(struct mmparse *mm)
 	ud->section.needs_index_link_at_bottom = 1;
 
 	extra_offset = 0;
+	if (ud->section.last_level_that_had_println > ud->section.current_level) {
+		ud->section.last_level_that_had_println = ud->section.current_level;
+		index_entry_idx = ud->section.matching_index_entry_idx[ud->section.current_level];
+		if (index_entry_idx == -1) {
+			mmparse_failmsg(mm, "trying to print continuation breadcrumbs for section, but no h element seen!");
+			assert(0);
+		}
+		buf = docgen_get_tmpbuf(1000);
+		docgen_mmparse_generate_breadcrumbs(mm, buf, index_entry_idx, 1);/*jeanine:s:a:r;i:55;*/
+		mmparse_append_to_main_output(mm, buf->data, buf->_len);
+		extra_offset = buf->_len;
+		docgen_free_tmpbuf(buf);
+	}
+
 	is_empty_line = !mm->pd.line_len;
 	if (is_empty_line) {
 		if (ud->section.has_p) {
 			ud->section.has_p = 0;
-			extra_offset = 4;
+			extra_offset += 4;
 			mmparse_append_to_main_output(mm, "</p>", 4);
 		}
 		ud->section.should_open_p = 1;
@@ -988,20 +1055,21 @@ int mmparse_cb_mode_section_println(struct mmparse *mm)
 			ud->section.should_open_p = 0;
 			if (docgen_line_can_have_paragraph(mm)) {/*jeanine:r:i:34;*/
 				ud->section.has_p = 1;
-				extra_offset = 3;
+				extra_offset += 3;
 				mmparse_append_to_main_output(mm, "<p>", 3);
 			}
 		}
 	}
 	return extra_offset + mmparse_cb_mode_normal_println(mm);
 }
-/*jeanine:p:i:29;p:41;a:r;x:5.56;y:14.00;*/
+/*jeanine:p:i:29;p:41;a:r;x:5.56;y:24.00;*/
 static
 void mmparse_cb_mode_section_end(struct mmparse *mm)
 {
 	struct docgen_mmparse_userdata *ud;
 
 	ud = mm->config.userdata;
+	ud->section.current_level--;
 	if (ud->section.needs_index_link_at_bottom) {
 		ud->section.needs_index_link_at_bottom = 0;
 		mmparse_append_to_main_output(mm, "<p><small><a href='#index'>Index</a></small></p></div>", 54);
@@ -1308,7 +1376,7 @@ struct mmp_mode mmparse_mode_ida = {
 	"ida",
 	MMPARSE_DO_PARSE_LINES
 };
-/*jeanine:p:i:41;p:47;a:b;y:57.32;*/
+/*jeanine:p:i:41;p:47;a:b;y:66.35;*/
 struct mmp_mode mmparse_mode_section = {
 	mmparse_cb_mode_section_start,/*jeanine:r:i:28;*/
 	mmparse_cb_mode_section_println,/*jeanine:r:i:33;*/
@@ -1317,7 +1385,7 @@ struct mmp_mode mmparse_mode_section = {
 	"section",
 	MMPARSE_DO_PARSE_LINES
 };
-/*jeanine:p:i:42;p:41;a:b;y:26.03;*/
+/*jeanine:p:i:42;p:41;a:b;y:39.05;*/
 static
 struct mmp_dir_arg *mmparse_find_directive_argument(struct mmp_dir *dir, char *name)
 {
@@ -1401,6 +1469,9 @@ enum mmp_dir_content_action mmparse_dir_h(struct mmparse *mm, struct mmp_dir_con
 	if (ud->index.num_entries >= sizeof(ud->index.entries)/sizeof(ud->index.entries[0])) {
 		mmparse_failmsg(mm, "increase number of index entries");
 		assert(0);
+	}
+	if (ud->section.matching_index_entry_idx[ud->section.current_level] == -1) {
+		ud->section.matching_index_entry_idx[ud->section.current_level] = ud->index.num_entries;
 	}
 	entry = ud->index.entries + ud->index.num_entries++;
 	entry->level = level;
