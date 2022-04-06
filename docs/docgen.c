@@ -274,8 +274,6 @@ struct docgen_tmpbuf {
 	char used;
 	char *data;
 	int size;
-	/**for 'docgen_append_to_tmpbuf'*/
-	int _len;
 };
 
 /**
@@ -297,7 +295,6 @@ struct docgen_tmpbuf* docgen_get_tmpbuf(int minsize)
 	for (i = 0, b = bufs; i < DOCGEN_MAX_TMPBUFS; i++, b++) {
 		if (!b->used && b->size >= minsize) {
 			b->used = 1;
-			b->_len = 0;
 			b->data[0] = 0;
 			return b;
 		}
@@ -306,7 +303,6 @@ struct docgen_tmpbuf* docgen_get_tmpbuf(int minsize)
 	for (i = 0, b = bufs; i < DOCGEN_MAX_TMPBUFS; i++, b++) {
 		if (!b->used && !b->size) {
 			b->used = 1;
-			b->_len = 0;
 			b->size = minsize;
 			b->data = malloc(minsize);
 			assert(b->data);
@@ -318,7 +314,6 @@ struct docgen_tmpbuf* docgen_get_tmpbuf(int minsize)
 	for (i = 0, b = bufs; i < DOCGEN_MAX_TMPBUFS; i++, b++) {
 		if (!b->used) {
 			b->used = 1;
-			b->_len = 0;
 			b->size = minsize;
 			b->data = realloc(b->data, minsize);
 			assert(b->data);
@@ -328,20 +323,6 @@ struct docgen_tmpbuf* docgen_get_tmpbuf(int minsize)
 	}
 	assert(((void) "failed to allocate tmpbuf, try increasing DOCGEN_MAX_TMPBUFS", 0));
 	return NULL; /*make gcc -Wall happy*/
-}
-
-/**
-Wrap in 'assert' when calling.
-*/
-static
-int docgen_append_to_tmpbuf(struct docgen_tmpbuf *buf, char *data, int len)
-{
-	if (len + buf->_len >= buf->size) {
-		return 0;
-	}
-	memcpy(buf->data + buf->_len, data, len);
-	buf->_len += len;
-	return 1;
 }
 
 static
@@ -923,12 +904,12 @@ void docgen_print_data(FILE *f, struct docgen *dg, struct docgen_datainfo *datai
 		fprintf(f, "<p>%s</p>", data->rep_comment);
 	}
 }
-/*jeanine:p:i:56;p:37;a:r;x:58.55;y:-22.75;*/
+/*jeanine:p:i:56;p:37;a:r;x:55.13;y:24.28;*/
 /**
 @param ref must be zero terminated
 */
 static
-void docgen_generate_ref_text(struct mmparse *mm, struct docgen_tmpbuf *buf, char *ref, int reflen)
+void docgen_append_ref_text(struct mmparse *mm, void (*append_func)(struct mmparse*,char*,int), char *ref, int reflen)
 {
 	struct docgen_mmparse_userdata *ud;
 	struct docgen_ref res;
@@ -939,78 +920,79 @@ void docgen_generate_ref_text(struct mmparse *mm, struct docgen_tmpbuf *buf, cha
 	docgen_resolve_ref(ud->dg, &res, ref, reflen);/*jeanine:r:i:57;*/
 	if (res.func) {
 		len = sprintf(addr, "%X", res.func->addr);
-		assert(docgen_append_to_tmpbuf(buf, "<a class='func' href='funcs.html#", 33));
-		assert(docgen_append_to_tmpbuf(buf, addr, len));
-		assert(docgen_append_to_tmpbuf(buf, "'>", 2));
-		assert(docgen_append_to_tmpbuf(buf, res.func->name, strlen(res.func->name)));
-		assert(docgen_append_to_tmpbuf(buf, "</a>", 4));
+		append_func(mm, "<a class='func' href='funcs.html#", 33);
+		append_func(mm, addr, len);
+		append_func(mm, "'>", 2);
+		append_func(mm, res.func->name, strlen(res.func->name));
+		append_func(mm, "</a>", 4);
 	} else if (res.data) {
 		len = sprintf(addr, "%X", res.data->addr);
-		assert(docgen_append_to_tmpbuf(buf, "<a class='var' href='vars.html#", 31));
-		assert(docgen_append_to_tmpbuf(buf, addr, len));
-		assert(docgen_append_to_tmpbuf(buf, "'>", 2));
-		assert(docgen_append_to_tmpbuf(buf, res.data->name, strlen(res.data->name)));
-		assert(docgen_append_to_tmpbuf(buf, "</a>", 4));
+		append_func(mm, "<a class='var' href='vars.html#", 31);
+		append_func(mm, addr, len);
+		append_func(mm, "'>", 2);
+		append_func(mm, res.data->name, strlen(res.data->name));
+		append_func(mm, "</a>", 4);
 	} else if (res.strucmember) {
-		assert(docgen_append_to_tmpbuf(buf, "<a class='struc' href='structs.html#struc_", 42));
-		assert(docgen_append_to_tmpbuf(buf, res.struc->name, strlen(res.struc->name)));
+		append_func(mm, "<a class='struc' href='structs.html#struc_", 42);
+		append_func(mm, res.struc->name, strlen(res.struc->name));
 		len = sprintf(addr, "%X", res.strucmember->offset);
-		assert(docgen_append_to_tmpbuf(buf, addr, len));
-		assert(docgen_append_to_tmpbuf(buf, "'>", 2));
-		assert(docgen_append_to_tmpbuf(buf, res.strucmember->name, strlen(res.strucmember->name)));
-		assert(docgen_append_to_tmpbuf(buf, "</a>", 4));
+		append_func(mm, addr, len);
+		append_func(mm, "'>", 2);
+		append_func(mm, res.strucmember->name, strlen(res.strucmember->name));
+		append_func(mm, "</a>", 4);
 	} else if (res.struc) {
 		len = strlen(res.struc->name);
-		assert(docgen_append_to_tmpbuf(buf, "<a class='struc' href='structs.html#struc_", 42));
-		assert(docgen_append_to_tmpbuf(buf, res.struc->name, len));
-		assert(docgen_append_to_tmpbuf(buf, "'>struct ", 9));
-		assert(docgen_append_to_tmpbuf(buf, res.struc->name, len));
-		assert(docgen_append_to_tmpbuf(buf, "</a>", 4));
+		append_func(mm, "<a class='struc' href='structs.html#struc_", 42);
+		append_func(mm, res.struc->name, len);
+		append_func(mm, "'>struct ", 9);
+		append_func(mm, res.struc->name, len);
+		append_func(mm, "</a>", 4);
 	} else if (res.enu) {
 		len = strlen(res.enu->name);
-		assert(docgen_append_to_tmpbuf(buf, "<a class='enum' href='enums.html#enu_", 37));
-		assert(docgen_append_to_tmpbuf(buf, res.enu->name, len));
-		assert(docgen_append_to_tmpbuf(buf, "'>enum ", 7));
-		assert(docgen_append_to_tmpbuf(buf, res.enu->name, len));
-		assert(docgen_append_to_tmpbuf(buf, "</a>", 4));
+		append_func(mm, "<a class='enum' href='enums.html#enu_", 37);
+		append_func(mm, res.enu->name, len);
+		append_func(mm, "'>enum ", 7);
+		append_func(mm, res.enu->name, len);
+		append_func(mm, "</a>", 4);
 	} else {
 		mmparse_failmsgf(mm, "unknown ref '%s'", ref);
-		assert(docgen_append_to_tmpbuf(buf, "<strong class='error' style='font-family:monospace'>?", 53));
-		assert(docgen_append_to_tmpbuf(buf, ref, reflen));
-		assert(docgen_append_to_tmpbuf(buf, "?</strong>", 10));
+		append_func(mm, "<strong class='error' style='font-family:monospace'>?", 53);
+		append_func(mm, ref, reflen);
+		append_func(mm, "?</strong>", 10);
 	}
 }
-/*jeanine:p:i:35;p:30;a:r;x:6.67;y:-23.00;*/
+/*jeanine:p:i:35;p:30;a:r;x:6.67;y:-21.00;*/
 static
 void mmparse_cb_mode_symbols_start(struct mmparse *mm)
 {
 	mmparse_append_to_main_output(mm, "<p><strong>Symbols:</strong></p>\n<ul>\n", 38);
 }
-/*jeanine:p:i:37;p:30;a:r;x:6.67;y:-16.00;*/
+/*jeanine:p:i:60;p:37;a:r;x:29.78;*/
+static
+void docgen_mmparse_symbols_println_ref_append(struct mmparse *mm, char *buf, int len)
+{
+	mmparse_append_to_main_output(mm, buf, len);
+}
+/*jeanine:p:i:37;p:30;a:r;x:6.67;y:-13.00;*/
 static
 int mmparse_cb_mode_symbols_println(struct mmparse *mm)
 {
-	struct docgen_tmpbuf *buf;
-
 	if (mm->pd.line_len < 3 || mm->pd.line[0] != '-') {
 		mmparse_failmsg(mm, "lines in 'symbols' mode must start with a hyphen");
 		assert(0);
 	}
 	mmparse_append_to_main_output(mm, "<li>", 4);
-	buf = docgen_get_tmpbuf(1000);
-	docgen_generate_ref_text(mm, buf, mm->pd.line + 2, mm->pd.line_len - 2);/*jeanine:r:i:56;*/
-	mmparse_append_to_main_output(mm, buf->data, buf->_len);
-	docgen_free_tmpbuf(buf);
+	docgen_append_ref_text(mm, docgen_mmparse_symbols_println_ref_append, mm->pd.line + 2, mm->pd.line_len - 2);/*jeanine:r:i:56;:r:i:60;*/
 	mmparse_append_to_main_output(mm, "</li>\n", 6);
 	return 0; /*just returning 0 because no placeholders should've been used*/
 }
-/*jeanine:p:i:36;p:30;a:r;x:6.67;y:4.00;*/
+/*jeanine:p:i:36;p:30;a:r;x:6.67;y:1.00;*/
 static
 void mmparse_cb_mode_symbols_end(struct mmparse *mm)
 {
 	mmparse_append_to_main_output(mm, "</ul>", 5);
 }
-/*jeanine:p:i:38;p:30;a:r;x:6.67;y:11.00;*/
+/*jeanine:p:i:38;p:30;a:r;x:6.67;y:9.00;*/
 static
 enum mmp_dir_content_action mmparse_cb_mode_symbols_directive(struct mmparse *mm, struct mmp_dir_content_data *data)
 {
@@ -1074,7 +1056,7 @@ enum mmp_dir_content_action mmparse_cb_mode_ida_directive(struct mmparse *mm, st
 	}
 	return LEAVE_CONTENTS;
 }
-/*jeanine:p:i:30;p:58;a:r;x:31.53;y:-95.75;*/
+/*jeanine:p:i:30;p:58;a:r;x:33.75;y:-120.00;*/
 struct mmp_mode mmparse_mode_symbols = {
 	mmparse_cb_mode_symbols_start,/*jeanine:r:i:35;*/
 	mmparse_cb_mode_symbols_println,/*jeanine:r:i:37;*/
@@ -1092,16 +1074,17 @@ struct mmp_mode mmparse_mode_ida = {
 	"ida",
 	MMPARSE_DO_PARSE_LINES
 };
-/*jeanine:p:i:42;p:58;a:r;x:28.75;y:-142.03;*/
+/*jeanine:p:i:59;p:42;a:r;x:31.40;*/
+static
+void docgen_mmparse_dir_ref_append(struct mmparse *mm, char *buf, int len)
+{
+	mmparse_append_to_expanded_line(mm, buf, len);
+}
+/*jeanine:p:i:42;p:58;a:r;x:31.85;y:-73.41;*/
 static
 enum mmp_dir_content_action mmparse_dir_ref(struct mmparse *mm, struct mmp_dir_content_data *data)
 {
-	struct docgen_tmpbuf *buf;
-
-	buf = docgen_get_tmpbuf(1000);
-	docgen_generate_ref_text(mm, buf, data->contents, data->content_len);/*jeanine:s:a:r;i:56;*/
-	mmparse_append_to_expanded_line(mm, buf->data, buf->_len);
-	docgen_free_tmpbuf(buf);
+	docgen_append_ref_text(mm, docgen_mmparse_dir_ref_append, data->contents, data->content_len);/*jeanine:r:i:59;:s:a:r;i:56;*/
 	return DELETE_CONTENTS;
 }
 /*jeanine:p:i:58;p:25;a:b;y:1.88;*/
