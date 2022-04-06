@@ -38,15 +38,6 @@ Display settings get saved in the windows registry. See {registry}.             
 TODO. I was writing this when I got distracted by the language stuff.
 
 .pushmode symbols
-- 5BE190
-- 5BE1B0
-- 5BE1C0
-- 5BE200
-- 5BE560
-- 5BE5A0
-- 5BE690
-- 5BE870
-- 5BE9F0
 - 800538
 - 800550
 - 86E880
@@ -101,6 +92,15 @@ TODO. I was writing this when I got distracted by the language stuff.
 - 876524
 - 876528
 - 876530
+- 5BE190
+- 5BE1B0
+- 5BE1C0
+- 5BE200
+- 5BE560
+- 5BE5A0
+- 5BE690
+- 5BE870
+- 5BE9F0
 .popmode symbols
 
 .popmode section
@@ -195,15 +195,15 @@ information and associated data. See {language_metadata}.                       
 {StreamingInstall} is read. Then something with {75DD6F}. TODO                                  ||| code,ref
 
 .pushmode symbols
-- 5B76F0
-- 5BEA20
-- 5BEEA0
 - 86E8B0
 - 86E9B4
 - 86FF8C
 - 870CB0
 - 870CB4
 - 870D20
+- 5B76F0
+- 5BEA20
+- 5BEEA0
 .popmode symbols
 
 .popmode section
@@ -256,11 +256,11 @@ Then some network region stuff at 7FA740 showed a 14th entry:
 .popmode ul
 
 .pushmode symbols
+- 864F24
 - 570A30
 - 570A40
 - 571380
 - 5B7C40
-- 864F24
 .popmode symbols
 
 .popmode section
@@ -268,30 +268,7 @@ Then some network region stuff at 7FA740 showed a 14th entry:
 
 {Bin data}   ||| h id=bindata
 
-Lots of data is in {.bin} files. These files can contain multiple {struct BinSection} entries.  ||| code,refto
-
-.pushmode pre
-{struct BinSectionHeader} \{                                                                    ||| mkref
-        int {magic};                                                                            ||| mkref name=structBinSectionHeader+0
-        int {size};                                                                             ||| mkref name=structBinSectionHeader+4
-};
-
-{struct BinSection} \{                                                                          ||| mkref
-        {struct BinSectionHeader} {header};                                                     ||| refto,mkref name=structBinSection+0
-        char {data}[{structBinSectionHeader+4}];                                                ||| mkref name=structBinSection+8,refto
-};
-
-{struct BinSectionHandler} \{                                                                   ||| mkref
-        int {magic};                                                                            ||| mkref name=structBinSectionHandler+0
-        int (*{loadfunc})({struct BinSection}*));                                               ||| mkref name=structBinSectionHandler+4,refto
-        int (*{unloadfunc})({struct BinSection}*));                                             ||| mkref name=structBinSectionHandler+8,refto
-};
-
-{struct BinSectionMagicMapEntry} \{                                                             ||| mkref
-        {struct BinSectionMagicMapEntry} *{nextEntry};                                          ||| refto,mkref name=structBinSectionMagicMapEntry+0
-        {struct BinSectionHandler} {value};                                                     ||| refto,mkref name=structBinSectionMagicMapEntry+4
-};
-.popmode pre
+Lots of data is in {.bin} files. These files can contain multiple {struct BinSection} entries.  ||| code,ref
 
 These are all the sections that are in the {LANGUAGES/English.bin} file:                        ||| code
 
@@ -313,11 +290,45 @@ offset 41380: section 00030201 size CF0
 
 This is output by an early version of {nfsu2-re-binfiles/main.c}.                               ||| hookfileref
 
-Note that the offset also increments by 8, being {sizeof {struct BinSectionHeader}}.            ||| code,refto
+Note that the offset also increments by 8, being {sizeof {struct BinSectionHeader}}.            ||| code,ref
 
-Section magic {0} seems to be just for padding/alignment uses.                                  ||| code
+A section with magic {0} seems to be just for padding/alignment uses.                           ||| code
 
 .pushmode symbols
+- struct BinSectionHeader
+- struct BinSection
+- struct BinSectionHandler
+- struct BinSectionMagicMapEntry
+- 7EB3F4
+- 7FA858
+- 7FA8E8
+- 827FE8
+- 828050
+- 82DBA0
+- 82DBB0
+- 830AF8
+- 830B08
+- 835784
+- 835840
+- 8358D0
+- 8641F4
+- 8653A0
+- 865470
+- 86596C
+- 86B4AC
+- 86B580
+- 88A2AC
+- 88E9B4
+- 88E9CC
+- 88E9DC
+- 88E9EC
+- 88EA74
+- 88EA94
+- 88EAA4
+- 88EAB4
+- 88EAC4
+- 88F27C
+- 88F750
 - 43C0B0
 - 408200
 - 408220
@@ -441,36 +452,6 @@ Section magic {0} seems to be just for padding/alignment uses.                  
 - 77E890
 - 77E8B0
 - 77E8D0
-- 7EB3F4
-- 7FA858
-- 7FA8E8
-- 827FE8
-- 828050
-- 82DBA0
-- 82DBB0
-- 830AF8
-- 830B08
-- 835784
-- 835840
-- 8358D0
-- 8641F4
-- 8653A0
-- 865470
-- 86596C
-- 86B4AC
-- 86B580
-- 88A2AC
-- 88E9B4
-- 88E9CC
-- 88E9DC
-- 88E9EC
-- 88EA74
-- 88EA94
-- 88EAA4
-- 88EAB4
-- 88EAC4
-- 88F27C
-- 88F750
 .popmode symbols
 
 .popmode section
@@ -482,6 +463,12 @@ There seems to be no way to change the language, except for changing the value
 in the registry? See {registry}. Perhaps it is only set                                 ||| href
 when the game is installed?
 
+TODO:
+
+.pushmode ida
+.rdata:007983D0 aLanguageselect db {'LanguageSelectScreen'},{0} {; TODO}                ||| str,num,comment
+.popmode ida
+
 .pushmode section
 
 {Language metadata}  ||| h id=language_metadata
@@ -489,13 +476,7 @@ when the game is installed?
 Thanks to code where it reads the Registry, I found following data:
 
 .pushmode pre
-{struct LanguageData} \{                                                                ||| mkref
-	char *pName;
-	int {val1}; //??                                                                ||| mkref name=structLanguageData+4
-	int region;
-};
-
-{struct LanguageData} {7FCA08}[] = \{                                                   ||| refto,refplain
+{struct LanguageDataOld} {7FCA08}[] = \{                                                ||| ref,ref
         { "English US",            0,        0 },
         { "English UK",            0,        5 },
         { "French",                1,        6 },
@@ -516,7 +497,7 @@ Thanks to code where it reads the Registry, I found following data:
 
 The value stored in the registry for {Language} is checked against                      ||| code
 all language strings in the above data. The matching language's
-{structLanguageData+4} gets stored in {7FCA00}, or 0 when the                           ||| refto,ref
+{struct LanguageData+4} gets stored in {7FCA00}, or 0 when the                          ||| refto,ref
 name stored in the registry didn't match any names.
 
 After chasing usages of a region related proc,
@@ -541,12 +522,7 @@ They seem to fit into three more structs.
 #define HASH_conduitmditc_tt14i_thailand 0xA73823FF
 #define HASH_conduitmditc_tt21i_thailand 0x4815619D
 
-{struct LanguageStruct7F6DE8} \{                                                                ||| mkref
-	int {fonthash};                                                                         ||| mkref name=LanguageStruct7F6DE8+0
-	int {field_1};                                                                          ||| mkref name=LanguageStruct7F6DE8+4
-};
-
-{struct LanguageStruct7F6DE8} {7F6DE8}[] = \{                                                   ||| refto,ref
+{struct LanguageStruct7F6DE8} {7F6DE8}[] = \{                                                   ||| ref,ref
         { HASH_CONDUITMDITC_TT21I,          0x0 },
         { HASH_font_impact36,               0x40000 },
         { HASH_CONDUITMDITC_TT14I,          0x10000 },
@@ -564,56 +540,46 @@ They seem to fit into three more structs.
         { HASH_conduitmditc_tt21i_thailand, 0x80000 },
 };
 
-{struct LanguageStruct7F6E60} \{                                                                ||| mkref
-	int {data}[28];                                                                         ||| mkref name=structLanguageStruct7F6E60+0
-};
+{struct LanguageFontData} {7F6E60};                                                             ||| ref,ref
+{7F6E60}[0][0] = HASH_CONDUITMDITC_TT21I;                                                       ||| ref
+{7F6E60}[0][1] = HASH_arial;                                                                    ||| ref
+{7F6E60}[0][2] = HASH_CONDUITMDITC_TT14I;                                                       ||| ref
+{7F6E60}[0][3] = HASH_lcd_let48;                                                                ||| ref
+{7F6E60}[0][8] = HASH_FONT_CONDUITMDITCTT38BI;                                                  ||| ref
+{7F6E60}[0][16] = HASH_arial12;                                                                 ||| ref
+{7F6E60}[0][17] = HASH_font_impact36;                                                           ||| ref
+{7F6E60}[1][0] = HASH_conduitmditc_tt21i_korean;                                                ||| ref
+{7F6E60}[1][1] = HASH_arial;                                                                    ||| ref
+{7F6E60}[1][2] = HASH_conduitmditc_tt14i_korean;                                                ||| ref
+{7F6E60}[1][3] = HASH_lcd_let48;                                                                ||| ref
+{7F6E60}[1][16] = HASH_arial12;                                                                 ||| ref
+{7F6E60}[1][17] = HASH_font_impact36;                                                           ||| ref
+{7F6E60}[2][0] = HASH_conduitmditc_tt21i_japanese;                                              ||| ref
+{7F6E60}[2][1] = HASH_arial;                                                                    ||| ref
+{7F6E60}[2][2] = HASH_conduitmditc_tt14i_japanese;                                              ||| ref
+{7F6E60}[2][3] = HASH_lcd_let48;                                                                ||| ref
+{7F6E60}[2][8] = HASH_FONT_CONDUITMDITCTT38BI;                                                  ||| ref
+{7F6E60}[2][16] = HASH_arial12;                                                                 ||| ref
+{7F6E60}[2][17] = HASH_font_impact36;                                                           ||| ref
+{7F6E60}[3][0] = HASH_conduitmditc_tt21i_chinese;                                               ||| ref
+{7F6E60}[3][1] = HASH_arial;                                                                    ||| ref
+{7F6E60}[3][2] = HASH_conduitmditc_tt14i_chinese;                                               ||| ref
+{7F6E60}[3][3] = HASH_lcd_let48;                                                                ||| ref
+{7F6E60}[3][16] = HASH_arial12;                                                                 ||| ref
+{7F6E60}[3][17] = HASH_font_impact36;                                                           ||| ref
 
-{struct LanguageFileData} \{                                                                    ||| mkref
-	int id;
-	char *filecode;
-	char *binfile;
-	{struct LanguageStruct7F6E60} *{pStruct7F6E60};                                         ||| refto,mkref name=structLanguageFileData+C
-};
-
-{7F6E60}[0][0] = HASH_CONDUITMDITC_TT21I;                                                       ||| refplain
-{7F6E60}[0][1] = HASH_arial;                                                                    ||| refplain
-{7F6E60}[0][2] = HASH_CONDUITMDITC_TT14I;                                                       ||| refplain
-{7F6E60}[0][3] = HASH_lcd_let48;                                                                ||| refplain
-{7F6E60}[0][8] = HASH_FONT_CONDUITMDITCTT38BI;                                                  ||| refplain
-{7F6E60}[0][16] = HASH_arial12;                                                                 ||| refplain
-{7F6E60}[0][17] = HASH_font_impact36;                                                           ||| refplain
-{7F6E60}[1][0] = HASH_conduitmditc_tt21i_korean;                                                ||| refplain
-{7F6E60}[1][1] = HASH_arial;                                                                    ||| refplain
-{7F6E60}[1][2] = HASH_conduitmditc_tt14i_korean;                                                ||| refplain
-{7F6E60}[1][3] = HASH_lcd_let48;                                                                ||| refplain
-{7F6E60}[1][16] = HASH_arial12;                                                                 ||| refplain
-{7F6E60}[1][17] = HASH_font_impact36;                                                           ||| refplain
-{7F6E60}[2][0] = HASH_conduitmditc_tt21i_japanese;                                              ||| refplain
-{7F6E60}[2][1] = HASH_arial;                                                                    ||| refplain
-{7F6E60}[2][2] = HASH_conduitmditc_tt14i_japanese;                                              ||| refplain
-{7F6E60}[2][3] = HASH_lcd_let48;                                                                ||| refplain
-{7F6E60}[2][8] = HASH_FONT_CONDUITMDITCTT38BI;                                                  ||| refplain
-{7F6E60}[2][16] = HASH_arial12;                                                                 ||| refplain
-{7F6E60}[2][17] = HASH_font_impact36;                                                           ||| refplain
-{7F6E60}[3][0] = HASH_conduitmditc_tt21i_chinese;                                               ||| refplain
-{7F6E60}[3][1] = HASH_arial;                                                                    ||| refplain
-{7F6E60}[3][2] = HASH_conduitmditc_tt14i_chinese;                                               ||| refplain
-{7F6E60}[3][3] = HASH_lcd_let48;                                                                ||| refplain
-{7F6E60}[3][16] = HASH_arial12;                                                                 ||| refplain
-{7F6E60}[3][17] = HASH_font_impact36;                                                           ||| refplain
-
-{struct LanguageFileData} {7F7020}[] = \{                                                       ||| refto,refplain
-	\{  0, "ENGLISH", "LANGUAGES\\ENGLISH.BIN", {7F6E60} + 0 \},                            ||| refplain
-	\{  1, "FRENCH", "LANGUAGES\\FRENCH.BIN", {7F6E60} + 0 \},                              ||| refplain
-	\{  2, "GERMAN", "LANGUAGES\\GERMAN.BIN", {7F6E60} + 0 \},                              ||| refplain
-	\{  3, "ITALIAN", "LANGUAGES\\ITALIAN.BIN", {7F6E60} + 0 \},                            ||| refplain
-	\{  4, "SPANISH", "LANGUAGES\\SPANISH.BIN", {7F6E60} + 0 \},                            ||| refplain
-	\{  5, "DUTCH", "LANGUAGES\\DUTCH.BIN", {7F6E60} + 0 \},                                ||| refplain
-	\{  6, "SWEDISH", "LANGUAGES\\SWEDISH.BIN", {7F6E60} + 0 \},                            ||| refplain
-	\{  7, "DANISH", "LANGUAGES\\DANISH.BIN", {7F6E60} + 0 \},                              ||| refplain
-	\{  8, "KOREAN", "LANGUAGES\\KOREAN.BIN", {7F6E60} + 1 \},                              ||| refplain
-	\{  9, "CHINESE", "LANGUAGES\\CHINESE.BIN", {7F6E60} + 3 \},                            ||| refplain
-	\{ 10, "JAPANESE", "LANGUAGES\\JAPANESE.BIN", {7F6E60} + 2 \},                          ||| refplain
+{struct LanguageFileData} {7F7020}[] = \{                                                       ||| ref,ref
+	\{  0, "ENGLISH", "LANGUAGES\\ENGLISH.BIN", {7F6E60} + 0 \},                            ||| ref
+	\{  1, "FRENCH", "LANGUAGES\\FRENCH.BIN", {7F6E60} + 0 \},                              ||| ref
+	\{  2, "GERMAN", "LANGUAGES\\GERMAN.BIN", {7F6E60} + 0 \},                              ||| ref
+	\{  3, "ITALIAN", "LANGUAGES\\ITALIAN.BIN", {7F6E60} + 0 \},                            ||| ref
+	\{  4, "SPANISH", "LANGUAGES\\SPANISH.BIN", {7F6E60} + 0 \},                            ||| ref
+	\{  5, "DUTCH", "LANGUAGES\\DUTCH.BIN", {7F6E60} + 0 \},                                ||| ref
+	\{  6, "SWEDISH", "LANGUAGES\\SWEDISH.BIN", {7F6E60} + 0 \},                            ||| ref
+	\{  7, "DANISH", "LANGUAGES\\DANISH.BIN", {7F6E60} + 0 \},                              ||| ref
+	\{  8, "KOREAN", "LANGUAGES\\KOREAN.BIN", {7F6E60} + 1 \},                              ||| ref
+	\{  9, "CHINESE", "LANGUAGES\\CHINESE.BIN", {7F6E60} + 3 \},                            ||| ref
+	\{ 10, "JAPANESE", "LANGUAGES\\JAPANESE.BIN", {7F6E60} + 2 \},                          ||| ref
 	/*there is no Thai entry here?*/
 };
 .popmode pre
@@ -636,16 +602,22 @@ matching entry in {7F6DE8} is searched.                                         
 More stuff is read is a loop and reset and I lost track.
 Eventually something is called with string {LanguageMemoryPool}.                                ||| code
 
-{7983D0 aLanguageselect db 'LanguageSelectScreen',0 TODO}                                       ||| strong
+.pushmode ida
+.rdata:007983D0 aLanguageselect db {'LanguageSelectScreen'},{0} {; TODO}                        ||| str,num,comment
+.popmode ida
 
 .pushmode symbols
-- 4FF680
-- 512520
+- struct LanguageData
+- struct LanguageStruct7F6DE8
+- struct LanguageFontData
+- struct LanguageFileData
 - 7F6DE8
 - 7F6E60
 - 7FCA00
 - 7FCA08
 - 7F7020
+- 4FF680
+- 512520
 .popmode symbols
 
 .popmode section
@@ -656,9 +628,9 @@ Eventually something is called with string {LanguageMemoryPool}.                
 The language strings are in a bin section with magic {0x39000}, and is structured like this:    ||| code
 
 .pushmode pre
-{struct BinDataLanguage39000} header;                                                           ||| refto
-char unknown[header.{structBinDataLanguage39000+8} - sizeof(header)];                           ||| refto
-{struct LanguageTableEntry} tableEntries[header.{structBinDataLanguage39000+4}];                ||| refto,refto
+{struct BinDataLanguage39000} header;                                                           ||| ref
+char unknown[header.{structBinDataLanguage39000+8} - sizeof(header)];                           ||| ref
+{struct LanguageTableEntry} tableEntries[header.{struct BinDataLanguage39000+4}];               ||| ref,ref
 char *strings; /*all zero-terminated strings after each other*/
 .popmode pre
 
@@ -680,35 +652,15 @@ See {language_english.txt} for all {LANGUAGES/English.bin} strings by their hash
 The hashes seem to be made with the case insensitive hash function {43DB50}.                    ||| ref
 The original labels are also stored as a language file in {LANGUAGES/Labels.bin}                ||| code
 
-.pushmode pre
-{struct BinDataLanguage39000} \{                                                                ||| mkref
-        int {field_0};                                                                          ||| mkref name=structBinDataLanguage39000+0
-        int {numStrings};                                                                       ||| mkref name=structBinDataLanguage39000+4
-        int {tableOffset};                                                                      ||| mkref name=structBinDataLanguage39000+8
-        int {stringsOffset};                                                                    ||| mkref name=structBinDataLanguage39000+C
-};
-
-{struct LanguageTableEntry} \{                                                                  ||| mkref
-	unsigned int {hash};                                                                    ||| mkref name=structLanguageTableEntry+0
-	char *{string};                                                                         ||| mkref name=structLanguageTableEntry+4
-};
-
-{struct LoadedLanguage} \{                                                                      ||| mkref
-        int {numStrings};                                                                       ||| mkref name=structLoadedLanguage+0
-        char **{ptrStrings};                                                                    ||| mkref name=structLoadedLanguage+4
-        {struct LanguageTableEntry} *{ptrTable};                                                ||| refto,mkref name=structLoadedLanguage+8
-        {struct LanguageConversionTable} *{ptrConversionTable};                                 ||| refto,mkref name=structLoadedLanguage+C
-};
-
-{struct LanguageConversionTable} \{                                                             ||| mkref
-        int field_0;
-        wchar_t table[256]; /*size unknown*/
-};
-.popmode pre
-
 TODO: language files also contain bin sections with magic {0x30201}                             ||| code
 
 .pushmode symbols
+- struct BinDataLanguage39000
+- struct LanguageTableEntry
+- struct LoadedLanguage
+- struct LanguageConversionTable
+- 8383D0
+- 838530
 - 4FF9D0
 - 4FFA50
 - 4FFA80
@@ -719,8 +671,6 @@ TODO: language files also contain bin sections with magic {0x30201}             
 - 5125B0
 - 52CD00
 - 537290
-- 8383D0
-- 838530
 .popmode symbols
 
 .popmode section
@@ -740,48 +690,29 @@ flag. When extending, the newly created pool gets added as last in the main pool
 the next pool, and the last allocated element of the new pool will point to the first element
 of the main pool.
 
-.pushmode pre
-{struct PoolLink} \{                                                                                    ||| mkref
-        {struct PoolLink} *{prev};                                                                      ||| refto,mkref name=structPoolLink+0
-        {struct PoolLink} *{next};                                                                      ||| refto,mkref name=structPoolLink+4
-};
-/*link is a circle*/
-
-{struct PoolControl} \{                                                                                 ||| mkref
-        int {inited};                                                                                   ||| mkref name=structPoolControl+0
-        {struct PoolLink} {link};                                                                       ||| refto,mkref name=structPoolControl+4
-};
-
-#define {POOL_FLAG_EXTENDABLE} 1                                                                        ||| mkref
-#define {POOL_FLAG_DONT_ZERO_INIT} 2 /*used in {440D40} etc*/                                           ||| mkref,ref
-
-{struct Pool} \{                                                                                        ||| mkref
-	{struct PoolLink} {__parent};                                                                   ||| refto,mkref name=structPool+0
-	{struct Pool} *{nextLinkedPool};                                                                ||| refto,mkref name=structPool+8
-	char* {name};                                                                                   ||| mkref name=structPool+C
-	{struct PoolEntry} *{firstAvailableElement};                                                    ||| refto,mkref name=structPool+10
-	int {flags};                                                                                    ||| mkref name=structPool+14
-	int {usedElements};                                                                             ||| mkref name=structPool+18
-	int {maxUsedElements}; /*max amount of elements used at one time*/                              ||| mkref name=structPool+1C
-	int {field_20};                                                                                 ||| mkref name=structPool+20
-	int {elementAmount};                                                                            ||| mkref name=structPool+24
-	int {elementSize};                                                                              ||| mkref name=structPool+28
-	int {elementAmountOverAllLinkedPools};                                                          ||| mkref name=structPool+2C
-        /*pool entries come here*/
-};
-
-{struct PoolEntry} \{                                                                                   ||| mkref
-        {struct PoolEntry} *{nextEntry};                                                                ||| refto,mkref name=structPoolEntry+0
-        {struct PoolEntry} *{prevEntry?};                                                               ||| refto,mkref name=structPoolEntry+4
-};
-
-struct bFileSystemPoolEntry {
-
-};
-EXPECT_SIZE(struct bFileSystemPoolEntry, 0xF0);
-.popmode pre
-
 .pushmode symbols
+- enum POOLFLAGS
+- struct PoolLink
+- struct PoolControl
+- struct Pool
+- struct PoolEntry
+- struct bFileSystemPoolEntry
+- 77B670
+- 828530
+- 865104
+- 81CB6C
+- 81CB70
+- 81CBB4
+- 81CBB8
+- 81CBBC
+- 827B4C
+- 827B50
+- 827B54
+- 827B5C
+- 827B60
+- 827B64
+- 827B68
+- 83AA1A
 - 431380
 - 4314E0
 - 431580
@@ -801,22 +732,6 @@ EXPECT_SIZE(struct bFileSystemPoolEntry, 0xF0);
 - 440E40
 - 57ED10
 - 5EA8B0
-- 77B670
-- 828530
-- 865104
-- 81CB6C
-- 81CB70
-- 81CBB4
-- 81CBB8
-- 81CBBC
-- 827B4C
-- 827B50
-- 827B54
-- 827B5C
-- 827B60
-- 827B64
-- 827B68
-- 83AA1A
 .popmode symbols
 
 .popmode section
@@ -1002,11 +917,7 @@ This is the only other function that checks if {8709BC} is non-zero.            
 
 .popmode section
 
-I need text here or my parser breaks.
-
 .pushmode symbols
-- 5BF260
-- 5BF3A0
 - 80057E
 - 80057D
 - 8709B0
@@ -1017,6 +928,8 @@ I need text here or my parser breaks.
 - 8709C4
 - 8709C5
 - 8709C7
+- 5BF260
+- 5BF3A0
 .popmode symbols
 
 .popmode section
@@ -1361,37 +1274,13 @@ executable itself so it's probably somewhere deep in a bin file.
 
 .popmode section
 
-{DialogInfo} struct made by looking at all of the above and more:                               ||| code
+{struct DialogInfo} was made by looking at all of the above and more.                           ||| ref
 (Especially {4FF250} helped here.)                                                              ||| ref
 
-.pushmode pre
-{struct DialogInfo} \{                                                                          ||| mkref
-	char {text}[768];                                                                       ||| mkref name=structDialogInfo+0
-	unsigned int {leftButtonLanguageString};                                                ||| mkref name=structDialogInfo+300
-	unsigned int {leftButtonMessage};                                                       ||| mkref name=structDialogInfo+304
-	unsigned int {rightButtonLanguageString};                                               ||| mkref name=structDialogInfo+308
-	unsigned int {righttButtonMessage};                                                     ||| mkref name=structDialogInfo+30C
-	unsigned int {middleButtonLanguageString};                                              ||| mkref name=structDialogInfo+310
-	unsigned int {middleButtonMessage};                                                     ||| mkref name=structDialogInfo+314
-	int {field_318};                                                                        ||| mkref name=structDialogInfo+318
-	int {field_31C};                                                                        ||| mkref name=structDialogInfo+31C
-	char *{parentFNGName};                                                                  ||| mkref name=structDialogInfo+320
-	char *{myFNGName};                                                                      ||| mkref name=structDialogInfo+324
-	int {numButtons};                                                                       ||| mkref name=structDialogInfo+328
-	char {field_32C};                                                                       ||| mkref name=structDialogInfo+32C
-	char {isHelpDialog};                                                                    ||| mkref name=structDialogInfo+32D
-	char {field_32E};                                                                       ||| mkref name=structDialogInfo+32E
-	char {textNeedsSomeWcharConversion}; /*set to 0 in 55806D*/                             ||| mkref name=structDialogInfo+32F
-	int {field_330}; /*set to 0 in 558074*/                                                 ||| mkref name=structDialogInfo+330
-	int {field_334};                                                                        ||| mkref name=structDialogInfo+334
-	int {field_338};                                                                        ||| mkref name=structDialogInfo+338
-};
-EXPECT_SIZE({struct DialogInfo}, 0x338);                                                        ||| refto
-ASSERT_OFFSET({struct DialogInfo}, {structDialogInfo+324}, 0x324);                              ||| refto,refto
-ASSERT_OFFSET({struct DialogInfo}, {structDialogInfo+32D}, 0x32D);                              ||| refto,refto
-.popmode pre
-
 .pushmode symbols
+- struct DialogInfo
+- 7F6DE0
+- 838640
 - 4FF250
 - 526C40
 - 540A60
@@ -1417,8 +1306,6 @@ ASSERT_OFFSET({struct DialogInfo}, {structDialogInfo+32D}, 0x32D);              
 - 5589D0
 - 558A20
 - 558AC0
-- 7F6DE0
-- 838640
 .popmode symbols
 
 .popmode section
@@ -1426,67 +1313,8 @@ ASSERT_OFFSET({struct DialogInfo}, {structDialogInfo+32D}, 0x32D);              
 
 {FNG things}  ||| h id=fngthings
 
-Thanks to {558020} code, following things were discovered:                                      ||| ref
-
 .pushmode pre
-{struct FNGShowData} \{                                                                         ||| mkref
-	char *fngname;
-	int arg1;
-	unsigned int helpTextLanguageString; /*set to {structFNGData+8}*/ |||refto
-	unsigned int helpBarMask; /*set to {structFNGData+C}*/ |||refto
-	int arg2;
-};
-EXPECT_SIZE(struct FNGMessage, 0x14);
-
-typedef {struct FNGShowData}* ({fnginithandler})({struct FNGShowData} *msg);                    ||| refto,mkref,refto
-
-{struct FNGData} \{                                                                             ||| mkref
-	char *name;
-	{fnginithandler} *initializeHandler;                                                    ||| refto
-	unsigned int {helpTextLanguageString};                                                  ||| mkref name=structFNGData+8
-	unsigned int {helpBarMask};                                                             ||| mkref name=structFNGData+C
-	int field_10;
-	int field_14;
-	int field_18;
-};
-EXPECT_SIZE(struct FNGData, 0x1C);
-
-{struct FNGInfo} \{                                                                             ||| mkref
-        int field_0;
-        {struct FNGInfo} *{child};                                                              ||| refto,mkref name=structFNGInfo+4
-        int field_8;
-        char *{fngName};                                                                        ||| mkref name=structFNGInfo+C
-        unsigned int {hash};                                                                    ||| mkref name=structFNGInfo+10
-        int field_14;
-        int field_18;
-        int controlMask;
-        int field_20;
-        int field_24;
-        int field_28;
-        int field_2C;
-        int field_30;
-        int field_34;
-        int field_38;
-        int field_3C;
-        int field_40;
-        int field_44;
-        int field_48;
-        {struct UIElement} *{rootUIElement};                                                    ||| refto,mkref name=structFNGInfo+4C
-};
-
-{struct UIData} \{                                                                              ||| mkref
-        /*TODO*/
-        {struct UIData_Field8} *{field_8};                                                      ||| refto,mkref name=structUIData+8
-};
-
-
-{struct UIData_Field8} \{                                                                       ||| mkref
-        /*incomplete*/
-        /*+E4*/
-        {struct FNGInfo} *{topPackage};                                                         ||| refto,mkref name=structUIData_Field8+E4
-};
-
-struct FNGData {7F7DC8}[] = \{                                                                  ||| refplain
+{struct FNGData} {7F7DC8}[] = \{                                                                ||| ref,ref
 {{collapsed data} ||| details,summary
 .controlchars []
 /*7F7DC8*/{ "UI_Main.fng", // 0
@@ -2570,10 +2398,6 @@ struct FNGData {7F7DC8}[] = \{                                                  
             0x0, 0x80, 0x0 },
 .controlchars {}
 }\}; |||
-
-{struct PCHelpBarFNGObject} \{                                                                                  ||| mkref
-        // todo
-}
 .popmode pre
 
 {{Short excerpt from hooking {50B790}}                                                          ||| details,summary,ref
@@ -2618,18 +2442,6 @@ ShowFNG(AA469286 ("UI_InGameDialog.fng"), 037C1120, 00838640) = 037C2AB0
 } |||
 
 .pushmode pre
-{struct FERenderObject} \{                                                                                      ||| mkref
-        {struct PoolEntry} {__parent};                                                                          ||| refto,mkref name=structFERenderObject+0
-        int field_8;
-        int field_C;
-        int field_10;
-        int field_14;
-        {struct ObjectLink} {FERenderEPolyLink};                                                                ||| refto,mkref name=structFERenderObject+18
-        /*size 0xA0*/
-};
-.popmode pre
-
-.pushmode pre
 TODO:
 .rdata:0079C118 aIconscroller_5 db 'IconScrollerMenu : Switch/Pop/Direct Pop called on me (0x%x).',0Ah
 .rdata:0079C118                                         ; DATA XREF: sub_543D40+3E9?o
@@ -2641,6 +2453,14 @@ TODO:
 .popmode pre
 
 .pushmode symbols
+- struct FNGShowData
+- struct FNGData
+- struct FNGInfo
+- struct UIData
+- struct UIData_field8
+- struct FERenderObject
+- 7F7DC8
+- 8384E0
 - 4B2240
 - 50B840
 - 50B8E0
@@ -2660,8 +2480,6 @@ TODO:
 - 558B70
 - 55DBD0
 - 55DC20
-- 7F7DC8
-- 8384E0
 .popmode symbols
 
 .popmode section
@@ -3268,8 +3086,8 @@ This is the button bar at the bottom of the screen, with the player name and mon
 that are only shown when you're connected online (TODO).
 
 Buttons are changed by using {54E6E0}. Buttons are predetermined, you can only specify which buttons you want and       ||| ref
-not set an arbitrary text label. The positions are shown below. See {54E6E0} for the button masks. The lowest matching  ||| ref
-mask gets placed on button1, and so on.
+not set an arbitrary text label. The positions are shown below. See {54E6E0} and {enum PCHELPBARFLAGS} for the button   ||| ref,ref
+masks. The lowest matching mask gets placed on button1, and so on.
 
 {Normal bar}                                                            ||| imgcaptioned src=PCHELPBAR.JPG alt="two line button bar with 6 buttons"
 
@@ -3281,44 +3099,10 @@ mask gets placed on button1, and so on.
 
 {{LAYOUT_ONE_LINE_NO_BG | LAYOUT_RIGHT_POSITION}}                       ||| imgcaptioned src=PCHELPBAR10000-80000000.JPG alt="right aligned button bar with 2 buttons",code
 
-.pushmode pre
-{enum PCHELPBARFLAGS} \{                                                                                        ||| mkref
-        BUTTON_PC_NAV_QUIT = 0x1,
-        BUTTON_PC_NAV_LOGOFF = 0x2,
-        BUTTON_PC_NAV_CONTINUE = 0x4,
-        BUTTON_PC_NAV_INSTALL_PART = 0x8,
-        BUTTON_PC_NAV_INSTALL_VINYL = 0x10,
-        BUTTON_PC_NAV_INSTALL_DECAL = 0x20,
-        BUTTON_PC_NAV_INSTALL_PACKAGE = 0x40,
-        BUTTON_PC_NAV_INSTALL_PAINT = 0x80,
-        BUTTON_PC_NAV_READ_MESSAGE = 0x100,
-        BUTTON_CANCEL_CHANGES = 0x200,
-        BUTTON_PC_NAV_BACK = 0x400,
-        BUTTON_DYNO_RESET_OR_PC_NAV_RESET_KEYS = 0x800,
-        BUTTON_PC_NAV_CUSTOMIZE = 0x1000,
-        BUTTON_PC_NAV_DELETE = 0x2000,
-        BUTTON_PC_NAV_EA_MESSENGER = 0x4000,
-        LAYOUT_WORLDMAP_POSITION = 0x8000,
-        LAYOUT_ONE_LINE_NO_BG = 0x10000,
-        LAYOUT_PAUSEMENU_POSITION = 0x20000,
-        BUTTON_DELETE_TUNED_CAR = 0x40000,
-        BUTTON_ICE_TEST_NOS_PURGE = 0x80000,
-        BUTTON_ICE_OPEN_CLOSE_HOOD = 0x100000,
-        BUTTON_ICE_OPEN_CLOSE_DOORS = 0x200000,
-        BUTTON_DYNO_TIP = 0x400000,
-        BUTTON_DECAL_COLOR_OR_FE_REPAINT = 0x800000,
-        BUTTON_MU_PAUSE_RESTART = 0x1000000,
-        BUTTON_STRING_WORLD_MAP = 0x2000000,
-        BUTTON_FILTER_EVENT_OFF = 0x4000000,
-        BUTTON_FILTER_EVENT_ON = 0x8000000,
-        BUTTON_ACTIVATE_GPS = 0x10000000,
-        BUTTON_DEACTIVATE_GPS = 0x20000000,
-        BUTTON_OL_HOST_LAN_SERVER = 0x40000000,
-        LAYOUT_RIGHT_POSITION = 0x80000000,
-};
-.popmode pre
-
 .pushmode symbols
+- enum PCHELPBARFLAGS
+- struct PCHelpBarFNGObject
+- 8384D8
 - 50CF10
 - 52D170
 - 52D330
@@ -3329,126 +3113,31 @@ mask gets placed on button1, and so on.
 - 54E6E0
 - 55DE00
 - 55DFA0
-- 8384D8
-- enum PCHELPBARFLAGS
 .popmode symbols
 
 .popmode section
 
-Stuff
-
 UI keys seem to be hashed with the case insensitive hash.
 
-.pushmode pre
-{struct U2RECT} \{                                                                                              ||| mkref
-        float {left};                                                                                           ||| mkref name=structU2RECT+0
-        float {top}                                                                                             ||| mkref name=structU2RECT+04
-        float {right}                                                                                           ||| mkref name=structU2RECT+08
-        float {bottom}                                                                                          ||| mkref name=structU2RECT+0C
-};
-
-#define UIELEMENT_FLAG_HIDDEN 0x1
-#define UIELEMENT_FLAG_USE_CUSTOM_TEXT 0x2
-#define UIELEMENT_FLAG_TEXT_CHANGED 0x400000
-
-{struct UIElement} \{                                                                                           ||| mkref
-        void *vtable;
-        {struct UIElement} *{nextSibling};                                                                      ||| refto,mkref name=structUIElement+4
-        int field_8;
-        int field_C;
-        unsigned int {hash};                                                                                    ||| mkref name=structUIElement+10
-        int field_14;
-        int {type};                                                                                             ||| mkref name=structUIElement+18
-        int {someFlags};                                                                                        ||| mkref name=structUIElement+1C
-        int field_20;
-        int field_24;
-        int field_28;
-        int ptrField_2C; /*maybe something size related*/
-        int field_30;
-        int field_34;
-        int field_38;
-        int field_3C;
-        int field_40;
-        int field_44;
-        int field_48;
-        int field_4C;
-        int field_50;
-        int field_54;
-        void *{FERenderObject};                                                                                 ||| mkref name=structUIElement+58
-        /*TODO how big is this base struct??*/
-};
-
-{struct UIElementType1} \{                                                                                      ||| mkref
-        {struct UIElement} __parent; /*__parent.type = 1*/                                                      ||| refto
-        /*TODO how big is the base struct?*/
-};
-
-{struct UILabel} \{                                                                                             ||| mkref
-        {struct UIElement} __parent; /*__parent.type = 2*/                                                      ||| refto
-        /*TODO how big is the base struct?*/
-        /*+60*/
-        unsigned int {textLanguageString};                                                                      ||| mkref name=structUILabel+60
-        {struct WideCharString} {string}; /*ignored when {structUILabel+60} is set*/                            ||| refto,mkref name=structUILabel+64,refto
-};
-
-{struct UIElementType3} \{                                                                                      ||| mkref
-        {struct UIElement} __parent; /*__parent.type = 3*/                                                      ||| refto
-        /*TODO how big is the base struct?*/
-};
-
-{struct UIElementType4} \{                                                                                      ||| mkref
-        {struct UIElement} __parent; /*__parent.type = 4*/                                                      ||| refto
-        /*TODO how big is the base struct?*/
-};
-
-{struct UIContainer} \{                                                                                         ||| mkref
-        {struct UIElement} __parent; /*__parent.type = 5*/                                                      ||| refto
-        /*TODO how big is the base struct?*/
-
-        /*incomplete*/
-
-        /*+0x60*/
-        int {numChildren};                                                                                      ||| mkref=structUIContainer+60
-        {struct UIElement} *{children};                                                                         ||| refto,mkref name=structUIContainer+64
-};
-
-{struct UIElementType6} \{                                                                                      ||| mkref
-        {struct UIElement} __parent; /*__parent.type = 6*/                                                      ||| refto
-        /*TODO how big is the base struct?*/
-};
-
-{struct UIElementType7} \{                                                                                      ||| mkref
-        {struct UIElement} __parent; /*__parent.type = 7*/                                                      ||| refto
-        /*TODO how big is the base struct?*/
-};
-
-{struct UIElementType8} \{                                                                                      ||| mkref
-        {struct UIElement} __parent; /*__parent.type = 8*/                                                      ||| refto
-        /*TODO how big is the base struct?*/
-};
-
-{struct UIElementType9} \{                                                                                      ||| mkref
-        {struct UIElement} __parent; /*__parent.type = 9*/                                                      ||| refto
-        /*TODO how big is the base struct?*/
-};
-
-{struct UIElementVisitor} \{                                                                                    ||| mkref
-        {struct UIElementVisitor$vtable} *{vtable};                                                             ||| refto,mkref name=structUIElementVisitor+0
-};
-
-{struct UIElementVisitor$vtable} \{                                                                             ||| mkref
-        void *{func_0};                                                                                         ||| mkref name=structUIElementVisitor$vtable+0
-        int (*{acceptElement})({struct UIElementVisitor}*,{struct UIElement}*); /*return 0 to stop visiting*/   ||| mkref name=structUIElementVisitor$vtable+4,refto,refto
-};
-
-{struct UIElementVisitor_FindByHash} \{                                                                         ||| mkref
-        {struct UIElementVisitor} {__parent};                                                                   ||| refto,mkref name=structUIElementVisitor_FindByHash+0
-        unsigned int {searchingHash};                                                                           ||| mkref name=structUIElementVisitor_FindByHash+4
-        {struct UIElement} *{foundUIelement};                                                                   ||| refto,mkref name=structUIElementVisitor_FindByHash+8
-};
-.popmode pre
-
 .pushmode symbols
+- enum UIELEMENTFLAGS
+- struct U2RECT
+- struct UIElement
+- struct UIElementType1
+- struct UILabel
+- struct UIContainer
+- struct UIElementVisitor
+- struct UIElementVisitor$vtable
+- struct UIElementVisitor_FindByHash
+- 78DA30
+- 797D50
+- 797D54
+- 797D58
+- 79AAF4
+- 79BCD8
+- 836494
+- 8384C4
+- 838528
 - 4953C0
 - 4953E0
 - 495460
@@ -3488,15 +3177,6 @@ UI keys seem to be hashed with the case insensitive hash.
 - 542600
 - 537BE0
 - 5663B0
-- 78DA30
-- 797D50
-- 797D54
-- 797D58
-- 79AAF4
-- 79BCD8
-- 836494
-- 8384C4
-- 838528
 .popmode symbols
 
 .popmode section
@@ -3511,32 +3191,9 @@ UI keys seem to be hashed with the case insensitive hash.
 While the canvas is {640x480}, mouse position seems to be handled mostly                        ||| code
 as {([-320,+320],[-240,+240])}.                                                                 ||| code
 
-.pushmode pre
-{struct MouseData} \{                                                                           ||| mkref
-	void /*DInputDevice8*/ *{dinputdevice};                                                 ||| mkref name=structMouseData+0
-	int cursorX; // on 640x480 canvas
-	int cursorY; // on 640x480 canvas
-	int previousCursorX; // on 640x480 canvas
-	int previousCursorY; // on 640x480 canvas
-	int deltaCursorX; // on 640x480 canvas
-	int deltaCursorY; // on 640x480 canvas
-	int mousestate_lZ; // scrollwheel data
-	char areMouseButtonsSwapped; // result of GetSystemMetrics(SM_SWAPBUTTON);
-	char button0State; // left mouse button
-	char button0JustPressed;
-	char button0JustReleased;
-	char button1State; // right mouse button
-	char button1JustPressed;
-	char button1JustReleased;
-	char button2State; // middle mouse button
-	char button2JustPressed;
-	char button2JustReleased;
-};
-
-struct MouseData *_mouseData = (struct MouseData*) 0x8763D0;
-.popmode pre
-
 .pushmode symbols
+- struct MouseData
+- 8763D0
 - 50CD70
 - 50C860
 - 50CDA0
@@ -3548,8 +3205,6 @@ struct MouseData *_mouseData = (struct MouseData*) 0x8763D0;
 - 5BF860
 - 5BF940
 - 5C8600
-- 8763D0
-- enum PCHELPBARFLAGS
 .popmode symbols
 
 .popmode section
@@ -3558,246 +3213,15 @@ struct MouseData *_mouseData = (struct MouseData*) 0x8763D0;
 
 {Key (Joy) input}  ||| h id=joyinput
 
-.pushmode pre
-{struct JoyData} \{                                                                             ||| mkref
-        int id;
-        char *name;
-};
-.popmode pre
-
-List from {7FABA8}:                                                                             ||| ref
-
-.pushmode pre
-00 JOY_EVENT_NULL
-01 JOY_EVENT_TYPE_CHANGED
-02 JOY_EVENT_LIVE_TYPE_CHANGED
-03 JOY_EVENT_EXIT_DEMO_DISC
-04 JOY_EVENT_SCROLL_UP
-05 JOY_EVENT_SCROLL_DOWN
-06 JOY_EVENT_SCROLL_LEFT
-07 JOY_EVENT_SCROLL_RIGHT
-08 JOY_EVENT_START
-09 JOY_EVENT_SELECT
-0A JOY_EVENT_MENU_SELECT
-0B JOY_EVENT_MENU_CANCEL
-0C JOY_EVENT_MENU_BACK
-0D JOY_EVENT_MENU_HELP
-0E JOY_EVENT_MENU_L1
-0F JOY_EVENT_MENU_L2
-10 JOY_EVENT_MENU_R1
-11 JOY_EVENT_MENU_R2
-12 JOY_EVENT_MENU_SQUARE
-13 JOY_EVENT_MENU_ANALOG_LEFT
-14 JOY_EVENT_MENU_ANALOG_RIGHT
-15 JOY_EVENT_MENU_ANALOG_UP
-16 JOY_EVENT_MENU_ANALOG_DOWN
-17 JOY_EVENT_DEBUG_MENU_ACTIVATE
-1E JOY_EVENT_FENG_START
-1F JOY_EVENT_FENG_BUTTON0
-20 JOY_EVENT_FENG_BUTTON1
-21 JOY_EVENT_FENG_BUTTON2
-22 JOY_EVENT_FENG_BUTTON3
-23 JOY_EVENT_FENG_LTRIGGER
-24 JOY_EVENT_FENG_RTRIGGER
-25 JOY_EVENT_FENG_SELECT
-26 JOY_EVENT_FENG_SELECT_ALTERNATE
-27 JOY_EVENT_FENG_CANCEL
-28 JOY_EVENT_FENG_CANCEL_ALTERNATE
-29 JOY_EVENT_FENG_HELP
-2A JOY_EVENT_FENG_PAD_UP
-2B JOY_EVENT_FENG_PAD_DOWN
-2C JOY_EVENT_FENG_PAD_LEFT
-2D JOY_EVENT_FENG_PAD_RIGHT
-2E JOY_EVENT_FENG_PAD_UP_ALTERNATE
-2F JOY_EVENT_FENG_PAD_DOWN_ALTERNATE
-30 JOY_EVENT_FENG_PAD_LEFT_ALTERNATE
-31 JOY_EVENT_FENG_PAD_RIGHT_ALTERNATE
-32 JOY_EVENT_FENG_QUIT
-33 JOY_EVENT_FENG_RACEOPTIONS
-35 JOY_EVENT_SKIP_DEMO_MODE
-36 JOY_EVENT_MAIN_MENU_SELECT_TRANSMISSION
-37 JOY_EVENT_ANY
-38 JOY_EVENT_EXIT_EDIT_TEXT
-39 JOY_EVENT_CLEAR_TEXT
-3A JOY_EVENT_CANCEL_EDIT_TEXT
-3B JOY_EVENT_DELETE_CHAR
-3C JOY_EVENT_ROTATE_LETTER_UP
-3D JOY_EVENT_ROTATE_LETTER_DOWN
-3E JOY_EVENT_PREV_CHAR
-3F JOY_EVENT_NEXT_CHAR
-40 JOY_EVENT_CARSEL_CHANGE_MODE
-41 JOY_EVENT_CARSEL_UNLOCK
-42 JOY_EVENT_CARSEL_ORBIT_LEFT
-43 JOY_EVENT_CARSEL_ORBIT_RIGHT
-44 JOY_EVENT_CARSEL_ORBIT_UP
-45 JOY_EVENT_CARSEL_ORBIT_DOWN
-46 JOY_EVENT_CARSEL_ORBIT_IN
-47 JOY_EVENT_CARSEL_ORBIT_OUT
-48 JOY_EVENT_CARSEL_ORBIT_LEFTRIGHT
-49 JOY_EVENT_CARSEL_ORBIT_UPDOWN
-4A JOY_EVENT_CARSEL_ORBIT_INOUT
-4C JOY_EVENT_CHANGE_DEBUG_CAMERA
-4D JOY_EVENT_DEBUG_CAMERA_ROTATE_RIGHT
-4E JOY_EVENT_DEBUG_CAMERA_ROTATE_LEFT
-4F JOY_EVENT_DEBUG_CAMERA_ROTATE_UP
-50 JOY_EVENT_DEBUG_CAMERA_ROTATE_DOWN
-51 JOY_EVENT_DEBUG_CAMERA_MOVE_CLOSER
-52 JOY_EVENT_DEBUG_CAMERA_MOVE_FARTHER
-53 JOY_EVENT_DEBUG_CAMERA_NEXT_CAR
-54 JOY_EVENT_DEBUG_CAMERA_PREV_CAR
-55 JOY_EVENT_DEBUG_CAMERA_FOLLOW_CHOPPER
-56 JOY_EVENT_DEBUG_CAMERA_TURN_LEFT
-57 JOY_EVENT_DEBUG_CAMERA_TURN_RIGHT
-58 JOY_EVENT_DEBUG_CAMERA_TURN_DOWN
-59 JOY_EVENT_DEBUG_CAMERA_TURN_UP
-5A JOY_EVENT_DEBUG_CAMERA_MOVE_DOWN
-5B JOY_EVENT_DEBUG_CAMERA_MOVE_UP
-5C JOY_EVENT_DEBUG_CAMERA_MOVE_FWD
-5D JOY_EVENT_DEBUG_CAMERA_MOVE_BACK
-5E JOY_EVENT_DEBUG_CAMERA_MOVE_LEFT
-5F JOY_EVENT_DEBUG_CAMERA_MOVE_RIGHT
-60 JOY_EVENT_DEBUG_CAMERA_TURBO
-61 JOY_EVENT_DEBUG_CAMERA_SUPER_TURBO
-62 JOY_EVENT_DEBUG_CAMERA_SLOW
-63 JOY_EVENT_DEBUG_CAMERA_FORWARD_BLINK
-64 JOY_EVENT_DEBUG_CAMERA_BACKWARD_BLINK
-65 JOY_EVENT_DEBUG_CAMERA_DROP_CAR
-66 JOY_EVENT_DEBUG_CAMERA_ROTATE_LEFTRIGHT
-67 JOY_EVENT_DEBUG_CAMERA_ROTATE_UPDOWN
-68 JOY_EVENT_DEBUG_CAMERA_STRAFE_LEFTRIGHT
-69 JOY_EVENT_DEBUG_CAMERA_INOUT
-6A JOY_EVENT_TRACKROUTE_EDITOR_TURN_LEFTRIGHT
-6B JOY_EVENT_TRACKROUTE_EDITOR_TURN_UPDOWN
-6C JOY_EVENT_TRACKROUTE_EDITOR_DRIVE_FORWARDBACKWARD
-6D JOY_EVENT_TRACKROUTE_EDITOR_DRIVE_LEFTRIGHT
-6E JOY_EVENT_TRACKROUTE_EDITOR_DRIVE_TURBO
-6F JOY_EVENT_TRACKROUTE_EDITOR_MOVE_UP
-70 JOY_EVENT_TRACKROUTE_EDITOR_MOVE_DOWN
-71 JOY_EVENT_TRACKROUTE_EDITOR_DPAD_UP
-72 JOY_EVENT_TRACKROUTE_EDITOR_DPAD_DOWN
-73 JOY_EVENT_TRACKROUTE_EDITOR_DPAD_LEFT
-74 JOY_EVENT_TRACKROUTE_EDITOR_DPAD_RIGHT
-75 JOY_EVENT_TRACKROUTE_EDITOR_NEXT_ROUTE
-76 JOY_EVENT_TRACKROUTE_EDITOR_NEXT_POINT
-77 JOY_EVENT_TRACKROUTE_EDITOR_PREV_POINT
-78 JOY_EVENT_TRACKROUTE_EDITOR_RESET_POS
-79 JOY_EVENT_TRACKROUTE_EDITOR_EDIT_RIGHT_WIDTH
-7A JOY_EVENT_TRACKROUTE_EDITOR_EDIT_LEFT_WIDTH
-7B JOY_EVENT_TRACKROUTE_EDITOR_EDIT_POSITION
-7C JOY_EVENT_TOGGLE_TRACK_MARKER
-7D JOY_EVENT_CAMERA_POV_CHANGE
-7E JOY_EVENT_CAMERA_LOOKBACK
-7F JOY_EVENT_ZONE_FREEZE
-80 JOY_EVENT_ZONE_PREVIEW
-81 JOY_EVENT_ZONE_SLOMO
-82 JOY_EVENT_ZONE_WARP
-83 JOY_EVENT_REPLAY_SKIP
-84 JOY_EVENT_REPLAY_PAUSE
-85 JOY_EVENT_REPLAY_PREVIOUS_MARKER
-86 JOY_EVENT_REPLAY_NEXT_MARKER
-87 JOY_EVENT_REPLAY_PLAYBACK_SPEED
-88 JOY_EVENT_REPLAY_CAMERA_ANGLE
-89 JOY_EVENT_REPLAY_CAMERA_TARGET
-8A JOY_EVENT_REPLAY_HELP
-8B JOY_EVENT_REPLAY_HIDE_TIMELINE
-8C JOY_EVENT_REPLAY_MARK_DEMO
-8D JOY_EVENT_REPLAY_TEST_DEMO
-8E JOY_EVENT_REPLAY_ERASE_DEMO
-8F JOY_EVENT_STEER
-90 JOY_EVENT_STEER_ANALOG
-91 JOY_EVENT_THROTTLE
-92 JOY_EVENT_THROTTLE_ANALOG
-93 JOY_EVENT_THROTTLE_ANALOG_ALTERNATE
-94 JOY_EVENT_BRAKE
-95 JOY_EVENT_BRAKE_ANALOG
-96 JOY_EVENT_BRAKE_ANALOG_ALTERNATE
-97 JOY_EVENT_REVERSE
-98 JOY_EVENT_REVERSE_ANALOG
-99 JOY_EVENT_EBRAKE
-9A JOY_EVENT_EBRAKE_ANALOG
-9B JOY_EVENT_SHIFTUP
-9C JOY_EVENT_SHIFTDOWN
-9D JOY_EVENT_SHIFTUP_ALTERNATE
-9E JOY_EVENT_SHIFTDOWN_ALTERNATE
-9F JOY_EVENT_DISENGAGE_CLUTCH
-A0 JOY_EVENT_DISENGAGE_CLUTCH_ANALOG
-A1 JOY_EVENT_RESET_CAR
-A2 JOY_EVENT_HONK_HORN
-A3 JOY_EVENT_NITRO_BOOST
-A4 JOY_EVENT_NITRO_BOOST_ALTERNATE
-A5 JOY_EVENT_HYDRAULIC_BOUNCE
-A6 JOY_EVENT_HYDRAULIC_BOUNCE_SELX
-A7 JOY_EVENT_HYDRAULIC_BOUNCE_SELY
-A8 JOY_EVENT_HYDRAULIC_BOUNCE_ANALOG_UD
-A9 JOY_EVENT_HYDRAULIC_BOUNCE_ANALOG_LR
-AA JOY_EVENT_HYDRAULIC_PRESSURIZE
-AB JOY_EVENT_HYDRAULIC_PRESSURIZE_SELX
-AC JOY_EVENT_HYDRAULIC_PRESSURIZE_SELY
-AD JOY_EVENT_HYDRAULIC_PRESSURIZE_ANALOG_UD
-AE JOY_EVENT_HYDRAULIC_PRESSURIZE_ANALOG_LR
-AF JOY_EVENT_REQUEST_ROADBLOCK
-B0 JOY_EVENT_REQUEST_HELICOPTER
-B1 JOY_EVENT_FIRE_ROCKET
-B2 JOY_EVENT_AIM_ROCKET_LR
-B3 JOY_EVENT_AIM_ROCKET_UD
-B4 JOY_EVENT_AIM_ZOOM
-B5 JOY_EVENT_AUTO_PILOT
-B8 JOY_EVENT_DRAG_RACE_CHANGE_LANE_LEFT
-B9 JOY_EVENT_DRAG_RACE_CHANGE_LANE_RIGHT
-BA JOY_EVENT_DRAG_RACE_CHANGE_LANE_LEFT_ANALOG
-BB JOY_EVENT_DRAG_RACE_CHANGE_LANE_RIGHT_ANALOG
-BC JOY_EVENT_CYCLE_HUD
-BD JOY_EVENT_PAUSE
-BE JOY_EVENT_SKIP
-BF JOY_EVENT_REQUEST_ENGAGE_INFO
-C0 JOY_EVENT_REQUEST_WORLD_MAP
-C1 JOY_EVENT_REQUEST_LEGEND
-C2 JOY_EVENT_REQUEST_MESSAGE_SYSTEM
-D3 JOY_EVENT_CAMERA_EDITOR_HOLD_LEFT
-D4 JOY_EVENT_CAMERA_EDITOR_HOLD_RIGHT
-D5 JOY_EVENT_CAMERA_EDITOR_UP
-D6 JOY_EVENT_CAMERA_EDITOR_DOWN
-D7 JOY_EVENT_CAMERA_EDITOR_LEFT
-D8 JOY_EVENT_CAMERA_EDITOR_RIGHT
-D9 JOY_EVENT_CAMERA_EDITOR_HELP
-DA JOY_EVENT_CAMERA_EDITOR_HIDE
-DB JOY_EVENT_CAMERA_EDITOR_SCREENSHOT
-DC JOY_EVENT_CAMERA_EDITOR_CUT,
-DD JOY_EVENT_CAMERA_EDITOR_COPY
-DE JOY_EVENT_CAMERA_EDITOR_UNDO
-DF JOY_EVENT_CAMERA_EDITOR_PLAY_ANIMATION
-E0 JOY_EVENT_CAMERA_EDITOR_PASTE
-E1 JOY_EVENT_CAMERA_EDITOR_INSERT
-E2 JOY_EVENT_CAMERA_EDITOR_SELECT
-E3 JOY_EVENT_CAMERA_EDITOR_CANCEL
-E4 JOY_EVENT_CAMERA_EDITOR_ALT_1
-E5 JOY_EVENT_CAMERA_EDITOR_CLIP_IN
-E6 JOY_EVENT_CAMERA_EDITOR_CLIP_OUT
-E7 JOY_EVENT_CAMERA_EDITOR_ZOOM_IN
-E8 JOY_EVENT_CAMERA_EDITOR_ZOOM_OUT
-E9 JOY_EVENT_CAMERA_EDITOR_APERTURE_INC
-EA JOY_EVENT_CAMERA_EDITOR_APERTURE_DEC
-EB JOY_EVENT_CAMERA_EDITOR_LETTERBOX_IN
-EC JOY_EVENT_CAMERA_EDITOR_LETTERBOX_OUT
-ED JOY_EVENT_CAMERA_EDITOR_BUBBLE_IN
-EE JOY_EVENT_CAMERA_EDITOR_BUBBLE_OUT
-EF JOY_EVENT_CAMERA_EDITOR_BUBBLE_UP
-F0 JOY_EVENT_CAMERA_EDITOR_BUBBLE_DOWN
-F1 JOY_EVENT_CAMERA_EDITOR_BUBBLE_TILT
-F2 JOY_EVENT_CAMERA_EDITOR_BUBBLE_SPIN
-F3 JOY_EVENT_CAMERA_EDITOR_BUBBLE_LEFT_RIGHT
-F4 JOY_EVENT_CAMERA_EDITOR_BUBBLE_BACK_FORTH
-F5 JOY_EVENT_CAMERA_EDITOR_SHAKE_MAG
-F6 JOY_EVENT_CAMERA_EDITOR_SHAKE_FRQ
-F7 JOY_EVENT_CAMERA_EDITOR_SHUTTLE_LEFT_RIGHT
-F8 JOY_EVENT_CAMERA_EDITOR_SHUTTLE_SPEED
-.popmode pre
+List of joy ids in {enum JOYID} comes from the very helpful strings in {7FABA8}.                        ||| ref,ref
 
 Patching in the {B5 JOY_EVENT_AUTO_PILOT} id (by for example replacing the world-map key in career      ||| code
 to this key), makes it so the player's car starts driving like an AI car. Example in
 {nfsu2-re-hooks/switch-joyids-in-career.c}.                                                             ||| hookfileref
 
 .pushmode symbols
+- enum JOYID
+- struct JoyKeyData
 - 7FABA8
 .popmode symbols
 
@@ -3808,41 +3232,8 @@ to this key), makes it so the player's car starts driving like an AI car. Exampl
 {Cheats}  ||| h id=cheats
 
 .pushmode pre
-{struct CheatScreenData} \{                                                                     ||| mkref
-	void **ppFunc;
-	char {doCheatCheck}; // only 1 when in the 'press enter key' screen                     ||| mkref name=structCheatScreenData+4
-	char field5;
-	char field6;
-	char field7;
-	int field2CofLastCheatActivated;
-	struct CheatData *cheats; /*0x7FB960*/
-	int numCheats; // 20
-	char cheatString[32]; // typed string
-	int typedCheatLength; // characters typed
-	int field38;
-};
-
-#define CHEAT_TYPE_VISUALS 1
-#define CHEAT_TYPE_PERFORMANCE 2
-#define CHEAT_TYPE_CAREER 5
-#define CHEAT_TYPE_SPONSOR_CAR 6 // shows up when doing quick race
-#define CHEAT_TYPE_VINYL 7
-
-{struct CheatData} \{                                                                           ||| mkref
-	char cheat[32];
-	int cheatType;
-	int cheatData; // hash when cheatType is sponsor car or vinyl
-	int {field28};                                                                          ||| mkref name=structCheatData+28
-	int field2C;
-	char {hasBeenTriggered};                                                                ||| mkref name=structCheatData+30
-	char field31;
-	char cheatEnabled;
-	char field33;
-};
-EXPECT_SIZE(struct CheatData, 0x34);
-
-struct CheatScreenData {865930}; // partially initialized by {575770}                           ||| ref,ref
-struct CheatData {7FB960}[20] = \{                                                              ||| ref
+{struct CheatScreenData} {865930}; // partially initialized by {575770}                         ||| ref,ref,ref
+{struct CheatData} {7FB960}[20] = \{                                                            ||| ref,ref
 	{ "needperformance1",	2, 1, 0, 0, 0, 1, 1, 0 }, // 0
 	{ "needperformance2",	2, 2, 0, 0, 0, 1, 1, 0 }, // 1
 	{ "gimmevisual1",	1, 2, 0, 0, 0, 1, 1, 0 }, // 2
@@ -3866,7 +3257,7 @@ struct CheatData {7FB960}[20] = \{                                              
 };
 // after {575770} was called, it looks like this:                                               ||| ref
 // hashes are done with case sensitive hash
-struct CheatData {7FB960}[20] = \{                                                              ||| ref
+{struct CheatData} {7FB960}[20] = \{                                                            ||| ref,ref
 	{ "needperformance1",	2, 0x00000001, 0, 0, 0, 1, 1, 0 }, //
 	{ "needperformance2",	2, 0x00000002, 0, 0, 0, 1, 1, 0 }, //
 	{ "gimmevisual1",	1, 0x00000002, 0, 0, 0, 1, 1, 0 }, //
@@ -3889,23 +3280,24 @@ struct CheatData {7FB960}[20] = \{                                              
 	{ "ordermebaby"		5, 0x00000004, 0, 0, 0, 1, 1, 0 }, //
 };
 
-void __thiscall {575770}(struct CheatScreenData *data)                                          ||| ref
+void __thiscall {575770}({struct CheatScreenData} *this)                                        ||| ref,ref
 {
 	int i;
 
-	cheatScreenData.ppFunc = (void*) 0x7A0604;
-	cheatScreenData.doCheatCheck = 0;
-	cheatScreenData.cheats = cheatData;
-	cheatScreenData.numCheats = 20;
-	cheatScreenData.typedCheatLength = 0;
-	cheatScreenData.field38 = 0;
+	// TODO reimplement this instead of putting this code in docs...
+	this->{struct CheatScreenData+0} = (void*) {7A0604}; // TODO!!                          ||| ref,ref
+	this->{struct CheatScreenData+4} = 0;                                                   ||| ref
+	this->{struct CheatScreenData+C} = {7FB960};                                            ||| ref,ref
+	this->{struct CheatScreenData+10} = 20;                                                 ||| ref
+	this->{struct CheatScreenData+34} = 0;                                                  ||| ref
+	this->{struct CheatScreenData+38} = 0;                                                  ||| ref
 
 	for (i = 0; i < 20; i++) {
-		if (cheatData[i].cheatType == CHEAT_TYPE_VINYL &&
-			cheatData[i].someHash == hashCS43DB50("AD_BESTBUY") &&
-			_gameRegion != 0 /*REGION_US*/)
+		if (this->{struct CheatScreenData+C}[i].{struct CheatData+20} == CHEAT_TYPE_VINYL &&                     ||| ref,ref
+			this->{struct CheatScreenData+C}[i].{struct CheatData+24} == hashCS43DB50("AD_BESTBUY") &&       ||| ref,ref
+			{864F24} != 0 /*REGION_US*/)                                                                     ||| ref
 		{
-			cheatData[i].cheatEnabled = 0;
+			this->{struct CheatScreenData+C}[i].{struct CheatData+32} = 0;                                   ||| ref,ref
 		}
 	}
 }
@@ -3916,17 +3308,20 @@ this from looking up cheats in my childhood), but toggling sponsor car cheats wh
 ingame has immediate effect.
 
 .pushmode symbols
+- enum CHEATTYPE
+- struct CheatScreenData
+- struct CheatData
+- 7FB960
+- 8383C8
+- 86512C
+- 865130
+- 865930
 - 575770
 - 576050
 - 576090
 - 5760A0
 - 579CB0
 - 57B8B0
-- 7FB960
-- 8383C8
-- 86512C
-- 865130
-- 865930
 .popmode symbols
 
 .popmode section
@@ -3966,9 +3361,9 @@ After hooking and printing addresses, some more obvious data could be seen:
 {Sound}  ||| h id=sound
 
 .pushmode symbols
+- 82B884
 - 458520
 - 51DE60
-- 82B884
 .popmode symbols
 
 .popmode section
@@ -3993,61 +3388,22 @@ My best guess is that this 'load into career' option is a cut/unfinished feature
 
 {Markers}  ||| h id=markers
 
-The money pickup/info pickup(engage sms messages)/race/shop/garage markers.
+The money pickup/info pickup(engage sms messages)/race/shop/garage/neighbourhood/and more? markers.
 They are in bin section {0x3414A}, which is in bin section {0x80034147}, in {TRACKS\ROUTESL4R%c\Paths%d.bin}.           ||| code,code,code
 Bin section {0x80034147} is loaded in {5D9A90}.                                                                         ||| code,ref
 
 Not loading bin section {0x3414A} results in no career markers at all, and no traffic (but other racers do still spawn).||| code
 
-.pushmode pre
-{struct Markers} \{                                                                                                     ||| mkref
-
-};
-
-#define MARKER_TYPE_BODYSHOP_AREA 0x4 /*marks the entrance, ie where the road goes into private property, not the entrace aura itself*/
-#define MARKER_TYPE_NEIGHBOURHOOD 0x10
-#define MARKER_TYPE_ENGAGE_TIP 0x12
-#define MARKER_TYPE_MONEY_PICKUP 0x13
-
-{struct Marker} \{                                                                                                      ||| mkref
-        char {type};                                                                                                    ||| mkref name=structMarker+0
-        char field_1;
-        char field_2;
-        char field_3;
-        int field_4;
-        int field_8;
-        int field_C;
-        int field_10;
-        int field_14;
-        int field_18;
-        int field_1C;
-        int field_20;
-        int field_24;
-        int field_28;
-        int field_2C;
-        unsigned int {hash}; /*for neighbourhood: hash of name, for engage: hash of sms name*/                          ||| mkref name=structMarker+30
-        int field_34;
-        int field_38;
-        int field_3C;
-        short {radius?};                                                                                                ||| mkref name=structMarker+40
-        short {markerStructSize};                                                                                       ||| mkref name=structMarker+42
-        float {pos_x};                                                                                                  ||| mkref name=structMarker+44
-        float {pos_y};                                                                                                  ||| mkref name=structMarker+48
-};
-
-{struct NeighbourhoodName} \{                                                                                           ||| mkref
-        char *{name};                                                                                                   ||| mkref name=structNeighbourhoodName+0
-        unsigned int {hash};                                                                                            ||| mkref name=structNeighbourhoodName+4
-};
-.popmode pre
-
 .pushmode symbols
-- 5D3DE0
-- 5D9A90
-- 5D9BF0
+- struct Markers
+- struct Marker
+- struct NeighbourhoodName
 - 88F298
 - 800C38
 - 883D9C
+- 5D3DE0
+- 5D9A90
+- 5D9BF0
 .popmode symbols
 
 .popmode section
@@ -4059,124 +3415,16 @@ Dump of all sms message data: {smsdump.txt}.                                    
 This data is in bin section {0x34A17} (which is inside bin section {0x80034A10},                        ||| code,code
 which is in file {GLOBAL/GLOBALB.BUN}).                                                                 ||| code
 
-.pushmode pre
-#define {SMS_TYPE_END_OF_GAME} 1                                                                        ||| mkref
-/*      ^ 1 msg:
-        SMS_END_OF_GAME_MESSAGE
-*/
-#define {SMS_TYPE_CAREER_START} 2                                                                       ||| mkref
-/*      ^ 3 msgs:
-        SMS_LOC_GO_TO_GARAGE
-        SMS_LOC_EVENTS_OUT_THERE
-        SMS_GPS_INTRO
-*/
-#define {SMS_TYPE_INSTRUCTIONS} 3                                                                       ||| mkref
-/*      ^ 4 msgs:
-        SMS_INSTRUCTION
-        SMS_MINIMAP_INTRUCTION
-        SMS_MINIMAP_LEGEND_BLURB
-        SMS_STEERING_CONTROLS
-*/
-#define {SMS_TYPE_OUTRUN_INFO} 4                                                                        ||| mkref
-/*      ^ 1 msg:
-        SMS_OUTRUN_INFO
-*/
-#define {SMS_TYPE_OUTRUN_VICTORY} 5                                                                     ||| mkref
-/*      ^ 1 msg:
-        SMS_OUTRUN_VICTORY
-*/
-#define {SMS_TYPE_OUTRUN_DEFEAT} 6                                                                      ||| mkref
-/*      ^ 1 msg:
-        SMS_OUTRUN_DEFEAT
-*/
-#define {SMS_TYPE_UNLOCK_9} 9                                                                           ||| mkref
-/*      ^ 5 part unlock msgs*/
-#define {SMS_TYPE_UNLOCK_10} 10                                                                         ||| mkref
-/*      ^ part unlock/region unlock/car unlock msgs
-        SMS_LOC_TEXT_JACKSON_HEIGHTS
-        SMS_LOC_TEXT_COAL_HARBOR
-        SMS_LOC_TEXT_COAL_HARBOR_WEST
-*/
-#define {SMS_TYPE_UNLOCK_12} 12                                                                         ||| mkref
-/*      ^ part unlock/region unlock/angry Rachel/sponsor msgs
-        SMS_LOC_TEXT_BEACON_HILL
-        SMS_LOC_GO_TO_CAR_LOT_NOW
-        SMS_LOC_X_SPONSOR
-*/
-#define {SMS_TYPE_MAGS_AND_UNIQUES} 13                                                                  ||| mkref
-/*      ^ magazine/unqiue parts msgs*/
-#define {SMS_TYPE_DVD_COVER} 14                                                                         ||| mkref
-/*      ^ 10 dvd cover msgs*/
-#define {SMS_TYPE_ENGAGE_TIP} 15                                                                        ||| mkref
-/*      ^ 42 tip msgs, from the ingame markers you have to drive through*/
-.popmode pre
-
-.pushmode pre
-{struct Mailbox} \{                                                                                     ||| mkref
-        int field_0;
-        int field_4;
-        int field_8;
-        int field_C;
-        int field_10;
-        int field_14;
-        int {mailboxId}; /*1 inbox, 2 game tips, 3 special events, 4 Rachel, 5 unlocks*/                ||| mkref name=structMailbox+18
-};
-
-{struct MailboxFNGObject} \{                                                                            ||| mkref
-        /*TODO*/
-
-        /*+0x120*/
-        {struct Mailbox} *{currentBrowsingMailbox};                                                     ||| refto,mkref name=structMailboxFNGObject+120
-};
-
-{struct SmsData} \{                                                                                     ||| mkref
-	/*offset in language table {838428}*/                                                           ||| refplain
-	short {careerTextLanguageTableOffset};                                                          ||| mkref name=structSmsData+0
-	char {type};                                                                                    ||| mkref name=structSmsData+2
-	char {mailboxId}; /*1 inbox, 2 game tips, 3 special events, 4 Rachel, 5 unlocks*/               ||| mkref name=structSmsData+3
-	int field_4;
-	int {field_8};                                                                                  ||| mkref name=structSmsData+8
-	int {moneyReward};                                                                              ||| mkref name=structSmsData+C
-	unsigned int {senderLanguageLabel};                                                             ||| mkref name=structSmsData+10
-};
-
-{struct SmsMessage} \{                                                                                  ||| mkref
-	{struct SmsData} *{data};                                                                       ||| refto,mkref name=structSmsMessage+0
-	char {read};                                                                                    ||| mkref name=structSmsMessage+4
-	char field_5;
-	char {deleted};                                                                                 ||| mkref name=structSmsMessage+6
-	char {movedToCorrectInbox};                                                                     ||| mkref name=structSmsMessage+7
-	unsigned int {bodyFormatLanguageLabel};                                                         ||| mkref name=structSmsMessage+8
-	unsigned int {subjectAndBodyParameterLanguageLabel};                                            ||| mkref name=structSmsMessage+C
-	unsigned int {subjectFormatLanguageLabel};                                                      ||| mkref name=structSmsMessage+10
-};
-
-{struct SmsMessageList} \{                                                                              ||| mkref
-        {struct SmsMessage} {messages}[256];                                                            ||| refto,mkref name=structSmsMessageList+0
-        int {numMessages};                                                                              ||| mkref name=structSmsMessageList+1400
-        int {numUnreadMessages};                                                                        ||| mkref name=structSmsMessageList+1404
-        int field_1408;
-        char field_140C;
-        char field_140D;
-        char field_140E;
-        char field_140F;
-        int field_1410;
-};
-
-{struct SmsListEntry} \{                                                                                ||| mkref
-        void *vtable;
-        int field_4;
-        int field_8;
-        {struct ObjectLink} *{link};                                                                    ||| refto,mkref name=structSmsListEntry+C
-        char field_14;
-        char field_15;
-        char field_16;
-        char field_17;
-        {struct SmsMessage} *{sms};                                                                     ||| refto,mkref name=structSmsListEntry+18
-};
-.popmode pre
-
 .pushmode symbols
+- struct Mailbox
+- struct SmsData
+- struct SmsMessage
+- struct SmsMessageList
+- struct SmsListEntry
+- 83632C
+- 838450
+- 838454
+- 860A60
 - 4976B0
 - 497760
 - 4977C0
@@ -4207,28 +3455,10 @@ which is in file {GLOBAL/GLOBALB.BUN}).                                         
 - 529C40
 - 533890
 - 5338C0
-- 83632C
-- 838450
-- 838454
-- 860A60
 .popmode symbols
 
 .popmode section
 
-Need text here or my parser breaks.
-
-.pushmode pre
-{struct CareerMoney} \{                                                                         ||| mkref
-	int money;
-};
-
-{struct CareerData} \{                                                                          ||| mkref
-        /*5D20*/
-        {struct SmsMessageList} {smsMessages};                                                  ||| refto,mkref name=structCareerData+5D20
-	/*7134*/
-	{struct CareerMoney} {money};                                                           ||| refto,mkref name=structCareerData+7134
-};
-.popmode pre
 
 The career money cheat is mildly interesting, as it seems to work in two different
 ways. It adds the amount to a variable that is used when a new career is started and
@@ -4251,6 +3481,13 @@ if (![isProfileWithStartedCareerLoaded])  {                                     
 .controlchars {} .popmode pre
 
 .pushmode symbols
+- struct CareerData
+- 83648C
+- 83840C
+- 838428
+- 86347C
+- 85AD40
+- 862838
 - 495D30
 - 500F90
 - 500180
@@ -4259,12 +3496,6 @@ if (![isProfileWithStartedCareerLoaded])  {                                     
 - 528980
 - 532830
 - 532D40
-- 83648C
-- 83840C
-- 838428
-- 86347C
-- 85AD40
-- 862838
 .popmode symbols
 
 .popmode section
@@ -4272,54 +3503,14 @@ if (![isProfileWithStartedCareerLoaded])  {                                     
 
 {LAN/OL}  ||| h id=networkstuff
 
-.pushmode pre
-{struct SocketWrapper} \{                                                                                               ||| mkref
-        {struct SocketWrapper} *{previousSocketWrapper}                                                                 ||| refto,mkref name=structSocketWrapper+0
-        int field_4;
-        int socket_af;
-        int socket_type;
-        int socket_protocol;
-        int field_14;
-        SOCKET socket;
-        int field_1C;
-        int field_20;
-        int field_24;
-        int field_28;
-        int field_2C;
-        int field_30;
-        int field_34;
-        int field_38;
-        int field_3C;
-        int field_40;
-        int field_44;
-        {struct SocketWrapperWrapper} *socketWrapperWrapper;                                                            ||| refto
-        int (*func)(void*,void*,void*); /*actual number of parameters is unknown*/
-};
-
-{struct CriticalSectionWrapper_3} \{                                                                                    ||| mkref
-        int lastAccessedThreadId;
-        int numActiveLocks;
-        int isInCriticalSection;
-        CRITICAL_SECTION criticalSection
-};
-EXPECT_SIZE(struct CriticalSectionWrapper_3, 0x24);
-
-{struct SocketWrapperWrapper} \{                                                                                        ||| mkref
-        {struct SocketWrapper} *socketWrapper;                                                                          ||| refto
-        int field_4;
-        int field_8;
-        struct CriticalSectionWrapper_3 criticalSectionWrapper;
-        int ptrField_30;
-        int field_34;
-        int field_38;
-};
-.popmode pre
-
 .pushmode symbols
+- struct SocketWrapper
+- struct CriticalSectionWrapper_3
+- struct SocketWrapperWrapper
+- 8B7C9C
 - 74A220
 - 74A2D0
 - 74A380
-- 8B7C9C
 .popmode symbols
 
 .popmode section
@@ -4353,45 +3544,30 @@ EXPECT_SIZE(struct CriticalSectionWrapper_3, 0x24);
 .rdata:00787574 {aJr2server}      db {'JR2Server'},{0}                                          ||| ident,str,num
 .popmode ida
 
-.pushmode pre
-{struct ObjectLink} \{                                                                          ||| mkref
-        {struct ObjectLink} *{next};                                                            ||| refto,mkref name=structObjectLink+0
-        {struct ObjectLink} *{prev};                                                            ||| refto,mkref name=structObjectLink+4
-};
-
-{struct WideCharString} \{                                                                      ||| mkref
-        wchar_t *{ptrString};                                                                   ||| mkref name=structWideCharString+0
-        int {allocatedWcharLength}; /*amount of wchars that can fit, excluding zero term*/      ||| mkref name=structWideCharString+4
-};
-
-{struct WorldAnimStuff} \{                                                                      ||| mkref
-        struct Pool *{worldAnimEntityPool};                                                     ||| mkref name=structWorldAnimStuff+0
-        struct Pool *{worldAnimEntityTreePool};                                                 ||| mkref name=structWorldAnimStuff+4
-        struct Pool *{worldAnimEntityTreeInfoPool};                                             ||| mkref name=structWorldAnimStuff+8
-        struct Pool *{worldAnimCtrlPool};                                                       ||| mkref name=structWorldAnimStuff+C
-        struct Pool *{worldAnimInstanceEntryPool};                                              ||| mkref name=structWorldAnimStuff+10
-        char poolsCreated?;
-        char field_15;
-        char field_16;
-        char field_17;
-        int field_18;
-        int field_1C;
-        int field_20;
-        int field_24;
-        int field_28;
-        int field_2C;
-        int field_30;
-        int field_34;
-        int field_38;
-        int field_3C;
-        int field_40;
-        int field_44;
-        int field_48;
-};
-EXPECT_SIZE(struct WorldAnimStuff, 0x4C);
-.popmode pre
-
 .pushmode symbols
+- struct ObjectLink
+- struct WideCharString
+- struct WorldAnimStuff
+- 741650
+- 75BCC7
+- 75D45B
+- 75D65B
+- 75DD6F
+- 77B5E0
+- 77E580
+- 7E8000
+- 7F91C4
+- 827EF0
+- 828518
+- 82851C
+- 864F4C
+- 8709D8
+- 8A1CCC
+- 835BB8
+- 83A9E0
+- 850078
+- 8654A4
+- 89E7E6
 - 4035D0
 - 4385B0
 - 439EA0
@@ -4417,25 +3593,5 @@ EXPECT_SIZE(struct WorldAnimStuff, 0x4C);
 - 577AB0
 - 5B7A70
 - 5CCD60
-- 741650
-- 75BCC7
-- 75D45B
-- 75D65B
-- 75DD6F
-- 77B5E0
-- 77E580
-- 7E8000
-- 7F91C4
-- 827EF0
-- 828518
-- 82851C
-- 864F4C
-- 8709D8
-- 8A1CCC
-- 835BB8
-- 83A9E0
-- 850078
-- 8654A4
-- 89E7E6
 .popmode symbols
 .popmode section
