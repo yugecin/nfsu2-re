@@ -349,6 +349,20 @@ void docgen_free_tmpbuf(struct docgen_tmpbuf *buf)
 {
 	buf->used = 0;
 }
+/*jeanine:p:i:25;p:0;a:b;x:115.56;y:11.69;*/
+#include "mmparse.c"
+#include "mmparse_extras.c"
+
+struct docgen_mmparse_userdata {
+	struct docgen *dg;
+	struct mmpextras_userdata mmpextras;
+};
+
+static
+struct mmpextras_userdata *mmpextras_get_userdata(struct mmparse *mm)
+{
+	return &((struct docgen_mmparse_userdata*) mm->config.userdata)->mmpextras;
+}
 /*jeanine:p:i:12;p:11;a:r;x:70.62;y:-79.59;*/
 /**
 @param tmpbuf might get swapped with a different buffer
@@ -449,7 +463,7 @@ void docgen_readfile(char *path, char **buf, int *length)
 	fread(*buf, size, 1, in);
 	fclose(in);
 }
-/*jeanine:p:i:24;p:25;a:r;x:7.80;y:-20.07;*/
+/*jeanine:p:i:24;p:58;a:r;x:15.56;y:-26.00;*/
 static
 void docgen_parseidc(struct idcparse *idcp)
 {
@@ -465,7 +479,7 @@ void docgen_parseidc(struct idcparse *idcp)
 	}
 	FREE(buf);
 }
-/*jeanine:p:i:8;p:25;a:r;x:7.71;y:-3.05;*/
+/*jeanine:p:i:8;p:58;a:r;x:15.56;y:-9.00;*/
 static
 char* docgen_readcss()
 {
@@ -490,7 +504,7 @@ char* docgen_readcss()
 	*a = 0;
 	return buf;
 }
-/*jeanine:p:i:15;p:25;a:r;x:6.95;y:10.28;*/
+/*jeanine:p:i:15;p:58;a:r;x:15.56;y:2.00;*/
 static
 int docgen_func_sort_compar(const void *_a, const void *_b)
 {
@@ -574,7 +588,7 @@ void docgen_gen_func_signature(struct docgen_tmpbuf **signaturebuf, struct docge
 		printf("warn: func '%X %s' references an unknown struct/enum\n", func->addr, func->name);
 	}
 }
-/*jeanine:p:i:17;p:25;a:r;x:11.11;y:-19.00;*/
+/*jeanine:p:i:17;p:58;a:r;x:15.56;y:-72.00;*/
 static
 void docgen_print_func(FILE *f, struct docgen *dg, struct docgen_funcinfo *funcinfo, struct idcp_stuff *func)
 {
@@ -594,7 +608,7 @@ void docgen_print_func(FILE *f, struct docgen *dg, struct docgen_funcinfo *funci
 		fprintf(f, "<p>%s</p>\n", func->rep_comment);
 	}
 }
-/*jeanine:p:i:4;p:25;a:r;x:6.37;y:11.35;*/
+/*jeanine:p:i:4;p:58;a:r;x:15.56;y:4.00;*/
 static
 int docgen_struct_sort_compar(const void *_a, const void *_b)
 {
@@ -752,7 +766,7 @@ yesplaceholder:
 	}
 	docgen_free_tmpbuf(typeandname);
 }
-/*jeanine:p:i:5;p:25;a:r;x:11.11;y:-17.00;*/
+/*jeanine:p:i:5;p:58;a:r;x:15.56;y:-78.00;*/
 static
 void docgen_print_struct(FILE *f, struct docgen *dg, struct docgen_structinfo *structinfo, struct idcp_struct *struc)
 {
@@ -806,7 +820,7 @@ void docgen_print_struct(FILE *f, struct docgen *dg, struct docgen_structinfo *s
 		fprintf(f, "</ul>");
 	}
 }
-/*jeanine:p:i:22;p:25;a:r;x:11.11;y:27.00;*/
+/*jeanine:p:i:22;p:58;a:r;x:15.56;y:-44.00;*/
 static
 void docgen_print_enum(FILE *f, struct docgen *dg, struct docgen_enuminfo *enuminfo, struct idcp_enum *enu)
 {
@@ -842,7 +856,7 @@ void docgen_print_enum(FILE *f, struct docgen *dg, struct docgen_enuminfo *enumi
 		fprintf(f, "<p>%s</p>", enu->rep_comment);
 	}
 }
-/*jeanine:p:i:21;p:25;a:r;x:5.79;y:14.07;*/
+/*jeanine:p:i:21;p:58;a:r;x:15.56;y:6.00;*/
 static
 int docgen_enum_sort_compar(const void *_a, const void *_b)
 {
@@ -851,7 +865,7 @@ int docgen_enum_sort_compar(const void *_a, const void *_b)
 
 	return docgen_stricmp(a->name, b->name);
 }
-/*jeanine:p:i:23;p:25;a:r;x:10.27;y:50.29;*/
+/*jeanine:p:i:23;p:58;a:r;x:15.56;y:-26.00;*/
 static
 void docgen_print_data(FILE *f, struct docgen *dg, struct docgen_datainfo *datainfo, struct idcp_stuff *data)
 {
@@ -909,44 +923,7 @@ void docgen_print_data(FILE *f, struct docgen *dg, struct docgen_datainfo *datai
 		fprintf(f, "<p>%s</p>", data->rep_comment);
 	}
 }
-/*jeanine:p:i:7;p:0;a:b;x:105.56;y:12.81;*/
-#include "mmparse.c"
-
-struct docgen_mmparse_index_entry {
-	int level;
-	char name_len;
-	char name[50];
-	char id_len;
-	char id[30];
-};
-
-struct docgen_mmparse_userdata {
-	struct docgen *dg;
-	struct {
-		int num_entries;
-		struct docgen_mmparse_index_entry entries[50];
-	} index;
-	struct {
-		/**To prevent two or more 'index' links when multiple sections close after each other.*/
-		char needs_index_link_at_bottom;
-		char has_p;
-		char should_open_p;
-		unsigned char current_level;
-		/**If doing a println and this is higher than 'current_level',
-		we need to print continuation breadcrumbs*/
-		char last_level_that_had_println;
-#define DOCGEN_MAX_SECTION_LEVELS 10
-		/**The index entry index that is applicable for this section.
-		Used to print continuation breadcrumbs.*/
-		int matching_index_entry_idx[DOCGEN_MAX_SECTION_LEVELS];
-	} section;
-	struct {
-#define DOCGEN_MAX_UL_LEVELS 10
-		char li_open[DOCGEN_MAX_UL_LEVELS];
-		unsigned char level;
-	} ul;
-};
-/*jeanine:p:i:56;p:37;a:r;x:65.22;*/
+/*jeanine:p:i:56;p:37;a:r;x:58.55;y:-22.75;*/
 /**
 @param ref must be zero terminated
 */
@@ -1003,148 +980,6 @@ void docgen_generate_ref_text(struct mmparse *mm, struct docgen_tmpbuf *buf, cha
 		assert(docgen_append_to_tmpbuf(buf, "?</strong>", 10));
 	}
 }
-/*jeanine:p:i:55;p:32;a:r;x:14.29;y:-70.83;*/
-static
-void docgen_mmparse_generate_breadcrumbs(struct mmparse *mm, struct docgen_tmpbuf *buf, int for_index_entry_idx, int is_continuation)
-{
-	struct docgen_mmparse_index_entry *entry;
-	struct docgen_mmparse_userdata *ud;
-	int level;
-
-	ud = mm->config.userdata;
-	entry = ud->index.entries + for_index_entry_idx;
-	assert(docgen_append_to_tmpbuf(buf, "<p id='", 7));
-	assert(docgen_append_to_tmpbuf(buf, entry->id, entry->id_len));
-	assert(docgen_append_to_tmpbuf(buf, "'><small># ", 11));
-	level = entry->level;
-	while (level--) {
-		while ((--entry)->level != level);
-		assert(docgen_append_to_tmpbuf(buf, "<a href='#", 10));
-		assert(docgen_append_to_tmpbuf(buf, entry->id, entry->id_len));
-		assert(docgen_append_to_tmpbuf(buf, "'>", 2));
-		assert(docgen_append_to_tmpbuf(buf, entry->name, entry->name_len));
-		assert(docgen_append_to_tmpbuf(buf, "</a> > ", 7));
-		entry = ud->index.entries + for_index_entry_idx;
-	}
-	if (is_continuation) {
-		assert(docgen_append_to_tmpbuf(buf, "<a href='#", 10));
-		assert(docgen_append_to_tmpbuf(buf, entry->id, entry->id_len));
-		assert(docgen_append_to_tmpbuf(buf, "'>", 2));
-		assert(docgen_append_to_tmpbuf(buf, entry->name, entry->name_len));
-		assert(docgen_append_to_tmpbuf(buf, "</a> (continuation)", 19));
-	} else {
-		assert(docgen_append_to_tmpbuf(buf, entry->name, entry->name_len));
-	}
-	assert(docgen_append_to_tmpbuf(buf, "</small></p>", 12));
-}
-/*jeanine:p:i:32;p:42;a:r;x:3.33;*/
-static
-void mmparse_cb_placeholder_section_breadcrumbs(struct mmparse *mm, struct mmp_output_part *output, void *data, int data_size)
-{
-	struct docgen_tmpbuf *buf;
-	int entry_idx;
-
-	entry_idx = *((int*) data);
-	buf = docgen_get_tmpbuf(1000);
-	docgen_mmparse_generate_breadcrumbs(mm, buf, entry_idx, 0);/*jeanine:r:i:55;*/
-	mmparse_append_to_placeholder_output(mm, output, buf->data, buf->_len);
-	docgen_free_tmpbuf(buf);
-}
-/*jeanine:p:i:28;p:41;a:r;x:5.56;y:-41.00;*/
-static
-void mmparse_cb_mode_section_start(struct mmparse *mm)
-{
-	struct docgen_mmparse_userdata *ud;
-
-	ud = mm->config.userdata;
-	ud->section.should_open_p = 1;
-	ud->section.current_level++;
-	assert(ud->section.current_level < DOCGEN_MAX_SECTION_LEVELS);
-	ud->section.matching_index_entry_idx[ud->section.current_level] = -1;
-	ud->section.last_level_that_had_println = ud->section.current_level;
-	mmparse_append_to_main_output(mm, "<div>", 5);
-}
-/*jeanine:p:i:34;p:33;a:r;x:37.56;*/
-static
-int docgen_line_can_have_paragraph(struct mmparse *mm)
-{
-	register char *tag;
-
-	if (mm->pd.line[0] != '<') {
-		return 1;
-	}
-	tag = mm->pd.line + 1;
-	if (*tag == '/') {
-		tag++;
-	}
-	return *tag != 'h' && *tag != 'p' &&
-		strncmp(tag, "details", 7) &&
-		strncmp(tag, "table", 5) &&
-		strncmp(tag, "ul", 2);
-}
-/*jeanine:p:i:33;p:41;a:r;x:5.56;y:-26.00;*/
-static
-int mmparse_cb_mode_section_println(struct mmparse *mm)
-{
-	struct docgen_mmparse_userdata *ud;
-	struct docgen_tmpbuf *buf;
-	int index_entry_idx;
-	char is_empty_line;
-	char extra_offset;
-
-	ud = mm->config.userdata;
-	ud->section.needs_index_link_at_bottom = 1;
-
-	extra_offset = 0;
-	if (ud->section.last_level_that_had_println > ud->section.current_level) {
-		ud->section.last_level_that_had_println = ud->section.current_level;
-		index_entry_idx = ud->section.matching_index_entry_idx[ud->section.current_level];
-		if (index_entry_idx == -1) {
-			mmparse_failmsg(mm, "trying to print continuation breadcrumbs for section, but no h element seen!");
-			assert(0);
-		}
-		buf = docgen_get_tmpbuf(1000);
-		docgen_mmparse_generate_breadcrumbs(mm, buf, index_entry_idx, 1);/*jeanine:s:a:r;i:55;*/
-		mmparse_append_to_main_output(mm, buf->data, buf->_len);
-		extra_offset = buf->_len;
-		docgen_free_tmpbuf(buf);
-	}
-
-	is_empty_line = !mm->pd.line_len;
-	if (is_empty_line) {
-		if (ud->section.has_p) {
-			ud->section.has_p = 0;
-			extra_offset += 4;
-			mmparse_append_to_main_output(mm, "</p>", 4);
-		}
-		ud->section.should_open_p = 1;
-	} else {
-		if (ud->section.should_open_p) {
-			ud->section.should_open_p = 0;
-			if (docgen_line_can_have_paragraph(mm)) {/*jeanine:r:i:34;*/
-				ud->section.has_p = 1;
-				extra_offset += 3;
-				mmparse_append_to_main_output(mm, "<p>", 3);
-			}
-		}
-	}
-	return extra_offset + mmparse_cb_mode_normal_println(mm);
-}
-/*jeanine:p:i:29;p:41;a:r;x:5.56;y:24.00;*/
-static
-void mmparse_cb_mode_section_end(struct mmparse *mm)
-{
-	struct docgen_mmparse_userdata *ud;
-
-	ud = mm->config.userdata;
-	ud->section.current_level--;
-	if (ud->section.needs_index_link_at_bottom) {
-		ud->section.needs_index_link_at_bottom = 0;
-		mmparse_append_to_main_output(mm, "<p><small><a href='#index'>Index</a></small></p></div>", 54);
-	} else {
-		mmparse_append_to_main_output(mm, "</div>", 6);
-	}
-}
 /*jeanine:p:i:35;p:30;a:r;x:6.67;y:-23.00;*/
 static
 void mmparse_cb_mode_symbols_start(struct mmparse *mm)
@@ -1182,79 +1017,6 @@ enum mmp_dir_content_action mmparse_cb_mode_symbols_directive(struct mmparse *mm
 	mmparse_failmsg(mm, "don't use directives while in 'symbols' mode");
 	assert(0);
 	return LEAVE_CONTENTS;
-}
-/*jeanine:p:i:44;p:40;a:r;x:5.56;y:-13.00;*/
-static
-void mmparse_cb_mode_pre_start(struct mmparse *mm)
-{
-	mmparse_append_to_main_output(mm, "<pre>\n", 6);
-}
-/*jeanine:p:i:45;p:40;a:r;x:5.56;y:-5.00;*/
-static
-int mmparse_cb_mode_pre_println(struct mmparse *mm)
-{
-	mm->pd.line[mm->pd.line_len++] = '\n';
-	mmparse_append_to_main_output(mm, mm->pd.line, mm->pd.line_len);
-	return 0;
-}
-/*jeanine:p:i:46;p:40;a:r;x:5.56;y:4.00;*/
-static
-void mmparse_cb_mode_pre_end(struct mmparse *mm)
-{
-	mmparse_append_to_main_output(mm, "</pre>\n", 7);
-}
-/*jeanine:p:i:48;p:43;a:r;x:5.56;y:-29.00;*/
-static
-void mmparse_cb_mode_ul_start(struct mmparse *mm)
-{
-	struct docgen_mmparse_userdata *ud;
-
-	ud = mm->config.userdata;
-	mmparse_append_to_main_output(mm, "<ul>", 4);
-	ud->ul.level++;
-	assert(ud->ul.level < DOCGEN_MAX_UL_LEVELS);
-	ud->ul.li_open[ud->ul.level] = 0;
-}
-/*jeanine:p:i:49;p:43;a:r;x:5.56;y:-16.00;*/
-static
-int mmparse_cb_mode_ul_println(struct mmparse *mm)
-{
-	struct docgen_mmparse_userdata *ud;
-	char *line;
-	int len;
-
-	ud = mm->config.userdata;
-	if (mm->pd.line_len) {
-		line = mm->pd.line;
-		len = mm->pd.line_len;
-		line[len++] = '\n';
-		if (mm->pd.line[0] == '-' && mm->pd.line[1] == ' ') {
-			if (ud->ul.li_open[ud->ul.level]) {
-				mmparse_append_to_main_output(mm, "</li>", 5);
-			}
-			ud->ul.li_open[ud->ul.level] = 1;
-			mmparse_append_to_main_output(mm, "<li>", 4);
-			len -= 2;
-			line += 2;
-		}
-		mmparse_append_to_main_output(mm, line, len);
-		return -2;
-	} else {
-		return 0;
-	}
-}
-/*jeanine:p:i:50;p:43;a:r;x:5.56;y:14.00;*/
-static
-void mmparse_cb_mode_ul_end(struct mmparse *mm)
-{
-	struct docgen_mmparse_userdata *ud;
-
-	ud = mm->config.userdata;
-	if (ud->ul.li_open[ud->ul.level]) {
-		mmparse_append_to_main_output(mm, "</li>", 5);
-	}
-	ud->ul.level--;
-	mmparse_append_to_main_output(mm, "</ul>", 5);
 }
 /*jeanine:p:i:51;p:47;a:r;x:5.56;y:-31.00;*/
 static
@@ -1312,68 +1074,7 @@ enum mmp_dir_content_action mmparse_cb_mode_ida_directive(struct mmparse *mm, st
 	}
 	return LEAVE_CONTENTS;
 }
-/*jeanine:p:i:26;p:42;a:r;x:3.33;*/
-static
-void mmparse_cb_placeholder_index(struct mmparse *mm, struct mmp_output_part *output, void *data, int data_size)
-{
-	struct docgen_mmparse_index_entry *entry;
-	struct docgen_mmparse_userdata *ud;
-	int i, level, last_level;
-
-	last_level = 0;
-	ud = mm->config.userdata;
-	mmparse_append_to_placeholder_output(mm, output, "<ul>\n", 5);
-	for (i = 0, entry = ud->index.entries;; i++, entry++) {
-		level = i < ud->index.num_entries ? entry->level : 0;
-		if (level > last_level) {
-			while (level > last_level++) {
-				mmparse_append_to_placeholder_output(mm, output, "\n<ul>\n", 6);
-			}
-		} else if (level < last_level) {
-			while (level < last_level--) {
-				mmparse_append_to_placeholder_output(mm, output, "</li>\n</ul>\n", 12);
-			}
-			mmparse_append_to_placeholder_output(mm, output, "</li>\n", 6);
-		} else if (i) {
-			mmparse_append_to_placeholder_output(mm, output, "</li>\n", 6);
-		}
-		if (i >= ud->index.num_entries) {
-			break;
-		}
-		last_level = level;
-		mmparse_append_to_placeholder_output(mm, output, "<li><a href='#", 14);
-		mmparse_append_to_placeholder_output(mm, output, entry->id, entry->id_len);
-		mmparse_append_to_placeholder_output(mm, output, "'>", 2);
-		mmparse_append_to_placeholder_output(mm, output, entry->name, entry->name_len);
-		mmparse_append_to_placeholder_output(mm, output, "</a>", 4);
-	}
-	mmparse_append_to_placeholder_output(mm, output, "</ul>\n", 6);
-}
-/*jeanine:p:i:31;p:42;a:r;x:3.22;*/
-static
-void mmparse_cb_placeholder_href(struct mmparse *mm, struct mmp_output_part *output, void *data, int data_size)
-{
-	struct docgen_mmparse_index_entry *entry;
-	struct docgen_mmparse_userdata *ud;
-	char *ref_id;
-	int i;
-
-	ref_id = data;
-	ud = mm->config.userdata;
-	for (i = ud->index.num_entries, entry = ud->index.entries; i; i--, entry++) {
-		if (!strcmp(entry->id, ref_id)) {
-			mmparse_append_to_placeholder_output(mm, output, "<a href='#", 10);
-			mmparse_append_to_placeholder_output(mm, output, entry->id, entry->id_len);
-			mmparse_append_to_placeholder_output(mm, output, "'>", 2);
-			mmparse_append_to_placeholder_output(mm, output, entry->name, entry->name_len);
-			mmparse_append_to_placeholder_output(mm, output, "</a>", 4);
-			return;
-		}
-	}
-	mmparse_failmsgf(mm, "cannot find a header with id '%s'", ref_id);
-	assert(0);
-}
-/*jeanine:p:i:30;p:7;a:b;y:27.01;*/
+/*jeanine:p:i:30;p:58;a:r;x:31.53;y:-95.75;*/
 struct mmp_mode mmparse_mode_symbols = {
 	mmparse_cb_mode_symbols_start,/*jeanine:r:i:35;*/
 	mmparse_cb_mode_symbols_println,/*jeanine:r:i:37;*/
@@ -1382,82 +1083,16 @@ struct mmp_mode mmparse_mode_symbols = {
 	"symbols",
 	MMPARSE_DO_PARSE_LINES
 };
-/*jeanine:p:i:40;p:30;a:b;y:30.34;*/
-struct mmp_mode mmparse_mode_pre = {
-	mmparse_cb_mode_pre_start,/*jeanine:r:i:44;*/
-	mmparse_cb_mode_pre_println,/*jeanine:r:i:45;*/
-	mmparse_cb_mode_pre_end,/*jeanine:r:i:46;*/
-	mmparse_cb_mode_normal_directive,
-	"pre",
-	MMPARSE_DO_PARSE_LINES
-};
-/*jeanine:p:i:43;p:40;a:b;y:36.76;*/
-struct mmp_mode mmparse_mode_ul = {
-	mmparse_cb_mode_ul_start,/*jeanine:r:i:48;*/
-	mmparse_cb_mode_ul_println,/*jeanine:r:i:49;*/
-	mmparse_cb_mode_ul_end,/*jeanine:r:i:50;*/
-	mmparse_cb_mode_normal_directive,
-	"ul",
-	MMPARSE_DO_PARSE_LINES
-};
-/*jeanine:p:i:47;p:43;a:b;y:56.48;*/
+/*jeanine:p:i:47;p:58;a:r;x:35.69;y:-38.70;*/
 struct mmp_mode mmparse_mode_ida = {
 	mmparse_cb_mode_ida_start,/*jeanine:r:i:51;*/
 	mmparse_cb_mode_ida_println,/*jeanine:r:i:52;*/
-	mmparse_cb_mode_pre_end,
+	mmpextras_cb_mode_pre_end,
 	mmparse_cb_mode_ida_directive,/*jeanine:r:i:54;*/
 	"ida",
 	MMPARSE_DO_PARSE_LINES
 };
-/*jeanine:p:i:41;p:47;a:b;y:66.35;*/
-struct mmp_mode mmparse_mode_section = {
-	mmparse_cb_mode_section_start,/*jeanine:r:i:28;*/
-	mmparse_cb_mode_section_println,/*jeanine:r:i:33;*/
-	mmparse_cb_mode_section_end,/*jeanine:r:i:29;*/
-	mmparse_cb_mode_normal_directive,
-	"section",
-	MMPARSE_DO_PARSE_LINES
-};
-/*jeanine:p:i:42;p:41;a:b;y:39.05;*/
-static
-struct mmp_dir_arg *mmparse_find_directive_argument(struct mmp_dir *dir, char *name)
-{
-	register int i;
-
-	for (i = 0; i < dir->argc; i++) {
-		if (!strcmp(dir->args[i].name, name)) {
-			return dir->args + i;
-		}
-	}
-	return NULL;
-}
-
-/**
-Aborts if argument not found.
-*/
-static
-struct mmp_dir_arg *mmparse_require_directive_argument(struct mmparse *mm, struct mmp_dir *dir, char *name)
-{
-	struct mmp_dir_arg *arg;
-
-	arg = mmparse_find_directive_argument(dir, name);
-	if (!arg) {
-		mmparse_failmsgf(mm, "required argument '%s' not present on directive '%s'", name, dir->name);
-		assert(0);
-	}
-	return arg;
-}
-
-static
-enum mmp_dir_content_action mmparse_dir_href(struct mmparse *mm, struct mmp_dir_content_data *data)
-{
-	struct mmp_placeholder *ph;
-
-	ph = mmparse_allocate_placeholder(mm, mmparse_cb_placeholder_href, data->content_len + 1);/*jeanine:r:i:31;*/
-	memcpy(ph->data, data->contents, data->content_len + 1);
-	return DELETE_CONTENTS;
-}
-
+/*jeanine:p:i:42;p:58;a:r;x:28.75;y:-142.03;*/
 static
 enum mmp_dir_content_action mmparse_dir_ref(struct mmparse *mm, struct mmp_dir_content_data *data)
 {
@@ -1469,97 +1104,25 @@ enum mmp_dir_content_action mmparse_dir_ref(struct mmparse *mm, struct mmp_dir_c
 	docgen_free_tmpbuf(buf);
 	return DELETE_CONTENTS;
 }
-
-static
-enum mmp_dir_content_action mmparse_dir_h(struct mmparse *mm, struct mmp_dir_content_data *data)
-{
-	struct docgen_mmparse_index_entry *entry;
-	struct docgen_mmparse_userdata *ud;
-	register char *directive_name;
-	struct mmp_dir_arg *id_arg;
-	struct mmp_placeholder *ph;
-	int level, i, id_len;
-
-	ud = mm->config.userdata;
-
-	level = 2;
-	for (i = 0; i < mm->md.num_pushed_modes; i++) {
-		if (mm->md.pushed_modes[i] == &mmparse_mode_section) {
-			level++;
-			if (level >= 6) {
-				break;
-			}
-		}
-	}
-
-	directive_name = data->directive->name;
-	directive_name[1] = '0' + level;
-	directive_name[2] = 0;
-	level -= 2;
-	id_arg = mmparse_require_directive_argument(mm, data->directive, "id");
-	id_len = strlen(id_arg->value);
-	if (level) {
-		id_arg->name[0] = 0; /*make it so the 'id' argument doesn't get printed as attribute*/
-		ph = mmparse_allocate_placeholder(mm, mmparse_cb_placeholder_section_breadcrumbs, 4);/*jeanine:r:i:32;*/
-		*((int*) ph->data) = ud->index.num_entries;
-	}
-
-	mmparse_print_tag_with_directives(mm, data->directive, ">");
-	mmparse_append_to_closing_tag(mm, " <a href='#", 11);
-	mmparse_append_to_closing_tag(mm, id_arg->value, id_len);
-	mmparse_append_to_closing_tag(mm, "'>#</a></", 9);
-	mmparse_append_to_closing_tag(mm, directive_name, 2);
-	mmparse_append_to_closing_tag(mm, ">", 1);
-
-	if (ud->index.num_entries >= sizeof(ud->index.entries)/sizeof(ud->index.entries[0])) {
-		mmparse_failmsg(mm, "increase number of index entries");
-		assert(0);
-	}
-	if (ud->section.matching_index_entry_idx[ud->section.current_level] == -1) {
-		ud->section.matching_index_entry_idx[ud->section.current_level] = ud->index.num_entries;
-	}
-	entry = ud->index.entries + ud->index.num_entries++;
-	entry->level = level;
-	if (data->content_len >= sizeof(ud->index.entries[0].name)) {
-		mmparse_failmsgf(mm, "increase max length of index entry name (need %d)", data->content_len);
-		assert(0);
-	}
-	entry->name_len = data->content_len;
-	memcpy(entry->name, data->contents, data->content_len + 1);
-	if (id_len >= sizeof(ud->index.entries[0].id)) {
-		mmparse_failmsgf(mm, "increase max length of index entry id (need %d)", id_len);
-		assert(0);
-	}
-	entry->id_len = id_len;
-	memcpy(entry->id, id_arg->value, id_len + 1);
-	return LEAVE_CONTENTS;
-}
-
-static
-enum mmp_dir_content_action mmparse_dir_index(struct mmparse *mm, struct mmp_dir_content_data *data)
-{
-	mmparse_allocate_placeholder(mm, mmparse_cb_placeholder_index, 0);/*jeanine:r:i:26;*/
-	return LEAVE_CONTENTS;
-}
-/*jeanine:p:i:25;p:42;a:b;y:42.13;*/
+/*jeanine:p:i:58;p:25;a:b;y:1.88;*/
 int main(int argc, char **argv)
 {
 	struct mmp_dir_handler mmdirectivehandlers[] = {
-		{ "index", mmparse_dir_index },
-		{ "href", mmparse_dir_href },
-		{ "ref", mmparse_dir_ref },
-		{ "h", mmparse_dir_h },
+		{ "index", mmpextras_dir_index },
+		{ "href", mmpextras_dir_href },
+		{ "ref", mmparse_dir_ref },/*jeanine:r:i:42;*/
+		{ "h", mmpextras_dir_h },
 		{ NULL, NULL }
 	};
 	struct mmp_mode *mmmodes[] = {
 		&mmparse_mode_normal, /*must be first*/
-		&mmparse_mode_section,
-		&mmparse_mode_symbols,
+		&mmpextras_mode_section,
+		&mmparse_mode_symbols,/*jeanine:r:i:30;*/
 		&mmparse_mode_plain,
 		&mmparse_mode_nop,
-		&mmparse_mode_ida,
-		&mmparse_mode_pre,
-		&mmparse_mode_ul,
+		&mmparse_mode_ida,/*jeanine:r:i:47;*/
+		&mmpextras_mode_pre,
+		&mmpextras_mode_ul,
 		NULL
 	};
 	FILE *f_structs, *f_funcs, *f_enums, *f_datas, *f_index, *f_cheatsheet;

@@ -219,16 +219,16 @@ List by {571380}:                                                               
 - region 3: Japan
 - region 4: Taiwan
 - region 1,5,6,7,8,9:
-.pushmode ul
-- language 0: UK
-- language 1: France
-- language 2: Germany
-- language 3: Italy
-- language 4: Spain
-- language 5: Netherlands
-- language 6: Sweden
-- language 7: Denmark
-.popmode ul
+  .pushmode ul
+  - language 0: UK
+  - language 1: France
+  - language 2: Germany
+  - language 3: Italy
+  - language 4: Spain
+  - language 5: Netherlands
+  - language 6: Sweden
+  - language 7: Denmark
+  .popmode ul
 - region 11: China
 - region 12: Thailand
 .popmode ul
