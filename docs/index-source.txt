@@ -3231,6 +3231,30 @@ to this key), makes it so the player's car starts driving like an AI car. Exampl
 
 {Cheats}  ||| h id=cheats
 
+Cheats can only be inserted at the 'press enter key' screen at boot. (I remember
+this from looking up cheats in my childhood), but toggling sponsor car cheats when
+ingame has immediate effect.
+
+The career money cheat is mildly interesting, as it seems to work in two different
+ways. It adds the amount to a variable that is used when a new career is started and
+it adds the amount to the current career data if the loaded profile didn't start
+career yet.
+
+.controlchars [] .pushmode pre
+/*from [5760A0]*/                                                                               ||| ref
+/*ordermebaby ($1000 career start bonus)*/
+[cheatExtraCareerMoney1000] = 1000;                                                             ||| refplain address=865130
+// ^ used when starting a new career from a profile that
+// was loaded from the profile menu
+if (![isProfileWithStartedCareerLoaded])  {                                                     ||| refplain address=86347C
+	if ([CareerGetMoney]() == 0)  {                                                         ||| refplain address=500F90
+		[CareerSetMoney](1000);                                                         ||| refplain address=500F80
+		// ^ This only has an effect when the profile was
+		// loaded from the loading screen
+	}
+}
+.controlchars {} .popmode pre
+
 .pushmode pre
 {struct CheatScreenData} {865930}; // partially initialized by {575770}                         ||| ref,ref,ref
 {struct CheatData} {7FB960}[20] = \{                                                            ||| ref,ref
@@ -3302,10 +3326,6 @@ void __thiscall {575770}({struct CheatScreenData} *this)                        
 	}
 }
 .popmode pre
-
-Cheats can only be inserted at the 'press enter key' screen at boot. (I remember
-this from looking up cheats in my childhood), but toggling sponsor car cheats when
-ingame has immediate effect.
 
 .pushmode symbols
 - enum CHEATTYPE
@@ -3458,27 +3478,6 @@ which is in file {GLOBAL/GLOBALB.BUN}).                                         
 .popmode symbols
 
 .popmode section
-
-
-The career money cheat is mildly interesting, as it seems to work in two different
-ways. It adds the amount to a variable that is used when a new career is started and
-it adds the amount to the current career data if the loaded profile didn't start
-career yet.
-
-.controlchars [] .pushmode pre
-/*from [5760A0]*/                                                                               ||| ref
-/*ordermebaby ($1000 career start bonus)*/
-[cheatExtraCareerMoney1000] = 1000;                                                             ||| refplain address=865130
-// ^ used when starting a new career from a profile that
-// was loaded from the profile menu
-if (![isProfileWithStartedCareerLoaded])  {                                                     ||| refplain address=86347C
-	if ([CareerGetMoney]() == 0)  {                                                         ||| refplain address=500F90
-		[CareerSetMoney](1000);                                                         ||| refplain address=500F80
-		// ^ This only has an effect when the profile was
-		// loaded from the loading screen
-	}
-}
-.controlchars {} .popmode pre
 
 .pushmode symbols
 - struct CareerData
