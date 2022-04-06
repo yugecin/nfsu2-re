@@ -683,7 +683,7 @@ struct idcp_stuff* idcp_get_func(struct idcparse *idcp, int addr)
 			last_stuff = stuff;
 			return stuff;
 		} else {
-			if (max == min) {
+			if (max <= min) {
 				assert(0);
 			}
 			if (current > addr) {

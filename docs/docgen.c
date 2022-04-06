@@ -53,15 +53,8 @@ struct docgen_datainfo {
 	struct idcp_stuff *data;
 };
 
-struct docgen_ref {
-	struct idcp_struct_member *strucmember;
-	struct idcp_struct *struc;
-	struct idcp_stuff *func;
-	struct idcp_stuff *data;
-	struct idcp_enum *enu;
-};
-
 struct docgen {
+	char struct_member_needs_anchor[IDCP_MAX_TOTAL_STRUCT_MEMBERS];
 	struct idcparse *idcp;
 	int num_structinfos;
 	struct docgen_structinfo *structinfos;
@@ -72,7 +65,7 @@ struct docgen {
 	int num_datainfos;
 	struct docgen_datainfo *datainfos;
 };
-/*jeanine:p:i:39;p:20;a:r;x:8.33;y:11.38;*/
+/*jeanine:p:i:39;p:57;a:r;x:3.33;*/
 static
 int docgen_parse_addr(char *addr, int len)
 {
@@ -91,6 +84,7 @@ int docgen_parse_addr(char *addr, int len)
 			res |= c - 'A' + 10;
 		} else {
 			printf("bad addr char '%c'\n", c);
+			return 0;
 		}
 	}
 	return res;
@@ -138,86 +132,6 @@ int docgen_get_struct_size(struct idcparse *idcp, struct idcp_struct *struc)
 	}
 }
 
-/**
-@param ref should be zero terminated
-*/
-static
-void docgen_resolve_ref(struct docgen *dg, struct docgen_ref *result, char *ref, int len)
-{
-	int min, max, idx, current, addr, num_members;
-	struct docgen_structinfo *structinfo;
-	struct docgen_enuminfo *enuminfo;
-	struct idcp_struct_member *mem;
-	struct idcp_struct *struc;
-	struct idcp_stuff *stuff;
-	char *plus;
-
-	memset(result, 0, sizeof(struct docgen_ref));
-
-	if (!strncmp("struct ", ref, 7)) {
-		plus = strstr(ref + 7, "+");
-		if (plus) {
-			structinfo = docgen_find_struct(dg, ref + 7, (plus - ref) - 7);
-		} else {
-			structinfo = docgen_find_struct(dg, ref + 7, len - 7);
-		}
-		if (!structinfo) {
-			return;
-		}
-		if (plus) {
-			addr = docgen_parse_addr(plus + 1, len - (plus - ref) - 1);/*jeanine:r:i:39;*/
-			struc = structinfo->struc;
-			num_members = struc->end_idx - struc->start_idx;
-			mem = dg->idcp->struct_members + struc->start_idx;
-			for (; num_members; num_members--, mem++) {
-				if (mem->offset == addr) {
-					result->strucmember = mem;
-					return;
-				}
-			}
-		} else {
-			result->struc = structinfo->struc;
-		}
-	} else if (!strncmp("enum ", ref, 5)) {
-		enuminfo = docgen_find_enum(dg, ref + 5);
-		if (enuminfo) {
-			result->enu = enuminfo->enu;
-		}
-	} else {
-		/*Binary search will work as long as the 'new_addr > addr'
-		assertion in 'idcp_get_or_allocate_stuff' still stands.*/
-		addr = docgen_parse_addr(ref, len);/*jeanine:s:a:r;i:39;*/
-		min = 0;
-		max = dg->idcp->num_stuffs - 1;
-		for (;;) {
-			idx = min + (max - min) / 2;
-			current = dg->idcp->stuffs[idx].addr;
-			if (current == addr) {
-				stuff = dg->idcp->stuffs + idx;
-				if (!stuff->name) {
-					printf("resolved ref '%s' has no name, ignoring\n", ref);
-				} else if (stuff->type == IDCP_STUFF_TYPE_FUNC) {
-					result->func = stuff;
-				} else if (stuff->type == IDCP_STUFF_TYPE_DATA) {
-					result->data = stuff;
-				} else {
-					printf("unknown type '%d' when resolving ref '%s'\n", stuff->type, ref);
-				}
-				return;
-			} else {
-				if (max == min) {
-					return;
-				}
-				if (current > addr) {
-					max = idx - 1;
-				} else if (current < addr) {
-					min = idx + 1;
-				}
-			}
-		}
-	}
-}
-
 static
 int docgen_stricmp(char *a, char *b)
 {
@@ -260,6 +174,100 @@ void docgen_get_func_friendlyname(char *dest, char *name)
 		}
 		*(dest++) = c;
 	} while (c);
+}
+/*jeanine:p:i:57;p:56;a:r;x:3.33;*/
+struct docgen_ref {
+	struct idcp_struct_member *strucmember;
+	struct idcp_struct *struc;
+	struct idcp_stuff *func;
+	struct idcp_stuff *data;
+	struct idcp_enum *enu;
+};
+
+/**
+When returning, none or one of the members of result will be set,
+except if the ref is referencing a struct member, the both 'strucmember' and 'struc' will be set.
+If none of the members are set, the reference couldn't be resolved.
+
+@param ref should be zero terminated
+*/
+static
+void docgen_resolve_ref(struct docgen *dg, struct docgen_ref *result, char *ref, int len)
+{
+	int min, max, idx, current, addr, num_members;
+	struct docgen_structinfo *structinfo;
+	struct docgen_enuminfo *enuminfo;
+	struct idcp_struct_member *mem;
+	struct idcp_struct *struc;
+	struct idcp_stuff *stuff;
+	char *plus;
+
+	memset(result, 0, sizeof(struct docgen_ref));
+
+	if (len > 7 && !strncmp("struct ", ref, 7)) {
+		plus = strstr(ref + 7, "+");
+		if (plus) {
+			structinfo = docgen_find_struct(dg, ref + 7, (plus - ref) - 7);
+		} else {
+			structinfo = docgen_find_struct(dg, ref + 7, len - 7);
+		}
+		if (structinfo) {
+			result->struc = structinfo->struc;
+			if (plus) {
+				addr = docgen_parse_addr(plus + 1, len - (plus - ref) - 1);
+				struc = structinfo->struc;
+				num_members = struc->end_idx - struc->start_idx;
+				mem = dg->idcp->struct_members + struc->start_idx;
+				for (; num_members; num_members--, mem++) {
+					if (mem->offset == addr) {
+						dg->struct_member_needs_anchor[mem - dg->idcp->struct_members] = 1;
+						result->strucmember = mem;
+					}
+				}
+			}
+		}
+		return;
+	} else if (len > 5 && !strncmp("enum ", ref, 5)) {
+		enuminfo = docgen_find_enum(dg, ref + 5);
+		if (enuminfo) {
+			result->enu = enuminfo->enu;
+		}
+	} else {
+		/*Binary search will work as long as the 'new_addr > addr'
+		assertion in 'idcp_get_or_allocate_stuff' still stands.*/
+		addr = docgen_parse_addr(ref, len);/*jeanine:r:i:39;*/
+		if (!addr) {
+			return;
+		}
+		min = 0;
+		max = dg->idcp->num_stuffs - 1;
+		for (;;) {
+			idx = min + (max - min) / 2;
+			current = dg->idcp->stuffs[idx].addr;
+			if (current == addr) {
+				stuff = dg->idcp->stuffs + idx;
+				if (!stuff->name) {
+					printf("resolved ref '%s' has no name, ignoring\n", ref);
+				} else if (stuff->type == IDCP_STUFF_TYPE_FUNC) {
+					result->func = stuff;
+				} else if (stuff->type == IDCP_STUFF_TYPE_DATA) {
+					result->data = stuff;
+				} else {
+					printf("unknown type '%d' when resolving ref '%s'\n", stuff->type, ref);
+				}
+				return;
+			} else {
+				if (max <= min) {
+					return;
+				}
+				if (current > addr) {
+					max = idx - 1;
+				} else if (current < addr) {
+					min = idx + 1;
+				}
+			}
+		}
+	}
 }
 /*jeanine:p:i:14;p:0;a:b;y:12.13;*/
 struct docgen_tmpbuf {
@@ -695,6 +703,9 @@ void docgen_print_struct_member(FILE *f, struct docgen *dg, struct idcp_struct *
 
 	typeandname = docgen_get_tmpbuf(10000);
 	if (mem) {
+		if (dg->struct_member_needs_anchor[mem - dg->idcp->struct_members]) {
+			fprintf(f, "<i id='struc_%s%X'></i>", struc->name, mem->offset);
+		}
 		isplaceholder = !strncmp(mem->name, "field_", 6) || !strncmp(mem->name, "floatField_", 11);
 		if (IDC_is_enum(mem->flag)) {
 			docgen_format_struct_member_typeandname_when_enum(typeandname->data, dg->idcp, mem);/*jeanine:r:i:9;*/
@@ -935,6 +946,63 @@ struct docgen_mmparse_userdata {
 		unsigned char level;
 	} ul;
 };
+/*jeanine:p:i:56;p:37;a:r;x:65.22;*/
+/**
+@param ref must be zero terminated
+*/
+static
+void docgen_generate_ref_text(struct mmparse *mm, struct docgen_tmpbuf *buf, char *ref, int reflen)
+{
+	struct docgen_mmparse_userdata *ud;
+	struct docgen_ref res;
+	char addr[16];
+	int len;
+
+	ud = mm->config.userdata;
+	docgen_resolve_ref(ud->dg, &res, ref, reflen);/*jeanine:r:i:57;*/
+	if (res.func) {
+		len = sprintf(addr, "%X", res.func->addr);
+		assert(docgen_append_to_tmpbuf(buf, "<a class='func' href='funcs.html#", 33));
+		assert(docgen_append_to_tmpbuf(buf, addr, len));
+		assert(docgen_append_to_tmpbuf(buf, "'>", 2));
+		assert(docgen_append_to_tmpbuf(buf, res.func->name, strlen(res.func->name)));
+		assert(docgen_append_to_tmpbuf(buf, "</a>", 4));
+	} else if (res.data) {
+		len = sprintf(addr, "%X", res.data->addr);
+		assert(docgen_append_to_tmpbuf(buf, "<a class='var' href='vars.html#", 31));
+		assert(docgen_append_to_tmpbuf(buf, addr, len));
+		assert(docgen_append_to_tmpbuf(buf, "'>", 2));
+		assert(docgen_append_to_tmpbuf(buf, res.data->name, strlen(res.data->name)));
+		assert(docgen_append_to_tmpbuf(buf, "</a>", 4));
+	} else if (res.strucmember) {
+		assert(docgen_append_to_tmpbuf(buf, "<a class='struc' href='structs.html#struc_", 42));
+		assert(docgen_append_to_tmpbuf(buf, res.struc->name, strlen(res.struc->name)));
+		len = sprintf(addr, "%X", res.strucmember->offset);
+		assert(docgen_append_to_tmpbuf(buf, addr, len));
+		assert(docgen_append_to_tmpbuf(buf, "'>", 2));
+		assert(docgen_append_to_tmpbuf(buf, res.strucmember->name, strlen(res.strucmember->name)));
+		assert(docgen_append_to_tmpbuf(buf, "</a>", 4));
+	} else if (res.struc) {
+		len = strlen(res.struc->name);
+		assert(docgen_append_to_tmpbuf(buf, "<a class='struc' href='structs.html#struc_", 42));
+		assert(docgen_append_to_tmpbuf(buf, res.struc->name, len));
+		assert(docgen_append_to_tmpbuf(buf, "'>struct ", 9));
+		assert(docgen_append_to_tmpbuf(buf, res.struc->name, len));
+		assert(docgen_append_to_tmpbuf(buf, "</a>", 4));
+	} else if (res.enu) {
+		len = strlen(res.enu->name);
+		assert(docgen_append_to_tmpbuf(buf, "<a class='enum' href='enums.html#enu_", 37));
+		assert(docgen_append_to_tmpbuf(buf, res.enu->name, len));
+		assert(docgen_append_to_tmpbuf(buf, "'>enum ", 7));
+		assert(docgen_append_to_tmpbuf(buf, res.enu->name, len));
+		assert(docgen_append_to_tmpbuf(buf, "</a>", 4));
+	} else {
+		mmparse_failmsgf(mm, "unknown ref '%s'", ref);
+		assert(docgen_append_to_tmpbuf(buf, "<strong class='error' style='font-family:monospace'>?", 53));
+		assert(docgen_append_to_tmpbuf(buf, ref, reflen));
+		assert(docgen_append_to_tmpbuf(buf, "?</strong>", 10));
+	}
+}
 /*jeanine:p:i:55;p:32;a:r;x:14.29;y:-70.83;*/
 static
 void docgen_mmparse_generate_breadcrumbs(struct mmparse *mm, struct docgen_tmpbuf *buf, int for_index_entry_idx, int is_continuation)
@@ -1077,72 +1145,37 @@ void mmparse_cb_mode_section_end(struct mmparse *mm)
 		mmparse_append_to_main_output(mm, "</div>", 6);
 	}
 }
-/*jeanine:p:i:35;p:30;a:r;x:6.67;y:-41.00;*/
+/*jeanine:p:i:35;p:30;a:r;x:6.67;y:-23.00;*/
 static
 void mmparse_cb_mode_symbols_start(struct mmparse *mm)
 {
 	mmparse_append_to_main_output(mm, "<p><strong>Symbols:</strong></p>\n<ul>\n", 38);
 }
-/*jeanine:p:i:37;p:30;a:r;x:6.67;y:-33.00;*/
+/*jeanine:p:i:37;p:30;a:r;x:6.67;y:-16.00;*/
 static
 int mmparse_cb_mode_symbols_println(struct mmparse *mm)
 {
-	struct docgen_mmparse_userdata *ud;
-	struct docgen_ref ref;
-	char addr[16];
-	int len;
+	struct docgen_tmpbuf *buf;
 
-	ud = mm->config.userdata;
 	if (mm->pd.line_len < 3 || mm->pd.line[0] != '-') {
 		mmparse_failmsg(mm, "lines in 'symbols' mode must start with a hyphen");
 		assert(0);
 	}
-	docgen_resolve_ref(ud->dg, &ref, mm->pd.line + 2, mm->pd.line_len - 2);
 	mmparse_append_to_main_output(mm, "<li>", 4);
-	if (ref.func) {
-		len = sprintf(addr, "%X", ref.func->addr);
-		mmparse_append_to_main_output(mm, "<a class='func' href='funcs.html#", 33);
-		mmparse_append_to_main_output(mm, addr, len);
-		mmparse_append_to_main_output(mm, "'>", 2);
-		mmparse_append_to_main_output(mm, ref.func->name, strlen(ref.func->name));
-		mmparse_append_to_main_output(mm, "</a>", 4);
-	} else if (ref.data) {
-		len = sprintf(addr, "%X", ref.data->addr);
-		mmparse_append_to_main_output(mm, "<a class='var' href='vars.html#", 31);
-		mmparse_append_to_main_output(mm, addr, len);
-		mmparse_append_to_main_output(mm, "'>", 2);
-		mmparse_append_to_main_output(mm, ref.data->name, strlen(ref.data->name));
-		mmparse_append_to_main_output(mm, "</a>", 4);
-	} else if (ref.struc) {
-		len = strlen(ref.struc->name);
-		mmparse_append_to_main_output(mm, "<a class='struc' href='structs.html#struc_", 42);
-		mmparse_append_to_main_output(mm, ref.struc->name, len);
-		mmparse_append_to_main_output(mm, "'>struct ", 9);
-		mmparse_append_to_main_output(mm, ref.struc->name, len);
-		mmparse_append_to_main_output(mm, "</a>", 4);
-	} else if (ref.enu) {
-		len = strlen(ref.enu->name);
-		mmparse_append_to_main_output(mm, "<a class='enum' href='enums.html#enu_", 37);
-		mmparse_append_to_main_output(mm, ref.enu->name, len);
-		mmparse_append_to_main_output(mm, "'>enum ", 7);
-		mmparse_append_to_main_output(mm, ref.enu->name, len);
-		mmparse_append_to_main_output(mm, "</a>", 4);
-	} else {
-		mmparse_failmsgf(mm, "unknown ref '%s'", mm->pd.line + 2);
-		mmparse_append_to_main_output(mm, "<strong class='error' style='font-family:monospace'>?", 53);
-		mmparse_append_to_main_output(mm, mm->pd.line + 2, mm->pd.line_len - 2);
-		mmparse_append_to_main_output(mm, "?</strong>", 10);
-	}
+	buf = docgen_get_tmpbuf(1000);
+	docgen_generate_ref_text(mm, buf, mm->pd.line + 2, mm->pd.line_len - 2);/*jeanine:r:i:56;*/
+	mmparse_append_to_main_output(mm, buf->data, buf->_len);
+	docgen_free_tmpbuf(buf);
 	mmparse_append_to_main_output(mm, "</li>\n", 6);
 	return 0; /*just returning 0 because no placeholders should've been used*/
 }
-/*jeanine:p:i:36;p:30;a:r;x:6.67;y:21.00;*/
+/*jeanine:p:i:36;p:30;a:r;x:6.67;y:4.00;*/
 static
 void mmparse_cb_mode_symbols_end(struct mmparse *mm)
 {
 	mmparse_append_to_main_output(mm, "</ul>", 5);
 }
-/*jeanine:p:i:38;p:30;a:r;x:6.67;y:29.00;*/
+/*jeanine:p:i:38;p:30;a:r;x:6.67;y:11.00;*/
 static
 enum mmp_dir_content_action mmparse_cb_mode_symbols_directive(struct mmparse *mm, struct mmp_dir_content_data *data)
 {
@@ -1340,7 +1373,7 @@ void mmparse_cb_placeholder_href(struct mmparse *mm, struct mmp_output_part *out
 	mmparse_failmsgf(mm, "cannot find a header with id '%s'", ref_id);
 	assert(0);
 }
-/*jeanine:p:i:30;p:7;a:b;y:45.24;*/
+/*jeanine:p:i:30;p:7;a:b;y:27.01;*/
 struct mmp_mode mmparse_mode_symbols = {
 	mmparse_cb_mode_symbols_start,/*jeanine:r:i:35;*/
 	mmparse_cb_mode_symbols_println,/*jeanine:r:i:37;*/
@@ -1349,7 +1382,7 @@ struct mmp_mode mmparse_mode_symbols = {
 	"symbols",
 	MMPARSE_DO_PARSE_LINES
 };
-/*jeanine:p:i:40;p:30;a:b;y:48.74;*/
+/*jeanine:p:i:40;p:30;a:b;y:30.34;*/
 struct mmp_mode mmparse_mode_pre = {
 	mmparse_cb_mode_pre_start,/*jeanine:r:i:44;*/
 	mmparse_cb_mode_pre_println,/*jeanine:r:i:45;*/
@@ -1422,6 +1455,18 @@ enum mmp_dir_content_action mmparse_dir_href(struct mmparse *mm, struct mmp_dir_
 
 	ph = mmparse_allocate_placeholder(mm, mmparse_cb_placeholder_href, data->content_len + 1);/*jeanine:r:i:31;*/
 	memcpy(ph->data, data->contents, data->content_len + 1);
+	return DELETE_CONTENTS;
+}
+
+static
+enum mmp_dir_content_action mmparse_dir_ref(struct mmparse *mm, struct mmp_dir_content_data *data)
+{
+	struct docgen_tmpbuf *buf;
+
+	buf = docgen_get_tmpbuf(1000);
+	docgen_generate_ref_text(mm, buf, data->contents, data->content_len);/*jeanine:s:a:r;i:56;*/
+	mmparse_append_to_expanded_line(mm, buf->data, buf->_len);
+	docgen_free_tmpbuf(buf);
 	return DELETE_CONTENTS;
 }
 
@@ -1502,6 +1547,7 @@ int main(int argc, char **argv)
 	struct mmp_dir_handler mmdirectivehandlers[] = {
 		{ "index", mmparse_dir_index },
 		{ "href", mmparse_dir_href },
+		{ "ref", mmparse_dir_ref },
 		{ "h", mmparse_dir_h },
 		{ NULL, NULL }
 	};
@@ -1536,6 +1582,7 @@ int main(int argc, char **argv)
 
 	dg = malloc(sizeof(struct docgen));
 	assert(((void)"failed to malloc for docgen", dg));
+	memset(dg->struct_member_needs_anchor, 0, sizeof(dg->struct_member_needs_anchor));
 	dg->idcp = idcp;
 	/*read functions*/
 	dg->funcinfos = malloc(sizeof(struct docgen_funcinfo) * idcp->num_funcs);
@@ -1619,9 +1666,7 @@ int main(int argc, char **argv)
 	);
 	for (mmpart = mm->output; mmpart->data0; mmpart++) {
 		fwrite(mmpart->data0, mmpart->data0_len, 1, f_index);
-		fflush(f_index);
 		fwrite(mmpart->data1, mmpart->data1_len, 1, f_index);
-		fflush(f_index);
 	}
 	fprintf(f_index, "%s", "\n</div></body></html>");
 	fclose(f_index);

@@ -164,10 +164,10 @@ DWORD type, lenData;
 if (RegOpenKeyExA(HKEY_LOCAL_MACHINE, "Software\\E...2\\er", 0, KEY_READ, &key)) {
 	type = REG_SZ; // a null-terminated string
 	lenData = 21;
-	if (RegQueryValueExA(key, 0, 0, &type, &{86FF8C}, &lenData)) \{                         ||| refplain
-		{86FF8C}[20] = 0;                                                               ||| refplain
+	if (RegQueryValueExA(key, 0, 0, &type, &{86FF8C}, &lenData)) \{                         ||| ref
+		{86FF8C}[20] = 0;                                                               ||| ref
 	} else {
-		{86FF8C}[0] = 0;                                                                ||| refplain
+		{86FF8C}[0] = 0;                                                                ||| ref
 	}
 }
 RegCloseKey(&key);
@@ -476,7 +476,7 @@ TODO:
 Thanks to code where it reads the Registry, I found following data:
 
 .pushmode pre
-{struct LanguageDataOld} {7FCA08}[] = \{                                                ||| ref,ref
+{struct LanguageData} {7FCA08}[] = \{                                                   ||| ref,ref
         { "English US",            0,        0 },
         { "English UK",            0,        5 },
         { "French",                1,        6 },
@@ -497,7 +497,7 @@ Thanks to code where it reads the Registry, I found following data:
 
 The value stored in the registry for {Language} is checked against                      ||| code
 all language strings in the above data. The matching language's
-{struct LanguageData+4} gets stored in {7FCA00}, or 0 when the                          ||| refto,ref
+{struct LanguageData+4} gets stored in {7FCA00}, or 0 when the                          ||| ref,ref
 name stored in the registry didn't match any names.
 
 After chasing usages of a region related proc,
@@ -596,8 +596,8 @@ When it's not found the game will segfault because of the code below:
 .text:004FF6A6                 mov     ecx, [edx+{0Ch}] ||| text
 .popmode ida
 
-Then {{struct LanguageFileData}.{structLanguageFileData+C}} is read.                            ||| code,refto,refto
-Its {{structLanguageStruct7F6E60+0}[0]} value is read and then a                                ||| code,refto
+Then {{struct LanguageFileData}.{struct LanguageFileData+C}} is read.                           ||| code,ref,ref
+Its {{struct LanguageFontData+0}[0]} value is read and then a                                   ||| code,ref
 matching entry in {7F6DE8} is searched.                                                         ||| ref
 More stuff is read is a loop and reset and I lost track.
 Eventually something is called with string {LanguageMemoryPool}.                                ||| code
@@ -629,7 +629,7 @@ The language strings are in a bin section with magic {0x39000}, and is structure
 
 .pushmode pre
 {struct BinDataLanguage39000} header;                                                           ||| ref
-char unknown[header.{structBinDataLanguage39000+8} - sizeof(header)];                           ||| ref
+char unknown[header.{struct BinDataLanguage39000+8} - sizeof(header)];                          ||| ref
 {struct LanguageTableEntry} tableEntries[header.{struct BinDataLanguage39000+4}];               ||| ref,ref
 char *strings; /*all zero-terminated strings after each other*/
 .popmode pre
@@ -642,7 +642,7 @@ required because a binary search is used at lookup.
 .text:0049776B                 lea     eax, [esp+{104h}+{buffer}]                               ||| num,str
 .text:00497772                 push    {80h}             ; {destlen}                            ||| num,comment
 .text:00497777                 push    eax             ; {dest}                                 ||| comment
-.text:00497778                 call    {4FFA50}                                                 ||| refplain
+.text:00497778                 call    {4FFA50}                                                 ||| ref
 .popmode ida
 
 Loading is done in {5125B0}.                                                                    ||| ref
@@ -684,9 +684,9 @@ This will probably help a lot when trying to figure out other things.
 Note that the first time the {AUD: NFS3DMixCtl Pool} is made, it has an element amount of zero.         ||| code
 The dump is from just starting the game and starting a circuit race.
 
-Pools can be enlarged by {440BB0}, but only if {{structPool+14}} has the {{POOL_FLAG_EXTENDABLE}}       ||| ref,code,refto,code,refto
+Pools can be enlarged by {440BB0}, but only if its {{struct Pool+14}} has the {POOL_FLAG_EXTENDABLE}    ||| ref,code,ref,code
 flag. When extending, the newly created pool gets added as last in the main pool's
-{{structPool+8}}. The main pool's {{structPool+10}} will point to the first allocated element of        ||| code,refto,code,refto
+{{struct Pool+8}}. The main pool's {{struct Pool+10}} will point to the first allocated element of      ||| code,ref,code,ref
 the next pool, and the last allocated element of the new pool will point to the first element
 of the main pool.
 
@@ -909,8 +909,8 @@ of the event:
 .pushmode ul
 - {VK_LEFT}: {-1}                                                                               ||| code,code
 - {VK_RIGHT}: {1}                                                                               ||| code,code
-- {VK_HOME}: {-{8709C0}}                                                                        ||| code,code,refplain
-- {VK_END}: {{8709C0}}                                                                          ||| code,code,refplain
+- {VK_HOME}: {-{8709C0}}                                                                        ||| code,code,ref
+- {VK_END}: {{8709C0}}                                                                          ||| code,code,ref
 .popmode ul
 
 This is the only other function that checks if {8709BC} is non-zero.                            ||| ref
@@ -1135,7 +1135,7 @@ followed by a call to a specific proc that looks like this:
 .popmode ida
 
 It appears as if this used to be some kind of debug printf function, so I named it
-{50D510}. I hooked the function and made it output to a log file,                               ||| refplain
+{50D510}. I hooked the function and made it output to a log file,                               ||| ref
 see {nfsu2-re-hooks/replace-50D510-DebugPrint.c}.                                               ||| hookfileref
 
 It also seems to pass data that is not a pointer to a string. I'm guessing since the
@@ -1205,9 +1205,9 @@ by something that looked like dialog code. These leftover debug strings helped s
 Someone left a trace here:
 
 .pushmode ida
-.text:005541FC                 call    {4FF250}                                                 ||| refplain
+.text:005541FC                 call    {4FF250}                                                 ||| ref
 .text:00554201                 push    offset {aDialogConstruc} {; "DIALOG :: Constructor\n"}   ||| ident,comment
-.text:00554206                 call    {50D510}                                                 ||| refplain
+.text:00554206                 call    {50D510}                                                 ||| ref
 .popmode ida
 
 One of the first thing {558020} does is calling {526C40},                                       ||| ref,ref
@@ -1233,9 +1233,9 @@ The dialog info may already have the FNG set, this function will return that unl
 it's not set or it's not either {animating} or {3button}.                                       ||| code,code
 
 .pushmode ul
-- {HelpDialog_SMALL.fng} when {{structDialogInfo+32D}} and text has less than 5 linebreaks      ||| code,code,refto
-- {HelpDialog_MED.fng} when {{structDialogInfo+32D}} and text has more than 4 linebreaks        ||| code,code,refto
-- {GenericDialog_ThreeButton.fng} when {{structDialogInfo+324}} is {3button}                    ||| code,code,refto,code
+- {HelpDialog_SMALL.fng} when {{struct DialogInfo+32D}} and text has less than 5 linebreaks     ||| code,code,ref
+- {HelpDialog_MED.fng} when {{struct DialogInfo+32D}} and text has more than 4 linebreaks       ||| code,code,ref
+- {GenericDialog_ThreeButton.fng} when {{struct DialogInfo+324}} is {3button}                   ||| code,code,ref,code
 - {GenericDialog_SMALL.fng} when text width is {< 2561.0f}                                      ||| code,code
 - {GenericDialog_Animate_SMALL.fng} same as above, but when type is {animating}                 ||| code,code
 - {GenericDialog_MED.fng} when text width is {< 5122.0f}                                        ||| code,code
@@ -2563,7 +2563,7 @@ static
 void hook_on_msg_WM_CHAR(int wparam)
 {
 	if (wparam == 121) { // y
-		{555E80}("ScreenPrintf.fng", 0);                                                                        ||| refplain
+		{555E80}("ScreenPrintf.fng", 0);                                                                        ||| ref
 	}
 }
 .popmode pre
@@ -2571,57 +2571,9 @@ void hook_on_msg_WM_CHAR(int wparam)
 It didn't crash, so that was a win already. The second parameter for that func is what I suspect some data to
 initialize the fng screen. It fortunately seems like either the ScreenPrintf one doesn't initialize anything or it has
 a null check. for the passed data It doesn't seem to show anything though. Then I thought of the UI elements and their
-visitor methods (like {504880}). So I tried to print all the UI elements that are on screen.                            ||| ref
-
-{{Code {nfsu2-re-hooks/debug-custom-uielementvisitor.c}}                                                                ||| details,summary,hookfileref
-.controlchars [] .pushmode pre
-static
-void debug_custom_uielementvisitor_visit_element([struct UIElement] *element, char *prefix)                             ||| refto
-{
-	[struct UIElement] *containerchild;                                                                             ||| refto
-	[struct UILabel] *label;                                                                                        ||| refto
-	char locbuf\[100\];
-	char locbuf2\[100\];
-
-	sprintf(locbuf, "%s    ", prefix);
-	while (element) {
-		locbuf2\[0\] = 0;
-		if (element->[structUIElement+18] == 2) {                                                               ||| refto
-			label = (void*) element;
-			if (label->[structUILabel+64].[structWideCharString+0]) {                                       ||| refto,refto
-				locbuf2\[0\] = ' ';
-				wchar2char(locbuf2 + 1, label->[structUILabel+64].[structWideCharString+0]);            ||| refto,refto
-			}
-		}
-		log(buf, sprintf(buf, "%selement type %d hash %08X flags %8X:%s",
-			prefix, element->[structUIElement+18], element->[structUIElement+10],                           ||| refto,refto
-			element->[structUIElement+1C], locbuf2));                                                       ||| refto
-		if (element->[structUIElement+18] == 5) {                                                               ||| refto
-			containerchild = (([struct UIContainer]*) element)->[structUIContainer+64];                     ||| refto,refto
-			debug_custom_uielementvisitor_visit_element(containerchild, locbuf);
-		}
-		element = element->[structUIElement+4];                                                                 ||| refto
-	}
-}
-
-static
-void debug_custom_uielementvisitor_visit_fng([struct FNGInfo] *fng, char *prefix)                                       ||| refto
-{
-	char locbuf\[100\];
-	[struct UIElement] *element;                                                                                    ||| refto
-
-	sprintf(locbuf, "%s    ", prefix);
-	do {
-		log(buf, sprintf(buf, "%sfng %s:", prefix, fng->[structFNGInfo+C]));                                    ||| refto
-		element = fng->[structFNGInfo+4C];                                                                      ||| refto
-		debug_custom_uielementvisitor_visit_element(element, locbuf);
-		fng = fng->[structFNGInfo+4];                                                                           ||| refto
-	} while (fng);
-}
-.controlchars {} .popmode pre
-} |||
-
-And here's the output when in the options menu in the pause menu while in career freeroam:
+visitor methods (like {504880}). So I tried to print all the UI elements that are on screen (See                        ||| ref
+{nfsu2-re-hooks/debug-custom-uielementvisitor.c}, and here's the output when in the options menu in the pause menu      ||| hookfileref
+while in career freeroam:
 
 {{Output}                                                                                                               ||| details,summary
 .pushmode pre
@@ -3070,7 +3022,7 @@ that flag {2} means it should be visible, so I tried adding that.               
 Then the text can be changed easily by one of the many funcs, for example:
 
 .pushmode pre
-{537B80}("ScreenPrintf.fng", 0xB9D457DE, "0xB9D457DE", "");                                                             ||| refplain
+{537B80}("ScreenPrintf.fng", 0xB9D457DE, "0xB9D457DE", "");                                                             ||| ref
 .popmode pre
 
 {Nice.}                          ||| imgcaptioned src=SCREENPRINTF_2.JPG alt="custom strings"
@@ -3243,12 +3195,12 @@ career yet.
 .controlchars [] .pushmode pre
 /*from [5760A0]*/                                                                               ||| ref
 /*ordermebaby ($1000 career start bonus)*/
-[cheatExtraCareerMoney1000] = 1000;                                                             ||| refplain address=865130
+[865130] = 1000;                                                                                ||| ref
 // ^ used when starting a new career from a profile that
 // was loaded from the profile menu
-if (![isProfileWithStartedCareerLoaded])  {                                                     ||| refplain address=86347C
-	if ([CareerGetMoney]() == 0)  {                                                         ||| refplain address=500F90
-		[CareerSetMoney](1000);                                                         ||| refplain address=500F80
+if (![86347C])  {                                                                               ||| ref
+	if ([500F90]() == 0)  {                                                                 ||| ref
+		[500F80](1000);                                                                 ||| ref
 		// ^ This only has an effect when the profile was
 		// loaded from the loading screen
 	}
