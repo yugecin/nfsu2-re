@@ -216,8 +216,11 @@ void mmparse_failmsg(struct mmparse *mm, char *msg)
 	mmparse_prefailmsg(mm);
 	fprintf(stderr, "line %d: %s\n", mm->in.current_line, msg);
 }
-#define mmparse_failmsgf(MM,MSG,...) mmparse_prefailmsg(mm);\
-                                     fprintf(stderr, "%d: "MSG"\n", MM->in.current_line, __VA_ARGS__)
+
+#define mmparse_failmsgf(MM,MSG,...) do {\
+	mmparse_prefailmsg(mm);\
+	fprintf(stderr, "%d: "MSG"\n", MM->in.current_line, __VA_ARGS__);\
+} while (0);
 /*jeanine:p:i:6;p:1;a:t;x:36.32;*/
 void mmparse_append_to_expanded_line(struct mmparse *mm, char *from, int len)
 {

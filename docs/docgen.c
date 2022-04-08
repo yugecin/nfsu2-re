@@ -83,7 +83,7 @@ int docgen_parse_addr(char *addr, int len)
 		} else if ('A' <= c && c <= 'F') {
 			res |= c - 'A' + 10;
 		} else {
-			printf("bad addr char '%c'\n", c);
+			fprintf(stderr, "bad addr char '%c'\n", c);
 			return -1;
 		}
 	}
@@ -251,13 +251,13 @@ void docgen_resolve_ref(struct docgen *dg, struct docgen_ref *result, char *ref,
 			if (current == addr) {
 				stuff = dg->idcp->stuffs + idx;
 				if (!stuff->name) {
-					printf("resolved ref '%s' has no name, ignoring\n", ref);
+					fprintf(stderr, "resolved ref '%s' has no name, ignoring\n", ref);
 				} else if (stuff->type == IDCP_STUFF_TYPE_FUNC) {
 					result->func = stuff;
 				} else if (stuff->type == IDCP_STUFF_TYPE_DATA) {
 					result->data = stuff;
 				} else {
-					printf("unknown type '%d' when resolving ref '%s'\n", stuff->type, ref);
+					fprintf(stderr, "unknown type '%d' when resolving ref '%s'\n", stuff->type, ref);
 				}
 				return;
 			} else {
@@ -551,7 +551,7 @@ void docgen_gen_func_signature(struct docgen_tmpbuf **signaturebuf, struct docge
 				checkbuf = docgen_get_tmpbuf(10000);
 				sprintf(checkbuf->data, "%s(struct %s *this", friendlyname, classname);
 				if (!strstr(originalsignature, checkbuf->data)) {
-					printf("warn: func %X '%s' has wrong thisarg (searching '%s')\n", func->addr, originalname, checkbuf->data);
+					fprintf(stderr, "warn: func %X '%s' has wrong thisarg (searching '%s')\n", func->addr, originalname, checkbuf->data);
 				}
 				docgen_free_tmpbuf(checkbuf);
 			}
@@ -565,7 +565,7 @@ void docgen_gen_func_signature(struct docgen_tmpbuf **signaturebuf, struct docge
 		/*Quickly check if there should have been a coloncolon*/
 		thiscall = strstr(originalsignature, "__thiscall");
 		if (thiscall && thiscall - originalsignature < len) {
-			printf("warn: func %X is __thiscall but no '::'\n", func->addr);
+			fprintf(stderr, "warn: func %X is __thiscall but no '::'\n", func->addr);
 		}
 	}
 	b += sprintf(b, "</h3>");
@@ -575,7 +575,7 @@ void docgen_gen_func_signature(struct docgen_tmpbuf **signaturebuf, struct docge
 	*signaturebuf = newbuf;
 
 	if (docgen_link_structs_enums(dg, signaturebuf)) {/*jeanine:s:a:r;i:12;*/
-		printf("warn: func '%X %s' references an unknown struct/enum\n", func->addr, func->name);
+		fprintf(stderr, "warn: func '%X %s' references an unknown struct/enum\n", func->addr, func->name);
 	}
 }
 /*jeanine:p:i:17;p:58;a:r;x:15.56;y:-72.00;*/
@@ -718,7 +718,7 @@ void docgen_print_struct_member(FILE *f, struct docgen *dg, struct idcp_struct *
 		} else if (mem->type) {
 			docgen_format_struct_member_typeandname_when_type(typeandname->data, mem);/*jeanine:r:i:10;*/
 			if (docgen_link_structs_enums(dg, &typeandname)) {/*jeanine:r:i:12;*/
-				printf("warn: struct '%s' member '%s' references an unknown struct/enum\n", struc->name, mem->name);
+				fprintf(stderr, "warn: struct '%s' member '%s' references an unknown struct/enum\n", struc->name, mem->name);
 			}
 		} else {
 			switch (mem->nbytes) {
@@ -869,7 +869,7 @@ void docgen_print_data(FILE *f, struct docgen *dg, struct docgen_datainfo *datai
 		if (docgen_find_struct(dg, st, strlen(st))) {
 			sprintf(type->data, "<a href='structs.html#struc_%s'>struct %s</a>", st, st);
 		} else {
-			printf("warn: cannot find struct '%s' for var %X '%s'\n", st, data->addr, data->name);
+			fprintf(stderr, "warn: cannot find struct '%s' for var %X '%s'\n", st, data->addr, data->name);
 			sprintf(type->data, "<strong>struct %s<strong>", st);
 		}
 	} else if (data->data.data.flags & IDCP_DATA_FLOAT) {
