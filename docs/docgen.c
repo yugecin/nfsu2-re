@@ -913,7 +913,7 @@ void docgen_print_data(FILE *f, struct docgen *dg, struct docgen_datainfo *datai
 		fprintf(f, "<p>%s</p>", data->rep_comment);
 	}
 }
-/*jeanine:p:i:56;p:37;a:r;x:55.13;y:24.28;*/
+/*jeanine:p:i:56;p:37;a:r;x:128.71;y:-20.02;*/
 /**
 @param ref must be zero terminated
 */
@@ -1065,7 +1065,7 @@ enum mmp_dir_content_action mmparse_cb_mode_ida_directive(struct mmparse *mm, st
 	}
 	return LEAVE_CONTENTS;
 }
-/*jeanine:p:i:30;p:58;a:r;x:33.75;y:-120.00;*/
+/*jeanine:p:i:30;p:58;a:r;x:70.64;y:-124.00;*/
 struct mmp_mode mmparse_mode_symbols = {
 	mmparse_cb_mode_symbols_start,/*jeanine:r:i:35;*/
 	mmparse_cb_mode_symbols_println,/*jeanine:r:i:37;*/
@@ -1083,15 +1083,36 @@ struct mmp_mode mmparse_mode_ida = {
 	"ida",
 	MMPARSE_DO_PARSE_LINES
 };
-/*jeanine:p:i:59;p:42;a:r;x:31.40;*/
+/*jeanine:p:i:59;p:61;a:r;x:96.73;*/
 static
 void docgen_mmparse_dir_ref_append(struct mmparse *mm, char *buf, int len)
 {
 	mmparse_append_to_expanded_line(mm, buf, len);
 }
-/*jeanine:p:i:42;p:58;a:r;x:31.85;y:-73.41;*/
+/*jeanine:p:i:42;p:58;a:r;x:70.44;y:-178.25;*/
 static
-enum mmp_dir_content_action mmparse_dir_ref(struct mmparse *mm, struct mmp_dir_content_data *data)
+enum mmp_dir_content_action docgen_mmparse_dir_hookfileref(struct mmparse *mm, struct mmp_dir_content_data *data)
+{
+	char *filename;
+	FILE *file;
+
+	filename = alloca(5 + data->content_len);
+	sprintf(filename, "../%s", data->contents);
+	file = fopen(filename, "rb");
+	if (file) {
+		fclose(file);
+	} else {
+		mmparse_failmsgf(mm, "file '%s' not found", filename);
+	}
+	mmparse_append_to_expanded_line(mm, "<code><a class='ext' href='https://github.com/yugecin/nfsu2-re/blob/master/", 75);
+	mmparse_append_to_expanded_line(mm, data->contents, data->content_len);
+	mmparse_append_to_expanded_line(mm, "'>", 2);
+	mmparse_append_to_closing_tag(mm, "</a></code>", 11);
+	return LEAVE_CONTENTS;
+}
+/*jeanine:p:i:61;p:58;a:r;x:91.66;y:-152.49;*/
+static
+enum mmp_dir_content_action docgen_mmparse_dir_ref(struct mmparse *mm, struct mmp_dir_content_data *data)
 {
 	docgen_append_ref_text(mm, docgen_mmparse_dir_ref_append, data->contents, data->content_len);/*jeanine:r:i:59;:s:a:r;i:56;*/
 	return DELETE_CONTENTS;
@@ -1100,9 +1121,10 @@ enum mmp_dir_content_action mmparse_dir_ref(struct mmparse *mm, struct mmp_dir_c
 int main(int argc, char **argv)
 {
 	struct mmp_dir_handler mmdirectivehandlers[] = {
+		{ "hookfileref", docgen_mmparse_dir_hookfileref },/*jeanine:r:i:42;*/
+		{ "ref", docgen_mmparse_dir_ref },/*jeanine:r:i:61;*/
 		{ "index", mmpextras_dir_index },
 		{ "href", mmpextras_dir_href },
-		{ "ref", mmparse_dir_ref },/*jeanine:r:i:42;*/
 		{ "h", mmpextras_dir_h },
 		{ NULL, NULL }
 	};
