@@ -3323,8 +3323,68 @@ After hooking and printing addresses, some more obvious data could be seen:
 - At {+0x60} is a geometry path (example {CARS\A3\GEOMETRY.LZC})                                ||| code, code
 .popmode ul
 
+This became {struct Car}.                                                                       ||| ref
+
+Looping through all the data and printing their names:
+
+.pushmode pre
+car #: {struct Car+0} {struct Car+20} {struct Car+C0}                                           ||| ref,ref,ref
+car 0: PEUGOT PEUGOT PEUGEOT
+car 1: FOCUS FOCUS FORD
+car 2: COROLLA COROLLA TOYOTA
+car 3: 240SX 240SX NISSAN
+car 4: MIATA MIATA MAZDA
+car 5: CIVIC CIVIC HONDA
+car 6: PEUGOT106 PEUGOT106 PEUGEOT
+car 7: CORSA CORSA VAUXHALL
+car 8: HUMMER HUMMER HUMMER
+car 9: NAVIGATOR NAVIGATOR LINCOLN
+car 10: ESCALADE ESCALADE CADILLAC
+car 11: TIBURON TIBURON HYUNDAI
+car 12: SENTRA SENTRA NISSAN
+car 13: CELICA CELICA TOYOTA
+car 14: IS300 IS300 LEXUS
+car 15: SUPRA SUPRA TOYOTA
+car 16: GOLF GOLF VOLKSWAGEN
+car 17: A3 A3 AUDI
+car 18: RSX RSX ACURA
+car 19: ECLIPSE ECLIPSE MITSUBISHI
+car 20: TT TT AUDI
+car 21: RX8 RX8 MAZDA
+car 22: 350Z 350Z NISSAN
+car 23: G35 G35 INFINITI
+car 24: 3000GT 3000GT MITSUBISHI
+car 25: GTO GTO PONTIAC
+car 26: MUSTANGGT MUSTANGGT FORD
+car 27: SKYLINE SKYLINE NISSAN
+car 28: LANCEREVO8 LANCEREVO8 MITSUBISHI
+car 29: RX7 RX7 MAZDA
+car 30: IMPREZAWRX IMPREZAWRX SUBARU
+car 31: TAXI TAXI GENERIC
+car 32: 4DR_SEDAN02 4DR_SEDAN02 GENERIC
+car 33: AMBULANCE AMBULANCE GENERIC
+car 34: TAXI02 TAXI02 GENERIC
+car 35: PANELVAN PANELVAN GENERIC
+car 36: COUPE COUPE GENERIC
+car 37: FIRETRUCK FIRETRUCK GENERIC
+car 38: PARCELVAN PARCELVAN GROLSON
+car 39: PICKUP PICKUP Chevrolet
+car 40: 4DR_SEDAN 4DR_SEDAN Chevrolet
+car 41: BUS BUS Silver Eagle
+car 42: SUV SUV GENERIC
+car 43: MINIVAN MINIVAN GENERIC
+car 44: HATCHBACK HATCHBACK GENERIC
+car 45: HATCHBACK02 HATCHBACK02 GENERIC
+.popmode pre
+
 .pushmode symbols
+- struct Car
+- 8A1CCC
 - 511E60
+- 512050
+- 512080
+- 5120B0
+- 610170
 .popmode symbols
 
 .popmode section
@@ -3333,6 +3393,7 @@ After hooking and printing addresses, some more obvious data could be seen:
 {Sound}  ||| h id=sound
 
 .pushmode symbols
+- struct SoundEffectSystem
 - 82B884
 - 458520
 - 51DE60
