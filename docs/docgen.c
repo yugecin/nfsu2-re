@@ -501,7 +501,7 @@ int docgen_func_sort_compar(const void *_a, const void *_b)
 static
 void docgen_gen_func_signature(struct docgen_tmpbuf **signaturebuf, struct docgen *dg, struct docgen_funcinfo *funcinfo, struct idcp_stuff *func)
 {
-	char *originalname, friendlyname[200], *namepos, *coloncolon, *b, *originalsignature, classname[200];
+	char *originalname, friendlyname[200], *namepos, *coloncolon, *b, *originalsignature, classname[200], *thiscall;
 	struct docgen_tmpbuf *newbuf, *checkbuf;
 	int len, classname_len;
 
@@ -558,6 +558,11 @@ void docgen_gen_func_signature(struct docgen_tmpbuf **signaturebuf, struct docge
 		b += sprintf(b, "%s", coloncolon);
 	} else {
 		b += sprintf(b, "%s", originalname);
+		/*Quickly check if there should have been a coloncolon*/
+		thiscall = strstr(originalsignature, "__thiscall");
+		if (thiscall && thiscall - originalsignature < len) {
+			printf("warn: func %X is __thiscall but no '::'\n", func->addr);
+		}
 	}
 	b += sprintf(b, "</h3>");
 	/*Copy rest of signature*/
