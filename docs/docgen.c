@@ -65,7 +65,7 @@ struct docgen {
 	int num_datainfos;
 	struct docgen_datainfo *datainfos;
 };
-/*jeanine:p:i:39;p:57;a:r;x:3.33;*/
+/*jeanine:p:i:39;p:57;a:r;x:8.33;y:-9.94;*/
 static
 int docgen_parse_addr(char *addr, int len)
 {
@@ -84,7 +84,7 @@ int docgen_parse_addr(char *addr, int len)
 			res |= c - 'A' + 10;
 		} else {
 			printf("bad addr char '%c'\n", c);
-			return 0;
+			return -1;
 		}
 	}
 	return res;
@@ -214,7 +214,11 @@ void docgen_resolve_ref(struct docgen *dg, struct docgen_ref *result, char *ref,
 		if (structinfo) {
 			result->struc = structinfo->struc;
 			if (plus) {
-				addr = docgen_parse_addr(plus + 1, len - (plus - ref) - 1);
+				addr = docgen_parse_addr(plus + 1, len - (plus - ref) - 1);/*jeanine:s:a:r;i:39;*/
+				if (addr == -1) {
+					result->struc = NULL;
+					return;
+				}
 				struc = structinfo->struc;
 				num_members = struc->end_idx - struc->start_idx;
 				mem = dg->idcp->struct_members + struc->start_idx;
@@ -236,7 +240,7 @@ void docgen_resolve_ref(struct docgen *dg, struct docgen_ref *result, char *ref,
 		/*Binary search will work as long as the 'new_addr > addr'
 		assertion in 'idcp_get_or_allocate_stuff' still stands.*/
 		addr = docgen_parse_addr(ref, len);/*jeanine:r:i:39;*/
-		if (!addr) {
+		if (addr == -1) {
 			return;
 		}
 		min = 0;
