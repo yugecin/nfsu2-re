@@ -11,8 +11,6 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "scrapstuff", "scrapstuff\sc
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "d3d9-dinput-stuff", "d3d9-dinput-stuff\d3d9-dinput-stuff.vcproj", "{6D617C20-E5E5-45C4-A525-63773B21002A}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "mmparse", "docs\mmparse.vcproj", "{B373258B-CD32-4246-909E-A7BD54B4299C}"
-EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "server", "server\server.vcproj", "{B9890709-C13E-4832-AFE2-C2EB6AFA8E36}"
 EndProject
 Global
@@ -41,10 +39,6 @@ Global
 		{6D617C20-E5E5-45C4-A525-63773B21002A}.Debug|Win32.Build.0 = Debug|Win32
 		{6D617C20-E5E5-45C4-A525-63773B21002A}.Release|Win32.ActiveCfg = Release|Win32
 		{6D617C20-E5E5-45C4-A525-63773B21002A}.Release|Win32.Build.0 = Release|Win32
-		{B373258B-CD32-4246-909E-A7BD54B4299C}.Debug|Win32.ActiveCfg = Debug|Win32
-		{B373258B-CD32-4246-909E-A7BD54B4299C}.Debug|Win32.Build.0 = Debug|Win32
-		{B373258B-CD32-4246-909E-A7BD54B4299C}.Release|Win32.ActiveCfg = Release|Win32
-		{B373258B-CD32-4246-909E-A7BD54B4299C}.Release|Win32.Build.0 = Release|Win32
 		{B9890709-C13E-4832-AFE2-C2EB6AFA8E36}.Debug|Win32.ActiveCfg = Debug|Win32
 		{B9890709-C13E-4832-AFE2-C2EB6AFA8E36}.Debug|Win32.Build.0 = Debug|Win32
 		{B9890709-C13E-4832-AFE2-C2EB6AFA8E36}.Release|Win32.ActiveCfg = Release|Win32
