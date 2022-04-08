@@ -1146,7 +1146,8 @@ int main(int argc, char **argv)
 	struct docgen_enuminfo *enuminfo;
 	struct docgen_funcinfo *funcinfo;
 	struct mmp_output_part *mmpart;
-	int i, j, cheatsheet_len;
+	int i, j, cheatsheet_len, len;
+	struct idcp_stuff *stuff;
 	struct idcparse *idcp;
 	struct mmparse *mm;
 	struct docgen *dg;
@@ -1164,11 +1165,16 @@ int main(int argc, char **argv)
 	/*read functions*/
 	dg->funcinfos = malloc(sizeof(struct docgen_funcinfo) * idcp->num_funcs);
 	assert(((void)"failed to malloc for dg->funcinfos", dg->funcinfos));
-	for (dg->num_funcinfos = 0, j = 0; j < idcp->num_stuffs; j++) {
-		if (idcp->stuffs[j].type == IDCP_STUFF_TYPE_FUNC && idcp->stuffs[j].name) {
-			dg->funcinfos[dg->num_funcinfos].func = idcp->stuffs + j;
-			dg->funcinfos[dg->num_funcinfos].name_len = strlen(idcp->stuffs[j].name);
-			dg->num_funcinfos++;
+	for (dg->num_funcinfos = 0, j = 0, stuff = idcp->stuffs; j < idcp->num_stuffs; j++, stuff++) {
+		if (stuff->type == IDCP_STUFF_TYPE_FUNC && stuff->name) {
+			dg->funcinfos[dg->num_funcinfos].func = stuff;
+			dg->funcinfos[dg->num_funcinfos].name_len = len = strlen(stuff->name);
+			if (!((len == 10 && !strncmp("SEH_", stuff->name, 4)) ||
+				(len == 20 && !strncmp("init_function_", stuff->name, 14)) ||
+				!strncmp("nullsub_", stuff->name, 8)) || stuff->comment || stuff->rep_comment)
+			{
+				dg->num_funcinfos++;
+			}
 		}
 	}
 	qsort((void*) dg->funcinfos, dg->num_funcinfos, sizeof(struct docgen_funcinfo), docgen_func_sort_compar);/*jeanine:r:i:15;*/
