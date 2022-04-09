@@ -617,7 +617,7 @@ void docgen_format_struct_member_typeandname_when_enum(char *buf, struct idcpars
 
 	assert(0 <= mem->typeid && mem->typeid < idcp->num_enums);
 	en = idcp->enums + mem->typeid;
-	buf += sprintf(buf, "<a href='enums.html#enum_%s'>enum %s</a> %s", en->name, en->name, mem->name);
+	buf += sprintf(buf, "<a href='enums.html#enu_%s'>enum %s</a> %s", en->name, en->name, mem->name);
 }
 /*jeanine:p:i:13;p:11;a:r;x:70.61;y:23.33;*/
 static
