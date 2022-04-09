@@ -222,6 +222,15 @@
 #define JOY_EVENT_CAMERA_EDITOR_SHUTTLE_LEFT_RIGHT 0xF7
 #define JOY_EVENT_CAMERA_EDITOR_SHUTTLE_SPEED 0xF8
 
+enum UIELEMENTFLAGS { /*6 members*/
+	HIDDEN = 0x1,
+	USE_CUSTOM_TEXT = 0x2,
+	CLICKABLE = 0x10,
+	NEED_UPDATE_0 = 0x400000,
+	NEED_UPDATE_1 = 0x1000000,
+	NEED_UPDATE_2 = 0x2000000,
+};
+
 struct DialogInfo {
 	char text[768];
 	int unused300;
@@ -601,3 +610,109 @@ struct PCHelpBarFNGObject {
 	char field_6F;
 };
 EXPECT_SIZE(struct PCHelpBarFNGObject, 0x70);
+
+struct ScrollingThing { /*25 members, size 58h*/ 
+/*0*/	char field_0;
+/*1*/	char field_1;
+/*2*/	char field_2;
+/*3*/	char field_3;
+/*4*/	int field_4;
+/*8*/	int field_8;
+/*C*/	int field_C;
+/*10*/	int field_10;
+/*14*/	int field_14;
+/*18*/	int field_18;
+/*1C*/	int floatField_1C;
+/*20*/	int floatField_20;
+/*24*/	int field_24;
+/*28*/	int ptrField_28 ;
+/*2C*/	int floatField_2C;
+/*30*/	int floatField_30;
+/*34*/	int field_34;
+/*38*/	int field_38;
+/*3C*/	int field_3C;
+/**%s_Backing*/
+/*40*/	struct UIElementType1 *uiElementBacking;
+/**%s_Handle*/
+/*44*/	struct UIElementType1 *uiElementHandle;
+/**%s_Arrow_1*/
+/*48*/	struct UIElementType1 *uiElementArrow1;
+/**%s_Arrow_2*/
+/*4C*/	struct UIElementType1 *uiElementArrow2;
+/**%s_Backing_End_1*/
+/*50*/	struct UIElementType1 *uiElementBackingEnd1;
+/**%s_Backing_End_2*/
+/*54*/	struct UIElementType1 *uiElementBackingEnd2;
+};
+
+struct SubScrollingThing { /*25 members, size A9h*/ 
+/**probably {795CB4} ||| ref*/
+/*0*/	void *vtable;
+/*4*/	int field_4;
+/**probably ObjectLink, it's a struct with two members at least*/
+/*8*/	struct ObjectLink link1;
+/**probably ObjectLink, it's a struct with two members at least*/
+/*10*/	struct ObjectLink link2;
+/*18*/	int field_18;
+/*1C*/	int field_1C;
+/*20*/	int field_20;
+/*24*/	int field_24;
+/*28*/	int field_28;
+/*2C*/	int field_2C;
+/*30*/	int uielement ;
+/*34*/	struct ScrollingThing scrollingThing;
+/**stores {struct SubScrollingThing+30} UI element coordinate x ||| ref*/
+/*8C*/	float floatField_8C;
+/**stores {struct SubScrollingThing+30} UI element coordinate y ||| ref*/
+/*90*/	float floatField_90;
+/*94*/	float floatField_94;
+/*98*/	float floatField_98;
+/*9C*/	char field_9C;
+/*9D*/	char field_9D;
+/*9E*/	char field_9E;
+/*9F*/	char field_9F;
+/*A0*/	char field_A0;
+/*A1*/	char _padA1[0x3];
+/*A4*/	int field_A4;
+/*A8*/	char field_A8;
+};
+
+struct SMSMailboxFNGObject { /*8 members, size 1B8h*/ 
+/*0*/	struct FNGObject __parent;
+/*4C*/	int someTimingValue ;
+/*50*/	struct SubScrollingThing subScrollingThing1;
+/*F9*/	char _padF9[0x3];
+/*FC*/	struct SubScrollingThing subScrollingThing2;
+/*1A5*/	char _pad1A5[0x3];
+/*1A8*/	int field_1A8;
+/*1AC*/	char field_1AC;
+/*1AD*/	char _pad1AD[0x3];
+/**ui element "UP_ARROW"*/
+/*1B0*/	struct UIElement* uiElementUpArrow ;
+/**ui element "DOWN_ARROW"*/
+/*1B4*/	struct UIElement* uiElementDownArrow ;
+};
+
+struct MailBoxRelated1 { /*11 members, size 34h*/
+/**seems like a destructor + nullsub*/
+/*0*/	int vtable ;
+/**links own types*/
+/*4*/	struct ObjectLink link1;
+/**links {struct MailBoxRelated2} ||| ref*/
+/*C*/	struct ObjectLink link2;
+/**ui element "HIGH_LIGHT_%d"*/
+/*14*/	struct UIElement *uielement;
+/*18*/	struct U2RECT elementRect;
+/*28*/	char field_28;
+/*29*/	char _pad29[0x3];
+/*2C*/	char *animationString1;
+/*30*/	char *animationString2;
+};
+
+struct MailBoxRelated2 { /*2 members, size 10h*/
+/**single dtor func*/
+/*0*/	int vtable ;
+/*4*/	char _pad4[0x8];
+/**element with name "MESSAGE_TEXT_%d"*/
+/*C*/	int uielement ;
+};

@@ -8,6 +8,14 @@ void mkjmp(int at, void *to)
 }
 
 static
+void redirectjmp(int at, void *to)
+{
+	/*at -= 0x400000; at += base;*/
+	at++;
+	*((int*) at) = (int) to - (at + 4);
+}
+
+static
 void nop(int at, int num)
 {
 	/*at -= 0x400000; at += base;*/
@@ -159,4 +167,37 @@ char *animationname(unsigned int key)
 		}
 	}
 	return "<unknown>";
+}
+
+static
+void print_ui_element_and_children(struct UIElement *element, char *prefix, char printsiblings)
+{
+	struct UIElement *containerchild;
+	struct UILabel *label;
+	char locbuf[100];
+	char locbuf2[100];
+
+	sprintf(locbuf, "%s    ", prefix);
+	if (element) do {
+		locbuf2[0] = 0;
+		if (element->type == 2) {
+			label = (void*) element;
+			if ((element->someFlags & USE_CUSTOM_TEXT) && label->string.ptrString) {
+				locbuf2[0] = '+';
+				locbuf2[1] = ' ';
+				wchar2char(locbuf2 + 2, label->string.ptrString);
+			} else {
+				sprintf(locbuf2, "- %s", GetLanguageString(label->textLanguageString));
+			}
+		}
+		//element->someFlags |= 0x2; // set visible
+		//element->someFlags &= ~1; // set visible
+		log(buf, sprintf(buf, "%selement %p type %d hash %08X flags %8X:%s",
+			prefix, element, element->type, element->hash, element->someFlags, locbuf2));
+		if (element->type == 5) {
+			containerchild = ((struct UIContainer*) element)->children;
+			print_ui_element_and_children(containerchild, locbuf, 1);
+		}
+		element = element->nextSibling;
+	} while (element && printsiblings);
 }

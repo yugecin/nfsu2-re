@@ -22,8 +22,8 @@ static int base;
 #include "a_log.c"
 #include "a_structs.c"
 #include "a_fields.c"
-#include "a_utils.c"
 #include "a_funcs.c"
+#include "a_utils.c"
 
 static void stub() {}
 #define INIT_FUNC stub
@@ -87,6 +87,7 @@ static void stub() {}
 //#include "debug-custom-markers-debug.c"
 #include "debug-custom-uielementvisitor.c"
 //#include "debug-custom-send-instruction-sms.c"
+//#include "debug-custom-printmailboxthings.c"
 //#include "debug-custom-remove-all-received-engage-markers.c"
 #include "debug-hook-wm_char.c" // needs to be after all "debug-custom-*" files
 #include "debug-hook-doui.c" // needs to be after all "debug-custom-*" files

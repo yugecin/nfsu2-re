@@ -275,6 +275,18 @@
 			</FileConfiguration>
 		</File>
 		<File
+			RelativePath=".\debug-custom-printmailboxthings.c"
+			>
+			<FileConfiguration
+				Name="Debug|Win32"
+				ExcludedFromBuild="true"
+				>
+				<Tool
+					Name="VCCLCompilerTool"
+				/>
+			</FileConfiguration>
+		</File>
+		<File
 			RelativePath=".\debug-custom-remove-all-received-engage-markers.c"
 			>
 			<FileConfiguration
