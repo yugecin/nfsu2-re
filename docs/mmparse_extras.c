@@ -22,6 +22,21 @@ function mmpextras_require_directive_argument
 Like mmpextras_find_directive_argument, but aborts if the argument is not found.
 
 
+a 'a' directive for easier link generation
+------------------------------------------
+To use,  add '{ "a", mmpextras_dir_a }' in your array of directives.
+
+Links can already be made fairly easily by doing:
+{my link text} ||| a href='example.com'
+result:
+<a href="example.com">my link text</a>
+
+With mmpextras_dir_a, it will also use the link text as destination if there is no href argument:
+{http://example.com} ||| a
+result:
+<a href="http://example.com">http://example.com</a>
+
+
 a 'ul' mode to output lists
 ---------------------------
 To use, add '&mmpextras_mode_ul' in your array of modes.
@@ -543,7 +558,7 @@ void mmpextras_cb_placeholder_href(struct mmparse *mm, struct mmp_output_part *o
 	mmparse_failmsgf(mm, "cannot find a header with id '%s'", ref_id);
 	assert(0);
 }
-/*jeanine:p:i:21;p:23;a:b;y:1.88;*/
+/*jeanine:p:i:21;p:29;a:b;y:1.88;*/
 static
 enum mmp_dir_content_action mmpextras_dir_href(struct mmparse *mm, struct mmp_dir_content_data *data)
 {
@@ -631,5 +646,25 @@ enum mmp_dir_content_action mmpextras_dir_h(struct mmparse *mm, struct mmp_dir_c
 	}
 	entry->id_len = id_len;
 	memcpy(entry->id, id_arg->value, id_len + 1);
+	return LEAVE_CONTENTS;
+}
+/*jeanine:p:i:29;p:23;a:b;y:1.88;*/
+static
+enum mmp_dir_content_action mmpextras_dir_a(struct mmparse *mm, struct mmp_dir_content_data *data)
+{
+	struct mmp_dir_arg *href;
+	struct mmp_dir *dir;
+
+	dir = data->directive;
+	href = mmpextras_find_directive_argument(dir, "href");
+	if (!href) {
+		assert(((void)"can't add 'href' arg, increase MMPARSE_DIRECTIVE_MAX_ARGS", dir->argc < MMPARSE_DIRECTIVE_MAX_ARGS));
+		assert(((void)"can't add 'href' arg, increase MMPARSE_DIRECTIVE_ARGV_MAX_LEN", data->content_len < MMPARSE_DIRECTIVE_ARGV_MAX_LEN));
+		memcpy(dir->args[dir->argc].name, "href", 5);
+		memcpy(dir->args[dir->argc].value, data->contents, data->content_len + 1);
+		dir->argc++;
+	}
+	mmparse_print_tag_with_directives(mm, dir, ">");
+	mmparse_append_to_closing_tag(mm, "</a>", 4);
 	return LEAVE_CONTENTS;
 }
