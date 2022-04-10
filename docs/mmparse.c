@@ -131,7 +131,8 @@ struct mmp_config {
 		/**length of the secondary output buffer*/
 		int data1_len;
 		/**first temp buffer, to be written to,
-		will be used to hold text that should be appended when directive close marks are found*/
+		will be used to hold text that should be appended when directive close marks are found
+		this buffer can be destroyed after initial parsing is done*/
 		char *data2;
 		/**length of the first temp buffer*/
 		int data2_len;

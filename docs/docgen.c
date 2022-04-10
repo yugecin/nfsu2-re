@@ -31,6 +31,8 @@ See <IDA path>/idc/idc.idc (without the IDC_ prefix in the definitions' names)*/
 
 #define IDCPATH "../../nfsu2-re-idc/SPEED2.idc"
 
+#include "mmparse.c"
+
 struct docgen_structinfo {
 	struct idcp_struct *struc;
 	int name_len;
@@ -42,6 +44,10 @@ struct docgen_funcinfo {
 	struct idcp_stuff *func;
 	int name_len;
 	struct docgen_structinfo *methodof;
+	char *parsed_comment;
+	int parsed_comment_len;
+	char *parsed_rep_comment;
+	int parsed_rep_comment_len;
 };
 
 struct docgen_enuminfo {
@@ -66,7 +72,20 @@ struct docgen {
 	int num_datainfos;
 	struct docgen_datainfo *datainfos;
 };
-/*jeanine:p:i:39;p:57;a:r;x:8.33;y:-9.94;*/
+
+#include "mmparse_extras.c"
+
+struct docgen_mmparse_userdata {
+	struct docgen *dg;
+	struct mmpextras_userdata mmpextras;
+};
+
+static
+struct mmpextras_userdata *mmpextras_get_userdata(struct mmparse *mm)
+{
+	return &((struct docgen_mmparse_userdata*) mm->config.userdata)->mmpextras;
+}
+/*jeanine:p:i:39;p:57;a:r;x:8.78;y:-6.44;*/
 static
 int docgen_parse_addr(char *addr, int len)
 {
@@ -394,20 +413,6 @@ void docgen_free_tmpbuf(struct docgen_tmpbuf *buf)
 {
 	buf->used = 0;
 }
-/*jeanine:p:i:25;p:0;a:b;x:115.56;y:11.69;*/
-#include "mmparse.c"
-#include "mmparse_extras.c"
-
-struct docgen_mmparse_userdata {
-	struct docgen *dg;
-	struct mmpextras_userdata mmpextras;
-};
-
-static
-struct mmpextras_userdata *mmpextras_get_userdata(struct mmparse *mm)
-{
-	return &((struct docgen_mmparse_userdata*) mm->config.userdata)->mmpextras;
-}
 /*jeanine:p:i:12;p:11;a:r;x:70.62;y:-79.59;*/
 /**
 @param tmpbuf might get swapped with a different buffer
@@ -638,7 +643,7 @@ void docgen_gen_func_signature(struct docgen_tmpbuf **signaturebuf, struct docge
 		fprintf(stderr, "warn: func '%X %s' references an unknown struct/enum\n", func->addr, func->name);
 	}
 }
-/*jeanine:p:i:17;p:58;a:r;x:15.56;y:-72.00;*/
+/*jeanine:p:i:17;p:58;a:r;x:15.67;y:-74.31;*/
 static
 void docgen_print_func(FILE *f, struct docgen *dg, struct docgen_funcinfo *funcinfo, struct idcp_stuff *func)
 {
@@ -649,13 +654,15 @@ void docgen_print_func(FILE *f, struct docgen *dg, struct docgen_funcinfo *funci
 	fprintf(f, "<pre id='%X'><i>%X</i> %s</pre>", func->addr, func->addr, signaturebuf->data);
 	docgen_free_tmpbuf(signaturebuf);
 
-	if (func->comment) {
-		/*TODO: mmparse*/
-		fprintf(f, "<p>%s</p>\n", func->comment);
+	if (funcinfo->parsed_comment) {
+		fwrite("<div class='mm'>", 16, 1, f);
+		fwrite(funcinfo->parsed_comment, funcinfo->parsed_comment_len, 1, f);
+		fwrite("</div>", 6, 1, f);
 	}
 	if (func->rep_comment) {
-		/*TODO: mmparse*/
-		fprintf(f, "<p>%s</p>\n", func->rep_comment);
+		fwrite("<div class='mm'>", 16, 1, f);
+		fwrite(funcinfo->parsed_rep_comment, funcinfo->parsed_rep_comment_len, 1, f);
+		fwrite("</div>", 6, 1, f);
 	}
 }
 /*jeanine:p:i:4;p:58;a:r;x:15.56;y:4.00;*/
@@ -918,7 +925,7 @@ int docgen_enum_sort_compar(const void *_a, const void *_b)
 
 	return docgen_stricmp(a->name, b->name);
 }
-/*jeanine:p:i:23;p:58;a:r;x:15.56;y:-26.00;*/
+/*jeanine:p:i:23;p:58;a:r;x:15.56;y:-23.75;*/
 static
 void docgen_print_data(FILE *f, struct docgen *dg, struct docgen_datainfo *datainfo, struct idcp_stuff *data)
 {
@@ -1145,7 +1152,7 @@ struct mmp_mode mmparse_mode_symbols = {
 	"symbols",
 	MMPARSE_DO_PARSE_LINES
 };
-/*jeanine:p:i:47;p:58;a:r;x:35.69;y:-38.70;*/
+/*jeanine:p:i:47;p:58;a:r;x:74.80;y:-70.95;*/
 struct mmp_mode mmparse_mode_ida = {
 	mmparse_cb_mode_ida_start,/*jeanine:r:i:51;*/
 	mmparse_cb_mode_ida_println,/*jeanine:r:i:52;*/
@@ -1154,6 +1161,30 @@ struct mmp_mode mmparse_mode_ida = {
 	"ida",
 	MMPARSE_DO_PARSE_LINES
 };
+/*jeanine:p:i:62;p:58;a:r;x:51.33;y:-38.88;*/
+static
+enum mmp_dir_content_action docgen_mmparse_dir_href(struct mmparse *mm, struct mmp_dir_content_data *data)
+{
+	struct mmpextras_index_entry *entry;
+	struct mmpextras_userdata *ud;
+	int i;
+
+	ud = mmpextras_get_userdata(mm);
+	for (i = ud->index.num_entries, entry = ud->index.entries; i; i--, entry++) {
+		if (!strcmp(entry->id, data->contents)) {
+			/*TODO: change this when renaming index.html*/
+			mmparse_append_to_expanded_line(mm, "<a href='index.html#", 20);
+			mmparse_append_to_expanded_line(mm, entry->id, entry->id_len);
+			mmparse_append_to_expanded_line(mm, "'>", 2);
+			mmparse_append_to_expanded_line(mm, entry->name, entry->name_len);
+			mmparse_append_to_expanded_line(mm, "</a>", 4);
+			return DELETE_CONTENTS;
+		}
+	}
+	mmparse_failmsgf(mm, "cannot find a header with id '%s'", data->contents);
+	assert(0);
+	return LEAVE_CONTENTS;
+}
 /*jeanine:p:i:59;p:61;a:r;x:96.73;*/
 static
 void docgen_mmparse_dir_ref_append(struct mmparse *mm, char *buf, int len)
@@ -1188,7 +1219,7 @@ enum mmp_dir_content_action docgen_mmparse_dir_ref(struct mmparse *mm, struct mm
 	docgen_append_ref_text(mm, docgen_mmparse_dir_ref_append, data->contents, data->content_len);/*jeanine:r:i:59;:s:a:r;i:56;*/
 	return DELETE_CONTENTS;
 }
-/*jeanine:p:i:58;p:25;a:b;y:1.88;*/
+/*jeanine:p:i:58;p:0;a:b;x:118.52;y:12.12;*/
 int main(int argc, char **argv)
 {
 	struct mmp_dir_handler mmdirectivehandlers[] = {
@@ -1196,6 +1227,7 @@ int main(int argc, char **argv)
 		{ "ref", docgen_mmparse_dir_ref },/*jeanine:r:i:61;*/
 		{ "index", mmpextras_dir_index },
 		{ "href", mmpextras_dir_href },
+		{ "a", mmpextras_dir_a },
 		{ "h", mmpextras_dir_h },
 		{ NULL, NULL }
 	};
@@ -1204,23 +1236,38 @@ int main(int argc, char **argv)
 		&mmpextras_mode_section,
 		&mmparse_mode_symbols,/*jeanine:r:i:30;*/
 		&mmparse_mode_plain,
-		&mmparse_mode_nop,
-		&mmparse_mode_ida,/*jeanine:r:i:47;*/
 		&mmpextras_mode_pre,
 		&mmpextras_mode_ul,
+		&mmparse_mode_nop,
+		&mmparse_mode_ida,/*jeanine:r:i:47;*/
 		NULL
 	};
+	struct mmp_dir_handler mmdocdirectivehandlers[] = {
+		{ "hookfileref", docgen_mmparse_dir_hookfileref },
+		{ "href", docgen_mmparse_dir_href },/*jeanine:r:i:62;*/
+		{ "ref", docgen_mmparse_dir_ref },
+		{ "a", mmpextras_dir_a },
+		{ NULL, NULL }
+	};
+	struct mmp_mode *mmdocmodes[] = {
+		&mmpextras_mode_paragraphed, /*must be first*/
+		&mmparse_mode_plain,
+		&mmpextras_mode_pre,
+		&mmpextras_mode_ul,
+		&mmparse_mode_ida,
+		NULL
+	};
+	char *css, *name, *header, *cheatsheet, *mmparse_shared_data2, mmparse_subject[100], *mmparse_doc_data0;
 	FILE *f_structs, *f_funcs, *f_enums, *f_datas, *f_index, *f_cheatsheet;
-	char *css, *name, *header, *cheatsheet;
+	int i, j, cheatsheet_len, len, mmparse_shared_data2_len, mmparse_doc_data0_len;
 	struct docgen_structinfo *structinfo;
 	struct docgen_datainfo *datainfo;
 	struct docgen_enuminfo *enuminfo;
 	struct docgen_funcinfo *funcinfo;
 	struct mmp_output_part *mmpart;
-	int i, j, cheatsheet_len, len;
 	struct idcp_stuff *stuff;
+	struct mmparse *mm, *mm2;
 	struct idcparse *idcp;
-	struct mmparse *mm;
 	struct docgen *dg;
 
 	idcp = malloc(sizeof(struct idcparse));
@@ -1229,7 +1276,7 @@ int main(int argc, char **argv)
 
 	css = docgen_readcss();/*jeanine:r:i:8;*/
 
-	dg = malloc(sizeof(struct docgen));
+	dg = calloc(1, sizeof(struct docgen));
 	assert(((void)"failed to malloc for docgen", dg));
 	memset(dg->struct_member_needs_anchor, 0, sizeof(dg->struct_member_needs_anchor));
 	dg->idcp = idcp;
@@ -1255,7 +1302,6 @@ int main(int argc, char **argv)
 	for (i = 0; i < idcp->num_structs; i++) {
 		dg->structinfos[i].struc = idcp->structs + i;
 		dg->structinfos[i].name_len = strlen(idcp->structs[i].name);
-		dg->structinfos[i].is_class = 0;
 	}
 	dg->num_structinfos = idcp->num_structs;
 	qsort((void*) dg->structinfos, dg->num_structinfos, sizeof(struct docgen_structinfo), docgen_struct_sort_compar);/*jeanine:r:i:4;*/
@@ -1290,23 +1336,80 @@ int main(int argc, char **argv)
 		"</header>\n";
 
 	/*mmparse things*/
+	assert((mmparse_shared_data2 = malloc(mmparse_shared_data2_len = 10000)));
+
 	mm = malloc(sizeof(struct mmparse));
 	assert(((void)"failed to malloc for mm", mm));
 	docgen_readfile(mm->config.debug_subject = "index-source.txt", &mm->config.source, &mm->config.source_len);
 	mm->config.directive_handlers = mmdirectivehandlers;
 	mm->config.modes = mmmodes;
-	assert((mm->config.userdata = calloc(1, sizeof(struct docgen_mmparse_userdata))));
+	mm->config.dest.data2 = mmparse_shared_data2;
+	mm->config.dest.data2_len = mmparse_shared_data2_len;
 	assert((mm->config.dest.data0 = malloc(
 		(mm->config.dest.data0_len = 1000000) +
 		(mm->config.dest.data1_len = 10000) +
-		(mm->config.dest.data2_len = 40000) +
 		(mm->config.dest.data3_len = 10000)
 	)));
 	mm->config.dest.data1 = mm->config.dest.data0 + mm->config.dest.data0_len;
-	mm->config.dest.data2 = mm->config.dest.data1 + mm->config.dest.data1_len;
-	mm->config.dest.data3 = mm->config.dest.data2 + mm->config.dest.data2_len;
+	mm->config.dest.data3 = mm->config.dest.data1 + mm->config.dest.data1_len;
+	assert((mm->config.userdata = calloc(1, sizeof(struct docgen_mmparse_userdata))));
 	((struct docgen_mmparse_userdata*) mm->config.userdata)->dg = dg;
 	mmparse(mm);
+
+	/*mmparse funcs/structs/enums*/
+	/*all their docs need to be parsed before those strucs etc are printed,
+	because otherwise they may get printed without anchors that we only know are needed
+	after parsing their docs.*/
+	assert((mmparse_doc_data0 = malloc(mmparse_doc_data0_len = 70000)));
+	mm2 = malloc(sizeof(struct mmparse));
+	assert(((void)"failed to malloc for mm2", mm2));
+	docgen_readfile(mm2->config.debug_subject = "index-source.txt", &mm2->config.source, &mm2->config.source_len);
+	mm2->config.debug_subject = mmparse_subject;
+	mm2->config.directive_handlers = mmdocdirectivehandlers;
+	mm2->config.modes = mmdocmodes;
+	mm2->config.dest.data0 = mmparse_doc_data0;
+	mm2->config.dest.data0_len = mmparse_doc_data0_len;
+	mm2->config.dest.data1 = NULL;
+	mm2->config.dest.data1_len = 0;
+	mm2->config.dest.data2 = mmparse_shared_data2;
+	mm2->config.dest.data2_len = mmparse_shared_data2_len;
+	mm2->config.dest.data3 = NULL;
+	mm2->config.dest.data3_len = 0;
+	mm2->config.userdata = mm->config.userdata;
+
+	/*funcs*/
+	for (i = 0, funcinfo = dg->funcinfos; i < dg->num_funcinfos; i++, funcinfo++) {
+		if (funcinfo->func->comment) {
+			sprintf(mmparse_subject, "func %X comment", funcinfo->func->addr);
+			mm2->config.source = funcinfo->func->comment;
+			mm2->config.source_len = strlen(funcinfo->func->comment);
+			mmparse(mm2);
+			mmpart = mm2->output;
+			assert(mmpart && mmpart->data0); /*expecting at least one output*/
+			assert(!mmpart->data1_len); /*not expecting this to use placeholders*/
+			funcinfo->parsed_comment = mmpart->data0;
+			funcinfo->parsed_comment_len = mmpart->data0_len;
+			mm2->config.dest.data0 += mmpart->data0_len;
+			mm2->config.dest.data0_len -= mmpart->data0_len;
+			assert(!(++mmpart)->data0); /*expecting just one output, because not expecting placeholders*/
+		}
+		if (funcinfo->func->rep_comment) {
+			sprintf(mmparse_subject, "func %X rep_comment", funcinfo->func->addr);
+			mm2->config.source = funcinfo->func->rep_comment;
+			mm2->config.source_len = strlen(funcinfo->func->rep_comment);
+			mmparse(mm2);
+			mmpart = mm2->output;
+			assert(mmpart && mmpart->data0); /*expecting at least one output*/
+			assert(!mmpart->data1_len); /*not expecting this to use placeholders*/
+			funcinfo->parsed_rep_comment = mmpart->data0;
+			funcinfo->parsed_rep_comment_len = mmpart->data0_len;
+			mm2->config.dest.data0 += mmpart->data0_len;
+			mm2->config.dest.data0_len -= mmpart->data0_len;
+			assert(!(++mmpart)->data0); /*expecting just one output, because not expecting placeholders*/
+		}
+	}
+
+	/*finalize index*/
 	mmparse_process_placeholders(mm);
 	f_index = fopen("index.html", "wb");
 	assert(((void)"failed to open file index.html for writing", f_index));
