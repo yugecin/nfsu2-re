@@ -57,6 +57,14 @@ This whole pre block can be indented,
 the mode will take care of indents and strip them so the outputted formatted code will not be indented.
 
 
+a 'paragraphed' mode to add paragraphs
+--------------------------------------
+To use, add '&mmpextras_mode_paragraphed' in your array of modes.
+
+Paragraphs inside this mode will be wrapped in <p></p> tags; but in order for this to work correctly,
+ensure to leave at least one whitespace line before and after the text block that needs to be paragraphed.
+
+
 a 'section' mode to create sections
 -----------------------------------
 Paragraphs inside sections will be wrapped in <p></p> tags; but in order for this to work correctly,
@@ -160,10 +168,12 @@ struct mmpextras_userdata {
 		struct mmpextras_index_entry entries[50];
 	} index;
 	struct {
-		/**To prevent two or more 'index' links when multiple sections close after each other.*/
-		char needs_index_link_at_bottom;
 		char has_p;
 		char should_open_p;
+	} paragraphed;
+	struct {
+		/**To prevent two or more 'index' links when multiple sections close after each other.*/
+		char needs_index_link_at_bottom;
 		unsigned char current_level;
 		/**If doing a println and this is higher than 'current_level',
 		we need to print continuation breadcrumbs*/
@@ -297,7 +307,72 @@ struct mmp_mode mmpextras_mode_ul = {
 	"ul",
 	MMPARSE_DO_PARSE_LINES
 };
-/*jeanine:p:i:4;p:25;a:r;x:39.86;y:-45.31;*/
+/*jeanine:p:i:6;p:27;a:r;x:3.33;*/
+static
+int mmpextras_line_can_have_paragraph(struct mmparse *mm)
+{
+	register char *tag;
+
+	if (mm->pd.line[0] != '<') {
+		return 1;
+	}
+	tag = mm->pd.line + 1;
+	if (*tag == '/') {
+		tag++;
+	}
+	return *tag != 'h' && *tag != 'p' &&
+		strncmp(tag, "details", 7) &&
+		strncmp(tag, "table", 5) &&
+		strncmp(tag, "ul", 2);
+}
+/*jeanine:p:i:26;p:28;a:r;x:11.11;y:-8.25;*/
+static
+void mmpextras_cb_mode_paragraphed_start(struct mmparse *mm)
+{
+	struct mmpextras_userdata *ud;
+
+	ud = mmpextras_get_userdata(mm);
+	ud->paragraphed.should_open_p = 1;
+}
+/*jeanine:p:i:27;p:28;a:r;x:205.32;*/
+static
+int mmpextras_cb_mode_paragraphed_println(struct mmparse *mm)
+{
+	struct mmpextras_userdata *ud;
+	char is_empty_line;
+	char extra_offset;
+
+	ud = mmpextras_get_userdata(mm);
+	is_empty_line = !mm->pd.line_len;
+	if (is_empty_line) {
+		if (ud->paragraphed.has_p) {
+			ud->paragraphed.has_p = 0;
+			extra_offset = 4;
+			mmparse_append_to_main_output(mm, "</p>", 4);
+		}
+		ud->paragraphed.should_open_p = 1;
+	} else {
+		if (ud->paragraphed.should_open_p) {
+			ud->paragraphed.should_open_p = 0;
+			if (mmpextras_line_can_have_paragraph(mm)) {/*jeanine:r:i:6;*/
+				ud->paragraphed.has_p = 1;
+				extra_offset = 3;
+				mmparse_append_to_main_output(mm, "<p>", 3);
+			}
+		}
+	}
+	return extra_offset + mmparse_cb_mode_normal_println(mm);
+}
+/*jeanine:p:i:28;p:16;a:b;y:40.25;*/
+struct mmp_mode mmpextras_mode_paragraphed = {
+	mmpextras_cb_mode_paragraphed_start,/*jeanine:r:i:26;*/
+	mmpextras_cb_mode_paragraphed_println,/*jeanine:r:i:27;*/
+	mmparse_cb_mode_nop_start_end,
+	mmparse_cb_mode_normal_directive,
+	"paragraphed",
+	MMPARSE_DO_PARSE_LINES
+};
+/*jeanine:p:i:4;p:25;a:r;x:40.30;y:-38.56;*/
 static
 void mmpextras_append_breadcrumbs(struct mmparse *mm, void (*append_func)(void*,struct mmparse*,char*,int), void *append_func_data, int for_index_entry_idx, int is_continuation)
 {
@@ -331,52 +406,33 @@ void mmpextras_append_breadcrumbs(struct mmparse *mm, void (*append_func)(void*,
 	}
 	append_func(append_func_data, mm, "</small></p>", 12);
 }
-/*jeanine:p:i:5;p:17;a:r;x:5.56;y:-39.00;*/
+/*jeanine:p:i:5;p:17;a:r;x:5.56;y:-30.00;*/
 static
 void mmpextras_cb_mode_section_start(struct mmparse *mm)
 {
 	struct mmpextras_userdata *ud;
 
 	ud = mmpextras_get_userdata(mm);
-	ud->section.should_open_p = 1;
+	ud->paragraphed.should_open_p = 1;
 	ud->section.current_level++;
 	assert(ud->section.current_level < MMPEXTRAS_MAX_NESTED_SECTIONS);
 	ud->section.matching_index_entry_idx[ud->section.current_level] = -1;
 	ud->section.last_level_that_had_println = ud->section.current_level;
 	mmparse_append_to_main_output(mm, "<div>", 5);
 }
-/*jeanine:p:i:6;p:24;a:r;x:74.33;*/
-static
-int mmpextras_line_can_have_paragraph(struct mmparse *mm)
-{
-	register char *tag;
-
-	if (mm->pd.line[0] != '<') {
-		return 1;
-	}
-	tag = mm->pd.line + 1;
-	if (*tag == '/') {
-		tag++;
-	}
-	return *tag != 'h' && *tag != 'p' &&
-		strncmp(tag, "details", 7) &&
-		strncmp(tag, "table", 5) &&
-		strncmp(tag, "ul", 2);
-}
-/*jeanine:p:i:7;p:24;a:r;x:74.96;*/
+/*jeanine:p:i:7;p:24;a:r;x:68.17;*/
 static
 void mmpextras_breadcrumb_append_func_from_println(void *data, struct mmparse *mm, char *buf, int len)
 {
 	*((int*) data) += len;
 	mmparse_append_to_main_output(mm, buf, len);
 }
-/*jeanine:p:i:24;p:17;a:r;x:5.56;y:-23.00;*/
+/*jeanine:p:i:24;p:17;a:r;x:5.56;y:-14.00;*/
 static
 int mmpextras_cb_mode_section_println(struct mmparse *mm)
 {
 	struct mmpextras_userdata *ud;
 	int index_entry_idx;
-	char is_empty_line;
 	char extra_offset;
 
 	ud = mmpextras_get_userdata(mm);
@@ -393,27 +449,9 @@ int mmpextras_cb_mode_section_println(struct mmparse *mm)
 		mmpextras_append_breadcrumbs(mm, mmpextras_breadcrumb_append_func_from_println, &extra_offset, index_entry_idx, 1);/*jeanine:r:i:7;:s:a:r;i:4;*/
 	}
 
-	is_empty_line = !mm->pd.line_len;
-	if (is_empty_line) {
-		if (ud->section.has_p) {
-			ud->section.has_p = 0;
-			extra_offset += 4;
-			mmparse_append_to_main_output(mm, "</p>", 4);
-		}
-		ud->section.should_open_p = 1;
-	} else {
-		if (ud->section.should_open_p) {
-			ud->section.should_open_p = 0;
-			if (mmpextras_line_can_have_paragraph(mm)) {/*jeanine:r:i:6;*/
-				ud->section.has_p = 1;
-				extra_offset += 3;
-				mmparse_append_to_main_output(mm, "<p>", 3);
-			}
-		}
-	}
-	return extra_offset + mmparse_cb_mode_normal_println(mm);
+	return extra_offset + mmpextras_cb_mode_paragraphed_println(mm);/*jeanine:s:a:r;i:27;*/
 }
-/*jeanine:p:i:8;p:17;a:r;x:5.56;y:21.00;*/
+/*jeanine:p:i:8;p:17;a:r;x:5.56;y:12.00;*/
 static
 void mmpextras_cb_mode_section_end(struct mmparse *mm)
 {
@@ -428,7 +466,7 @@ void mmpextras_cb_mode_section_end(struct mmparse *mm)
 		mmparse_append_to_main_output(mm, "</div>", 6);
 	}
 }
-/*jeanine:p:i:17;p:16;a:b;y:69.81;*/
+/*jeanine:p:i:17;p:28;a:b;y:38.88;*/
 struct mmp_mode mmpextras_mode_section = {
 	mmpextras_cb_mode_section_start,/*jeanine:r:i:5;*/
 	mmpextras_cb_mode_section_println,/*jeanine:r:i:24;*/
@@ -530,7 +568,7 @@ void mmpextras_cb_placeholder_section_breadcrumbs(struct mmparse *mm, struct mmp
 	entry_idx = *((int*) data);
 	mmpextras_append_breadcrumbs(mm, mmpextras_breadcrumb_append_func_from_placeholder, output, entry_idx, 0);/*jeanine:r:i:4;:r:i:22;*/
 }
-/*jeanine:p:i:23;p:17;a:b;y:36.77;*/
+/*jeanine:p:i:23;p:17;a:b;y:28.27;*/
 static
 enum mmp_dir_content_action mmpextras_dir_h(struct mmparse *mm, struct mmp_dir_content_data *data)
 {
