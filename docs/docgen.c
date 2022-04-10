@@ -55,6 +55,7 @@ struct docgen_datainfo {
 
 struct docgen {
 	char struct_member_needs_anchor[IDCP_MAX_TOTAL_STRUCT_MEMBERS];
+	char enum_member_needs_anchor[IDCP_MAX_TOTAL_ENUM_MEMBERS];
 	struct idcparse *idcp;
 	int num_structinfos;
 	struct docgen_structinfo *structinfos;
@@ -89,6 +90,44 @@ int docgen_parse_addr(char *addr, int len)
 	}
 	return res;
 }
+/*jeanine:p:i:63;p:57;a:r;x:8.89;*/
+static
+int docgen_parse_val(int *output, char *val, int len)
+{
+	register char c;
+
+	*output = 0;
+	if (len > 2 && val[0] == '0' && (val[1] | 0x20) == 'x') {
+		val += 2;
+		len -= 2;
+		while (len--) {
+			*output <<= 4;
+			c = *(val++);
+			if ('0' <= c && c <= '9') {
+				*output |= c - '0';
+			} else if ('a' <= c && c <= 'f') {
+				*output |= c - 'a' + 10;
+			} else if ('A' <= c && c <= 'F') {
+				*output |= c - 'A' + 10;
+			} else {
+				fprintf(stderr, "bad val char '%c'\n", c);
+				return 0;
+			}
+		}
+	} else {
+		while (len--) {
+			*output <<= 4;
+			c = *(val++);
+			if ('0' <= c && c <= '9') {
+				*output |= c - '0';
+			} else {
+				fprintf(stderr, "bad val char '%c'\n", c);
+				return 0;
+			}
+		}
+	}
+	return 1;
+}
 /*jeanine:p:i:20;p:0;a:b;x:-113.33;y:12.10;*/
 static
 struct docgen_structinfo* docgen_find_struct(struct docgen *dg, char *name, int len)
@@ -105,14 +144,13 @@ struct docgen_structinfo* docgen_find_struct(struct docgen *dg, char *name, int 
 }
 
 static
-struct docgen_enuminfo* docgen_find_enum(struct docgen *dg, char *name)
+struct docgen_enuminfo* docgen_find_enum(struct docgen *dg, char *name, int len)
 {
 	struct docgen_enuminfo *enuminfo;
-	int i, len;
+	int i;
 
-	len = strlen(name);
 	for (i = 0, enuminfo = dg->enuminfos; i < dg->num_enuminfos; i++, enuminfo++) {
-		if (len == enuminfo->name_len && !strcmp(name, enuminfo->enu->name)) {
+		if (len == enuminfo->name_len && !strncmp(name, enuminfo->enu->name, len)) {
 			return enuminfo;
 		}
 	}
@@ -178,6 +216,7 @@ void docgen_get_func_friendlyname(char *dest, char *name)
 /*jeanine:p:i:57;p:56;a:r;x:3.33;*/
 struct docgen_ref {
 	struct idcp_struct_member *strucmember;
+	struct idcp_enum_member *enumember;
 	struct idcp_struct *struc;
 	struct idcp_stuff *func;
 	struct idcp_stuff *data;
@@ -194,17 +233,44 @@ If none of the members are set, the reference couldn't be resolved.
 static
 void docgen_resolve_ref(struct docgen *dg, struct docgen_ref *result, char *ref, int len)
 {
-	int min, max, idx, current, addr, num_members;
+	int min, max, idx, current, addr, val, num_members;
 	struct docgen_structinfo *structinfo;
+	struct idcp_struct_member *strumem;
 	struct docgen_enuminfo *enuminfo;
-	struct idcp_struct_member *mem;
+	struct idcp_enum_member *enumem;
 	struct idcp_struct *struc;
 	struct idcp_stuff *stuff;
-	char *plus;
+	struct idcp_enum *enu;
+	char *plus, *fslash;
 
 	memset(result, 0, sizeof(struct docgen_ref));
 
-	if (len > 7 && !strncmp("struct ", ref, 7)) {
+	if (len > 5 && !strncmp("enum ", ref, 5)) {
+		fslash = strstr(ref + 5, "/");
+		if (fslash) {
+			enuminfo = docgen_find_enum(dg, ref + 5, (fslash - ref) - 5);
+		} else {
+			enuminfo = docgen_find_enum(dg, ref + 5, len - 5);
+		}
+		if (enuminfo) {
+			result->enu = enuminfo->enu;
+			if (fslash) {
+				if (docgen_parse_val(&val, fslash + 1, len - (fslash - ref) - 1)) {/*jeanine:r:i:63;*/
+					enu = enuminfo->enu;
+					num_members = enu->end_idx - enu->start_idx;
+					enumem = dg->idcp->enum_members + enu->start_idx;
+					for (; num_members; num_members--, enumem++) {
+						if (enumem->value == val) {
+							dg->enum_member_needs_anchor[enumem - dg->idcp->enum_members] = 1;
+							result->enumember = enumem;
+							return;
+						}
+					}
+				}
+				result->enu = NULL;
+			}
+		}
+	} else if (len > 7 && !strncmp("struct ", ref, 7)) {
 		plus = strstr(ref + 7, "+");
 		if (plus) {
 			structinfo = docgen_find_struct(dg, ref + 7, (plus - ref) - 7);
@@ -215,26 +281,20 @@ void docgen_resolve_ref(struct docgen *dg, struct docgen_ref *result, char *ref,
 			result->struc = structinfo->struc;
 			if (plus) {
 				addr = docgen_parse_addr(plus + 1, len - (plus - ref) - 1);/*jeanine:s:a:r;i:39;*/
-				if (addr == -1) {
-					result->struc = NULL;
-					return;
-				}
-				struc = structinfo->struc;
-				num_members = struc->end_idx - struc->start_idx;
-				mem = dg->idcp->struct_members + struc->start_idx;
-				for (; num_members; num_members--, mem++) {
-					if (mem->offset == addr) {
-						dg->struct_member_needs_anchor[mem - dg->idcp->struct_members] = 1;
-						result->strucmember = mem;
+				if (addr != -1) {
+					struc = structinfo->struc;
+					num_members = struc->end_idx - struc->start_idx;
+					strumem = dg->idcp->struct_members + struc->start_idx;
+					for (; num_members; num_members--, strumem++) {
+						if (strumem->offset == addr) {
+							dg->struct_member_needs_anchor[strumem - dg->idcp->struct_members] = 1;
+							result->strucmember = strumem;
+							return;
+						}
 					}
 				}
+				result->struc = NULL;
 			}
-		}
-		return;
-	} else if (len > 5 && !strncmp("enum ", ref, 5)) {
-		enuminfo = docgen_find_enum(dg, ref + 5);
-		if (enuminfo) {
-			result->enu = enuminfo->enu;
 		}
 	} else {
 		/*Binary search will work as long as the 'new_addr > addr'
@@ -412,7 +472,7 @@ int docgen_link_structs_enums(struct docgen *dg, struct docgen_tmpbuf **tmpbuf)
 				*n = c = *end;
 			} while (c != ' ' && c != ')' && c != '*' && c != '[');
 			*n = 0;
-			if (docgen_find_enum(dg, name)) {
+			if (docgen_find_enum(dg, name, strlen(name))) {
 				bufp += sprintf(bufp, "<a href='enums.html#enu_%s'>enum %s</a>", name, name);
 			} else {
 				hasunknown = 1;
@@ -822,6 +882,9 @@ void docgen_print_enum(FILE *f, struct docgen *dg, struct docgen_enuminfo *enumi
 	fprintf(f, "<pre id='enu_%s'>enum <h3>%s</h3> { <i>/*%d members*/</i>\n", enu->name, enu->name, num_members);
 	mem = dg->idcp->enum_members + enu->start_idx;
 	for (; num_members; num_members--, mem++) {
+		if (dg->enum_member_needs_anchor[mem - dg->idcp->enum_members]) {
+			fprintf(f, "<i id='enu_%s%X'></i>", enu->name, mem->value);
+		}
 		if (mem->comment) {
 			if (mem->rep_comment) {
 				/*TODO: mmparse*/
@@ -955,6 +1018,14 @@ void docgen_append_ref_text(struct mmparse *mm, void (*append_func)(struct mmpar
 		append_func(mm, res.struc->name, len);
 		append_func(mm, "'>struct ", 9);
 		append_func(mm, res.struc->name, len);
+		append_func(mm, "</a>", 4);
+	} else if (res.enumember) {
+		append_func(mm, "<a class='enum' href='enums.html#enu_", 37);
+		append_func(mm, res.enu->name, strlen(res.enu->name));
+		len = sprintf(addr, "%X", res.enumember->value);
+		append_func(mm, addr, len);
+		append_func(mm, "'>", 2);
+		append_func(mm, res.enumember->name, strlen(res.enumember->name));
 		append_func(mm, "</a>", 4);
 	} else if (res.enu) {
 		len = strlen(res.enu->name);
