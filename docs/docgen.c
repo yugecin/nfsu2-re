@@ -1221,7 +1221,7 @@ int main(int argc, char **argv)
 	};
 	struct mmp_dir_handler mmdocdirectivehandlers[] = {
 		{ "hookfileref", docgen_mmparse_dir_hookfileref },
-		{ "ref", docgen_mmparse_dir_ref },
+		{ "ref", docgen_mmparse_dir_ref },/*jeanine:s:a:r;i:61;*/
 		{ "href", mmpextras_dir_href },
 		{ "a", mmpextras_dir_a },
 		{ NULL, NULL }
@@ -1316,6 +1316,7 @@ int main(int argc, char **argv)
 
 	/*mmparse things*/
 	memset(&mmpextras_shared_ud, 0, sizeof(mmpextras_shared_ud));
+	assert(mmpextras_shared_ud.config.strpool = malloc(mmpextras_shared_ud.config.strpool_len = 5000));
 	assert((mmparse_shared_data2 = malloc(mmparse_shared_data2_len = 10000)));
 
 	mm = malloc(sizeof(struct mmparse));

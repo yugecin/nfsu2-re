@@ -14,8 +14,8 @@ struct mmpextras_userdata *mmpextras_get_userdata(struct mmparse *mm)
 The 'shared' member of struct mmpextras_userdata must also be allocated and is
 supposed to be shared with each instance of mmparse that is meant to use mmpextras.
 
-All of this should be zero inited, and the 'config' member should be inited
-(in some cases, which are asserted, so it's not needed to be filled in until an error comes up).
+All of this should be zero inited,
+and both the 'mmpextras.config' and 'mmpextras.shared.config' members should be inited.
 
 
 function mmpextras_find_directive_argument
@@ -224,11 +224,11 @@ struct mmp_dir_arg *mmpextras_require_directive_argument(struct mmparse *mm, str
 }
 /*jeanine:p:i:3;p:2;a:b;y:1.88;*/
 struct mmpextras_anchor {
-	char file[50];
+	char *file;
 	int file_len;
-	char id[50];
+	char *id;
 	int id_len;
-	char link_text[50];
+	char *link_text;
 	int link_text_len;
 };
 struct mmpextras_index_entry {
@@ -236,6 +236,16 @@ struct mmpextras_index_entry {
 	struct mmpextras_anchor *anchor;
 };
 struct mmpextras_shared {
+	struct {
+		/**uninitialized memory that will be used for data
+		WARNING: this value will be changed by mmparse usage, so don't depend on this
+		variable for getting it back later and freeing the memory or something like that.*/
+		char *strpool;
+		/**size of 'strpool'
+		WARNING: this value will be changed by mmparse usage, so don't depend on this
+		variable for getting it back later and freeing the memory or something like that.*/
+		int strpool_len;
+	} config;
 #define MMPEXTRAS_MAX_ANCHORS 50
 	struct mmpextras_anchor anchors[MMPEXTRAS_MAX_ANCHORS];
 	int num_anchors;
@@ -283,6 +293,24 @@ struct mmpextras_userdata {
 	struct mmpextras_shared *shared;
 };
 static struct mmpextras_userdata *mmpextras_get_userdata(struct mmparse *mm);
+/*jeanine:p:i:38;p:31;a:r;x:10.00;y:2.00;*/
+static
+void *mmpextras_copy_into_strpool(struct mmparse *mm, int size, void *initdata)
+{
+	register struct mmpextras_shared *sud;
+	void *data;
+
+	sud = mmpextras_get_userdata(mm)->shared;
+	if (size > sud->config.strpool_len) {
+		mmparse_failmsg(mm, "increase the size of 'mmpextras.shared.config.strpool'");
+		assert(0);
+	}
+	data = sud->config.strpool;
+	sud->config.strpool += size;
+	sud->config.strpool_len -= size;
+	memcpy(data, initdata, size);
+	return data;
+}
 /*jeanine:p:i:9;p:15;a:r;x:5.56;y:-21.00;*/
 static
 void mmpextras_cb_mode_pre_start(struct mmparse *mm)
@@ -637,11 +665,11 @@ struct mmpextras_anchor *mmpextras_register_anchor(struct mmparse *mm, char *id,
 	assert(((void)"increate MMPEXTRAS_MAX_ANCHORS", ud->shared->num_anchors < MMPEXTRAS_MAX_ANCHORS));
 	anchor = sud->anchors + sud->num_anchors++;
 	anchor->file_len = ud->config.target_file_len;
-	memcpy(anchor->file, ud->config.target_file, ud->config.target_file_len);
+	anchor->file = mmpextras_copy_into_strpool(mm, ud->config.target_file_len, ud->config.target_file);/*jeanine:r:i:38;*/
 	anchor->id_len = id_len;
-	memcpy(anchor->id, id, id_len);
+	anchor->id = mmpextras_copy_into_strpool(mm, id_len, id);/*jeanine:s:a:r;i:38;*/
 	anchor->link_text_len = link_text_len;
-	memcpy(anchor->link_text, link_text, link_text_len);
+	anchor->link_text = mmpextras_copy_into_strpool(mm, link_text_len, link_text);/*jeanine:s:a:r;i:38;*/
 	return anchor;
 }
 /*jeanine:p:i:30;p:23;a:b;y:1.88;*/
