@@ -1161,30 +1161,6 @@ struct mmp_mode mmparse_mode_ida = {
 	"ida",
 	MMPARSE_DO_PARSE_LINES
 };
-/*jeanine:p:i:62;p:58;a:r;x:51.33;y:-38.88;*/
-static
-enum mmp_dir_content_action docgen_mmparse_dir_href(struct mmparse *mm, struct mmp_dir_content_data *data)
-{
-	struct mmpextras_index_entry *entry;
-	struct mmpextras_userdata *ud;
-	int i;
-
-	ud = mmpextras_get_userdata(mm);
-	for (i = ud->index.num_entries, entry = ud->index.entries; i; i--, entry++) {
-		if (!strcmp(entry->id, data->contents)) {
-			/*TODO: change this when renaming index.html*/
-			mmparse_append_to_expanded_line(mm, "<a href='index.html#", 20);
-			mmparse_append_to_expanded_line(mm, entry->id, entry->id_len);
-			mmparse_append_to_expanded_line(mm, "'>", 2);
-			mmparse_append_to_expanded_line(mm, entry->name, entry->name_len);
-			mmparse_append_to_expanded_line(mm, "</a>", 4);
-			return DELETE_CONTENTS;
-		}
-	}
-	mmparse_failmsgf(mm, "cannot find a header with id '%s'", data->contents);
-	assert(0);
-	return LEAVE_CONTENTS;
-}
 /*jeanine:p:i:59;p:61;a:r;x:96.73;*/
 static
 void docgen_mmparse_dir_ref_append(struct mmparse *mm, char *buf, int len)
@@ -1224,6 +1200,7 @@ int main(int argc, char **argv)
 {
 	struct mmp_dir_handler mmdirectivehandlers[] = {
 		{ "hookfileref", docgen_mmparse_dir_hookfileref },/*jeanine:r:i:42;*/
+		{ "anchor", mmpextras_dir_anchor },
 		{ "ref", docgen_mmparse_dir_ref },/*jeanine:r:i:61;*/
 		{ "index", mmpextras_dir_index },
 		{ "href", mmpextras_dir_href },
@@ -1244,8 +1221,8 @@ int main(int argc, char **argv)
 	};
 	struct mmp_dir_handler mmdocdirectivehandlers[] = {
 		{ "hookfileref", docgen_mmparse_dir_hookfileref },
-		{ "href", docgen_mmparse_dir_href },/*jeanine:r:i:62;*/
 		{ "ref", docgen_mmparse_dir_ref },
+		{ "href", mmpextras_dir_href },
 		{ "a", mmpextras_dir_a },
 		{ NULL, NULL }
 	};
@@ -1260,7 +1237,9 @@ int main(int argc, char **argv)
 	char *css, *name, *header, *cheatsheet, *mmparse_shared_data2, mmparse_subject[100], *mmparse_doc_data0;
 	FILE *f_structs, *f_funcs, *f_enums, *f_datas, *f_index, *f_cheatsheet;
 	int i, j, cheatsheet_len, len, mmparse_shared_data2_len, mmparse_doc_data0_len;
+	struct mmpextras_shared mmpextras_shared_ud;
 	struct docgen_structinfo *structinfo;
+	struct docgen_mmparse_userdata *ud;
 	struct docgen_datainfo *datainfo;
 	struct docgen_enuminfo *enuminfo;
 	struct docgen_funcinfo *funcinfo;
@@ -1336,6 +1315,7 @@ int main(int argc, char **argv)
 		"</header>\n";
 
 	/*mmparse things*/
+	memset(&mmpextras_shared_ud, 0, sizeof(mmpextras_shared_ud));
 	assert((mmparse_shared_data2 = malloc(mmparse_shared_data2_len = 10000)));
 
 	mm = malloc(sizeof(struct mmparse));
@@ -1353,7 +1333,11 @@ int main(int argc, char **argv)
 	mm->config.dest.data1 = mm->config.dest.data0 + mm->config.dest.data0_len;
 	mm->config.dest.data3 = mm->config.dest.data1 + mm->config.dest.data1_len;
 	assert((mm->config.userdata = calloc(1, sizeof(struct docgen_mmparse_userdata))));
-	((struct docgen_mmparse_userdata*) mm->config.userdata)->dg = dg;
+	ud = mm->config.userdata;
+	ud->dg = dg;
+	ud->mmpextras.config.target_file = "index.html";
+	ud->mmpextras.config.target_file_len = 10;
+	ud->mmpextras.shared = &mmpextras_shared_ud;
 	mmparse(mm);
 
 	/*mmparse funcs/structs/enums*/
@@ -1376,8 +1360,15 @@ int main(int argc, char **argv)
 	mm2->config.dest.data3 = NULL;
 	mm2->config.dest.data3_len = 0;
 	mm2->config.userdata = mm->config.userdata;
+	assert((mm2->config.userdata = calloc(1, sizeof(struct docgen_mmparse_userdata))));
+	ud = mm2->config.userdata;
+	ud->dg = dg;
+	ud->mmpextras.shared = &mmpextras_shared_ud;
 
 	/*funcs*/
+	ud->mmpextras.config.target_file = "funcs.html";
+	ud->mmpextras.config.target_file_len = 10;
+	ud->mmpextras.config.href_output_immediately = 1;
 	for (i = 0, funcinfo = dg->funcinfos; i < dg->num_funcinfos; i++, funcinfo++) {
 		if (funcinfo->func->comment) {
 			sprintf(mmparse_subject, "func %X comment", funcinfo->func->addr);

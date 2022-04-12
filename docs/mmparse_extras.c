@@ -11,6 +11,12 @@ struct mmpextras_userdata *mmpextras_get_userdata(struct mmparse *mm)
 	return &((struct my_userdata_struct*) mm->config.userdata)->mmpextras;
 }
 
+The 'shared' member of struct mmpextras_userdata must also be allocated and is
+supposed to be shared with each instance of mmparse that is meant to use mmpextras.
+
+All of this should be zero inited, and the 'config' member should be inited
+(in some cases, which are asserted, so it's not needed to be filled in until an error comes up).
+
 
 function mmpextras_find_directive_argument
 ------------------------------------------
@@ -139,7 +145,53 @@ And three
 and we're back in level one
 
 .popmode section
+
+
+'anchor' and 'href' directives to link to positions
+---------------------------------------------------
+To use,  add '{ "anchor", mmpextras_dir_anchor }' and '{ "href", mmpextras_dir_href }' in your array of directives,
+and make sure to configure 'mmpextras.config.target_file' and 'mmpextras.config.target_file_len' in
+the userdata.
+
+{myanchor} ||| anchor
+{link to important stuff} ||| href id=myanchor
+result:
+<span id='myanchor'></span>
+<a href='#myanchor'>link to important stuff</a>
+
+{link to important stuff} ||| href id=otherpage.html#myanchor
+result:
+<a href='otherpage.html#myanchor'>link to important stuff</a>
+
+{some text} ||| anchor id=myanchor
+{otherpage.html#myanchor} ||| href
+result:
+<span id='myanchor'></span>some text
+<a href='otherpage.html#myanchor'>some text</a>
+
+With use of 'section' mode and 'h' directive:
+{Section Title} ||| h id=mysection
+{mysection} ||| href
+result:
+(output of h directive)
+<a href='#mysection'>Section Title</a>
+
+When 'mmpextras.config.href_output_immediately' is set to 1, no placeholders will be used when processing href
+directives. That also mean it will only work if the anchor being referenced was created before the href is
+being processed.
 */
+/*jeanine:p:i:35;p:21;a:r;x:4.50;y:-9.59;*/
+static
+void mmpextras_append_to_expanded_line(void *data, struct mmparse *mm, char *buf, int len)
+{
+	mmparse_append_to_expanded_line(mm, buf, len);
+}
+/*jeanine:p:i:36;p:34;a:r;x:7.02;y:-14.72;*/
+static
+void mmpextras_append_to_placeholder_output(void *output, struct mmparse *mm, char *buf, int len)
+{
+	mmparse_append_to_placeholder_output(mm, output, buf, len);
+}
 /*jeanine:p:i:1;p:0;a:b;y:1.88;*/
 static
 struct mmp_dir_arg *mmpextras_find_directive_argument(struct mmp_dir *dir, char *name)
@@ -171,14 +223,33 @@ struct mmp_dir_arg *mmpextras_require_directive_argument(struct mmparse *mm, str
 	return arg;
 }
 /*jeanine:p:i:3;p:2;a:b;y:1.88;*/
+struct mmpextras_anchor {
+	char file[50];
+	int file_len;
+	char id[50];
+	int id_len;
+	char link_text[50];
+	int link_text_len;
+};
 struct mmpextras_index_entry {
 	int level;
-	char name_len;
-	char name[50];
-	char id_len;
-	char id[30];
+	struct mmpextras_anchor *anchor;
+};
+struct mmpextras_shared {
+#define MMPEXTRAS_MAX_ANCHORS 50
+	struct mmpextras_anchor anchors[MMPEXTRAS_MAX_ANCHORS];
+	int num_anchors;
 };
 struct mmpextras_userdata {
+	struct {
+		/**the file where the source being parsed will end up in,
+		so links (for 'anchor' and 'href') can link to the correct page*/
+		char *target_file;
+		/**length of string in 'target_file'*/
+		int target_file_len;
+		/**if 1, the href directive will print to appended_line instead of using placeholders*/
+		char href_output_immediately;
+	} config;
 	struct {
 		int num_entries;
 		struct mmpextras_index_entry entries[50];
@@ -207,6 +278,9 @@ struct mmpextras_userdata {
 		char li_open[MMPEXTRAS_MAX_NEXTED_UL];
 		unsigned char level;
 	} ul;
+	/**This member is supposed to be allocated and shared with all userdata
+	instances for each mmparse instance that want to use features of mmpextras.*/
+	struct mmpextras_shared *shared;
 };
 static struct mmpextras_userdata *mmpextras_get_userdata(struct mmparse *mm);
 /*jeanine:p:i:9;p:15;a:r;x:5.56;y:-21.00;*/
@@ -399,26 +473,26 @@ void mmpextras_append_breadcrumbs(struct mmparse *mm, void (*append_func)(void*,
 	ud = mmpextras_get_userdata(mm);
 	entry = ud->index.entries + for_index_entry_idx;
 	append_func(append_func_data, mm, "<p id='", 7);
-	append_func(append_func_data, mm, entry->id, entry->id_len);
+	append_func(append_func_data, mm, entry->anchor->id, entry->anchor->id_len);
 	append_func(append_func_data, mm, "'><small># ", 11);
 	level = entry->level;
 	while (level--) {
 		while ((--entry)->level != level);
 		append_func(append_func_data, mm, "<a href='#", 10);
-		append_func(append_func_data, mm, entry->id, entry->id_len);
+		append_func(append_func_data, mm, entry->anchor->id, entry->anchor->id_len);
 		append_func(append_func_data, mm, "'>", 2);
-		append_func(append_func_data, mm, entry->name, entry->name_len);
+		append_func(append_func_data, mm, entry->anchor->link_text, entry->anchor->link_text_len);
 		append_func(append_func_data, mm, "</a> > ", 7);
 		entry = ud->index.entries + for_index_entry_idx;
 	}
 	if (is_continuation) {
 		append_func(append_func_data, mm, "<a href='#", 10);
-		append_func(append_func_data, mm, entry->id, entry->id_len);
+		append_func(append_func_data, mm, entry->anchor->id, entry->anchor->id_len);
 		append_func(append_func_data, mm, "'>", 2);
-		append_func(append_func_data, mm, entry->name, entry->name_len);
+		append_func(append_func_data, mm, entry->anchor->link_text, entry->anchor->link_text_len);
 		append_func(append_func_data, mm, "</a> (continuation)", 19);
 	} else {
-		append_func(append_func_data, mm, entry->name, entry->name_len);
+		append_func(append_func_data, mm, entry->anchor->link_text, entry->anchor->link_text_len);
 	}
 	append_func(append_func_data, mm, "</small></p>", 12);
 }
@@ -521,53 +595,194 @@ void mmpextras_cb_placeholder_index(struct mmparse *mm, struct mmp_output_part *
 		}
 		last_level = level;
 		mmparse_append_to_placeholder_output(mm, output, "<li><a href='#", 14);
-		mmparse_append_to_placeholder_output(mm, output, entry->id, entry->id_len);
+		mmparse_append_to_placeholder_output(mm, output, entry->anchor->id, entry->anchor->id_len);
 		mmparse_append_to_placeholder_output(mm, output, "'>", 2);
-		mmparse_append_to_placeholder_output(mm, output, entry->name, entry->name_len);
+		mmparse_append_to_placeholder_output(mm, output, entry->anchor->link_text, entry->anchor->link_text_len);
 		mmparse_append_to_placeholder_output(mm, output, "</a>", 4);
 	}
 	mmparse_append_to_placeholder_output(mm, output, "</ul>\n", 6);
 }
-/*jeanine:p:i:19;p:21;a:b;y:19.24;*/
+/*jeanine:p:i:19;p:21;a:b;y:1.88;*/
 static
 enum mmp_dir_content_action mmpextras_dir_index(struct mmparse *mm, struct mmp_dir_content_data *data)
 {
 	mmparse_allocate_placeholder(mm, mmpextras_cb_placeholder_index, 0);/*jeanine:r:i:18;*/
 	return LEAVE_CONTENTS;
 }
-/*jeanine:p:i:20;p:21;a:r;x:3.33;*/
+/*jeanine:p:i:31;p:23;a:r;x:25.22;y:18.13;*/
 static
-void mmpextras_cb_placeholder_href(struct mmparse *mm, struct mmp_output_part *output, void *data, int data_size)
+struct mmpextras_anchor *mmpextras_register_anchor(struct mmparse *mm, char *id, int id_len, char *link_text, int link_text_len)
 {
-	struct mmpextras_index_entry *entry;
-	struct mmpextras_userdata *ud;
-	char *ref_id;
+	register struct mmpextras_anchor *anchor;
+	register struct mmpextras_userdata *ud;
+	register struct mmpextras_shared *sud;
+	char *errbuf;
 	int i;
 
-	ref_id = data;
 	ud = mmpextras_get_userdata(mm);
-	for (i = ud->index.num_entries, entry = ud->index.entries; i; i--, entry++) {
-		if (!strcmp(entry->id, ref_id)) {
-			mmparse_append_to_placeholder_output(mm, output, "<a href='#", 10);
-			mmparse_append_to_placeholder_output(mm, output, entry->id, entry->id_len);
-			mmparse_append_to_placeholder_output(mm, output, "'>", 2);
-			mmparse_append_to_placeholder_output(mm, output, entry->name, entry->name_len);
-			mmparse_append_to_placeholder_output(mm, output, "</a>", 4);
-			return;
+	sud = ud->shared;
+	for (i = sud->num_anchors, anchor = sud->anchors; i > 0; i--, anchor++) {
+		if (anchor->file_len == ud->config.target_file_len &&
+			anchor->id_len == id_len &&
+			!strncmp(anchor->id, id, id_len) &&
+			!strncmp(anchor->file, ud->config.target_file, anchor->file_len))
+		{
+			errbuf = alloca(id_len + 1);
+			errbuf[id_len] = 0;
+			memcpy(errbuf, id, id_len);
+			mmparse_failmsgf(mm, "duplicate anchor '%s'", errbuf);
+			assert(0);
 		}
 	}
-	mmparse_failmsgf(mm, "cannot find a header with id '%s'", ref_id);
+	assert(((void)"increate MMPEXTRAS_MAX_ANCHORS", ud->shared->num_anchors < MMPEXTRAS_MAX_ANCHORS));
+	anchor = sud->anchors + sud->num_anchors++;
+	anchor->file_len = ud->config.target_file_len;
+	memcpy(anchor->file, ud->config.target_file, ud->config.target_file_len);
+	anchor->id_len = id_len;
+	memcpy(anchor->id, id, id_len);
+	anchor->link_text_len = link_text_len;
+	memcpy(anchor->link_text, link_text, link_text_len);
+	return anchor;
+}
+/*jeanine:p:i:30;p:23;a:b;y:1.88;*/
+static
+enum mmp_dir_content_action mmpextras_dir_anchor(struct mmparse *mm, struct mmp_dir_content_data *data)
+{
+	register struct mmpextras_anchor *anchor;
+	register struct mmpextras_userdata *ud;
+	register struct mmp_dir_arg *id_arg;
+
+	ud = mmpextras_get_userdata(mm);
+	if (!ud->config.target_file || !ud->config.target_file_len) {
+		mmparse_failmsg(mm,
+			"to use the 'anchor' directive, "
+			"'mmparse_extras.config.target_file' and "
+			"'mmparse_extras.config.target_file_len' must be set"
+		);
+		assert(0);
+	}
+	id_arg = mmpextras_find_directive_argument(data->directive, "id");
+	if (id_arg) {
+		anchor = mmpextras_register_anchor(mm, id_arg->value, id_arg->value_len, data->contents, data->content_len);/*jeanine:s:a:r;i:31;*/
+	} else {
+		anchor = mmpextras_register_anchor(mm, data->contents, data->content_len, NULL, 0);/*jeanine:s:a:r;i:31;*/
+	}
+	mmparse_append_to_expanded_line(mm, "<span id='", 10);
+	mmparse_append_to_expanded_line(mm, anchor->id, anchor->id_len);
+	mmparse_append_to_expanded_line(mm, "'></span>", 9);
+	return id_arg ? LEAVE_CONTENTS : DELETE_CONTENTS;
+}
+/*jeanine:p:i:32;p:21;a:r;x:296.78;*/
+static
+struct mmpextras_anchor *mmpextras_do_href_base(struct mmparse *mm, void (*append_func)(void*,struct mmparse*,char*,int), void *append_func_data, char *ref, int ref_len)
+{
+	char *file, *id, *errbuf, *pound;
+	struct mmpextras_anchor *anchor;
+	int i, file_len, id_len, xfile;
+	struct mmpextras_userdata *ud;
+
+	ud = mmpextras_get_userdata(mm);
+	if (!ud->config.target_file || !ud->config.target_file_len) {
+		mmparse_failmsg(mm,
+			"to use the 'anchor' directive, "
+			"'mmparse_extras.config.target_file' and "
+			"'mmparse_extras.config.target_file_len' must be set"
+		);
+		assert(0);
+	}
+	pound = strstr(ref, "#");
+	if (pound) {
+		file = ref;
+		file_len = pound - ref;
+		id = pound + 1;
+		id_len = ref_len - (id - ref);
+		xfile = 1;
+	} else {
+		file = ud->config.target_file;
+		file_len = ud->config.target_file_len;
+		id = ref;
+		id_len = ref_len;
+		xfile = 0;
+	}
+	for (i = ud->shared->num_anchors, anchor = ud->shared->anchors; i > 0; i--, anchor++) {
+		if (anchor->file_len == file_len &&
+			anchor->id_len == id_len &&
+			!strncmp(anchor->id, id, id_len) &&
+			!strncmp(anchor->file, file, file_len))
+		{
+			if (xfile) {
+				append_func(append_func_data, mm, "<a href='", 9);
+				append_func(append_func_data, mm, anchor->file, anchor->file_len);
+				append_func(append_func_data, mm, "#", 1);
+			} else {
+				append_func(append_func_data, mm, "<a href='#", 10);
+			}
+			append_func(append_func_data, mm, anchor->id, anchor->id_len);
+			append_func(append_func_data, mm, "'>", 2);
+			return anchor;
+		}
+	}
+	errbuf = alloca(id_len + 1);
+	errbuf[id_len] = 0;
+	memcpy(errbuf, id, id_len);
+	mmparse_failmsgf(mm, "can't find anchor '%s'", errbuf);
 	assert(0);
+	return NULL; /*make gcc -Wall happy*/
+}
+/*jeanine:p:i:34;p:21;a:r;x:4.43;*/
+static
+void mmpextras_cb_placeholder_href_notext(struct mmparse *mm, struct mmp_output_part *output, void *data, int data_size)
+{
+	mmpextras_do_href_base(mm, mmpextras_append_to_placeholder_output, output, data, data_size - 1);/*jeanine:r:i:36;:s:a:r;i:32;*/
+}
+/*jeanine:p:i:33;p:21;a:r;x:134.67;*/
+static
+void mmpextras_href_yestext_base(struct mmparse *mm, void (*append_func)(void*,struct mmparse*,char*,int), void *append_func_data, char *ref, int ref_len)
+{
+	struct mmpextras_anchor *anchor;
+
+	anchor = mmpextras_do_href_base(mm, append_func, append_func_data, ref, ref_len);/*jeanine:s:a:r;i:32;*/
+	if (!anchor->link_text_len) {
+		mmparse_failmsg(mm, "href has no link text and neither has resolved anchor");
+		assert(0);
+	}
+	append_func(append_func_data, mm, anchor->link_text, anchor->link_text_len);
+	append_func(append_func_data, mm, "</a>", 4);
+}
+/*jeanine:p:i:37;p:21;a:r;x:3.78;y:4.25;*/
+static
+void mmpextras_cb_placeholder_href_yestext(struct mmparse *mm, struct mmp_output_part *output, void *data, int data_size)
+{
+	mmpextras_href_yestext_base(mm, mmpextras_append_to_placeholder_output, output, data, data_size - 1);/*jeanine:s:a:r;i:36;:s:a:r;i:33;*/
 }
 /*jeanine:p:i:21;p:29;a:b;y:1.88;*/
 static
 enum mmp_dir_content_action mmpextras_dir_href(struct mmparse *mm, struct mmp_dir_content_data *data)
 {
-	struct mmp_placeholder *ph;
+	register struct mmp_placeholder *ph;
+	struct mmp_dir_arg *id_arg;
+	struct mmpextras_userdata *ud;
 
-	ph = mmparse_allocate_placeholder(mm, mmpextras_cb_placeholder_href, data->content_len + 1);/*jeanine:r:i:20;*/
-	memcpy(ph->data, data->contents, data->content_len + 1);
-	return DELETE_CONTENTS;
+	ud = mmpextras_get_userdata(mm);
+	id_arg = mmpextras_find_directive_argument(data->directive, "id");
+	if (id_arg) {
+		if (ud->config.href_output_immediately) {
+			mmpextras_do_href_base(mm, mmpextras_append_to_expanded_line, NULL, id_arg->value, id_arg->value_len);/*jeanine:r:i:32;:r:i:35;*/
+		} else {
+			ph = mmparse_allocate_placeholder(mm, mmpextras_cb_placeholder_href_notext, id_arg->value_len + 1);/*jeanine:r:i:34;*/
+			memcpy(ph->data, id_arg->value, id_arg->value_len + 1);
+		}
+		mmparse_append_to_closing_tag(mm, "</a>", 4);
+		return LEAVE_CONTENTS;
+	} else {
+		if (ud->config.href_output_immediately) {
+			mmpextras_href_yestext_base(mm, mmpextras_append_to_expanded_line, NULL, data->contents, data->content_len);/*jeanine:r:i:33;:s:a:r;i:35;*/
+		} else {
+			ph = mmparse_allocate_placeholder(mm, mmpextras_cb_placeholder_href_yestext, data->content_len + 1);/*jeanine:r:i:37;*/
+			memcpy(ph->data, data->contents, data->content_len + 1);
+		}
+		return DELETE_CONTENTS;
+	}
 }
 /*jeanine:p:i:22;p:25;a:r;x:40.21;*/
 static
@@ -589,13 +804,22 @@ static
 enum mmp_dir_content_action mmpextras_dir_h(struct mmparse *mm, struct mmp_dir_content_data *data)
 {
 	struct mmpextras_index_entry *entry;
+	struct mmpextras_anchor *anchor;
 	struct mmpextras_userdata *ud;
 	register char *directive_name;
 	struct mmp_dir_arg *id_arg;
 	struct mmp_placeholder *ph;
-	int level, i, id_len;
+	int level, i;
 
 	ud = mmpextras_get_userdata(mm);
+	if (!ud->config.target_file || !ud->config.target_file_len) {
+		mmparse_failmsg(mm,
+			"to use the 'h' directive, "
+			"'mmparse_extras.config.target_file' and "
+			"'mmparse_extras.config.target_file_len' must be set"
+		);
+		assert(0);
+	}
 
 	level = 2;
 	for (i = 0; i < mm->md.num_pushed_modes; i++) {
@@ -612,16 +836,17 @@ enum mmp_dir_content_action mmpextras_dir_h(struct mmparse *mm, struct mmp_dir_c
 	directive_name[2] = 0;
 	level -= 2;
 	id_arg = mmpextras_require_directive_argument(mm, data->directive, "id");
-	id_len = strlen(id_arg->value);
 	if (level) {
 		id_arg->name[0] = 0; /*make it so the 'id' argument doesn't get printed as attribute*/
+		id_arg->name_len = 0;
 		ph = mmparse_allocate_placeholder(mm, mmpextras_cb_placeholder_section_breadcrumbs, 4);/*jeanine:r:i:25;*/
 		*((int*) ph->data) = ud->index.num_entries;
 	}
 
+	anchor = mmpextras_register_anchor(mm, id_arg->value, id_arg->value_len, data->contents, data->content_len);/*jeanine:r:i:31;*/
 	mmparse_print_tag_with_directives(mm, data->directive, ">");
 	mmparse_append_to_closing_tag(mm, " <a href='#", 11);
-	mmparse_append_to_closing_tag(mm, id_arg->value, id_len);
+	mmparse_append_to_closing_tag(mm, id_arg->value, id_arg->value_len);
 	mmparse_append_to_closing_tag(mm, "'>#</a></", 9);
 	mmparse_append_to_closing_tag(mm, directive_name, 2);
 	mmparse_append_to_closing_tag(mm, ">", 1);
@@ -635,21 +860,10 @@ enum mmp_dir_content_action mmpextras_dir_h(struct mmparse *mm, struct mmp_dir_c
 	}
 	entry = ud->index.entries + ud->index.num_entries++;
 	entry->level = level;
-	if (data->content_len >= sizeof(ud->index.entries[0].name)) {
-		mmparse_failmsgf(mm, "increase max length of index entry name (need %d)", data->content_len);
-		assert(0);
-	}
-	entry->name_len = data->content_len;
-	memcpy(entry->name, data->contents, data->content_len + 1);
-	if (id_len >= sizeof(ud->index.entries[0].id)) {
-		mmparse_failmsgf(mm, "increase max length of index entry id (need %d)", id_len);
-		assert(0);
-	}
-	entry->id_len = id_len;
-	memcpy(entry->id, id_arg->value, id_len + 1);
+	entry->anchor = anchor;
 	return LEAVE_CONTENTS;
 }
-/*jeanine:p:i:29;p:23;a:b;y:1.88;*/
+/*jeanine:p:i:29;p:30;a:b;y:1.88;*/
 static
 enum mmp_dir_content_action mmpextras_dir_a(struct mmparse *mm, struct mmp_dir_content_data *data)
 {
