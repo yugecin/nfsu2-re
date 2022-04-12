@@ -5,7 +5,7 @@
 This is just me documenting while I have fun attempting to reverse-engineer the game
 Need For Speed Underground 2, otherwise knows as nfsu2.
 
-This normally belongs to {https://github.com/yugecin/nfsu2-re}.                                 |||a class=ext href=https://github.com/yugecin/nfsu2-re
+This normally belongs to {https://github.com/yugecin/nfsu2-re}.                                 |||a class=ext
 
 Other pages: {(fpu) cheatsheet}                                                                 |||a href=cheatsheet.html
 
@@ -249,7 +249,7 @@ List by {5B7C40}:                                                               
 - 12: Thailand
 .popmode ul
 
-Then some network region stuff at 7FA740 showed a 14th entry:
+Then some network region stuff at {7FA740} showed a 14th entry:                                 ||| ref
 
 .pushmode ul
 - 13: South America
