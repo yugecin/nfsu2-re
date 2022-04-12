@@ -1,3 +1,12 @@
+#ifndef MMPEXTRAS_MAX_ANCHORS
+#error "add some #define MMPEXTRAS_MAX_ANCHORS 10"
+#endif
+#ifndef MMPEXTRAS_MAX_NESTED_SECTIONS
+#error "add some #define MMPEXTRAS_MAX_NESTED_SECTIONS 10"
+#endif
+#ifndef MMPEXTRAS_MAX_NESTED_ULS
+#error "add some #define MMPEXTRAS_MAX_NESTED_ULS 10"
+#endif
 /**
 mmparse extras, some extra things to be used with mmparse
 =========================================================
@@ -246,7 +255,6 @@ struct mmpextras_shared {
 		variable for getting it back later and freeing the memory or something like that.*/
 		int strpool_len;
 	} config;
-#define MMPEXTRAS_MAX_ANCHORS 50
 	struct mmpextras_anchor anchors[MMPEXTRAS_MAX_ANCHORS];
 	int num_anchors;
 };
@@ -275,7 +283,6 @@ struct mmpextras_userdata {
 		/**If doing a println and this is higher than 'current_level',
 		we need to print continuation breadcrumbs*/
 		char last_level_that_had_println;
-#define MMPEXTRAS_MAX_NESTED_SECTIONS 10
 		/**The index entry index that is applicable for this section.
 		Used to print continuation breadcrumbs.*/
 		int matching_index_entry_idx[MMPEXTRAS_MAX_NESTED_SECTIONS];
@@ -284,8 +291,7 @@ struct mmpextras_userdata {
 		int whitespacelen;
 	} pre;
 	struct {
-#define MMPEXTRAS_MAX_NEXTED_UL 10
-		char li_open[MMPEXTRAS_MAX_NEXTED_UL];
+		char li_open[MMPEXTRAS_MAX_NESTED_ULS];
 		unsigned char level;
 	} ul;
 	/**This member is supposed to be allocated and shared with all userdata
@@ -365,7 +371,7 @@ void mmpextras_cb_mode_ul_start(struct mmparse *mm)
 	ud = mmpextras_get_userdata(mm);
 	mmparse_append_to_main_output(mm, "<ul>", 4);
 	ud->ul.level++;
-	assert(ud->ul.level < MMPEXTRAS_MAX_NEXTED_UL);
+	assert(ud->ul.level < MMPEXTRAS_MAX_NESTED_ULS);
 	ud->ul.li_open[ud->ul.level] = 0;
 }
 /*jeanine:p:i:13;p:16;a:r;x:5.56;y:-19.00;*/

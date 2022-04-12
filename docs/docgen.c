@@ -73,6 +73,9 @@ struct docgen {
 	struct docgen_datainfo *datainfos;
 };
 
+#define MMPEXTRAS_MAX_ANCHORS 50
+#define MMPEXTRAS_MAX_NESTED_SECTIONS 10
+#define MMPEXTRAS_MAX_NESTED_ULS 10
 #include "mmparse_extras.c"
 
 struct docgen_mmparse_userdata {
