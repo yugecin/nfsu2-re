@@ -144,10 +144,11 @@ and we're back in level one
 static
 struct mmp_dir_arg *mmpextras_find_directive_argument(struct mmp_dir *dir, char *name)
 {
-	register int i;
+	register int i, len;
 
+	len = strlen(name);
 	for (i = 0; i < dir->argc; i++) {
-		if (!strcmp(dir->args[i].name, name)) {
+		if (len == dir->args[i].name_len && !strcmp(dir->args[i].name, name)) {
 			return dir->args + i;
 		}
 	}

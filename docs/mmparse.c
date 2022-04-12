@@ -22,7 +22,9 @@ struct mmparse;
 
 struct mmp_dir_arg {
 	char name[MMPARSE_DIRECTIVE_ARGN_MAX_LEN];
+	int name_len;
 	char value[MMPARSE_DIRECTIVE_ARGV_MAX_LEN];
+	int value_len;
 };
 
 struct mmp_dir {
@@ -288,9 +290,10 @@ An argument looks like:
 static
 void mmparse_read_directives(struct mmparse *mm)
 {
-	int dir_name_len, arg_name_len, arg_val_len;
-	struct mmp_dir *dir;
 	char c, val_uses_quotes;
+	struct mmp_dir_arg *arg;
+	struct mmp_dir *dir;
+	int dir_name_len;
 
 next_directive:
 	while (mm->in.charsleft && (mm->in.charsleft--, c = *(mm->in.charptr++)) == ' ');
@@ -349,38 +352,39 @@ next_argument:
 		assert(0);
 	}
 
-	arg_name_len = 0;
-	dir->args[dir->argc].name[0] = 0;
-	dir->args[dir->argc].value[0] = 0;
+	arg = dir->args + dir->argc;
+	arg->name_len = 0;
+	arg->name[0] = 0;
+	arg->value[0] = 0;
 	for (;;) {
 		switch (c) {
 		case ',':
-			if (!arg_name_len) {
+			if (!arg->name_len) {
 				mmparse_failmsg(mm, "found comma while arg name is still empty");
 				assert(0);
 			}
 			dir->argc++;
 			goto next_directive;
 		case ' ':
-			if (!arg_name_len) {
+			if (!arg->name_len) {
 				mmparse_failmsg(mm, "found space while arg name is still empty");
 				assert(0);
 			}
 			dir->argc++;
 			goto next_argument;
 		case '=':
-			if (!arg_name_len) {
+			if (!arg->name_len) {
 				mmparse_failmsg(mm, "found eq while arg name is still empty");
 				assert(0);
 			}
 			goto argument_value;
 		}
-		if (arg_name_len >= MMPARSE_DIRECTIVE_ARGN_MAX_LEN - 1) {
+		if (arg->name_len >= MMPARSE_DIRECTIVE_ARGN_MAX_LEN - 1) {
 			mmparse_failmsg(mm, "increase MMPARSE_DIRECTIVE_ARGN_MAX_LEN");
 			assert(0);
 		}
-		dir->args[dir->argc].name[arg_name_len++] = c;
-		dir->args[dir->argc].name[arg_name_len] = 0;
+		arg->name[arg->name_len++] = c;
+		arg->name[arg->name_len] = 0;
 		if (!mm->in.charsleft || (mm->in.charsleft--, c = *(mm->in.charptr++)) == '\n') {
 			dir->argc++;
 			return;
@@ -401,7 +405,7 @@ argument_value:
 	} else {
 		val_uses_quotes = 0;
 	}
-	arg_val_len = 0;
+	arg->value_len = 0;
 	for (;;) {
 		if (val_uses_quotes) {
 			if (c == val_uses_quotes) { /*TODO: escapes?*/
@@ -422,12 +426,12 @@ donewith:
 				goto next_argument;
 			}
 		}
-		if (arg_val_len >= MMPARSE_DIRECTIVE_ARGV_MAX_LEN - 1) {
+		if (arg->value_len >= MMPARSE_DIRECTIVE_ARGV_MAX_LEN - 1) {
 			mmparse_failmsg(mm, "increase MMPARSE_DIRECTIVE_ARGV_MAX_LEN");
 			assert(0);
 		}
-		dir->args[dir->argc].value[arg_val_len++] = c;
-		dir->args[dir->argc].value[arg_val_len] = 0;
+		arg->value[arg->value_len++] = c;
+		arg->value[arg->value_len] = 0;
 		if (!mm->in.charsleft || (mm->in.charsleft--, c = *(mm->in.charptr++)) == '\n') {
 			if (val_uses_quotes) {
 				mmparse_failmsg(mm, "EOL while in quoted argument value");
