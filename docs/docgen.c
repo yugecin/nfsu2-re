@@ -1170,7 +1170,7 @@ void docgen_mmparse_dir_ref_append(struct mmparse *mm, char *buf, int len)
 {
 	mmparse_append_to_expanded_line(mm, buf, len);
 }
-/*jeanine:p:i:42;p:58;a:r;x:70.44;y:-178.25;*/
+/*jeanine:p:i:42;p:58;a:r;x:85.02;y:-205.03;*/
 static
 enum mmp_dir_content_action docgen_mmparse_dir_hookfileref(struct mmparse *mm, struct mmp_dir_content_data *data)
 {
@@ -1191,6 +1191,33 @@ enum mmp_dir_content_action docgen_mmparse_dir_hookfileref(struct mmparse *mm, s
 	mmparse_append_to_closing_tag(mm, "</a></code>", 11);
 	return LEAVE_CONTENTS;
 }
+/*jeanine:p:i:64;p:58;a:r;x:88.89;y:-181.61;*/
+static
+enum mmp_dir_content_action docgen_mmparse_dir_dumpfileref(struct mmparse *mm, struct mmp_dir_content_data *data)
+{
+	char *filename;
+	FILE *file;
+	int size;
+
+	filename = alloca(20 + data->content_len);
+	sprintf(filename, "dumps/%s", data->contents);
+	file = fopen(filename, "rb");
+	if (file) {
+		fseek(file, 0l, SEEK_END);
+		size = ftell(file);
+		fclose(file);
+	} else {
+		mmparse_failmsgf(mm, "failed to open dumpfile '%s' for reading", data->contents);
+		size = 0;
+	}
+	mmparse_append_to_expanded_line(mm, "<a href='dumps/", 15);
+	mmparse_append_to_expanded_line(mm, data->contents, data->content_len);
+	mmparse_append_to_expanded_line(mm, "'>", 2);
+	size = sprintf(filename, " (%dKB)", size / 1000);
+	mmparse_append_to_closing_tag(mm, "</a>", 4);
+	mmparse_append_to_closing_tag(mm, filename, size);
+	return LEAVE_CONTENTS;
+}
 /*jeanine:p:i:61;p:58;a:r;x:91.66;y:-152.49;*/
 static
 enum mmp_dir_content_action docgen_mmparse_dir_ref(struct mmparse *mm, struct mmp_dir_content_data *data)
@@ -1203,6 +1230,7 @@ int main(int argc, char **argv)
 {
 	struct mmp_dir_handler mmdirectivehandlers[] = {
 		{ "hookfileref", docgen_mmparse_dir_hookfileref },/*jeanine:r:i:42;*/
+		{ "dumpfileref", docgen_mmparse_dir_dumpfileref },/*jeanine:r:i:64;*/
 		{ "anchor", mmpextras_dir_anchor },
 		{ "ref", docgen_mmparse_dir_ref },/*jeanine:r:i:61;*/
 		{ "index", mmpextras_dir_index },
@@ -1223,7 +1251,7 @@ int main(int argc, char **argv)
 		NULL
 	};
 	struct mmp_dir_handler mmdocdirectivehandlers[] = {
-		{ "hookfileref", docgen_mmparse_dir_hookfileref },
+		{ "hookfileref", docgen_mmparse_dir_hookfileref },/*jeanine:s:a:r;i:42;*/
 		{ "ref", docgen_mmparse_dir_ref },/*jeanine:s:a:r;i:61;*/
 		{ "href", mmpextras_dir_href },
 		{ "a", mmpextras_dir_a },
