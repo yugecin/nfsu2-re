@@ -1,7 +1,7 @@
-CNT=$(wc -l hashes.txt | cut -d ' ' -f 1)
-cat hashes.txt SPEED2-LOG.TXT | sort | uniq > newhashes.txt
-mv newhashes.txt hashes.txt
-CNT2=$(wc -l hashes.txt | cut -d ' ' -f 1)
+HASHES=dumps/hashes.txt
+CNT=$(wc -l $HASHES | cut -d ' ' -f 1)
+cat $HASHES "../../NeedForSpeed U2/SPEED2-LOG.TXT" | sort | uniq > newhashes.txt
+mv newhashes.txt $HASHES
+CNT2=$(wc -l $HASHES | cut -d ' ' -f 1)
 let "N = CNT2 - CNT"
-echo $N new
-rm SPEED2-LOG.TXT
+echo $N new hashes in $HASHES

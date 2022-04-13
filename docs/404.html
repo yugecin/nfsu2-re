@@ -46,12 +46,28 @@
 				'dialoghelp.jpg',
 				'dialogoleamessenger.jpg',
 			]
+			const relocatedDumps = [
+				'createpoollog.txt',
+				'debugstring50D510.txt',
+				'hashes.txt',
+				'language_english.txt',
+				'smsdump.txt',
+			]
 			const href = window.location.href
 			/*images were moved to the 'img' subfolder*/
 			if (!~href.indexOf('/img/')) {
 				for (img of relocatedImages) {
 					if (href.endsWith(img)) {
 						redirect('/img/' + img)
+						return
+					}
+				}
+			}
+			/*data/dumps were moved to the 'dumps' subfolder*/
+			if (!~href.indexOf('/dumps/')) {
+				for (dump of relocatedDumps) {
+					if (href.endsWith(dump)) {
+						redirect('/dumps/' + dump)
 						return
 					}
 				}
