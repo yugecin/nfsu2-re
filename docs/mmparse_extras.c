@@ -1,11 +1,11 @@
 #ifndef MMPEXTRAS_MAX_ANCHORS
-#error "add some #define MMPEXTRAS_MAX_ANCHORS 10"
+#error "add some '#define MMPEXTRAS_MAX_ANCHORS 10' before including mmparse_extras"
 #endif
 #ifndef MMPEXTRAS_MAX_NESTED_SECTIONS
-#error "add some #define MMPEXTRAS_MAX_NESTED_SECTIONS 10"
+#error "add some '#define MMPEXTRAS_MAX_NESTED_SECTIONS 10' before including mmparse_extras"
 #endif
 #ifndef MMPEXTRAS_MAX_NESTED_ULS
-#error "add some #define MMPEXTRAS_MAX_NESTED_ULS 10"
+#error "add some '#define MMPEXTRAS_MAX_NESTED_ULS 10' before including mmparse_extras"
 #endif
 /**
 mmparse extras, some extra things to be used with mmparse
@@ -668,7 +668,7 @@ struct mmpextras_anchor *mmpextras_register_anchor(struct mmparse *mm, char *id,
 			assert(0);
 		}
 	}
-	assert(((void)"increate MMPEXTRAS_MAX_ANCHORS", ud->shared->num_anchors < MMPEXTRAS_MAX_ANCHORS));
+	assert(((void)"increase MMPEXTRAS_MAX_ANCHORS", ud->shared->num_anchors < MMPEXTRAS_MAX_ANCHORS));
 	anchor = sud->anchors + sud->num_anchors++;
 	anchor->file_len = ud->config.target_file_len;
 	anchor->file = mmpextras_copy_into_strpool(mm, ud->config.target_file_len, ud->config.target_file);/*jeanine:r:i:38;*/

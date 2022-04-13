@@ -1386,13 +1386,11 @@ int main(int argc, char **argv)
 
 	css = docgen_readcss();/*jeanine:r:i:8;*/
 
-	dg = calloc(1, sizeof(struct docgen));
-	assert(((void)"failed to malloc for docgen", dg));
+	assert(dg = calloc(1, sizeof(struct docgen)));
 	memset(dg->struct_member_needs_anchor, 0, sizeof(dg->struct_member_needs_anchor));
 	dg->idcp = idcp;
 	/*read functions*/
-	dg->funcinfos = calloc(1, sizeof(struct docgen_funcinfo) * idcp->num_funcs);
-	assert(((void)"failed to malloc for dg->funcinfos", dg->funcinfos));
+	assert(dg->funcinfos = calloc(1, sizeof(struct docgen_funcinfo) * idcp->num_funcs));
 	for (dg->num_funcinfos = 0, j = 0, stuff = idcp->stuffs; j < idcp->num_stuffs; j++, stuff++) {
 		if (stuff->type == IDCP_STUFF_TYPE_FUNC && stuff->name) {
 			dg->funcinfos[dg->num_funcinfos].func = stuff;
@@ -1407,8 +1405,7 @@ int main(int argc, char **argv)
 	}
 	qsort((void*) dg->funcinfos, dg->num_funcinfos, sizeof(struct docgen_funcinfo), docgen_func_sort_compar);/*jeanine:r:i:15;*/
 	/*read structs*/
-	dg->structinfos = calloc(1, sizeof(struct docgen_structinfo) * idcp->num_structs);
-	assert(((void)"failed to malloc for dg->structinfos", dg->structinfos));
+	assert(dg->structinfos = calloc(1, sizeof(struct docgen_structinfo) * idcp->num_structs));
 	for (i = 0; i < idcp->num_structs; i++) {
 		dg->structinfos[i].struc = idcp->structs + i;
 		dg->structinfos[i].name_len = strlen(idcp->structs[i].name);
@@ -1416,8 +1413,7 @@ int main(int argc, char **argv)
 	dg->num_structinfos = idcp->num_structs;
 	qsort((void*) dg->structinfos, dg->num_structinfos, sizeof(struct docgen_structinfo), docgen_struct_sort_compar);/*jeanine:r:i:4;*/
 	/*read enums*/
-	dg->enuminfos = calloc(1, sizeof(struct docgen_enuminfo) * idcp->num_enums);
-	assert(((void)"failed to malloc for dg->enuminfos", dg->enuminfos));
+	assert(dg->enuminfos = calloc(1, sizeof(struct docgen_enuminfo) * idcp->num_enums));
 	for (i = 0; i < idcp->num_enums; i++) {
 		dg->enuminfos[i].enu = idcp->enums + i;
 		dg->enuminfos[i].name_len = strlen(idcp->enums[i].name);
@@ -1425,8 +1421,7 @@ int main(int argc, char **argv)
 	dg->num_enuminfos = idcp->num_enums;
 	qsort((void*) dg->enuminfos, dg->num_enuminfos, sizeof(struct docgen_enuminfo), docgen_enum_sort_compar);/*jeanine:r:i:21;*/
 	/*read datas (not sorting these...)*/
-	dg->datainfos = calloc(1, sizeof(struct docgen_datainfo) * idcp->num_datas);
-	assert(((void)"failed to malloc for dg->datainfos", dg->datainfos));
+	assert(dg->datainfos = calloc(1, sizeof(struct docgen_datainfo) * idcp->num_datas));
 	for (dg->num_datainfos = 0, j = 0; j < idcp->num_stuffs; j++) {
 		if (idcp->stuffs[j].type == IDCP_STUFF_TYPE_DATA && idcp->stuffs[j].name) {
 			dg->datainfos[dg->num_datainfos].data = idcp->stuffs + j;
@@ -1546,8 +1541,7 @@ int main(int argc, char **argv)
 
 	/*finalize index*/
 	mmparse_process_placeholders(mm);
-	f_index = fopen("index.html", "wb");
-	assert(((void)"failed to open file index.html for writing", f_index));
+	assert(f_index = fopen("index.html", "wb"));
 	fprintf(f_index,
 		"%s%s%s%s%s",
 		"<!DOCTYPE html><html lang='en'><head><meta charset='utf-8'/><title>nfsu2-re</title><style>",
@@ -1564,8 +1558,7 @@ int main(int argc, char **argv)
 	fclose(f_index);
 
 	/*cheatsheet*/
-	f_cheatsheet = fopen("cheatsheet.html", "wb");
-	assert(((void)"failed to open file cheatsheet.html for writing", f_cheatsheet));
+	assert(f_cheatsheet = fopen("cheatsheet.html", "wb"));
 	docgen_readfile("cheatsheet-bare.html", &cheatsheet, &cheatsheet_len);
 	fprintf(f_cheatsheet,
 		"%s%s%s%s%s",
@@ -1580,8 +1573,7 @@ int main(int argc, char **argv)
 	fclose(f_cheatsheet);
 
 	/*funcs*/
-	f_funcs = fopen("funcs.html", "wb");
-	assert(((void)"failed to open file funcs.html for writing", f_funcs));
+	assert(f_funcs = fopen("funcs.html", "wb"));
 	fprintf(f_funcs,
 		"%s%s%s%s",
 		"<!DOCTYPE html><html lang='en'><head><meta charset='utf-8'/><title>nfsu2-re/funcs</title><style>",
@@ -1601,8 +1593,7 @@ int main(int argc, char **argv)
 	fclose(f_funcs);
 
 	/*structs*/
-	f_structs = fopen("structs.html", "wb");
-	assert(((void)"failed to open file structs.html for writing", f_structs));
+	assert(f_structs = fopen("structs.html", "wb"));
 	fprintf(f_structs,
 		"%s%s%s%s",
 		"<!DOCTYPE html><html lang='en'><head><meta charset='utf-8'/><title>nfsu2-re/structs</title><style>",
@@ -1630,8 +1621,7 @@ int main(int argc, char **argv)
 	fclose(f_structs);
 
 	/*enums*/
-	f_enums = fopen("enums.html", "wb");
-	assert(((void)"failed to open file enums.html for writing", f_enums));
+	assert(f_enums = fopen("enums.html", "wb"));
 	fprintf(f_enums,
 		"%s%s%s%s",
 		"<!DOCTYPE html><html lang='en'><head><meta charset='utf-8'/><title>nfsu2-re/enums</title><style>",
@@ -1652,8 +1642,7 @@ int main(int argc, char **argv)
 	fclose(f_enums);
 
 	/*datas*/
-	f_datas = fopen("vars.html", "wb");
-	assert(((void)"failed to open file vars.html for writing", f_datas));
+	assert(f_datas = fopen("vars.html", "wb"));
 	fprintf(f_datas,
 		"%s%s%s%s",
 		"<!DOCTYPE html><html lang='en'><head><meta charset='utf-8'/><title>nfsu2-re/vars</title><style>",
