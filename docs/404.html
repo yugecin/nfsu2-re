@@ -1,10 +1,62 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<title>nfsu2-re</title>
-<meta http-equiv="refresh" content="1; URL=index.html" />
+	<title>nfsu2-re/not found</title>
 </head>
 <body>
-	<a href="index.html">go to index.html</a>
+	<h1>404 not found</h1>
+	<a href="/nfsu2-re/index.html">go to index.html</a>
+	<script>
+		(function() {
+			/*attempt to redirect for some relocated files*/
+			const redirect = function(to) {
+				to = '/nfsu2-re' + to
+				const a = document.createElement('a')
+				a.innerText = to
+				a.setAttribute('href', to)
+				const p = document.createElement('p')
+				p.innerText = 'Maybe you were looking for: '
+				p.appendChild(a)
+				document.body.appendChild(p)
+				window.location.href = to
+			}
+			const relocatedImages = [
+				'2P_PRESS_START.JPG',
+				'FIRETRUCK-DYNO.JPG',
+				'FIRETRUCK.GIF',
+				'LOADING_BOOT.JPG',
+				'MUSTANG.JPG',
+				'PCHELPBAR.JPG',
+				'PCHELPBAR10000-20000.JPG',
+				'PCHELPBAR10000-8000.JPG',
+				'PCHELPBAR10000-80000000.JPG',
+				'PCHELPBAR10000.JPG',
+				'SCREENPRINTF_1.JPG',
+				'SCREENPRINTF_2.JPG',
+				'UI_DEBUGTEST.JPG',
+				'UI_OLAGETOOYOUNG.JPG',
+				'UI_OLMAIN.JPG',
+				'UI_OL_FEEDBACK.JPG',
+				'UI_OL_FRIENDDIALOGUE.JPG',
+				'UI_OL_VOICE_CHAT.JPG',
+				'dialog3button.jpg',
+				'dialoganimate.gif',
+				'dialoggenericmed.jpg',
+				'dialoggenericpartsbrowser.jpg',
+				'dialoghelp.jpg',
+				'dialogoleamessenger.jpg',
+			]
+			const href = window.location.href
+			/*images were moved to the 'img' subfolder*/
+			if (!~href.indexOf('/img/')) {
+				for (img of relocatedImages) {
+					if (href.endsWith(img)) {
+						redirect('/img/' + img)
+						return
+					}
+				}
+			}
+		})();
+	</script>
 </body>
 </html>
