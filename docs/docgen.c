@@ -1170,6 +1170,31 @@ void docgen_mmparse_dir_ref_append(struct mmparse *mm, char *buf, int len)
 {
 	mmparse_append_to_expanded_line(mm, buf, len);
 }
+/*jeanine:p:i:65;p:58;a:r;x:84.66;y:-233.88;*/
+static
+enum mmp_dir_content_action docgen_mmparse_dir_imgcaptioned(struct mmparse *mm, struct mmp_dir_content_data *data)
+{
+	struct mmp_dir_arg *src_arg;
+	FILE *file;
+
+	mmpextras_require_directive_argument(mm, data->directive, "alt"); /*just check if it's present*/
+	src_arg = mmpextras_require_directive_argument(mm, data->directive, "src");
+	assert(((void)"increase MMPARSE_DIRECTIVE_ARGV_MAX_LEN", src_arg->value_len < MMPARSE_DIRECTIVE_ARGV_MAX_LEN + 4));
+	memcpy(src_arg->value + 4, src_arg->value, src_arg->value_len + 1);
+	memcpy(src_arg->value, "img/", 4);
+	file = fopen(src_arg->value, "rb");
+	if (file) {
+		fclose(file);
+	} else {
+		mmparse_failmsgf(mm, "failed to open img file '%s' for reading", src_arg->value);
+	}
+	mmparse_append_to_expanded_line(mm, "<p class='imgholder'>", 21);
+	/*cut off the 'captioned' part of the tag name*/
+	data->directive->name[3] = 0;
+	mmparse_print_tag_with_directives(mm, data->directive, "/><br/>");
+	mmparse_append_to_closing_tag(mm, "</p>", 4);
+	return LEAVE_CONTENTS;
+}
 /*jeanine:p:i:42;p:58;a:r;x:85.02;y:-205.03;*/
 static
 enum mmp_dir_content_action docgen_mmparse_dir_hookfileref(struct mmparse *mm, struct mmp_dir_content_data *data)
@@ -1229,6 +1254,7 @@ enum mmp_dir_content_action docgen_mmparse_dir_ref(struct mmparse *mm, struct mm
 int main(int argc, char **argv)
 {
 	struct mmp_dir_handler mmdirectivehandlers[] = {
+		{ "imgcaptioned", docgen_mmparse_dir_imgcaptioned },/*jeanine:r:i:65;*/
 		{ "hookfileref", docgen_mmparse_dir_hookfileref },/*jeanine:r:i:42;*/
 		{ "dumpfileref", docgen_mmparse_dir_dumpfileref },/*jeanine:r:i:64;*/
 		{ "anchor", mmpextras_dir_anchor },
