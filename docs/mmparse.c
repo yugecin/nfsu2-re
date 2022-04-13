@@ -474,6 +474,7 @@ void mmparse_expand_line(struct mmparse *mm)
 		/*The whole 'eat_contents' thing will only work well if
 		there is no nested stuff.. Otherwise this could use a
 		rework so it handles directives 'inside out'.*/
+		/*LEAVE_CONTENTS works pretty well though*/
 		/*But then we'd need to take into account that placeholders may not
 		be ordered anymore, since right now they always go from left to right,
 		but that may be different once the order or handling directives changes.*/

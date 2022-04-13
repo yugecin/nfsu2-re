@@ -1170,9 +1170,9 @@ void docgen_mmparse_dir_ref_append(struct mmparse *mm, char *buf, int len)
 {
 	mmparse_append_to_expanded_line(mm, buf, len);
 }
-/*jeanine:p:i:65;p:58;a:r;x:84.66;y:-233.88;*/
+/*jeanine:p:i:67;p:65;a:r;x:23.44;y:5.06;*/
 static
-enum mmp_dir_content_action docgen_mmparse_dir_imgcaptioned(struct mmparse *mm, struct mmp_dir_content_data *data)
+void docgen_mmparse_img_directive_validate_and_trunc_name(struct mmparse *mm, struct mmp_dir_content_data *data)
 {
 	struct mmp_dir_arg *src_arg;
 	FILE *file;
@@ -1188,11 +1188,37 @@ enum mmp_dir_content_action docgen_mmparse_dir_imgcaptioned(struct mmparse *mm, 
 	} else {
 		mmparse_failmsgf(mm, "failed to open img file '%s' for reading", src_arg->value);
 	}
-	mmparse_append_to_expanded_line(mm, "<p class='imgholder'>", 21);
-	/*cut off the 'captioned' part of the tag name*/
+	/*cut off the extra part of the tag name (ie make 'imgcaptioned' or 'imgcollapsed' into 'img')*/
 	data->directive->name[3] = 0;
+}
+/*jeanine:p:i:65;p:58;a:r;x:85.19;y:-238.07;*/
+static
+enum mmp_dir_content_action docgen_mmparse_dir_imgcaptioned(struct mmparse *mm, struct mmp_dir_content_data *data)
+{
+	docgen_mmparse_img_directive_validate_and_trunc_name(mm, data);/*jeanine:r:i:67;*/
+	mmparse_append_to_expanded_line(mm, "<p class='imgholder'>", 21);
 	mmparse_print_tag_with_directives(mm, data->directive, "/><br/>");
 	mmparse_append_to_closing_tag(mm, "</p>", 4);
+	return LEAVE_CONTENTS;
+}
+/*jeanine:p:i:66;p:58;a:r;x:85.11;y:-226.66;*/
+static
+enum mmp_dir_content_action docgen_mmparse_dir_imgcollapsed(struct mmparse *mm, struct mmp_dir_content_data *data)
+{
+	int expanded_line_len, len;
+
+	docgen_mmparse_img_directive_validate_and_trunc_name(mm, data);/*jeanine:s:a:r;i:67;*/
+	mmparse_append_to_expanded_line(mm, "<details><summary>", 18);
+	mmparse_append_to_closing_tag(mm, "</summary><p class='center'>", 28);
+	expanded_line_len = mm->pd.line_len;
+	/*haxx to use 'mmparse_print_tag_with_directives' but then get the content and remove it again from the expanded line*/
+	mmparse_print_tag_with_directives(mm, data->directive, "/></p></details>");
+	len = mm->pd.line_len - expanded_line_len;
+	mm->pd.line_len -= len;
+	mm->pd.next_placeholder_offset -= len;
+	mmparse_append_to_closing_tag(mm, mm->pd.line + mm->pd.line_len, len);
+	mm->pd.line[mm->pd.line_len] = 0;
+	/*end haxx*/
 	return LEAVE_CONTENTS;
 }
 /*jeanine:p:i:42;p:58;a:r;x:85.02;y:-205.03;*/
@@ -1255,6 +1281,7 @@ int main(int argc, char **argv)
 {
 	struct mmp_dir_handler mmdirectivehandlers[] = {
 		{ "imgcaptioned", docgen_mmparse_dir_imgcaptioned },/*jeanine:r:i:65;*/
+		{ "imgcollapsed", docgen_mmparse_dir_imgcollapsed },/*jeanine:r:i:66;*/
 		{ "hookfileref", docgen_mmparse_dir_hookfileref },/*jeanine:r:i:42;*/
 		{ "dumpfileref", docgen_mmparse_dir_dumpfileref },/*jeanine:r:i:64;*/
 		{ "anchor", mmpextras_dir_anchor },

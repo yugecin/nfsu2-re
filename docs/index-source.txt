@@ -2485,13 +2485,8 @@ TODO:
 
 This was done by putting pointers to their strings into the boot flow entries (see {speedyboot}).               ||| href
 
-{{2P_PressStart.fng}                            ||| details,summary
-{2P_PressStart.fng}                             ||| imgcaptioned src=2P_PRESS_START.JPG alt="2player press start"
-} |||
-
-{{loading_boot.fng}                             ||| details,summary
-{loading_boot.fng}                              ||| imgcaptioned src=LOADING_BOOT.JPG alt="alternative loading screen with nfsu2 logo"
-} |||
+{{2P_PressStart.fng}}                           ||| imgcollapsed src=2P_PRESS_START.JPG alt="2player press start",code
+{{loading_boot.fng}}                            ||| imgcollapsed src=LOADING_BOOT.JPG alt="alternative loading screen with nfsu2 logo",code
 
 .pushmode section
 
@@ -2519,29 +2514,12 @@ feature?
 
 .popmode section
 
-{{UI_DebugTest.fng}                             ||| details,summary
-{UI_DebugTest.fng}                              ||| imgcaptioned src=UI_DEBUGTEST.JPG alt="pulsing text and different colored circles"
-} |||
-
-{{UI_OLAgeTooYoung.fng}                         ||| details,summary
-{UI_OLAgeTooYoung.fng}                          ||| imgcaptioned src=UI_OLAGETOOYOUNG.JPG alt="age too young"
-} |||
-
-{{UI_OLMAIN.fng}                                ||| details,summary
-{UI_OLMAIN.fng}                                 ||| imgcaptioned src=UI_OLMAIN.JPG alt="online main menu"
-} |||
-
-{{UI_OL_Feedback.fng}                           ||| details,summary
-{UI_OL_Feedback.fng}                            ||| imgcaptioned src=UI_OL_FEEDBACK.JPG alt="online player feedback menu"
-} |||
-
-{{UI_OL_FriendDialogue.fng}                     ||| details,summary
-{UI_OL_FriendDialogue.fng}                      ||| imgcaptioned src=UI_OL_FRIENDDIALOGUE.JPG alt="online friend dialogue"
-} |||
-
-{{UI_OL_Voice_Chat.fng}                         ||| details,summary
-{UI_OL_Voice_Chat.fng}                          ||| imgcaptioned src=UI_OL_VOICE_CHAT.JPG alt="online voice chat"
-} |||
+{{UI_DebugTest.fng}}                            ||| imgcollapsed src=UI_DEBUGTEST.JPG alt="pulsing text and different colored circles",code
+{{UI_OLAgeTooYoung.fng}}                        ||| imgcollapsed src=UI_OLAGETOOYOUNG.JPG alt="age too young",code
+{{UI_OLMAIN.fng}}                               ||| imgcollapsed src=UI_OLMAIN.JPG alt="online main menu",code
+{{UI_OL_Feedback.fng}}                          ||| imgcollapsed src=UI_OL_FEEDBACK.JPG alt="online player feedback menu",code
+{{UI_OL_FriendDialogue.fng}}                    ||| imgcollapsed src=UI_OL_FRIENDDIALOGUE.JPG alt="online friend dialogue",code
+{{UI_OL_Voice_Chat.fng}}                        ||| imgcollapsed src=UI_OL_VOICE_CHAT.JPG alt="online voice chat",code
 
 .popmode section
 .pushmode section

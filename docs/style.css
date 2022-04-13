@@ -164,6 +164,9 @@ div.mm div {
 	padding-left: 1em;
 	border-left: 3px ridge #666;
 }
+div.mm p.center {
+	text-align: center;
+}
 div.mm p.imgholder {
 	text-align: center;
 	margin: 3em 0;
