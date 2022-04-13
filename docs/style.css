@@ -179,25 +179,25 @@ code {
 div.mm h2 a, div.mm h3 a, div.mm h4 a, div.mm h5 a, div.mm h6 a {
 	color: #A0A0A0;
 }
-div.mm a.func,
-div.mm a.var,
-div.mm a.struc,
-div.mm a.enum {
+.mm a.func,
+.mm a.var,
+.mm a.struc,
+.mm a.enum {
 	border: 0;
 	border-radius: 5px;
 	padding: 0 .15em;
 	font-family: monospace;
 }
-div.mm a.func:hover {
+.mm a.func:hover {
 	background: #fdf;
 }
-div.mm a.var:hover {
+.mm a.var:hover {
 	background: #dfd;
 }
-div.mm a.struc:hover {
+.mm a.struc:hover {
 	background: #ddf;
 }
-div.mm a.enum:hover {
+.mm a.enum:hover {
 	background: #fdd;
 }
 pre.ida {
