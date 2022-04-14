@@ -27,14 +27,20 @@ nav a {
 	padding: .2em .5em;
 	background: #ddd;
 	border-color: #555;
-	border-style: ridge !important;
-	border-width: 2px !important;
+	border-style: ridge;
+	border-width: 2px;
+}
+pre,
+.sym > div:not(.mm) {
+	margin: 1em 0;
+	padding: .2em .5em;
+	font-family: monospace;
+	white-space: pre;
+	overflow-x: auto;
 }
 pre {
 	border: 2px solid #cdcdcd;
 	background: #f7f7f7;
-	padding: .2em .5em;
-	overflow-x: auto;
 }
 table {
         border-collapse: collapse;
@@ -56,38 +62,67 @@ summary {
         user-select: none;
         cursor: pointer;
 }
-a.func,
-.func > pre,
+.mm a[href^="funcs.html"],
+.mm a[href^="vars.html"],
+.mm a[href^="structs.html"],
+.mm a[href^="enums.html"] {
+	border-radius: 5px;
+	padding: 0 .15em;
+	font-family: monospace;
+}
+.mm a[href^="funcs.html"]:hover {
+	background: #fdf;
+}
+.mm a[href^="vars.html"]:hover {
+	background: #dfd;
+}
+.mm a[href^="structs.html"]:hover {
+	background: #ddf;
+}
+.mm a[href^="enums.html"]:hover {
+	background: #fdd;
+}
+nav a[href^="funcs.html"],
+.mm a[href^="funcs.html"],
+.func > div:not(.mm),
 .struc > ul > li > pre {
 	background: #fef;
-	border: 1px solid #f6f;
+	border-color: #f6f;
 }
 .struc > ul > li > pre {
 	white-space: pre-wrap;
 	margin: .5em 0;
 }
-a.struc,
-.struc > pre {
+nav a[href^="structs.html"],
+.mm a[href^="structs.html"],
+.struc > div:not(.mm) {
 	background: #eef;
-	border: 1px solid #66f;
+	border-color: #66f;
 }
-a.enum,
-.enum > pre {
+nav a[href^="enums.html"],
+.mm a[href^="enums.html"],
+.enum > div:not(.mm) {
 	background: #fee;
-	border: 1px solid #f66;
+	border-color: #f66;
 }
-a.var,
-.var > pre {
+nav a[href^="vars.html"],
+.mm a[href^="vars.html"],
+.var > div:not(.mm) {
 	background: #efe;
-	border: 1px solid #5a5;
+	border-color: #5a5;
 }
-pre h3 {
+.sym > div:not(.mm),
+.struc > ul > li > pre {
+	border-width: 1px;
+	border-style: solid;
+}
+div h3 {
 	display: inline;
 	font-size: 1em;
 	font-weight: bold;
 }
 body > div > ul i,
-body > div > pre i {
+body > div > div i {
 	font-style: normal;
 	font-size: 80%;
 	color: #777;
@@ -108,7 +143,7 @@ body > div > pre i {
 }
 /*union emphasis/label*/
 .struc h2 + ul b::after,
-body > div > pre b {
+body > div > div b {
 	font-weight: normal;
 	background: #aadfff;
 	border: 1px solid #44b9ff;
@@ -124,10 +159,10 @@ body > div > pre b {
 	font-weight: normal;
 }
 /*unknown type*/
-body > div > pre u {
+body > div > div u {
 	text-decoration: none;
 }
-body > div > pre u::after {
+body > div > div u::after {
 	content: "/*unknown type*/";
 	background: #fca;
 	border: 1px solid #f94;
@@ -135,17 +170,17 @@ body > div > pre u::after {
 	border-radius: 6px;
 	color: #000;
 }
-body > div.var > pre u::after {
+body > div.var > div u::after {
 	content: "/*unconfirmed type*/";
 }
 /*reference to unknown struct/enum*/
 .mm .error,
-body > div > pre strong {
+body > div.sym > div strong {
 	background: #f00;
 	color: #fff;
 }
 /*doccomment*/
-body > div > pre > span {
+body > div > div > span {
 	color: #080;
 	display: inline-block;
 	margin-left: 5em; /*why 5 and not 8?*/
@@ -157,7 +192,10 @@ a.ext::after {
 	content: '';
 	width: 12px;
 	height: 12px;
-	background: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAAMAgMAAAArG7R0AAAABGdBTUEAALGPC/xhBQAAAAFzUkdCAK7OHOkAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAAJUExURUdwTAD/AAAA//ENIZIAAAABdFJOUwBA5thmAAAAL0lEQVQI12NggAFRBwaG0AQGptAVDFwzsxi4Zq1k4JqaCcZMU1cwMCxbwMCg1QAArE8JoyhJwYoAAAAASUVORK5CYII=') no-repeat;
+	background: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAAM\
+AgMAAAArG7R0AAAABGdBTUEAALGPC/xhBQAAAAFzUkdCAK7OHOkAAAAJcEhZcwAADsMAAA7DAcdvqGQ\
+AAAAJUExURUdwTAD/AAAA//ENIZIAAAABdFJOUwBA5thmAAAAL0lEQVQI12NggAFRBwaG0AQGptAVDF\
+wzsxi4Zq1k4JqaCcZMU1cwMCxbwMCg1QAArE8JoyhJwYoAAAAASUVORK5CYII=') no-repeat;
 }
 div.mm div {
 	margin: 3em 0;
@@ -178,27 +216,6 @@ code {
 }
 div.mm h2 a, div.mm h3 a, div.mm h4 a, div.mm h5 a, div.mm h6 a {
 	color: #A0A0A0;
-}
-.mm a.func,
-.mm a.var,
-.mm a.struc,
-.mm a.enum {
-	border: 0;
-	border-radius: 5px;
-	padding: 0 .15em;
-	font-family: monospace;
-}
-.mm a.func:hover {
-	background: #fdf;
-}
-.mm a.var:hover {
-	background: #dfd;
-}
-.mm a.struc:hover {
-	background: #ddf;
-}
-.mm a.enum:hover {
-	background: #fdd;
 }
 pre.ida {
 	color: #000080;

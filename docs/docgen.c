@@ -544,31 +544,6 @@ void docgen_parseidc(struct idcparse *idcp)
 	}
 	FREE(buf);
 }
-/*jeanine:p:i:8;p:58;a:r;x:15.56;y:-9.00;*/
-static
-char* docgen_readcss()
-{
-	char *buf, *a, *b, *end;
-	register char c;
-	int length;
-
-	docgen_readfile("style.css", &buf, &length);/*jeanine:s:a:r;i:1;*/
-	a = b = buf;
-	end = buf + length;
-	while (b != end) {
-		c = *b;
-		if (c != '\t') {
-			if (!c) {
-				break;
-			}
-			*a = c;
-			a++;
-		}
-		b++;
-	}
-	*a = 0;
-	return buf;
-}
 /*jeanine:p:i:15;p:58;a:r;x:15.56;y:2.00;*/
 static
 int docgen_func_sort_compar(const void *_a, const void *_b)
@@ -663,12 +638,12 @@ static
 void docgen_symbol_print_comments_block(FILE *f, struct docgen_symbol_comments *comments)
 {
 	if (comments->normal.buf) {
-		fwrite("<div class='mm'>", 16, 1, f);
+		fwrite("\n<div class='mm'>\n", 18, 1, f);
 		fwrite(comments->normal.buf, comments->normal.buf_len, 1, f);
 		fwrite("</div>", 6, 1, f);
 	}
 	if (comments->rep.buf) {
-		fwrite("<div class='mm'>", 16, 1, f);
+		fwrite("\n<div class='mm'>\n", 18, 1, f);
 		fwrite(comments->rep.buf, comments->rep.buf_len, 1, f);
 		fwrite("</div>", 6, 1, f);
 	}
@@ -697,7 +672,7 @@ void docgen_symbol_print_comments_inline(FILE *f, struct docgen_symbol_comments 
 		fprintf(f, "*/</span>\n");
 	}
 }
-/*jeanine:p:i:17;p:58;a:r;x:27.23;y:-32.06;*/
+/*jeanine:p:i:17;p:58;a:r;x:20.12;y:-34.31;*/
 static
 void docgen_print_func(FILE *f, struct docgen *dg, struct docgen_funcinfo *funcinfo, struct idcp_stuff *func)
 {
@@ -705,7 +680,8 @@ void docgen_print_func(FILE *f, struct docgen *dg, struct docgen_funcinfo *funci
 
 	signaturebuf = docgen_get_tmpbuf(10000);
 	docgen_gen_func_signature(&signaturebuf, dg, funcinfo, func);/*jeanine:r:i:19;*/
-	fprintf(f, "<pre id='%X'><i>%X</i> %s</pre>", func->addr, func->addr, signaturebuf->data);
+	/*these are 'div' instead of 'pre' because 'h3' can't be inside 'pre'*/
+	fprintf(f, "\n<div id='%X'><i>%X</i> %s</div>", func->addr, func->addr, signaturebuf->data);
 	docgen_free_tmpbuf(signaturebuf);
 	docgen_symbol_print_comments_block(f, &funcinfo->comments);/*jeanine:r:i:69;*/
 }
@@ -877,7 +853,8 @@ void docgen_print_struct(FILE *f, struct docgen *dg, struct docgen_structinfo *s
 	num_members = struc->end_idx - struc->start_idx;
 	size = docgen_get_struct_size(dg->idcp, struc);
 
-	fprintf(f, "<pre id='struc_%s'>%s <h3>%s</h3> { <i>/*%d members, size %Xh*/</i>%s\n",
+	/*these are 'div' instead of 'pre' because 'h3' can't be inside 'pre'*/
+	fprintf(f, "\n<div id='struc_%s'>%s <h3>%s</h3> { <i>/*%d members, size %Xh*/</i>%s\n",
 		struc->name,
 		struc->is_union ? "<b>union</b>" : "struct",
 		struc->name,
@@ -894,14 +871,14 @@ void docgen_print_struct(FILE *f, struct docgen *dg, struct docgen_structinfo *s
 		docgen_print_struct_member(f, dg, struc, mem->offset, mem->nbytes, mem);/*jeanine:r:i:11;*/
 		lastoffset = mem->offset + mem->nbytes;
 	}
-	fprintf(f, "};%s", "</pre>");
+	fwrite("};</div>", 8, 1, f);
 	docgen_symbol_print_comments_block(f, &structinfo->comments);/*jeanine:s:a:r;i:69;*/
 	if (structinfo->is_class) {
-		fprintf(f, "<p><strong>Methods:</strong></p><ul>");
+		fwrite("\n<p><strong>Methods:</strong></p>\n<ul>\n", 39, 1, f);
 		for (i = 0, funcinfo = dg->funcinfos; i < dg->num_funcinfos; i++, funcinfo++) {
 			if (funcinfo->methodof == structinfo) {
 				func = funcinfo->func;
-				fprintf(f, "<li><pre><i>%X</i> <a href='funcs.html#%X' title='%s'>%s</a></pre></li>",
+				fprintf(f, "<li><pre><i>%X</i> <a href='funcs.html#%X' title='%s'>%s</a></pre></li>\n",
 					func->addr,
 					func->addr,
 					func->data.func.type ? func->data.func.type : func->name,
@@ -912,7 +889,7 @@ void docgen_print_struct(FILE *f, struct docgen *dg, struct docgen_structinfo *s
 		fprintf(f, "</ul>");
 	}
 }
-/*jeanine:p:i:22;p:58;a:r;x:19.89;y:-15.31;*/
+/*jeanine:p:i:22;p:58;a:r;x:19.56;y:-12.87;*/
 static
 void docgen_print_enum(FILE *f, struct docgen *dg, struct docgen_enuminfo *enuminfo, struct idcp_enum *enu)
 {
@@ -921,7 +898,8 @@ void docgen_print_enum(FILE *f, struct docgen *dg, struct docgen_enuminfo *enumi
 
 	num_members = enu->end_idx - enu->start_idx;
 
-	fprintf(f, "<pre id='enu_%s'>enum <h3>%s</h3> { <i>/*%d members*/</i>\n", enu->name, enu->name, num_members);
+	/*these are 'div' instead of 'pre' because 'h3' can't be inside 'pre'*/
+	fprintf(f, "\n<div id='enu_%s'>enum <h3>%s</h3> { <i>/*%d members*/</i>\n", enu->name, enu->name, num_members);
 	mem = dg->idcp->enum_members + enu->start_idx;
 	for (idx = enu->start_idx; num_members; num_members--, mem++, idx++) {
 		if (dg->enum_member_needs_anchor[idx]) {
@@ -930,7 +908,7 @@ void docgen_print_enum(FILE *f, struct docgen *dg, struct docgen_enuminfo *enumi
 		docgen_symbol_print_comments_inline(f, dg->enum_member_comments + idx);/*jeanine:r:i:71;:s:a:r;i:71;*/
 		fprintf(f, "\t%s = 0x%X,\n", mem->name, mem->value);
 	}
-	fprintf(f, "};%s", "</pre>");
+	fwrite("};</div>", 8, 1, f);
 	docgen_symbol_print_comments_block(f, &enuminfo->comments);/*jeanine:s:a:r;i:69;*/
 }
 /*jeanine:p:i:21;p:58;a:r;x:15.56;y:6.00;*/
@@ -982,15 +960,16 @@ void docgen_print_data(FILE *f, struct docgen *dg, struct docgen_datainfo *datai
 		};
 		unconfirmed_type = 1;
 	}
-	fprintf(f, "<pre id='%X'><i>%X</i> %s <h3>%s</h3>", data->addr, data->addr, type->data, data->name);
+	/*these are 'div' instead of 'pre' because 'h3' can't be inside 'pre'*/
+	fprintf(f, "\n<div id='%X'><i>%X</i> %s <h3>%s</h3>", data->addr, data->addr, type->data, data->name);
 	docgen_free_tmpbuf(type);
 	if (data->data.data.arraysize) {
 		fprintf(f, "[%d]", data->data.data.arraysize);
 	}
 	if (unconfirmed_type) {
-		fprintf(f, " <u></u>");
+		fwrite(" <u></u>", 8, 1, f);
 	}
-	fprintf(f, "</pre>");
+	fwrite("</div>", 6, 1, f);
 	docgen_symbol_print_comments_block(f, &datainfo->comments);/*jeanine:s:a:r;i:69;*/
 }
 /*jeanine:p:i:56;p:37;a:r;x:128.71;y:-20.02;*/
@@ -1009,20 +988,20 @@ void docgen_append_ref_text(struct mmparse *mm, void (*append_func)(struct mmpar
 	docgen_resolve_ref(ud->dg, &res, ref, reflen);/*jeanine:r:i:57;*/
 	if (res.func) {
 		len = sprintf(addr, "%X", res.func->addr);
-		append_func(mm, "<a class='func' href='funcs.html#", 33);
+		append_func(mm, "<a href='funcs.html#", 20);
 		append_func(mm, addr, len);
 		append_func(mm, "'>", 2);
 		append_func(mm, res.func->name, strlen(res.func->name));
 		append_func(mm, "</a>", 4);
 	} else if (res.data) {
 		len = sprintf(addr, "%X", res.data->addr);
-		append_func(mm, "<a class='var' href='vars.html#", 31);
+		append_func(mm, "<a href='vars.html#", 19);
 		append_func(mm, addr, len);
 		append_func(mm, "'>", 2);
 		append_func(mm, res.data->name, strlen(res.data->name));
 		append_func(mm, "</a>", 4);
 	} else if (res.strucmember) {
-		append_func(mm, "<a class='struc' href='structs.html#struc_", 42);
+		append_func(mm, "<a href='structs.html#struc_", 28);
 		append_func(mm, res.struc->name, strlen(res.struc->name));
 		len = sprintf(addr, "%X", res.strucmember->offset);
 		append_func(mm, addr, len);
@@ -1031,13 +1010,13 @@ void docgen_append_ref_text(struct mmparse *mm, void (*append_func)(struct mmpar
 		append_func(mm, "</a>", 4);
 	} else if (res.struc) {
 		len = strlen(res.struc->name);
-		append_func(mm, "<a class='struc' href='structs.html#struc_", 42);
+		append_func(mm, "<a href='structs.html#struc_", 28);
 		append_func(mm, res.struc->name, len);
 		append_func(mm, "'>struct ", 9);
 		append_func(mm, res.struc->name, len);
 		append_func(mm, "</a>", 4);
 	} else if (res.enumember) {
-		append_func(mm, "<a class='enum' href='enums.html#enu_", 37);
+		append_func(mm, "<a href='enums.html#enu_", 24);
 		append_func(mm, res.enu->name, strlen(res.enu->name));
 		len = sprintf(addr, "%X", res.enumember->value);
 		append_func(mm, addr, len);
@@ -1046,7 +1025,7 @@ void docgen_append_ref_text(struct mmparse *mm, void (*append_func)(struct mmpar
 		append_func(mm, "</a>", 4);
 	} else if (res.enu) {
 		len = strlen(res.enu->name);
-		append_func(mm, "<a class='enum' href='enums.html#enu_", 37);
+		append_func(mm, "<a href='enums.html#enu_", 24);
 		append_func(mm, res.enu->name, len);
 		append_func(mm, "'>enum ", 7);
 		append_func(mm, res.enu->name, len);
@@ -1087,7 +1066,7 @@ int mmparse_cb_mode_symbols_println(struct mmparse *mm)
 static
 void mmparse_cb_mode_symbols_end(struct mmparse *mm)
 {
-	mmparse_append_to_main_output(mm, "</ul>", 5);
+	mmparse_append_to_main_output(mm, "</ul>\n", 6);
 }
 /*jeanine:p:i:38;p:30;a:r;x:6.67;y:9.00;*/
 static
@@ -1198,7 +1177,7 @@ void docgen_mmparse_img_directive_validate_and_trunc_name(struct mmparse *mm, st
 	/*cut off the extra part of the tag name (ie make 'imgcaptioned' or 'imgcollapsed' into 'img')*/
 	data->directive->name[3] = 0;
 }
-/*jeanine:p:i:65;p:58;a:r;x:85.19;y:-238.07;*/
+/*jeanine:p:i:65;p:58;a:r;x:85.41;y:-239.51;*/
 static
 enum mmp_dir_content_action docgen_mmparse_dir_imgcaptioned(struct mmparse *mm, struct mmp_dir_content_data *data)
 {
@@ -1208,7 +1187,7 @@ enum mmp_dir_content_action docgen_mmparse_dir_imgcaptioned(struct mmparse *mm, 
 	mmparse_append_to_closing_tag(mm, "</p>", 4);
 	return LEAVE_CONTENTS;
 }
-/*jeanine:p:i:66;p:58;a:r;x:85.11;y:-226.66;*/
+/*jeanine:p:i:66;p:58;a:r;x:85.33;y:-228.29;*/
 static
 enum mmp_dir_content_action docgen_mmparse_dir_imgcollapsed(struct mmparse *mm, struct mmp_dir_content_data *data)
 {
@@ -1217,8 +1196,10 @@ enum mmp_dir_content_action docgen_mmparse_dir_imgcollapsed(struct mmparse *mm, 
 	docgen_mmparse_img_directive_validate_and_trunc_name(mm, data);/*jeanine:s:a:r;i:67;*/
 	mmparse_append_to_expanded_line(mm, "<details><summary>", 18);
 	mmparse_append_to_closing_tag(mm, "</summary><p class='center'>", 28);
+	/*haxx, I want to use the functionality of 'mmparse_print_tag_with_directives' but that will
+	append it to the expanded line while I want it to be in the closing tag.
+	So this hax will call it and then remove it from the expanded line and paste it in the closing tag.*/
 	expanded_line_len = mm->pd.line_len;
-	/*haxx to use 'mmparse_print_tag_with_directives' but then get the content and remove it again from the expanded line*/
 	mmparse_print_tag_with_directives(mm, data->directive, "/></p></details>");
 	len = mm->pd.line_len - expanded_line_len;
 	mm->pd.line_len -= len;
@@ -1360,9 +1341,9 @@ int main(int argc, char **argv)
 		&mmparse_mode_normal,
 		NULL
 	};
-	char *css, *name, *header, *cheatsheet, *mmparse_shared_data2, *sym_subject, *mmparse_doc_data0;
+	char *css, *name, *html_skel0, *html_skel1, *html_skel2, *cheatsheet, *mmparse_shared_data2, *sym_subject, *mmparse_doc_data0, *cheatsheet_style_close_tag;
+	int i, j, cheatsheet_len, len, mmparse_shared_data2_len, mmparse_doc_data0_len, css_len, html_skel0_len, html_skel1_len, html_skel2_len;
 	FILE *f_structs, *f_funcs, *f_enums, *f_datas, *f_index, *f_cheatsheet;
-	int i, j, cheatsheet_len, len, mmparse_shared_data2_len, mmparse_doc_data0_len;
 	struct mmpextras_shared mmpextras_shared_ud;
 	struct docgen_tmpbuf *tmpbuf_sym_subject;
 	struct docgen_structinfo *structinfo;
@@ -1384,7 +1365,7 @@ int main(int argc, char **argv)
 	assert(((void)"failed to malloc for idcparse", idcp));
 	docgen_parseidc(idcp);/*jeanine:r:i:24;*/
 
-	css = docgen_readcss();/*jeanine:r:i:8;*/
+	docgen_readfile("style.css", &css, &css_len);/*jeanine:s:a:r;i:1;*/
 
 	assert(dg = calloc(1, sizeof(struct docgen)));
 	memset(dg->struct_member_needs_anchor, 0, sizeof(dg->struct_member_needs_anchor));
@@ -1429,7 +1410,13 @@ int main(int argc, char **argv)
 		}
 	}
 
-	header = "<header>\n"
+	html_skel0 = "<!DOCTYPE html><html lang='en'><head><meta charset='utf-8'/>\n<title>";
+	html_skel0_len = strlen(html_skel0);
+	html_skel1 = "</title>\n<style>\n";
+	html_skel1_len = strlen(html_skel1);
+	html_skel2 =
+		"</style></head><body>\n"
+		"<header>\n"
 		"<h1>nfsu2-re</h1>\n"
 		"<p><a href='https://github.com/yugecin/nfsu2-re'>https://github.com/yugecin/nfsu2-re</a></p>\n"
 		"<nav><a href='index.html'>Home</a>\n"
@@ -1439,15 +1426,15 @@ int main(int argc, char **argv)
 		"<a href='vars.html' class='var'>variables</a>\n"
 		"<a href='cheatsheet.html'>cheatsheet</a></nav>\n"
 		"</header>\n";
+	html_skel2_len = strlen(html_skel2);
 
 	/*mmparse things*/
 	memset(&mmpextras_shared_ud, 0, sizeof(mmpextras_shared_ud));
 	assert(mmpextras_shared_ud.config.strpool = malloc(mmpextras_shared_ud.config.strpool_len = 5000));
 	assert((mmparse_shared_data2 = malloc(mmparse_shared_data2_len = 10000)));
 
-	mm = malloc(sizeof(struct mmparse));
-	assert(((void)"failed to malloc for mm", mm));
-	docgen_readfile(mm->config.debug_subject = "index-source.txt", &mm->config.source, &mm->config.source_len);
+	assert(mm = malloc(sizeof(struct mmparse)));
+	docgen_readfile(mm->config.debug_subject = "index-source.txt", &mm->config.source, &mm->config.source_len);/*jeanine:s:a:r;i:1;*/
 	mm->config.directive_handlers = mmdirectivehandlers;
 	mm->config.modes = mmmodes;
 	mm->config.dest.data2 = mmparse_shared_data2;
@@ -1472,9 +1459,7 @@ int main(int argc, char **argv)
 	because otherwise they may get printed without anchors that we only know are needed
 	after parsing their docs.*/
 	assert((mmparse_doc_data0 = malloc(mmparse_doc_data0_len = 90000)));
-	mm2 = malloc(sizeof(struct mmparse));
-	assert(((void)"failed to malloc for mm2", mm2));
-	docgen_readfile(mm2->config.debug_subject = "index-source.txt", &mm2->config.source, &mm2->config.source_len);
+	assert(mm2 = malloc(sizeof(struct mmparse)));
 	mm2->config.directive_handlers = mmdocdirectivehandlers;
 	mm2->config.modes = mmdocmodes;
 	mm2->config.dest.data0 = mmparse_doc_data0;
@@ -1539,69 +1524,63 @@ int main(int argc, char **argv)
 	}
 	docgen_free_tmpbuf(tmpbuf_sym_subject);
 
-	/*finalize index*/
+	/*index*/
 	mmparse_process_placeholders(mm);
 	assert(f_index = fopen("index.html", "wb"));
-	fprintf(f_index,
-		"%s%s%s%s%s",
-		"<!DOCTYPE html><html lang='en'><head><meta charset='utf-8'/><title>nfsu2-re</title><style>",
-		css,
-		"</style></head><body>",
-		header,
-		"<div class='mm'>\n"
-	);
+	fwrite(html_skel0, html_skel0_len, 1, f_index);
+	fwrite("nfsu2-re", 8, 1, f_index);
+	fwrite(html_skel1, html_skel1_len, 1, f_index);
+	fwrite(css, css_len, 1, f_index);
+	fwrite(html_skel2, html_skel2_len, 1, f_index);
+	fwrite("<div class='mm'>\n", 17, 1, f_index);
 	for (mmpart = mm->output; mmpart->data0; mmpart++) {
 		fwrite(mmpart->data0, mmpart->data0_len, 1, f_index);
 		fwrite(mmpart->data1, mmpart->data1_len, 1, f_index);
 	}
-	fprintf(f_index, "%s", "\n</div></body></html>");
+	fwrite("\n</div></body></html>\n", 22, 1, f_index);
 	fclose(f_index);
 
 	/*cheatsheet*/
 	assert(f_cheatsheet = fopen("cheatsheet.html", "wb"));
-	docgen_readfile("cheatsheet-bare.html", &cheatsheet, &cheatsheet_len);
-	fprintf(f_cheatsheet,
-		"%s%s%s%s%s",
-		"<!DOCTYPE html><html lang='en'><head><meta charset='utf-8'/><title>nfsu2-re/cheatsheet</title><style>",
-		css,
-		"</style></head><body>",
-		header,
-		"<div>\n"
-	);
-	fwrite(cheatsheet, cheatsheet_len, 1, f_cheatsheet);
-	fprintf(f_cheatsheet, "%s", "\n</div></body></html>");
+	docgen_readfile("cheatsheet-bare.html", &cheatsheet, &cheatsheet_len);/*jeanine:s:a:r;i:1;*/
+	assert(cheatsheet_style_close_tag = strstr(cheatsheet, "</style>"));
+	fwrite(html_skel0, html_skel0_len, 1, f_cheatsheet);
+	fwrite("nfsu2-re/cheatsheet", 19, 1, f_cheatsheet);
+	fwrite(html_skel1, html_skel1_len, 1, f_cheatsheet);
+	fwrite(css, css_len, 1, f_cheatsheet);
+	fwrite(cheatsheet + 7, cheatsheet_style_close_tag - cheatsheet - 7, 1, f_cheatsheet);
+	fwrite(html_skel2, html_skel2_len, 1, f_cheatsheet);
+	fwrite("<div>\n", 6, 1, f_cheatsheet);
+	fwrite(cheatsheet_style_close_tag + 8, cheatsheet_len - (cheatsheet_style_close_tag - cheatsheet) - 8, 1, f_cheatsheet);
+	fwrite("\n</div></body></html>\n", 22, 1, f_cheatsheet);
 	fclose(f_cheatsheet);
 
 	/*funcs*/
 	assert(f_funcs = fopen("funcs.html", "wb"));
-	fprintf(f_funcs,
-		"%s%s%s%s",
-		"<!DOCTYPE html><html lang='en'><head><meta charset='utf-8'/><title>nfsu2-re/funcs</title><style>",
-		css,
-		"</style></head><body>",
-		header
-	);
-	fprintf(f_funcs, "%s%d%s", "<div class='func'><h2>Functions (", dg->num_funcinfos, ")</h2><ul>\n");
+	fwrite(html_skel0, html_skel0_len, 1, f_funcs);
+	fwrite("nfsu2-re/funcs", 14, 1, f_funcs);
+	fwrite(html_skel1, html_skel1_len, 1, f_funcs);
+	fwrite(css, css_len, 1, f_funcs);
+	fwrite(html_skel2, html_skel2_len, 1, f_funcs);
+	fprintf(f_funcs, "%s%d%s", "<div class='func'>\n<h2>Functions (", dg->num_funcinfos, ")</h2>\n<ul>\n");
 	for (i = 0, funcinfo = dg->funcinfos; i < dg->num_funcinfos; i++, funcinfo++) {
 		fprintf(f_funcs, "<li><a href='#%X'>%s</a></li>\n", funcinfo->func->addr, funcinfo->func->name);
 	}
-	fprintf(f_funcs, "%s", "</ul></div><div class='func'>");
+	fprintf(f_funcs, "%s", "</ul></div><div class='func sym'>");
 	for (i = 0, funcinfo = dg->funcinfos; i < dg->num_funcinfos; i++, funcinfo++) {
 		docgen_print_func(f_funcs, dg, funcinfo, funcinfo->func);/*jeanine:r:i:17;*/
 	}
-	fprintf(f_funcs, "%s", "</div></body></html>");
+	fwrite("\n</div></body></html>\n", 22, 1, f_funcs);
 	fclose(f_funcs);
 
 	/*structs*/
 	assert(f_structs = fopen("structs.html", "wb"));
-	fprintf(f_structs,
-		"%s%s%s%s",
-		"<!DOCTYPE html><html lang='en'><head><meta charset='utf-8'/><title>nfsu2-re/structs</title><style>",
-		css,
-		"</style></head><body>",
-		header
-	);
-	fprintf(f_structs, "%s%d%s", "<div class='struc'><h2>Structs (", dg->num_structinfos, ")</h2><ul>\n");
+	fwrite(html_skel0, html_skel0_len, 1, f_structs);
+	fwrite("nfsu2-re/structs", 16, 1, f_structs);
+	fwrite(html_skel1, html_skel1_len, 1, f_structs);
+	fwrite(css, css_len, 1, f_structs);
+	fwrite(html_skel2, html_skel2_len, 1, f_structs);
+	fprintf(f_structs, "%s%d%s", "<div class='struc'>\n<h2>Structs (", dg->num_structinfos, ")</h2>\n<ul>\n");
 	for (i = 0, structinfo = dg->structinfos; i < dg->num_structinfos; i++, structinfo++) {
 		name = structinfo->struc->name;
 		fprintf(f_structs, "<li><a href='#struc_%s'>%s</a>", name, name);
@@ -1613,52 +1592,48 @@ int main(int argc, char **argv)
 		}
 		fprintf(f_structs, "</li>\n");
 	}
-	fprintf(f_structs, "%s", "</ul></div><div class='struc'>");
+	fprintf(f_structs, "%s", "</ul></div><div class='struc sym'>");
 	for (i = 0, structinfo = dg->structinfos; i < dg->num_structinfos; i++, structinfo++) {
 		docgen_print_struct(f_structs, dg, structinfo, structinfo->struc);/*jeanine:r:i:5;*/
 	}
-	fprintf(f_structs, "%s", "</div></body></html>");
+	fwrite("\n</div></body></html>\n", 22, 1, f_structs);
 	fclose(f_structs);
 
 	/*enums*/
 	assert(f_enums = fopen("enums.html", "wb"));
-	fprintf(f_enums,
-		"%s%s%s%s",
-		"<!DOCTYPE html><html lang='en'><head><meta charset='utf-8'/><title>nfsu2-re/enums</title><style>",
-		css,
-		"</style></head><body>",
-		header
-	);
-	fprintf(f_enums, "%s%d%s", "<div class='enum'><h2>Enums (", dg->num_enuminfos, ")</h2><ul>\n");
+	fwrite(html_skel0, html_skel0_len, 1, f_enums);
+	fwrite("nfsu2-re/enums", 14, 1, f_enums);
+	fwrite(html_skel1, html_skel1_len, 1, f_enums);
+	fwrite(css, css_len, 1, f_enums);
+	fwrite(html_skel2, html_skel2_len, 1, f_enums);
+	fprintf(f_enums, "%s%d%s", "<div class='enum'>\n<h2>Enums (", dg->num_enuminfos, ")</h2>\n<ul>\n");
 	for (i = 0, enuminfo = dg->enuminfos; i < dg->num_enuminfos; i++, enuminfo++) {
 		name = enuminfo->enu->name;
 		fprintf(f_enums, "<li><a href='#enu_%s'>%s</a></li>\n", name, name);
 	}
-	fprintf(f_enums, "%s", "</ul></div><div class='enum'>");
+	fprintf(f_enums, "%s", "</ul></div><div class='enum sym'>");
 	for (i = 0, enuminfo = dg->enuminfos; i < dg->num_enuminfos; i++, enuminfo++) {
 		docgen_print_enum(f_enums, dg, enuminfo, enuminfo->enu);/*jeanine:r:i:22;*/
 	}
-	fprintf(f_enums, "%s", "</div></body></html>");
+	fwrite("\n</div></body></html>\n", 22, 1, f_enums);
 	fclose(f_enums);
 
 	/*datas*/
 	assert(f_datas = fopen("vars.html", "wb"));
-	fprintf(f_datas,
-		"%s%s%s%s",
-		"<!DOCTYPE html><html lang='en'><head><meta charset='utf-8'/><title>nfsu2-re/vars</title><style>",
-		css,
-		"</style></head><body>",
-		header
-	);
-	fprintf(f_datas, "%s%d%s", "<div class='var'><h2>Variables (", dg->num_datainfos, ")</h2><ul>\n");
+	fwrite(html_skel0, html_skel0_len, 1, f_datas);
+	fwrite("nfsu2-re/vars", 13, 1, f_datas);
+	fwrite(html_skel1, html_skel1_len, 1, f_datas);
+	fwrite(css, css_len, 1, f_datas);
+	fwrite(html_skel2, html_skel2_len, 1, f_datas);
+	fprintf(f_datas, "%s%d%s", "<div class='var'>\n<h2>Variables (", dg->num_datainfos, ")</h2>\n<ul>\n");
 	for (i = 0, datainfo = dg->datainfos; i < dg->num_datainfos; i++, datainfo++) {
 		fprintf(f_datas, "<li><a href='#%X'>%s</a></li>\n", datainfo->data->addr, datainfo->data->name);
 	}
-	fprintf(f_datas, "%s", "</ul></div><div class='var'>");
+	fprintf(f_datas, "%s", "</ul></div><div class='var sym'>");
 	for (i = 0, datainfo = dg->datainfos; i < dg->num_datainfos; i++, datainfo++) {
 		docgen_print_data(f_datas, dg, datainfo, datainfo->data);/*jeanine:r:i:23;*/
 	}
-	fprintf(f_datas, "%s", "</div></body></html>");
+	fwrite("\n</div></body></html>\n", 22, 1, f_datas);
 	fclose(f_datas);
 
 	return 0;

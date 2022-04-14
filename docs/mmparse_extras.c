@@ -369,7 +369,7 @@ void mmpextras_cb_mode_ul_start(struct mmparse *mm)
 	struct mmpextras_userdata *ud;
 
 	ud = mmpextras_get_userdata(mm);
-	mmparse_append_to_main_output(mm, "<ul>", 4);
+	mmparse_append_to_main_output(mm, "<ul>\n", 5);
 	ud->ul.level++;
 	assert(ud->ul.level < MMPEXTRAS_MAX_NESTED_ULS);
 	ud->ul.li_open[ud->ul.level] = 0;
@@ -400,6 +400,10 @@ int mmpextras_cb_mode_ul_println(struct mmparse *mm)
 			len -= 2;
 			line += 2;
 		} else {
+			if (!ud->ul.li_open[ud->ul.level]) {
+				mmparse_failmsg(mm, "text found in ul mode but no li started (start a li with '- ')");
+				assert(0);
+			}
 			line = mm->pd.line;
 			len = mm->pd.line_len;
 		}
@@ -420,7 +424,7 @@ void mmpextras_cb_mode_ul_end(struct mmparse *mm)
 		mmparse_append_to_main_output(mm, "</li>", 5);
 	}
 	ud->ul.level--;
-	mmparse_append_to_main_output(mm, "</ul>", 5);
+	mmparse_append_to_main_output(mm, "</ul>\n", 6);
 }
 /*jeanine:p:i:16;p:15;a:b;y:50.81;*/
 struct mmp_mode mmpextras_mode_ul = {
@@ -457,6 +461,7 @@ void mmpextras_cb_mode_paragraphed_start(struct mmparse *mm)
 
 	ud = mmpextras_get_userdata(mm);
 	ud->paragraphed.should_open_p = 1;
+	ud->paragraphed.has_p = 0;
 }
 /*jeanine:p:i:27;p:28;a:r;x:205.32;*/
 static
@@ -487,11 +492,23 @@ int mmpextras_cb_mode_paragraphed_println(struct mmparse *mm)
 	}
 	return extra_offset + mmparse_cb_mode_normal_println(mm);
 }
+/*jeanine:p:i:39;p:28;a:r;x:10.78;y:2.96;*/
+static
+void mmpextras_cb_mode_paragraphed_end(struct mmparse *mm)
+{
+	struct mmpextras_userdata *ud;
+
+	ud = mmpextras_get_userdata(mm);
+	if (ud->paragraphed.has_p) {
+		ud->paragraphed.has_p = 0;
+		mmparse_append_to_main_output(mm, "<p>", 3);
+	}
+}
 /*jeanine:p:i:28;p:16;a:b;y:40.25;*/
 struct mmp_mode mmpextras_mode_paragraphed = {
 	mmpextras_cb_mode_paragraphed_start,/*jeanine:r:i:26;*/
 	mmpextras_cb_mode_paragraphed_println,/*jeanine:r:i:27;*/
-	mmparse_cb_mode_nop_start_end,
+	mmpextras_cb_mode_paragraphed_end,/*jeanine:r:i:39;*/
 	mmparse_cb_mode_normal_directive,
 	"paragraphed",
 	MMPARSE_DO_PARSE_LINES
@@ -506,9 +523,13 @@ void mmpextras_append_breadcrumbs(struct mmparse *mm, void (*append_func)(void*,
 
 	ud = mmpextras_get_userdata(mm);
 	entry = ud->index.entries + for_index_entry_idx;
-	append_func(append_func_data, mm, "<p id='", 7);
-	append_func(append_func_data, mm, entry->anchor->id, entry->anchor->id_len);
-	append_func(append_func_data, mm, "'><small># ", 11);
+	if (is_continuation) {
+		append_func(append_func_data, mm, "<p><small># ", 12);
+	} else {
+		append_func(append_func_data, mm, "<p id='", 7);
+		append_func(append_func_data, mm, entry->anchor->id, entry->anchor->id_len);
+		append_func(append_func_data, mm, "'><small># ", 11);
+	}
 	level = entry->level;
 	while (level--) {
 		while ((--entry)->level != level);
@@ -516,7 +537,7 @@ void mmpextras_append_breadcrumbs(struct mmparse *mm, void (*append_func)(void*,
 		append_func(append_func_data, mm, entry->anchor->id, entry->anchor->id_len);
 		append_func(append_func_data, mm, "'>", 2);
 		append_func(append_func_data, mm, entry->anchor->link_text, entry->anchor->link_text_len);
-		append_func(append_func_data, mm, "</a> > ", 7);
+		append_func(append_func_data, mm, "</a> &gt; ", 10);
 		entry = ud->index.entries + for_index_entry_idx;
 	}
 	if (is_continuation) {
@@ -528,7 +549,7 @@ void mmpextras_append_breadcrumbs(struct mmparse *mm, void (*append_func)(void*,
 	} else {
 		append_func(append_func_data, mm, entry->anchor->link_text, entry->anchor->link_text_len);
 	}
-	append_func(append_func_data, mm, "</small></p>", 12);
+	append_func(append_func_data, mm, "</small></p>\n", 13);
 }
 /*jeanine:p:i:5;p:17;a:r;x:5.56;y:-30.00;*/
 static
@@ -585,12 +606,12 @@ void mmpextras_cb_mode_section_end(struct mmparse *mm)
 	ud->section.current_level--;
 	if (ud->section.needs_index_link_at_bottom) {
 		ud->section.needs_index_link_at_bottom = 0;
-		mmparse_append_to_main_output(mm, "<p><small><a href='#index'>Index</a></small></p></div>", 54);
+		mmparse_append_to_main_output(mm, "<p><small><a href='#index'>Index</a></small></p>\n</div>\n", 56);
 	} else {
 		mmparse_append_to_main_output(mm, "</div>", 6);
 	}
 }
-/*jeanine:p:i:17;p:28;a:b;y:38.88;*/
+/*jeanine:p:i:17;p:28;a:b;y:43.94;*/
 struct mmp_mode mmpextras_mode_section = {
 	mmpextras_cb_mode_section_start,/*jeanine:r:i:5;*/
 	mmpextras_cb_mode_section_println,/*jeanine:r:i:24;*/

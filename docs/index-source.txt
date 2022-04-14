@@ -593,7 +593,7 @@ When it's not found the game will segfault because of the code below:
 .text:004FF6A4 loc_4FF6A4:
 .text:004FF6A4                 xor     edx, edx
 .text:004FF6A6 loc_4FF6A6:
-.text:004FF6A6                 mov     ecx, [edx+{0Ch}] ||| text
+.text:004FF6A6                 mov     ecx, [edx+{0Ch}]                                         ||| num
 .popmode ida
 
 Then {{struct LanguageFileData}.{struct LanguageFileData+C}} is read.                           ||| code,ref,ref
@@ -1309,9 +1309,9 @@ executable itself so it's probably somewhere deep in a bin file.
 
 {FNG things}  ||| h id=fngthings
 
+{{{7F7DC8}} ||| details,summary,ref
 .pushmode pre
 {struct FNGData} {7F7DC8}[] = \{                                                                ||| ref,ref
-{{collapsed data} ||| details,summary
 .controlchars []
 /*7F7DC8*/{ "UI_Main.fng", // 0
             0x4ED6B0,
@@ -2392,9 +2392,10 @@ executable itself so it's probably somewhere deep in a bin file.
             0,
             0,
             0x0, 0x80, 0x0 },
+};
 .controlchars {}
-}\}; |||
 .popmode pre
+} |||
 
 {{Short excerpt from hooking {50B790}}                                                          ||| details,summary,ref
 
