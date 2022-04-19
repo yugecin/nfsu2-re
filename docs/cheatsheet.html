@@ -1,0 +1,757 @@
+<!DOCTYPE html><html lang='en'><head><meta charset='utf-8'/>
+<title>nfsu2-re/cheatsheet</title>
+<style>
+body {
+	font-family: Tahoma,Arial,sans-serif;
+	background: #888;
+	color: #000;
+}
+header,
+body > div {
+	background: #fff;
+	box-shadow: 0px 0px 4px #000;
+	border: 1px solid #efefef;
+	padding: 0 1em;
+	margin: 1em auto;
+	max-width: 60em;
+}
+h1 {
+	margin: .3em;
+}
+header {
+	background: #eee;
+	text-align: center;
+}
+nav {
+	line-height: 2em;
+	margin: 1em 0;
+}
+nav a {
+	padding: .2em .5em;
+	background: #ddd;
+	border-color: #555;
+	border-style: ridge;
+	border-width: 2px;
+}
+pre,
+.sym > div:not(.mm) {
+	margin: 1em 0;
+	padding: .2em .5em;
+	font-family: monospace;
+	white-space: pre;
+	overflow-x: auto;
+}
+pre {
+	border: 2px solid #cdcdcd;
+	background: #f7f7f7;
+}
+table {
+        border-collapse: collapse;
+}
+td,th {
+	padding: .1em .4em;
+	border: 1px solid #000;
+}
+th {
+        background: #f5f5f5;
+}
+details {
+        padding: .2em .4em 0 .4em;
+        margin: .5em 0;
+        border: 1px solid #ccc;
+        background: #eee;
+}
+summary {
+        user-select: none;
+        cursor: pointer;
+}
+.mm a[href^="funcs.html"],
+.mm a[href^="vars.html"],
+.mm a[href^="structs.html"],
+.mm a[href^="enums.html"] {
+	border-radius: 5px;
+	padding: 0 .15em;
+	font-family: monospace;
+}
+.mm a[href^="funcs.html"]:hover {
+	background: #fdf;
+}
+.mm a[href^="vars.html"]:hover {
+	background: #dfd;
+}
+.mm a[href^="structs.html"]:hover {
+	background: #ddf;
+}
+.mm a[href^="enums.html"]:hover {
+	background: #fdd;
+}
+nav a[href^="funcs.html"],
+.mm a[href^="funcs.html"],
+.func > div:not(.mm),
+.struc > ul > li > pre {
+	background: #fef;
+	border-color: #f6f;
+}
+.struc > ul > li > pre {
+	white-space: pre-wrap;
+	margin: .5em 0;
+}
+nav a[href^="structs.html"],
+.mm a[href^="structs.html"],
+.struc > div:not(.mm) {
+	background: #eef;
+	border-color: #66f;
+}
+nav a[href^="enums.html"],
+.mm a[href^="enums.html"],
+.enum > div:not(.mm) {
+	background: #fee;
+	border-color: #f66;
+}
+nav a[href^="vars.html"],
+.mm a[href^="vars.html"],
+.var > div:not(.mm) {
+	background: #efe;
+	border-color: #5a5;
+}
+.sym > div:not(.mm),
+.struc > ul > li > pre {
+	border-width: 1px;
+	border-style: solid;
+}
+div h3 {
+	display: inline;
+	font-size: 1em;
+	font-weight: bold;
+}
+body > div > ul i,
+body > div > div i {
+	font-style: normal;
+	font-size: 80%;
+	color: #777;
+}
+/*class label*/
+.struc h2 + ul em::after,
+.struc h3 + i + em::after {
+	content: "/*class*/";
+	font-style: normal;
+	background: #d4aaff;
+	border: 1px solid #94f;
+	font-size: 80%;
+	border-radius: 3px;
+}
+.struc h2 + ul em::after {
+	content: "class";
+	padding: 0 .2em;
+}
+/*union emphasis/label*/
+.struc h2 + ul b::after,
+body > div > div b {
+	font-weight: normal;
+	background: #aadfff;
+	border: 1px solid #44b9ff;
+	font-size: 90%;
+	border-radius: 3px;
+}
+.struc h2 + ul b::after {
+	content: "union";
+	padding: 0 .2em;
+	font-size: 80%;
+}
+.struc h2 + ul b {
+	font-weight: normal;
+}
+/*unknown type*/
+body > div > div u {
+	text-decoration: none;
+}
+span.uctype,
+body > div > div u::after {
+	content: "/*unconfirmed type*/";
+	background: #fca;
+	border: 1px solid #f94;
+	font-size: 80%;
+	border-radius: 6px;
+	color: #000;
+}
+/*reference to unknown struct/enum*/
+.mm .error,
+body > div.sym > div strong {
+	background: #f00;
+	color: #fff;
+}
+/*doccomment*/
+body > div > div > span {
+	color: #080;
+	display: inline-block;
+	margin-left: 5em; /*why 5 and not 8?*/
+	/*so doccomments on their own don't cause scrollbars*/
+	white-space: pre-wrap;
+}
+a.ext::after {
+	display: inline-block;
+	content: '';
+	width: 12px;
+	height: 12px;
+	background: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAAM\
+AgMAAAArG7R0AAAABGdBTUEAALGPC/xhBQAAAAFzUkdCAK7OHOkAAAAJcEhZcwAADsMAAA7DAcdvqGQ\
+AAAAJUExURUdwTAD/AAAA//ENIZIAAAABdFJOUwBA5thmAAAAL0lEQVQI12NggAFRBwaG0AQGptAVDF\
+wzsxi4Zq1k4JqaCcZMU1cwMCxbwMCg1QAArE8JoyhJwYoAAAAASUVORK5CYII=') no-repeat;
+}
+div.mm div {
+	margin: 2em 0;
+	padding-left: 1em;
+	border-left: 3px ridge #666;
+}
+div.mm p.center {
+	text-align: center;
+}
+div.mm p.imgholder {
+	text-align: center;
+	margin: 3em 0;
+}
+code {
+	background: #dfdfdf;
+	padding: 0 .2em;
+	border-radius: 3px;
+}
+div.mm h2 a, div.mm h3 a, div.mm h4 a, div.mm h5 a, div.mm h6 a {
+	color: #A0A0A0;
+}
+pre.ida {
+	color: #000080;
+	font-weight: bold;
+}
+pre.ida span.text,
+pre.ida span.mt {
+	color: #000;
+}
+pre.ida span.comment,
+pre.ida span.mc {
+	color: #808080;
+}
+pre.ida span.ident {
+	color: #0000ff;
+}
+pre.ida span.num, pre.ida span.str {
+	color: #008000;
+}
+pre.ida span.hi {
+	background: #ff0;
+}
+
+table{text-align:center;border-collapse:collapse}
+tr:not(.noborder) th,tr:not(.noborder) td{border:2px solid #ccc;padding:3px}
+td.br{border-right:2px solid #ccc}
+table tr td.brb,table tr th.brb{border-right:2px solid #000}
+td.bl{border-left:2px solid #ccc}
+td.bb{border-bottom:2px solid #ccc}
+td.bt{border-top:2px solid #ccc}
+.tl{text-align:left}
+.tr{text-align:right}
+.bold{font-weight:bold}
+tr.grey td{color:#ccc}
+th,td{border:unset}
+th{background:unset}
+</style></head><body>
+<header>
+<h1>nfsu2-re</h1>
+<p><a href='https://github.com/yugecin/nfsu2-re'>https://github.com/yugecin/nfsu2-re</a></p>
+<nav><a href='index.html'>home</a>
+<a href='docs.html'>docs</a>
+<a href='funcs.html' class='func'>functions</a>
+<a href='structs.html' class='struc'>structs</a>
+<a href='enums.html' class='enum'>enums</a>
+<a href='vars.html' class='var'>variables</a>
+<a href='cheatsheet.html'>cheatsheet</a></nav>
+</header>
+<div>
+
+<h2>cheatsheet</h2>
+<hr/>
+<p>FCOM/FCOMPP/FCOMPP</p>
+<table>
+<tr><th>Condition</th><th>C3</th><th>C2</th><th>C0</th></tr>
+<tr><td>ST(0) &gt; SRC</td><td>0</td><td>0</td><td>0</td></tr>
+<tr><td>ST(0) &lt; SRC</td><td>0</td><td>0</td><td>1</td></tr>
+<tr><td>ST(0) = SRC</td><td>1</td><td>0</td><td>0</td></tr>
+</table>
+<hr/>
+<p>FPU status word</p>
+<table>
+<tr class="noborder">
+	<th>&nbsp;</th>
+	<!--15-->
+	<td>&nbsp;</td>
+	<td>&nbsp;</td>
+	<!--14-->
+	<td>&nbsp;</td>
+	<td>&nbsp;</td>
+	<!--13-->
+	<td>&nbsp;</td>
+	<td>&nbsp;</td>
+	<!--12-->
+	<td>&nbsp;</td>
+	<td>&nbsp;</td>
+	<!--11-->
+	<td>&nbsp;</td>
+	<td>&nbsp;</td>
+	<!--10-->
+	<td>&nbsp;</td>
+	<td>&nbsp;</td>
+	<!--9-->
+	<td>&nbsp;</td>
+	<td>&nbsp;</td>
+	<!--8-->
+	<td>&nbsp;</td>
+	<td>&nbsp;</td>
+	<!--7-->
+	<td>&nbsp;</td>
+	<td>&nbsp;</td>
+	<!--6-->
+	<td>&nbsp;</td>
+	<td>&nbsp;</td>
+	<!--5-->
+	<td>&nbsp;</td>
+	<td>&nbsp;</td>
+	<!--4-->
+	<td>&nbsp;</td>
+	<td>&nbsp;</td>
+	<!--3-->
+	<td>&nbsp;</td>
+	<td>&nbsp;</td>
+	<!--2-->
+	<td>&nbsp;</td>
+	<td>&nbsp;</td>
+	<!--1-->
+	<td>&nbsp;</td>
+	<td>&nbsp;</td>
+	<!--0-->
+	<td>&nbsp;</td>
+	<td>&nbsp;</td>
+	<td>&nbsp;</td>
+</tr>
+<tr>
+	<th rowspan=2 style="border:0">F(N)STSW AX</th>
+	<td colspan=32 style="background:#ff2">AX</td>
+	<td style="border:0">&nbsp;</td>
+</tr>
+<tr>
+	<td colspan=16 style="background:#db3" class="brb">AH</td>
+	<td colspan=16 style="background:#db3">AL</td>
+	<td style="border:0">&nbsp;</td>
+</tr>
+<tr class="grey">
+	<td style="border:0">&nbsp;</td>
+	<!--15-->
+	<td colspan=2>8</td>
+	<!--14-->
+	<td colspan=2>7</td>
+	<!--13-->
+	<td colspan=2>6</td>
+	<!--12-->
+	<td colspan=2>5</td>
+	<!--11-->
+	<td colspan=2>4</td>
+	<!--10-->
+	<td colspan=2>3</td>
+	<!--9-->
+	<td colspan=2>2</td>
+	<!--8-->
+	<td colspan=2 class="brb">1</td>
+	<!--7-->
+	<td colspan=2>8</td>
+	<!--6-->
+	<td colspan=2>7</td>
+	<!--5-->
+	<td colspan=2>6</td>
+	<!--4-->
+	<td colspan=2>5</td>
+	<!--3-->
+	<td colspan=2>4</td>
+	<!--2-->
+	<td colspan=2>3</td>
+	<!--1-->
+	<td colspan=2>2</td>
+	<!--0-->
+	<td colspan=2>1</td>
+	<th style="border:0">&nbsp;</th>
+</tr>
+<tr>
+	<th style="border:0">&nbsp;</th>
+	<!--15-->
+	<th colspan=2>15</th>
+	<!--14-->
+	<th colspan=2>14</th>
+	<!--13-->
+	<th colspan=2>13</th>
+	<!--12-->
+	<th colspan=2>12</th>
+	<!--11-->
+	<th colspan=2>11</th>
+	<!--10-->
+	<th colspan=2>10</th>
+	<!--9-->
+	<th colspan=2>9</th>
+	<!--8-->
+	<th colspan=2 class="brb">8</th>
+	<!--7-->
+	<th colspan=2>7</th>
+	<!--6-->
+	<th colspan=2>6</th>
+	<!--5-->
+	<th colspan=2>5</th>
+	<!--4-->
+	<th colspan=2>4</th>
+	<!--3-->
+	<th colspan=2>3</th>
+	<!--2-->
+	<th colspan=2>2</th>
+	<!--1-->
+	<th colspan=2>1</th>
+	<!--0-->
+	<th colspan=2>0</th>
+	<th style="border:0">&nbsp;</th>
+</tr>
+<tr>
+	<td style="border:0">&nbsp;</td>
+	<td colspan=2>B</td>
+	<td colspan=2>C3</td>
+	<td colspan=6>TOP</td>
+	<td colspan=2>C2</td>
+	<td colspan=2>C1</td>
+	<td colspan=2 class="brb">C0</td>
+	<td colspan=2>ES</td>
+	<td colspan=2>SF</td>
+	<td colspan=2>PE</td>
+	<td colspan=2>UE</td>
+	<td colspan=2>OE</td>
+	<td colspan=2>ZE</td>
+	<td colspan=2>DE</td>
+	<td colspan=2>IE</td>
+	<th style="border:0">&nbsp;</th>
+</tr>
+<tr class="noborder">
+	<td>&nbsp;</td>
+	<!--15-->
+	<td class="br"></td>
+	<td></td>
+	<!--14-->
+	<td class="br"></td>
+	<td></td>
+	<!--13-->
+	<td></td>
+	<td></td>
+	<!--12-->
+	<td class="br"></td>
+	<td></td>
+	<!--11-->
+	<td></td>
+	<td></td>
+	<!--10-->
+	<td class="br"></td>
+	<td></td>
+	<!--9-->
+	<td class="br"></td>
+	<td></td>
+	<!--8-->
+	<td class="br"></td>
+	<td></td>
+	<!--7-->
+	<td class="br"></td>
+	<td></td>
+	<!--6-->
+	<td class="br"></td>
+	<td></td>
+	<!--5-->
+	<td class="br"></td>
+	<td></td>
+	<!--4-->
+	<td class="br"></td>
+	<td></td>
+	<!--3-->
+	<td class="br"></td>
+	<td></td>
+	<!--2-->
+	<td class="br"></td>
+	<td></td>
+	<!--1-->
+	<td class="br"></td>
+	<td></td>
+	<!--0-->
+	<td class="br"></td>
+	<td></td>
+	<td>&nbsp;</td>
+</tr>
+<tr class="noborder">
+	<td rowspan=2 class="tr">FPU Busy</td>
+	<!--15-->
+	<td class="bb br"></td>
+	<td></td>
+	<!--14-->
+	<td class="br"></td>
+	<td></td>
+	<!--13-->
+	<td rowspan=2 colspan=6 class="br bt bb bl">Top of<br/>Stack Pointer</td>
+	<!--10-->
+	<td class="br"></td>
+	<td></td>
+	<!--9-->
+	<td class="br"></td>
+	<td></td>
+	<!--8-->
+	<td class="br"></td>
+	<td></td>
+	<!--7-->
+	<td class="br"></td>
+	<td></td>
+	<!--6-->
+	<td class="br"></td>
+	<td></td>
+	<!--5-->
+	<td class="br"></td>
+	<td></td>
+	<!--4-->
+	<td class="br"></td>
+	<td></td>
+	<!--3-->
+	<td class="br"></td>
+	<td></td>
+	<!--2-->
+	<td class="br"></td>
+	<td></td>
+	<!--1-->
+	<td class="br"></td>
+	<td></td>
+	<!--0-->
+	<td></td>
+	<td class="bb bl"></td>
+	<td rowspan=2 class="tl">Invalid Operand Exception</td>
+</tr>
+<tr class="noborder">
+	<!--15-->
+	<td></td>
+	<td></td>
+	<!--14-->
+	<td class="br"></td>
+	<td></td>
+	<!--13-->
+	<!-- rowspan element -->
+	<!--10-->
+	<td class="br"></td>
+	<td></td>
+	<!--9-->
+	<td class="br"></td>
+	<td></td>
+	<!--8-->
+	<td class="br"></td>
+	<td></td>
+	<!--7-->
+	<td class="br"></td>
+	<td></td>
+	<!--6-->
+	<td class="br"></td>
+	<td></td>
+	<!--5-->
+	<td class="br"></td>
+	<td></td>
+	<!--4-->
+	<td class="br"></td>
+	<td></td>
+	<!--3-->
+	<td class="br"></td>
+	<td></td>
+	<!--2-->
+	<td class="br"></td>
+	<td></td>
+	<!--1-->
+	<td class="br"></td>
+	<td></td>
+	<!--0-->
+	<td></td>
+	<td></td>
+</tr>
+<tr class="noborder">
+	<td rowspan=2 class="tr">Condition Code</td>
+	<!--15-->
+	<td class="bb"></td>
+	<td class="bb"></td>
+	<!--14-->
+	<td class="bb br"></td>
+	<td class="bb"></td>
+	<!--13-->
+	<td colspan=6 class="bb"></td>
+	<!--10-->
+	<td class="bb br"></td>
+	<td class="bb"></td>
+	<!--9-->
+	<td class="bb br"></td>
+	<td class="bb"></td>
+	<!--8-->
+	<td class="bb br"></td>
+	<td></td>
+	<!--7-->
+	<td class="br"></td>
+	<td></td>
+	<!--6-->
+	<td class="br"></td>
+	<td></td>
+	<!--5-->
+	<td class="br"></td>
+	<td></td>
+	<!--4-->
+	<td class="br"></td>
+	<td></td>
+	<!--3-->
+	<td class="br"></td>
+	<td></td>
+	<!--2-->
+	<td class="br"></td>
+	<td></td>
+	<!--1-->
+	<td></td>
+	<td class="bl bb"></td>
+	<!--0-->
+	<td class="bb"></td>
+	<td class="bb"></td>
+	<td rowspan=2 class="tl">Denormal Operand Exception</td>
+</tr>
+<tr class="noborder">
+	<td colspan=16></td>
+	<!--7-->
+	<td class="br"></td>
+	<td></td>
+	<!--6-->
+	<td class="br"></td>
+	<td></td>
+	<!--5-->
+	<td class="br"></td>
+	<td></td>
+	<!--4-->
+	<td class="br"></td>
+	<td></td>
+	<!--3-->
+	<td class="br"></td>
+	<td></td>
+	<!--2-->
+	<td class="br"></td>
+	<td></td>
+	<!--1-->
+	<td colspan=4></td>
+</tr>
+<tr class="noborder">
+	<td rowspan=2 class="tr">Error Summary Status</td>
+	<!--15-->
+	<td colspan=16 class="bb"></td>
+	<!--7-->
+	<td class="bb br"></td>
+	<td></td>
+	<!--6-->
+	<td class="br"></td>
+	<td></td>
+	<!--5-->
+	<td class="br"></td>
+	<td></td>
+	<!--4-->
+	<td class="br"></td>
+	<td></td>
+	<!--3-->
+	<td class="br"></td>
+	<td></td>
+	<!--2-->
+	<td></td>
+	<td class="bl bb"></td>
+	<!--1-->
+	<td colspan=4 class="bb"></td>
+	<td rowspan=2 class="tl">Zero Divide Exception</td>
+</tr>
+<tr class="noborder">
+	<td colspan=18></td>
+	<!--6-->
+	<td class="br"></td>
+	<td></td>
+	<!--5-->
+	<td class="br"></td>
+	<td></td>
+	<!--4-->
+	<td class="br"></td>
+	<td></td>
+	<!--3-->
+	<td class="br"></td>
+	<td></td>
+	<!--2-->
+	<td colspan=6></td>
+</tr>
+<tr class="noborder">
+	<td rowspan=2 class="tr">Stack Fault</td>
+	<!--15-->
+	<td colspan=18 class="bb"></td>
+	<!--6-->
+	<td class="bb br"></td>
+	<td></td>
+	<!--5-->
+	<td class="br"></td>
+	<td></td>
+	<!--4-->
+	<td class="br"></td>
+	<td></td>
+	<!--3-->
+	<td></td>
+	<td class="bl bb"></td>
+	<!--2-->
+	<td colspan=6 class="bb"></td>
+	<td rowspan=2 class="tl">Overflow Exception</td>
+</tr>
+<tr class="noborder">
+	<!--15-->
+	<td colspan=20></td>
+	<!--5-->
+	<td class="br"></td>
+	<td></td>
+	<!--4-->
+	<td class="br"></td>
+	<td></td>
+	<!--3-->
+	<td colspan=8></td>
+</tr>
+<tr class="noborder">
+	<td rowspan=2 class="tr">Precision Exception</td>
+	<!--15-->
+	<td colspan=20 class="bb"></td>
+	<!--5-->
+	<td class="bb br"></td>
+	<td></td>
+	<!--4-->
+	<td></td>
+	<td class="bb bl"></td>
+	<!--3-->
+	<td colspan=8 class="bb"></td>
+	<td rowspan=2 class="tl">Underflow Exception</td>
+</tr>
+<tr class="noborder">
+	<td colspan=32></td>
+</tr>
+</table>
+<hr/>
+<p>FCOMP scenario #1</p>
+<table class="tl bold">
+<tr class="noborder"><td>FLD</td><td>&nbsp;&nbsp;</td><td>[EAX]</td></tr>
+<tr class="noborder"><td>FCOMP</td><td>&nbsp;&nbsp;</td><td>[ECX]</td></tr>
+<tr class="noborder"><td>FNSTSW</td><td>&nbsp;&nbsp;</td><td>AX</td></tr>
+<tr class="noborder"><td>TEST</td><td>&nbsp;&nbsp;</td><td>AH, 1</td></tr>
+<tr class="noborder"><td>JNZ</td><td>&nbsp;&nbsp;</td><td>branch ;take branch when [eax] &lt; [ecx]</td></tr>
+</table>
+<p>FCOMP scenario #2</p>
+<table class="tl bold">
+<tr class="noborder"><td>FLD</td><td>&nbsp;&nbsp;</td><td>[EAX]</td></tr>
+<tr class="noborder"><td>FCOMP</td><td>&nbsp;&nbsp;</td><td>[ECX]</td></tr>
+<tr class="noborder"><td>FNSTSW</td><td>&nbsp;&nbsp;</td><td>AX</td></tr>
+<tr class="noborder"><td>TEST</td><td>&nbsp;&nbsp;</td><td>AH, 41h</td></tr>
+<tr class="noborder"><td>JP</td><td>&nbsp;&nbsp;</td><td>branch ;take branch when [eax] &gt; [ecx]</td></tr>
+</table>
+<hr/>
+<p>REP: for ecx repetitions</p>
+<p>STOSB/W/D: copy from EAX to EDI, inc EDI</p>
+<p>MOVSB/W/D: copy from ESI to EDI, inc ESI and EDI</p>
+
+</div></body></html>

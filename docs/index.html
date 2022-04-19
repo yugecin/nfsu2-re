@@ -1,0 +1,298 @@
+<!DOCTYPE html><html lang='en'><head><meta charset='utf-8'/>
+<title>nfsu2-re</title>
+<style>
+body {
+	font-family: Tahoma,Arial,sans-serif;
+	background: #888;
+	color: #000;
+}
+header,
+body > div {
+	background: #fff;
+	box-shadow: 0px 0px 4px #000;
+	border: 1px solid #efefef;
+	padding: 0 1em;
+	margin: 1em auto;
+	max-width: 60em;
+}
+h1 {
+	margin: .3em;
+}
+header {
+	background: #eee;
+	text-align: center;
+}
+nav {
+	line-height: 2em;
+	margin: 1em 0;
+}
+nav a {
+	padding: .2em .5em;
+	background: #ddd;
+	border-color: #555;
+	border-style: ridge;
+	border-width: 2px;
+}
+pre,
+.sym > div:not(.mm) {
+	margin: 1em 0;
+	padding: .2em .5em;
+	font-family: monospace;
+	white-space: pre;
+	overflow-x: auto;
+}
+pre {
+	border: 2px solid #cdcdcd;
+	background: #f7f7f7;
+}
+table {
+        border-collapse: collapse;
+}
+td,th {
+	padding: .1em .4em;
+	border: 1px solid #000;
+}
+th {
+        background: #f5f5f5;
+}
+details {
+        padding: .2em .4em 0 .4em;
+        margin: .5em 0;
+        border: 1px solid #ccc;
+        background: #eee;
+}
+summary {
+        user-select: none;
+        cursor: pointer;
+}
+.mm a[href^="funcs.html"],
+.mm a[href^="vars.html"],
+.mm a[href^="structs.html"],
+.mm a[href^="enums.html"] {
+	border-radius: 5px;
+	padding: 0 .15em;
+	font-family: monospace;
+}
+.mm a[href^="funcs.html"]:hover {
+	background: #fdf;
+}
+.mm a[href^="vars.html"]:hover {
+	background: #dfd;
+}
+.mm a[href^="structs.html"]:hover {
+	background: #ddf;
+}
+.mm a[href^="enums.html"]:hover {
+	background: #fdd;
+}
+nav a[href^="funcs.html"],
+.mm a[href^="funcs.html"],
+.func > div:not(.mm),
+.struc > ul > li > pre {
+	background: #fef;
+	border-color: #f6f;
+}
+.struc > ul > li > pre {
+	white-space: pre-wrap;
+	margin: .5em 0;
+}
+nav a[href^="structs.html"],
+.mm a[href^="structs.html"],
+.struc > div:not(.mm) {
+	background: #eef;
+	border-color: #66f;
+}
+nav a[href^="enums.html"],
+.mm a[href^="enums.html"],
+.enum > div:not(.mm) {
+	background: #fee;
+	border-color: #f66;
+}
+nav a[href^="vars.html"],
+.mm a[href^="vars.html"],
+.var > div:not(.mm) {
+	background: #efe;
+	border-color: #5a5;
+}
+.sym > div:not(.mm),
+.struc > ul > li > pre {
+	border-width: 1px;
+	border-style: solid;
+}
+div h3 {
+	display: inline;
+	font-size: 1em;
+	font-weight: bold;
+}
+body > div > ul i,
+body > div > div i {
+	font-style: normal;
+	font-size: 80%;
+	color: #777;
+}
+/*class label*/
+.struc h2 + ul em::after,
+.struc h3 + i + em::after {
+	content: "/*class*/";
+	font-style: normal;
+	background: #d4aaff;
+	border: 1px solid #94f;
+	font-size: 80%;
+	border-radius: 3px;
+}
+.struc h2 + ul em::after {
+	content: "class";
+	padding: 0 .2em;
+}
+/*union emphasis/label*/
+.struc h2 + ul b::after,
+body > div > div b {
+	font-weight: normal;
+	background: #aadfff;
+	border: 1px solid #44b9ff;
+	font-size: 90%;
+	border-radius: 3px;
+}
+.struc h2 + ul b::after {
+	content: "union";
+	padding: 0 .2em;
+	font-size: 80%;
+}
+.struc h2 + ul b {
+	font-weight: normal;
+}
+/*unknown type*/
+body > div > div u {
+	text-decoration: none;
+}
+span.uctype,
+body > div > div u::after {
+	content: "/*unconfirmed type*/";
+	background: #fca;
+	border: 1px solid #f94;
+	font-size: 80%;
+	border-radius: 6px;
+	color: #000;
+}
+/*reference to unknown struct/enum*/
+.mm .error,
+body > div.sym > div strong {
+	background: #f00;
+	color: #fff;
+}
+/*doccomment*/
+body > div > div > span {
+	color: #080;
+	display: inline-block;
+	margin-left: 5em; /*why 5 and not 8?*/
+	/*so doccomments on their own don't cause scrollbars*/
+	white-space: pre-wrap;
+}
+a.ext::after {
+	display: inline-block;
+	content: '';
+	width: 12px;
+	height: 12px;
+	background: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAAM\
+AgMAAAArG7R0AAAABGdBTUEAALGPC/xhBQAAAAFzUkdCAK7OHOkAAAAJcEhZcwAADsMAAA7DAcdvqGQ\
+AAAAJUExURUdwTAD/AAAA//ENIZIAAAABdFJOUwBA5thmAAAAL0lEQVQI12NggAFRBwaG0AQGptAVDF\
+wzsxi4Zq1k4JqaCcZMU1cwMCxbwMCg1QAArE8JoyhJwYoAAAAASUVORK5CYII=') no-repeat;
+}
+div.mm div {
+	margin: 2em 0;
+	padding-left: 1em;
+	border-left: 3px ridge #666;
+}
+div.mm p.center {
+	text-align: center;
+}
+div.mm p.imgholder {
+	text-align: center;
+	margin: 3em 0;
+}
+code {
+	background: #dfdfdf;
+	padding: 0 .2em;
+	border-radius: 3px;
+}
+div.mm h2 a, div.mm h3 a, div.mm h4 a, div.mm h5 a, div.mm h6 a {
+	color: #A0A0A0;
+}
+pre.ida {
+	color: #000080;
+	font-weight: bold;
+}
+pre.ida span.text,
+pre.ida span.mt {
+	color: #000;
+}
+pre.ida span.comment,
+pre.ida span.mc {
+	color: #808080;
+}
+pre.ida span.ident {
+	color: #0000ff;
+}
+pre.ida span.num, pre.ida span.str {
+	color: #008000;
+}
+pre.ida span.hi {
+	background: #ff0;
+}
+</style></head><body>
+<header>
+<h1>nfsu2-re</h1>
+<p><a href='https://github.com/yugecin/nfsu2-re'>https://github.com/yugecin/nfsu2-re</a></p>
+<nav><a href='index.html'>home</a>
+<a href='docs.html'>docs</a>
+<a href='funcs.html' class='func'>functions</a>
+<a href='structs.html' class='struc'>structs</a>
+<a href='enums.html' class='enum'>enums</a>
+<a href='vars.html' class='var'>variables</a>
+<a href='cheatsheet.html'>cheatsheet</a></nav>
+</header>
+<div class='mm'>
+<div><h2 id="prologue">Prologue <a href='#prologue'>#</a></h2>
+<p>This is just me documenting while I have fun attempting to reverse-engineer the game
+Need For Speed Underground 2, otherwise knows as nfsu2.
+</p><p>This normally belongs to <a class="ext" href="https://github.com/yugecin/nfsu2-re">https://github.com/yugecin/nfsu2-re</a>.
+</p></div><div><h2 id="structure">How this site is structured <a href='#structure'>#</a></h2>
+<ul>
+<li><a href="index.html">index</a>: information about this project, you're looking at it
+</li><li><a href="docs.html">docs</a>: structured documentation explaining concepts and game workings
+</li><li><a href="funcs.html">functions</a>: function symbols information dump, see <a href='#generationnotes'>Symbol generation notes</a>
+</li><li><a href="structs.html">structs</a>: struct symbols information dump, see <a href='#generationnotes'>Symbol generation notes</a>
+</li><li><a href="enums.html">enums</a>: enum symbols information dump, see <a href='#generationnotes'>Symbol generation notes</a>
+</li><li><a href="vars.html">vars</a>: global variable symbols information dump, see <a href='#generationnotes'>Symbol generation notes</a>
+</li><li><a href="cheatsheet.html">cheatsheet</a>: bunch of things I tend to forget when looking at disassembled code
+</li></ul>
+</div><div><h2 id="injectedcode">Injected code <a href='#injectedcode'>#</a></h2>
+<p>The code for all injected things I did can be found in <code>nfsu2-re-hooks/*.c</code>.
+It's configured as a VC2005 project in a VC2005 solution.
+The project emits a compiled file to <code>..\NeedForSpeed U2\scripts\nfsu2-re-hooks.asi</code>.
+I'm using the <a class="ext" href="https://github.com/ThirteenAG/Ultimate-ASI-Loader/releases">Ultimate ASI Loader by ThirteenAG</a>,
+which loads the library nicely for me (download the ZIP and place the dll in the game folder,
+name it <code>dinput8.dll</code>).
+</p></div><div><h2 id="generationnotes">Symbol generation notes <a href='#generationnotes'>#</a></h2>
+<p>Symbol information (<a href="funcs.html">functions</a>, <a href="structs.html">structs</a>, <a href="enums.html">enums</a>, <a href="vars.html">vars</a>) is generated from the
+<code>SPEED2.idc</code> file which can be found on the <a class="ext" href="https://github.com/yugecin/nfsu2-re/tree/idc">idc branch of the repository</a>.
+This file is generated by <a class="ext" href="https://hex-rays.com">IDA - The Interactive Disassembler</a> from the IDA database that I'm
+making (this database is not shared, but the idc file has nearly everything).
+I'm using IDA freeware 7.0.191002.
+</p><div><h3 id="variablegeneration">Global variables are missing types <a href='#variablegeneration'>#</a></h3>
+<p>The generated idc file does not contain type information of global variables when that type
+is a pointer. One example is <a href='vars.html#838454'>smsDatas</a>, which has type <code><a href='structs.html#struc_SmsData'>struct SmsData</a>*</code>, but this information
+is missing from the idc and thus in these docs it shows up as <code>int</code> with
+<code><span class="uctype">/*unconfirmed type*/</span></code>.
+</p><p>The same counts for some primitive types like <code>int</code>, for example <a href='vars.html#838450'>numSmsDatas</a>.
+</p><p>Some other types do show up correctly, like when the type is a struct or <code>float</code> or <code>double</code>,
+for example <a href='vars.html#827CC4'>twoPi</a>.
+</p></div><div><h3 id="unkstructmembertypes">Unknown struct member types <a href='#unkstructmembertypes'>#</a></h3>
+<p>In IDA, the difference between a struct member that has a type set and a struct member that
+has no type set is not very visible. Because of that, some struct members might be missing
+an explicit type, because it is simply forgotten to set their type correctly. The type shown
+will still most likely be correct, as the struct member's size may be translated into <code>char</code>
+or <code>short</code> or <code>int</code>, but it will have an <code><span class="uctype">/*unconfirmed type*/</span></code> tag.
+</p></div></div><p><a href="indexold.html">(old single-page documentation, obsolete)</a></p>
+
+</div></body></html>
