@@ -380,14 +380,15 @@ void mmpextras_cb_mode_ul_start(struct mmparse *mm)
 	assert(ud->ul.level < MMPEXTRAS_MAX_NESTED_ULS);
 	ud->ul.li_open[ud->ul.level] = 0;
 }
-/*jeanine:p:i:13;p:16;a:r;x:5.56;y:-19.00;*/
+/*jeanine:p:i:13;p:16;a:r;x:5.56;y:-19.50;*/
 static
 int mmpextras_cb_mode_ul_println(struct mmparse *mm)
 {
 	struct mmpextras_userdata *ud;
+	int len, offset;
 	char *line;
-	int len;
 
+	offset = 0;
 	ud = mmpextras_get_userdata(mm);
 	if (mm->pd.line_len) {
 		line = mm->pd.line;
@@ -399,10 +400,10 @@ int mmpextras_cb_mode_ul_println(struct mmparse *mm)
 		}
 		if (line[0] == '-' && line[1] == ' ') {
 			if (ud->ul.li_open[ud->ul.level]) {
-				mmparse_append_to_main_output(mm, "</li>", 5);
+				mmparse_append_to_main_output(mm, "</li>", 5); offset += 5;
 			}
 			ud->ul.li_open[ud->ul.level] = 1;
-			mmparse_append_to_main_output(mm, "<li>", 4);
+			mmparse_append_to_main_output(mm, "<li>", 4); offset += 4;
 			len -= 2;
 			line += 2;
 		} else {
@@ -414,12 +415,10 @@ int mmpextras_cb_mode_ul_println(struct mmparse *mm)
 			len = mm->pd.line_len;
 		}
 		mmparse_append_to_main_output(mm, line, len);
-		return -2;
-	} else {
-		return 0;
 	}
+	return (mm->pd.line - line) + offset;
 }
-/*jeanine:p:i:14;p:16;a:r;x:5.56;y:17.00;*/
+/*jeanine:p:i:14;p:16;a:r;x:5.34;y:20.25;*/
 static
 void mmpextras_cb_mode_ul_end(struct mmparse *mm)
 {
