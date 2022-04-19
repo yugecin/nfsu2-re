@@ -777,9 +777,11 @@ struct mmpextras_anchor *mmpextras_do_href_base(struct mmparse *mm, void (*appen
 			return anchor;
 		}
 	}
-	errbuf = alloca(id_len + 1);
-	errbuf[id_len] = 0;
-	memcpy(errbuf, id, id_len);
+	errbuf = alloca(id_len + 1 + file_len + 1);
+	errbuf[file_len + 1 + id_len] = 0;
+	errbuf[file_len] = '#';
+	memcpy(errbuf, file, file_len);
+	memcpy(errbuf + file_len + 1, id, id_len);
 	mmparse_failmsgf(mm, "can't find anchor '%s'", errbuf);
 	assert(0);
 	return NULL; /*make gcc -Wall happy*/

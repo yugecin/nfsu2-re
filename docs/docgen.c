@@ -1343,7 +1343,7 @@ int main(int argc, char **argv)
 	};
 	char *css, *name, *html_skel0, *html_skel1, *html_skel2, *cheatsheet, *mmparse_shared_data2, *sym_subject, *mmparse_doc_data0, *cheatsheet_style_close_tag;
 	int i, j, cheatsheet_len, len, mmparse_shared_data2_len, mmparse_doc_data0_len, css_len, html_skel0_len, html_skel1_len, html_skel2_len;
-	FILE *f_structs, *f_funcs, *f_enums, *f_datas, *f_index, *f_cheatsheet;
+	FILE *f_structs, *f_funcs, *f_enums, *f_datas, *f_docs, *f_cheatsheet;
 	struct mmpextras_shared mmpextras_shared_ud;
 	struct docgen_tmpbuf *tmpbuf_sym_subject;
 	struct docgen_structinfo *structinfo;
@@ -1420,6 +1420,7 @@ int main(int argc, char **argv)
 		"<h1>nfsu2-re</h1>\n"
 		"<p><a href='https://github.com/yugecin/nfsu2-re'>https://github.com/yugecin/nfsu2-re</a></p>\n"
 		"<nav><a href='index.html'>Home</a>\n"
+		"<a href='docs.html'>docs</a>\n"
 		"<a href='funcs.html' class='func'>functions</a>\n"
 		"<a href='structs.html' class='struc'>structs</a>\n"
 		"<a href='enums.html' class='enum'>enums</a>\n"
@@ -1434,7 +1435,7 @@ int main(int argc, char **argv)
 	assert((mmparse_shared_data2 = malloc(mmparse_shared_data2_len = 10000)));
 
 	assert(mm = malloc(sizeof(struct mmparse)));
-	docgen_readfile(mm->config.debug_subject = "index-source.txt", &mm->config.source, &mm->config.source_len);/*jeanine:s:a:r;i:1;*/
+	docgen_readfile(mm->config.debug_subject = "docs.txt", &mm->config.source, &mm->config.source_len);/*jeanine:s:a:r;i:1;*/
 	mm->config.directive_handlers = mmdirectivehandlers;
 	mm->config.modes = mmmodes;
 	mm->config.dest.data2 = mmparse_shared_data2;
@@ -1449,8 +1450,8 @@ int main(int argc, char **argv)
 	assert((mm->config.userdata = calloc(1, sizeof(struct docgen_mmparse_userdata))));
 	ud = mm->config.userdata;
 	ud->dg = dg;
-	ud->mmpextras.config.target_file = "index.html";
-	ud->mmpextras.config.target_file_len = 10;
+	ud->mmpextras.config.target_file = "docs.html";
+	ud->mmpextras.config.target_file_len = 9;
 	ud->mmpextras.shared = &mmpextras_shared_ud;
 	mmparse(mm);
 
@@ -1524,21 +1525,21 @@ int main(int argc, char **argv)
 	}
 	docgen_free_tmpbuf(tmpbuf_sym_subject);
 
-	/*index*/
+	/*docs*/
 	mmparse_process_placeholders(mm);
-	assert(f_index = fopen("index.html", "wb"));
-	fwrite(html_skel0, html_skel0_len, 1, f_index);
-	fwrite("nfsu2-re", 8, 1, f_index);
-	fwrite(html_skel1, html_skel1_len, 1, f_index);
-	fwrite(css, css_len, 1, f_index);
-	fwrite(html_skel2, html_skel2_len, 1, f_index);
-	fwrite("<div class='mm'>\n", 17, 1, f_index);
+	assert(f_docs = fopen("docs.html", "wb"));
+	fwrite(html_skel0, html_skel0_len, 1, f_docs);
+	fwrite("nfsu2-re", 8, 1, f_docs);
+	fwrite(html_skel1, html_skel1_len, 1, f_docs);
+	fwrite(css, css_len, 1, f_docs);
+	fwrite(html_skel2, html_skel2_len, 1, f_docs);
+	fwrite("<div class='mm'>\n", 17, 1, f_docs);
 	for (mmpart = mm->output; mmpart->data0; mmpart++) {
-		fwrite(mmpart->data0, mmpart->data0_len, 1, f_index);
-		fwrite(mmpart->data1, mmpart->data1_len, 1, f_index);
+		fwrite(mmpart->data0, mmpart->data0_len, 1, f_docs);
+		fwrite(mmpart->data1, mmpart->data1_len, 1, f_docs);
 	}
-	fwrite("\n</div></body></html>\n", 22, 1, f_index);
-	fclose(f_index);
+	fwrite("\n</div></body></html>\n", 22, 1, f_docs);
+	fclose(f_docs);
 
 	/*cheatsheet*/
 	assert(f_cheatsheet = fopen("cheatsheet.html", "wb"));
