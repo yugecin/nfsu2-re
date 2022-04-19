@@ -162,16 +162,14 @@ body > div > div b {
 body > div > div u {
 	text-decoration: none;
 }
+span.uctype,
 body > div > div u::after {
-	content: "/*unknown type*/";
+	content: "/*unconfirmed type*/";
 	background: #fca;
 	border: 1px solid #f94;
 	font-size: 80%;
 	border-radius: 6px;
 	color: #000;
-}
-body > div.var > div u::after {
-	content: "/*unconfirmed type*/";
 }
 /*reference to unknown struct/enum*/
 .mm .error,
@@ -198,7 +196,7 @@ AAAAJUExURUdwTAD/AAAA//ENIZIAAAABdFJOUwBA5thmAAAAL0lEQVQI12NggAFRBwaG0AQGptAVDF\
 wzsxi4Zq1k4JqaCcZMU1cwMCxbwMCg1QAArE8JoyhJwYoAAAAASUVORK5CYII=') no-repeat;
 }
 div.mm div {
-	margin: 3em 0;
+	margin: 2em 0;
 	padding-left: 1em;
 	border-left: 3px ridge #666;
 }

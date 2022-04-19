@@ -1343,7 +1343,8 @@ int main(int argc, char **argv)
 	};
 	char *css, *name, *html_skel0, *html_skel1, *html_skel2, *cheatsheet, *mmparse_shared_data2, *sym_subject, *mmparse_doc_data0, *cheatsheet_style_close_tag;
 	int i, j, cheatsheet_len, len, mmparse_shared_data2_len, mmparse_doc_data0_len, css_len, html_skel0_len, html_skel1_len, html_skel2_len;
-	FILE *f_structs, *f_funcs, *f_enums, *f_datas, *f_docs, *f_cheatsheet;
+	FILE *f_structs, *f_funcs, *f_enums, *f_datas, *f_index, *f_docs, *f_cheatsheet;
+	struct mmparse *mm_index, *mm_docs, *mm_sym;
 	struct mmpextras_shared mmpextras_shared_ud;
 	struct docgen_tmpbuf *tmpbuf_sym_subject;
 	struct docgen_structinfo *structinfo;
@@ -1356,7 +1357,6 @@ int main(int argc, char **argv)
 	struct mmp_output_part *mmpart;
 	struct idcp_struct *struc;
 	struct idcp_stuff *stuff;
-	struct mmparse *mm, *mm2;
 	struct idcp_enum *enu;
 	struct idcparse *idcp;
 	struct docgen *dg;
@@ -1419,7 +1419,7 @@ int main(int argc, char **argv)
 		"<header>\n"
 		"<h1>nfsu2-re</h1>\n"
 		"<p><a href='https://github.com/yugecin/nfsu2-re'>https://github.com/yugecin/nfsu2-re</a></p>\n"
-		"<nav><a href='index.html'>Home</a>\n"
+		"<nav><a href='index.html'>home</a>\n"
 		"<a href='docs.html'>docs</a>\n"
 		"<a href='funcs.html' class='func'>functions</a>\n"
 		"<a href='structs.html' class='struc'>structs</a>\n"
@@ -1434,64 +1434,90 @@ int main(int argc, char **argv)
 	assert(mmpextras_shared_ud.config.strpool = malloc(mmpextras_shared_ud.config.strpool_len = 5000));
 	assert((mmparse_shared_data2 = malloc(mmparse_shared_data2_len = 10000)));
 
-	assert(mm = malloc(sizeof(struct mmparse)));
-	docgen_readfile(mm->config.debug_subject = "docs.txt", &mm->config.source, &mm->config.source_len);/*jeanine:s:a:r;i:1;*/
-	mm->config.directive_handlers = mmdirectivehandlers;
-	mm->config.modes = mmmodes;
-	mm->config.dest.data2 = mmparse_shared_data2;
-	mm->config.dest.data2_len = mmparse_shared_data2_len;
-	assert((mm->config.dest.data0 = malloc(
-		(mm->config.dest.data0_len = 1000000) +
-		(mm->config.dest.data1_len = 10000) +
-		(mm->config.dest.data3_len = 10000)
+	/*mmparse index*/
+	assert(mm_index = malloc(sizeof(struct mmparse)));
+	docgen_readfile(mm_index->config.debug_subject = "index.txt", &mm_index->config.source, &mm_index->config.source_len);
+	mm_index->config.directive_handlers = mmdirectivehandlers;
+	mm_index->config.modes = mmmodes;
+	mm_index->config.dest.data2 = mmparse_shared_data2;
+	mm_index->config.dest.data2_len = mmparse_shared_data2_len;
+	assert((mm_index->config.dest.data0 = malloc(
+		(mm_index->config.dest.data0_len = 1000000) +
+		(mm_index->config.dest.data1_len = 10000) +
+		(mm_index->config.dest.data3_len = 10000)
 	)));
-	mm->config.dest.data1 = mm->config.dest.data0 + mm->config.dest.data0_len;
-	mm->config.dest.data3 = mm->config.dest.data1 + mm->config.dest.data1_len;
-	assert((mm->config.userdata = calloc(1, sizeof(struct docgen_mmparse_userdata))));
-	ud = mm->config.userdata;
+	mm_index->config.dest.data1 = mm_index->config.dest.data0 + mm_index->config.dest.data0_len;
+	mm_index->config.dest.data3 = mm_index->config.dest.data1 + mm_index->config.dest.data1_len;
+	assert((mm_index->config.userdata = calloc(1, sizeof(struct docgen_mmparse_userdata))));
+	ud = mm_index->config.userdata;
+	ud->dg = dg;
+	ud->mmpextras.config.target_file = "index.html";
+	ud->mmpextras.config.target_file_len = 10;
+	ud->mmpextras.config.section.no_breadcrumbs = 1;
+	ud->mmpextras.config.section.no_continuation_breadcrumbs = 1;
+	ud->mmpextras.config.section.no_end_index_links = 1;
+	ud->mmpextras.shared = &mmpextras_shared_ud;
+	mmparse(mm_index);
+
+	/*mmparse docs*/
+	assert(mm_docs = malloc(sizeof(struct mmparse)));
+	docgen_readfile(mm_docs->config.debug_subject = "docs.txt", &mm_docs->config.source, &mm_docs->config.source_len);/*jeanine:s:a:r;i:1;*/
+	mm_docs->config.directive_handlers = mmdirectivehandlers;
+	mm_docs->config.modes = mmmodes;
+	mm_docs->config.dest.data2 = mmparse_shared_data2;
+	mm_docs->config.dest.data2_len = mmparse_shared_data2_len;
+	assert((mm_docs->config.dest.data0 = malloc(
+		(mm_docs->config.dest.data0_len = 1000000) +
+		(mm_docs->config.dest.data1_len = 10000) +
+		(mm_docs->config.dest.data3_len = 10000)
+	)));
+	mm_docs->config.dest.data1 = mm_docs->config.dest.data0 + mm_docs->config.dest.data0_len;
+	mm_docs->config.dest.data3 = mm_docs->config.dest.data1 + mm_docs->config.dest.data1_len;
+	assert((mm_docs->config.userdata = calloc(1, sizeof(struct docgen_mmparse_userdata))));
+	ud = mm_docs->config.userdata;
 	ud->dg = dg;
 	ud->mmpextras.config.target_file = "docs.html";
 	ud->mmpextras.config.target_file_len = 9;
 	ud->mmpextras.shared = &mmpextras_shared_ud;
-	mmparse(mm);
+	mmparse(mm_docs);
 
 	/*mmparse funcs/structs/enums comments*/
 	/*all their docs need to be parsed before those strucs etc are printed,
 	because otherwise they may get printed without anchors that we only know are needed
 	after parsing their docs.*/
 	assert((mmparse_doc_data0 = malloc(mmparse_doc_data0_len = 90000)));
-	assert(mm2 = malloc(sizeof(struct mmparse)));
-	mm2->config.directive_handlers = mmdocdirectivehandlers;
-	mm2->config.modes = mmdocmodes;
-	mm2->config.dest.data0 = mmparse_doc_data0;
-	mm2->config.dest.data0_len = mmparse_doc_data0_len;
-	mm2->config.dest.data1 = NULL;
-	mm2->config.dest.data1_len = 0;
-	mm2->config.dest.data2 = mmparse_shared_data2;
-	mm2->config.dest.data2_len = mmparse_shared_data2_len;
-	mm2->config.dest.data3 = NULL;
-	mm2->config.dest.data3_len = 0;
-	mm2->config.userdata = mm->config.userdata;
-	assert((mm2->config.userdata = calloc(1, sizeof(struct docgen_mmparse_userdata))));
-	ud = mm2->config.userdata;
+	assert(mm_sym = malloc(sizeof(struct mmparse)));
+	mm_sym->config.directive_handlers = mmdocdirectivehandlers;
+	mm_sym->config.modes = mmdocmodes;
+	mm_sym->config.dest.data0 = mmparse_doc_data0;
+	mm_sym->config.dest.data0_len = mmparse_doc_data0_len;
+	mm_sym->config.dest.data1 = NULL;
+	mm_sym->config.dest.data1_len = 0;
+	mm_sym->config.dest.data2 = mmparse_shared_data2;
+	mm_sym->config.dest.data2_len = mmparse_shared_data2_len;
+	mm_sym->config.dest.data3 = NULL;
+	mm_sym->config.dest.data3_len = 0;
+	mm_sym->config.userdata = mm_docs->config.userdata;
+	assert((mm_sym->config.userdata = calloc(1, sizeof(struct docgen_mmparse_userdata))));
+	ud = mm_sym->config.userdata;
 	ud->dg = dg;
 	ud->mmpextras.config.href_output_immediately = 1;
 	ud->mmpextras.shared = &mmpextras_shared_ud;
 
 	tmpbuf_sym_subject = docgen_get_tmpbuf(10000);
 	sym_subject = tmpbuf_sym_subject->data;
-	mm2->config.debug_subject = sym_subject;
+	mm_sym->config.debug_subject = sym_subject;
 	/*funcs*/
 	ud->mmpextras.config.target_file_len = strlen(ud->mmpextras.config.target_file = "funcs.html");
 	for (i = 0, funcinfo = dg->funcinfos; i < dg->num_funcinfos; i++, funcinfo++) {
 		sprintf(sym_subject, "xxx func %X", funcinfo->func->addr);
-		docgen_mmparse_symbol_comments(mm2, &funcinfo->comments, funcinfo->func->comment, funcinfo->func->rep_comment, sym_subject);/*jeanine:r:i:70;*/
+		docgen_mmparse_symbol_comments(mm_sym, &funcinfo->comments, funcinfo->func->comment, funcinfo->func->rep_comment, sym_subject);/*jeanine:r:i:70;*/
 	}
 	/*vars*/
 	ud->mmpextras.config.target_file_len = strlen(ud->mmpextras.config.target_file = "vars.html");
 	for (i = 0, datainfo = dg->datainfos; i < dg->num_datainfos; i++, datainfo++) {
 		sprintf(sym_subject, "xxx var %X", datainfo->data->addr);
-		docgen_mmparse_symbol_comments(mm2, &datainfo->comments, datainfo->data->comment, datainfo->data->rep_comment, sym_subject);/*jeanine:s:a:r;i:70;*/
+		docgen_mmparse_symbol_comments(mm_sym, &datainfo->comments, datainfo->data->comment, datainfo->data->rep_comment, sym_subject);/*jeanine:s:a:r;i:70;*/
 	}
 	/*enums*/
 	assert(dg->enum_member_comments = calloc(1, sizeof(struct docgen_symbol_comments) * idcp->num_enum_members));
@@ -1499,14 +1525,14 @@ int main(int argc, char **argv)
 	for (i = 0, enuminfo = dg->enuminfos; i < dg->num_enuminfos; i++, enuminfo++) {
 		enu = enuminfo->enu;
 		sprintf(sym_subject, "xxx enum %s", enu->name);
-		docgen_mmparse_symbol_comments(mm2, &enuminfo->comments, enu->comment, enu->rep_comment, sym_subject);/*jeanine:s:a:r;i:70;*/
-		mm2->config.modes = mmdocmembermodes;
+		docgen_mmparse_symbol_comments(mm_sym, &enuminfo->comments, enu->comment, enu->rep_comment, sym_subject);/*jeanine:s:a:r;i:70;*/
+		mm_sym->config.modes = mmdocmembermodes;
 		for (j = enu->start_idx; j < enu->end_idx; j++) {
 			enumem = idcp->enum_members + j;
 			sprintf(sym_subject, "xxx enum %s member %s", enu->name, enumem->name);
-			docgen_mmparse_symbol_comments(mm2, dg->enum_member_comments + j, enumem->comment, enumem->rep_comment, sym_subject);/*jeanine:s:a:r;i:70;*/
+			docgen_mmparse_symbol_comments(mm_sym, dg->enum_member_comments + j, enumem->comment, enumem->rep_comment, sym_subject);/*jeanine:s:a:r;i:70;*/
 		}
-		mm2->config.modes = mmdocmodes;
+		mm_sym->config.modes = mmdocmodes;
 	}
 	/*structs*/
 	assert(dg->struct_member_comments = calloc(1, sizeof(struct docgen_symbol_comments) * idcp->num_struct_members));
@@ -1514,27 +1540,43 @@ int main(int argc, char **argv)
 	for (i = 0, structinfo = dg->structinfos; i < dg->num_structinfos; i++, structinfo++) {
 		struc = structinfo->struc;
 		sprintf(sym_subject, "xxx struct %s", struc->name);
-		docgen_mmparse_symbol_comments(mm2, &structinfo->comments, struc->comment, struc->rep_comment, sym_subject);/*jeanine:s:a:r;i:70;*/
-		mm2->config.modes = mmdocmembermodes;
+		docgen_mmparse_symbol_comments(mm_sym, &structinfo->comments, struc->comment, struc->rep_comment, sym_subject);/*jeanine:s:a:r;i:70;*/
+		mm_sym->config.modes = mmdocmembermodes;
 		for (j = struc->start_idx; j < struc->end_idx; j++) {
 			strucmem = idcp->struct_members + j;
 			sprintf(sym_subject, "xxx struct %s member %s", struc->name, strucmem->name);
-			docgen_mmparse_symbol_comments(mm2, dg->struct_member_comments + j, strucmem->comment, strucmem->rep_comment, sym_subject);/*jeanine:s:a:r;i:70;*/
+			docgen_mmparse_symbol_comments(mm_sym, dg->struct_member_comments + j, strucmem->comment, strucmem->rep_comment, sym_subject);/*jeanine:s:a:r;i:70;*/
 		}
-		mm2->config.modes = mmdocmodes;
+		mm_sym->config.modes = mmdocmodes;
 	}
 	docgen_free_tmpbuf(tmpbuf_sym_subject);
 
 	/*docs*/
-	mmparse_process_placeholders(mm);
+	mmparse_process_placeholders(mm_index);
+	assert(f_index = fopen("index.html", "wb"));
+	fwrite(html_skel0, html_skel0_len, 1, f_index);
+	fwrite("nfsu2-re", 8, 1, f_index);
+	fwrite(html_skel1, html_skel1_len, 1, f_index);
+	fwrite(css, css_len, 1, f_index);
+	fwrite(html_skel2, html_skel2_len, 1, f_index);
+	fwrite("<div class='mm'>\n", 17, 1, f_index);
+	for (mmpart = mm_index->output; mmpart->data0; mmpart++) {
+		fwrite(mmpart->data0, mmpart->data0_len, 1, f_index);
+		fwrite(mmpart->data1, mmpart->data1_len, 1, f_index);
+	}
+	fwrite("\n</div></body></html>\n", 22, 1, f_index);
+	fclose(f_index);
+
+	/*docs*/
+	mmparse_process_placeholders(mm_docs);
 	assert(f_docs = fopen("docs.html", "wb"));
 	fwrite(html_skel0, html_skel0_len, 1, f_docs);
-	fwrite("nfsu2-re", 8, 1, f_docs);
+	fwrite("nfsu2-re/docs", 13, 1, f_docs);
 	fwrite(html_skel1, html_skel1_len, 1, f_docs);
 	fwrite(css, css_len, 1, f_docs);
 	fwrite(html_skel2, html_skel2_len, 1, f_docs);
 	fwrite("<div class='mm'>\n", 17, 1, f_docs);
-	for (mmpart = mm->output; mmpart->data0; mmpart++) {
+	for (mmpart = mm_docs->output; mmpart->data0; mmpart++) {
 		fwrite(mmpart->data0, mmpart->data0_len, 1, f_docs);
 		fwrite(mmpart->data1, mmpart->data1_len, 1, f_docs);
 	}

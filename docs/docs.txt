@@ -1,32 +1,8 @@
 .pushmode section
 
-{Prologue}      |||h id=prologue
-
-This is just me documenting while I have fun attempting to reverse-engineer the game
-Need For Speed Underground 2, otherwise knows as nfsu2.
-
-This normally belongs to {https://github.com/yugecin/nfsu2-re}.                                 |||a class=ext
-
-Other pages: {(fpu) cheatsheet}                                                                 |||a href=cheatsheet.html
-
-.popmode section
-.pushmode section
-
 {Index}         |||h id=index
 
 {}              |||index
-
-.popmode section
-.pushmode section
-
-{Injected code}         |||h id=injectedcode
-
-The code for all injected things I did can be found in {nfsu2-re-hooks/*.c}.                    |||code
-It's configured as a VC2005 project in a VC2005 solution.
-The project emits a compiled file to {..\NeedForSpeed U2\scripts\nfsu2-re-hooks.asi}.           |||code
-I'm using the {Ultimate ASI Loader by ThirteenAG},                                              |||a class=ext href=https://github.com/ThirteenAG/Ultimate-ASI-Loader/releases
-which loads the library nicely for me (download the ZIP and place the dll in the game folder,
-name it {dinput8.dll}).                                                                         |||code
 
 .popmode section
 .pushmode section
