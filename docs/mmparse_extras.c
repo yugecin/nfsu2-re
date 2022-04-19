@@ -267,6 +267,12 @@ struct mmpextras_userdata {
 		int target_file_len;
 		/**if 1, the href directive will print to appended_line instead of using placeholders*/
 		char href_output_immediately;
+		struct {
+			char no_breadcrumbs;
+			char no_continuation_breadcrumbs;
+			/**Option to not add links to "index" at the end of sections*/
+			char no_end_index_links;
+		} section;
 	} config;
 	struct {
 		int num_entries;
@@ -513,7 +519,7 @@ struct mmp_mode mmpextras_mode_paragraphed = {
 	"paragraphed",
 	MMPARSE_DO_PARSE_LINES
 };
-/*jeanine:p:i:4;p:25;a:r;x:40.30;y:-38.56;*/
+/*jeanine:p:i:4;p:25;a:r;x:40.53;y:-40.47;*/
 static
 void mmpextras_append_breadcrumbs(struct mmparse *mm, void (*append_func)(void*,struct mmparse*,char*,int), void *append_func_data, int for_index_entry_idx, int is_continuation)
 {
@@ -581,10 +587,14 @@ int mmpextras_cb_mode_section_println(struct mmparse *mm)
 	char extra_offset;
 
 	ud = mmpextras_get_userdata(mm);
-	ud->section.needs_index_link_at_bottom = 1;
+	if (!ud->config.section.no_end_index_links) {
+		ud->section.needs_index_link_at_bottom = 1;
+	}
 
 	extra_offset = 0;
-	if (ud->section.last_level_that_had_println > ud->section.current_level) {
+	if (ud->section.last_level_that_had_println > ud->section.current_level &&
+		!ud->config.section.no_continuation_breadcrumbs)
+	{
 		ud->section.last_level_that_had_println = ud->section.current_level;
 		index_entry_idx = ud->section.matching_index_entry_idx[ud->section.current_level];
 		if (index_entry_idx == -1) {
@@ -596,7 +606,7 @@ int mmpextras_cb_mode_section_println(struct mmparse *mm)
 
 	return extra_offset + mmpextras_cb_mode_paragraphed_println(mm);/*jeanine:s:a:r;i:27;*/
 }
-/*jeanine:p:i:8;p:17;a:r;x:5.56;y:12.00;*/
+/*jeanine:p:i:8;p:17;a:r;x:5.56;y:15.81;*/
 static
 void mmpextras_cb_mode_section_end(struct mmparse *mm)
 {
@@ -893,7 +903,7 @@ enum mmp_dir_content_action mmpextras_dir_h(struct mmparse *mm, struct mmp_dir_c
 	directive_name[2] = 0;
 	level -= 2;
 	id_arg = mmpextras_require_directive_argument(mm, data->directive, "id");
-	if (level) {
+	if (level && !ud->config.section.no_breadcrumbs) {
 		id_arg->name[0] = 0; /*make it so the 'id' argument doesn't get printed as attribute*/
 		id_arg->name_len = 0;
 		ph = mmparse_allocate_placeholder(mm, mmpextras_cb_placeholder_section_breadcrumbs, 4);/*jeanine:r:i:25;*/
