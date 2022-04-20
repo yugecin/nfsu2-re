@@ -62,7 +62,7 @@ for example {827CC4}.                                                           
 .popmode section
 .pushmode section
 
-{Unknown struct member types} ||| h id=unkstructmembertypes
+{Unconfirmed struct member types} ||| h id=uncstructmembertypes
 
 In IDA, the difference between a struct member that has a type set and a struct member that
 has no type set is not very visible. Because of that, some struct members might be missing
@@ -73,4 +73,4 @@ or {short} or {int}, but it will have an {{/*unconfirmed type*/}} tag.          
 .popmode section
 .popmode section
 
-{{(old single-page documentation, obsolete)}} ||| p,a href=indexold.html
+{{(old single-page documentation, obsolete)}} ||| p,a href=indexold.html rel=nofollow
