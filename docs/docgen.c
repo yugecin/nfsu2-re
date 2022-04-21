@@ -91,6 +91,16 @@ struct docgen {
 
 struct docgen_mmparse_userdata {
 	struct docgen *dg;
+	struct {
+		char is_blogpost;
+		/*AKA id*/
+		int index;
+		char *htmlfile;
+		char *title;
+		char *date;
+	} blogpost;
+	struct mmparse **blogs;
+	int num_blogs;
 	struct mmpextras_userdata mmpextras;
 };
 
@@ -1207,7 +1217,7 @@ enum mmp_dir_content_action docgen_mmparse_dir_imgcollapsed(struct mmparse *mm, 
 	/*end haxx*/
 	return LEAVE_CONTENTS;
 }
-/*jeanine:p:i:42;p:72;a:r;x:14.35;y:13.00;*/
+/*jeanine:p:i:42;p:72;a:r;x:14.69;y:53.63;*/
 static
 enum mmp_dir_content_action docgen_mmparse_dir_hookfileref(struct mmparse *mm, struct mmp_dir_content_data *data)
 {
@@ -1255,7 +1265,50 @@ enum mmp_dir_content_action docgen_mmparse_dir_dumpfileref(struct mmparse *mm, s
 	mmparse_append_to_closing_tag(mm, filename, size);
 	return LEAVE_CONTENTS;
 }
-/*jeanine:p:i:61;p:72;a:r;x:13.90;y:36.91;*/
+/*jeanine:p:i:95;p:96;a:r;x:3.33;*/
+static
+void mmpextras_cb_placeholder_nop(struct mmparse *mm, struct mmp_output_part *output, void *data, int data_size)
+{
+}
+/*jeanine:p:i:96;p:72;a:r;x:14.56;y:12.63;*/
+static
+enum mmp_dir_content_action docgen_mmparse_dir_blog(struct mmparse *mm, struct mmp_dir_content_data *data)
+{
+	struct docgen_mmparse_userdata *ud, *ud2;
+	struct mmp_dir_arg *date_arg;
+	char *phdata, buf[200];
+	int i, index, len;
+
+	ud = mm->config.userdata;
+	if (ud->blogpost.is_blogpost) {
+		date_arg = mmpextras_require_directive_argument(mm, data->directive, "date");
+		/*Using a nop placeholder to allocate data for title/date*/
+		phdata = mmparse_allocate_placeholder(mm, mmpextras_cb_placeholder_nop, date_arg->value_len + 1 + data->content_len + 1)->data;/*jeanine:r:i:95;*/
+		memcpy(phdata, date_arg->value, date_arg->value_len + 1);
+		ud->blogpost.date = phdata;
+		phdata += date_arg->value_len + 1;
+		memcpy(phdata, data->contents, data->content_len + 1);
+		ud->blogpost.title = phdata;
+	} else {
+		if (strncmp(data->contents, "blog", 4) || data->content_len < 5) {
+			mmparse_failmsg(mm, "blog directive contents should be formatted like 'blog2'");
+			assert(0);
+		}
+		index = atoi(data->contents + 4);
+		for (i = 0; i < ud->num_blogs; i++) {
+			ud2 = ud->blogs[i]->config.userdata;
+			if (ud2->blogpost.is_blogpost && ud2->blogpost.index == index) {
+				len = sprintf(buf, "<a href='%s'>blogpost: %s</a>", ud2->blogpost.htmlfile, ud2->blogpost.title);
+				mmparse_append_to_expanded_line(mm, buf, len);
+				return DELETE_CONTENTS;
+			}
+		}
+		mmparse_failmsgf(mm, "cannot find blog with index %d", index);
+		assert(0);
+	}
+	return DELETE_CONTENTS;
+}
+/*jeanine:p:i:61;p:72;a:r;x:14.79;y:76.22;*/
 static
 enum mmp_dir_content_action docgen_mmparse_dir_ref(struct mmparse *mm, struct mmp_dir_content_data *data)
 {
@@ -1303,11 +1356,12 @@ struct mmp_dir_handler docgen_mmp_doc_directives[] = {
 	{ "href", mmpextras_dir_href },
 	{ "a", mmpextras_dir_a },
 	{ "h", mmpextras_dir_h },
+	{ "blog", docgen_mmparse_dir_blog },/*jeanine:r:i:96;*/
 	{ "hookfileref", docgen_mmparse_dir_hookfileref },/*jeanine:r:i:42;*/
 	{ "ref", docgen_mmparse_dir_ref },/*jeanine:r:i:61;*/
 	{ NULL, NULL }
 };
-/*jeanine:p:i:91;p:72;a:b;y:137.04;*/
+/*jeanine:p:i:91;p:92;a:b;y:106.44;*/
 struct mmp_mode *docgen_mmp_doc_modes[] = {
 	&mmparse_mode_normal, /*must be first*/
 	&docgen_mmparse_mode_symbols,/*jeanine:r:i:30;*/
@@ -1319,8 +1373,9 @@ struct mmp_mode *docgen_mmp_doc_modes[] = {
 	&mmparse_mode_nop,
 	NULL
 };
-/*jeanine:p:i:92;p:72;a:b;x:-1.00;y:15.63;*/
+/*jeanine:p:i:92;p:72;a:b;y:56.12;*/
 struct mmp_dir_handler docgen_mmp_sym_directives[] = {
+	{ "blog", docgen_mmparse_dir_blog },/*jeanine:s:a:r;i:96;*/
 	{ "hookfileref", docgen_mmparse_dir_hookfileref },/*jeanine:s:a:r;i:42;*/
 	{ "ref", docgen_mmparse_dir_ref },/*jeanine:s:a:r;i:61;*/
 	{ "href", mmpextras_dir_href },
@@ -1411,7 +1466,7 @@ void docgen_collect_datainfos(struct docgen *dg)
 	}
 	/*not sorting these*/
 }
-/*jeanine:p:i:76;p:75;a:r;x:28.46;y:-6.55;*/
+/*jeanine:p:i:76;p:75;a:r;x:14.77;*/
 /**
 Since all mmparse instance use the same big buffer, some offsets/sizefree need to be adjusted.
 
@@ -1433,40 +1488,6 @@ void docgen_adjust_mmp_data_after_mmparse(struct docgen_mmp_data *mmpd, struct m
 	phbuf_used = mm->ph.databuf - mmpd->d3;
 	mmpd->d3 += phbuf_used;
 	mmpd->len3 -= phbuf_used;
-}
-/*jeanine:p:i:77;p:75;a:r;x:28.66;y:-48.26;*/
-static
-struct mmparse *docgen_new_mmparse(struct docgen *dg, struct docgen_mmp_data *mmpd, char *src, char *target)
-{
-	static struct mmpextras_shared mmpextras_shared_ud;
-
-	struct docgen_mmparse_userdata *ud;
-	struct mmparse *mm;
-
-	if (!mmpextras_shared_ud.config.strpool) {
-		assert(mmpextras_shared_ud.config.strpool = malloc(mmpextras_shared_ud.config.strpool_len = 5000));
-	}
-	assert(mm = malloc(sizeof(struct mmparse)));
-	mm->config.dest.data0 = mmpd->d0;
-	mm->config.dest.data1 = mmpd->d1;
-	mm->config.dest.data2 = mmpd->d2;
-	mm->config.dest.data3 = mmpd->d3;
-	mm->config.dest.data0_len = mmpd->len0;
-	mm->config.dest.data1_len = mmpd->len1;
-	mm->config.dest.data2_len = mmpd->len2;
-	mm->config.dest.data3_len = mmpd->len3;
-	assert((mm->config.userdata = calloc(1, sizeof(struct docgen_mmparse_userdata))));
-	ud = mm->config.userdata;
-	ud->dg = dg;
-	ud->mmpextras.shared = &mmpextras_shared_ud;
-	if (src) {
-		docgen_readfile(mm->config.debug_subject = src, &mm->config.source, &mm->config.source_len);
-	}
-	if (target) {
-		ud->mmpextras.config.target_file = target;
-		ud->mmpextras.config.target_file_len = strlen(target);
-	}
-	return mm;
 }
 /*jeanine:p:i:74;p:83;a:r;x:6.67;y:-36.00;*/
 static
@@ -1538,7 +1559,7 @@ void docgen_mmparse_struct_comments(struct docgen *dg, struct mmparse *mm, char 
 		mm->config.modes = docgen_mmp_sym_modes;
 	}
 }
-/*jeanine:p:i:83;p:75;a:r;x:26.26;y:1.93;*/
+/*jeanine:p:i:83;p:75;a:r;x:12.89;*/
 static
 void docgen_mmparse_all_symbol_comments(struct docgen *dg, struct mmparse *mm)
 {
@@ -1564,33 +1585,101 @@ void docgen_mmparse_all_symbol_comments(struct docgen *dg, struct mmparse *mm)
 }
 /*jeanine:p:i:75;p:88;a:r;x:672.62;*/
 static
-void docgen_mmparse(struct docgen *dg, struct mmparse **out_mm_index, struct mmparse **out_mm_docs)
+struct mmparse *docgen_new_mmparse(struct docgen *dg, struct docgen_mmp_data *mmpd, char *src, char *target, struct mmparse **blogs, int num_blogs)
 {
-	struct mmparse *mm_index, *mm_docs, *mm_sym;
+	static struct mmpextras_shared mmpextras_shared_ud;
+
+	struct docgen_mmparse_userdata *ud;
+	struct mmparse *mm;
+
+	if (!mmpextras_shared_ud.config.strpool) {
+		assert(mmpextras_shared_ud.config.strpool = malloc(mmpextras_shared_ud.config.strpool_len = 5000));
+	}
+	assert(mm = malloc(sizeof(struct mmparse)));
+	mm->config.directive_handlers = docgen_mmp_doc_directives;
+	mm->config.modes = docgen_mmp_doc_modes;
+	mm->config.dest.data0 = mmpd->d0;
+	mm->config.dest.data1 = mmpd->d1;
+	mm->config.dest.data2 = mmpd->d2;
+	mm->config.dest.data3 = mmpd->d3;
+	mm->config.dest.data0_len = mmpd->len0;
+	mm->config.dest.data1_len = mmpd->len1;
+	mm->config.dest.data2_len = mmpd->len2;
+	mm->config.dest.data3_len = mmpd->len3;
+	assert((mm->config.userdata = calloc(1, sizeof(struct docgen_mmparse_userdata))));
+	ud = mm->config.userdata;
+	ud->dg = dg;
+	ud->blogs = blogs;
+	ud->num_blogs = num_blogs;
+	ud->mmpextras.shared = &mmpextras_shared_ud;
+	if (src) {
+		docgen_readfile(mm->config.debug_subject = src, &mm->config.source, &mm->config.source_len);
+	}
+	if (target) {
+		ud->mmpextras.config.target_file = target;
+		ud->mmpextras.config.target_file_len = strlen(target);
+	}
+	return mm;
+}
+static char *blogposts[] = {
+	/*don't change the order of these*/
+	/*each must start with 'blog-'*/
+	NULL
+};
+static
+void docgen_mmparse(struct docgen *dg, struct mmparse **out_mm_index, struct mmparse **out_mm_docs, struct mmparse ***out_blogs, int *out_num_blogs)
+{
+	struct mmparse *mm_index, *mm_docs, *mm_sym, **mm_blogs;
+	char tmpbuf[200], **blogname, *blogfile;
 	struct docgen_mmparse_userdata *ud;
 	struct docgen_mmp_data mmpd;
+	int len, num_blogs;
 
 	assert(mmpd.d0 = malloc((mmpd.len0 = 1000000) + (mmpd.len1 = 10000) + (mmpd.len2 = 10000) + (mmpd.len3 = 10000)));
 	mmpd.d1 = mmpd.d0 + mmpd.len0;
 	mmpd.d2 = mmpd.d1 + mmpd.len1;
 	mmpd.d3 = mmpd.d2 + mmpd.len2;
 
+	/*mmparse blogposts, should be done first because blog directive reference doesn't use placeholders (for simplicity)*/
+	for (num_blogs = 0, blogname = blogposts; *blogname; blogname++, num_blogs++);
+	assert(mm_blogs = *out_blogs = malloc(sizeof(void*) * num_blogs));
+	*out_num_blogs = num_blogs;
+	for (blogname = blogposts; *blogname; blogname++) {
+		blogfile = mmpd.d0;
+		len = sprintf(tmpbuf, "BLOGx%02X-%s.html", blogname - blogposts, *blogname + 5) + 1;
+		assert(((void) "increase mmpd.len0", mmpd.len0 > len));
+		memcpy(mmpd.d0, tmpbuf, len);
+		mmpd.d0 += len;
+		mmpd.len0 -= len;
+		sprintf(tmpbuf, "%s.txt", *blogname);
+		*mm_blogs = docgen_new_mmparse(dg, &mmpd, tmpbuf, blogfile, NULL, 0);
+		ud = (*mm_blogs)->config.userdata;
+		ud->mmpextras.config.section.no_breadcrumbs = 1;
+		ud->mmpextras.config.section.no_continuation_breadcrumbs = 1;
+		ud->mmpextras.config.section.no_end_index_links = 1;
+		ud->blogpost.htmlfile = blogfile;
+		ud->blogpost.is_blogpost = 1;
+		ud->blogpost.index = blogname - blogposts;
+		mmparse(*mm_blogs);
+		assert(ud->blogpost.title);
+		assert(ud->blogpost.date);
+		docgen_adjust_mmp_data_after_mmparse(&mmpd, *mm_blogs);/*jeanine:r:i:76;*/
+		mm_blogs++;
+	}
+	mm_blogs = *out_blogs;
+
 	/*mmparse index*/
-	mm_index = docgen_new_mmparse(dg, &mmpd, "index.txt", "index.html");/*jeanine:s:a:r;i:77;*/
-	mm_index->config.directive_handlers = docgen_mmp_doc_directives;
-	mm_index->config.modes = docgen_mmp_doc_modes;
+	mm_index = docgen_new_mmparse(dg, &mmpd, "index.txt", "index.html", mm_blogs, num_blogs);
 	ud = mm_index->config.userdata;
 	ud->mmpextras.config.section.no_breadcrumbs = 1;
 	ud->mmpextras.config.section.no_continuation_breadcrumbs = 1;
 	ud->mmpextras.config.section.no_end_index_links = 1;
 	mmparse(mm_index);
-	docgen_adjust_mmp_data_after_mmparse(&mmpd, mm_index);/*jeanine:r:i:76;*/
+	docgen_adjust_mmp_data_after_mmparse(&mmpd, mm_index);/*jeanine:s:a:r;i:76;*/
 	*out_mm_index = mm_index;
 
 	/*mmparse docs*/
-	mm_docs = docgen_new_mmparse(dg, &mmpd, "docs.txt", "docs.html");/*jeanine:r:i:77;*/
-	mm_docs->config.directive_handlers = docgen_mmp_doc_directives;
-	mm_docs->config.modes = docgen_mmp_doc_modes;
+	mm_docs = docgen_new_mmparse(dg, &mmpd, "docs.txt", "docs.html", mm_blogs, num_blogs);
 	mmparse(mm_docs);
 	docgen_adjust_mmp_data_after_mmparse(&mmpd, mm_docs);/*jeanine:s:a:r;i:76;*/
 	*out_mm_docs = mm_docs;
@@ -1599,7 +1688,7 @@ void docgen_mmparse(struct docgen *dg, struct mmparse **out_mm_index, struct mmp
 	/*all their docs need to be parsed before those strucs etc are printed,
 	because otherwise they may get printed without anchors that we only know are needed
 	after parsing their docs.*/
-	mm_sym = docgen_new_mmparse(dg, &mmpd, NULL, NULL);/*jeanine:s:a:r;i:77;*/
+	mm_sym = docgen_new_mmparse(dg, &mmpd, NULL, NULL, mm_blogs, num_blogs);
 	mm_sym->config.directive_handlers = docgen_mmp_sym_directives;
 	mm_sym->config.modes = docgen_mmp_sym_modes;
 	ud = mm_sym->config.userdata;
@@ -1620,9 +1709,10 @@ void docgen_readidc(struct docgen *dg)
 int main(int argc, char **argv)
 {
 	char *css, *name, *html_skel0, *html_skel1, *html_skel2, *cheatsheet, *cheatsheet_style_close_tag;
-	int i, cheatsheet_len, css_len, html_skel0_len, html_skel1_len, html_skel2_len;
+	int i, cheatsheet_len, css_len, html_skel0_len, html_skel1_len, html_skel2_len, num_blogs;
+	struct mmparse *mm_index, *mm_docs, **mm_blogs;
 	struct docgen_structinfo *structinfo;
-	struct mmparse *mm_index, *mm_docs;
+	struct docgen_mmparse_userdata *ud;
 	struct docgen_datainfo *datainfo;
 	struct docgen_enuminfo *enuminfo;
 	struct docgen_funcinfo *funcinfo;
@@ -1633,7 +1723,7 @@ int main(int argc, char **argv)
 	assert(dg = calloc(1, sizeof(struct docgen)));
 	assert(dg->idcp = malloc(sizeof(struct idcparse)));
 	docgen_readidc(dg);/*jeanine:r:i:90;*/
-	docgen_mmparse(dg, &mm_index, &mm_docs);/*jeanine:r:i:75;*/
+	docgen_mmparse(dg, &mm_index, &mm_docs, &mm_blogs, &num_blogs);/*jeanine:r:i:75;*/
 
 	docgen_readfile("style.css", &css, &css_len);
 
@@ -1647,6 +1737,7 @@ int main(int argc, char **argv)
 		"<h1>nfsu2-re</h1>\n"
 		"<p><a href='https://github.com/yugecin/nfsu2-re'>https://github.com/yugecin/nfsu2-re</a></p>\n"
 		"<nav><a href='index.html'>home</a>\n"
+		"<a href='blog.html'>blog</a>\n"
 		"<a href='docs.html'>docs</a>\n"
 		"<a href='funcs.html' class='func'>functions</a>\n"
 		"<a href='structs.html' class='struc'>structs</a>\n"
@@ -1656,7 +1747,7 @@ int main(int argc, char **argv)
 		"</header>\n";
 	html_skel2_len = strlen(html_skel2);
 
-	/*docs*/
+	/*index*/
 	mmparse_process_placeholders(mm_index);
 	assert(file = fopen("index.html", "wb"));
 	fwrite(html_skel0, html_skel0_len, 1, file);
@@ -1687,6 +1778,46 @@ int main(int argc, char **argv)
 	}
 	fwrite("\n</div></body></html>\n", 22, 1, file);
 	fclose(file);
+
+	/*blogindex*/
+	assert(file = fopen("blog.html", "wb"));
+	fwrite(html_skel0, html_skel0_len, 1, file);
+	fwrite("nfsu2-re/blog", 13, 1, file);
+	fwrite(html_skel1, html_skel1_len, 1, file);
+	fwrite(css, css_len, 1, file);
+	fwrite(html_skel2, html_skel2_len, 1, file);
+	fwrite("<div><h2>Blog</h2><ul>\n", 23, 1, file);
+	for (i = num_blogs; i-- > 0;) {
+		ud = (mm_blogs[i])->config.userdata;
+		fprintf(file,
+			"<li><a href='%s'>%s (%s)</a></li>\n",
+			ud->blogpost.htmlfile,
+			ud->blogpost.title,
+			ud->blogpost.date
+		);
+	}
+	fwrite("</ul></div></body></html>\n", 26, 1, file);
+	fclose(file);
+
+	/*blogposts*/
+	for (i = 0; i < num_blogs; i++) {
+		mmparse_process_placeholders(mm_blogs[i]);
+		ud = (mm_blogs[i])->config.userdata;
+		assert(file = fopen(ud->blogpost.htmlfile, "wb"));
+		fwrite(html_skel0, html_skel0_len, 1, file);
+		fprintf(file, "nfsu2-re/BLOGx%02X: %s", ud->blogpost.index, ud->blogpost.title);
+		fwrite(html_skel1, html_skel1_len, 1, file);
+		fwrite(css, css_len, 1, file);
+		fwrite(html_skel2, html_skel2_len, 1, file);
+		fwrite("<div class='mm'>\n", 17, 1, file);
+		fprintf(file, "<p><a href='blog.html'>blog</a> &gt; %s (%s)</p>", ud->blogpost.title, ud->blogpost.date);
+		for (mmpart = mm_blogs[i]->output; mmpart->data0; mmpart++) {
+			fwrite(mmpart->data0, mmpart->data0_len, 1, file);
+			fwrite(mmpart->data1, mmpart->data1_len, 1, file);
+		}
+		fwrite("\n</div></body></html>\n", 22, 1, file);
+		fclose(file);
+	}
 
 	/*cheatsheet*/
 	assert(file = fopen("cheatsheet.html", "wb"));

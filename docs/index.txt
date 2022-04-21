@@ -14,6 +14,8 @@ This normally belongs to {https://github.com/yugecin/nfsu2-re}.                 
 
 .pushmode ul
 - {index}: information about this project, you're looking at it                                 ||| a href=index.html
+- {blog}: documenting explorations or findings that don't really belong in the docs section     ||| a href=blog.html
+  and other random things
 - {docs}: structured documentation explaining concepts and game workings                        ||| a href=docs.html
 - {functions}: function symbols information dump, see {generationnotes}                         ||| a href=funcs.html,href
 - {structs}: struct symbols information dump, see {generationnotes}                             ||| a href=structs.html,href
