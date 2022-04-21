@@ -911,7 +911,7 @@ The original labels are also stored as a language file in <code>LANGUAGES/Labels
 This will probably help a lot when trying to figure out other things.
 Note that the first time the <code>AUD: NFS3DMixCtl Pool</code> is made, it has an element amount of zero.
 The dump is from just starting the game and starting a circuit race.
-</p><p>Pools can be enlarged by <a href='funcs.html#440BB0'>Pool::Extend</a>, but only if its <code><a href='structs.html#struc_Pool14'>flags</a></code> has the <code>POOL_FLAG_EXTENDABLE</code>
+</p><p>Pools can be enlarged by <a href='funcs.html#440BB0'>Pool::Extend</a>, but only if its <code><a href='structs.html#struc_Pool14'>flags</a></code> has the <a href='enums.html#enu_POOLFLAGS1'>POOL_FLAG_EXTENDABLE</a>
 flag. When extending, the newly created pool gets added as last in the main pool's
 <code><a href='structs.html#struc_Pool8'>nextLinkedPool</a></code>. The main pool's <code><a href='structs.html#struc_Pool10'>firstAvailableElement</a></code> will point to the first allocated element of
 the next pool, and the last allocated element of the new pool will point to the first element
@@ -1029,10 +1029,9 @@ of the UI.
 some reason they don't want us to exit while the PSA is playing, or before the intro
 movies end.)
 </p><p>So my final setup is to only leave in <code>MC_Bootup</code> (because it makes profiles
-work), <code>LS_PSAMovie</code> (because I like the Q button and it can be a good dialog
-test, it means I still need to skip the PSA movie but I can handle that),
-<code>MC_Background</code> (so I can load a profile at start) and
-<code>UI_Main</code> (obviously). Code in <code><a class='ext' href='https://github.com/yugecin/nfsu2-re/blob/master/nfsu2-re-hooks/speedyboot.c'>nfsu2-re-hooks/speedyboot.c</a></code>.
+work), <code>MC_Background</code> (so I can load a profile at start) and
+<code>UI_Main</code> (obviously). Then also write <code>1</code> to <a href='vars.html#836494'>canUseQToExit</a>.
+Code in <code><a class='ext' href='https://github.com/yugecin/nfsu2-re/blob/master/nfsu2-re-hooks/speedyboot.c'>nfsu2-re-hooks/speedyboot.c</a></code>.
 </p><p><small><a href='#index'>Index</a></small></p>
 </div>
 <div><h2 id="consoleleftover">Console leftovers <a href='#consoleleftover'>#</a></h2>
@@ -1122,32 +1121,32 @@ of the event:
 following excerpt:
 </p><pre class='ida'>
 <span class='mt'>.text:005121AE</span>     push    offset <span class='ident'>aGenericdialo_2</span> <span class='comment'>; "GenericDialog_Animate_SMALL.fng"</span>
-<span class='mt'>.text:005121B3</span>     call    <span class='hi'>sub_505450</span>
+<span class='mt'>.text:005121B3</span>     call    <a href='funcs.html#505450'>SomeHashCI505450</a>
 <span class='mt'>.text:005121B8</span>     add     esp, <span class='num'>4</span>
 <span class='mt'>.text:005121BB</span>     cmp     esi, eax
 <span class='mt'>.text:005121BD</span>     jz      short loc_512218
 <span class='mt'>.text:005121BF</span>     push    offset <span class='ident'>aGenericdialog_</span> <span class='comment'>; "GenericDialog_SMALL.fng"</span>
-<span class='mt'>.text:005121C4</span>     call    <span class='hi'>sub_505450</span>
+<span class='mt'>.text:005121C4</span>     call    <a href='funcs.html#505450'>SomeHashCI505450</a>
 <span class='mt'>.text:005121C9</span>     add     esp, <span class='num'>4</span>
 <span class='mt'>.text:005121CC</span>     cmp     esi, eax
 <span class='mt'>.text:005121CE</span>     jz      short loc_512218
 <span class='mt'>.text:005121D0</span>     push    offset <span class='ident'>aGenericdialo_3</span> <span class='comment'>; "GenericDialog_Animate_MED.fng"</span>
-<span class='mt'>.text:005121D5</span>     call    <span class='hi'>sub_505450</span>
+<span class='mt'>.text:005121D5</span>     call    <a href='funcs.html#505450'>SomeHashCI505450</a>
 <span class='mt'>.text:005121DA</span>     add     esp, <span class='num'>4</span>
 <span class='mt'>.text:005121DD</span>     cmp     esi, eax
 <span class='mt'>.text:005121DF</span>     jz      short loc_512218
 <span class='mt'>.text:005121E1</span>     push    offset <span class='ident'>aGenericdialo_4</span> <span class='comment'>; "GenericDialog_MED.fng"</span>
-<span class='mt'>.text:005121E6</span>     call    <span class='hi'>sub_505450</span>
+<span class='mt'>.text:005121E6</span>     call    <a href='funcs.html#505450'>SomeHashCI505450</a>
 <span class='mt'>.text:005121EB</span>     add     esp, <span class='num'>4</span>
 <span class='mt'>.text:005121EE</span>     cmp     esi, eax
 <span class='mt'>.text:005121F0</span>     jz      short loc_512218
 <span class='mt'>.text:005121F2</span>     push    offset <span class='ident'>aGenericdialo_5</span> <span class='comment'>; "GenericDialog_Animate_LARGE.fng"</span>
-<span class='mt'>.text:005121F7</span>     call    <span class='hi'>sub_505450</span>
+<span class='mt'>.text:005121F7</span>     call    <a href='funcs.html#505450'>SomeHashCI505450</a>
 <span class='mt'>.text:005121FC</span>     add     esp, <span class='num'>4</span>
 <span class='mt'>.text:005121FF</span>     cmp     esi, eax
 <span class='mt'>.text:00512201</span>     jz      short loc_512218
 <span class='mt'>.text:00512203</span>     push    offset <span class='ident'>aGenericdialo_0</span> <span class='comment'>; "GenericDialog_LARGE.fng"</span>
-<span class='mt'>.text:00512208</span>     call    <span class='hi'>sub_505450</span>
+<span class='mt'>.text:00512208</span>     call    <a href='funcs.html#505450'>SomeHashCI505450</a>
 <span class='mt'>.text:0051220D</span>     add     esp, <span class='num'>4</span>
 <span class='mt'>.text:00512210</span>     cmp     esi, eax
 <span class='mt'>.text:00512212</span>     jz      short loc_512218

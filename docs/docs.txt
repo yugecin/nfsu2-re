@@ -660,7 +660,7 @@ This will probably help a lot when trying to figure out other things.
 Note that the first time the {AUD: NFS3DMixCtl Pool} is made, it has an element amount of zero.         ||| code
 The dump is from just starting the game and starting a circuit race.
 
-Pools can be enlarged by {440BB0}, but only if its {{struct Pool+14}} has the {POOL_FLAG_EXTENDABLE}    ||| ref,code,ref,code
+Pools can be enlarged by {440BB0}, but only if its {{struct Pool+14}} has the {enum POOLFLAGS/1}        ||| ref,code,ref,ref
 flag. When extending, the newly created pool gets added as last in the main pool's
 {{struct Pool+8}}. The main pool's {{struct Pool+10}} will point to the first allocated element of      ||| code,ref,code,ref
 the next pool, and the last allocated element of the new pool will point to the first element
@@ -799,10 +799,9 @@ some reason they don't want us to exit while the PSA is playing, or before the i
 movies end.)
 
 So my final setup is to only leave in {MC_Bootup} (because it makes profiles                    ||| code
-work), {LS_PSAMovie} (because I like the Q button and it can be a good dialog                   ||| code
-test, it means I still need to skip the PSA movie but I can handle that),
-{MC_Background} (so I can load a profile at start) and                                          ||| code
-{UI_Main} (obviously). Code in {nfsu2-re-hooks/speedyboot.c}.                                   ||| code, hookfileref
+work), {MC_Background} (so I can load a profile at start) and                                   ||| code
+{UI_Main} (obviously). Then also write {1} to {836494}.                                         ||| code,code,ref
+Code in {nfsu2-re-hooks/speedyboot.c}.                                                          |||  hookfileref
 
 .popmode section
 .pushmode section
@@ -918,32 +917,32 @@ following excerpt:
 
 .pushmode ida
 .text:005121AE     push    offset {aGenericdialo_2} {; "GenericDialog_Animate_SMALL.fng"}       ||| ident,comment
-.text:005121B3     call    {sub_505450}                                                         ||| hi
+.text:005121B3     call    {505450}                                                             ||| ref
 .text:005121B8     add     esp, {4}                                                             ||| num
 .text:005121BB     cmp     esi, eax
 .text:005121BD     jz      short loc_512218
 .text:005121BF     push    offset {aGenericdialog_} {; "GenericDialog_SMALL.fng"}               ||| ident,comment
-.text:005121C4     call    {sub_505450}                                                         ||| hi
+.text:005121C4     call    {505450}                                                             ||| ref
 .text:005121C9     add     esp, {4}                                                             ||| num
 .text:005121CC     cmp     esi, eax
 .text:005121CE     jz      short loc_512218
 .text:005121D0     push    offset {aGenericdialo_3} {; "GenericDialog_Animate_MED.fng"}         ||| ident,comment
-.text:005121D5     call    {sub_505450}                                                         ||| hi
+.text:005121D5     call    {505450}                                                             ||| ref
 .text:005121DA     add     esp, {4}                                                             ||| num
 .text:005121DD     cmp     esi, eax
 .text:005121DF     jz      short loc_512218
 .text:005121E1     push    offset {aGenericdialo_4} {; "GenericDialog_MED.fng"}                 ||| ident,comment
-.text:005121E6     call    {sub_505450}                                                         ||| hi
+.text:005121E6     call    {505450}                                                             ||| ref
 .text:005121EB     add     esp, {4}                                                             ||| num
 .text:005121EE     cmp     esi, eax
 .text:005121F0     jz      short loc_512218
 .text:005121F2     push    offset {aGenericdialo_5} {; "GenericDialog_Animate_LARGE.fng"}       ||| ident,comment
-.text:005121F7     call    {sub_505450}                                                         ||| hi
+.text:005121F7     call    {505450}                                                             ||| ref
 .text:005121FC     add     esp, {4}                                                             ||| num
 .text:005121FF     cmp     esi, eax
 .text:00512201     jz      short loc_512218
 .text:00512203     push    offset {aGenericdialo_0} {; "GenericDialog_LARGE.fng"}               ||| ident,comment
-.text:00512208     call    {sub_505450}                                                         ||| hi
+.text:00512208     call    {505450}                                                             ||| ref
 .text:0051220D     add     esp, {4}                                                             ||| num
 .text:00512210     cmp     esi, eax
 .text:00512212     jz      short loc_512218
