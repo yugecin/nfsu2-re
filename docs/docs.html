@@ -1077,7 +1077,9 @@ and copies everything from the allocated buffer back into <a href='vars.html#870
 </li><li>Escape: insert zero byte
 </li><li>Tab and CR: insert LF
 </li><li>Other: insert char if it's <code>a-z</code> or <code>A-Z</code> or <code>0-9</code> or,
-  if <a href='vars.html#80057E'>consoleDisallowSpecialChars</a> is zero, <code>_</code> or <code>@</code> or <code>.</code> or  <code>-</code>. If none of these pass, do a check for more keys as described below</li></ul>
+if <a href='vars.html#80057E'>consoleDisallowSpecialChars</a> is zero, <code>_</code> or <code>@</code> or <code>.</code> or
+<code>-</code>. If none of these pass, do a check for more keys as described below
+</li></ul>
 <div><p id='console_consume_key_check'><small># <a href='#console_consume_key'>ConsoleConsumeKey</a> &gt; <a href='#consoleleftover'>Console leftovers</a> &gt; A hardcoded key check</small></p>
 <h4>A hardcoded key check <a href='#console_consume_key_check'>#</a></h4>
 <p>At the end of looking if a character is valid, when it hasn't passed any of the criteria
@@ -1208,23 +1210,31 @@ difficult to describe. Here's some short points:
 <li>Browsing to the stock 240sx to customize shows an empty spot, no car
 </li><li>Selecting the stock car to customize will suddenly swap to the firetruck model
 </li><li>I can modify the firetruck, I can't select any bumpers but I can choose spoilers,
-  although it does nothing</li><li>Changing wheels/spinners/hydraulics does show
+although it does nothing
+</li><li>Changing wheels/spinners/hydraulics does show
 </li><li>Then going out of the customization menu crashes the game
-  (this includes going to performance tuning)</li></ul>
+(this includes going to performance tuning)
+</li></ul>
 <p class='imgholder'><img src="img/FIRETRUCK.GIF" alt="jumping firetruck"/><br/>Hop hop skippity hop</p>
 <ul>
 <li>Browsing a previously customized 240sx only shows the wheels of the car
 </li><li>If the wheels were not customized, it shows black rectangles as wheels and the game
-  crashes when I try to customize the wheels/spinners</li><li>Selecting the customized car to customize doesn't change anything special, still only wheels
+crashes when I try to customize the wheels/spinners
+</li><li>Selecting the customized car to customize doesn't change anything special, still only wheels
 </li><li>Only the firetruck customization options can be selected
 </li><li>Choosing a spoiler shows the spoiler in the center of the car
 </li><li>When going out of a category (like Body parts),
-  the car switches to the same car but the wheels at  the position where they should be for the firetruck</li><li>When going outside the customize menu now, the car's brand is a <code>*</code> symbol
+the car switches to the same car but the wheels at
+the position where they should be for the firetruck
+</li><li>When going outside the customize menu now, the car's brand is a <code>*</code> symbol
 </li><li>When going to a different car and back, the firetruck model shows
 </li><li>Entering customization again hides the firetruck, only showing the wheels
-  (the spoiler is gone?)</li><li>After saving and undoing the swap and restarting the game, the saved car stays a firetruck
-  (but the behavior is still the same as described above)</li><li>Using the car to race makes the framerate go down significantly, except when in nose camera
-  (you just see headlights driving without a vehicle body)</li><li>It doesn't lag at all in the performance tuning
+(the spoiler is gone?)
+</li><li>After saving and undoing the swap and restarting the game, the saved car stays a firetruck
+(but the behavior is still the same as described above)
+</li><li>Using the car to race makes the framerate go down significantly, except when in nose camera
+(you just see headlights driving without a vehicle body)
+</li><li>It doesn't lag at all in the performance tuning
 </li></ul>
 <p class='imgholder'><img src="img/FIRETRUCK-DYNO.JPG" alt="dyno chart"/><br/>Here's a dyno chart of the firetruck</p>
 <p>While the firetruck is unused in the game,

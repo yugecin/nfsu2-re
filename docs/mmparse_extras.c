@@ -411,8 +411,6 @@ int mmpextras_cb_mode_ul_println(struct mmparse *mm)
 				mmparse_failmsg(mm, "text found in ul mode but no li started (start a li with '- ')");
 				assert(0);
 			}
-			line = mm->pd.line;
-			len = mm->pd.line_len;
 		}
 		mmparse_append_to_main_output(mm, line, len);
 	}
