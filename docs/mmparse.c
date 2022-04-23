@@ -561,26 +561,31 @@ void mmparse_read_line(struct mmparse *mm)
 		if (c == '|') {
 			num_consecutive_pipes++;
 			if (num_consecutive_pipes == 3) {
-				mm->pd.hasmargin = 1;
-				line_len -= 2; /*Because 2 of them are already read.*/
-				while (line_len && (line[line_len - 1] == ' ' || line[line_len - 1] == '\t')) {
+				if (line_len > 3 && line[line_len - 3] == '\\') {
+					line[line_len - 3] = '|';
 					line_len--;
+				} else {
+					mm->pd.hasmargin = 1;
+					line_len -= 2; /*Because 2 of them are already read.*/
+					while (line_len && (line[line_len - 1] == ' ' || line[line_len - 1] == '\t')) {
+						line_len--;
+					}
+					line[line_len] = 0;
+					mm->pd.line_len = line_len;
+					mmparse_read_directives(mm);/*jeanine:r:i:2;*/
+					if (mm->pd.num_open_marks != mm->pd.num_directives) {
+						mmparse_failmsgf(mm,
+							"got %d directive(s) but %d mark(s)",
+							mm->pd.num_directives,
+							mm->pd.num_open_marks
+						);
+						assert(0);
+					}
+					mm->can |= MMPARSE_CAN_APPEND_EXPANDED;
+					mmparse_expand_line(mm);/*jeanine:r:i:5;*/
+					mm->can &= ~MMPARSE_CAN_APPEND_EXPANDED;
+					return;
 				}
-				line[line_len] = 0;
-				mm->pd.line_len = line_len;
-				mmparse_read_directives(mm);/*jeanine:r:i:2;*/
-				if (mm->pd.num_open_marks != mm->pd.num_directives) {
-					mmparse_failmsgf(mm,
-						"got %d directive(s) but %d mark(s)",
-						mm->pd.num_directives,
-						mm->pd.num_open_marks
-					);
-					assert(0);
-				}
-				mm->can |= MMPARSE_CAN_APPEND_EXPANDED;
-				mmparse_expand_line(mm);/*jeanine:r:i:5;*/
-				mm->can &= ~MMPARSE_CAN_APPEND_EXPANDED;
-				return;
 			}
 		} else {
 			num_consecutive_pipes = 0;
