@@ -5320,10 +5320,10 @@ size may be bigger, unknown
 <i>/*C*/	int field_C;</i>
 <i id='struc_UIElement10'></i><i>/*10*/	</i>unsigned int hash;
 <i>/*14*/	int field_14;</i>
-<span class='mm'>/**1-11? 2 = <a href='structs.html#struc_UILabel'>struct UILabel</a> 5 = <a href='structs.html#struc_UIContainer'>struct UIContainer</a>*/</span>
+<i id='struc_UIElement18'></i><span class='mm'>/**1-11? 2 = <a href='structs.html#struc_UILabel'>struct UILabel</a> 5 = <a href='structs.html#struc_UIContainer'>struct UIContainer</a>*/</span>
 <i>/*18*/	</i>int type;
-<span class='mm'>/**see <a href='enums.html#enu_UIELEMENTFLAGS'>enum UIELEMENTFLAGS</a>*/</span>
-<i>/*1C*/	</i><a href='enums.html#enu_UIELEMENTFLAGS'>enum UIELEMENTFLAGS</a> someFlags;
+<i id='struc_UIElement1C'></i><span class='mm'>/**see <a href='enums.html#enu_UIELEMENTFLAGS'>enum UIELEMENTFLAGS</a>*/</span>
+<i>/*1C*/	</i><a href='enums.html#enu_UIELEMENTFLAGS'>enum UIELEMENTFLAGS</a> flags;
 <i>/*20*/	int field_20;</i>
 <span class='mm'>/**used as arg to call <a href='funcs.html#51BD70'>GetFontData?</a>*/</span>
 <i>/*24*/	int field_24;</i>
@@ -5440,8 +5440,10 @@ although if this element is a label, the measured text height (which is also a g
 <i>/*0*/	</i><a href='#struc_UIElement'>struct UIElement</a> __parent;
 <span class='mm'>/**some string pointer?*/</span>
 <i>/*5C*/	int field_5C;</i>
+<i id='struc_UILabel60'></i><span class='mm'>/**the text (of the language files entry that matches this key) this label will display if its <a href='structs.html#struc_UIElement1C'>flags</a> does not include <a href='enums.html#enu_UIELEMENTFLAGS2'>USE_CUSTOM_TEXT</a>*/</span>
 <i>/*60*/	</i><a href='enums.html#enu_LANGUAGE_LABELS'>enum LANGUAGE_LABELS</a> textLanguageString;
-<i>/*64*/	</i><a href='#struc_WideCharString'>struct WideCharString</a> string;
+<i id='struc_UILabel64'></i><span class='mm'>/**the text this label will display if its <a href='structs.html#struc_UIElement1C'>flags</a> includes <a href='enums.html#enu_UIELEMENTFLAGS2'>USE_CUSTOM_TEXT</a>*/</span>
+<i>/*64*/	</i><a href='#struc_WideCharString'>struct WideCharString</a> customString;
 <i>/*6C*/	int field_6C;</i>
 <i>/*70*/	int field_70;</i>
 <i>/*74*/	int field_74;</i>
