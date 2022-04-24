@@ -1165,6 +1165,23 @@ UI things seem to work on a {640x480} canvas.                                   
 Most things (especially when mouse is involved) seem to be positioned
 {([-320,+320],[-240,+240])}.                                                                    ||| code
 
+A UI element is described by {struct UIElement}. Its {struct UIElement+18} field tells which    ||| ref,ref
+kind of element it is. Currently I have:
+
+.pushmode ul
+- type 1: {struct UIElementType1}: shows a texture                                              ||| ref
+- type 2: {struct UILabel}: shows text                                                          ||| ref
+- type 3-4: ?
+- type 5: {struct UIContainer}: groups child ui elements                                        ||| ref
+- type 6-11: ?
+.popmode ul
+
+All UI elements are addressable by the hash (see {hashfuncs}) of its name (stored in its field  ||| href
+{struct UIElement+10}). So then one can find UI elements by using {4953C0} or {537A10} and      ||| ref,ref,ref
+the likes.
+
+See also {blog1}                                                                                ||| blog
+
 .pushmode section
 
 {Dialogs}  ||| h id=ui_dialog

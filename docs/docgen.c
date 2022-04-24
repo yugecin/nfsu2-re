@@ -84,7 +84,7 @@ struct docgen {
 	struct docgen_symbol_comments *struct_member_comments;
 };
 
-#define MMPEXTRAS_MAX_ANCHORS 50
+#define MMPEXTRAS_MAX_ANCHORS 100
 #define MMPEXTRAS_MAX_NESTED_SECTIONS 10
 #define MMPEXTRAS_MAX_NESTED_ULS 10
 #include "mmparse_extras.c"
@@ -1164,7 +1164,7 @@ void docgen_mmparse_dir_ref_append(struct mmparse *mm, char *buf, int len)
 {
 	mmparse_append_to_expanded_line(mm, buf, len);
 }
-/*jeanine:p:i:67;p:65;a:r;x:23.44;y:5.06;*/
+/*jeanine:p:i:67;p:65;a:r;x:23.00;*/
 static
 void docgen_mmparse_img_directive_validate_and_trunc_name(struct mmparse *mm, struct mmp_dir_content_data *data)
 {
@@ -1184,6 +1184,38 @@ void docgen_mmparse_img_directive_validate_and_trunc_name(struct mmparse *mm, st
 	}
 	/*cut off the extra part of the tag name (ie make 'imgcaptioned' or 'imgcollapsed' into 'img')*/
 	data->directive->name[3] = 0;
+}
+/*jeanine:p:i:97;p:72;a:r;x:15.22;y:-83.00;*/
+static
+enum mmp_dir_content_action docgen_mmparse_dir_img(struct mmparse *mm, struct mmp_dir_content_data *data)
+{
+	struct mmp_dir_arg *alt_arg;
+	register char *c;
+
+	if (!data->content_len) {
+		mmparse_failmsg(mm, "img needs alt text in the directive's contents");
+		assert(0);
+	}
+	assert(((void) "increase MMPARSE_DIRECTIVE_MAX_ARGS", data->directive->argc < MMPARSE_DIRECTIVE_MAX_ARGS));
+	assert(((void) "increase MMPARSE_DIRECTIVE_ARGV_MAX_LEN", data->content_len < MMPARSE_DIRECTIVE_ARGV_MAX_LEN));
+	c = data->contents;
+	while (*c) {
+		if (*(c++) == '"') {
+			/*since alt text is put in an attribute (using double quotes), disallow double quotes*/
+			mmparse_failmsg(mm, "don't use double quotes in img alt text");
+			assert(0);
+		}
+	}
+	alt_arg = data->directive->args + data->directive->argc++;
+	alt_arg->name_len = 3;
+	alt_arg->value_len = data->content_len;
+	memcpy(alt_arg->name, "alt", 4);
+	memcpy(alt_arg->value, data->contents, data->content_len + 1);
+	docgen_mmparse_img_directive_validate_and_trunc_name(mm, data);/*jeanine:s:a:r;i:67;*/
+	mmparse_append_to_expanded_line(mm, "<p class='imgholder'>", 21);
+	mmparse_print_tag_with_directives(mm, data->directive, "/>");
+	mmparse_append_to_expanded_line(mm, "</p>", 4);
+	return DELETE_CONTENTS;
 }
 /*jeanine:p:i:65;p:72;a:r;x:15.03;y:-49.44;*/
 static
@@ -1348,6 +1380,7 @@ void docgen_mmparse_symbol_comments(struct mmparse *mm, struct docgen_symbol_com
 }
 /*jeanine:p:i:72;p:75;a:b;y:117.11;*/
 struct mmp_dir_handler docgen_mmp_doc_directives[] = {
+	{ "img", docgen_mmparse_dir_img },/*jeanine:r:i:97;*/
 	{ "imgcaptioned", docgen_mmparse_dir_imgcaptioned },/*jeanine:r:i:65;*/
 	{ "imgcollapsed", docgen_mmparse_dir_imgcollapsed },/*jeanine:r:i:66;*/
 	{ "dumpfileref", docgen_mmparse_dir_dumpfileref },/*jeanine:r:i:64;*/
@@ -1624,6 +1657,8 @@ struct mmparse *docgen_new_mmparse(struct docgen *dg, struct docgen_mmp_data *mm
 static char *blogposts[] = {
 	/*don't change the order of these*/
 	/*each must start with 'blog-'*/
+	"blog-docs-rework",
+	"blog-exploring-UI",
 	NULL
 };
 static

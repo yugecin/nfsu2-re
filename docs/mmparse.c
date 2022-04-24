@@ -533,7 +533,7 @@ void mmparse_expand_line(struct mmparse *mm)
 		}
 	}
 }
-/*jeanine:p:i:3;p:12;a:r;x:16.39;y:-111.56;*/
+/*jeanine:p:i:3;p:12;a:r;x:16.16;y:-117.68;*/
 static
 void mmparse_read_line(struct mmparse *mm)
 {

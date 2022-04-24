@@ -1,0 +1,386 @@
+<!DOCTYPE html><html lang='en'><head><meta charset='utf-8'/>
+<title>nfsu2-re/BLOGx01: Exploring UI</title>
+<style>
+body {
+	font-family: Tahoma,Arial,sans-serif;
+	background: #888;
+	color: #000;
+}
+header,
+body > div {
+	background: #fff;
+	box-shadow: 0px 0px 4px #000;
+	border: 1px solid #efefef;
+	padding: 0 1em;
+	margin: 1em auto;
+	max-width: 60em;
+}
+h1 {
+	margin: .3em;
+}
+header {
+	background: #eee;
+	text-align: center;
+}
+nav {
+	line-height: 2em;
+	margin: 1em 0;
+}
+nav a {
+	padding: .2em .5em;
+	background: #ddd;
+	border-color: #555;
+	border-style: ridge;
+	border-width: 2px;
+}
+pre,
+.sym > div:not(.mm) {
+	margin: 1em 0;
+	padding: .2em .5em;
+	font-family: monospace;
+	white-space: pre;
+	overflow-x: auto;
+}
+pre {
+	border: 2px solid #cdcdcd;
+	background: #f7f7f7;
+}
+table {
+        border-collapse: collapse;
+}
+td,th {
+	padding: .1em .4em;
+	border: 1px solid #000;
+}
+th {
+        background: #f5f5f5;
+}
+details {
+        padding: .2em .4em 0 .4em;
+        margin: .5em 0;
+        border: 1px solid #ccc;
+        background: #eee;
+}
+summary {
+        user-select: none;
+        cursor: pointer;
+}
+.mm a[href^="funcs.html"],
+.mm a[href^="vars.html"],
+.mm a[href^="structs.html"],
+.mm a[href^="enums.html"] {
+	border-radius: 5px;
+	padding: 0 .15em;
+	font-family: monospace;
+}
+.mm a[href^="funcs.html"]:hover {
+	background: #fdf;
+}
+.mm a[href^="vars.html"]:hover {
+	background: #dfd;
+}
+.mm a[href^="structs.html"]:hover {
+	background: #ddf;
+}
+.mm a[href^="enums.html"]:hover {
+	background: #fdd;
+}
+nav a[href^="funcs.html"],
+.mm a[href^="funcs.html"],
+.func > div:not(.mm),
+.struc > ul > li > pre {
+	background: #fef;
+	border-color: #f6f;
+}
+.struc > ul > li > pre {
+	white-space: pre-wrap;
+	margin: .5em 0;
+}
+nav a[href^="structs.html"],
+.mm a[href^="structs.html"],
+.struc > div:not(.mm) {
+	background: #eef;
+	border-color: #66f;
+}
+nav a[href^="enums.html"],
+.mm a[href^="enums.html"],
+.enum > div:not(.mm) {
+	background: #fee;
+	border-color: #f66;
+}
+nav a[href^="vars.html"],
+.mm a[href^="vars.html"],
+.var > div:not(.mm) {
+	background: #efe;
+	border-color: #5a5;
+}
+.sym > div:not(.mm),
+.struc > ul > li > pre {
+	border-width: 1px;
+	border-style: solid;
+}
+div h3 {
+	display: inline;
+	font-size: 1em;
+	font-weight: bold;
+}
+body > div > ul i,
+body > div > div i {
+	font-style: normal;
+	font-size: 80%;
+	color: #777;
+}
+/*class label*/
+.struc h2 + ul em::after,
+.struc h3 + i + em::after {
+	content: "/*class*/";
+	font-style: normal;
+	background: #d4aaff;
+	border: 1px solid #94f;
+	font-size: 80%;
+	border-radius: 3px;
+}
+.struc h2 + ul em::after {
+	content: "class";
+	padding: 0 .2em;
+}
+/*union emphasis/label*/
+.struc h2 + ul b::after,
+body > div > div b {
+	font-weight: normal;
+	background: #aadfff;
+	border: 1px solid #44b9ff;
+	font-size: 90%;
+	border-radius: 3px;
+}
+.struc h2 + ul b::after {
+	content: "union";
+	padding: 0 .2em;
+	font-size: 80%;
+}
+.struc h2 + ul b {
+	font-weight: normal;
+}
+/*unknown type*/
+body > div > div u {
+	text-decoration: none;
+}
+span.uctype,
+body > div > div u::after {
+	content: "/*unconfirmed type*/";
+	background: #fca;
+	border: 1px solid #f94;
+	font-size: 80%;
+	border-radius: 6px;
+	color: #000;
+}
+/*reference to unknown struct/enum*/
+.mm .error,
+body > div.sym > div strong {
+	background: #f00;
+	color: #fff;
+}
+/*doccomment*/
+body > div > div > span {
+	color: #080;
+	display: inline-block;
+	margin-left: 5em; /*why 5 and not 8?*/
+	/*so doccomments on their own don't cause scrollbars*/
+	white-space: pre-wrap;
+}
+a.ext::after {
+	display: inline-block;
+	content: '';
+	width: 12px;
+	height: 12px;
+	background: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAAM\
+AgMAAAArG7R0AAAABGdBTUEAALGPC/xhBQAAAAFzUkdCAK7OHOkAAAAJcEhZcwAADsMAAA7DAcdvqGQ\
+AAAAJUExURUdwTAD/AAAA//ENIZIAAAABdFJOUwBA5thmAAAAL0lEQVQI12NggAFRBwaG0AQGptAVDF\
+wzsxi4Zq1k4JqaCcZMU1cwMCxbwMCg1QAArE8JoyhJwYoAAAAASUVORK5CYII=') no-repeat;
+}
+div.mm div {
+	margin: 2em 0;
+	padding-left: 1em;
+	border-left: 3px ridge #666;
+}
+div.mm p.center {
+	text-align: center;
+}
+div.mm p.imgholder {
+	text-align: center;
+	margin: 3em 0;
+}
+code {
+	background: #dfdfdf;
+	padding: 0 .2em;
+	border-radius: 3px;
+}
+div.mm h2 a, div.mm h3 a, div.mm h4 a, div.mm h5 a, div.mm h6 a {
+	color: #A0A0A0;
+}
+pre.ida {
+	color: #000080;
+	font-weight: bold;
+}
+pre.ida span.text,
+pre.ida span.mt {
+	color: #000;
+}
+pre.ida span.comment,
+pre.ida span.mc {
+	color: #808080;
+}
+pre.ida span.ident {
+	color: #0000ff;
+}
+pre.ida span.num, pre.ida span.str {
+	color: #008000;
+}
+pre.ida span.hi {
+	background: #ff0;
+}
+</style></head><body>
+<header>
+<h1>nfsu2-re</h1>
+<p><a href='https://github.com/yugecin/nfsu2-re'>https://github.com/yugecin/nfsu2-re</a></p>
+<nav><a href='index.html'>home</a>
+<a href='blog.html'>blog</a>
+<a href='docs.html'>docs</a>
+<a href='funcs.html' class='func'>functions</a>
+<a href='structs.html' class='struc'>structs</a>
+<a href='enums.html' class='enum'>enums</a>
+<a href='vars.html' class='var'>variables</a>
+<a href='cheatsheet.html'>cheatsheet</a></nav>
+</header>
+<div class='mm'>
+<p><a href='blog.html'>blog</a> &gt; Exploring UI (2022 Apr 23)</p><div><h2 id="exploringui">Exploring UI <a href='#exploringui'>#</a></h2>
+<p><em>This blogpost was written when the repository was at revision
+<a class="ext" href="https://github.com/yugecin/nfsu2-re/tree/06ca59c362c490a384367511b9378517efe0f39b">06ca59c362c490a384367511b9378517efe0f39b</a>.</em>
+</p><ul>
+<li><a href='#exploringui'>Exploring UI</a>
+<ul>
+<li><a href='#uitreeview'>The debug window UI treeview</a></li>
+<li><a href='#labels'>Labels</a></li>
+<li><a href='#textureelements'>Texture elements</a></li>
+<li><a href='#eventhandler'>Event Handler</a></li>
+<li><a href='#animations'>Animations</a></li>
+<li><a href='#pchelpbar'>PC help bar</a></li>
+</ul>
+</li>
+</ul>
+<div><h3 id="uitreeview">The debug window UI treeview <a href='#uitreeview'>#</a></h3>
+<p>Near the end of 2020, <a class="ext" href="https://github.com/yugecin/nfsu2-re/commit/5059d4c1b4d1c07aa96673fd6daabe405fb23b69">I wrote some code to have "debug window" while the game
+is running</a>.
+I added some D3D stuff (to render normally/wireframes/points and toggle
+flatshading), and added a checkbox to switch the car customization menu between
+normal and debug.
+</p><p>The next thing I soon added was a treeview of all UI elements and their
+properties.
+</p><p>The UI treeview shows all FNG screens that are displayed, and all their child
+UI elements. The top FNG screen is read from
+<code><a href='vars.html#8384C4'>pUIData</a>-&gt;<a href='structs.html#struc_UIData8'>field_8</a>-&gt;<a href='structs.html#struc_UIData_field8E4'>topPackage</a></code> and
+its <a href='structs.html#struc_FNGInfo4'>child</a> is followed until the next <a href='structs.html#struc_FNGInfo4'>child</a> is unset.
+For each <a href='structs.html#struc_FNGInfo'>struct FNGInfo</a>, its <a href='structs.html#struc_FNGInfo4C'>rootUIElement</a> is read and its
+<a href='structs.html#struc_UIElement4'>nextSibling</a> is followed until the next <a href='structs.html#struc_UIElement4'>nextSibling</a> is unset.
+If any element's <a href='structs.html#struc_UIElement18'>type</a> is 5, it's a <a href='structs.html#struc_UIContainer'>struct UIContainer</a> so its
+<a href='structs.html#struc_UIContainer64'>rootElement</a> is read and iterated as well.
+</p><p>See function <code>dbgw_ui_tree_update_before_present</code> in
+<code><a class='ext' href='https://github.com/yugecin/nfsu2-re/blob/master/nfsu2-re-hooks/dbgw_a_main.c'>nfsu2-re-hooks/dbgw_a_main.c</a></code>.
+</p><p class='imgholder'><img src="img/BLOGx01-DBGW0.PNG" alt="A window with a treeview containing containers and labels"/></p>
+<p>A magenta rectangle will be drawn around the UI element that is selected:
+</p><p class='imgholder'><img src="img/BLOGx01-SETTINGS0.WEBP" alt="The game showing the 'Player' options screen"/></p>
+ 
+</div><div><h3 id="labels">Labels <a href='#labels'>#</a></h3>
+<p>In the image of the previous section, the selected ui element was a label with
+a <a href='structs.html#struc_UILabel60'>textLanguageString</a> of <code>AC148579</code>, which is the hash
+(see <a href='docs.html#hashfuncs'>Hash functions</a>) of <code>OPT_PLAYER_GAUGES</code>, which, for English, results
+in the text <code>Gauges</code>.
+</p><p>If I now check the checkbox for flag with value <code>2</code> (<a href='enums.html#enu_UIELEMENTFLAGS2'>USE_CUSTOM_TEXT</a>),
+the <a href='structs.html#struc_UILabel64'>customString</a> will be used (displayed as "Label string" in the img).
+I can also change this text to <code>custom text^and new line even</code>. The caret <code>^</code>
+symbol is interpreted by the game's text renderer as a linefeed.
+</p><p class='imgholder'><img src="img/BLOGx01-SETTINGS1.WEBP" alt="Same image as before but with custom text"/></p>
+</div><div><h3 id="textureelements">Texture elements <a href='#textureelements'>#</a></h3>
+<p>Many of the UI elements seem to exist to draw textures that make the UI.
+Those elements are elements with <a href='structs.html#struc_UIElement18'>type</a> 1, they're of type
+<a href='structs.html#struc_UIElementType1'>struct UIElementType1</a>. A the time of writing, this struct is a dummy because
+I haven't really explored it yet.
+</p><p class='imgholder'><img src="img/BLOGx01-CONTAINER.PNG" alt="Window with a treeview, having a 'container' element selected"/></p>
+<p>The container element selected in the above screenshot groups all elements
+that make up the inner grey rounded rectangle.
+</p><p class='imgholder'><img src="img/BLOGx01-CONTAINER.WEBP" alt="The game showing the 'Player' options screen"/></p>
+<p>The 7 children of the container are <a href='structs.html#struc_UIElementType1'>struct UIElementType1</a> elements.
+The picture below shows all 7 elements, 4 of which are the corners, 2
+are the vertical sections on each side between the corners and one big
+rectangle in the middle. Perhaps only the 4 corners are using a texture and the
+3 other elements are just drawing a color and not using a texture? I don't know
+yet. I've added the <a href='enums.html#enu_UIELEMENTFLAGS1'>HIDDEN</a> flag to the left vertical section
+element to "prove" that the red lines are factually showing each separate UI
+element.
+</p><p class='imgholder'><img src="img/BLOGx01-CONTAINER2.WEBP" alt="The game showing the 'Player' options screen, with red lines showing different UI elements"/></p>
+</div><div><h3 id="eventhandler">Event Handler <a href='#eventhandler'>#</a></h3>
+<p>Nearly all FNG screens seem to have a label with the text 
+<code>Event Handler</code>.
+</p><p class='imgholder'><img src="img/BLOGx01-DBGW2.PNG" alt="Window with a treeview, having a 'label' selected with text 'Event Handler'"/></p>
+<p>Interestingly, the label's y position is <code>-335</code>, which is outside the screen
+(since the UI works on a <code>640x480</code> canvas, where x is <code>[-320,320]</code> and y is
+<code>[-240,240]</code>. Let's see what it looks like when I change the y position to
+<code>-35</code>:
+</p><p class='imgholder'><img src="img/BLOGx01-EH.WEBP" alt="The game showing the same 'Player' options screen, now with a red 'Event Handler' label visible"/></p>
+<p>Very interesting, because of its name and red text is pretty rare to see in
+this game. I have no idea what this element does, but I guess it's pretty
+important. I also wonder why the element is positioned outside of the screen
+instead of having the <a href='enums.html#enu_UIELEMENTFLAGS1'>HIDDEN</a> flag.
+</p></div><div><h3 id="animations">Animations <a href='#animations'>#</a></h3>
+<p>Elements can have animations, such as zooming or fading in/out and others.
+<code><a href='structs.html#struc_UIElement'>struct UIElement</a>.<a href='structs.html#struc_UIElement4C'>animationLink?</a></code> stores all animation things per
+element. There is also <code><a href='structs.html#struc_UIElement'>struct UIElement</a>.<a href='structs.html#struc_UIElement54'>currentAnimation?</a></code>.
+Here's a dump of all animations on the label element that shows your profile
+name in the bottom bar, the name label that gets swapped with your bank amount
+every few seconds:
+</p><pre>
+dumping animations for 0D53F938
+animation@17D32DD8 hash     CCFA (&lt;unknown&gt;)
+animation@17D32E0C hash   1744B3 (Init)
+animation@17D32E40 hash 7AB70D67 (STATIC)
+animation@17D32E74 hash 54C20A66 (Fade_Out) CURRENT
+animation@17D32EA8 hash BCC00F05 (Fade_In)
+</pre>
+<p>Currently I haven't explored this much yet, so <a href='structs.html#struc_UIElement_Animation'>struct UIElement_Animation</a>
+only has one known field right now: <a href='structs.html#struc_UIElement_Animation30'>hash_30</a>
+From the list of hashes I'm collecting (see <a href='docs.html#hashfuncs'>Hash functions</a>), I can
+assign names to some of the hashes, but not all of them.
+</p><p>Here's a dump of all the animations on the <a href='#eventhandler'>Event Handler</a> element:
+</p><pre>
+dumping animations for 17D35E40
+animation@17D2F764 hash   1744B3 (Init)
+animation@17D2F798 hash DE6EFF34 (FORWARD)
+animation@17D2F7CC hash   1335F0 (&lt;unknown&gt;)
+animation@17D2F800 hash   13C37B (CALL) CURRENT
+animation@17D2F834 hash  3D8EABC (UNDIM)
+animation@17D2F868 hash     9E99 (DIM)
+animation@17D2F89C hash 885C68D7 (&lt;unknown&gt;)
+animation@17D2F8D0 hash 5BE88AE5 (&lt;unknown&gt;)
+animation@17D2F904 hash 24C03C89 (&lt;unknown&gt;)
+animation@17D2F938 hash 6B824FFE (&lt;unknown&gt;)
+animation@17D2F96C hash 45E1D832 (&lt;unknown&gt;)
+animation@17D2F9A0 hash 451D2D46 (&lt;unknown&gt;)
+animation@17D2F9D4 hash 58BDA1CB (&lt;unknown&gt;)
+animation@17D2FA08 hash 18E4B133 (&lt;unknown&gt;)
+animation@17D2FA3C hash BBD90008 (&lt;unknown&gt;)
+animation@17D2FA70 hash 7069F5AC (&lt;unknown&gt;)
+</pre>
+<p>It has a lot of unknown hashes, but also <code>FORWARD</code> and <code>CALL</code> and <code>Init</code>.
+They don't really sound like names for animations, so perhaps these things
+are more than just animations? Some are definitely animations though,
+because elements fade out when calling <code><a href='funcs.html#51CF70'>SetUIElementAnimationByName</a>(element, "Fade_Out", 1);</code>.
+</p></div><div><h3 id="pchelpbar">PC help bar <a href='#pchelpbar'>#</a></h3>
+<p>The PC help bar is the bar at the bottom that has a bunch of buttons and your
+profile name/bank. See also <a href='docs.html#pc_help_bar'>PC help bar</a>.
+One tab in the debug window has a checkbox for each value in
+<a href='enums.html#enu_PCHELPBARFLAGS'>enum PCHELPBARFLAGS</a>, which gets synced by using <a href='funcs.html#54E6E0'>PCHelpBarFNGObject::SyncByMask</a> whenever a checkbox
+is changed.
+</p><p class='imgholder'><img src="img/BLOGx01-DBGW1.PNG" alt="Window with a lot of checkboxes"/></p>
+<p class='imgholder'><img src="img/BLOGx01-HELPBAR.WEBP" alt="The game showing the 'Player' options screen, with random buttons at the bottom"/></p>
+</div></div>
+</div></body></html>

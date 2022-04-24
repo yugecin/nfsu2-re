@@ -1,0 +1,179 @@
+{Exploring UI} ||| blog date="2022 Apr 23"
+
+.pushmode section
+
+{Exploring UI} ||| h id=exploringui
+
+{This blogpost was written when the repository was at revision                  ||| em
+{06ca59c362c490a384367511b9378517efe0f39b}.}                                    ||| a class=ext href=https://github.com/yugecin/nfsu2-re/tree/06ca59c362c490a384367511b9378517efe0f39b
+
+{} ||| index
+
+.pushmode section
+
+{The debug window UI treeview} ||| h id=uitreeview
+
+Near the end of 2020, {I wrote some code to have "debug window" while the game  ||| a class=ext href=https://github.com/yugecin/nfsu2-re/commit/5059d4c1b4d1c07aa96673fd6daabe405fb23b69
+is running}.                                                                    |||
+I added some D3D stuff (to render normally/wireframes/points and toggle
+flatshading), and added a checkbox to switch the car customization menu between
+normal and debug.
+
+The next thing I soon added was a treeview of all UI elements and their
+properties.
+
+The UI treeview shows all FNG screens that are displayed, and all their child
+UI elements. The top FNG screen is read from
+{{8384C4}->{struct UIData+8}->{struct UIData_field8+E4}} and                    ||| code,ref,ref,ref
+its {struct FNGInfo+4} is followed until the next {struct FNGInfo+4} is unset.  ||| ref,ref
+For each {struct FNGInfo}, its {struct FNGInfo+4C} is read and its              ||| ref,ref
+{struct UIElement+4} is followed until the next {struct UIElement+4} is unset.  ||| ref,ref
+If any element's {struct UIElement+18} is 5, it's a {struct UIContainer} so its ||| ref,ref
+{struct UIContainer+64} is read and iterated as well.                           ||| ref
+
+See function {dbgw_ui_tree_update_before_present} in                            ||| code
+{nfsu2-re-hooks/dbgw_a_main.c}.                                                 ||| hookfileref
+
+{A window with a treeview containing containers and labels}                     ||| img src=BLOGx01-DBGW0.PNG
+
+A magenta rectangle will be drawn around the UI element that is selected:
+
+{The game showing the 'Player' options screen}                                  ||| img src=BLOGx01-SETTINGS0.WEBP
+ 
+.popmode section
+.pushmode section
+
+{Labels} ||| h id=labels
+
+In the image of the previous section, the selected ui element was a label with
+a {struct UILabel+60} of {AC148579}, which is the hash                          ||| ref,code
+(see {docs.html#hashfuncs}) of {OPT_PLAYER_GAUGES}, which, for English, results ||| href,code
+in the text {Gauges}.                                                           ||| code
+
+If I now check the checkbox for flag with value {2} ({enum UIELEMENTFLAGS/2}),  ||| code,ref
+the {struct UILabel+64} will be used (displayed as "Label string" in the img).  ||| ref
+I can also change this text to {custom text^and new line even}. The caret {^}   ||| code,code
+symbol is interpreted by the game's text renderer as a linefeed.
+
+{Same image as before but with custom text}                                     ||| img src=BLOGx01-SETTINGS1.WEBP
+
+.popmode section
+.pushmode section
+
+{Texture elements} ||| h id=textureelements
+
+Many of the UI elements seem to exist to draw textures that make the UI.
+Those elements are elements with {struct UIElement+18} 1, they're of type       ||| ref 
+{struct UIElementType1}. A the time of writing, this struct is a dummy because  ||| ref
+I haven't really explored it yet.
+
+{Window with a treeview, having a 'container' element selected}                 ||| img src=BLOGx01-CONTAINER.PNG
+
+The container element selected in the above screenshot groups all elements
+that make up the inner grey rounded rectangle.
+
+{The game showing the 'Player' options screen}                                  ||| img src=BLOGx01-CONTAINER.WEBP
+
+The 7 children of the container are {struct UIElementType1} elements.           ||| ref 
+The picture below shows all 7 elements, 4 of which are the corners, 2
+are the vertical sections on each side between the corners and one big
+rectangle in the middle. Perhaps only the 4 corners are using a texture and the
+3 other elements are just drawing a color and not using a texture? I don't know
+yet. I've added the {enum UIELEMENTFLAGS/1} flag to the left vertical section   ||| ref
+element to "prove" that the red lines are factually showing each separate UI
+element.
+
+{The game showing the 'Player' options screen, with red lines showing different UI elements} ||| img src=BLOGx01-CONTAINER2.WEBP
+
+.popmode section
+.pushmode section
+
+{Event Handler} ||| h id=eventhandler
+
+Nearly all FNG screens seem to have a label with the text 
+{Event Handler}.                                                                ||| code
+
+{Window with a treeview, having a 'label' selected with text 'Event Handler'}   ||| img src=BLOGx01-DBGW2.PNG
+
+Interestingly, the label's y position is {-335}, which is outside the screen    ||| code
+(since the UI works on a {640x480} canvas, where x is {[-320,320]} and y is     ||| code,code
+{[-240,240]}. Let's see what it looks like when I change the y position to      ||| code
+{-35}:                                                                          ||| code
+
+{The game showing the same 'Player' options screen, now with a red 'Event Handler' label visible} ||| img src=BLOGx01-EH.WEBP
+
+Very interesting, because of its name and red text is pretty rare to see in
+this game. I have no idea what this element does, but I guess it's pretty
+important. I also wonder why the element is positioned outside of the screen
+instead of having the {enum UIELEMENTFLAGS/1} flag.                             ||| ref
+
+.popmode section
+.pushmode section
+
+{Animations} ||| h id=animations
+
+Elements can have animations, such as zooming or fading in/out and others.
+{{struct UIElement}.{struct UIElement+4C}} stores all animation things per      ||| code,ref,ref
+element. There is also {{struct UIElement}.{struct UIElement+54}}.              ||| code,ref,ref
+Here's a dump of all animations on the label element that shows your profile
+name in the bottom bar, the name label that gets swapped with your bank amount
+every few seconds:
+
+.pushmode pre
+dumping animations for 0D53F938
+animation@17D32DD8 hash     CCFA (<unknown>)
+animation@17D32E0C hash   1744B3 (Init)
+animation@17D32E40 hash 7AB70D67 (STATIC)
+animation@17D32E74 hash 54C20A66 (Fade_Out) CURRENT
+animation@17D32EA8 hash BCC00F05 (Fade_In)
+.popmode pre
+
+Currently I haven't explored this much yet, so {struct UIElement_Animation}     ||| ref
+only has one known field right now: {struct UIElement_Animation+30}             ||| ref
+From the list of hashes I'm collecting (see {docs.html#hashfuncs}), I can       ||| href
+assign names to some of the hashes, but not all of them.
+
+Here's a dump of all the animations on the {eventhandler} element:              ||| href
+
+.pushmode pre
+dumping animations for 17D35E40
+animation@17D2F764 hash   1744B3 (Init)
+animation@17D2F798 hash DE6EFF34 (FORWARD)
+animation@17D2F7CC hash   1335F0 (<unknown>)
+animation@17D2F800 hash   13C37B (CALL) CURRENT
+animation@17D2F834 hash  3D8EABC (UNDIM)
+animation@17D2F868 hash     9E99 (DIM)
+animation@17D2F89C hash 885C68D7 (<unknown>)
+animation@17D2F8D0 hash 5BE88AE5 (<unknown>)
+animation@17D2F904 hash 24C03C89 (<unknown>)
+animation@17D2F938 hash 6B824FFE (<unknown>)
+animation@17D2F96C hash 45E1D832 (<unknown>)
+animation@17D2F9A0 hash 451D2D46 (<unknown>)
+animation@17D2F9D4 hash 58BDA1CB (<unknown>)
+animation@17D2FA08 hash 18E4B133 (<unknown>)
+animation@17D2FA3C hash BBD90008 (<unknown>)
+animation@17D2FA70 hash 7069F5AC (<unknown>)
+.popmode pre
+
+It has a lot of unknown hashes, but also {FORWARD} and {CALL} and {Init}.       ||| code,code,code
+They don't really sound like names for animations, so perhaps these things
+are more than just animations? Some are definitely animations though,
+because elements fade out when calling {{51CF70}(element, "Fade_Out", 1);}.     ||| code,ref
+
+.popmode section
+.pushmode section
+
+{PC help bar} ||| h id=pchelpbar
+
+The PC help bar is the bar at the bottom that has a bunch of buttons and your
+profile name/bank. See also {docs.html#pc_help_bar}.                            ||| href
+One tab in the debug window has a checkbox for each value in
+{enum PCHELPBARFLAGS}, which gets synced by using {54E6E0} whenever a checkbox  ||| ref,ref
+is changed.
+
+{Window with a lot of checkboxes}                                               ||| img src=BLOGx01-DBGW1.PNG
+
+{The game showing the 'Player' options screen, with random buttons at the bottom} ||| img src=BLOGx01-HELPBAR.WEBP
+
+.popmode section
+.popmode section

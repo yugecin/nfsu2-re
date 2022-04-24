@@ -1336,6 +1336,19 @@ resources or some kind of UI widget descriptors.
 </p><p>UI things seem to work on a <code>640x480</code> canvas.
 Most things (especially when mouse is involved) seem to be positioned
 <code>([-320,+320],[-240,+240])</code>.
+</p><p>A UI element is described by <a href='structs.html#struc_UIElement'>struct UIElement</a>. Its <a href='structs.html#struc_UIElement18'>type</a> field tells which
+kind of element it is. Currently I have:
+</p><ul>
+<li>type 1: <a href='structs.html#struc_UIElementType1'>struct UIElementType1</a>: shows a texture
+</li><li>type 2: <a href='structs.html#struc_UILabel'>struct UILabel</a>: shows text
+</li><li>type 3-4: ?
+</li><li>type 5: <a href='structs.html#struc_UIContainer'>struct UIContainer</a>: groups child ui elements
+</li><li>type 6-11: ?
+</li></ul>
+<p>All UI elements are addressable by the hash (see <a href='#hashfuncs'>Hash functions</a>) of its name (stored in its field
+<a href='structs.html#struc_UIElement10'>hash</a>). So then one can find UI elements by using <a href='funcs.html#4953C0'>FindUILabelByName</a> or <a href='funcs.html#537A10'>FindUILabelByHash</a> and
+the likes.
+</p><p>See also <a href='BLOGx01-exploring-UI.html'>blogpost: Exploring UI</a>
 </p><div><p id='ui_dialog'><small># <a href='#ui'>UI</a> &gt; Dialogs</small></p>
 <h3>Dialogs <a href='#ui_dialog'>#</a></h3>
 <p>Thanks to the <a href='#debugprint'>Debug print</a> discovery, my attention got grabbed
