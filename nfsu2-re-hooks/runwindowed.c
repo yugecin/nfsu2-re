@@ -20,14 +20,11 @@ __declspec(naked) void GetActiveResolutionHook()
 		// __stdcall
 		pop eax
 		pop ecx
-#if defined WIDESCREEN_MOD
-		mov dword ptr [ecx], 1280 // width
-#else
-		mov dword ptr [ecx], 960 // width
-#endif
+		mov dword ptr [ecx], WINDOWED_RESOLUTION_X
 		pop ecx
-		mov dword ptr [ecx], 720 // height
+		mov dword ptr [ecx], WINDOWED_RESOLUTION_Y
 		jmp eax
+
 	}
 }
 

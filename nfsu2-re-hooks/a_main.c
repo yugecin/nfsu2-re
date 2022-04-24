@@ -31,9 +31,14 @@ static void stub() {}
 #define DEBUG_DOUI_FUNC stub
 #define PRESENT_HOOK_FUNC stub
 
-/*note: hash hooks can get called A LOT so this may slow down the game*/
-#define WIDESCREEN_MOD /*define when external widescreen mod is active*/
+/*will only work when runwindowed.c is included*/
+//#define WINDOWED_RESOLUTION_X 960 /*4:3*/
+#define WINDOWED_RESOLUTION_X 1280 /*16:9*/
+#define WINDOWED_RESOLUTION_Y 720
+//#define WINDOWED_RESOLUTION_X 640
+//#define WINDOWED_RESOLUTION_Y 480
 
+/*note: hash hooks can get called A LOT so this may slow down the game*/
 #include "d3d9.c"
 #include "runwindowed.c" // must be on top for NFSU2_RUN_WINDOWED define, needed for mouse stuff
 #include "faux-enable-console.c"
@@ -72,7 +77,7 @@ static void stub() {}
 #include "replaceloadingscreen.c"
 #include "skipinsertdisc2.c"
 #include "ignorefocuslossintextboxandlist.c"
-#include "switch-joyids-in-career.c"
+//#include "switch-joyids-in-career.c"
 
 #include "dbgw_a_main.c"
 
