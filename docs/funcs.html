@@ -1927,7 +1927,7 @@ return visitor.<a href='structs.html#struc_UIElementVisitor_FindByHash8'>foundUI
 </div>
 <div id='504830'><i>504830</i> int __thiscall <h3><a href='structs.html#struc_FNGInfo'>FNGInfo</a>::VisitContainerRecursively</h3>(<a href='structs.html#struc_FNGInfo'>struct FNGInfo</a> *this, <a href='structs.html#struc_UIContainer'>struct UIContainer</a> *container, <a href='structs.html#struc_UIElementVisitor'>struct UIElementVisitor</a> *data);</div>
 <div class='mm'>
-<p>Starts at <code>container-&gt;<a href='structs.html#struc_UIContainer64'>children</a></code>,
+<p>Starts at <code>container-&gt;<a href='structs.html#struc_UIContainer64'>rootElement</a></code>,
 iterates through all children by traversing <code><a href='structs.html#struc_UIElement4'>nextSibling</a></code>,
 calls <code>visitor-&gt;<a href='structs.html#struc_UIElementVisitor0'>vtable</a>-&gt;<a href='structs.html#struc_UIElementVisitor$vtable4'>acceptElement</a></code> for every child,
 calls <a href='funcs.html#504830'>FNGInfo::VisitContainerRecursively</a> (itself) for every child that is of type 5 (<code><a href='structs.html#struc_UIContainer'>struct UIContainer</a></code>).
