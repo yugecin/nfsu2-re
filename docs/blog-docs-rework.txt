@@ -1,0 +1,72 @@
+{Docs rework} ||| blog date="2022 Apr 23"
+
+.pushmode section
+
+{Docs rework} ||| h id=docsrework
+
+Alright, finally after 2.5 months of on-off work, the rework/revamp of this
+documentation website is done. Previously this website was just a single (huge)
+page with a lot of text and symbol information in between, now that same
+information is split between the {docs} and                                     ||| a href=docs.html
+{functions}/{structs}/{enums}/{variables} pages.                                ||| a href=funcs.html,a href=structs.html,a href=enums.html,a href=vars.html
+There's also this new 'blog' section, so I can put more 'discovering' style
+content in here and keep the docs more clean and tidy and to-the-point.
+
+{In the beginning I wrote the docs html manually}, which was fine for a while  ||| a class=ext href=https://github.com/yugecin/nfsu2-re/commit/7c18467184fe0d8a8ad13b6c320272320c80b897
+but soon became a tedious job. I'm not a big fan of Markdown because it seems
+like many places use a different dialect (the meaning for {__}/{**}/{*} may    ||| code,code,code
+differ, for example on Slack and Discord) and certain elements (like links)
+break the flow of the text in source form. So at some point I came up with an
+idea for a markup language and {I made a first implementation of mmparse.c}.   ||| a class=ext href=https://github.com/yugecin/nfsu2-re/commit/3f93d854d0c045e0c937f41c628ebf6e20bdf7db
+I named this 'margin markup' because the configuration of the presentation
+would be put in the document's margin. It has its own problems of course (for
+example you constantly need to reorder/copy the margin when editing lines) but
+so far I think the positives outweigh the negatives.
+
+That was better, but I still copied symbol information from my IDA database
+into the docs manually. That means it could get outdated very easily,
+information would be spread between the docs and the IDA database (because
+usually I put function descriptions in the docs but not as comments in IDA)
+and it is just an annoying chore to synchronize it all the time.
+
+Then at some point I had the idea of just generating these docs based on the
+IDA database. Since the IDA database is a binary file, which is undocumented
+(I think), and may change between versions of IDA, I decided to use the
+'dump database to IDC file' feature of IDA and parse that IDC file instead.
+IDC is some kind of custom c-like scripting language, so I wrote a parser
+for that ({docs/idcparse.c}).                                                  ||| hookfileref
+
+After doing that, I moved all of the function/structure documentation into
+comments in IDA, which now also get parsed using the 'margin markup' format
+I made. Now I can write docs and blogposts and easily link to all of the
+symbols, because they are written to their html pages and anchors are added
+as needed.
+
+.pushmode section
+
+Small example:
+
+.pushmode pre
+Function {529B50} goes through all {838454} and send every one that hasn't    \||| ref,ref
+been received yet and has {{struct SmsData+2} == {enum SMS_TYPE/0x4}} by      \||| code,ref,ref
+using {5295F0} when it wasn't received yet.                                   \||| ref
+.popmode pre
+
+Results in:
+
+Function {529B50} goes through all {838454} and send every one that hasn't     ||| ref,ref
+been received yet and has {{struct SmsData+2} == {enum SMS_TYPE/0x4}} by       ||| code,ref,ref
+using {5295F0} when it wasn't received yet.                                    ||| ref
+
+.popmode section
+
+When a struct or enum changes name now, I'll get an error while the docs are
+being generated. That way the docs can't be too desynchronized anymore from
+what I have in the IDA database. Function and variable name changes are free
+because those are references by their addresses, so nothing in the docs source
+needs to be updated for those.
+
+Now I probably won't touch this project for a few months while I go back to
+another project that I haven't touched in months :^)
+
+.popmode section
