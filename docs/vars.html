@@ -253,7 +253,7 @@ pre.ida span.hi {
 <a href='cheatsheet.html'>cheatsheet</a></nav>
 </header>
 <div class='var'>
-<h2>Variables (914)</h2>
+<h2>Variables (915)</h2>
 <ul>
 <li><a href='#5CCFFC'>WndProcMsgJumpTable</a></li>
 <li><a href='#5CD010'>WndProcMsgJumpTableTable</a></li>
@@ -904,6 +904,7 @@ pre.ida span.hi {
 <li><a href='#8383DC'>languageConversionTable</a></li>
 <li><a href='#83840C'>ptr83840C</a></li>
 <li><a href='#838428'>ptr838428</a></li>
+<li><a href='#838430'>sound</a></li>
 <li><a href='#838450'>numSmsDatas</a></li>
 <li><a href='#838454'>smsDatas</a></li>
 <li><a href='#838478'>object838478</a></li>
@@ -1097,7 +1098,7 @@ pre.ida span.hi {
 <li><a href='#88EAB4'>binSectionHandlerMagicMapEntry34110</a></li>
 <li><a href='#88EAC4'>binSectionHandlerMagicMapEntry34146</a></li>
 <li><a href='#88F27C'>binSectionHandlerMagicMapEntry34111</a></li>
-<li><a href='#88F298'>markerData</a></li>
+<li><a href='#88F298'>pathsData</a></li>
 <li><a href='#88F750'>binSectionHandlerMagicMapEntry34201</a></li>
 <li><a href='#89011C'>hServerLib</a></li>
 <li><a href='#890120'>_serverdll_StartServer</a></li>
@@ -2218,6 +2219,7 @@ It has one XREF, surrounded by some language stuff? TODO
 <div class='mm'>
 <p>string table, used to form a sponsorship language key to hash and load
 <p></div>
+<div id='838430'><i>838430</i> int <h3>sound</h3> <u></u></div>
 <div id='838450'><i>838450</i> int <h3>numSmsDatas</h3> <u></u></div>
 <div class='mm'>
 <p>Number of stuffs in <a href='vars.html#838454'>smsDatas</a>.
@@ -2301,7 +2303,7 @@ in the language file.
 <p></div>
 <div id='85AD40'><i>85AD40</i> int <h3>careerData</h3> <u></u></div>
 <div class='mm'>
-<p>TODO inline this struct....
+<p>TODO inline this struct.... (<a href='structs.html#struc_CareerData'>struct CareerData</a>)
 <p></div>
 <div id='860A60'><i>860A60</i> <a href='structs.html#struc_SmsMessageList'>struct SmsMessageList</a> <h3>smsMessages</h3></div>
 <div class='mm'>
@@ -2575,7 +2577,7 @@ interesting when setting that var to 5 (same as 0, 1, 2) while in freeroam (shou
 <div id='88EAB4'><i>88EAB4</i> <a href='structs.html#struc_BinSectionMagicMapEntry'>struct BinSectionMagicMapEntry</a> <h3>binSectionHandlerMagicMapEntry34110</h3></div>
 <div id='88EAC4'><i>88EAC4</i> <a href='structs.html#struc_BinSectionMagicMapEntry'>struct BinSectionMagicMapEntry</a> <h3>binSectionHandlerMagicMapEntry34146</h3></div>
 <div id='88F27C'><i>88F27C</i> <a href='structs.html#struc_BinSectionMagicMapEntry'>struct BinSectionMagicMapEntry</a> <h3>binSectionHandlerMagicMapEntry34111</h3></div>
-<div id='88F298'><i>88F298</i> int <h3>markerData</h3> <u></u></div>
+<div id='88F298'><i>88F298</i> <a href='structs.html#struc_PathsData'>struct PathsData</a> <h3>pathsData</h3></div>
 <div id='88F750'><i>88F750</i> <a href='structs.html#struc_BinSectionMagicMapEntry'>struct BinSectionMagicMapEntry</a> <h3>binSectionHandlerMagicMapEntry34201</h3></div>
 <div id='89011C'><i>89011C</i> int <h3>hServerLib</h3> <u></u></div>
 <div id='890120'><i>890120</i> int <h3>_serverdll_StartServer</h3> <u></u></div>

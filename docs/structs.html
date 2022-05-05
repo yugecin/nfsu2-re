@@ -253,7 +253,7 @@ pre.ida span.hi {
 <a href='cheatsheet.html'>cheatsheet</a></nav>
 </header>
 <div class='struc'>
-<h2>Structs (380)</h2>
+<h2>Structs (381)</h2>
 <ul>
 <li><a href='#struc__COMMCONFIG'>_COMMCONFIG</a></li>
 <li><a href='#struc__COMMTIMEOUTS'>_COMMTIMEOUTS</a></li>
@@ -432,7 +432,6 @@ pre.ida span.hi {
 <li><a href='#struc_MailBoxRelated4'>MailBoxRelated4</a></li>
 <li><a href='#struc_MainFNGObject'>MainFNGObject</a> <em></em></li>
 <li><a href='#struc_Marker'>Marker</a></li>
-<li><a href='#struc_Markers'>Markers</a> <em></em></li>
 <li><a href='#struc_MCBackgroundFNGObject'>MCBackgroundFNGObject</a> <em></em></li>
 <li><a href='#struc_MCBootupFNGObject'>MCBootupFNGObject</a> <em></em></li>
 <li><a href='#struc_MCListFNGObject'>MCListFNGObject</a> <em></em></li>
@@ -497,6 +496,7 @@ pre.ida span.hi {
 <li><a href='#struc_OptionsPCControllerFNGObject'>OptionsPCControllerFNGObject</a> <em></em></li>
 <li><a href='#struc_PaintFNGObject'>PaintFNGObject</a> <em></em></li>
 <li><a href='#struc_PAINTSTRUCT'>PAINTSTRUCT</a></li>
+<li><a href='#struc_PathsData'>PathsData</a> <em></em></li>
 <li><a href='#struc_PauseFNGObject'>PauseFNGObject</a> <em></em></li>
 <li><a href='#struc_PauseOptionsFNGObject'>PauseOptionsFNGObject</a> <em></em></li>
 <li><a href='#struc_PauseOptionsMainFNGObject'>PauseOptionsMainFNGObject</a> <em></em></li>
@@ -628,6 +628,7 @@ pre.ida span.hi {
 <li><a href='#struc_UnkCareerStruct'>UnkCareerStruct</a> <em></em></li>
 <li><a href='#struc_UnwindMapEntry'>UnwindMapEntry</a></li>
 <li><a href='#struc_varstring_tag'>varstring_tag</a></li>
+<li><a href='#struc_vec2'>vec2</a></li>
 <li><a href='#struc_VirtualKeyboardFNGObject'>VirtualKeyboardFNGObject</a> <em></em></li>
 <li><a href='#struc_WheelOptionsFNGObject'>WheelOptionsFNGObject</a> <em></em></li>
 <li><a href='#struc_WideCharString'>WideCharString</a> <em></em></li>
@@ -1048,7 +1049,9 @@ unknown length, but max 16?*/</span>
 <p></div>
 <p><strong>Methods:</strong></p>
 <ul>
+<li><pre><i>5141B0</i> <a href='funcs.html#5141B0' title='void __thiscall CareerData__CheckMoneyMarkers(struct CareerData *this);'>CareerData::CheckMoneyMarkers</a></pre></li>
 <li><pre><i>532D40</i> <a href='funcs.html#532D40' title='void __thiscall CareerData__EngageTipMarkerHit(struct CareerData *this, int);'>CareerData::EngageTipMarkerHit</a></pre></li>
+<li><pre><i>5283C0</i> <a href='funcs.html#5283C0' title='void __thiscall CareerData__MoneyMarkerHitPlaySound__(struct CareerData *this, struct Marker *marker);'>CareerData::MoneyMarkerHitPlaySound??</a></pre></li>
 <li><pre><i>528980</i> <a href='funcs.html#528980' title='void __thiscall CareerData__RemoveAllReceivedEngageTipMarkers(struct CareerData *this);'>CareerData::RemoveAllReceivedEngageTipMarkers</a></pre></li>
 </ul>
 <div id='struc_CareerDataOld'>struct <h3>CareerDataOld</h3> { <i>/*1 members, size 4h*/</i> <em></em>
@@ -2672,24 +2675,20 @@ TODO please reconfirm*/</span>
 <i>/*24*/	int field_24;</i>
 <i>/*28*/	int field_28;</i>
 <i>/*2C*/	int field_2C;</i>
-<span class='mm'>/**for type neighbourhood: hash of name, for type engage tip: hash of sms name*/</span>
+<i id='struc_Marker30'></i><span class='mm'>/**for type neighbourhood: hash of name
+for type engage tip: hash of sms name
+for money: hash of sound effect to play!?*/</span>
 <i>/*30*/	</i>unsigned int hash;
 <i>/*34*/	int field_34;</i>
 <i>/*38*/	int field_38;</i>
 <i>/*3C*/	int field_3C;</i>
-<i>/*40*/	</i>__int16 radius?;
-<span class='mm'>/**"markerStructSize" what?*/</span>
+<i id='struc_Marker40'></i><span class='mm'>/**usually 4-14*/</span>
+<i>/*40*/	</i>__int16 radius;
+<i id='struc_Marker42'></i><span class='mm'>/**seems like there are marker subtypes with different sizes*/</span>
 <i>/*42*/	</i>__int16 markerStructSize;
 <i>/*44*/	</i>float pos_x;
 <i>/*48*/	</i>float pos_y;
 };</div>
-<div id='struc_Markers'>struct <h3>Markers</h3> { <i>/*0 members, size 0h*/</i> <em></em>
-};</div>
-<p><strong>Methods:</strong></p>
-<ul>
-<li><pre><i>5D9BF0</i> <a href='funcs.html#5D9BF0' title='struct Marker *__thiscall Markers__FindAtPosWithTypeAfterIndex(struct Markers *this, void *nearPosition, int type, struct Marker *after);'>Markers::FindAtPosWithTypeAfterIndex</a></pre></li>
-<li><pre><i>5D9A90</i> <a href='funcs.html#5D9A90' title='int __thiscall Markers__InitFromBinData(struct Markers *this, struct BinSection *binsection);'>Markers::InitFromBinData</a></pre></li>
-</ul>
 <div id='struc_MCBackgroundFNGObject'>struct <h3>MCBackgroundFNGObject</h3> { <i>/*2 members, size 50h*/</i> <em></em>
 <i>/*0*/	</i><a href='#struc_FNGObject'>struct FNGObject</a> __parent;
 <i>/*4C*/	char _pad4C[0x3];</i>
@@ -3726,6 +3725,47 @@ TODO please reconfirm*/</span>
 <i>/*1C*/	</i>BOOL fIncUpdate;
 <i>/*20*/	</i>BYTE rgbReserved[32];
 };</div>
+<div id='struc_PathsData'>struct <h3>PathsData</h3> { <i>/*17 members, size 4A0h*/</i> <em></em>
+<i>/*0*/	int field_0;</i>
+<i>/*4*/	int field_4;</i>
+<i>/*8*/	int field_8;</i>
+<i>/*C*/	int field_C;</i>
+<i>/*10*/	int field_10;</i>
+<i>/*14*/	float floatField_14;</i>
+<i>/*18*/	float floatField_18;</i>
+<i>/*1C*/	int field_1C;</i>
+<i>/*20*/	char field_20;</i>
+<i>/*21*/	char _pad21[0x1];</i>
+<i>/*22*/	char field_22;</i>
+<i>/*23*/	char _pad23[0x1];</i>
+<i>/*24*/	int field_24;</i>
+<i>/*28*/	char _pad28[0x40C];</i>
+<i id='struc_PathsData434'></i><span class='mm'>/**number of entries in <a href='structs.html#struc_PathsData43C'>allMarkers</a>, note that each entry has a dynamic size of <a href='structs.html#struc_Marker42'>markerStructSize</a>*/</span>
+<i>/*434*/	</i>int numMarkers;
+<span class='mm'>/**<a href='structs.html#struc_PathsData43C'>allMarkers</a> is loaded from binsection <code>3414A</code> data, this field is the "size" field of that binsection
+
+size of <a href='structs.html#struc_PathsData43C'>allMarkers</a>*/</span>
+<i>/*438*/	</i>int allMarkersSize;
+<i id='struc_PathsData43C'></i><i>/*43C*/	</i><a href='structs.html#struc_Marker'>struct Marker</a> *allMarkers;
+<i id='struc_PathsData440'></i><span class='mm'>/**note that, while this array is of size 22,
+entry 21 does not point to an array of markers,
+rather it points to where the end of the array on entry 20 is
+
+array of ptrs to markers with the arrayindex as marker type (ie <code><a href='structs.html#struc_PathsData440'>markers</a>[3]</code> points to an array of markers with type 3*/</span>
+<i>/*440*/	</i><a href='structs.html#struc_Marker'>struct Marker</a> *markers[22];
+<i>/*498*/	int field_498;</i>
+<i>/*49C*/	int field_49C;</i>
+};</div>
+<div class='mm'>
+<p>Part of this data is markers, see <a href='funcs.html#5D9A90'>PathsData::ReadFromBinData</a>
+Markers is just section <code>3414A</code> but this func loads more than that
+<p></div>
+<p><strong>Methods:</strong></p>
+<ul>
+<li><pre><i>5D9BF0</i> <a href='funcs.html#5D9BF0' title='struct Marker *__thiscall PathsData__FindMarkerAtPosWithTypeAfterIndex(struct PathsData *this, void *nearPosition, int type, struct Marker *after);'>PathsData::FindMarkerAtPosWithTypeAfterIndex</a></pre></li>
+<li><pre><i>5D5630</i> <a href='funcs.html#5D5630' title='void __thiscall PathsData__InitAfterReadFromBinData(struct PathsData *this);'>PathsData::InitAfterReadFromBinData</a></pre></li>
+<li><pre><i>5D9A90</i> <a href='funcs.html#5D9A90' title='int __thiscall PathsData__ReadFromBinData(struct PathsData *this, struct BinSection *binsection);'>PathsData::ReadFromBinData</a></pre></li>
+</ul>
 <div id='struc_PauseFNGObject'>struct <h3>PauseFNGObject</h3> { <i>/*2 members, size 158h*/</i> <em></em>
 <i>/*0*/	</i><a href='#struc_FNGObject'>struct FNGObject</a> __parent;
 <i>/*4C*/	char _pad4C[0x10B];</i>
@@ -4436,7 +4476,8 @@ TODO please reconfirm*/</span>
 <i id='struc_SmsData2'></i><i>/*2*/	</i><a href='enums.html#enu_SMS_TYPE'>enum SMS_TYPE</a> type;
 <i>/*3*/	</i><a href='enums.html#enu_MAILBOX'>enum MAILBOX</a> mailboxId;
 <i>/*4*/	int field_4;</i>
-<i id='struc_SmsData8'></i><i>/*8*/	int field_8;</i>
+<i id='struc_SmsData8'></i><span class='mm'>/**when sms type is <a href='enums.html#enu_SMS_TYPEF'>SMS_TYPE_ENGAGE_TIP</a>, this is the hash that matches with marker data <a href='structs.html#struc_Marker30'>hash</a>*/</span>
+<i>/*8*/	</i>int hash <u></u>;
 <i id='struc_SmsDataC'></i><i>/*C*/	</i>int moneyReward;
 <i id='struc_SmsData10'></i><i>/*10*/	</i>unsigned int senderLanguageLabel;
 };</div>
@@ -4516,7 +4557,7 @@ TODO please reconfirm*/</span>
 <li><pre><i>5014A0</i> <a href='funcs.html#5014A0' title='struct SmsMessage *__thiscall SmsMessageList__GetAtIndex(struct SmsMessageList *this, int index);'>SmsMessageList::GetAtIndex</a></pre></li>
 <li><pre><i>514CF0</i> <a href='funcs.html#514CF0' title='struct SmsMessage *__thiscall SmsMessageList__GetFirstUnreadSmsMessage(struct SmsMessageList *this);'>SmsMessageList::GetFirstUnreadSmsMessage</a></pre></li>
 <li><pre><i>514D30</i> <a href='funcs.html#514D30' title='int __thiscall SmsMessageList__GetNumUnreadMessages(struct SmsMessageList *this, int useCachedFlag);'>SmsMessageList::GetNumUnreadMessages</a></pre></li>
-<li><pre><i>514E10</i> <a href='funcs.html#514E10' title='int __thiscall SmsMessageList__IsEngageTipUncollected(struct SmsMessageList *this, int);'>SmsMessageList::IsEngageTipUncollected</a></pre></li>
+<li><pre><i>514E10</i> <a href='funcs.html#514E10' title='int __thiscall SmsMessageList__IsEngageTipUncollected(struct SmsMessageList *this, struct Marker *marker);'>SmsMessageList::IsEngageTipUncollected</a></pre></li>
 <li><pre><i>514CB0</i> <a href='funcs.html#514CB0' title='int __thiscall SmsMessageList__IsMessageAlreadyReceived(struct SmsMessageList *this, struct SmsData *smsdata);'>SmsMessageList::IsMessageAlreadyReceived</a></pre></li>
 <li><pre><i>5014C0</i> <a href='funcs.html#5014C0' title='void __thiscall SmsMessageList__MarkMessageDeletedAndRead(struct SmsMessageList *this, struct SmsMessage *sms);'>SmsMessageList::MarkMessageDeletedAndRead</a></pre></li>
 <li><pre><i>514D80</i> <a href='funcs.html#514D80' title='void __thiscall SmsMessageList__MarkReadMessagesMovedToCorrectInbox(struct SmsMessageList *this);'>SmsMessageList::MarkReadMessagesMovedToCorrectInbox</a></pre></li>
@@ -5495,6 +5536,10 @@ although if this element is a label, the measured text height (which is also a g
 <i>/*C*/	</i>DWORD dwStringFormat;
 <i>/*10*/	</i>DWORD dwStringSize;
 <i>/*14*/	</i>DWORD dwStringOffset;
+};</div>
+<div id='struc_vec2'>struct <h3>vec2</h3> { <i>/*2 members, size 8h*/</i>
+<i>/*0*/	</i>float x;
+<i>/*4*/	</i>float y;
 };</div>
 <div id='struc_VirtualKeyboardFNGObject'>struct <h3>VirtualKeyboardFNGObject</h3> { <i>/*2 members, size 21Ch*/</i> <em></em>
 <i>/*0*/	</i><a href='#struc_FNGObject'>struct FNGObject</a> __parent;

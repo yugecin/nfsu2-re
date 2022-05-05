@@ -19,3 +19,5 @@ void **d3d9 = (void*) 0x870970;
 void **d3device9 = (void*) 0x870974;
 char *canUseQToExit = (char*) 0x836494;
 struct PCHelpBarFNGObject **pcHelpbar = (void*) 0x8384D8;
+struct PathsData *pathsData = (void*) 0x88F298;
+char **careerStringPool838428 = (char**) 0x838428;

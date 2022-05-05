@@ -230,3 +230,11 @@ void __stdcall PCHelpBarFNGObject__Hide()
 	_asm { mov eax, 0x54E6B0 }
 	_asm { jmp eax }
 }
+
+static
+__declspec(naked)
+struct NeighbourhoodName *__cdecl GetNeighbourhoodNameForHash(unsigned int hash)
+{
+	_asm { mov eax, 0x5D3DE0 }
+	_asm { jmp eax }
+}

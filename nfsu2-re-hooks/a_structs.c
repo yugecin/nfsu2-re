@@ -384,7 +384,7 @@ struct SmsData {
 	char type;
 	char mailboxId;
 	int field_4;
-	int field_8;
+	int hash;
 	int moneyReward;
 	unsigned int senderLanguageLabel;
 };
@@ -541,30 +541,66 @@ struct PoolEntry {
 };
 EXPECT_SIZE(struct PoolEntry, 0x8);
 
-struct Marker {
-        char type;
-        char field_1;
-        char field_2;
-        char field_3;
-        int field_4;
-        int field_8;
-        int field_C;
-        int field_10;
-        int field_14;
-        int field_18;
-        int field_1C;
-        int field_20;
-        int field_24;
-        int field_28;
-        int field_2C;
-        unsigned int hash; /*for neighbourhood: hash of name, for engage: hash of sms name*/
-        int field_34;
-        int field_38;
-        int field_3C;
-        short radius;
-        short markerStructSize;
-        float pos_x;
-        float pos_y;
+struct NeighbourhoodName { /*2 members, size 8h*/
+/*0*/	char *ptrName;
+/*4*/	unsigned int hash;
+};
+
+struct PathsData { /*17 members, size 4A0h*/ 
+/*0*/	int field_0;
+/*4*/	int field_4;
+/*8*/	int field_8;
+/*C*/	int field_C;
+/*10*/	int field_10;
+/*14*/	float floatField_14;
+/*18*/	float floatField_18;
+/*1C*/	int field_1C;
+/*20*/	char field_20;
+/*21*/	char _pad21[0x1];
+/*22*/	char field_22;
+/*23*/	char _pad23[0x1];
+/*24*/	int field_24;
+/*28*/	char _pad28[0x40C];
+/**number of entries in allMarkers, note that each entry has a dynamic size of markerStructSize*/
+/*434*/	int numMarkers;
+/**allMarkers is loaded from binsection 3414A data, this field is the "size" field of that binsection
+
+size of allMarkers*/
+/*438*/	int allMarkersSize;
+/*43C*/	struct Marker *allMarkers;
+/**note that, while this array is of size 22,
+entry 21 does not point to an array of markers,
+rather it points to where the end of the array on entry 20 is
+
+array of ptrs to markers with the arrayindex as marker type (ie markers[3] points to an array of markers with type 3*/
+/*440*/	struct Marker *markers[22];
+/*498*/	int field_498;
+/*49C*/	int field_49C;
+};
+
+struct Marker { /*20 members, size 4Ch*/
+/*0*/	enum MARKER_TYPE type;
+/*4*/	int field_4;
+/*8*/	int field_8;
+/*C*/	int field_C;
+/*10*/	int field_10;
+/*14*/	int field_14;
+/*18*/	int field_18;
+/*1C*/	int field_1C;
+/*20*/	int field_20;
+/*24*/	int field_24;
+/*28*/	int field_28;
+/*2C*/	int field_2C;
+/**for type neighbourhood: hash of name, for type engage tip: hash of sms name*/
+/*30*/	unsigned int hash;
+/*34*/	int field_34;
+/*38*/	int field_38;
+/*3C*/	int field_3C;
+/*40*/	__int16 radius;
+/**seems like there are marker subtypes with different sizes*/
+/*42*/	__int16 markerStructSize;
+/*44*/	float pos_x;
+/*48*/	float pos_y;
 };
 
 struct FNGObject {

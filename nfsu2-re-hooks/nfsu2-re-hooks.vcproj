@@ -239,6 +239,18 @@
 			</FileConfiguration>
 		</File>
 		<File
+			RelativePath=".\debug-custom-dump-markers.c"
+			>
+			<FileConfiguration
+				Name="Debug|Win32"
+				ExcludedFromBuild="true"
+				>
+				<Tool
+					Name="VCCLCompilerTool"
+				/>
+			</FileConfiguration>
+		</File>
+		<File
 			RelativePath=".\debug-custom-dump-smsdata.c"
 			>
 			<FileConfiguration

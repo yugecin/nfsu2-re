@@ -270,6 +270,10 @@ Note that the offset also increments by 8, being {sizeof {struct BinSectionHeade
 
 A section with magic {0} seems to be just for padding/alignment uses.                           ||| code
 
+Sections that have magic starting with {8} seem to be sections that have more sections inside,  ||| code
+for example the data of section with magic {80034147} contains more sections, with magic        ||| code
+{34148}, {34149}, {3414A}, {3414C}, {3414D}.                                                    ||| code,code,code,code,code
+
 .pushmode symbols
 - struct BinSectionHeader
 - struct BinSection
@@ -3141,6 +3145,7 @@ to this key), makes it so the player's car starts driving like an AI car. Exampl
 - enum JOYID
 - struct JoyKeyData
 - 7FABA8
+- 571AD0
 .popmode symbols
 
 .popmode section
@@ -3363,6 +3368,7 @@ car 45: HATCHBACK02 HATCHBACK02 GENERIC
 - 82B884
 - 458520
 - 51DE60
+- 528370
 .popmode symbols
 
 .popmode section
@@ -3389,18 +3395,31 @@ My best guess is that this 'load into career' option is a cut/unfinished feature
 
 The money pickup/info pickup(engage sms messages)/race/shop/garage/neighbourhood/and more? markers.
 They are in bin section {0x3414A}, which is in bin section {0x80034147}, in {TRACKS\ROUTESL4R%c\Paths%d.bin}.           ||| code,code,code
-Bin section {0x80034147} is loaded in {5D9A90}.                                                                         ||| code,ref
+Bin section {3414A} is loaded as part of {5D9A90} and inited in {5D5630}.                                               ||| code,ref,ref
+
+After reading, they are in {{88F298}.{struct PathsData+43C}}, which has {{88F298}.{struct PathsData+434}} entries.      ||| code,ref,ref,code,ref,ref
+They are also in {{88F298}.{struct PathsData+440}}, which is an array. Each entry points to an array of markers with    ||| code,ref,ref
+their type matching the index of the array, except the last entry. The last entry at index 21 points to where the end
+of the array of index 20 is, it does not point to an array of markers itself.
+
+This data is only loaded while in career/quickrace/freeroam.
 
 Not loading bin section {0x3414A} results in no career markers at all, and no traffic (but other racers do still spawn).||| code
 
+See {markerdump.txt} for a data dump as made by {nfsu2-re-hooks/debug-custom-dump-markers.c}.                           ||| dumpfileref,hookfileref
+
 .pushmode symbols
-- struct Markers
+- enum MARKER_TYPE
 - struct Marker
 - struct NeighbourhoodName
+- struct PathsData
 - 88F298
 - 800C38
 - 883D9C
+- 43D890
+- 5283C0
 - 5D3DE0
+- 5D5630
 - 5D9A90
 - 5D9BF0
 .popmode symbols

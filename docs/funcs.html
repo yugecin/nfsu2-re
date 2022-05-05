@@ -253,7 +253,7 @@ pre.ida span.hi {
 <a href='cheatsheet.html'>cheatsheet</a></nav>
 </header>
 <div class='func'>
-<h2>Functions (1157)</h2>
+<h2>Functions (1163)</h2>
 <ul>
 <li><a href='#588630'>??ConnectToEAServer</a></li>
 <li><a href='#7789D9'>??ConnectToEAServer_SEH</a></li>
@@ -312,7 +312,9 @@ pre.ida span.hi {
 <li><a href='#4DFC50'>CareerCarSelectFNGObject::MessageHandler</a></li>
 <li><a href='#4DF3A0'>CareerCribFNGObject::ctor</a></li>
 <li><a href='#4AF3A0'>CareerCribFNGObject::MessageHandler</a></li>
+<li><a href='#5141B0'>CareerData::CheckMoneyMarkers</a></li>
 <li><a href='#532D40'>CareerData::EngageTipMarkerHit</a></li>
+<li><a href='#5283C0'>CareerData::MoneyMarkerHitPlaySound??</a></li>
 <li><a href='#528980'>CareerData::RemoveAllReceivedEngageTipMarkers</a></li>
 <li><a href='#500F90'>CareerDataOld::CareerGetMoney</a></li>
 <li><a href='#500F80'>CareerDataOld::CareerGiveMoney</a></li>
@@ -768,6 +770,7 @@ pre.ida span.hi {
 <li><a href='#52CF60'>IsFNGLoaded?</a></li>
 <li><a href='#500B60'>IsInCareerAndTotallyFreeroaming??</a></li>
 <li><a href='#5794E0'>IsJoyIdRegisteredAtEntryWithIndex</a></li>
+<li><a href='#43D890'>IsMarkerInRange</a></li>
 <li><a href='#50CD00'>IsPointInRect</a></li>
 <li><a href='#52D020'>IsPointInUIElement</a></li>
 <li><a href='#571060'>IsQueuedFileSlotPoolEmpty</a></li>
@@ -892,8 +895,7 @@ pre.ida span.hi {
 <li><a href='#4F98B0'>MainFNGObject::MessageHandler</a></li>
 <li><a href='#5CCD60'>MainWndProc</a></li>
 <li><a href='#49CDB0'>MakeAndStoreCommandStringToDownloadURL</a></li>
-<li><a href='#5D9BF0'>Markers::FindAtPosWithTypeAfterIndex</a></li>
-<li><a href='#5D9A90'>Markers::InitFromBinData</a></li>
+<li><a href='#5D6D20'>MarkCarToRenderHeadlightBeams</a></li>
 <li><a href='#532830'>MaybeStartCareer?</a></li>
 <li><a href='#4C51F0'>MCBackgroundFNGObject::MessageHandler</a></li>
 <li><a href='#4FD510'>MCBootupFNGObject::MessageHandler</a></li>
@@ -1022,6 +1024,9 @@ pre.ida span.hi {
 <li><a href='#4CB910'>OptionsPCControllerFNGObject::UpdateKeyLabels?</a></li>
 <li><a href='#56AEB0'>PaintFNGObject::ctor</a></li>
 <li><a href='#563410'>PaintFNGObject::MessageHandler</a></li>
+<li><a href='#5D9BF0'>PathsData::FindMarkerAtPosWithTypeAfterIndex</a></li>
+<li><a href='#5D5630'>PathsData::InitAfterReadFromBinData</a></li>
+<li><a href='#5D9A90'>PathsData::ReadFromBinData</a></li>
 <li><a href='#4EB410'>PauseFNGObject::ctor</a></li>
 <li><a href='#4C2170'>PauseFNGObject::MessageHandler</a></li>
 <li><a href='#4D93C0'>PauseOptionsFNGObject::ctor</a></li>
@@ -1069,6 +1074,7 @@ pre.ida span.hi {
 <li><a href='#55A740'>PerformanceTuningSetting::MessageHandler</a></li>
 <li><a href='#55AC10'>PerformanceTuningSlidersFNGObject::ctor</a></li>
 <li><a href='#5650C0'>PerformanceTuningSlidersFNGObject::MessageHandler</a></li>
+<li><a href='#528370'>PlaySound528370</a></li>
 <li><a href='#50D180'>PlaySoundEffect</a></li>
 <li><a href='#50D150'>PlaySoundEffectFromAudioBank</a></li>
 <li><a href='#51DE60'>PlayUISoundEffect</a></li>
@@ -1132,9 +1138,9 @@ pre.ida span.hi {
 <li><a href='#5379A0'>RemoveFNGFromUIObject</a></li>
 <li><a href='#5CAAD0'>Render3D</a></li>
 <li><a href='#48F7A0'>Render3DLODPoles??</a></li>
-<li><a href='#5D6D20'>RenderCarHeadlightBeams</a></li>
 <li><a href='#50B460'>RenderCursor</a></li>
 <li><a href='#5C7470'>RenderHorizonFog</a></li>
+<li><a href='#491860'>RenderLightReflectionsOnRoad</a></li>
 <li><a href='#61AE90'>RenderLights</a></li>
 <li><a href='#5B9C20'>RenderWorld</a></li>
 <li><a href='#4888A0'>RenderWorld_</a></li>
@@ -1534,6 +1540,10 @@ this-&gt;<a href='structs.html#struc_BinSectionMagicMapEntry0'>nextEntry</a> = <
 <div id='4DFC50'><i>4DFC50</i> <h3><a href='structs.html#struc_CareerCarSelectFNGObject'>CareerCarSelectFNGObject</a>::MessageHandler</h3></div>
 <div id='4DF3A0'><i>4DF3A0</i> <h3><a href='structs.html#struc_CareerCribFNGObject'>CareerCribFNGObject</a>::ctor</h3></div>
 <div id='4AF3A0'><i>4AF3A0</i> <h3><a href='structs.html#struc_CareerCribFNGObject'>CareerCribFNGObject</a>::MessageHandler</h3></div>
+<div id='5141B0'><i>5141B0</i> void __thiscall <h3><a href='structs.html#struc_CareerData'>CareerData</a>::CheckMoneyMarkers</h3>(<a href='structs.html#struc_CareerData'>struct CareerData</a> *this);</div>
+<div class='mm'>
+<p>TODO: what does this actually do
+<p></div>
 <div id='532D40'><i>532D40</i> void __thiscall <h3><a href='structs.html#struc_CareerData'>CareerData</a>::EngageTipMarkerHit</h3>(<a href='structs.html#struc_CareerData'>struct CareerData</a> *this, int);</div>
 <div class='mm'>
 <p>Implementation:
@@ -1547,6 +1557,11 @@ if (smsdata) {
 }
 </pre>
 </div>
+<div id='5283C0'><i>5283C0</i> void __thiscall <h3><a href='structs.html#struc_CareerData'>CareerData</a>::MoneyMarkerHitPlaySound??</h3>(<a href='structs.html#struc_CareerData'>struct CareerData</a> *this, <a href='structs.html#struc_Marker'>struct Marker</a> *marker);</div>
+<div class='mm'>
+<p>param marker may be null
+</p><p>this func only plays some sound!?
+<p></div>
 <div id='528980'><i>528980</i> void __thiscall <h3><a href='structs.html#struc_CareerData'>CareerData</a>::RemoveAllReceivedEngageTipMarkers</h3>(<a href='structs.html#struc_CareerData'>struct CareerData</a> *this);</div>
 <div id='500F90'><i>500F90</i> int __thiscall <h3><a href='structs.html#struc_CareerDataOld'>CareerDataOld</a>::CareerGetMoney</h3>(<a href='structs.html#struc_CareerDataOld'>struct CareerDataOld</a> *this);</div>
 <div id='500F80'><i>500F80</i> void __thiscall <h3><a href='structs.html#struc_CareerDataOld'>CareerDataOld</a>::CareerGiveMoney</h3>(<a href='structs.html#struc_CareerDataOld'>struct CareerDataOld</a> *this, int amount);</div>
@@ -2221,6 +2236,9 @@ See <code><a class='ext' href='https://github.com/yugecin/nfsu2-re/blob/master/n
 <div id='75BC66'><i>75BC66</i> void *__stdcall <h3>gethostbyname</h3>(const char *name);</div>
 <div id='75BC6C'><i>75BC6C</i> int __stdcall <h3>gethostname</h3>(char *name, int namelen);</div>
 <div id='571AD0'><i>571AD0</i> int __cdecl <h3>GetJoyIdFromName</h3>(char *joyname);</div>
+<div class='mm'>
+<p>uses <a href='vars.html#7FABA8'>joyKeyData</a>
+<p></div>
 <div id='4FF640'><i>4FF640</i> <h3>GetLanguageFileCode</h3></div>
 <div id='5B7AF0'><i>5B7AF0</i> <h3>GetLanguageIndex</h3></div>
 <div class='mm'>
@@ -2421,6 +2439,11 @@ Delegates to <a href='funcs.html#52D020'>IsPointInUIElement</a>
 <p>is doing pure freeroam stuff in career I guess
 <p></div>
 <div id='5794E0'><i>5794E0</i> int __cdecl <h3>IsJoyIdRegisteredAtEntryWithIndex</h3>(int index, <a href='enums.html#enu_JOYID'>enum JOYID</a> joyId);</div>
+<div id='43D890'><i>43D890</i> int __cdecl <h3>IsMarkerInRange</h3>(<a href='structs.html#struc_vec2'>struct vec2</a> *position, <a href='structs.html#struc_vec2'>struct vec2</a> *markerPosition, int radius);</div>
+<div class='mm'>
+<p>generic IsPointInRangeOfPoint, but this function is only used by marker func <a href='funcs.html#5D9BF0'>PathsData::FindMarkerAtPosWithTypeAfterIndex</a>, hence its name
+radius is always a <a href='structs.html#struc_Marker40'>radius</a>, so it's usually <code>4-14</code>
+<p></div>
 <div id='50CD00'><i>50CD00</i> int __cdecl <h3>IsPointInRect</h3>(float x, float y, <a href='structs.html#struc__POS'>struct _POS</a> *pos, <a href='structs.html#struc__SIZE'>struct _SIZE</a> *size);</div>
 <div class='mm'>
 <p>Only seen this being called when there's a list on screen so far.
@@ -2546,6 +2569,9 @@ Some loaders that are in the map are also in the array.
 <p>Called when exiting to main menu after being in race/freeroam.
 <p></div>
 <div id='5DA490'><i>5DA490</i> int __cdecl <h3>LoadBinSection80034147</h3>(<a href='structs.html#struc_BinSection'>struct BinSection</a> *binsection);</div>
+<div class='mm'>
+<p>loads <a href='vars.html#88F298'>pathsData</a>
+<p></div>
 <div id='5EA0F0'><i>5EA0F0</i> int __cdecl <h3>LoadBinSection80034150</h3>(<a href='structs.html#struc_BinSection'>struct BinSection</a> *bindata);</div>
 <div id='5E9C10'><i>5E9C10</i> int __thiscall <h3>LoadBinSection80034150_thiscall</h3>(void *this, <a href='structs.html#struc_BinSection'>struct BinSection</a> *bindata);</div>
 <div id='512C00'><i>512C00</i> int __cdecl <h3>LoadBinSection80034A10</h3>(<a href='structs.html#struc_BinSection'>struct BinSection</a> *binsection);</div>
@@ -2657,12 +2683,7 @@ Only called once, at boot.
 <div class='mm'>
 <p>cmd is format string <a href='vars.html#78FB40'>aCmdHttpTimeDMe</a>, result stored in buffer <a href='vars.html#835980'>downloadingHttpCommandString</a>
 <p></div>
-<div id='5D9BF0'><i>5D9BF0</i> <a href='structs.html#struc_Marker'>struct Marker</a> *__thiscall <h3><a href='structs.html#struc_Markers'>Markers</a>::FindAtPosWithTypeAfterIndex</h3>(<a href='structs.html#struc_Markers'>struct Markers</a> *this, void *nearPosition, int type, <a href='structs.html#struc_Marker'>struct Marker</a> *after);</div>
-<div class='mm'>
-<p><code>atPosition</code> can be null, then it'll just return the first marker.
-When <code>after</code> is not null, the search starts after that specific marker
-<p></div>
-<div id='5D9A90'><i>5D9A90</i> int __thiscall <h3><a href='structs.html#struc_Markers'>Markers</a>::InitFromBinData</h3>(<a href='structs.html#struc_Markers'>struct Markers</a> *this, <a href='structs.html#struc_BinSection'>struct BinSection</a> *binsection);</div>
+<div id='5D6D20'><i>5D6D20</i> <h3>MarkCarToRenderHeadlightBeams</h3></div>
 <div id='532830'><i>532830</i> <h3>MaybeStartCareer?</h3></div>
 <div class='mm'>
 <p>It's the only func that calls <a href='funcs.html#576090'>GetExtraCheatedCareerMoney</a>.
@@ -2882,6 +2903,17 @@ def:
 <div id='4CB910'><i>4CB910</i> <h3><a href='structs.html#struc_OptionsPCControllerFNGObject'>OptionsPCControllerFNGObject</a>::UpdateKeyLabels?</h3></div>
 <div id='56AEB0'><i>56AEB0</i> <a href='structs.html#struc_PaintFNGObject'>struct PaintFNGObject</a> *__thiscall <h3><a href='structs.html#struc_PaintFNGObject'>PaintFNGObject</a>::ctor</h3>(<a href='structs.html#struc_PaintFNGObject'>struct PaintFNGObject</a> *this, int);</div>
 <div id='563410'><i>563410</i> <h3><a href='structs.html#struc_PaintFNGObject'>PaintFNGObject</a>::MessageHandler</h3></div>
+<div id='5D9BF0'><i>5D9BF0</i> <a href='structs.html#struc_Marker'>struct Marker</a> *__thiscall <h3><a href='structs.html#struc_PathsData'>PathsData</a>::FindMarkerAtPosWithTypeAfterIndex</h3>(<a href='structs.html#struc_PathsData'>struct PathsData</a> *this, void *nearPosition, int type, <a href='structs.html#struc_Marker'>struct Marker</a> *after);</div>
+<div class='mm'>
+<p><code>atPosition</code> can be null, then it'll just return the first marker.
+When <code>after</code> is not null, the search starts after that specific marker
+<p></div>
+<div id='5D5630'><i>5D5630</i> void __thiscall <h3><a href='structs.html#struc_PathsData'>PathsData</a>::InitAfterReadFromBinData</h3>(<a href='structs.html#struc_PathsData'>struct PathsData</a> *this);</div>
+<div class='mm'>
+<p>called from <a href='funcs.html#5D9A90'>PathsData::ReadFromBinData</a>
+</p><p>inits stuff and <a href='structs.html#struc_PathsData440'>markers</a>
+<p></div>
+<div id='5D9A90'><i>5D9A90</i> int __thiscall <h3><a href='structs.html#struc_PathsData'>PathsData</a>::ReadFromBinData</h3>(<a href='structs.html#struc_PathsData'>struct PathsData</a> *this, <a href='structs.html#struc_BinSection'>struct BinSection</a> *binsection);</div>
 <div id='4EB410'><i>4EB410</i> <a href='structs.html#struc_PauseFNGObject'>struct PauseFNGObject</a> *__thiscall <h3><a href='structs.html#struc_PauseFNGObject'>PauseFNGObject</a>::ctor</h3>(<a href='structs.html#struc_PauseFNGObject'>struct PauseFNGObject</a> *this, <a href='structs.html#struc_FNGShowData'>struct FNGShowData</a> *fngShowData);</div>
 <div id='4C2170'><i>4C2170</i> <h3><a href='structs.html#struc_PauseFNGObject'>PauseFNGObject</a>::MessageHandler</h3></div>
 <div id='4D93C0'><i>4D93C0</i> <a href='structs.html#struc_PauseOptionsFNGObject'>struct PauseOptionsFNGObject</a> *__thiscall <h3><a href='structs.html#struc_PauseOptionsFNGObject'>PauseOptionsFNGObject</a>::ctor</h3>(<a href='structs.html#struc_PauseOptionsFNGObject'>struct PauseOptionsFNGObject</a> *this, int);</div>
@@ -2955,6 +2987,7 @@ if (<a href='vars.html#850078'>someOLState</a> == 0x200 &amp;&amp; (mask &amp; B
 <div id='55A740'><i>55A740</i> <h3><a href='structs.html#struc_PerformanceTuningSetting'>PerformanceTuningSetting</a>::MessageHandler</h3></div>
 <div id='55AC10'><i>55AC10</i> <a href='structs.html#struc_PerformanceTuningSlidersFNGObject'>struct PerformanceTuningSlidersFNGObject</a> *__thiscall <h3><a href='structs.html#struc_PerformanceTuningSlidersFNGObject'>PerformanceTuningSlidersFNGObject</a>::ctor</h3>(<a href='structs.html#struc_PerformanceTuningSlidersFNGObject'>struct PerformanceTuningSlidersFNGObject</a> *this, int);</div>
 <div id='5650C0'><i>5650C0</i> <h3><a href='structs.html#struc_PerformanceTuningSlidersFNGObject'>PerformanceTuningSlidersFNGObject</a>::MessageHandler</h3></div>
+<div id='528370'><i>528370</i> int __stdcall <h3>PlaySound528370</h3>(void *sound);</div>
 <div id='50D180'><i>50D180</i> void __cdecl <h3>PlaySoundEffect</h3>(int soundId);</div>
 <div id='50D150'><i>50D150</i> void __cdecl <h3>PlaySoundEffectFromAudioBank</h3>(char *unusedFngName, int audioBankIndex, int soundIndex);</div>
 <div id='51DE60'><i>51DE60</i> int __cdecl <h3>PlayUISoundEffect</h3>(void *unknownUnused, int soundID);</div>
@@ -3083,9 +3116,9 @@ this-&gt;<a href='structs.html#struc_PoolControl0'>inited</a> = 1;
 <div id='5379A0'><i>5379A0</i> void __cdecl <h3>RemoveFNGFromUIObject</h3>(char *fngName);</div>
 <div id='5CAAD0'><i>5CAAD0</i> <h3>Render3D</h3></div>
 <div id='48F7A0'><i>48F7A0</i> <h3>Render3DLODPoles??</h3></div>
-<div id='5D6D20'><i>5D6D20</i> <h3>RenderCarHeadlightBeams</h3></div>
 <div id='50B460'><i>50B460</i> int __cdecl <h3>RenderCursor</h3>(int x, int y);</div>
 <div id='5C7470'><i>5C7470</i> <h3>RenderHorizonFog</h3></div>
+<div id='491860'><i>491860</i> <h3>RenderLightReflectionsOnRoad</h3></div>
 <div id='61AE90'><i>61AE90</i> <h3>RenderLights</h3></div>
 <div id='5B9C20'><i>5B9C20</i> <h3>RenderWorld</h3></div>
 <div id='4888A0'><i>4888A0</i> <h3>RenderWorld_</h3></div>
@@ -3332,7 +3365,10 @@ return this-&gt;<a href='structs.html#struc_SmsMessage0'>data</a>.<a href='struc
 <code><a href='structs.html#struc_SmsMessage6'>deleted</a></code> on <code>0</code>.
 TODO check other xref, probably for displaying icon ingame
 <p></div>
-<div id='514E10'><i>514E10</i> int __thiscall <h3><a href='structs.html#struc_SmsMessageList'>SmsMessageList</a>::IsEngageTipUncollected</h3>(<a href='structs.html#struc_SmsMessageList'>struct SmsMessageList</a> *this, int);</div>
+<div id='514E10'><i>514E10</i> int __thiscall <h3><a href='structs.html#struc_SmsMessageList'>SmsMessageList</a>::IsEngageTipUncollected</h3>(<a href='structs.html#struc_SmsMessageList'>struct SmsMessageList</a> *this, <a href='structs.html#struc_Marker'>struct Marker</a> *marker);</div>
+<div class='mm'>
+<p>marker is of type <a href='enums.html#enu_MARKER_TYPE12'>MARKER_TYPE_ENGAGE_TIP</a>
+<p></div>
 <div id='514CB0'><i>514CB0</i> int __thiscall <h3><a href='structs.html#struc_SmsMessageList'>SmsMessageList</a>::IsMessageAlreadyReceived</h3>(<a href='structs.html#struc_SmsMessageList'>struct SmsMessageList</a> *this, <a href='structs.html#struc_SmsData'>struct SmsData</a> *smsdata);</div>
 <div id='5014C0'><i>5014C0</i> void __thiscall <h3><a href='structs.html#struc_SmsMessageList'>SmsMessageList</a>::MarkMessageDeletedAndRead</h3>(<a href='structs.html#struc_SmsMessageList'>struct SmsMessageList</a> *this, <a href='structs.html#struc_SmsMessage'>struct SmsMessage</a> *sms);</div>
 <div class='mm'>
@@ -3351,7 +3387,7 @@ sms-&gt;<a href='structs.html#struc_SmsMessage4'>read</a> = 1;
 <div id='5299B0'><i>5299B0</i> void __thiscall <h3><a href='structs.html#struc_SmsMessageList'>SmsMessageList</a>::SendDVDCoverSmsWithIndex</h3>(<a href='structs.html#struc_SmsMessageList'>struct SmsMessageList</a> *this, int index);</div>
 <div class='mm'>
 <p>Goes through all <a href='vars.html#838454'>smsDatas</a> and send every one that hasn't been received yet and has <code><a href='structs.html#struc_SmsData2'>type</a> ==
-<a href='enums.html#enu_SMS_TYPEE'>SMS_TYPE_DVD_COVER</a></code> and <code><a href='structs.html#struc_SmsData8'>field_8</a> == index</code> by using <a href='funcs.html#5295F0'>SmsMessageList::SendMessage</a>
+<a href='enums.html#enu_SMS_TYPEE'>SMS_TYPE_DVD_COVER</a></code> and <code><a href='structs.html#struc_SmsData8'>hash</a> == index</code> by using <a href='funcs.html#5295F0'>SmsMessageList::SendMessage</a>
 (which already has a check for if it was already received...).
 <p></div>
 <div id='529C40'><i>529C40</i> <a href='structs.html#struc_SmsData'>struct SmsData</a> *__thiscall <h3><a href='structs.html#struc_SmsMessageList'>SmsMessageList</a>::SendEngageTipSmsMessage</h3>(<a href='structs.html#struc_SmsMessageList'>struct SmsMessageList</a> *this, int);</div>

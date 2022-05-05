@@ -550,6 +550,9 @@ offset 41380: section 00030201 size CF0
 <p>This is output by an early version of <code><a class='ext' href='https://github.com/yugecin/nfsu2-re/blob/master/nfsu2-re-binfiles/main.c'>nfsu2-re-binfiles/main.c</a></code>.
 </p><p>Note that the offset also increments by 8, being <code>sizeof <a href='structs.html#struc_BinSectionHeader'>struct BinSectionHeader</a></code>.
 </p><p>A section with magic <code>0</code> seems to be just for padding/alignment uses.
+</p><p>Sections that have magic starting with <code>8</code> seem to be sections that have more sections inside,
+for example the data of section with magic <code>80034147</code> contains more sections, with magic
+<code>34148</code>, <code>34149</code>, <code>3414A</code>, <code>3414C</code>, <code>3414D</code>.
 </p><p><strong>Symbols:</strong></p>
 <ul>
 <li><a href='structs.html#struc_BinSectionHeader'>struct BinSectionHeader</a></li>
@@ -3241,6 +3244,7 @@ to this key), makes it so the player's car starts driving like an AI car. Exampl
 <li><a href='enums.html#enu_JOYID'>enum JOYID</a></li>
 <li><a href='structs.html#struc_JoyKeyData'>struct JoyKeyData</a></li>
 <li><a href='vars.html#7FABA8'>joyKeyData</a></li>
+<li><a href='funcs.html#571AD0'>GetJoyIdFromName</a></li>
 </ul>
 <p><small><a href='#index'>Index</a></small></p>
 </div>
@@ -3445,6 +3449,7 @@ car 45: HATCHBACK02 HATCHBACK02 GENERIC
 <li><a href='vars.html#82B884'>soundEffectSystem?</a></li>
 <li><a href='funcs.html#458520'>SoundEffectSystem::PlaySound?</a></li>
 <li><a href='funcs.html#51DE60'>PlayUISoundEffect</a></li>
+<li><a href='funcs.html#528370'>PlaySound528370</a></li>
 </ul>
 <p><small><a href='#index'>Index</a></small></p>
 </div>
@@ -3463,19 +3468,29 @@ going on), but they don't appear on the map.
 <h3>Markers <a href='#markers'>#</a></h3>
 <p>The money pickup/info pickup(engage sms messages)/race/shop/garage/neighbourhood/and more? markers.
 They are in bin section <code>0x3414A</code>, which is in bin section <code>0x80034147</code>, in <code>TRACKS\ROUTESL4R%c\Paths%d.bin</code>.
-Bin section <code>0x80034147</code> is loaded in <a href='funcs.html#5D9A90'>Markers::InitFromBinData</a>.
+Bin section <code>3414A</code> is loaded as part of <a href='funcs.html#5D9A90'>PathsData::ReadFromBinData</a> and inited in <a href='funcs.html#5D5630'>PathsData::InitAfterReadFromBinData</a>.
+</p><p>After reading, they are in <code><a href='vars.html#88F298'>pathsData</a>.<a href='structs.html#struc_PathsData43C'>allMarkers</a></code>, which has <code><a href='vars.html#88F298'>pathsData</a>.<a href='structs.html#struc_PathsData434'>numMarkers</a></code> entries.
+They are also in <code><a href='vars.html#88F298'>pathsData</a>.<a href='structs.html#struc_PathsData440'>markers</a></code>, which is an array. Each entry points to an array of markers with
+their type matching the index of the array, except the last entry. The last entry at index 21 points to where the end
+of the array of index 20 is, it does not point to an array of markers itself.
+</p><p>This data is only loaded while in career/quickrace/freeroam.
 </p><p>Not loading bin section <code>0x3414A</code> results in no career markers at all, and no traffic (but other racers do still spawn).
+</p><p>See <a href='dumps/markerdump.txt'>markerdump.txt</a> (39KB) for a data dump as made by <code><a class='ext' href='https://github.com/yugecin/nfsu2-re/blob/master/nfsu2-re-hooks/debug-custom-dump-markers.c'>nfsu2-re-hooks/debug-custom-dump-markers.c</a></code>.
 </p><p><strong>Symbols:</strong></p>
 <ul>
-<li><a href='structs.html#struc_Markers'>struct Markers</a></li>
+<li><a href='enums.html#enu_MARKER_TYPE'>enum MARKER_TYPE</a></li>
 <li><a href='structs.html#struc_Marker'>struct Marker</a></li>
 <li><a href='structs.html#struc_NeighbourhoodName'>struct NeighbourhoodName</a></li>
-<li><a href='vars.html#88F298'>markerData</a></li>
+<li><a href='structs.html#struc_PathsData'>struct PathsData</a></li>
+<li><a href='vars.html#88F298'>pathsData</a></li>
 <li><a href='vars.html#800C38'>neighbourhoodData</a></li>
 <li><a href='vars.html#883D9C'>neighbourhoodHashesCalculatedAlready</a></li>
+<li><a href='funcs.html#43D890'>IsMarkerInRange</a></li>
+<li><a href='funcs.html#5283C0'>CareerData::MoneyMarkerHitPlaySound??</a></li>
 <li><a href='funcs.html#5D3DE0'>GetNeighbourhoodNameForHash</a></li>
-<li><a href='funcs.html#5D9A90'>Markers::InitFromBinData</a></li>
-<li><a href='funcs.html#5D9BF0'>Markers::FindAtPosWithTypeAfterIndex</a></li>
+<li><a href='funcs.html#5D5630'>PathsData::InitAfterReadFromBinData</a></li>
+<li><a href='funcs.html#5D9A90'>PathsData::ReadFromBinData</a></li>
+<li><a href='funcs.html#5D9BF0'>PathsData::FindMarkerAtPosWithTypeAfterIndex</a></li>
 </ul>
 <p><small><a href='#index'>Index</a></small></p>
 </div>
