@@ -250,7 +250,7 @@ void docgen_get_func_friendlyname(char *dest, char *name)
 
 	do {
 		c = *(name++);
-		if (c == ':' || c == '?' || c == '.') {
+		if (c == ':' || c == '?' || c == '.' || c == '[' || c == ']') {
 			c = '_';
 		}
 		*(dest++) = c;
@@ -625,10 +625,12 @@ void docgen_gen_func_signature(struct docgen_tmpbuf **signaturebuf, struct docge
 		b += sprintf(b, "%s", coloncolon);
 	} else {
 		b += sprintf(b, "%s", originalname);
-		/*Quickly check if there should have been a coloncolon*/
-		thiscall = strstr(originalsignature, "__thiscall");
-		if (thiscall && thiscall - originalsignature < len) {
-			fprintf(stderr, "warn: func %X is __thiscall but no '::'\n", func->addr);
+		/*Quickly check if there should have been a coloncolon (suppressed by starting func name with '[')*/
+		if (func->name[0] != '[') {
+			thiscall = strstr(originalsignature, "__thiscall");
+			if (thiscall && thiscall - originalsignature < len) {
+				fprintf(stderr, "warn: func %X is __thiscall but no '::'\n", func->addr);
+			}
 		}
 	}
 	b += sprintf(b, "</h3>");
