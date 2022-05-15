@@ -276,18 +276,28 @@ void docgen_readfile(char *path, char **buf, int *length)
 	fclose(in);
 }
 /*jeanine:p:i:57;p:56;a:r;x:3.33;*/
-struct docgen_ref {
+struct docgen_ref_element {
 	struct idcp_struct_member *strucmember;
 	struct idcp_enum_member *enumember;
 	struct idcp_struct *struc;
 	struct idcp_stuff *func;
 	struct idcp_stuff *data;
 	struct idcp_enum *enu;
+	struct docgen_ref_element *next;
+	int element_level;
+};
+
+#define DOCGEN_MAX_REF_ELEMENTS 20
+
+struct docgen_ref {
+	struct docgen_ref_element elements[DOCGEN_MAX_REF_ELEMENTS];
 };
 
 /**
 When returning, none or one of the members of result will be set,
-except if the ref is referencing a struct member, the both 'strucmember' and 'struc' will be set.
+except if the ref is referencing a struct member, the both 'strucmember' and 'struc' will be set,
+except if the ref is referencing an enum member, the both 'enumember' and 'enu' will be set.
+'next' will be set if there's more (ie next struct member).
 If none of the members are set, the reference couldn't be resolved.
 
 @param ref should be zero terminated
@@ -296,6 +306,7 @@ static
 void docgen_resolve_ref(struct docgen *dg, struct docgen_ref *result, char *ref, int len)
 {
 	int min, max, idx, current, addr, val, num_members;
+	struct docgen_ref_element *ref_element;
 	struct docgen_structinfo *structinfo;
 	struct idcp_struct_member *strumem;
 	struct docgen_enuminfo *enuminfo;
@@ -306,6 +317,8 @@ void docgen_resolve_ref(struct docgen *dg, struct docgen_ref *result, char *ref,
 	char *plus, *fslash;
 
 	memset(result, 0, sizeof(struct docgen_ref));
+	ref_element = result->elements;
+	ref_element->element_level = 1;
 
 	if (len > 5 && !strncmp("enum ", ref, 5)) {
 		fslash = strstr(ref + 5, "/");
@@ -315,7 +328,7 @@ void docgen_resolve_ref(struct docgen *dg, struct docgen_ref *result, char *ref,
 			enuminfo = docgen_find_enum(dg, ref + 5, len - 5);
 		}
 		if (enuminfo) {
-			result->enu = enuminfo->enu;
+			ref_element->enu = enuminfo->enu;
 			if (fslash) {
 				if (docgen_parse_val(&val, fslash + 1, len - (fslash - ref) - 1)) {/*jeanine:r:i:63;*/
 					enu = enuminfo->enu;
@@ -324,12 +337,12 @@ void docgen_resolve_ref(struct docgen *dg, struct docgen_ref *result, char *ref,
 					for (; num_members; num_members--, enumem++) {
 						if (enumem->value == val) {
 							dg->enum_member_needs_anchor[enumem - dg->idcp->enum_members] = 1;
-							result->enumember = enumem;
+							ref_element->enumember = enumem;
 							return;
 						}
 					}
 				}
-				result->enu = NULL;
+				ref_element->enu = NULL;
 			}
 		}
 	} else if (len > 7 && !strncmp("struct ", ref, 7)) {
@@ -340,22 +353,41 @@ void docgen_resolve_ref(struct docgen *dg, struct docgen_ref *result, char *ref,
 			structinfo = docgen_find_struct(dg, ref + 7, len - 7);
 		}
 		if (structinfo) {
-			result->struc = structinfo->struc;
+			ref_element->struc = structinfo->struc;
 			if (plus) {
 				addr = docgen_parse_addr(plus + 1, len - (plus - ref) - 1);/*jeanine:s:a:r;i:39;*/
 				if (addr != -1) {
 					struc = structinfo->struc;
+findstrucmember:
 					num_members = struc->end_idx - struc->start_idx;
-					strumem = dg->idcp->struct_members + struc->start_idx;
-					for (; num_members; num_members--, strumem++) {
-						if (strumem->offset == addr) {
-							dg->struct_member_needs_anchor[strumem - dg->idcp->struct_members] = 1;
-							result->strucmember = strumem;
-							return;
+					if (num_members) {
+						strumem = dg->idcp->struct_members + struc->start_idx;
+						for (;;) {
+							if (strumem->offset == addr) {
+								dg->struct_member_needs_anchor[strumem - dg->idcp->struct_members] = 1;
+								ref_element->strucmember = strumem;
+								return;
+							}
+							num_members--;
+							if (!num_members) {
+								break;
+							}
+							if ((strumem + 1)->offset > addr && IDC_is_struct(strumem->flag)) {
+								assert(((void)"need more DOCGEN_MAX_REF_ELEMENTS", ref_element->element_level < DOCGEN_MAX_REF_ELEMENTS));
+								addr -= strumem->offset;
+								dg->struct_member_needs_anchor[strumem - dg->idcp->struct_members] = 1;
+								ref_element->strucmember = strumem;
+								ref_element->next = result->elements + ref_element->element_level;
+								ref_element->next->element_level = ref_element->element_level + 1;
+								ref_element = ref_element->next;
+								ref_element->struc = struc = dg->idcp->structs + strumem->typeid;
+								goto findstrucmember;
+							}
+							strumem++;
 						}
 					}
 				}
-				result->struc = NULL;
+				ref_element->struc = NULL;
 			}
 		}
 	} else {
@@ -375,9 +407,9 @@ void docgen_resolve_ref(struct docgen *dg, struct docgen_ref *result, char *ref,
 				if (!stuff->name) {
 					fprintf(stderr, "resolved ref '%s' has no name, ignoring\n", ref);
 				} else if (stuff->type == IDCP_STUFF_TYPE_FUNC) {
-					result->func = stuff;
+					ref_element->func = stuff;
 				} else if (stuff->type == IDCP_STUFF_TYPE_DATA) {
-					result->data = stuff;
+					ref_element->data = stuff;
 				} else {
 					fprintf(stderr, "unknown type '%d' when resolving ref '%s'\n", stuff->type, ref);
 				}
@@ -395,6 +427,7 @@ void docgen_resolve_ref(struct docgen *dg, struct docgen_ref *result, char *ref,
 		}
 	}
 }
+/*jeanine:s:a:t;i:39;*/
 /*jeanine:p:i:14;p:0;a:b;y:12.13;*/
 struct docgen_tmpbuf {
 	char used;
@@ -990,61 +1023,70 @@ static
 void docgen_append_ref_text(struct mmparse *mm, void (*append_func)(struct mmparse*,char*,int), char *ref, int reflen)
 {
 	struct docgen_mmparse_userdata *ud;
+	struct docgen_ref_element *element;
 	struct docgen_ref res;
 	char addr[16];
 	int len;
 
 	ud = mm->config.userdata;
 	docgen_resolve_ref(ud->dg, &res, ref, reflen);/*jeanine:r:i:57;*/
-	if (res.func) {
-		len = sprintf(addr, "%X", res.func->addr);
-		append_func(mm, "<a href='funcs.html#", 20);
-		append_func(mm, addr, len);
-		append_func(mm, "'>", 2);
-		append_func(mm, res.func->name, strlen(res.func->name));
-		append_func(mm, "</a>", 4);
-	} else if (res.data) {
-		len = sprintf(addr, "%X", res.data->addr);
-		append_func(mm, "<a href='vars.html#", 19);
-		append_func(mm, addr, len);
-		append_func(mm, "'>", 2);
-		append_func(mm, res.data->name, strlen(res.data->name));
-		append_func(mm, "</a>", 4);
-	} else if (res.strucmember) {
-		append_func(mm, "<a href='structs.html#struc_", 28);
-		append_func(mm, res.struc->name, strlen(res.struc->name));
-		len = sprintf(addr, "%X", res.strucmember->offset);
-		append_func(mm, addr, len);
-		append_func(mm, "'>", 2);
-		append_func(mm, res.strucmember->name, strlen(res.strucmember->name));
-		append_func(mm, "</a>", 4);
-	} else if (res.struc) {
-		len = strlen(res.struc->name);
-		append_func(mm, "<a href='structs.html#struc_", 28);
-		append_func(mm, res.struc->name, len);
-		append_func(mm, "'>struct ", 9);
-		append_func(mm, res.struc->name, len);
-		append_func(mm, "</a>", 4);
-	} else if (res.enumember) {
-		append_func(mm, "<a href='enums.html#enu_", 24);
-		append_func(mm, res.enu->name, strlen(res.enu->name));
-		len = sprintf(addr, "%X", res.enumember->value);
-		append_func(mm, addr, len);
-		append_func(mm, "'>", 2);
-		append_func(mm, res.enumember->name, strlen(res.enumember->name));
-		append_func(mm, "</a>", 4);
-	} else if (res.enu) {
-		len = strlen(res.enu->name);
-		append_func(mm, "<a href='enums.html#enu_", 24);
-		append_func(mm, res.enu->name, len);
-		append_func(mm, "'>enum ", 7);
-		append_func(mm, res.enu->name, len);
-		append_func(mm, "</a>", 4);
-	} else {
-		mmparse_failmsgf(mm, "unknown ref '%s'", ref);
-		append_func(mm, "<strong class='error' style='font-family:monospace'>?", 53);
-		append_func(mm, ref, reflen);
-		append_func(mm, "?</strong>", 10);
+	element = res.elements;
+	for (;;) {
+		if (element->func) {
+			len = sprintf(addr, "%X", element->func->addr);
+			append_func(mm, "<a href='funcs.html#", 20);
+			append_func(mm, addr, len);
+			append_func(mm, "'>", 2);
+			append_func(mm, element->func->name, strlen(element->func->name));
+			append_func(mm, "</a>", 4);
+		} else if (element->data) {
+			len = sprintf(addr, "%X", element->data->addr);
+			append_func(mm, "<a href='vars.html#", 19);
+			append_func(mm, addr, len);
+			append_func(mm, "'>", 2);
+			append_func(mm, element->data->name, strlen(element->data->name));
+			append_func(mm, "</a>", 4);
+		} else if (element->strucmember) {
+			append_func(mm, "<a href='structs.html#struc_", 28);
+			append_func(mm, element->struc->name, strlen(element->struc->name));
+			len = sprintf(addr, "%X", element->strucmember->offset);
+			append_func(mm, addr, len);
+			append_func(mm, "'>", 2);
+			append_func(mm, element->strucmember->name, strlen(element->strucmember->name));
+			append_func(mm, "</a>", 4);
+		} else if (element->struc) {
+			len = strlen(element->struc->name);
+			append_func(mm, "<a href='structs.html#struc_", 28);
+			append_func(mm, element->struc->name, len);
+			append_func(mm, "'>struct ", 9);
+			append_func(mm, element->struc->name, len);
+			append_func(mm, "</a>", 4);
+		} else if (element->enumember) {
+			append_func(mm, "<a href='enums.html#enu_", 24);
+			append_func(mm, element->enu->name, strlen(element->enu->name));
+			len = sprintf(addr, "%X", element->enumember->value);
+			append_func(mm, addr, len);
+			append_func(mm, "'>", 2);
+			append_func(mm, element->enumember->name, strlen(element->enumember->name));
+			append_func(mm, "</a>", 4);
+		} else if (element->enu) {
+			len = strlen(element->enu->name);
+			append_func(mm, "<a href='enums.html#enu_", 24);
+			append_func(mm, element->enu->name, len);
+			append_func(mm, "'>enum ", 7);
+			append_func(mm, element->enu->name, len);
+			append_func(mm, "</a>", 4);
+		} else {
+			mmparse_failmsgf(mm, "unknown ref '%s'", ref);
+			append_func(mm, "<strong class='error' style='font-family:monospace'>?", 53);
+			append_func(mm, ref, reflen);
+			append_func(mm, "?</strong>", 10);
+			return;
+		}
+		if (!(element = element->next)) {
+			break;
+		}
+		append_func(mm, ".", 1);
 	}
 }
 /*jeanine:p:i:35;p:30;a:r;x:6.67;y:-21.00;*/
