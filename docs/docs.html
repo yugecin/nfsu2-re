@@ -723,7 +723,7 @@ when the game is installed?
 </p><pre class='ida'>
 <span class='mc'>.rdata:007983D0</span> aLanguageselect db <span class='str'>'LanguageSelectScreen'</span>,<span class='num'>0</span> <span class='comment'>; TODO</span>
 </pre>
-<div><p id='language_metadata'><small># <a href='#language'>Language</a> &gt; Language metadata</small></p>
+<div><p id='language_metadata'><small><a href='#language'>Language</a></small></p>
 <h3>Language metadata <a href='#language_metadata'>#</a></h3>
 <p>Thanks to code where it reads the Registry, I found following data:
 </p><pre>
@@ -865,7 +865,7 @@ Eventually something is called with string <code>LanguageMemoryPool</code>.
 </ul>
 <p style='text-align:right'><small><a href='#index'>Index</a></small></p>
 </div>
-<div><p id='language_files'><small># <a href='#language'>Language</a> &gt; Language files</small></p>
+<div><p id='language_files'><small><a href='#language'>Language</a></small></p>
 <h3>Language files <a href='#language_files'>#</a></h3>
 <p>The language strings are in a bin section with magic <code>0x39000</code>, and is structured like this:
 </p><pre>
@@ -1045,7 +1045,7 @@ in the file <code><a class='ext' href='https://github.com/yugecin/nfsu2-re/blob/
 As it doesn't seem to be used anywhere, the only effect you can see is that whatever you
 type is written into the <code>console_real_text</code> buffer (use CheatEngine or something
 you like to inspect it).
-</p><div><p id='console_consume_key'><small># <a href='#consoleleftover'>Console leftovers</a> &gt; ConsoleConsumeKey</small></p>
+</p><div><p id='console_consume_key'><small><a href='#consoleleftover'>Console leftovers</a></small></p>
 <h3>ConsoleConsumeKey <a href='#console_consume_key'>#</a></h3>
 <p>When looking at the <a href='funcs.html#5CCD60'>MainWndProc</a> (which is not to hard too find because it's
 passed in a struct to <code>RegisterClassExA</code>), I saw a call to a function that
@@ -1083,14 +1083,14 @@ and copies everything from the allocated buffer back into <a href='vars.html#870
 if <a href='vars.html#80057E'>consoleDisallowSpecialChars</a> is zero, <code>_</code> or <code>@</code> or <code>.</code> or
 <code>-</code>. If none of these pass, do a check for more keys as described below
 </li></ul>
-<div><p id='console_consume_key_check'><small># <a href='#console_consume_key'>ConsoleConsumeKey</a> &gt; <a href='#consoleleftover'>Console leftovers</a> &gt; A hardcoded key check</small></p>
+<div><p id='console_consume_key_check'><small><a href='#consoleleftover'>Console leftovers</a> &gt; <a href='#console_consume_key'>ConsoleConsumeKey</a></small></p>
 <h4>A hardcoded key check <a href='#console_consume_key_check'>#</a></h4>
 <p>At the end of looking if a character is valid, when it hasn't passed any of the criteria
 above, it checks one last function if <a href='vars.html#8709C7'>consoleFilterSpecialChars</a> is <code>1</code>. The function
 seems to check if the key is one of 55 configured values and if so, the char is accepted.
 </p><p style='text-align:right'><small><a href='#index'>Index</a></small></p>
 </div>
-</div><div><p id='console_move_caret'><small># <a href='#consoleleftover'>Console leftovers</a> &gt; ConsoleMoveCaret</small></p>
+</div><div><p id='console_move_caret'><small><a href='#consoleleftover'>Console leftovers</a></small></p>
 <h3>ConsoleMoveCaret <a href='#console_move_caret'>#</a></h3>
 <p>This function is also called from <a href='funcs.html#5CCD60'>MainWndProc</a>, this time when a
 <code>WM_KEYDOWN</code> message is received. One parameter is passed based on the keycode
@@ -1104,7 +1104,7 @@ of the event:
 <p>This is the only other function that checks if <a href='vars.html#8709BC'>consoleEnabledFlag</a> is non-zero.
 </p><p style='text-align:right'><small><a href='#index'>Index</a></small></p>
 </div>
-<p><small># <a href='#consoleleftover'>Console leftovers</a> (continuation)</small></p>
+<p><small><a href='#consoleleftover'>Console leftovers</a> (continuation)</small></p>
 <p><strong>Symbols:</strong></p>
 <ul>
 <li><a href='vars.html#80057E'>consoleDisallowSpecialChars</a></li>
@@ -1204,7 +1204,7 @@ before updating the hash.
 as <code>hash\tinput\tresult\tproc\n</code>. This file is updated at random times. 8 minutes
 of playing gives about a 277MB file, all output was piped to <code>sort | uniq</code>.
 </p><p>How I collected these can be seen in the <code>nfsu2-re-hooks/hook-*-hash-*.c</code> files.
-</p><div><p id='hashmess'><small># <a href='#hashfuncs'>Hash functions</a> &gt; Messing with hash results</small></p>
+</p><div><p id='hashmess'><small><a href='#hashfuncs'>Hash functions</a></small></p>
 <h3>Messing with hash results <a href='#hashmess'>#</a></h3>
 <p>I had an impulse to try to return different results for certain hashes. For example, return
 the result of <code>FIRETRUCK</code> when the input is <code>240SX</code>. The result is ..
@@ -1260,7 +1260,7 @@ Replacing the taxi with the ambulance just lags out the game whenever a taxi com
 the code to replace cars is in comments.
 </p><p style='text-align:right'><small><a href='#index'>Index</a></small></p>
 </div>
-<p><small># <a href='#hashfuncs'>Hash functions</a> (continuation)</small></p>
+<p><small><a href='#hashfuncs'>Hash functions</a> (continuation)</small></p>
 <p><strong>Symbols:</strong></p>
 <ul>
 <li><a href='funcs.html#43DB50'>SomeHashCS43DB50</a></li>
@@ -1352,7 +1352,7 @@ kind of element it is. Currently I have:
 <a href='structs.html#struc_UIElement10'>hash</a>). So then one can find UI elements by using <a href='funcs.html#4953C0'>FindUILabelByName</a> or <a href='funcs.html#537A10'>FindUILabelByHash</a> and
 the likes.
 </p><p>See also <a href='BLOGx01-exploring-UI.html'>blogpost: Exploring UI</a>
-</p><div><p id='ui_dialog'><small># <a href='#ui'>UI</a> &gt; Dialogs</small></p>
+</p><div><p id='ui_dialog'><small><a href='#ui'>UI</a></small></p>
 <h3>Dialogs <a href='#ui_dialog'>#</a></h3>
 <p>Thanks to the <a href='#debugprint'>Debug print</a> discovery, my attention got grabbed
 by something that looked like dialog code. These leftover debug strings helped so much.
@@ -1366,7 +1366,7 @@ by something that looked like dialog code. These leftover debug strings helped s
 which looks like initializes the dialog maybe? One argument is passed, seemingly the
 dialog name. But then it checks something at the passed dialog name <code>+324h</code>. Conclusion:
 it's passing a struct with dialog info, of which the first member is the name.
-</p><div><p id='ui_dialog_getfngfordialog'><small># <a href='#ui_dialog'>Dialogs</a> &gt; <a href='#ui'>UI</a> &gt; GetFNGForDialog</small></p>
+</p><div><p id='ui_dialog_getfngfordialog'><small><a href='#ui'>UI</a> &gt; <a href='#ui_dialog'>Dialogs</a></small></p>
 <h4>GetFNGForDialog <a href='#ui_dialog_getfngfordialog'>#</a></h4>
 <p>This function is only used once, by the <a href='funcs.html#558020'>ShowDialog</a> function. It checks
 the value at <code>+324h</code>, which seems to be a pointer to a string,
@@ -1411,7 +1411,7 @@ here's <code>UI_OLEAMessenger.fng</code>:
 executable itself so it's probably somewhere deep in a bin file.
 </p><p style='text-align:right'><small><a href='#index'>Index</a></small></p>
 </div>
-<p><small># <a href='#ui'>UI</a> &gt; <a href='#ui_dialog'>Dialogs</a> (continuation)</small></p>
+<p><small><a href='#ui'>UI</a> &gt; <a href='#ui_dialog'>Dialogs</a> (continuation)</small></p>
 <p><a href='structs.html#struc_DialogInfo'>struct DialogInfo</a> was made by looking at all of the above and more.
 (Especially <a href='funcs.html#4FF250'>DialogInfo::ctor</a> helped here.)
 </p><p><strong>Symbols:</strong></p>
@@ -1447,7 +1447,7 @@ executable itself so it's probably somewhere deep in a bin file.
 </ul>
 <p style='text-align:right'><small><a href='#index'>Index</a></small></p>
 </div>
-<div><p id='fngthings'><small># <a href='#ui'>UI</a> &gt; FNG things</small></p>
+<div><p id='fngthings'><small><a href='#ui'>UI</a></small></p>
 <h3>FNG things <a href='#fngthings'>#</a></h3>
 <details><summary><a href='vars.html#7F7DC8'>fngdata</a></summary>
 <pre>
@@ -2614,12 +2614,12 @@ TODO:
 </ul>
 <p style='text-align:right'><small><a href='#index'>Index</a></small></p>
 </div>
-<div><p id='some_fng_screens'><small># <a href='#ui'>UI</a> &gt; Some FNG screens</small></p>
+<div><p id='some_fng_screens'><small><a href='#ui'>UI</a></small></p>
 <h3>Some FNG screens <a href='#some_fng_screens'>#</a></h3>
 <p>This was done by putting pointers to their strings into the boot flow entries (see <a href='#speedyboot'>Speedy boot</a>).
 </p><details><summary><code>2P_PressStart.fng</code></summary><p class='center'><img src="img/2P_PRESS_START.JPG" alt="2player press start"/></p></details>
 <details><summary><code>loading_boot.fng</code></summary><p class='center'><img src="img/LOADING_BOOT.JPG" alt="alternative loading screen with nfsu2 logo"/></p></details>
-<div><p id='replace_loading_screen'><small># <a href='#some_fng_screens'>Some FNG screens</a> &gt; <a href='#ui'>UI</a> &gt; Replacing the loading screen</small></p>
+<div><p id='replace_loading_screen'><small><a href='#ui'>UI</a> &gt; <a href='#some_fng_screens'>Some FNG screens</a></small></p>
 <h4>Replacing the loading screen <a href='#replace_loading_screen'>#</a></h4>
 <p>I found <code>loading_boot.fng</code> pretty cool, so I wondered if that could be used instead for
 the loading screens (on boot, when loading race, going into freeroam, ..).
@@ -2637,7 +2637,7 @@ screen, maybe it shows tips? But when trying it just shows a black screen. Maybe
 feature?
 </p><p style='text-align:right'><small><a href='#index'>Index</a></small></p>
 </div>
-<p><small># <a href='#ui'>UI</a> &gt; <a href='#some_fng_screens'>Some FNG screens</a> (continuation)</small></p>
+<p><small><a href='#ui'>UI</a> &gt; <a href='#some_fng_screens'>Some FNG screens</a> (continuation)</small></p>
 <details><summary><code>UI_DebugTest.fng</code></summary><p class='center'><img src="img/UI_DEBUGTEST.JPG" alt="pulsing text and different colored circles"/></p></details>
 <details><summary><code>UI_OLAgeTooYoung.fng</code></summary><p class='center'><img src="img/UI_OLAGETOOYOUNG.JPG" alt="age too young"/></p></details>
 <details><summary><code>UI_OLMAIN.fng</code></summary><p class='center'><img src="img/UI_OLMAIN.JPG" alt="online main menu"/></p></details>
@@ -2646,7 +2646,7 @@ feature?
 <details><summary><code>UI_OL_Voice_Chat.fng</code></summary><p class='center'><img src="img/UI_OL_VOICE_CHAT.JPG" alt="online voice chat"/></p></details>
 <p style='text-align:right'><small><a href='#index'>Index</a></small></p>
 </div>
-<div><p id='screenprintf'><small># <a href='#ui'>UI</a> &gt; ScreenPrintf.fng</small></p>
+<div><p id='screenprintf'><small><a href='#ui'>UI</a></small></p>
 <h3>ScreenPrintf.fng <a href='#screenprintf'>#</a></h3>
 <p>So this is an interesting name, but doesn't really seem used (it makes sense, it shouldn't be used in a
 release build of the game). Though now with the few functions I documented maybe I can make it show?
@@ -3116,7 +3116,7 @@ that flag <code>2</code> means it should be visible, so I tried adding that.
 where it would set any of the labels' text.
 </p><p style='text-align:right'><small><a href='#index'>Index</a></small></p>
 </div>
-<div><p id='pc_help_bar'><small># <a href='#ui'>UI</a> &gt; PC help bar</small></p>
+<div><p id='pc_help_bar'><small><a href='#ui'>UI</a></small></p>
 <h3>PC help bar <a href='#pc_help_bar'>#</a></h3>
 <p>This is the button bar at the bottom of the screen, with the player name and money text. It also has some elements
 that are only shown when you're connected online (TODO).
@@ -3146,7 +3146,7 @@ masks. The lowest matching mask gets placed on button1, and so on.
 </ul>
 <p style='text-align:right'><small><a href='#index'>Index</a></small></p>
 </div>
-<p><small># <a href='#ui'>UI</a> (continuation)</small></p>
+<p><small><a href='#ui'>UI</a> (continuation)</small></p>
 <p>UI keys seem to be hashed with the case insensitive hash.
 </p><p><strong>Symbols:</strong></p>
 <ul>
@@ -3211,7 +3211,7 @@ masks. The lowest matching mask gets placed on button1, and so on.
 <p style='text-align:right'><small><a href='#index'>Index</a></small></p>
 </div>
 <div><h2 id="input">Input <a href='#input'>#</a></h2>
-<div><p id='mouseinput'><small># <a href='#input'>Input</a> &gt; Mouse input</small></p>
+<div><p id='mouseinput'><small><a href='#input'>Input</a></small></p>
 <h3>Mouse input <a href='#mouseinput'>#</a></h3>
 <p>While the canvas is <code>640x480</code>, mouse position seems to be handled mostly
 as <code>([-320,+320],[-240,+240])</code>.
@@ -3233,7 +3233,7 @@ as <code>([-320,+320],[-240,+240])</code>.
 </ul>
 <p style='text-align:right'><small><a href='#index'>Index</a></small></p>
 </div>
-<div><p id='joyinput'><small># <a href='#input'>Input</a> &gt; Key (Joy) input</small></p>
+<div><p id='joyinput'><small><a href='#input'>Input</a></small></p>
 <h3>Key (Joy) input <a href='#joyinput'>#</a></h3>
 <p>List of joy ids in <a href='enums.html#enu_JOYID'>enum JOYID</a> comes from the very helpful strings in <a href='vars.html#7FABA8'>joyKeyData</a>.
 </p><p>Patching in the <code>B5 JOY_EVENT_AUTO_PILOT</code> id (by for example replacing the world-map key in career
@@ -3464,7 +3464,7 @@ just like when starting a new career. The end of game sms will be open. When dri
 phonecalls from the start of the game come in (friends telling Rachel where the races are
 going on), but they don't appear on the map.
 </p><p>My best guess is that this 'load into career' option is a cut/unfinished feature.
-</p><div><p id='markers'><small># <a href='#career'>Career</a> &gt; Markers</small></p>
+</p><div><p id='markers'><small><a href='#career'>Career</a></small></p>
 <h3>Markers <a href='#markers'>#</a></h3>
 <p>The money pickup/info pickup(engage sms messages)/race/shop/garage/neighbourhood/and more? markers.
 They are in bin section <code>0x3414A</code>, which is in bin section <code>0x80034147</code>, in <code>TRACKS\ROUTESL4R%c\Paths%d.bin</code>.
@@ -3494,7 +3494,7 @@ of the array of index 20 is, it does not point to an array of markers itself.
 </ul>
 <p style='text-align:right'><small><a href='#index'>Index</a></small></p>
 </div>
-<div><p id='sms_stuff'><small># <a href='#career'>Career</a> &gt; SMS stuff</small></p>
+<div><p id='sms_stuff'><small><a href='#career'>Career</a></small></p>
 <h3>SMS stuff <a href='#sms_stuff'>#</a></h3>
 <p>Dump of all sms message data: <a href='dumps/smsdump.txt'>smsdump.txt</a> (63KB).
 This data is in bin section <code>0x34A17</code> (which is inside bin section <code>0x80034A10</code>,
@@ -3543,7 +3543,7 @@ which is in file <code>GLOBAL/GLOBALB.BUN</code>).
 </ul>
 <p style='text-align:right'><small><a href='#index'>Index</a></small></p>
 </div>
-<p><small># <a href='#career'>Career</a> (continuation)</small></p>
+<p><small><a href='#career'>Career</a> (continuation)</small></p>
 <p><strong>Symbols:</strong></p>
 <ul>
 <li><a href='structs.html#struc_CareerData'>struct CareerData</a></li>

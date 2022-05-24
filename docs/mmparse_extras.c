@@ -516,41 +516,45 @@ struct mmp_mode mmpextras_mode_paragraphed = {
 	"paragraphed",
 	MMPARSE_DO_PARSE_LINES
 };
-/*jeanine:p:i:4;p:25;a:r;x:40.53;y:-40.47;*/
+/*jeanine:p:i:4;p:25;a:r;x:40.18;y:-44.67;*/
 static
 void mmpextras_append_breadcrumbs(struct mmparse *mm, void (*append_func)(void*,struct mmparse*,char*,int), void *append_func_data, int for_index_entry_idx, int is_continuation)
 {
 	struct mmpextras_index_entry *entry;
 	struct mmpextras_userdata *ud;
-	int level;
+	int level, has;
 
 	ud = mmpextras_get_userdata(mm);
 	entry = ud->index.entries + for_index_entry_idx;
 	if (is_continuation) {
-		append_func(append_func_data, mm, "<p><small># ", 12);
+		append_func(append_func_data, mm, "<p><small>", 10);
 	} else {
 		append_func(append_func_data, mm, "<p id='", 7);
 		append_func(append_func_data, mm, entry->anchor->id, entry->anchor->id_len);
-		append_func(append_func_data, mm, "'><small># ", 11);
+		append_func(append_func_data, mm, "'><small>", 9);
 	}
-	level = entry->level;
-	while (level--) {
+	for (level = 0, has = 0; level < entry->level; level++) {
 		while ((--entry)->level != level);
+		if (has) {
+			append_func(append_func_data, mm, " &gt; ", 6);
+		}
+		has = 1;
 		append_func(append_func_data, mm, "<a href='#", 10);
 		append_func(append_func_data, mm, entry->anchor->id, entry->anchor->id_len);
 		append_func(append_func_data, mm, "'>", 2);
 		append_func(append_func_data, mm, entry->anchor->link_text, entry->anchor->link_text_len);
-		append_func(append_func_data, mm, "</a> &gt; ", 10);
+		append_func(append_func_data, mm, "</a>", 4);
 		entry = ud->index.entries + for_index_entry_idx;
 	}
 	if (is_continuation) {
+		if (has) {
+			append_func(append_func_data, mm, " &gt; ", 6);
+		}
 		append_func(append_func_data, mm, "<a href='#", 10);
 		append_func(append_func_data, mm, entry->anchor->id, entry->anchor->id_len);
 		append_func(append_func_data, mm, "'>", 2);
 		append_func(append_func_data, mm, entry->anchor->link_text, entry->anchor->link_text_len);
 		append_func(append_func_data, mm, "</a> (continuation)", 19);
-	} else {
-		append_func(append_func_data, mm, entry->anchor->link_text, entry->anchor->link_text_len);
 	}
 	append_func(append_func_data, mm, "</small></p>\n", 13);
 }
