@@ -613,7 +613,7 @@ void mmpextras_cb_mode_section_end(struct mmparse *mm)
 	ud->section.current_level--;
 	if (ud->section.needs_index_link_at_bottom) {
 		ud->section.needs_index_link_at_bottom = 0;
-		mmparse_append_to_main_output(mm, "<p><small><a href='#index'>Index</a></small></p>\n</div>\n", 56);
+		mmparse_append_to_main_output(mm, "<p style='text-align:right'><small><a href='#index'>Index</a></small></p>\n</div>\n", 81);
 	} else {
 		mmparse_append_to_main_output(mm, "</div>", 6);
 	}

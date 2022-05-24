@@ -320,7 +320,7 @@ pre.ida span.hi {
 <li><a href='#d3d9stuff'>D3D9 Stuff</a></li>
 <li><a href='#other_symbols'>Other symbols</a></li>
 </ul>
-<p><small><a href='#index'>Index</a></small></p>
+<p style='text-align:right'><small><a href='#index'>Index</a></small></p>
 </div>
 <div><h2 id="displaysettings">Display settings <a href='#displaysettings'>#</a></h2>
 <p>Display settings get saved in the windows registry. See <a href='#registry'>Registry</a>.
@@ -391,7 +391,7 @@ pre.ida span.hi {
 <li><a href='funcs.html#5BE870'>SetPresetDisplayLevelFromLevelOfDetail</a></li>
 <li><a href='funcs.html#5BE9F0'>SetPresetDisplayLevelFromLevelOfDetailAndLimit</a></li>
 </ul>
-<p><small><a href='#index'>Index</a></small></p>
+<p style='text-align:right'><small><a href='#index'>Index</a></small></p>
 </div>
 <div><h2 id="registry">Registry <a href='#registry'>#</a></h2>
 <p>Many values (mainly display settings) are loaded/saved in procs <a href='funcs.html#5BEA20'>LoadRegistrySettings</a> and <a href='funcs.html#5BEEA0'>SaveRegistrySettings</a>.
@@ -478,7 +478,7 @@ information and associated data. See <a href='#language_metadata'>Language metad
 <li><a href='funcs.html#5BEA20'>LoadRegistrySettings</a></li>
 <li><a href='funcs.html#5BEEA0'>SaveRegistrySettings</a></li>
 </ul>
-<p><small><a href='#index'>Index</a></small></p>
+<p style='text-align:right'><small><a href='#index'>Index</a></small></p>
 </div>
 <div><h2 id="gameregion">Game region <a href='#gameregion'>#</a></h2>
 <p>List by <a href='funcs.html#571380'>GetCountryCode</a>:
@@ -527,7 +527,7 @@ information and associated data. See <a href='#language_metadata'>Language metad
 <li><a href='funcs.html#571380'>GetCountryCode</a></li>
 <li><a href='funcs.html#5B7C40'>OpenPatchesWebsite</a></li>
 </ul>
-<p><small><a href='#index'>Index</a></small></p>
+<p style='text-align:right'><small><a href='#index'>Index</a></small></p>
 </div>
 <div><h2 id="bindata">Bin data <a href='#bindata'>#</a></h2>
 <p>Lots of data is in <code>.bin</code> files. These files can contain multiple <a href='structs.html#struc_BinSection'>struct BinSection</a> entries.
@@ -713,7 +713,7 @@ for example the data of section with magic <code>80034147</code> contains more s
 <li><a href='funcs.html#77E8B0'>init_function_77E8B0_registerBinSectionHandler80034100</a></li>
 <li><a href='funcs.html#77E8D0'>init_function_77E8D0_registerBinSectionHandler34107</a></li>
 </ul>
-<p><small><a href='#index'>Index</a></small></p>
+<p style='text-align:right'><small><a href='#index'>Index</a></small></p>
 </div>
 <div><h2 id="language">Language <a href='#language'>#</a></h2>
 <p>There seems to be no way to change the language, except for changing the value
@@ -863,7 +863,7 @@ Eventually something is called with string <code>LanguageMemoryPool</code>.
 <li><a href='funcs.html#4FF680'>LoadLanguageSomething</a></li>
 <li><a href='funcs.html#512520'>LoadLanguageAtBoot</a></li>
 </ul>
-<p><small><a href='#index'>Index</a></small></p>
+<p style='text-align:right'><small><a href='#index'>Index</a></small></p>
 </div>
 <div><p id='language_files'><small># <a href='#language'>Language</a> &gt; Language files</small></p>
 <h3>Language files <a href='#language_files'>#</a></h3>
@@ -908,7 +908,7 @@ The original labels are also stored as a language file in <code>LANGUAGES/Labels
 <li><a href='funcs.html#52CD00'>LoadLanguageFontBinSection30201</a></li>
 <li><a href='funcs.html#537290'>UnloadLanguageFontBinSection30201</a></li>
 </ul>
-<p><small><a href='#index'>Index</a></small></p>
+<p style='text-align:right'><small><a href='#index'>Index</a></small></p>
 </div>
 </div><div><h2 id="pools">Pools <a href='#pools'>#</a></h2>
 <p>I hooked <a href='funcs.html#440B40'>AllocateAndInitPool</a> and collected some output: <a href='dumps/createpoollog.txt'>createpoollog.txt</a> (10KB)
@@ -964,7 +964,7 @@ of the main pool.
 <li><a href='funcs.html#57ED10'>??SetupPools</a></li>
 <li><a href='funcs.html#5EA8B0'>isUseMetricSystem</a></li>
 </ul>
-<p><small><a href='#index'>Index</a></small></p>
+<p style='text-align:right'><small><a href='#index'>Index</a></small></p>
 </div>
 <div><h2 id="speedyboot">Speedy boot <a href='#speedyboot'>#</a></h2>
 <p><em>I want a fast startup because I'm booting the game so many times
@@ -1036,7 +1036,7 @@ movies end.)
 work), <code>MC_Background</code> (so I can load a profile at start) and
 <code>UI_Main</code> (obviously). Then also write <code>1</code> to <a href='vars.html#836494'>canUseQToExit</a>.
 Code in <code><a class='ext' href='https://github.com/yugecin/nfsu2-re/blob/master/nfsu2-re-hooks/speedyboot.c'>nfsu2-re-hooks/speedyboot.c</a></code>.
-</p><p><small><a href='#index'>Index</a></small></p>
+</p><p style='text-align:right'><small><a href='#index'>Index</a></small></p>
 </div>
 <div><h2 id="consoleleftover">Console leftovers <a href='#consoleleftover'>#</a></h2>
 <p><em>Note: console as in somewhere you type in, not a videogame console</em>
@@ -1088,7 +1088,7 @@ if <a href='vars.html#80057E'>consoleDisallowSpecialChars</a> is zero, <code>_</
 <p>At the end of looking if a character is valid, when it hasn't passed any of the criteria
 above, it checks one last function if <a href='vars.html#8709C7'>consoleFilterSpecialChars</a> is <code>1</code>. The function
 seems to check if the key is one of 55 configured values and if so, the char is accepted.
-</p><p><small><a href='#index'>Index</a></small></p>
+</p><p style='text-align:right'><small><a href='#index'>Index</a></small></p>
 </div>
 </div><div><p id='console_move_caret'><small># <a href='#consoleleftover'>Console leftovers</a> &gt; ConsoleMoveCaret</small></p>
 <h3>ConsoleMoveCaret <a href='#console_move_caret'>#</a></h3>
@@ -1102,7 +1102,7 @@ of the event:
 </li><li><code>VK_END</code>: <code><a href='vars.html#8709C0'>consoleTextStringMaxLength</a></code>
 </li></ul>
 <p>This is the only other function that checks if <a href='vars.html#8709BC'>consoleEnabledFlag</a> is non-zero.
-</p><p><small><a href='#index'>Index</a></small></p>
+</p><p style='text-align:right'><small><a href='#index'>Index</a></small></p>
 </div>
 <p><small># <a href='#consoleleftover'>Console leftovers</a> (continuation)</small></p>
 <p><strong>Symbols:</strong></p>
@@ -1120,7 +1120,7 @@ of the event:
 <li><a href='funcs.html#5BF260'>ConsoleIsArgOneOfTheseHardcodedValues</a></li>
 <li><a href='funcs.html#5BF3A0'>ConsoleMoveCaret</a></li>
 </ul>
-<p><small><a href='#index'>Index</a></small></p>
+<p style='text-align:right'><small><a href='#index'>Index</a></small></p>
 </div>
 <div><h2 id="hashfuncs">Hash functions <a href='#hashfuncs'>#</a></h2>
 <p>While scrolling and looking at references to some strings, I found some parts that look like
@@ -1258,7 +1258,7 @@ Replacing the taxi with the ambulance just lags out the game whenever a taxi com
 </p><p>Check the function <code>SomeHashCS43DB50Print</code> in the file
 <code><a class='ext' href='https://github.com/yugecin/nfsu2-re/blob/master/nfsu2-re-hooks/hook-43DB50-hash-cs.c'>nfsu2-re-hooks/hook-43DB50-hash-cs.c</a></code> to see how I did this,
 the code to replace cars is in comments.
-</p><p><small><a href='#index'>Index</a></small></p>
+</p><p style='text-align:right'><small><a href='#index'>Index</a></small></p>
 </div>
 <p><small># <a href='#hashfuncs'>Hash functions</a> (continuation)</small></p>
 <p><strong>Symbols:</strong></p>
@@ -1269,7 +1269,7 @@ the code to replace cars is in comments.
 <li><a href='funcs.html#50B990'>FormatWithSinglePlaceholderAndHashCS43DB50</a></li>
 <li><a href='funcs.html#50B9C0'>FormatWithSinglePlaceholderAndHashCI</a></li>
 </ul>
-<p><small><a href='#index'>Index</a></small></p>
+<p style='text-align:right'><small><a href='#index'>Index</a></small></p>
 </div>
 <div><h2 id="debugprint">Debug print <a href='#debugprint'>#</a></h2>
 <p>While scrolling through the data segment, I found these interesting strings:
@@ -1330,7 +1330,7 @@ package[GenericDialog_SMALL.fng] will unload
 </pre>
 <p>Most of the messages seem to be about dialogs, joy (keyboard) events,
 FEng/fng packages (I'm guessing those are ui resources/designs?).
-</p><p><small><a href='#index'>Index</a></small></p>
+</p><p style='text-align:right'><small><a href='#index'>Index</a></small></p>
 </div>
 <div><h2 id="ui">UI <a href='#ui'>#</a></h2>
 <p>Names with <code>.FNG</code> seem to be occuring a lot, it seems like that are UI
@@ -1409,7 +1409,7 @@ here's <code>UI_OLEAMessenger.fng</code>:
 </p><p class='imgholder'><img src="img/dialogoleamessenger.jpg" alt="online messenger menu with placeholder text"/><br/>No idea why that text is .. Spanish?</p>
 <p>Printing the dialog info struct address sadly showed that it wasn't stored in the
 executable itself so it's probably somewhere deep in a bin file.
-</p><p><small><a href='#index'>Index</a></small></p>
+</p><p style='text-align:right'><small><a href='#index'>Index</a></small></p>
 </div>
 <p><small># <a href='#ui'>UI</a> &gt; <a href='#ui_dialog'>Dialogs</a> (continuation)</small></p>
 <p><a href='structs.html#struc_DialogInfo'>struct DialogInfo</a> was made by looking at all of the above and more.
@@ -1445,7 +1445,7 @@ executable itself so it's probably somewhere deep in a bin file.
 <li><a href='funcs.html#558A20'>ShowThreeButtonEscapableFormattedLanguageDialog31C</a></li>
 <li><a href='funcs.html#558AC0'>ShowHelpDialog</a></li>
 </ul>
-<p><small><a href='#index'>Index</a></small></p>
+<p style='text-align:right'><small><a href='#index'>Index</a></small></p>
 </div>
 <div><p id='fngthings'><small># <a href='#ui'>UI</a> &gt; FNG things</small></p>
 <h3>FNG things <a href='#fngthings'>#</a></h3>
@@ -2612,7 +2612,7 @@ TODO:
 <li><a href='funcs.html#55DBD0'>UIHandleKey</a></li>
 <li><a href='funcs.html#55DC20'>SomethingUI::SendSomethingToFNG</a></li>
 </ul>
-<p><small><a href='#index'>Index</a></small></p>
+<p style='text-align:right'><small><a href='#index'>Index</a></small></p>
 </div>
 <div><p id='some_fng_screens'><small># <a href='#ui'>UI</a> &gt; Some FNG screens</small></p>
 <h3>Some FNG screens <a href='#some_fng_screens'>#</a></h3>
@@ -2635,7 +2635,7 @@ strcpy((char*) 0x790734, "loading_boot.fng");
 <p>It seems unused, so I guess it's fine. That made me wonder if that one could be used as loading
 screen, maybe it shows tips? But when trying it just shows a black screen. Maybe it's a cut
 feature?
-</p><p><small><a href='#index'>Index</a></small></p>
+</p><p style='text-align:right'><small><a href='#index'>Index</a></small></p>
 </div>
 <p><small># <a href='#ui'>UI</a> &gt; <a href='#some_fng_screens'>Some FNG screens</a> (continuation)</small></p>
 <details><summary><code>UI_DebugTest.fng</code></summary><p class='center'><img src="img/UI_DEBUGTEST.JPG" alt="pulsing text and different colored circles"/></p></details>
@@ -2644,7 +2644,7 @@ feature?
 <details><summary><code>UI_OL_Feedback.fng</code></summary><p class='center'><img src="img/UI_OL_FEEDBACK.JPG" alt="online player feedback menu"/></p></details>
 <details><summary><code>UI_OL_FriendDialogue.fng</code></summary><p class='center'><img src="img/UI_OL_FRIENDDIALOGUE.JPG" alt="online friend dialogue"/></p></details>
 <details><summary><code>UI_OL_Voice_Chat.fng</code></summary><p class='center'><img src="img/UI_OL_VOICE_CHAT.JPG" alt="online voice chat"/></p></details>
-<p><small><a href='#index'>Index</a></small></p>
+<p style='text-align:right'><small><a href='#index'>Index</a></small></p>
 </div>
 <div><p id='screenprintf'><small># <a href='#ui'>UI</a> &gt; ScreenPrintf.fng</small></p>
 <h3>ScreenPrintf.fng <a href='#screenprintf'>#</a></h3>
@@ -3114,7 +3114,7 @@ that flag <code>2</code> means it should be visible, so I tried adding that.
 <p class='imgholder'><img src="img/SCREENPRINTF_2.JPG" alt="custom strings"/><br/>Nice.</p>
 <p>A quick search of all the label hashes did not give any result, so it seems like there is no code left in the program
 where it would set any of the labels' text.
-</p><p><small><a href='#index'>Index</a></small></p>
+</p><p style='text-align:right'><small><a href='#index'>Index</a></small></p>
 </div>
 <div><p id='pc_help_bar'><small># <a href='#ui'>UI</a> &gt; PC help bar</small></p>
 <h3>PC help bar <a href='#pc_help_bar'>#</a></h3>
@@ -3144,7 +3144,7 @@ masks. The lowest matching mask gets placed on button1, and so on.
 <li><a href='funcs.html#55DE00'>PCHelpBarFNGObject::OnPrimaryCursorJustPressed</a></li>
 <li><a href='funcs.html#55DFA0'>PCHelpBarFNGObject::MessageHandler</a></li>
 </ul>
-<p><small><a href='#index'>Index</a></small></p>
+<p style='text-align:right'><small><a href='#index'>Index</a></small></p>
 </div>
 <p><small># <a href='#ui'>UI</a> (continuation)</small></p>
 <p>UI keys seem to be hashed with the case insensitive hash.
@@ -3208,7 +3208,7 @@ masks. The lowest matching mask gets placed on button1, and so on.
 <li><a href='funcs.html#537BE0'>SetNullableUILabelFormattedStringAndMakeVisible</a></li>
 <li><a href='funcs.html#5663B0'>DoUI</a></li>
 </ul>
-<p><small><a href='#index'>Index</a></small></p>
+<p style='text-align:right'><small><a href='#index'>Index</a></small></p>
 </div>
 <div><h2 id="input">Input <a href='#input'>#</a></h2>
 <div><p id='mouseinput'><small># <a href='#input'>Input</a> &gt; Mouse input</small></p>
@@ -3231,7 +3231,7 @@ as <code>([-320,+320],[-240,+240])</code>.
 <li><a href='funcs.html#5BF940'>MouseData::HaveCursorActivity</a></li>
 <li><a href='funcs.html#5C8600'>MouseData::ctor</a></li>
 </ul>
-<p><small><a href='#index'>Index</a></small></p>
+<p style='text-align:right'><small><a href='#index'>Index</a></small></p>
 </div>
 <div><p id='joyinput'><small># <a href='#input'>Input</a> &gt; Key (Joy) input</small></p>
 <h3>Key (Joy) input <a href='#joyinput'>#</a></h3>
@@ -3246,7 +3246,7 @@ to this key), makes it so the player's car starts driving like an AI car. Exampl
 <li><a href='vars.html#7FABA8'>joyKeyData</a></li>
 <li><a href='funcs.html#571AD0'>GetJoyIdFromName</a></li>
 </ul>
-<p><small><a href='#index'>Index</a></small></p>
+<p style='text-align:right'><small><a href='#index'>Index</a></small></p>
 </div>
 </div><div><h2 id="cheats">Cheats <a href='#cheats'>#</a></h2>
 <p>Cheats can only be inserted at the 'press enter key' screen at boot. (I remember
@@ -3358,7 +3358,7 @@ void __thiscall <a href='funcs.html#575770'>CheatScreenData::InitCheats?</a>(<a 
 <li><a href='funcs.html#579CB0'>CheatScreenData::CheatMatched</a></li>
 <li><a href='funcs.html#57B8B0'>CheatScreenData::CheatCheck</a></li>
 </ul>
-<p><small><a href='#index'>Index</a></small></p>
+<p style='text-align:right'><small><a href='#index'>Index</a></small></p>
 </div>
 <div><h2 id="carmodeldata">Car model data <a href='#carmodeldata'>#</a></h2>
 <p>When jumping around XREFs I stumbled upon a function that I named <a href='funcs.html#511E60'>GetLogoHashForCarModel</a>.
@@ -3440,7 +3440,7 @@ car 45: HATCHBACK02 HATCHBACK02 GENERIC
 <li><a href='funcs.html#5120B0'>GetTranslatedCarName</a></li>
 <li><a href='funcs.html#610170'>Car::GetManufacturerName</a></li>
 </ul>
-<p><small><a href='#index'>Index</a></small></p>
+<p style='text-align:right'><small><a href='#index'>Index</a></small></p>
 </div>
 <div><h2 id="sound">Sound <a href='#sound'>#</a></h2>
 <p><strong>Symbols:</strong></p>
@@ -3451,7 +3451,7 @@ car 45: HATCHBACK02 HATCHBACK02 GENERIC
 <li><a href='funcs.html#51DE60'>PlayUISoundEffect</a></li>
 <li><a href='funcs.html#528370'>PlaySound528370</a></li>
 </ul>
-<p><small><a href='#index'>Index</a></small></p>
+<p style='text-align:right'><small><a href='#index'>Index</a></small></p>
 </div>
 <div><h2 id="career">Career <a href='#career'>#</a></h2>
 <p><a href='vars.html#83648C'>loadIntoCareerImmediately?</a> is a weird variable. It changes the boot process so when <code>UI_Main.fng</code> is loaded,
@@ -3492,7 +3492,7 @@ of the array of index 20 is, it does not point to an array of markers itself.
 <li><a href='funcs.html#5D9A90'>PathsData::ReadFromBinData</a></li>
 <li><a href='funcs.html#5D9BF0'>PathsData::FindMarkerAtPosWithTypeAfterIndex</a></li>
 </ul>
-<p><small><a href='#index'>Index</a></small></p>
+<p style='text-align:right'><small><a href='#index'>Index</a></small></p>
 </div>
 <div><p id='sms_stuff'><small># <a href='#career'>Career</a> &gt; SMS stuff</small></p>
 <h3>SMS stuff <a href='#sms_stuff'>#</a></h3>
@@ -3541,7 +3541,7 @@ which is in file <code>GLOBAL/GLOBALB.BUN</code>).
 <li><a href='funcs.html#533890'>SmsMessageList::SendMessageByHash</a></li>
 <li><a href='funcs.html#5338C0'>SmsMessageList::SendMagOrUnlockMessage</a></li>
 </ul>
-<p><small><a href='#index'>Index</a></small></p>
+<p style='text-align:right'><small><a href='#index'>Index</a></small></p>
 </div>
 <p><small># <a href='#career'>Career</a> (continuation)</small></p>
 <p><strong>Symbols:</strong></p>
@@ -3562,7 +3562,7 @@ which is in file <code>GLOBAL/GLOBALB.BUN</code>).
 <li><a href='funcs.html#532830'>MaybeStartCareer?</a></li>
 <li><a href='funcs.html#532D40'>CareerData::EngageTipMarkerHit</a></li>
 </ul>
-<p><small><a href='#index'>Index</a></small></p>
+<p style='text-align:right'><small><a href='#index'>Index</a></small></p>
 </div>
 <div><h2 id="networkstuff">LAN/OL <a href='#networkstuff'>#</a></h2>
 <p><strong>Symbols:</strong></p>
@@ -3575,7 +3575,7 @@ which is in file <code>GLOBAL/GLOBALB.BUN</code>).
 <li><a href='funcs.html#74A2D0'>CloseSocketWrapper</a></li>
 <li><a href='funcs.html#74A380'>BindWrapper</a></li>
 </ul>
-<p><small><a href='#index'>Index</a></small></p>
+<p style='text-align:right'><small><a href='#index'>Index</a></small></p>
 </div>
 <div><h2 id="d3d9stuff">D3D9 Stuff <a href='#d3d9stuff'>#</a></h2>
 <p><strong>Symbols:</strong></p>
@@ -3585,7 +3585,7 @@ which is in file <code>GLOBAL/GLOBALB.BUN</code>).
 <li><a href='vars.html#870974'>_IDirect3DDevice9ptr</a></li>
 <li><a href='vars.html#8709AC'>_displayAdapter</a></li>
 </ul>
-<p><small><a href='#index'>Index</a></small></p>
+<p style='text-align:right'><small><a href='#index'>Index</a></small></p>
 </div>
 <div><h2 id="other_symbols">Other symbols <a href='#other_symbols'>#</a></h2>
 <pre class='ida'>
@@ -3652,7 +3652,7 @@ which is in file <code>GLOBAL/GLOBALB.BUN</code>).
 <li><a href='funcs.html#5B7A70'>LoadPaths?</a></li>
 <li><a href='funcs.html#5CCD60'>MainWndProc</a></li>
 </ul>
-<p><small><a href='#index'>Index</a></small></p>
+<p style='text-align:right'><small><a href='#index'>Index</a></small></p>
 </div>
 
 </div></body></html>
