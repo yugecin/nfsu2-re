@@ -529,6 +529,7 @@ parse_chartype_token:
 				handle it as one token.*/
 				tmp_str_ptr = idcp->token_str_pool_ptr - 1; /*-1 to remove last zero term*/
 				idcp->token_str_pool_ptr--; /*because we just removed the last zero term*/
+				token = idcp->tokens + idcp->num_tokens;
 			} else {
 				token = idcp_get_next_token(idcp);
 				token->type = IDCP_TOKENTYPE_STRING;

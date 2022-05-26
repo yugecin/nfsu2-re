@@ -390,8 +390,8 @@ int mmpextras_cb_mode_ul_println(struct mmparse *mm)
 
 	offset = 0;
 	ud = mmpextras_get_userdata(mm);
+	line = mm->pd.line;
 	if (mm->pd.line_len) {
-		line = mm->pd.line;
 		len = mm->pd.line_len;
 		line[len++] = '\n';
 		while (*line == ' ' && len) {
@@ -474,6 +474,7 @@ int mmpextras_cb_mode_paragraphed_println(struct mmparse *mm)
 	char is_empty_line;
 	char extra_offset;
 
+	extra_offset = 0;
 	ud = mmpextras_get_userdata(mm);
 	is_empty_line = !mm->pd.line_len;
 	if (is_empty_line) {
