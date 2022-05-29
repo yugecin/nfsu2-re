@@ -89,6 +89,7 @@ static void stub() {}
 
 //#include "debug-custom-dump-markers.c"
 //#include "debug-custom-dump-smsdata.c"
+//#include "debug-custom-endoutrun.c"
 //#include "debug-custom-find-nearest-marker.c"
 //#include "debug-custom-markers-debug.c"
 //#include "debug-custom-uielementvisitor.c"
@@ -103,7 +104,7 @@ static void stub() {}
 BOOL APIENTRY DllMain(HMODULE hModule, DWORD reason_for_call, LPVOID lpResrvd)
 {
 	DWORD oldvp;
-	
+
 	if (reason_for_call == DLL_PROCESS_ATTACH) {
 		base = (int) GetModuleHandle(NULL);
 		VirtualProtect((LPVOID) base, 280000, PAGE_EXECUTE_READWRITE, &oldvp);

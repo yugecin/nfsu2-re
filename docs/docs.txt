@@ -576,10 +576,10 @@ When it's not found the game will segfault because of the code below:
 .text:004FF6A6                 mov     ecx, [edx+{0Ch}]                                         ||| num
 .popmode ida
 
-Then {{struct LanguageFileData}.{struct LanguageFileData+C}} is read.                           ||| code,ref,ref
+Then {{struct LanguageFileData.C}} is read.                                                     ||| code,ref
 Its {{struct LanguageFontData+0}[0]} value is read and then a                                   ||| code,ref
 matching entry in {7F6DE8} is searched.                                                         ||| ref
-More stuff is read is a loop and reset and I lost track.
+More stuff is read in a loop and reset and I lost track.
 Eventually something is called with string {LanguageMemoryPool}.                                ||| code
 
 .pushmode ida
@@ -1177,7 +1177,9 @@ kind of element it is. Currently I have:
 - type 2: {struct UILabel}: shows text                                                          ||| ref
 - type 3-4: ?
 - type 5: {struct UIContainer}: groups child ui elements                                        ||| ref
-- type 6-11: ?
+- type 6: ?
+- type 7: movie (like the THX logo, EA logo, intro etc)
+- type 8-11: ?
 .popmode ul
 
 All UI elements are addressable by the hash (see {hashfuncs}) of its name (stored in its field  ||| href
@@ -2461,6 +2463,7 @@ TODO:
 - 50C550
 - 50CE30
 - 519E50
+- 51CBA0
 - 51CCD0
 - 52C390
 - 52C3A0
@@ -3076,6 +3079,7 @@ UI keys seem to be hashed with the case insensitive hash.
 - 5048F0
 - 50B460
 - 50C900
+- 50C990
 - 50CA00
 - 50CA50
 - 50CD00
@@ -3083,6 +3087,7 @@ UI keys seem to be hashed with the case insensitive hash.
 - 517FE0
 - 51CF70
 - 51CFE0
+- 51D040
 - 51D070
 - 51D170
 - 51D9F0
@@ -3098,6 +3103,7 @@ UI keys seem to be hashed with the case insensitive hash.
 - 537B30
 - 537B80
 - 542600
+- 537690
 - 537BE0
 - 5663B0
 .popmode symbols
@@ -3169,7 +3175,7 @@ career yet.
 [865130] = 1000;                                                                                ||| ref
 // ^ used when starting a new career from a profile that
 // was loaded from the profile menu
-if (![86347C])  {                                                                               ||| ref
+if (![85AD40.873C])  {                                                                          ||| ref
 	if ([500F90]() == 0)  {                                                                 ||| ref
 		[500F80](1000);                                                                 ||| ref
 		// ^ This only has an effect when the profile was
@@ -3417,11 +3423,13 @@ See {markerdump.txt} for a data dump as made by {nfsu2-re-hooks/debug-custom-dum
 - 800C38
 - 883D9C
 - 43D890
+- 4FFC50
 - 5283C0
 - 5D3DE0
 - 5D5630
 - 5D9A90
 - 5D9BF0
+- 5D9C70
 .popmode symbols
 
 .popmode section
@@ -3442,7 +3450,7 @@ which is in file {GLOBAL/GLOBALB.BUN}).                                         
 - 83632C
 - 838450
 - 838454
-- 860A60
+- 85AD40.5D20
 - 4976B0
 - 497760
 - 4977C0
@@ -3467,6 +3475,7 @@ which is in file {GLOBAL/GLOBALB.BUN}).                                         
 - 5295F0
 - 529670
 - 529860
+- 529920
 - 5299B0
 - 529B50
 - 529BD0
@@ -3478,13 +3487,15 @@ which is in file {GLOBAL/GLOBALB.BUN}).                                         
 .popmode section
 
 .pushmode symbols
-- struct CareerData
+- struct Career
+- struct CareerSponsor
+- struct CareerStage
+- struct CareerStageSettings
+- struct CareerStats
 - 83648C
 - 83840C
 - 838428
-- 86347C
 - 85AD40
-- 862838
 - 495D30
 - 500F90
 - 500180

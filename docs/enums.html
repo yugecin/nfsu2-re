@@ -253,11 +253,12 @@ pre.ida span.hi {
 <a href='cheatsheet.html'>cheatsheet</a></nav>
 </header>
 <div class='enum'>
-<h2>Enums (43)</h2>
+<h2>Enums (44)</h2>
 <ul>
 <li><a href='#enu___MIDL___MIDL_itf_searchapi_0000_0025_0001'>__MIDL___MIDL_itf_searchapi_0000_0025_0001</a></li>
 <li><a href='#enu__D3DFORMAT'>_D3DFORMAT</a></li>
 <li><a href='#enu_CHEATTYPE'>CHEATTYPE</a></li>
+<li><a href='#enu_COMMON_HASHES'>COMMON_HASHES</a></li>
 <li><a href='#enu_D3DCAPS3'>D3DCAPS3</a></li>
 <li><a href='#enu_D3DCLEAR'>D3DCLEAR</a></li>
 <li><a href='#enu_D3DCREATE'>D3DCREATE</a></li>
@@ -321,6 +322,9 @@ pre.ida span.hi {
 <span class='mm'>/**sponsor cars show up when doing quick race*/</span>
 	CHEAT_TYPE_SPONSOR_CAR = 0x6,
 	CHEAT_TYPE_SPONSOR_VINYL = 0x7,
+};</div>
+<div id='enu_COMMON_HASHES'>enum <h3>COMMON_HASHES</h3> { <i>/*1 members*/</i>
+	DDAY_EVENT_A = 0xDD60E402,
 };</div>
 <div id='enu_D3DCAPS3'>enum <h3>D3DCAPS3</h3> { <i>/*6 members*/</i>
 	D3DCAPS3_ALPHA_FULLSCREEN_FLIP_OR_DISCARD = 0x20,
@@ -5327,10 +5331,13 @@ pre.ida span.hi {
 	MAILBOX_RACHEL = 0x4,
 	MAILBOX_UNLOCKS = 0x5,
 };</div>
-<div id='enu_MARKER_TYPE'>enum <h3>MARKER_TYPE</h3> { <i>/*4 members*/</i>
+<div id='enu_MARKER_TYPE'>enum <h3>MARKER_TYPE</h3> { <i>/*7 members*/</i>
 <span class='mm'>/**marks the entrance, ie where the road goes into private property, not the entrance aura itself.
 Maybe this is used as the "discover" hitmarker (ie the map icon will show from the first time you hit this marker)?*/</span>
 	MARKER_TYPE_BODYSHOP_AREA = 0x4,
+<i id='enu_MARKER_TYPED'></i>	MARKER_TYPE_D = 0xD,
+<i id='enu_MARKER_TYPEE'></i>	MARKER_TYPE_E = 0xE,
+<i id='enu_MARKER_TYPEF'></i>	MARKER_TYPE_F = 0xF,
 	MARKER_TYPE_NEIGHBOURHOOD = 0x11,
 <i id='enu_MARKER_TYPE12'></i>	MARKER_TYPE_ENGAGE_TIP = 0x12,
 	MARKER_TYPE_MONEY_PICKUP = 0x13,
@@ -5419,7 +5426,7 @@ else
 <span class='mm'>/**used in <a href='funcs.html#440D40'>Pool::GetNextFreeItem</a> etc*/</span>
 	POOL_FLAG_DONT_ZERO_INIT = 0x2,
 };</div>
-<div id='enu_SMS_TYPE'>enum <h3>SMS_TYPE</h3> { <i>/*12 members*/</i>
+<div id='enu_SMS_TYPE'>enum <h3>SMS_TYPE</h3> { <i>/*13 members*/</i>
 <span class='mm'>/**1 msg:
 - SMS_END_OF_GAME_MESSAGE*/</span>
 	SMS_TYPE_END_OF_GAME = 0x1,
@@ -5443,6 +5450,8 @@ else
 <i id='enu_SMS_TYPE6'></i><span class='mm'>/**1 msg:
 - SMS_OUTRUN_DEFEAT*/</span>
 	SMS_TYPE_OUTRUN_DEFEAT = 0x6,
+<span class='mm'>/**unknown, not present?*/</span>
+	SMS_TYPE_7 = 0x7,
 <span class='mm'>/**5 part unlock msgs*/</span>
 	SMS_TYPE_UNLOCK_9 = 0x9,
 <span class='mm'>/**part unlock/car unlock msgs + 3 region unlock msgs:
@@ -5460,7 +5469,7 @@ TODO: where/how is this actually used? no refs yet, and all of these's subjects/
 	SMS_TYPE_MAGS_AND_UNIQUES = 0xD,
 <i id='enu_SMS_TYPEE'></i><span class='mm'>/**10 dvd cover msgs*/</span>
 	SMS_TYPE_DVD_COVER = 0xE,
-<i id='enu_SMS_TYPEF'></i><span class='mm'>/**42 tip msgs, from the ingame markers you have to drive through*/</span>
+<span class='mm'>/**42 tip msgs, from the ingame markers you have to drive through*/</span>
 	SMS_TYPE_ENGAGE_TIP = 0xF,
 };</div>
 <div id='enu_TEXTBOXTYPE'>enum <h3>TEXTBOXTYPE</h3> { <i>/*5 members*/</i>
@@ -5523,7 +5532,7 @@ TODO: where/how is this actually used? no refs yet, and all of these's subjects/
 <i id='enu_UIELEMENTFLAGS2'></i><span class='mm'>/**if present on a <a href='structs.html#struc_UILabel'>struct UILabel</a>'s <a href='structs.html#struc_UIElement1C'>flags</a>, its <a href='structs.html#struc_UILabel64'>customString</a> will be used to display text instead of its <a href='structs.html#struc_UILabel60'>textLanguageString</a>*/</span>
 	USE_CUSTOM_TEXT = 0x2,
 	CLICKABLE? = 0x10,
-	NEED_UPDATE_0 = 0x400000,
+<i id='enu_UIELEMENTFLAGS400000'></i>	NEED_UPDATE_0 = 0x400000,
 	NEED_UPDATE_1 = 0x1000000,
 	NEED_UPDATE_2 = 0x2000000,
 };</div>

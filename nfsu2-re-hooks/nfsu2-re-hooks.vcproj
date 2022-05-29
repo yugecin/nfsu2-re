@@ -263,6 +263,18 @@
 			</FileConfiguration>
 		</File>
 		<File
+			RelativePath=".\debug-custom-endoutrun.c"
+			>
+			<FileConfiguration
+				Name="Debug|Win32"
+				ExcludedFromBuild="true"
+				>
+				<Tool
+					Name="VCCLCompilerTool"
+				/>
+			</FileConfiguration>
+		</File>
+		<File
 			RelativePath=".\debug-custom-find-nearest-marker.c"
 			>
 			<FileConfiguration

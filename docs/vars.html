@@ -253,7 +253,7 @@ pre.ida span.hi {
 <a href='cheatsheet.html'>cheatsheet</a></nav>
 </header>
 <div class='var'>
-<h2>Variables (915)</h2>
+<h2>Variables (923)</h2>
 <ul>
 <li><a href='#5CCFFC'>WndProcMsgJumpTable</a></li>
 <li><a href='#5CD010'>WndProcMsgJumpTableTable</a></li>
@@ -623,9 +623,10 @@ pre.ida span.hi {
 <li><a href='#794F9C'>vtable_OLChallengeFNGObject</a></li>
 <li><a href='#794FE8'>vtable_PCLANFNGObject</a></li>
 <li><a href='#7950D8'>vtable_PostRaceRewardFNGObject</a></li>
+<li><a href='#79547C'>vtable_SponsorIconScrollerIcon</a></li>
 <li><a href='#7954C0'>vtable_GarageMainFNGObject</a></li>
 <li><a href='#7959C4'>vtable_DiscErrorPCFngObject</a></li>
-<li><a href='#795CB0'>vtable_SmsListEntry</a></li>
+<li><a href='#795CB0'>vtable_dtorOnly</a></li>
 <li><a href='#795CB4'>unknown_795CB4</a></li>
 <li><a href='#795CBC'>vtable_IconScroller_base</a></li>
 <li><a href='#795CF0'>vtable_CareerCarLotFNGObject</a></li>
@@ -708,6 +709,7 @@ pre.ida span.hi {
 <li><a href='#79B2EC'>aFade_in</a></li>
 <li><a href='#79B2F8'>vtableControllerOptionsRelatedDefaultData</a></li>
 <li><a href='#79B338'>vtableControllerOptionsRelatedDefaultName</a></li>
+<li><a href='#79B4D8'>vtable_IconScrollerIcon</a></li>
 <li><a href='#79B910'>vtable_somethingui</a></li>
 <li><a href='#79BA14'>vtable_IcePartsOverlayFNGObject</a></li>
 <li><a href='#79BCD8'>vtable_UIData</a></li>
@@ -885,6 +887,7 @@ pre.ida span.hi {
 <li><a href='#8358F4'>a</a></li>
 <li><a href='#835980'>downloadingHttpCommandString</a></li>
 <li><a href='#835BB8'>wcharLoadedProfileName</a></li>
+<li><a href='#835C00'>careerStats</a></li>
 <li><a href='#83632C'>smsOpenType</a></li>
 <li><a href='#836370'>ol836370</a></li>
 <li><a href='#836480'>loadingTipsFNGObject</a></li>
@@ -892,6 +895,7 @@ pre.ida span.hi {
 <li><a href='#83648C'>loadIntoCareerImmediately?</a></li>
 <li><a href='#836494'>canUseQToExit</a></li>
 <li><a href='#836498'>struct836498</a></li>
+<li><a href='#836520'>currentFNGName</a></li>
 <li><a href='#837B60'>languageString</a></li>
 <li><a href='#837FE0'>soundIdBanks</a></li>
 <li><a href='#8383A4'>struct8383A4</a></li>
@@ -902,8 +906,14 @@ pre.ida span.hi {
 <li><a href='#8383D0'>loadedLanguage</a></li>
 <li><a href='#8383D8'>languageTable</a></li>
 <li><a href='#8383DC'>languageConversionTable</a></li>
+<li><a href='#8383E0'>loadedBinSection34A11</a></li>
+<li><a href='#8383E4'>numEntriesInBinSection34A11Field0</a></li>
 <li><a href='#83840C'>ptr83840C</a></li>
-<li><a href='#838428'>ptr838428</a></li>
+<li><a href='#838410'>numCareerSponsors</a></li>
+<li><a href='#838414'>careerSponsors</a></li>
+<li><a href='#838418'>numCareerStageSettingsEntries</a></li>
+<li><a href='#83841C'>careerStageSettingsEntries</a></li>
+<li><a href='#838428'>careerStringPool838428</a></li>
 <li><a href='#838430'>sound</a></li>
 <li><a href='#838450'>numSmsDatas</a></li>
 <li><a href='#838454'>smsDatas</a></li>
@@ -922,19 +932,15 @@ pre.ida span.hi {
 <li><a href='#838528'>someThingKeyboardInputEAMessengerRelated</a></li>
 <li><a href='#83852C'>idToDismiss</a></li>
 <li><a href='#838530'>skipWcharTable</a></li>
-<li><a href='#838640'>shownDialogInfo</a></li>
+<li><a href='#838640'>shownDialog</a></li>
 <li><a href='#83A7B0'>textboxData</a></li>
 <li><a href='#83A9E0'>loadedProfileName</a></li>
 <li><a href='#83AA1A'>useMetricSystem</a></li>
 <li><a href='#83AD90'>profileData.carCollection0</a></li>
 <li><a href='#8458DC'>profileData.carCollection1</a></li>
 <li><a href='#850078'>someOLState</a></li>
-<li><a href='#85AD40'>careerData</a></li>
-<li><a href='#860A60'>smsMessages</a></li>
-<li><a href='#861E74'>careerDataOld</a></li>
-<li><a href='#862838'>_currentStage</a></li>
-<li><a href='#86347C'>isProfileWithStartedCareerLoaded</a></li>
-<li><a href='#863480'>hashOfCareerSlot</a></li>
+<li><a href='#85036C'>from</a></li>
+<li><a href='#85AD40'>career</a></li>
 <li><a href='#8637B0'>somethingUI</a></li>
 <li><a href='#8641F4'>binSection80034A10loaded</a></li>
 <li><a href='#864F24'>_gameRegion</a></li>
@@ -1100,6 +1106,8 @@ pre.ida span.hi {
 <li><a href='#88F27C'>binSectionHandlerMagicMapEntry34111</a></li>
 <li><a href='#88F298'>pathsData</a></li>
 <li><a href='#88F750'>binSectionHandlerMagicMapEntry34201</a></li>
+<li><a href='#890020'>markers_890020</a></li>
+<li><a href='#8900DC'>pRCQueuedMessageSlotPool</a></li>
 <li><a href='#89011C'>hServerLib</a></li>
 <li><a href='#890120'>_serverdll_StartServer</a></li>
 <li><a href='#890124'>_serverdll_StopServer</a></li>
@@ -1499,7 +1507,7 @@ for an application or device driver
 <div id='7868E8'><i>7868E8</i> int <h3>someXORtable</h3>[250] <u></u></div>
 <div id='786DE0'><i>786DE0</i> int <h3>vtable_786DE0</h3> <u></u></div>
 <div id='78A600'><i>78A600</i> int <h3>vtable_AudioStuff</h3> <u></u></div>
-<div id='78DA30'><i>78DA30</i> float <h3>canvasHeight2</h3></div>
+<div id='78DA30'><i>78DA30</i> float<h3>canvasHeight2</h3></div>
 <div class='mm'>
 <p>Canvas height divided by 2 (240)
 <p></div>
@@ -1610,12 +1618,10 @@ for an application or device driver
 <div id='794F9C'><i>794F9C</i> int <h3>vtable_OLChallengeFNGObject</h3> <u></u></div>
 <div id='794FE8'><i>794FE8</i> int <h3>vtable_PCLANFNGObject</h3> <u></u></div>
 <div id='7950D8'><i>7950D8</i> int <h3>vtable_PostRaceRewardFNGObject</h3> <u></u></div>
+<div id='79547C'><i>79547C</i> int <h3>vtable_SponsorIconScrollerIcon</h3> <u></u></div>
 <div id='7954C0'><i>7954C0</i> int <h3>vtable_GarageMainFNGObject</h3> <u></u></div>
 <div id='7959C4'><i>7959C4</i> int <h3>vtable_DiscErrorPCFngObject</h3> <u></u></div>
-<div id='795CB0'><i>795CB0</i> int <h3>vtable_SmsListEntry</h3> <u></u></div>
-<div class='mm'>
-<p>it's a vtable with only one (dtor/free) func, might be used as a generic vtable??
-<p></div>
+<div id='795CB0'><i>795CB0</i> int <h3>vtable_dtorOnly</h3> <u></u></div>
 <div id='795CB4'><i>795CB4</i> <a href='structs.html#struc_SubScrollingThing$vtable'>struct SubScrollingThing$vtable</a> <h3>unknown_795CB4</h3></div>
 <div id='795CBC'><i>795CBC</i> int <h3>vtable_IconScroller_base</h3> <u></u></div>
 <div id='795CF0'><i>795CF0</i> int <h3>vtable_CareerCarLotFNGObject</h3> <u></u></div>
@@ -1668,20 +1674,23 @@ for an application or device driver
 <div id='797A8C'><i>797A8C</i> int <h3>vtable_PostRaceResultsFNGObject</h3> <u></u></div>
 <div id='797B80'><i>797B80</i> int <h3>vtable_PostRaceTournResultsFNGObject</h3> <u></u></div>
 <div id='797BB4'><i>797BB4</i> int <h3>vtable_SponsorshipnewFNGObject</h3> <u></u></div>
+<div class='mm'>
+<p>parent <a href='vars.html#7974D4'>vtable_IconScrollerFNGObject</a>
+<p></div>
 <div id='797CB0'><i>797CB0</i> int <h3>vtable_PauseFNGObject</h3> <u></u></div>
 <div id='797CCC'><i>797CCC</i> int <h3>vtable_PauseOptionsMainFNGObject</h3> <u></u></div>
 <div id='797CF8'><i>797CF8</i> int <h3>vtable_LSLangSelectFNGObject</h3> <u></u></div>
 <div id='797D14'><i>797D14</i> int <h3>vtable_ProfileManagerFNGObject</h3> <u></u></div>
 <div id='797D30'><i>797D30</i> int <h3>vtable_DeleteprofileFNGObject</h3> <u></u></div>
-<div id='797D50'><i>797D50</i> float <h3>canvasWidth2</h3></div>
+<div id='797D50'><i>797D50</i> float<h3>canvasWidth2</h3></div>
 <div class='mm'>
 <p>Canvas width divided by 2 (320)
 <p></div>
-<div id='797D54'><i>797D54</i> float <h3>canvasHeight480</h3></div>
+<div id='797D54'><i>797D54</i> float<h3>canvasHeight480</h3></div>
 <div class='mm'>
 <p>Canvas height (480)
 <p></div>
-<div id='797D58'><i>797D58</i> float <h3>canvasWidth640</h3></div>
+<div id='797D58'><i>797D58</i> float<h3>canvasWidth640</h3></div>
 <div class='mm'>
 <p>Canvas width (640)
 <p></div>
@@ -1721,6 +1730,7 @@ for an application or device driver
 <p>default vtable for ControllerOptionsRelated see 51DFC0
 <p></div>
 <div id='79B338'><i>79B338</i> int <h3>vtableControllerOptionsRelatedDefaultName</h3> <u></u></div>
+<div id='79B4D8'><i>79B4D8</i> int <h3>vtable_IconScrollerIcon</h3> <u></u></div>
 <div id='79B910'><i>79B910</i> int <h3>vtable_somethingui</h3> <u></u></div>
 <div class='mm'>
 <p>for <a href='vars.html#8637B0'>somethingUI</a>
@@ -1816,7 +1826,7 @@ Some of them are constructors being called.
 <div id='7F6620'><i>7F6620</i> int <h3>bootflowEntries_EU</h3> <u></u></div>
 <div id='7F6DE0'><i>7F6DE0</i> int <h3>nextDialogId</h3> <u></u></div>
 <div class='mm'>
-<p>When <a href='funcs.html#558020'>ShowDialog</a> is called, value is put into <a href='vars.html#838640'>shownDialogInfo</a>.<a href='structs.html#struc_DialogInfo334'>dialogId</a> and incremented.
+<p>When <a href='funcs.html#558020'>ShowDialog</a> is called, value is put into <a href='vars.html#838640'>shownDialog</a>.<a href='structs.html#struc_DialogInfo334'>dialogId</a> and incremented.
 <p></div>
 <div id='7F6DE8'><i>7F6DE8</i> <a href='structs.html#struc_LanguageStruct7F6DE8'>struct LanguageStruct7F6DE8</a> <h3>languageStuff7F6DE8</h3>[15]</div>
 <div id='7F6E60'><i>7F6E60</i> <a href='structs.html#struc_LanguageFontData'>struct LanguageFontData</a> <h3>languageStuff7F6E60</h3></div>
@@ -2108,19 +2118,19 @@ Created by <a href='funcs.html#431580'>CreateAnim_CAnimPartPool</a>
 <p>To make sure <a href='vars.html#827B64'>anim_CAnimPartPool</a> gets created just once, although it seems like only one place creates it.
 <p></div>
 <div id='827C74'><i>827C74</i> <a href='structs.html#struc_PoolEntry'>struct PoolEntry</a> <h3>entry</h3></div>
-<div id='827CB0'><i>827CB0</i> double <h3>halfPiDouble</h3></div>
+<div id='827CB0'><i>827CB0</i> double<h3>halfPiDouble</h3></div>
 <div class='mm'>
 <p>pi/2
 <p></div>
-<div id='827CB8'><i>827CB8</i> double <h3>twoPiDouble</h3></div>
+<div id='827CB8'><i>827CB8</i> double<h3>twoPiDouble</h3></div>
 <div class='mm'>
 <p>pi*2
 <p></div>
-<div id='827CC0'><i>827CC0</i> float <h3>halfPi</h3></div>
+<div id='827CC0'><i>827CC0</i> float<h3>halfPi</h3></div>
 <div class='mm'>
 <p>pi/2
 <p></div>
-<div id='827CC4'><i>827CC4</i> float <h3>twoPi</h3></div>
+<div id='827CC4'><i>827CC4</i> float<h3>twoPi</h3></div>
 <div class='mm'>
 <p>pi*2
 <p></div>
@@ -2134,7 +2144,7 @@ Created by <a href='funcs.html#431580'>CreateAnim_CAnimPartPool</a>
 <code><a href='structs.html#struc_BinSectionMagicMapEntry'>struct BinSectionMagicMapEntry</a>.<a href='structs.html#struc_BinSectionMagicMapEntry0'>nextEntry</a></code>
 is <code>0</code> instead of counting entries.
 <p></div>
-<div id='828028'><i>828028</i> float <h3>fPerformanceCounterMsPerTick</h3></div>
+<div id='828028'><i>828028</i> float<h3>fPerformanceCounterMsPerTick</h3></div>
 <div id='828050'><i>828050</i> int <h3>binSectionMagicMap</h3>[64] <u></u></div>
 <div class='mm'>
 <p>file magic header maps to a value in this array
@@ -2142,7 +2152,7 @@ is <code>0</code> instead of counting entries.
 see <a href='funcs.html#43C100'>FindBinSectionHandler</a>
 <p></div>
 <div id='8284F0'><i>8284F0</i> int <h3>pPNodeSlotPool</h3> <u></u></div>
-<div id='828518'><i>828518</i> float <h3>_TimeSpentInFormatWithSinglePlaceholder</h3></div>
+<div id='828518'><i>828518</i> float<h3>_TimeSpentInFormatWithSinglePlaceholder</h3></div>
 <div class='mm'>
 <p>Used in <a href='funcs.html#43FBC0'>FormatWithSinglePlaceholderPtrTimed</a>.
 <p></div>
@@ -2174,6 +2184,10 @@ see <a href='funcs.html#43C100'>FindBinSectionHandler</a>
 <div id='8358F4'><i>8358F4</i> int <h3>a</h3> <u></u></div>
 <div id='835980'><i>835980</i> char <h3>downloadingHttpCommandString</h3>[512] <u></u></div>
 <div id='835BB8'><i>835BB8</i> short <h3>wcharLoadedProfileName</h3>[32] <u></u></div>
+<div id='835C00'><i>835C00</i> <a href='structs.html#struc_CareerStats'>struct CareerStats</a> <h3>careerStats</h3></div>
+<div class='mm'>
+<p>updated in <a href='funcs.html#528A60'>Career::UpdateCareerStatsObject</a> and used in <a href='funcs.html#4E13C0'>StatusCareerFNGObject::CreateStatsUIData</a>
+<p></div>
 <div id='83632C'><i>83632C</i> int <h3>smsOpenType</h3> <u></u></div>
 <div class='mm'>
 <p>0 = mailbox is not on screen.
@@ -2193,6 +2207,7 @@ then esc goes to the category of the msg.
 <p>When 1, pressing Q is allowed to bring up a dialog to exit the game.
 <p></div>
 <div id='836498'><i>836498</i> <a href='structs.html#struc_Struct836498'>struct Struct836498</a> <h3>struct836498</h3></div>
+<div id='836520'><i>836520</i> int <h3>currentFNGName</h3> <u></u></div>
 <div id='837B60'><i>837B60</i> int <h3>languageString</h3> <u></u></div>
 <div id='837FE0'><i>837FE0</i> <a href='structs.html#struc_SoundIdBanks'>struct SoundIdBanks</a> <h3>soundIdBanks</h3></div>
 <div id='8383A4'><i>8383A4</i> int <h3>struct8383A4</h3> <u></u></div>
@@ -2208,14 +2223,41 @@ It has one XREF, surrounded by some language stuff? TODO
 <div id='8383D0'><i>8383D0</i> int <h3>loadedLanguage</h3> <u></u></div>
 <div id='8383D8'><i>8383D8</i> int <h3>languageTable</h3> <u></u></div>
 <div id='8383DC'><i>8383DC</i> int <h3>languageConversionTable</h3> <u></u></div>
+<div id='8383E0'><i>8383E0</i> int <h3>loadedBinSection34A11</h3> <u></u></div>
+<div id='8383E4'><i>8383E4</i> int <h3>numEntriesInBinSection34A11Field0</h3> <u></u></div>
+<div class='mm'>
+<p>num entries in <a href='vars.html#8383E0'>loadedBinSection34A11</a>-&gt;<a href='structs.html#struc_BinSection34A110'>field_0</a>
+<p></div>
+<div class='mm'>
+<p>the result of: (binsectionsize * 0xF0F0F0F1).hi32 &gt;&gt; 7
+<p></div>
 <div id='83840C'><i>83840C</i> int <h3>ptr83840C</h3> <u></u></div>
 <div class='mm'>
 <p>Pointer to some struct with DVD/SHOW related stuff.
 <p></div>
 <div class='mm'>
 <p>ptr to something DVD/SHOW related
+element size 40? see 5134EC
 <p></div>
-<div id='838428'><i>838428</i> int <h3>ptr838428</h3> <u></u></div>
+<div id='838410'><i>838410</i> int <h3>numCareerSponsors</h3> <u></u></div>
+<div class='mm'>
+<p>number of entries in <a href='vars.html#838414'>careerSponsors</a>
+<p></div>
+<div id='838414'><i>838414</i> int <h3>careerSponsors</h3> <u></u></div>
+<div class='mm'>
+<p><a href='vars.html#838410'>numCareerSponsors</a> num entries
+bin section 34A19
+<p></div>
+<div id='838418'><i>838418</i> int <h3>numCareerStageSettingsEntries</h3> <u></u></div>
+<div class='mm'>
+<p>number of entries in <a href='vars.html#83841C'>careerStageSettingsEntries</a>
+<p></div>
+<div id='83841C'><i>83841C</i> int <h3>careerStageSettingsEntries</h3> <u></u></div>
+<div class='mm'>
+<p><a href='vars.html#838418'>numCareerStageSettingsEntries</a> num entries
+bin section 34A18, size 50h, see 5001B8
+<p></div>
+<div id='838428'><i>838428</i> int <h3>careerStringPool838428</h3> <u></u></div>
 <div class='mm'>
 <p>string table, used to form a sponsorship language key to hash and load
 <p></div>
@@ -2223,11 +2265,11 @@ It has one XREF, surrounded by some language stuff? TODO
 <div id='838450'><i>838450</i> int <h3>numSmsDatas</h3> <u></u></div>
 <div class='mm'>
 <p>Number of stuffs in <a href='vars.html#838454'>smsDatas</a>.
-Loaded in <a href='funcs.html#5012F0'>storeSmsDatas</a>.
+Loaded in <a href='funcs.html#5012F0'>StoreSmsDatas</a>.
 <p></div>
 <div id='838454'><i>838454</i> int <h3>smsDatas</h3> <u></u></div>
 <div class='mm'>
-<p>Loaded in <a href='funcs.html#5012F0'>storeSmsDatas</a>.
+<p>Loaded in <a href='funcs.html#5012F0'>StoreSmsDatas</a>.
 <p></div>
 <div id='838478'><i>838478</i> int <h3>object838478</h3> <u></u></div>
 <div id='83847C'><i>83847C</i> int <h3>FERenderObjectPool</h3> <u></u></div>
@@ -2288,7 +2330,7 @@ if (!strcmp(x,"UI_OLEAMessenger.fng") ||
 <p>When 1, <a href='funcs.html#50D3C0'>LanguageConversionTable::StrcpyCharToWchar</a> will just zero extend <code>char</code> to <code>wchar_t</code> instead of using the conversion table
 in the language file.
 <p></div>
-<div id='838640'><i>838640</i> <a href='structs.html#struc_DialogInfo'>struct DialogInfo</a> <h3>shownDialogInfo</h3></div>
+<div id='838640'><i>838640</i> <a href='structs.html#struc_DialogInfo'>struct DialogInfo</a> <h3>shownDialog</h3></div>
 <div class='mm'>
 <p>Dialog info passed to <a href='funcs.html#558020'>ShowDialog</a> is copied into here, TODO xrefs
 <p></div>
@@ -2301,27 +2343,8 @@ in the language file.
 <div class='mm'>
 <p>0x200 when connecting to OL, 8 when connecting LAN(?), 8 when opening online menu, 2 in menus, 1 ingame, 0x100 =?
 <p></div>
-<div id='85AD40'><i>85AD40</i> int <h3>careerData</h3> <u></u></div>
-<div class='mm'>
-<p>TODO inline this struct.... (<a href='structs.html#struc_CareerData'>struct CareerData</a>)
-<p></div>
-<div id='860A60'><i>860A60</i> <a href='structs.html#struc_SmsMessageList'>struct SmsMessageList</a> <h3>smsMessages</h3></div>
-<div class='mm'>
-<p>This is <code><a href='vars.html#85AD40'>careerData</a>.<a href='structs.html#struc_CareerData5D20'>smsMessageList</a></code>.
-<p></div>
-<div id='861E74'><i>861E74</i> int <h3>careerDataOld</h3> <u></u></div>
-<div id='862838'><i>862838</i> int <h3>_currentStage</h3> <u></u></div>
-<div class='mm'>
-<p>Maybe this is part of <a href='structs.html#struc_CareerData'>struct CareerData</a>?
-<p></div>
-<div id='86347C'><i>86347C</i> char <h3>isProfileWithStartedCareerLoaded</h3> <u></u></div>
-<div class='mm'>
-<p>Fun fact: when creating a new profile,
-this value is set to 0 when the textbox to enter a name appears.
-When canceling at that point, it's set back to 1
-(if the loaded profile already had career started).
-<p></div>
-<div id='863480'><i>863480</i> int <h3>hashOfCareerSlot</h3> <u></u></div>
+<div id='85036C'><i>85036C</i> <a href='structs.html#struc_CareerD24_54_30'>struct CareerD24_54_30</a> <h3>from</h3></div>
+<div id='85AD40'><i>85AD40</i> <a href='structs.html#struc_Career'>struct Career</a> <h3>career</h3></div>
 <div id='8637B0'><i>8637B0</i> int <h3>somethingUI</h3> <u></u></div>
 <div id='8641F4'><i>8641F4</i> int <h3>binSection80034A10loaded</h3> <u></u></div>
 <div class='mm'>
@@ -2348,9 +2371,9 @@ When canceling at that point, it's set back to 1
 <div class='mm'>
 <p>Set to 1000 when the <em>ordermebaby</em> cheat was entered.
 <p></div>
-<div id='865144'><i>865144</i> float <h3>frameTimeSecondsFor??_2</h3></div>
+<div id='865144'><i>865144</i> float<h3>frameTimeSecondsFor??_2</h3></div>
 <div id='86514C'><i>86514C</i> int <h3>framesRendered</h3> <u></u></div>
-<div id='865198'><i>865198</i> float <h3>frameTimeSecondsFor??</h3></div>
+<div id='865198'><i>865198</i> float<h3>frameTimeSecondsFor??</h3></div>
 <div id='8651A4'><i>8651A4</i> <a href='structs.html#struc_ObjectLink'>struct ObjectLink</a> <h3>someResourceFileSlotPoolEntry_0</h3></div>
 <div id='8653A0'><i>8653A0</i> <a href='structs.html#struc_BinSectionMagicMapEntry'>struct BinSectionMagicMapEntry</a> <h3>binSectionHandlerMagicMapEntry39101</h3></div>
 <div id='865470'><i>865470</i> <a href='structs.html#struc_BinSectionMagicMapEntry'>struct BinSectionMagicMapEntry</a> <h3>binSectionHandlerMagicMapEntry39102</h3></div>
@@ -2579,6 +2602,11 @@ interesting when setting that var to 5 (same as 0, 1, 2) while in freeroam (shou
 <div id='88F27C'><i>88F27C</i> <a href='structs.html#struc_BinSectionMagicMapEntry'>struct BinSectionMagicMapEntry</a> <h3>binSectionHandlerMagicMapEntry34111</h3></div>
 <div id='88F298'><i>88F298</i> <a href='structs.html#struc_PathsData'>struct PathsData</a> <h3>pathsData</h3></div>
 <div id='88F750'><i>88F750</i> <a href='structs.html#struc_BinSectionMagicMapEntry'>struct BinSectionMagicMapEntry</a> <h3>binSectionHandlerMagicMapEntry34201</h3></div>
+<div id='890020'><i>890020</i> <a href='structs.html#struc_struct890020'>struct struct890020</a> <h3>markers_890020</h3>[12]</div>
+<div class='mm'>
+<p>unsure about the size of the array; there was space for 12
+<p></div>
+<div id='8900DC'><i>8900DC</i> int <h3>pRCQueuedMessageSlotPool</h3> <u></u></div>
 <div id='89011C'><i>89011C</i> int <h3>hServerLib</h3> <u></u></div>
 <div id='890120'><i>890120</i> int <h3>_serverdll_StartServer</h3> <u></u></div>
 <div id='890124'><i>890124</i> int <h3>_serverdll_StopServer</h3> <u></u></div>

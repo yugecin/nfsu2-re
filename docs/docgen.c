@@ -1766,6 +1766,9 @@ void docgen_collect_datainfos(struct docgen *dg)
 	for (dg->num_datainfos = 0, i = 0; i < idcp->num_stuffs; i++) {
 		if (idcp->stuffs[i].type == IDCP_STUFF_TYPE_DATA && idcp->stuffs[i].name) {
 			data = idcp->stuffs + i;
+			if (!strncmp(data->name, "jpt_", 4)) {
+				continue;
+			}
 			datainfo = dg->datainfos + dg->num_datainfos++;
 			datainfo->data = data;
 			if (data->comment && !strncmp(data->comment, "@docgen:type:", 13)) {

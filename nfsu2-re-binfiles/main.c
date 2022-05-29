@@ -3,12 +3,14 @@
 #include <stdlib.h>
 #include <string.h>
 
+#undef PRINT_3414A
 #undef PRINT_LANGUAGE_STRINGS
 #define LINE_INDENT "    "
 
 static
 void read_3414A_stuff(FILE *in, int size)
 {
+#if PRINT_3414A
 	char *data;
 	char *pos;
 	char *end;
@@ -48,6 +50,7 @@ void read_3414A_stuff(FILE *in, int size)
 				printf(" %02X", pos[i] & 0xFF);
 			}
 			printf("\n");
+			printf("    20 %.1f 24 %.1f 28 %.1f 2C %.1f\n", m->f20, m->f24, m->f28, m->f2C);
 			printf("    30 %.1f 34 %.1f 38 %.1f 3C %.1f\n", m->f30, m->f34, m->f38, m->f3C);
 			printf("    radius %d 44 %.1f 48 %.1f\n", m->radius, m->f44, m->f48);
 		}
@@ -55,6 +58,9 @@ void read_3414A_stuff(FILE *in, int size)
 		pos += part_size;
 	}
 	free(data);
+#else
+	fseek(in, size, SEEK_CUR);
+#endif
 }
 
 static

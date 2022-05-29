@@ -677,7 +677,7 @@ for example the data of section with magic <code>80034147</code> contains more s
 <li><a href='funcs.html#5E4E60'>UnloadBinSection_34110_34111_34112_34113</a></li>
 <li><a href='funcs.html#5E81C0'>LoadBinSection80034130_3412F</a></li>
 <li><a href='funcs.html#5E8660'>UnloadBinSection80034130_3412F</a></li>
-<li><a href='funcs.html#5E9C10'>LoadBinSection80034150_thiscall</a></li>
+<li><a href='funcs.html#5E9C10'>[LoadBinSection80034150_thiscall</a></li>
 <li><a href='funcs.html#5EA0F0'>LoadBinSection80034150</a></li>
 <li><a href='funcs.html#60B810'>LoadBinSection8003B600</a></li>
 <li><a href='funcs.html#60BAC0'>UnloadBinSection8003B600</a></li>
@@ -844,7 +844,7 @@ When it's not found the game will segfault because of the code below:
 <p>Then <code><a href='structs.html#struc_LanguageFileData'>struct LanguageFileData</a>.<a href='structs.html#struc_LanguageFileDataC'>fontdata</a></code> is read.
 Its <code><a href='structs.html#struc_LanguageFontData0'>field_0</a>[0]</code> value is read and then a
 matching entry in <a href='vars.html#7F6DE8'>languageStuff7F6DE8</a> is searched.
-More stuff is read is a loop and reset and I lost track.
+More stuff is read in a loop and reset and I lost track.
 Eventually something is called with string <code>LanguageMemoryPool</code>.
 </p><pre class='ida'>
 <span class='mc'>.rdata:007983D0</span> aLanguageselect db <span class='str'>'LanguageSelectScreen'</span>,<span class='num'>0</span> <span class='comment'>; TODO</span>
@@ -1346,7 +1346,9 @@ kind of element it is. Currently I have:
 </li><li>type 2: <a href='structs.html#struc_UILabel'>struct UILabel</a>: shows text
 </li><li>type 3-4: ?
 </li><li>type 5: <a href='structs.html#struc_UIContainer'>struct UIContainer</a>: groups child ui elements
-</li><li>type 6-11: ?
+</li><li>type 6: ?
+</li><li>type 7: movie (like the THX logo, EA logo, intro etc)
+</li><li>type 8-11: ?
 </li></ul>
 <p>All UI elements are addressable by the hash (see <a href='#hashfuncs'>Hash functions</a>) of its name (stored in its field
 <a href='structs.html#struc_UIElement10'>hash</a>). So then one can find UI elements by using <a href='funcs.html#4953C0'>FindUILabelByName</a> or <a href='funcs.html#537A10'>FindUILabelByHash</a> and
@@ -1418,7 +1420,7 @@ executable itself so it's probably somewhere deep in a bin file.
 <ul>
 <li><a href='structs.html#struc_DialogInfo'>struct DialogInfo</a></li>
 <li><a href='vars.html#7F6DE0'>nextDialogId</a></li>
-<li><a href='vars.html#838640'>shownDialogInfo</a></li>
+<li><a href='vars.html#838640'>shownDialog</a></li>
 <li><a href='funcs.html#4FF250'>DialogInfo::ctor</a></li>
 <li><a href='funcs.html#526C40'>GetFNGforDialog</a></li>
 <li><a href='funcs.html#540A60'>DismissDialog</a></li>
@@ -2599,7 +2601,8 @@ TODO:
 <li><a href='funcs.html#50C550'>FreeFNGFeRenderObjects</a></li>
 <li><a href='funcs.html#50CE30'>FindTopPackage</a></li>
 <li><a href='funcs.html#519E50'>UIData_field8_field_DC::GetFNGInfoByNameByHierarchy</a></li>
-<li><a href='funcs.html#51CCD0'>UIData::GetFNGInfoForName</a></li>
+<li><a href='funcs.html#51CBA0'>UIData::SwitchFEngPackages</a></li>
+<li><a href='funcs.html#51CCD0'>UIData::GetLevelSorterPoolEntryForFngName</a></li>
 <li><a href='funcs.html#52C390'>FERenderObject::FreeAllRenderEPolys</a></li>
 <li><a href='funcs.html#52C3A0'>FERenderObject::FreeAllRenderEPolys_0</a></li>
 <li><a href='funcs.html#52CEF0'>GetFNGInfoByName</a></li>
@@ -3183,6 +3186,7 @@ masks. The lowest matching mask gets placed on button1, and so on.
 <li><a href='funcs.html#5048F0'>UIElementVisitor_FindByFieldC::acceptElement</a></li>
 <li><a href='funcs.html#50B460'>RenderCursor</a></li>
 <li><a href='funcs.html#50C900'>SetUILabelLanguageString</a></li>
+<li><a href='funcs.html#50C990'>SetUIElementTexture</a></li>
 <li><a href='funcs.html#50CA00'>HideUIElementAndChildren</a></li>
 <li><a href='funcs.html#50CA50'>ShowUIElementAndChildren</a></li>
 <li><a href='funcs.html#50CD00'>IsPointInRect</a></li>
@@ -3190,6 +3194,7 @@ masks. The lowest matching mask gets placed on button1, and so on.
 <li><a href='funcs.html#517FE0'>FNGInfo::FindElementByFieldC</a></li>
 <li><a href='funcs.html#51CF70'>SetUIElementAnimationByName</a></li>
 <li><a href='funcs.html#51CFE0'>SetUIElementAnimationByHash</a></li>
+<li><a href='funcs.html#51D040'>IsUIElementAnimationOngoing</a></li>
 <li><a href='funcs.html#51D070'>GetUIElementTopLeft</a></li>
 <li><a href='funcs.html#51D170'>GetUIElementRightBottom</a></li>
 <li><a href='funcs.html#51D9F0'>GetUIElementRect</a></li>
@@ -3205,6 +3210,7 @@ masks. The lowest matching mask gets placed on button1, and so on.
 <li><a href='funcs.html#537B30'>SetUILabelFormattedStringAndMakeVisible</a></li>
 <li><a href='funcs.html#537B80'>SetUILabelByHashFormattedStringAndMakeVisible</a></li>
 <li><a href='funcs.html#542600'>SetUILabelByNameFormattedStringAndMakeVisible</a></li>
+<li><a href='funcs.html#537690'>UIData::IsPointInUIElement</a></li>
 <li><a href='funcs.html#537BE0'>SetNullableUILabelFormattedStringAndMakeVisible</a></li>
 <li><a href='funcs.html#5663B0'>DoUI</a></li>
 </ul>
@@ -3220,7 +3226,7 @@ as <code>([-320,+320],[-240,+240])</code>.
 <li><a href='structs.html#struc_MouseData'>struct MouseData</a></li>
 <li><a href='vars.html#8763D0'>mouseData</a></li>
 <li><a href='funcs.html#50CD70'>GetMousePositionFromMiddle</a></li>
-<li><a href='funcs.html#50C860'>StoreMousePosButtonsIntoArg</a></li>
+<li><a href='funcs.html#50C860'>UIData::StoreMousePosButtonsIntoArg</a></li>
 <li><a href='funcs.html#50CDA0'>GetMouseWheel</a></li>
 <li><a href='funcs.html#50CDB0'>DidCursorPressInRect</a></li>
 <li><a href='funcs.html#52D090'>IsCursorDownInUIElement</a></li>
@@ -3262,9 +3268,9 @@ career yet.
 <a href='vars.html#865130'>cheatExtraCareerMoney1000</a> = 1000;
 // ^ used when starting a new career from a profile that
 // was loaded from the profile menu
-if (!<a href='vars.html#86347C'>isProfileWithStartedCareerLoaded</a>)  {
-	if (<a href='funcs.html#500F90'>CareerDataOld::CareerGetMoney</a>() == 0)  {
-		<a href='funcs.html#500F80'>CareerDataOld::CareerGiveMoney</a>(1000);
+if (!<a href='vars.html#85AD40'>career</a>.<a href='structs.html#struc_Career873C'>isProfileWithStartedCareerLoaded</a>)  {
+	if (<a href='funcs.html#500F90'>CareerBank::GetMoney</a>() == 0)  {
+		<a href='funcs.html#500F80'>CareerBank::AddMoney</a>(1000);
 		// ^ This only has an effect when the profile was
 		// loaded from the loading screen
 	}
@@ -3486,11 +3492,13 @@ of the array of index 20 is, it does not point to an array of markers itself.
 <li><a href='vars.html#800C38'>neighbourhoodData</a></li>
 <li><a href='vars.html#883D9C'>neighbourhoodHashesCalculatedAlready</a></li>
 <li><a href='funcs.html#43D890'>IsMarkerInRange</a></li>
-<li><a href='funcs.html#5283C0'>CareerData::MoneyMarkerHitPlaySound??</a></li>
+<li><a href='funcs.html#4FFC50'>FindMarkerTypeD_E_FWithHash</a></li>
+<li><a href='funcs.html#5283C0'>Career::MoneyMarkerHitPlaySound??</a></li>
 <li><a href='funcs.html#5D3DE0'>GetNeighbourhoodNameForHash</a></li>
 <li><a href='funcs.html#5D5630'>PathsData::InitAfterReadFromBinData</a></li>
 <li><a href='funcs.html#5D9A90'>PathsData::ReadFromBinData</a></li>
 <li><a href='funcs.html#5D9BF0'>PathsData::FindMarkerAtPosWithTypeAfterIndex</a></li>
+<li><a href='funcs.html#5D9C70'>PathsData::FirstMarkerOfTypeAtPos</a></li>
 </ul>
 <p style='text-align:right'><small><a href='#index'>Index</a></small></p>
 </div>
@@ -3509,17 +3517,17 @@ which is in file <code>GLOBAL/GLOBALB.BUN</code>).
 <li><a href='vars.html#83632C'>smsOpenType</a></li>
 <li><a href='vars.html#838450'>numSmsDatas</a></li>
 <li><a href='vars.html#838454'>smsDatas</a></li>
-<li><a href='vars.html#860A60'>smsMessages</a></li>
+<li><a href='vars.html#85AD40'>career</a>.<a href='structs.html#struc_Career5D20'>smsMessageList</a></li>
 <li><a href='funcs.html#4976B0'>ShowMailboxOrSingleUnreadSms</a></li>
 <li><a href='funcs.html#497760'>GetSmsMessageSubjectHeader</a></li>
 <li><a href='funcs.html#4977C0'>HideSmsMailbox</a></li>
 <li><a href='funcs.html#497850'>EngageMessageDialogFNGObject::ctor</a></li>
-<li><a href='funcs.html#4CBB60'>SmsListEntry::dtor</a></li>
+<li><a href='funcs.html#4CBB60'>[generic_dtor</a></li>
 <li><a href='funcs.html#4CC7C0'>SmsListEntry::ctor</a></li>
 <li><a href='funcs.html#4CC900'>SMSMailboxFNGObject::ShowSmsList</a></li>
 <li><a href='funcs.html#4E1BF0'>SMSMailboxFNGObject::ctor</a></li>
 <li><a href='funcs.html#4E2050'>FNGINIT_UI_SMS_Mailbox.fng</a></li>
-<li><a href='funcs.html#5012F0'>storeSmsDatas</a></li>
+<li><a href='funcs.html#5012F0'>StoreSmsDatas</a></li>
 <li><a href='funcs.html#501310'>GetSmsDataForHash</a></li>
 <li><a href='funcs.html#501470'>SmsMessage::GetSenderLanguageHash</a></li>
 <li><a href='funcs.html#5014A0'>SmsMessageList::GetAtIndex</a></li>
@@ -3534,6 +3542,7 @@ which is in file <code>GLOBAL/GLOBALB.BUN</code>).
 <li><a href='funcs.html#5295F0'>SmsMessageList::SendMessage</a></li>
 <li><a href='funcs.html#529670'>SmsMessageList::SendMessageFormatted</a></li>
 <li><a href='funcs.html#529860'>SmsMessageList::SendSomeCareerStartMsgs?</a></li>
+<li><a href='funcs.html#529920'>SmsMessageList::SendUnlockMessagesForCurrentGameProgress</a></li>
 <li><a href='funcs.html#5299B0'>SmsMessageList::SendDVDCoverSmsWithIndex</a></li>
 <li><a href='funcs.html#529B50'>SmsMessageList::SendOutrunInfoSms</a></li>
 <li><a href='funcs.html#529BD0'>SmsMessageList::SendOutrunVictoryOrDefeatSms</a></li>
@@ -3546,21 +3555,23 @@ which is in file <code>GLOBAL/GLOBALB.BUN</code>).
 <p><small><a href='#career'>Career</a> (continuation)</small></p>
 <p><strong>Symbols:</strong></p>
 <ul>
-<li><a href='structs.html#struc_CareerData'>struct CareerData</a></li>
+<li><a href='structs.html#struc_Career'>struct Career</a></li>
+<li><a href='structs.html#struc_CareerSponsor'>struct CareerSponsor</a></li>
+<li><a href='structs.html#struc_CareerStage'>struct CareerStage</a></li>
+<li><a href='structs.html#struc_CareerStageSettings'>struct CareerStageSettings</a></li>
+<li><a href='structs.html#struc_CareerStats'>struct CareerStats</a></li>
 <li><a href='vars.html#83648C'>loadIntoCareerImmediately?</a></li>
 <li><a href='vars.html#83840C'>ptr83840C</a></li>
-<li><a href='vars.html#838428'>ptr838428</a></li>
-<li><a href='vars.html#86347C'>isProfileWithStartedCareerLoaded</a></li>
-<li><a href='vars.html#85AD40'>careerData</a></li>
-<li><a href='vars.html#862838'>_currentStage</a></li>
+<li><a href='vars.html#838428'>careerStringPool838428</a></li>
+<li><a href='vars.html#85AD40'>career</a></li>
 <li><a href='funcs.html#495D30'>CareerShowSponsorSelectScreen?</a></li>
-<li><a href='funcs.html#500F90'>CareerDataOld::CareerGetMoney</a></li>
-<li><a href='funcs.html#500180'>UnkCareerStruct::GetCareerLanguageString</a></li>
-<li><a href='funcs.html#500F80'>CareerDataOld::CareerGiveMoney</a></li>
-<li><a href='funcs.html#5129F0'>UnkCareerStruct::GetCareerSponsorLanguageKey</a></li>
-<li><a href='funcs.html#528980'>CareerData::RemoveAllReceivedEngageTipMarkers</a></li>
-<li><a href='funcs.html#532830'>MaybeStartCareer?</a></li>
-<li><a href='funcs.html#532D40'>CareerData::EngageTipMarkerHit</a></li>
+<li><a href='funcs.html#500F90'>CareerBank::GetMoney</a></li>
+<li><a href='funcs.html#500180'>CareerSponsor::GetInternalSponsorName</a></li>
+<li><a href='funcs.html#500F80'>CareerBank::AddMoney</a></li>
+<li><a href='funcs.html#5129F0'>CareerSponsor::GetSponsorNameLanguageKey</a></li>
+<li><a href='funcs.html#528980'>Career::RecalculateCollectedEngageMarkers</a></li>
+<li><a href='funcs.html#532830'>Career::InitOnProfileLoad</a></li>
+<li><a href='funcs.html#532D40'>Career::EngageTipMarkerHit</a></li>
 </ul>
 <p style='text-align:right'><small><a href='#index'>Index</a></small></p>
 </div>
@@ -3637,12 +3648,12 @@ which is in file <code>GLOBAL/GLOBALB.BUN</code>).
 <li><a href='funcs.html#43DCC0'>stricmp</a></li>
 <li><a href='funcs.html#43DDA0'>strcpycat</a></li>
 <li><a href='funcs.html#43E000'>NaiveStrcpyCharToWchar</a></li>
-<li><a href='funcs.html#43E950'>FormatWithSinglePlaceholderPtr</a></li>
+<li><a href='funcs.html#43E950'>bPrintf</a></li>
 <li><a href='funcs.html#43FBC0'>FormatWithSinglePlaceholderPtrTimed</a></li>
 <li><a href='funcs.html#5047C0'>unnamed_5047C0</a></li>
 <li><a href='funcs.html#50D510'>SomeDebugPrint</a></li>
-<li><a href='funcs.html#50DC70'>struct497850_field50::FindNewlineW</a></li>
-<li><a href='funcs.html#50DCB0'>struct497850_field50::GetEndOfStringW</a></li>
+<li><a href='funcs.html#50DC70'>CommonFNGObjectStructA::FindNewlineW</a></li>
+<li><a href='funcs.html#50DCB0'>CommonFNGObjectStructA::GetEndOfStringW</a></li>
 <li><a href='funcs.html#511630'>strcpyW</a></li>
 <li><a href='funcs.html#51DE90'>WideCharString::EnsureAllocatedSize</a></li>
 <li><a href='funcs.html#532670'>WideCharString::SetFromCharString</a></li>

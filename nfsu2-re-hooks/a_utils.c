@@ -145,9 +145,11 @@ char *animationname(unsigned int key)
 		{ 0xDE6EFF34, "FORWARD" },
 		{ 0x03826A28, "Pulse" },
 		{ 0x7AB70D67, "STATIC" },
+		{ 0x6EBBFB68, "Normal" },
 		{ 0x4F90CF9B, "Active" },
 		{ 0x03D8EABC, "UNDIM" },
 		{ 0x00009E99, "DIM" },
+		{ 0x925D53E4, "Dramatic" },
 		{ 0x5A8E4EBE, "animate" }, // like in animate dialog progress bar
 		{ 0x375D11BF, "animation" }, // untested
 		{ 0x8AB83EDB, "ZoomIn" }, // untested
