@@ -24,7 +24,7 @@ properties.
 
 The UI treeview shows all FNG screens that are displayed, and all their child
 UI elements. The top FNG screen is read from
-{{8384C4}->{struct UIData+8}->{struct UIData_field8+E4}} and                    ||| code,ref,ref,ref
+{{8384C4.8.E4}} and                                                             ||| code,ref
 its {struct FNGInfo+4} is followed until the next {struct FNGInfo+4} is unset.  ||| ref,ref
 For each {struct FNGInfo}, its {struct FNGInfo+4C} is read and its              ||| ref,ref
 {struct UIElement+4} is followed until the next {struct UIElement+4} is unset.  ||| ref,ref
@@ -113,8 +113,8 @@ instead of having the {enum UIELEMENTFLAGS/1} flag.                             
 {Animations} ||| h id=animations
 
 Elements can have animations, such as zooming or fading in/out and others.
-{{struct UIElement}.{struct UIElement+4C}} stores all animation things per      ||| code,ref,ref
-element. There is also {{struct UIElement}.{struct UIElement+54}}.              ||| code,ref,ref
+{{struct UIElement.4C}} stores all animation things per                         ||| code,ref
+element. There is also {{struct UIElement.54}}.                                 ||| code,ref
 Here's a dump of all animations on the label element that shows your profile
 name in the bottom bar, the name label that gets swapped with your bank amount
 every few seconds:

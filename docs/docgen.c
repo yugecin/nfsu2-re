@@ -325,7 +325,7 @@ struct docgen_ref_element {
 	} member;
 	struct docgen_ref_element *next;
 	char element_level;
-	char next_is_pointer;
+	char is_from_pointer;
 };
 
 #define DOCGEN_MAX_REF_ELEMENTS 20
@@ -333,6 +333,15 @@ struct docgen_ref_element {
 struct docgen_ref {
 	struct docgen_ref_element elements[DOCGEN_MAX_REF_ELEMENTS];
 };
+
+static
+struct docgen_ref_element *docgen_resolve_ref_get_next_ref_element(struct docgen_ref *result, struct docgen_ref_element *current)
+{
+	assert(((void)"need more DOCGEN_MAX_REF_ELEMENTS", current->element_level < DOCGEN_MAX_REF_ELEMENTS));
+	current->next = result->elements + current->element_level;
+	current->next->element_level = current->element_level + 1;
+	return current->next;
+}
 
 /**
 @param ref should be zero terminated
@@ -344,9 +353,10 @@ void docgen_resolve_ref(struct docgen *dg, struct docgen_ref *result, char *ref,
 	struct docgen_ref_element *ref_element;
 	struct docgen_structinfo *structinfo;
 	struct idcp_struct_member *strumem;
+	struct docgen_datainfo *datainfo;
 	struct docgen_enuminfo *enuminfo;
 	struct idcp_enum_member *enumem;
-	char *plus, *dot, *fslash;
+	char *plus, *dot, *fslash, *tmp;
 	struct idcp_struct *struc;
 	struct idcp_stuff *stuff;
 
@@ -397,13 +407,10 @@ void docgen_resolve_ref(struct docgen *dg, struct docgen_ref *result, char *ref,
 				if (!structinfo) {
 					return;
 				}
-				assert(((void)"need more DOCGEN_MAX_REF_ELEMENTS", ref_element->element_level < DOCGEN_MAX_REF_ELEMENTS));
 				struc = structinfo->struc;
 				ref_element->type = STRUCT;
 				ref_element->el.struc = struc;
-				ref_element->next = result->elements + ref_element->element_level;
-				ref_element->next->element_level = ref_element->element_level + 1;
-				ref_element = ref_element->next;
+				ref_element = docgen_resolve_ref_get_next_ref_element(result, ref_element);
 				ref_element->el.struc = struc;
 				dot++;
 				len -= dot - ref;
@@ -438,15 +445,12 @@ findstrucmember:
 							if (strumem->offset == addr) {
 								ref_element->member.struc = strumem;
 								if (dot) {
-									assert(((void)"need more DOCGEN_MAX_REF_ELEMENTS", ref_element->element_level < DOCGEN_MAX_REF_ELEMENTS));
-									ref_element->next = result->elements + ref_element->element_level;
-									ref_element->next->element_level = ref_element->element_level + 1;
-									ref_element = ref_element->next;
+									ref_element = docgen_resolve_ref_get_next_ref_element(result, ref_element);
 									if (IDC_is_struct(strumem->flag)) {
 										struc = dg->idcp->structs + strumem->typeid;
 									} else if ((structinfo = docgen_find_struct_from_text_type(dg, strumem->type, strlen(strumem->type)))) {
 										struc = structinfo->struc;
-										ref_element->next_is_pointer = 1;
+										ref_element->is_from_pointer = 1;
 									} else {
 										fprintf(stderr, "resolve_ref: trying to go deeper but struct member '%s' is not a struct\n", strumem->name);
 										goto err;
@@ -464,12 +468,9 @@ findstrucmember:
 								break;
 							}
 							if ((strumem + 1)->offset > addr && IDC_is_struct(strumem->flag)) {
-								assert(((void)"need more DOCGEN_MAX_REF_ELEMENTS", ref_element->element_level < DOCGEN_MAX_REF_ELEMENTS));
 								addr -= strumem->offset;
 								ref_element->member.struc = strumem;
-								ref_element->next = result->elements + ref_element->element_level;
-								ref_element->next->element_level = ref_element->element_level + 1;
-								ref_element = ref_element->next;
+								ref_element = docgen_resolve_ref_get_next_ref_element(result, ref_element);
 								ref_element->el.struc = struc = dg->idcp->structs + strumem->typeid;
 								goto findstrucmember;
 							}
@@ -486,7 +487,12 @@ findstrucmember:
 
 		/*Binary search will work as long as the 'new_addr > addr'
 		assertion in 'idcp_get_or_allocate_stuff' still stands.*/
-		addr = docgen_parse_addr(ref, len);/*jeanine:r:i:39;*/
+		dot = strstr(ref, ".");
+		if (dot) {
+			addr = docgen_parse_addr(ref, dot - ref);/*jeanine:r:i:39;*/
+		} else {
+			addr = docgen_parse_addr(ref, len);/*jeanine:s:a:r;i:39;*/
+		}
 		if (addr == -1) {
 			return;
 		}
@@ -502,9 +508,56 @@ findstrucmember:
 				} else if (stuff->type == IDCP_STUFF_TYPE_FUNC) {
 					ref_element->type = FUNC;
 					ref_element->el.func = stuff;
+					if (dot) {
+						fprintf(stderr, "ref has a dot but it resolved to a function");
+						goto err;
+					}
 				} else if (stuff->type == IDCP_STUFF_TYPE_DATA) {
 					ref_element->type = DATA;
 					ref_element->el.data = stuff;
+					if (dot) {
+						if (stuff->data.data.struct_type) {
+							tmp = stuff->data.data.struct_type;
+							if ((structinfo = docgen_find_struct(dg, tmp, strlen(tmp)))) {
+								ref_element = docgen_resolve_ref_get_next_ref_element(result, ref_element);
+								goto data_have_structinfo;
+							}
+							fprintf(stderr, "referenced data struct type is not found: %s\n", tmp);
+							goto err;
+						}
+						/*need to find datainfo.... yay*/
+						min = 0;
+						max = dg->num_datainfos - 1;
+						for (;;) {
+							idx = min + (max - min) / 2;
+							datainfo = dg->datainfos + idx;
+							if (datainfo->data == stuff) {
+								if (!datainfo->type) {
+									fprintf(stderr, "referenced data has dot but has no type\n");
+								} else if (!(structinfo = docgen_find_struct_from_text_type(dg, datainfo->type, datainfo->type_len))) {
+									fprintf(stderr, "failed to find referenced data's type: %s\n", datainfo->type);
+								} else {
+									ref_element = docgen_resolve_ref_get_next_ref_element(result, ref_element);
+									ref_element->is_from_pointer = 1;
+data_have_structinfo:
+									ref_element->el.struc = struc = structinfo->struc;
+									dot++;
+									len -= dot - ref;
+									ref = dot;
+									goto finddot;
+								}
+								goto err;
+							}
+							if (max <= min) {
+								fprintf(stderr, "failed to find datainfo for data %X %s\n", stuff->addr, stuff->name);
+								goto err;
+							} else if (datainfo->data->addr > stuff->addr) {
+								max = idx - 1;
+							} else if (datainfo->data->addr < stuff->addr) {
+								min = idx + 1;
+							}
+						}
+					}
 				} else {
 					fprintf(stderr, "unknown type '%d' when resolving ref '%s'\n", stuff->type, ref);
 				}
@@ -537,13 +590,21 @@ err:
 			fprintf(stderr, "  data %s\n", ref_element->el.data->name);
 			break;
 		case STRUCTMEMBER:
-			fprintf(stderr, "  struct %s member %s\n", ref_element->el.struc->name, ref_element->member.struc->name);
+			if (ref_element->member.struc) {
+				fprintf(stderr, "  struct %s member %s\n", ref_element->el.struc->name, ref_element->member.struc->name);
+			} else {
+				fprintf(stderr, "  struct %s member (unresolved)\n", ref_element->el.struc->name);
+			}
 			break;
 		case STRUCT:
 			fprintf(stderr, "  struct %s\n", ref_element->el.struc->name);
 			break;
 		case ENUMMEMBER:
-			fprintf(stderr, "  enum %s member %s\n", ref_element->el.enu->name, ref_element->member.enu->name);
+			if (ref_element->member.enu) {
+				fprintf(stderr, "  enum %s member %s\n", ref_element->el.enu->name, ref_element->member.enu->name);
+			} else {
+				fprintf(stderr, "  enum %s member (unresolved)\n", ref_element->el.enu->name);
+			}
 			break;
 		case ENUM:
 			fprintf(stderr, "  enum %s\n", ref_element->el.enu->name);
@@ -1237,7 +1298,7 @@ void docgen_append_ref_text(struct mmparse *mm, void (*append_func)(struct mmpar
 			append_func(mm, "</a>", 4);
 			break;
 		default:
-			mmparse_failmsgf(mm, "unknown ref '%s'\n", ref);
+			mmparse_failmsgf(mm, "unknown ref '%s'", ref);
 			append_func(mm, "<strong class='error' style='font-family:monospace'>?", 53);
 			append_func(mm, ref, reflen);
 			append_func(mm, "?</strong>", 10);
@@ -1246,7 +1307,7 @@ void docgen_append_ref_text(struct mmparse *mm, void (*append_func)(struct mmpar
 		if (!(element = element->next)) {
 			break;
 		}
-		if (element->next_is_pointer) {
+		if (element->is_from_pointer) {
 			append_func(mm, "->", 2);
 		} else {
 			append_func(mm, ".", 1);
