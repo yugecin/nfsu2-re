@@ -66,6 +66,11 @@ struct docgen_enuminfo {
 struct docgen_datainfo {
 	struct idcp_stuff *data;
 	struct docgen_symbol_comments comments;
+	/**type info is missing in IDC (except for non-pointer struct types),
+	but using '@docgen:type:xxx' in the symbol comment can be used to set
+	this type*/
+	char *type;
+	int type_len;
 };
 
 struct docgen {
@@ -186,15 +191,15 @@ struct docgen_structinfo* docgen_find_struct(struct docgen *dg, char *name, int 
 	return NULL;
 }
 
+/*type may be null, may end with any amount of spaces and * symbols*/
 static
-struct docgen_structinfo* docgen_find_struct_from_pointer_type(struct docgen *dg, char *type)
+struct docgen_structinfo* docgen_find_struct_from_text_type(struct docgen *dg, char *type, int len)
 {
 	register char c;
-	int len;
 
 	if (type && !strncmp(type, "struct ", 7)) {
 		type += 7;
-		len = strlen(type);
+		len -= 7;
 		for (;; len--) {
 			c = type[len - 1];
 			if (c != '*' && c != ' ') {
@@ -439,7 +444,7 @@ findstrucmember:
 									ref_element = ref_element->next;
 									if (IDC_is_struct(strumem->flag)) {
 										struc = dg->idcp->structs + strumem->typeid;
-									} else if ((structinfo = docgen_find_struct_from_pointer_type(dg, strumem->type))) {
+									} else if ((structinfo = docgen_find_struct_from_text_type(dg, strumem->type, strlen(strumem->type)))) {
 										struc = structinfo->struc;
 										ref_element->next_is_pointer = 1;
 									} else {
@@ -1084,22 +1089,41 @@ int docgen_enum_sort_compar(const void *_a, const void *_b)
 
 	return docgen_stricmp(a->name, b->name);
 }
-/*jeanine:p:i:23;p:88;a:r;x:25.07;y:42.14;*/
+/*jeanine:p:i:23;p:88;a:r;x:20.58;y:32.39;*/
 static
 void docgen_print_data(FILE *f, struct docgen *dg, struct docgen_datainfo *datainfo, struct idcp_stuff *data)
 {
+	struct docgen_structinfo *strucinfo;
 	struct docgen_tmpbuf *type;
 	char unconfirmed_type, *st;
+	int len;
 
+	/*TODO: array stuff*/
 	type = docgen_get_tmpbuf(10000);
 	unconfirmed_type = 0;
 	if (data->data.data.struct_type) {
 		st = data->data.data.struct_type;
 		if (docgen_find_struct(dg, st, strlen(st))) {
-			sprintf(type->data, "<a href='structs.html#struc_%s'>struct %s</a>", st, st);
+			sprintf(type->data, "<a href='structs.html#struc_%s'>struct %s</a> ", st, st);
 		} else {
 			fprintf(stderr, "warn: cannot find struct '%s' for var %X '%s'\n", st, data->addr, data->name);
-			sprintf(type->data, "<strong>struct %s<strong>", st);
+			sprintf(type->data, "<strong>struct %s<strong> ", st);
+		}
+	} else if (datainfo->type) {
+		strucinfo = docgen_find_struct_from_text_type(dg, datainfo->type, datainfo->type_len);
+		if (strucinfo) {
+			st = strucinfo->struc->name;
+			sprintf(type->data, "<a href='structs.html#struc_%s'>struct %s</a>", st, st);
+			len = 7 + strlen(st);
+			if (len < datainfo->type_len) {
+				strncat(type->data, datainfo->type + len, datainfo->type_len - len);
+			}
+		} else {
+			fprintf(stderr, "warn: var %X '%s' has unresolved @docgen:type:\n%s", data->addr, data->name, datainfo->type);
+			memcpy(type->data, "<strong>", 8);
+			memcpy(type->data + 8, datainfo->type, datainfo->type_len);
+			memcpy(type->data + 8 + datainfo->type_len, "</strong>", 9);
+			type->data[8 + datainfo->type_len + 9] = 0;
 		}
 	} else if (data->data.data.flags & IDCP_DATA_FLOAT) {
 		assert(data->data.data.size == 4);
@@ -1110,22 +1134,22 @@ void docgen_print_data(FILE *f, struct docgen *dg, struct docgen_datainfo *datai
 	} else {
 		switch (data->data.data.size) {
 		case 1:
-			strcpy(type->data, "char");
+			strcpy(type->data, "char ");
 			break;
 		case 2:
-			strcpy(type->data, "short");
+			strcpy(type->data, "short ");
 			break;
 		case 4:
-			strcpy(type->data, "int");
+			strcpy(type->data, "int ");
 			break;
 		default:
-			sprintf(type->data, "i%d", data->data.data.size * 8);
+			sprintf(type->data, "i%d ", data->data.data.size * 8);
 			break;
 		};
 		unconfirmed_type = 1;
 	}
 	/*these are 'div' instead of 'pre' because 'h3' can't be inside 'pre'*/
-	fprintf(f, "\n<div id='%X'><i>%X</i> %s <h3>%s</h3>", data->addr, data->addr, type->data, data->name);
+	fprintf(f, "\n<div id='%X'><i>%X</i> %s<h3>%s</h3>", data->addr, data->addr, type->data, data->name);
 	docgen_free_tmpbuf(type);
 	if (data->data.data.arraysize) {
 		fprintf(f, "[%d]", data->data.data.arraysize);
@@ -1213,7 +1237,7 @@ void docgen_append_ref_text(struct mmparse *mm, void (*append_func)(struct mmpar
 			append_func(mm, "</a>", 4);
 			break;
 		default:
-			mmparse_failmsgf(mm, "unknown ref '%s'", ref);
+			mmparse_failmsgf(mm, "unknown ref '%s'\n", ref);
 			append_func(mm, "<strong class='error' style='font-family:monospace'>?", 53);
 			append_func(mm, ref, reflen);
 			append_func(mm, "?</strong>", 10);
@@ -1671,14 +1695,30 @@ void docgen_collect_enuminfos(struct docgen *dg)
 static
 void docgen_collect_datainfos(struct docgen *dg)
 {
+	struct docgen_datainfo *datainfo;
 	struct idcparse *idcp = dg->idcp;
+	struct idcp_stuff *data;
+	char *lf;
 	int i;
 
 	assert(dg->datainfos = calloc(1, sizeof(struct docgen_datainfo) * idcp->num_datas));
 	for (dg->num_datainfos = 0, i = 0; i < idcp->num_stuffs; i++) {
 		if (idcp->stuffs[i].type == IDCP_STUFF_TYPE_DATA && idcp->stuffs[i].name) {
-			dg->datainfos[dg->num_datainfos].data = idcp->stuffs + i;
-			dg->num_datainfos++;
+			data = idcp->stuffs + i;
+			datainfo = dg->datainfos + dg->num_datainfos++;
+			datainfo->data = data;
+			if (data->comment && !strncmp(data->comment, "@docgen:type:", 13)) {
+				data->comment += 13;
+				datainfo->type = data->comment;
+				lf = strstr(data->comment, "\n");
+				if (lf) {
+					datainfo->type_len = lf - data->comment;
+					data->comment = lf + 1;
+				} else {
+					datainfo->type_len = strlen(data->comment);
+					data->comment = NULL;
+				}
+			}
 		}
 	}
 	/*not sorting these*/
@@ -1914,7 +1954,7 @@ void docgen_mmparse(struct docgen *dg, struct mmparse **out_mm_index, struct mmp
 	ud->mmpextras.config.href_output_immediately = 1;
 	docgen_mmparse_all_symbol_comments(dg, mm_sym);/*jeanine:r:i:83;*/
 }
-/*jeanine:p:i:90;p:88;a:r;x:92.85;y:-61.48;*/
+/*jeanine:p:i:90;p:88;a:r;x:83.07;y:-70.73;*/
 static
 void docgen_readidc(struct docgen *dg)
 {

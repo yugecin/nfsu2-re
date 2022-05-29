@@ -61,6 +61,11 @@ The same counts for some primitive types like {int}, for example {838450}.      
 Some other types do show up correctly, like when the type is a struct or {float} or {double},   ||| code,code
 for example {827CC4}.                                                                           ||| ref
 
+There is some code to manually set the type by using the following format on the first line of
+the (non-repeating) comment of the symbol: {@docgen:type:struct MyStruct *}, but this is        ||| code
+rarely used (most likely only when it's actually used in written docs) and this comment could
+be out of date.
+
 .popmode section
 .pushmode section
 
