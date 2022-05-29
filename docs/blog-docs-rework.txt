@@ -47,16 +47,18 @@ as needed.
 Small example:
 
 .pushmode pre
-Function {529B50} goes through all {838454} and send every one that hasn't    \||| ref,ref
-been received yet and has {{struct SmsData+2} == {enum SMS_TYPE/0x4}} by      \||| code,ref,ref
-using {5295F0} when it wasn't received yet.                                   \||| ref
+Here's a function {529B50} and variable {838454} struct {struct SmsData} and  \||| ref,ref,ref
+enum {enum SMS_TYPE} with members {{struct SmsData+2} == {enum SMS_TYPE/0x4}} \||| ref,code,ref,ref
+struct inner member and chained members {{struct UILabel.4C.0}}               \||| code,ref
+with pointer {{struct SmsMessage.0.2}}                                        \||| code,ref
 .popmode pre
 
 Results in:
 
-Function {529B50} goes through all {838454} and send every one that hasn't     ||| ref,ref
-been received yet and has {{struct SmsData+2} == {enum SMS_TYPE/0x4}} by       ||| code,ref,ref
-using {5295F0} when it wasn't received yet.                                    ||| ref
+Here's a function {529B50} and variable {838454} struct {struct SmsData} and   ||| ref,ref,ref
+enum {enum SMS_TYPE} with members {{struct SmsData+2} == {enum SMS_TYPE/0x4}}  ||| ref,code,ref,ref
+struct inner member and chained members {{struct UILabel.4C.0}}                ||| code,ref
+with pointer {{struct SmsMessage.0.2}}                                         ||| code,ref
 
 .popmode section
 

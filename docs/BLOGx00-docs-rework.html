@@ -289,14 +289,16 @@ symbols, because they are written to their html pages and anchors are added
 as needed.
 </p><div><p>Small example:
 </p><pre>
-Function {529B50} goes through all {838454} and send every one that hasn't    ||| ref,ref
-been received yet and has {{struct SmsData+2} == {enum SMS_TYPE/0x4}} by      ||| code,ref,ref
-using {5295F0} when it wasn't received yet.                                   ||| ref
+Here's a function {529B50} and variable {838454} struct {struct SmsData} and  ||| ref,ref,ref
+enum {enum SMS_TYPE} with members {{struct SmsData+2} == {enum SMS_TYPE/0x4}} ||| ref,code,ref,ref
+struct inner member and chained members {{struct UILabel.4C.0}}               ||| code,ref
+with pointer {{struct SmsMessage.0.2}}                                        ||| code,ref
 </pre>
 <p>Results in:
-</p><p>Function <a href='funcs.html#529B50'>SmsMessageList::SendOutrunInfoSms</a> goes through all <a href='vars.html#838454'>smsDatas</a> and send every one that hasn't
-been received yet and has <code><a href='structs.html#struc_SmsData2'>type</a> == <a href='enums.html#enu_SMS_TYPE4'>SMS_TYPE_OUTRUN_INFO</a></code> by
-using <a href='funcs.html#5295F0'>SmsMessageList::SendMessage</a> when it wasn't received yet.
+</p><p>Here's a function <a href='funcs.html#529B50'>SmsMessageList::SendOutrunInfoSms</a> and variable <a href='vars.html#838454'>smsDatas</a> struct <a href='structs.html#struc_SmsData'>struct SmsData</a> and
+enum <a href='enums.html#enu_SMS_TYPE'>enum SMS_TYPE</a> with members <code><a href='structs.html#struc_SmsData2'>type</a> == <a href='enums.html#enu_SMS_TYPE4'>SMS_TYPE_OUTRUN_INFO</a></code>
+struct inner member and chained members <code><a href='structs.html#struc_UILabel'>struct UILabel</a>.<a href='structs.html#struc_UILabel0'>__parent</a>.<a href='structs.html#struc_UIElement4C'>animationLink?</a>.<a href='structs.html#struc_ObjectLink0'>next</a></code>
+with pointer <code><a href='structs.html#struc_SmsMessage'>struct SmsMessage</a>.<a href='structs.html#struc_SmsMessage0'>data</a>-><a href='structs.html#struc_SmsData2'>type</a></code>
 </p></div><p>When a struct or enum changes name now, I'll get an error while the docs are
 being generated. That way the docs can't be too desynchronized anymore from
 what I have in the IDA database. Function and variable name changes are free
