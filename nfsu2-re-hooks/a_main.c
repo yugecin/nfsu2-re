@@ -92,6 +92,7 @@ static void stub() {}
 //#include "debug-custom-endoutrun.c"
 //#include "debug-custom-find-nearest-marker.c"
 //#include "debug-custom-markers-debug.c"
+//#include "debug-custom-getkeyname.c"
 //#include "debug-custom-uielementvisitor.c"
 //#include "debug-custom-send-instruction-sms.c"
 //#include "debug-custom-printmailboxthings.c"

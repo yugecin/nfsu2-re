@@ -253,7 +253,7 @@ pre.ida span.hi {
 <a href='cheatsheet.html'>cheatsheet</a></nav>
 </header>
 <div class='func'>
-<h2>Functions (1401)</h2>
+<h2>Functions (1427)</h2>
 <ul>
 <li><a href='#588630'>??ConnectToEAServer</a></li>
 <li><a href='#7789D9'>??ConnectToEAServer_SEH</a></li>
@@ -555,9 +555,25 @@ pre.ida span.hi {
 <li><a href='#5BF260'>ConsoleIsArgOneOfTheseHardcodedValues</a></li>
 <li><a href='#5BF3A0'>ConsoleMoveCaret</a></li>
 <li><a href='#50D2D0'>ConstructFNGControlMask</a></li>
-<li><a href='#51DFC0'>ControllerOptionsRelated_Data::ctor</a></li>
-<li><a href='#51E090'>ControllerOptionsRelated_Name::ctor</a></li>
-<li><a href='#5C20E0'>ControllerStruct874C40::5C20E0</a></li>
+<li><a href='#51DFC0'>ControllerOptionsRelated::ctor_data</a></li>
+<li><a href='#51E090'>ControllerOptionsRelated::ctor_title</a></li>
+<li><a href='#5B8010'>ControllerStruct874C40::5B8010</a></li>
+<li><a href='#5B8110'>ControllerStruct874C40::5B8110</a></li>
+<li><a href='#5B8720'>ControllerStruct874C40::5B8720</a></li>
+<li><a href='#5B9120'>ControllerStruct874C40::5B9120</a></li>
+<li><a href='#5B9280'>ControllerStruct874C40::5B9280</a></li>
+<li><a href='#5C1080'>ControllerStruct874C40::5C1080</a></li>
+<li><a href='#5C11A0'>ControllerStruct874C40::5C11A0</a></li>
+<li><a href='#5C14F0'>ControllerStruct874C40::5C14F0</a></li>
+<li><a href='#5C2100'>ControllerStruct874C40::5C2100</a></li>
+<li><a href='#5CF220'>ControllerStruct874C40::5CF220</a></li>
+<li><a href='#5CF320'>ControllerStruct874C40::5CF320</a></li>
+<li><a href='#5CFFF0'>ControllerStruct874C40::5CFFF0</a></li>
+<li><a href='#5C1020'>ControllerStruct874C40::ctor</a></li>
+<li><a href='#5B8000'>ControllerStruct874C40::dtor</a></li>
+<li><a href='#5B8A90'>ControllerStruct874C40::GetControllerKeyName</a></li>
+<li><a href='#5B8D90'>ControllerStruct874C40::GetKeyboardKeyName</a></li>
+<li><a href='#5C20E0'>ControllerStruct874C40::GetKeyName</a></li>
 <li><a href='#6FAE16'>CRealCoreDrive::CloseHandleWrapper</a></li>
 <li><a href='#6F6C23'>CRealCoreDrive::ctor</a></li>
 <li><a href='#6FAE9D'>CRealCoreDrive::DeleteFileAWrapper</a></li>
@@ -618,6 +634,7 @@ pre.ida span.hi {
 <li><a href='#4C5120'>DemoLegalFNGObject::MessageHandler</a></li>
 <li><a href='#4A8DF0'>DemoPSAFNGObject::ctor</a></li>
 <li><a href='#4C5460'>DemoPSAFNGObject::MessageHandler</a></li>
+<li><a href='#782470'>destroyControllerStruct874C40</a></li>
 <li><a href='#7542C0'>DestroyNetwork0</a></li>
 <li><a href='#7596A0'>DestroyNetwork00</a></li>
 <li><a href='#745100'>DestroyNetwork44</a></li>
@@ -645,6 +662,7 @@ pre.ida span.hi {
 <li><a href='#553C70'>EATraxJukeboxFNGObject::ctor</a></li>
 <li><a href='#56B1C0'>EATraxJukeboxFNGObject::MessageHandler</a></li>
 <li><a href='#75C461'>eh_vector_constructor_iterator</a></li>
+<li><a href='#75C401'>eh_vector_destructor_iterator</a></li>
 <li><a href='#4B5260'>EngageEventDialogFNGObject::ctor</a></li>
 <li><a href='#498F00'>EngageEventDialogFNGObject::MessageHandler</a></li>
 <li><a href='#497850'>EngageMessageDialogFNGObject::ctor</a></li>
@@ -897,7 +915,6 @@ pre.ida span.hi {
 <li><a href='#75BC60'>getsockname</a></li>
 <li><a href='#6F78DC'>GetSomeStructCRealCoreDriveForPath</a></li>
 <li><a href='#6F57A1'>GetSomeTimerResolution</a></li>
-<li><a href='#5B8D90'>GetSpecialKeyName</a></li>
 <li><a href='#6F6C47'>GetStruct6F79AFesiFromIndex</a></li>
 <li><a href='#74B730'>GetTickCount</a></li>
 <li><a href='#50C8E0'>GetTopPackage</a></li>
@@ -954,6 +971,7 @@ pre.ida span.hi {
 <li><a href='#77D9A0'>init_function_77D9A0_registerBinSectionhandler39102</a></li>
 <li><a href='#77E190'>init_function_77E190_registerBinSectionHandler34026</a></li>
 <li><a href='#77E1B0'>init_function_77E1B0_registerBinSectionHandler34027</a></li>
+<li><a href='#77E1F0'>init_function_77E1F0</a></li>
 <li><a href='#77E580'>init_function_77E580_MouseData_ctor</a></li>
 <li><a href='#77E6C0'>init_function_77E6C0_registerBinSectionHandler80034140</a></li>
 <li><a href='#77E6E0'>init_function_77E6E0_registerBinSectionHandler3412F</a></li>
@@ -1215,23 +1233,29 @@ pre.ida span.hi {
 <li><a href='#49C690'>OptionsFNGObject::MessageHandler</a></li>
 <li><a href='#4E3560'>OptionsMainFNGObject::ctor</a></li>
 <li><a href='#4B6080'>OptionsMainFNGObject::MessageHandler</a></li>
-<li><a href='#4ACAA0'>OptionsPCControllerFNGObject::4ACAA0</a></li>
-<li><a href='#4ACD90'>OptionsPCControllerFNGObject::4ACD90</a></li>
 <li><a href='#4ACE00'>OptionsPCControllerFNGObject::4ACE00</a></li>
-<li><a href='#4CB660'>OptionsPCControllerFNGObject::4CB660</a></li>
-<li><a href='#4CB970'>OptionsPCControllerFNGObject::4CB970</a></li>
+<li><a href='#4CB9E0'>OptionsPCControllerFNGObject::4CB9E0</a></li>
 <li><a href='#4DC9F0'>OptionsPCControllerFNGObject::4DC9F0</a></li>
 <li><a href='#4DDC10'>OptionsPCControllerFNGObject::4DDC10</a></li>
-<li><a href='#4DECD0'>OptionsPCControllerFNGObject::4DECD0</a></li>
 <li><a href='#4DEE90'>OptionsPCControllerFNGObject::4DEE90</a></li>
-<li><a href='#4ED140'>OptionsPCControllerFNGObject::4ED140</a></li>
 <li><a href='#4ED380'>OptionsPCControllerFNGObject::4ED380</a></li>
 <li><a href='#4CB4B0'>OptionsPCControllerFNGObject::AddOptionRow</a></li>
+<li><a href='#4DBA50'>OptionsPCControllerFNGObject::CreateOptionListElements</a></li>
 <li><a href='#4ECD10'>OptionsPCControllerFNGObject::ctor</a></li>
-<li><a href='#4ACCA0'>OptionsPCControllerFNGObject::FindLabelByName</a></li>
-<li><a href='#4DBA50'>OptionsPCControllerFNGObject::InitOptionListUI</a></li>
+<li><a href='#4CB7C0'>OptionsPCControllerFNGObject::DestroyOptionListElements</a></li>
+<li><a href='#4ACCA0'>OptionsPCControllerFNGObject::FindLabelAtCurrentRowForColumnName</a></li>
+<li><a href='#4CB970'>OptionsPCControllerFNGObject::GetIndexOfItemInPrimaryOrSecondaryLink</a></li>
+<li><a href='#4CB660'>OptionsPCControllerFNGObject::GetItemAtIndexInTitleLink</a></li>
+<li><a href='#4CB6B0'>OptionsPCControllerFNGObject::GetOptionAtScreenPosition</a></li>
+<li><a href='#4ACAA0'>OptionsPCControllerFNGObject::HandleMessageChangeActiveConfiguration</a></li>
 <li><a href='#4F9340'>OptionsPCControllerFNGObject::MessageHandler</a></li>
-<li><a href='#4CB910'>OptionsPCControllerFNGObject::UpdateKeyLabels?</a></li>
+<li><a href='#4ED140'>OptionsPCControllerFNGObject::OnMouseActivity</a></li>
+<li><a href='#4ACD90'>OptionsPCControllerFNGObject::ResetControlBindingsToDefault</a></li>
+<li><a href='#4ACCF0'>OptionsPCControllerFNGObject::SaveMasterElementPositions</a></li>
+<li><a href='#4DEC40'>OptionsPCControllerFNGObject::SetFocusedControl</a></li>
+<li><a href='#4DECD0'>OptionsPCControllerFNGObject::UpdateControlElementPositions</a></li>
+<li><a href='#4CB910'>OptionsPCControllerFNGObject::UpdateKeyLabelsText</a></li>
+<li><a href='#4ACBF0'>OptionsPCControllerFNGObject::UpdateScrollbarArrowAnimations</a></li>
 <li><a href='#56AEB0'>PaintFNGObject::ctor</a></li>
 <li><a href='#563410'>PaintFNGObject::MessageHandler</a></li>
 <li><a href='#5D9BF0'>PathsData::FindMarkerAtPosWithTypeAfterIndex</a></li>
@@ -1359,6 +1383,7 @@ pre.ida span.hi {
 <li><a href='#4888A0'>RenderWorld_</a></li>
 <li><a href='#4C0AA0'>ReplayControlFNGObject::ctor</a></li>
 <li><a href='#4D7BD0'>ReplayControlFNGObject::MessageHandler</a></li>
+<li><a href='#5B8760'>ResetControlsToDefaultBindings</a></li>
 <li><a href='#57BD70'>ResourceFileSlotPoolEntry::CreateQueuedFileSlotPoolEntry</a></li>
 <li><a href='#57CDE0'>ResourceFileSlotPoolEntry::ctor</a></li>
 <li><a href='#570FA0'>ResourceFileSlotPoolEntry::strcpyIntoEntryFilenameAgainAndSetFieldC4</a></li>
@@ -1552,6 +1577,7 @@ pre.ida span.hi {
 <li><a href='#4B2890'>TwoPPressStartFNGObject::ctor</a></li>
 <li><a href='#498070'>TwoPPressStartFNGObject::MessageHandler</a></li>
 <li><a href='#4FDAD0'>U2RECT::Add</a></li>
+<li><a href='#52CE40'>UIData::52CE40</a></li>
 <li><a href='#5377A0'>UIData::5377A0</a></li>
 <li><a href='#555D00'>UIData::AddFNGToUIObject</a></li>
 <li><a href='#5372E0'>UIData::ctor</a></li>
@@ -2144,7 +2170,7 @@ but instead all fields are copied separately
 <div class='mm'>
 <p>returns ptr to save data positioned after reading this
 <p></div>
-<div id='500FA0'><i>500FA0</i> int __thiscall <h3><a href='structs.html#struc_CareerStage'>CareerStage</a>::WriteToSaveData</h3>(<a href='structs.html#struc_CareerStage'>struct CareerStage</a> *this, int, int);</div>
+<div id='500FA0'><i>500FA0</i> int __thiscall <h3><a href='structs.html#struc_CareerStage'>CareerStage</a>::WriteToSaveData</h3>(<a href='structs.html#struc_CareerStage'>struct CareerStage</a> *this, void *dest, int);</div>
 <div id='4EE690'><i>4EE690</i> <h3><a href='structs.html#struc_CareerWorldMapFNGObject'>CareerWorldMapFNGObject</a>::ctor</h3></div>
 <div id='4E0F60'><i>4E0F60</i> <h3><a href='structs.html#struc_CareerWorldMapFNGObject'>CareerWorldMapFNGObject</a>::MessageHandler</h3></div>
 <div id='57B8B0'><i>57B8B0</i> void __thiscall <h3><a href='structs.html#struc_CheatScreenData'>CheatScreenData</a>::CheatCheck</h3>(<a href='structs.html#struc_CheatScreenData'>struct CheatScreenData</a> *this, int keyCode);</div>
@@ -2266,15 +2292,41 @@ return 0;
 </li><li>x -&gt; 0
 </li></ul>
 </div>
-<div id='51DFC0'><i>51DFC0</i> void __thiscall <h3><strong>ControllerOptionsRelated_Data</strong>::ctor</h3>(<a href='structs.html#struc_ControllerOptionsRelated'>struct ControllerOptionsRelated</a> *this, int *, float *, char);</div>
+<div id='51DFC0'><i>51DFC0</i> void __thiscall <h3><a href='structs.html#struc_ControllerOptionsRelated'>ControllerOptionsRelated</a>::ctor_data</h3>(<a href='structs.html#struc_ControllerOptionsRelated'>struct ControllerOptionsRelated</a> *this, int *, float *, char);</div>
 <div class='mm'>
 <p>these are for the OPTION_DATA_ elements, aka the primary/secondary control elements (complements the Name element)
 <p></div>
-<div id='51E090'><i>51E090</i> <h3><strong>ControllerOptionsRelated_Name</strong>::ctor</h3></div>
+<div id='51E090'><i>51E090</i> <h3><a href='structs.html#struc_ControllerOptionsRelated'>ControllerOptionsRelated</a>::ctor_title</h3></div>
 <div class='mm'>
 <p>this is for the OPTION_NAME_ element (the name of an option), complements the Data elements
 <p></div>
-<div id='5C20E0'><i>5C20E0</i> <h3><a href='structs.html#struc_ControllerStruct874C40'>ControllerStruct874C40</a>::5C20E0</h3></div>
+<div id='5B8010'><i>5B8010</i> <h3><a href='structs.html#struc_ControllerStruct874C40'>ControllerStruct874C40</a>::5B8010</h3></div>
+<div id='5B8110'><i>5B8110</i> int __thiscall <h3><a href='structs.html#struc_ControllerStruct874C40'>ControllerStruct874C40</a>::5B8110</h3>(<a href='structs.html#struc_ControllerStruct874C40'>struct ControllerStruct874C40</a> *this, int);</div>
+<div id='5B8720'><i>5B8720</i> int __thiscall <h3><a href='structs.html#struc_ControllerStruct874C40'>ControllerStruct874C40</a>::5B8720</h3>(<a href='structs.html#struc_ControllerStruct874C40'>struct ControllerStruct874C40</a> *this);</div>
+<div id='5B9120'><i>5B9120</i> <h3><a href='structs.html#struc_ControllerStruct874C40'>ControllerStruct874C40</a>::5B9120</h3></div>
+<div id='5B9280'><i>5B9280</i> int __thiscall <h3><a href='structs.html#struc_ControllerStruct874C40'>ControllerStruct874C40</a>::5B9280</h3>(<a href='structs.html#struc_ControllerStruct874C40'>struct ControllerStruct874C40</a> *this);</div>
+<div id='5C1080'><i>5C1080</i> int __thiscall <h3><a href='structs.html#struc_ControllerStruct874C40'>ControllerStruct874C40</a>::5C1080</h3>(<a href='structs.html#struc_ControllerStruct874C40'>struct ControllerStruct874C40</a> *this, int, int);</div>
+<div id='5C11A0'><i>5C11A0</i> int __thiscall <h3><a href='structs.html#struc_ControllerStruct874C40'>ControllerStruct874C40</a>::5C11A0</h3>(<a href='structs.html#struc_ControllerStruct874C40'>struct ControllerStruct874C40</a> *this);</div>
+<div id='5C14F0'><i>5C14F0</i> int __thiscall <h3><a href='structs.html#struc_ControllerStruct874C40'>ControllerStruct874C40</a>::5C14F0</h3>(<a href='structs.html#struc_ControllerStruct874C40'>struct ControllerStruct874C40</a> *this, int);</div>
+<div id='5C2100'><i>5C2100</i> int __thiscall <h3><a href='structs.html#struc_ControllerStruct874C40'>ControllerStruct874C40</a>::5C2100</h3>(<a href='structs.html#struc_ControllerStruct874C40'>struct ControllerStruct874C40</a> *this, int keyIndex, int isSecondary);</div>
+<div id='5CF220'><i>5CF220</i> int __thiscall <h3><a href='structs.html#struc_ControllerStruct874C40'>ControllerStruct874C40</a>::5CF220</h3>(<a href='structs.html#struc_ControllerStruct874C40'>struct ControllerStruct874C40</a> *this);</div>
+<div id='5CF320'><i>5CF320</i> int __thiscall <h3><a href='structs.html#struc_ControllerStruct874C40'>ControllerStruct874C40</a>::5CF320</h3>(<a href='structs.html#struc_ControllerStruct874C40'>struct ControllerStruct874C40</a> *this, int);</div>
+<div id='5CFFF0'><i>5CFFF0</i> void __thiscall <h3><a href='structs.html#struc_ControllerStruct874C40'>ControllerStruct874C40</a>::5CFFF0</h3>(<a href='structs.html#struc_ControllerStruct874C40'>struct ControllerStruct874C40</a> *this);</div>
+<div id='5C1020'><i>5C1020</i> <a href='structs.html#struc_ControllerStruct874C40'>struct ControllerStruct874C40</a> *__thiscall <h3><a href='structs.html#struc_ControllerStruct874C40'>ControllerStruct874C40</a>::ctor</h3>(<a href='structs.html#struc_ControllerStruct874C40'>struct ControllerStruct874C40</a> *this);</div>
+<div id='5B8000'><i>5B8000</i> <h3><a href='structs.html#struc_ControllerStruct874C40'>ControllerStruct874C40</a>::dtor</h3></div>
+<div id='5B8A90'><i>5B8A90</i> char *__thiscall <h3><a href='structs.html#struc_ControllerStruct874C40'>ControllerStruct874C40</a>::GetControllerKeyName</h3>(<a href='structs.html#struc_ControllerStruct874C40'>struct ControllerStruct874C40</a> *this, int keyIndex, int isSecondary);</div>
+<div class='mm'>
+<p>returns multibyte string
+<p></div>
+<div id='5B8D90'><i>5B8D90</i> char *__thiscall <h3><a href='structs.html#struc_ControllerStruct874C40'>ControllerStruct874C40</a>::GetKeyboardKeyName</h3>(<a href='structs.html#struc_ControllerStruct874C40'>struct ControllerStruct874C40</a> *this, int keyIndex, int isSecondary);</div>
+<div class='mm'>
+<p>returns multibyte string
+<p></div>
+<div id='5C20E0'><i>5C20E0</i> char *__thiscall <h3><a href='structs.html#struc_ControllerStruct874C40'>ControllerStruct874C40</a>::GetKeyName</h3>(<a href='structs.html#struc_ControllerStruct874C40'>struct ControllerStruct874C40</a> *this, int keyIndex, int isSecondary);</div>
+<div class='mm'>
+<p>returns multibyte string
+</p><p>delegates to <a href='funcs.html#5B8D90'>ControllerStruct874C40::GetKeyboardKeyName</a> or <a href='funcs.html#5B8A90'>ControllerStruct874C40::GetControllerKeyName</a> depending on <code>this-&gt;<a href='structs.html#struc_ControllerStruct874C40234'>type</a></code>
+<p></div>
 <div id='6FAE16'><i>6FAE16</i> int __thiscall <h3><a href='structs.html#struc_CRealCoreDrive'>CRealCoreDrive</a>::CloseHandleWrapper</h3>(<a href='structs.html#struc_CRealCoreDrive'>struct CRealCoreDrive</a> *this, HANDLE handle);</div>
 <div id='6F6C23'><i>6F6C23</i> int __thiscall <h3><a href='structs.html#struc_CRealCoreDrive'>CRealCoreDrive</a>::ctor</h3>(<a href='structs.html#struc_CRealCoreDrive'>struct CRealCoreDrive</a> *this, int dirname);</div>
 <div id='6FAE9D'><i>6FAE9D</i> int __thiscall <h3><a href='structs.html#struc_CRealCoreDrive'>CRealCoreDrive</a>::DeleteFileAWrapper</h3>(<a href='structs.html#struc_CRealCoreDrive'>struct CRealCoreDrive</a> *this, char *lpFileName);</div>
@@ -2398,6 +2450,7 @@ Implementation <code><a class='ext' href='https://github.com/yugecin/nfsu2-re/bl
 <div id='4C5120'><i>4C5120</i> <h3><a href='structs.html#struc_DemoLegalFNGObject'>DemoLegalFNGObject</a>::MessageHandler</h3></div>
 <div id='4A8DF0'><i>4A8DF0</i> <a href='structs.html#struc_DemoPSAFNGObject'>struct DemoPSAFNGObject</a> *__thiscall <h3><a href='structs.html#struc_DemoPSAFNGObject'>DemoPSAFNGObject</a>::ctor</h3>(<a href='structs.html#struc_DemoPSAFNGObject'>struct DemoPSAFNGObject</a> *this, int);</div>
 <div id='4C5460'><i>4C5460</i> <h3><a href='structs.html#struc_DemoPSAFNGObject'>DemoPSAFNGObject</a>::MessageHandler</h3></div>
+<div id='782470'><i>782470</i> void __cdecl <h3>destroyControllerStruct874C40</h3>();</div>
 <div id='7542C0'><i>7542C0</i> void __cdecl <h3>DestroyNetwork0</h3>(<a href='structs.html#struc_Network0'>struct Network0</a> *network0);</div>
 <div id='7596A0'><i>7596A0</i> int __cdecl <h3>DestroyNetwork00</h3>(<a href='structs.html#struc_Network00'>struct Network00</a> *network00);</div>
 <div id='745100'><i>745100</i> void __cdecl <h3>DestroyNetwork44</h3>(<a href='structs.html#struc_Network44'>struct Network44</a> *network44);</div>
@@ -2452,6 +2505,7 @@ Delegates to <a href='funcs.html#52D020'>IsPointInUIElement</a>
 <div id='553C70'><i>553C70</i> <a href='structs.html#struc_EATraxJukeboxFNGObject'>struct EATraxJukeboxFNGObject</a> *__thiscall <h3><a href='structs.html#struc_EATraxJukeboxFNGObject'>EATraxJukeboxFNGObject</a>::ctor</h3>(<a href='structs.html#struc_EATraxJukeboxFNGObject'>struct EATraxJukeboxFNGObject</a> *this, int);</div>
 <div id='56B1C0'><i>56B1C0</i> <h3><a href='structs.html#struc_EATraxJukeboxFNGObject'>EATraxJukeboxFNGObject</a>::MessageHandler</h3></div>
 <div id='75C461'><i>75C461</i> <h3>eh_vector_constructor_iterator</h3></div>
+<div id='75C401'><i>75C401</i> <h3>eh_vector_destructor_iterator</h3></div>
 <div id='4B5260'><i>4B5260</i> <a href='structs.html#struc_EngageEventDialogFNGObject'>struct EngageEventDialogFNGObject</a> *__thiscall <h3><a href='structs.html#struc_EngageEventDialogFNGObject'>EngageEventDialogFNGObject</a>::ctor</h3>(<a href='structs.html#struc_EngageEventDialogFNGObject'>struct EngageEventDialogFNGObject</a> *this, int);</div>
 <div id='498F00'><i>498F00</i> <h3><a href='structs.html#struc_EngageEventDialogFNGObject'>EngageEventDialogFNGObject</a>::MessageHandler</h3></div>
 <div id='497850'><i>497850</i> int __thiscall <h3><a href='structs.html#struc_EngageMessageDialogFNGObject'>EngageMessageDialogFNGObject</a>::ctor</h3>(<a href='structs.html#struc_EngageMessageDialogFNGObject'>struct EngageMessageDialogFNGObject</a> *this, <a href='structs.html#struc_FNGShowData'>struct FNGShowData</a> *fngShowData);</div>
@@ -2919,7 +2973,6 @@ See <code><a class='ext' href='https://github.com/yugecin/nfsu2-re/blob/master/n
 <div class='mm'>
 <p>most likely 1000
 <p></div>
-<div id='5B8D90'><i>5B8D90</i> <h3>GetSpecialKeyName</h3></div>
 <div id='6F6C47'><i>6F6C47</i> <a href='structs.html#struc_struct6F79AFesi'>struct struct6F79AFesi</a> *__cdecl <h3>GetStruct6F79AFesiFromIndex</h3>(int index);</div>
 <div class='mm'>
 <p>index of array in <a href='vars.html#8AD610'>struct_8AD610</a>
@@ -3022,6 +3075,10 @@ Returns <code>1</code> on success.
 <div id='77D9A0'><i>77D9A0</i> <h3>init_function_77D9A0_registerBinSectionhandler39102</h3></div>
 <div id='77E190'><i>77E190</i> <h3>init_function_77E190_registerBinSectionHandler34026</h3></div>
 <div id='77E1B0'><i>77E1B0</i> <h3>init_function_77E1B0_registerBinSectionHandler34027</h3></div>
+<div id='77E1F0'><i>77E1F0</i> <h3>init_function_77E1F0</h3></div>
+<div class='mm'>
+<p>inits <a href='vars.html#874C40'>controllerStruct874C40</a>
+<p></div>
 <div id='77E580'><i>77E580</i> <h3>init_function_77E580_MouseData_ctor</h3></div>
 <div class='mm'>
 <p>Calls <a href='funcs.html#5C8600'>MouseData::ctor</a> to initialize mouse data.
@@ -3499,30 +3556,47 @@ def:
 <div id='49C690'><i>49C690</i> <h3><a href='structs.html#struc_OptionsFNGObject'>OptionsFNGObject</a>::MessageHandler</h3></div>
 <div id='4E3560'><i>4E3560</i> <a href='structs.html#struc_OptionsMainFNGObject'>struct OptionsMainFNGObject</a> *__thiscall <h3><a href='structs.html#struc_OptionsMainFNGObject'>OptionsMainFNGObject</a>::ctor</h3>(<a href='structs.html#struc_OptionsMainFNGObject'>struct OptionsMainFNGObject</a> *this, <a href='structs.html#struc_FNGShowData'>struct FNGShowData</a> *fngShowData);</div>
 <div id='4B6080'><i>4B6080</i> <h3><a href='structs.html#struc_OptionsMainFNGObject'>OptionsMainFNGObject</a>::MessageHandler</h3></div>
-<div id='4ACAA0'><i>4ACAA0</i> <h3><a href='structs.html#struc_OptionsPCControllerFNGObject'>OptionsPCControllerFNGObject</a>::4ACAA0</h3></div>
-<div id='4ACD90'><i>4ACD90</i> <h3><a href='structs.html#struc_OptionsPCControllerFNGObject'>OptionsPCControllerFNGObject</a>::4ACD90</h3></div>
 <div id='4ACE00'><i>4ACE00</i> void __thiscall <h3><a href='structs.html#struc_OptionsPCControllerFNGObject'>OptionsPCControllerFNGObject</a>::4ACE00</h3>(<a href='structs.html#struc_OptionsPCControllerFNGObject'>struct OptionsPCControllerFNGObject</a> *this);</div>
-<div id='4CB660'><i>4CB660</i> <h3><a href='structs.html#struc_OptionsPCControllerFNGObject'>OptionsPCControllerFNGObject</a>::4CB660</h3></div>
-<div id='4CB970'><i>4CB970</i> <h3><a href='structs.html#struc_OptionsPCControllerFNGObject'>OptionsPCControllerFNGObject</a>::4CB970</h3></div>
+<div id='4CB9E0'><i>4CB9E0</i> <h3><a href='structs.html#struc_OptionsPCControllerFNGObject'>OptionsPCControllerFNGObject</a>::4CB9E0</h3></div>
 <div id='4DC9F0'><i>4DC9F0</i> <h3><a href='structs.html#struc_OptionsPCControllerFNGObject'>OptionsPCControllerFNGObject</a>::4DC9F0</h3></div>
 <div id='4DDC10'><i>4DDC10</i> <h3><a href='structs.html#struc_OptionsPCControllerFNGObject'>OptionsPCControllerFNGObject</a>::4DDC10</h3></div>
-<div id='4DECD0'><i>4DECD0</i> int __thiscall <h3><a href='structs.html#struc_OptionsPCControllerFNGObject'>OptionsPCControllerFNGObject</a>::4DECD0</h3>(<a href='structs.html#struc_OptionsPCControllerFNGObject'>struct OptionsPCControllerFNGObject</a> *this);</div>
-<div id='4DEE90'><i>4DEE90</i> <h3><a href='structs.html#struc_OptionsPCControllerFNGObject'>OptionsPCControllerFNGObject</a>::4DEE90</h3></div>
-<div id='4ED140'><i>4ED140</i> <h3><a href='structs.html#struc_OptionsPCControllerFNGObject'>OptionsPCControllerFNGObject</a>::4ED140</h3></div>
+<div id='4DEE90'><i>4DEE90</i> void __thiscall <h3><a href='structs.html#struc_OptionsPCControllerFNGObject'>OptionsPCControllerFNGObject</a>::4DEE90</h3>(<a href='structs.html#struc_OptionsPCControllerFNGObject'>struct OptionsPCControllerFNGObject</a> *this);</div>
 <div id='4ED380'><i>4ED380</i> <h3><a href='structs.html#struc_OptionsPCControllerFNGObject'>OptionsPCControllerFNGObject</a>::4ED380</h3></div>
-<div id='4CB4B0'><i>4CB4B0</i> int __thiscall <h3><a href='structs.html#struc_OptionsPCControllerFNGObject'>OptionsPCControllerFNGObject</a>::AddOptionRow</h3>(<a href='structs.html#struc_OptionsPCControllerFNGObject'>struct OptionsPCControllerFNGObject</a> *this, <a href='structs.html#struc_ControllerOptionsRelated'>struct ControllerOptionsRelated</a> *descriptionElement, <a href='structs.html#struc_ControllerOptionsRelated'>struct ControllerOptionsRelated</a> *primaryElement, <a href='structs.html#struc_ControllerOptionsRelated'>struct ControllerOptionsRelated</a> *secondaryElement);</div>
-<div id='4ECD10'><i>4ECD10</i> <h3><a href='structs.html#struc_OptionsPCControllerFNGObject'>OptionsPCControllerFNGObject</a>::ctor</h3></div>
-<div id='4ACCA0'><i>4ACCA0</i> <a href='structs.html#struc_UILabel'>struct UILabel</a> *__thiscall <h3><a href='structs.html#struc_OptionsPCControllerFNGObject'>OptionsPCControllerFNGObject</a>::FindLabelByName</h3>(<a href='structs.html#struc_OptionsPCControllerFNGObject'>struct OptionsPCControllerFNGObject</a> *this, char *src1);</div>
-<div class='mm'>
-<p>colname should be <code>OPTION_NAME_</code> or <code>OPTION_DATA_</code> or <code>OPTION_DATA2_</code>
-</p><p>rowidx is read from <code>this-&gt;<a href='structs.html#struc_OptionsPCControllerFNGObject134'>field_134</a></code>
-<p></div>
-<div id='4DBA50'><i>4DBA50</i> <h3><a href='structs.html#struc_OptionsPCControllerFNGObject'>OptionsPCControllerFNGObject</a>::InitOptionListUI</h3></div>
+<div id='4CB4B0'><i>4CB4B0</i> int __thiscall <h3><a href='structs.html#struc_OptionsPCControllerFNGObject'>OptionsPCControllerFNGObject</a>::AddOptionRow</h3>(<a href='structs.html#struc_OptionsPCControllerFNGObject'>struct OptionsPCControllerFNGObject</a> *this, <a href='structs.html#struc_ControllerOptionsRelated'>struct ControllerOptionsRelated</a> *titleElement, <a href='structs.html#struc_ControllerOptionsRelated'>struct ControllerOptionsRelated</a> *primaryElement, <a href='structs.html#struc_ControllerOptionsRelated'>struct ControllerOptionsRelated</a> *secondaryElement);</div>
+<div id='4DBA50'><i>4DBA50</i> void __thiscall <h3><a href='structs.html#struc_OptionsPCControllerFNGObject'>OptionsPCControllerFNGObject</a>::CreateOptionListElements</h3>(<a href='structs.html#struc_OptionsPCControllerFNGObject'>struct OptionsPCControllerFNGObject</a> *this);</div>
 <div class='mm'>
 <p>these create 54(36h) instances of something with UI object stuff. There are 18 controls *3(name,primary,secondary columns) = 54
 <p></div>
+<div id='4ECD10'><i>4ECD10</i> int __thiscall <h3><a href='structs.html#struc_OptionsPCControllerFNGObject'>OptionsPCControllerFNGObject</a>::ctor</h3>(<a href='structs.html#struc_OptionsPCControllerFNGObject'>struct OptionsPCControllerFNGObject</a> *this, <a href='structs.html#struc_FNGShowData'>struct FNGShowData</a> *fngShowData);</div>
+<div id='4CB7C0'><i>4CB7C0</i> void __thiscall <h3><a href='structs.html#struc_OptionsPCControllerFNGObject'>OptionsPCControllerFNGObject</a>::DestroyOptionListElements</h3>(<a href='structs.html#struc_OptionsPCControllerFNGObject'>struct OptionsPCControllerFNGObject</a> *this);</div>
+<div id='4ACCA0'><i>4ACCA0</i> <a href='structs.html#struc_UILabel'>struct UILabel</a> *__thiscall <h3><a href='structs.html#struc_OptionsPCControllerFNGObject'>OptionsPCControllerFNGObject</a>::FindLabelAtCurrentRowForColumnName</h3>(<a href='structs.html#struc_OptionsPCControllerFNGObject'>struct OptionsPCControllerFNGObject</a> *this, char *columnName);</div>
+<div class='mm'>
+<p>columnName should be <code>OPTION_NAME_</code> or <code>OPTION_DATA_</code> or <code>OPTION_DATA2_</code>
+</p><p>rowidx is read from <code>this-&gt;<a href='structs.html#struc_OptionsPCControllerFNGObject134'>currentOptionIndex</a></code>
+<p></div>
+<div id='4CB970'><i>4CB970</i> int __thiscall <h3><a href='structs.html#struc_OptionsPCControllerFNGObject'>OptionsPCControllerFNGObject</a>::GetIndexOfItemInPrimaryOrSecondaryLink</h3>(<a href='structs.html#struc_OptionsPCControllerFNGObject'>struct OptionsPCControllerFNGObject</a> *this, <a href='structs.html#struc_ControllerOptionsRelated'>struct ControllerOptionsRelated</a> *cor);</div>
+<div class='mm'>
+<p>finds the index where the given <a href='structs.html#struc_ControllerOptionsRelated'>struct ControllerOptionsRelated</a> is in either the primary or secondary link.
+If it's found in the primary controls link: return its index, if it's found in the secondary controls link: return its index, otherwise 0
+<p></div>
+<div id='4CB660'><i>4CB660</i> <a href='structs.html#struc_ControllerOptionsRelated'>struct ControllerOptionsRelated</a> *__thiscall <h3><a href='structs.html#struc_OptionsPCControllerFNGObject'>OptionsPCControllerFNGObject</a>::GetItemAtIndexInTitleLink</h3>(<a href='structs.html#struc_OptionsPCControllerFNGObject'>struct OptionsPCControllerFNGObject</a> *this, int index);</div>
+<div id='4CB6B0'><i>4CB6B0</i> <a href='structs.html#struc_ControllerOptionsRelated'>struct ControllerOptionsRelated</a> *__thiscall <h3><a href='structs.html#struc_OptionsPCControllerFNGObject'>OptionsPCControllerFNGObject</a>::GetOptionAtScreenPosition</h3>(<a href='structs.html#struc_OptionsPCControllerFNGObject'>struct OptionsPCControllerFNGObject</a> *this, float x, float y);</div>
+<div class='mm'>
+<p>called from <a href='funcs.html#4ED140'>OptionsPCControllerFNGObject::OnMouseActivity</a>
+<p></div>
+<div id='4ACAA0'><i>4ACAA0</i> void __thiscall <h3><a href='structs.html#struc_OptionsPCControllerFNGObject'>OptionsPCControllerFNGObject</a>::HandleMessageChangeActiveConfiguration</h3>(<a href='structs.html#struc_OptionsPCControllerFNGObject'>struct OptionsPCControllerFNGObject</a> *this, unsigned int message);</div>
+<div class='mm'>
+<p>ie go left or go right (switch between keyboard/gamepad/...)
+message should only be <a href='enums.html#enu_UIMESSAGES9120409E'>UIMSG_GO_LEFT</a> or <a href='enums.html#enu_UIMESSAGESB5971BF1'>UIMSG_GO_RIGHT</a>
+<p></div>
 <div id='4F9340'><i>4F9340</i> <h3><a href='structs.html#struc_OptionsPCControllerFNGObject'>OptionsPCControllerFNGObject</a>::MessageHandler</h3></div>
-<div id='4CB910'><i>4CB910</i> <h3><a href='structs.html#struc_OptionsPCControllerFNGObject'>OptionsPCControllerFNGObject</a>::UpdateKeyLabels?</h3></div>
+<div id='4ED140'><i>4ED140</i> void __thiscall <h3><a href='structs.html#struc_OptionsPCControllerFNGObject'>OptionsPCControllerFNGObject</a>::OnMouseActivity</h3>(<a href='structs.html#struc_OptionsPCControllerFNGObject'>struct OptionsPCControllerFNGObject</a> *this);</div>
+<div id='4ACD90'><i>4ACD90</i> void __thiscall <h3><a href='structs.html#struc_OptionsPCControllerFNGObject'>OptionsPCControllerFNGObject</a>::ResetControlBindingsToDefault</h3>(<a href='structs.html#struc_OptionsPCControllerFNGObject'>struct OptionsPCControllerFNGObject</a> *this);</div>
+<div id='4ACCF0'><i>4ACCF0</i> void __thiscall <h3><a href='structs.html#struc_OptionsPCControllerFNGObject'>OptionsPCControllerFNGObject</a>::SaveMasterElementPositions</h3>(<a href='structs.html#struc_OptionsPCControllerFNGObject'>struct OptionsPCControllerFNGObject</a> *this);</div>
+<div id='4DEC40'><i>4DEC40</i> void __thiscall <h3><a href='structs.html#struc_OptionsPCControllerFNGObject'>OptionsPCControllerFNGObject</a>::SetFocusedControl</h3>(<a href='structs.html#struc_OptionsPCControllerFNGObject'>struct OptionsPCControllerFNGObject</a> *this, <a href='structs.html#struc_ControllerOptionsRelated'>struct ControllerOptionsRelated</a> *cor);</div>
+<div id='4DECD0'><i>4DECD0</i> void __thiscall <h3><a href='structs.html#struc_OptionsPCControllerFNGObject'>OptionsPCControllerFNGObject</a>::UpdateControlElementPositions</h3>(<a href='structs.html#struc_OptionsPCControllerFNGObject'>struct OptionsPCControllerFNGObject</a> *this);</div>
+<div id='4CB910'><i>4CB910</i> void __cdecl <h3><a href='structs.html#struc_OptionsPCControllerFNGObject'>OptionsPCControllerFNGObject</a>::UpdateKeyLabelsText</h3>(<a href='structs.html#struc_OptionsPCControllerFNGObject'>struct OptionsPCControllerFNGObject</a> *this);</div>
+<div id='4ACBF0'><i>4ACBF0</i> void __thiscall <h3><a href='structs.html#struc_OptionsPCControllerFNGObject'>OptionsPCControllerFNGObject</a>::UpdateScrollbarArrowAnimations</h3>(<a href='structs.html#struc_OptionsPCControllerFNGObject'>struct OptionsPCControllerFNGObject</a> *this);</div>
 <div id='56AEB0'><i>56AEB0</i> <a href='structs.html#struc_PaintFNGObject'>struct PaintFNGObject</a> *__thiscall <h3><a href='structs.html#struc_PaintFNGObject'>PaintFNGObject</a>::ctor</h3>(<a href='structs.html#struc_PaintFNGObject'>struct PaintFNGObject</a> *this, int);</div>
 <div id='563410'><i>563410</i> <h3><a href='structs.html#struc_PaintFNGObject'>PaintFNGObject</a>::MessageHandler</h3></div>
 <div id='5D9BF0'><i>5D9BF0</i> <a href='structs.html#struc_Marker'>struct Marker</a> *__thiscall <h3><a href='structs.html#struc_PathsData'>PathsData</a>::FindMarkerAtPosWithTypeAfterIndex</h3>(<a href='structs.html#struc_PathsData'>struct PathsData</a> *this, void *nearPosition, int type, <a href='structs.html#struc_Marker'>struct Marker</a> *after);</div>
@@ -3759,6 +3833,7 @@ this-&gt;<a href='structs.html#struc_PoolControl0'>inited</a> = 1;
 <div id='4888A0'><i>4888A0</i> <h3>RenderWorld_</h3></div>
 <div id='4C0AA0'><i>4C0AA0</i> <a href='structs.html#struc_ReplayControlFNGObject'>struct ReplayControlFNGObject</a> *__thiscall <h3><a href='structs.html#struc_ReplayControlFNGObject'>ReplayControlFNGObject</a>::ctor</h3>(<a href='structs.html#struc_ReplayControlFNGObject'>struct ReplayControlFNGObject</a> *this, int);</div>
 <div id='4D7BD0'><i>4D7BD0</i> <h3><a href='structs.html#struc_ReplayControlFNGObject'>ReplayControlFNGObject</a>::MessageHandler</h3></div>
+<div id='5B8760'><i>5B8760</i> void __cdecl <h3>ResetControlsToDefaultBindings</h3>();</div>
 <div id='57BD70'><i>57BD70</i> <a href='structs.html#struc_QueuedFileSlotPoolEntry'>struct QueuedFileSlotPoolEntry</a> *__thiscall <h3><a href='structs.html#struc_ResourceFileSlotPoolEntry'>ResourceFileSlotPoolEntry</a>::CreateQueuedFileSlotPoolEntry</h3>(<a href='structs.html#struc_ResourceFileSlotPoolEntry'>struct ResourceFileSlotPoolEntry</a> *this, int, int);</div>
 <div id='57CDE0'><i>57CDE0</i> <a href='structs.html#struc_ResourceFileSlotPoolEntry'>struct ResourceFileSlotPoolEntry</a> *__thiscall <h3><a href='structs.html#struc_ResourceFileSlotPoolEntry'>ResourceFileSlotPoolEntry</a>::ctor</h3>(<a href='structs.html#struc_ResourceFileSlotPoolEntry'>struct ResourceFileSlotPoolEntry</a> *this, int src, int, int, int, int);</div>
 <div class='mm'>
@@ -4276,6 +4351,7 @@ this might be resposible for reading files?
 <div class='mm'>
 <p>Sums <code>this</code> and <code>rect</code> into <code>this</code>.
 <p></div>
+<div id='52CE40'><i>52CE40</i> void __stdcall <h3><a href='structs.html#struc_UIData'>UIData</a>::52CE40</h3>(char *fngName, unsigned int hash);</div>
 <div id='5377A0'><i>5377A0</i> int __thiscall <h3><a href='structs.html#struc_UIData'>UIData</a>::5377A0</h3>(<a href='structs.html#struc_UIData'>struct UIData</a> *this, char *currentFNGName, char *fngName, int);</div>
 <div id='555D00'><i>555D00</i> int __thiscall <h3><a href='structs.html#struc_UIData'>UIData</a>::AddFNGToUIObject</h3>(<a href='structs.html#struc_UIData'>struct UIData</a> *this, int flagsMaybe, char *fngName, char *parentFngName, int controlMask, void *data);</div>
 <div class='mm'>
@@ -4454,7 +4530,7 @@ if (section-&gt;<a href='structs.html#struc_BinSection0'>header</a>.<a href='str
 <div id='5D84D0'><i>5D84D0</i> int __cdecl <h3>UnoadBinSection34146</h3>(<a href='structs.html#struc_BinSection'>struct BinSection</a> *binsection);</div>
 <div id='5D2850'><i>5D2850</i> <h3>UpdateAndRenderStuff</h3></div>
 <div id='44EFE0'><i>44EFE0</i> <h3>UpdateCamera</h3></div>
-<div id='4ACF40'><i>4ACF40</i> <h3>UpdateControllerLabelText</h3></div>
+<div id='4ACF40'><i>4ACF40</i> void __cdecl <h3>UpdateControllerLabelText</h3>(<a href='structs.html#struc_UIElement'>struct UIElement</a> *uielement, int keyIndex, int isSecondary, int controllerIndex);</div>
 <div class='mm'>
 <p>related to <a href='structs.html#struc_OptionsPCControllerFNGObject'>struct OptionsPCControllerFNGObject</a>, updates the text of a row in the controls list
 <p></div>

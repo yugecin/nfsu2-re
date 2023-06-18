@@ -287,6 +287,18 @@
 			</FileConfiguration>
 		</File>
 		<File
+			RelativePath=".\debug-custom-getkeyname.c"
+			>
+			<FileConfiguration
+				Name="Debug|Win32"
+				ExcludedFromBuild="true"
+				>
+				<Tool
+					Name="VCCLCompilerTool"
+				/>
+			</FileConfiguration>
+		</File>
+		<File
 			RelativePath=".\debug-custom-markers-debug.c"
 			>
 			<FileConfiguration

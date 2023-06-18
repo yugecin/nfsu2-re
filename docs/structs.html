@@ -253,7 +253,7 @@ pre.ida span.hi {
 <a href='cheatsheet.html'>cheatsheet</a></nav>
 </header>
 <div class='struc'>
-<h2>Structs (424)</h2>
+<h2>Structs (429)</h2>
 <ul>
 <li><a href='#struc__COMMCONFIG'>_COMMCONFIG</a></li>
 <li><a href='#struc__COMMTIMEOUTS'>_COMMTIMEOUTS</a></li>
@@ -359,9 +359,14 @@ pre.ida span.hi {
 <li><a href='#struc_ChooseVinylLayerFNGObject'>ChooseVinylLayerFNGObject</a> <em></em></li>
 <li><a href='#struc_ChyronIGFNGObject'>ChyronIGFNGObject</a> <em></em></li>
 <li><a href='#struc_CommonFNGObjectStructA'>CommonFNGObjectStructA</a> <em></em></li>
-<li><a href='#struc_ControllerOptionsRelated'>ControllerOptionsRelated</a></li>
+<li><a href='#struc_ControllerOptionsRelated'>ControllerOptionsRelated</a> <em></em></li>
 <li><a href='#struc_ControllerOptionsRelated$vtable'>ControllerOptionsRelated$vtable</a></li>
+<li><a href='#struc_ControllerStruct835930'>ControllerStruct835930</a></li>
 <li><a href='#struc_ControllerStruct874C40'>ControllerStruct874C40</a> <em></em></li>
+<li><a href='#struc_ControllerStruct874C40_158'>ControllerStruct874C40_158</a></li>
+<li><a href='#struc_ControllerStruct874C40_1D8'>ControllerStruct874C40_1D8</a></li>
+<li><a href='#struc_ControllerStruct874C40_58'>ControllerStruct874C40_58</a></li>
+<li><a href='#struc_ControllerStruct874C40_D8'>ControllerStruct874C40_D8</a></li>
 <li><a href='#struc_CPPEH_RECORD'>CPPEH_RECORD</a></li>
 <li><a href='#struc_CRealCoreDrive'>CRealCoreDrive</a> <em></em></li>
 <li><a href='#struc_CRealCoreDrive_vtable'>CRealCoreDrive_vtable</a></li>
@@ -1907,7 +1912,7 @@ extra refs: 500FBC 51441E*/</span>
 <li><pre><i>500700</i> <a href='funcs.html#500700' title='void __thiscall CareerStage__Init(struct CareerStage *this, int stageIndex);'>CareerStage::Init</a></pre></li>
 <li><pre><i>541090</i> <a href='funcs.html#541090' title='int __thiscall CareerStage__OnShowcaseDone(struct CareerStage *this, void *);'>CareerStage::OnShowcaseDone</a></pre></li>
 <li><pre><i>514400</i> <a href='funcs.html#514400' title='void *__thiscall CareerStage__ReadFromSaveData(struct CareerStage *this, void *data, int);'>CareerStage::ReadFromSaveData</a></pre></li>
-<li><pre><i>500FA0</i> <a href='funcs.html#500FA0' title='int __thiscall CareerStage__WriteToSaveData(struct CareerStage *this, int, int);'>CareerStage::WriteToSaveData</a></pre></li>
+<li><pre><i>500FA0</i> <a href='funcs.html#500FA0' title='int __thiscall CareerStage__WriteToSaveData(struct CareerStage *this, void *dest, int);'>CareerStage::WriteToSaveData</a></pre></li>
 </ul>
 <div id='struc_CareerStageSettings'>struct <h3>CareerStageSettings</h3> { <i>/*19 members, size 50h*/</i>
 <i>/*0*/	</i>char stageIndex;
@@ -2245,33 +2250,77 @@ size 50 (see 512AC9)
 <li><pre><i>50DCB0</i> <a href='funcs.html#50DCB0' title='wchar_t *__thiscall CommonFNGObjectStructA__GetEndOfStringW(struct CommonFNGObjectStructA *this, wchar_t *str);'>CommonFNGObjectStructA::GetEndOfStringW</a></pre></li>
 <li><pre><i>5397E0</i> <a href='funcs.html#5397E0' title='int __thiscall CommonFNGObjectStructA__UpdateAfterScrollEvent_(struct CommonFNGObjectStructA *this, int);'>CommonFNGObjectStructA::UpdateAfterScrollEvent?</a></pre></li>
 </ul>
-<div id='struc_ControllerOptionsRelated'>struct <h3>ControllerOptionsRelated</h3> { <i>/*14 members, size 38h*/</i>
+<div id='struc_ControllerOptionsRelated'>struct <h3>ControllerOptionsRelated</h3> { <i>/*11 members, size 38h*/</i> <em></em>
 <i>/*0*/	</i><a href='structs.html#struc_ControllerOptionsRelated$vtable'>struct ControllerOptionsRelated$vtable</a> *vtable;
 <i>/*4*/	</i><a href='#struc_ObjectLink'>struct ObjectLink</a> link;
-<i>/*C*/	int floatField_C;</i>
-<i>/*10*/	int floatField_10;</i>
-<i>/*14*/	int field_14;</i>
-<i>/*18*/	int field_18;</i>
+<i>/*C*/	</i><a href='#struc_vec2'>struct vec2</a> pos;
+<i>/*14*/	</i><a href='#struc_vec2'>struct vec2</a> size;
 <i>/*1C*/	int floatField_1C;</i>
 <i>/*20*/	int floatField_20;</i>
-<i>/*24*/	</i><a href='structs.html#struc_UIElement'>struct UIElement</a> *uielement24;
+<span class='mm'>/**background type1 ui element*/</span>
+<i>/*24*/	</i><a href='structs.html#struc_UIElementType1'>struct UIElementType1</a> *backingElement;
+<span class='mm'>/**element not focusable if this is 0*/</span>
 <i>/*28*/	char field_28;</i>
+<span class='mm'>/**element not focusable if this is 1*/</span>
 <i>/*29*/	char field_29;</i>
 <i>/*2A*/	char _pad2A[0x2];</i>
 <i>/*2C*/	</i><a href='structs.html#struc_UILabel'>struct UILabel</a> *uilabel;
-<i>/*30*/	int field_30;</i>
-<i>/*34*/	int floatField_34;</i>
+<i>/*30*/	</i><a href='#struc_vec2'>struct vec2</a> sizeCopy;
 };</div>
 <div class='mm'>
-<p>deals with UI elements of pc controller options
+<p>deals with UI elements of pc controller options (and more?)
 <p></div>
+<p><strong>Methods:</strong></p>
+<ul>
+<li><pre><i>51DFC0</i> <a href='funcs.html#51DFC0' title='void __thiscall ControllerOptionsRelated__ctor_data(struct ControllerOptionsRelated *this, int *, float *, char);'>ControllerOptionsRelated::ctor_data</a></pre></li>
+<li><pre><i>51E090</i> <a href='funcs.html#51E090' title='ControllerOptionsRelated::ctor_title'>ControllerOptionsRelated::ctor_title</a></pre></li>
+</ul>
 <div id='struc_ControllerOptionsRelated$vtable'>struct <h3>ControllerOptionsRelated$vtable</h3> { <i>/*16 members, size 40h*/</i>
-<i>/*0*/	int field_0;</i>
-<i>/*4*/	int field_4;</i>
-<i>/*8*/	int field_8;</i>
+<i>/*0*/	</i>int (__thiscall *procDtor)(<a href='structs.html#struc_ControllerOptionsRelated'>struct ControllerOptionsRelated</a> *this, int);
+<i>/*4*/	</i>void (__thiscall *procDispatchMessage)(<a href='structs.html#struc_ControllerOptionsRelated'>struct ControllerOptionsRelated</a> *this, char *fng, unsigned int message);
+<i>/*8*/	</i>int procOnClick <u></u>;
 <i>/*C*/	</i>int procUpdateLabelText <u></u>;
 <i>/*10*/	int field_10;</i>
+<span class='mm'>/**+ backing*/</span>
 <i>/*14*/	</i>int procShow <u></u>;
+<span class='mm'>/**+ backing*/</span>
+<i>/*18*/	</i>int procHide <u></u>;
+<i>/*1C*/	int field_1C;</i>
+<i>/*20*/	int field_20;</i>
+<i>/*24*/	</i>int procHighlight <u></u>;
+<i>/*28*/	</i>int procUnhighlight <u></u>;
+<i>/*2C*/	</i>void (__thiscall *procSetPos)(<a href='structs.html#struc_ControllerOptionsRelated'>struct ControllerOptionsRelated</a> *this, <a href='structs.html#struc_vec2'>struct vec2</a> *pos);
+<i>/*30*/	</i>void (__thiscall *procSetPosX)(<a href='structs.html#struc_ControllerOptionsRelated'>struct ControllerOptionsRelated</a> *this, float x);
+<i>/*34*/	</i>void (__thiscall *procSetPosY)(<a href='structs.html#struc_ControllerOptionsRelated'>struct ControllerOptionsRelated</a> *this, float y);
+<i>/*38*/	int field_38;</i>
+<i>/*3C*/	int field_3C;</i>
+};</div>
+<div id='struc_ControllerStruct835930'>struct <h3>ControllerStruct835930</h3> { <i>/*2 members, size Ch*/</i>
+<span class='mm'>/**set to 0/1/2*/</span>
+<i>/*0*/	int field_0;</i>
+<i>/*4*/	char _pad4[0x4];</i>
+<i>/*8*/	</i>int index <u></u>;
+};</div>
+<div class='mm'>
+<p>size C
+<p></div>
+<div id='struc_ControllerStruct874C40'>struct <h3>ControllerStruct874C40</h3> { <i>/*46 members, size 370h*/</i> <em></em>
+<span class='mm'>/**only has dtor*/</span>
+<i>/*0*/	</i>int vtable <u></u>;
+<i>/*4*/	int field_4;</i>
+<span class='mm'>/**inited to -1*/</span>
+<i>/*8*/	int field_8;</i>
+<span class='mm'>/**inited to -1*/</span>
+<i>/*C*/	int field_C;</i>
+<span class='mm'>/**inited to 0*/</span>
+<i>/*10*/	char field_10;</i>
+<span class='mm'>/**inited to 0*/</span>
+<i>/*11*/	char field_11;</i>
+<span class='mm'>/**inited to 0x80*/</span>
+<i>/*12*/	char field_12;</i>
+<span class='mm'>/**inited to 0x80*/</span>
+<i>/*13*/	char field_13;</i>
+<i>/*14*/	char _pad14[0x4];</i>
 <i>/*18*/	int field_18;</i>
 <i>/*1C*/	int field_1C;</i>
 <i>/*20*/	int field_20;</i>
@@ -2282,35 +2331,107 @@ size 50 (see 512AC9)
 <i>/*34*/	int field_34;</i>
 <i>/*38*/	int field_38;</i>
 <i>/*3C*/	int field_3C;</i>
-};</div>
-<div id='struc_ControllerStruct874C40'>struct <h3>ControllerStruct874C40</h3> { <i>/*17 members, size 370h*/</i> <em></em>
-<i>/*0*/	int field_0;</i>
-<i>/*4*/	int field_4;</i>
-<i>/*8*/	int field_8;</i>
-<i>/*C*/	int field_C;</i>
-<i>/*10*/	char field_10;</i>
-<i>/*11*/	char field_11;</i>
-<i>/*12*/	char field_12;</i>
-<i>/*13*/	char field_13;</i>
-<i>/*14*/	char _pad14[0x21C];</i>
+<i>/*40*/	char _pad40[0x18];</i>
+<i>/*58*/	<a href='#struc_ControllerStruct874C40_58'>struct ControllerStruct874C40_58</a> field_58[4];</i>
+<i>/*98*/	char field_98;</i>
+<i>/*99*/	char _pad99[0x3];</i>
+<i>/*9C*/	int field_9C;</i>
+<i>/*A0*/	int field_A0;</i>
+<i>/*A4*/	int field_A4;</i>
+<i>/*A8*/	int field_A8;</i>
+<i>/*AC*/	char _padAC[0x2C];</i>
+<i>/*D8*/	<a href='#struc_ControllerStruct874C40_D8'>struct ControllerStruct874C40_D8</a> field_D8[4];</i>
+<i>/*118*/	char _pad118[0x40];</i>
+<i>/*158*/	<a href='#struc_ControllerStruct874C40_158'>struct ControllerStruct874C40_158</a> field_158[4];</i>
+<i>/*198*/	char _pad198[0x40];</i>
+<i>/*1D8*/	<a href='#struc_ControllerStruct874C40_1D8'>struct ControllerStruct874C40_1D8</a> field_1D8[4];</i>
+<span class='mm'>/**inited to 1*/</span>
+<i>/*218*/	int field_218;</i>
+<i>/*21C*/	int field_21C;</i>
+<i>/*220*/	char _pad220[0x10];</i>
+<span class='mm'>/**an index or -1*/</span>
 <i>/*230*/	int field_230;</i>
-<i>/*234*/	int field_234;</i>
-<i>/*238*/	char _pad238[0x10C];</i>
+<i id='struc_ControllerStruct874C40234'></i><span class='mm'>/**0x13 = keyboard (not a controller)*/</span>
+<i>/*234*/	</i>int type <u></u>;
+<i>/*238*/	int field_238;</i>
+<i>/*23C*/	char _pad23C[0x100];</i>
+<i>/*33C*/	</i>int currentActiveKeyIndex <u></u>;
+<i>/*340*/	</i>int currentActiveIsSecondary <u></u>;
 <span class='mm'>/**at least 4 elements*/</span>
-<i>/*344*/	char field_344[16];</i>
-<i>/*354*/	char _pad354[0x10];</i>
+<i>/*344*/	int field_344;</i>
+<i>/*348*/	char _pad348[0x8];</i>
+<i>/*350*/	int field_350;</i>
+<i>/*354*/	int field_354;</i>
+<i>/*358*/	int field_358;</i>
+<i>/*35C*/	int field_35C;</i>
+<i>/*360*/	int field_360;</i>
 <i>/*364*/	char field_364;</i>
 <i>/*365*/	char field_365;</i>
 <i>/*366*/	char field_366;</i>
 <i>/*367*/	char field_367;</i>
 <i>/*368*/	char field_368;</i>
-<i>/*369*/	char _pad369[0x6];</i>
-<i>/*36F*/	char field_36F;</i>
+<i>/*369*/	char _pad369[0x3];</i>
+<i>/*36C*/	int field_36C;</i>
 };</div>
+<div class='mm'>
+<p>size 370
+<p></div>
 <p><strong>Methods:</strong></p>
 <ul>
-<li><pre><i>5C20E0</i> <a href='funcs.html#5C20E0' title='ControllerStruct874C40::5C20E0'>ControllerStruct874C40::5C20E0</a></pre></li>
+<li><pre><i>5B8010</i> <a href='funcs.html#5B8010' title='ControllerStruct874C40::5B8010'>ControllerStruct874C40::5B8010</a></pre></li>
+<li><pre><i>5B8110</i> <a href='funcs.html#5B8110' title='int __thiscall ControllerStruct874C40__5B8110(struct ControllerStruct874C40 *this, int);'>ControllerStruct874C40::5B8110</a></pre></li>
+<li><pre><i>5B8720</i> <a href='funcs.html#5B8720' title='int __thiscall ControllerStruct874C40__5B8720(struct ControllerStruct874C40 *this);'>ControllerStruct874C40::5B8720</a></pre></li>
+<li><pre><i>5B9120</i> <a href='funcs.html#5B9120' title='ControllerStruct874C40::5B9120'>ControllerStruct874C40::5B9120</a></pre></li>
+<li><pre><i>5B9280</i> <a href='funcs.html#5B9280' title='int __thiscall ControllerStruct874C40__5B9280(struct ControllerStruct874C40 *this);'>ControllerStruct874C40::5B9280</a></pre></li>
+<li><pre><i>5C1080</i> <a href='funcs.html#5C1080' title='int __thiscall ControllerStruct874C40__5C1080(struct ControllerStruct874C40 *this, int, int);'>ControllerStruct874C40::5C1080</a></pre></li>
+<li><pre><i>5C11A0</i> <a href='funcs.html#5C11A0' title='int __thiscall ControllerStruct874C40__5C11A0(struct ControllerStruct874C40 *this);'>ControllerStruct874C40::5C11A0</a></pre></li>
+<li><pre><i>5C14F0</i> <a href='funcs.html#5C14F0' title='int __thiscall ControllerStruct874C40__5C14F0(struct ControllerStruct874C40 *this, int);'>ControllerStruct874C40::5C14F0</a></pre></li>
+<li><pre><i>5C2100</i> <a href='funcs.html#5C2100' title='int __thiscall ControllerStruct874C40__5C2100(struct ControllerStruct874C40 *this, int keyIndex, int isSecondary);'>ControllerStruct874C40::5C2100</a></pre></li>
+<li><pre><i>5CF220</i> <a href='funcs.html#5CF220' title='int __thiscall ControllerStruct874C40__5CF220(struct ControllerStruct874C40 *this);'>ControllerStruct874C40::5CF220</a></pre></li>
+<li><pre><i>5CF320</i> <a href='funcs.html#5CF320' title='int __thiscall ControllerStruct874C40__5CF320(struct ControllerStruct874C40 *this, int);'>ControllerStruct874C40::5CF320</a></pre></li>
+<li><pre><i>5CFFF0</i> <a href='funcs.html#5CFFF0' title='void __thiscall ControllerStruct874C40__5CFFF0(struct ControllerStruct874C40 *this);'>ControllerStruct874C40::5CFFF0</a></pre></li>
+<li><pre><i>5C1020</i> <a href='funcs.html#5C1020' title='struct ControllerStruct874C40 *__thiscall ControllerStruct874C40__ctor(struct ControllerStruct874C40 *this);'>ControllerStruct874C40::ctor</a></pre></li>
+<li><pre><i>5B8000</i> <a href='funcs.html#5B8000' title='ControllerStruct874C40::dtor'>ControllerStruct874C40::dtor</a></pre></li>
+<li><pre><i>5B8A90</i> <a href='funcs.html#5B8A90' title='char *__thiscall ControllerStruct874C40__GetControllerKeyName(struct ControllerStruct874C40 *this, int keyIndex, int isSecondary);'>ControllerStruct874C40::GetControllerKeyName</a></pre></li>
+<li><pre><i>5B8D90</i> <a href='funcs.html#5B8D90' title='char *__thiscall ControllerStruct874C40__GetKeyboardKeyName(struct ControllerStruct874C40 *this, int keyIndex, int isSecondary);'>ControllerStruct874C40::GetKeyboardKeyName</a></pre></li>
+<li><pre><i>5C20E0</i> <a href='funcs.html#5C20E0' title='char *__thiscall ControllerStruct874C40__GetKeyName(struct ControllerStruct874C40 *this, int keyIndex, int isSecondary);'>ControllerStruct874C40::GetKeyName</a></pre></li>
 </ul>
+<div id='struc_ControllerStruct874C40_158'>struct <h3>ControllerStruct874C40_158</h3> { <i>/*4 members, size 10h*/</i>
+<i>/*0*/	int field_0;</i>
+<i>/*4*/	int field_4;</i>
+<i>/*8*/	int field_8;</i>
+<i>/*C*/	int field_C;</i>
+};</div>
+<div class='mm'>
+<p>size 10
+<p></div>
+<div id='struc_ControllerStruct874C40_1D8'>struct <h3>ControllerStruct874C40_1D8</h3> { <i>/*4 members, size 10h*/</i>
+<i>/*0*/	int field_0;</i>
+<i>/*4*/	int field_4;</i>
+<i>/*8*/	int field_8;</i>
+<i>/*C*/	int field_C;</i>
+};</div>
+<div class='mm'>
+<p>size 10
+<p></div>
+<div id='struc_ControllerStruct874C40_58'>struct <h3>ControllerStruct874C40_58</h3> { <i>/*4 members, size 10h*/</i>
+<i>/*0*/	int field_0;</i>
+<i>/*4*/	int field_4;</i>
+<i>/*8*/	int field_8;</i>
+<i>/*C*/	int field_C;</i>
+};</div>
+<div class='mm'>
+<p>size 10
+<p></div>
+<div id='struc_ControllerStruct874C40_D8'>struct <h3>ControllerStruct874C40_D8</h3> { <i>/*4 members, size 10h*/</i>
+<i>/*0*/	int field_0;</i>
+<i>/*4*/	int field_4;</i>
+<i>/*8*/	int field_8;</i>
+<i>/*C*/	int field_C;</i>
+};</div>
+<div class='mm'>
+<p>size 10
+<p></div>
 <div id='struc_CPPEH_RECORD'>struct <h3>CPPEH_RECORD</h3> { <i>/*3 members, size 18h*/</i>
 <i>/*0*/	</i>DWORD old_esp;
 <i>/*4*/	</i>EXCEPTION_POINTERS *exc_ptr;
@@ -2840,7 +2961,7 @@ Version = LOWORD(DriverVersion.HighPart)*/</span>
 <i>/*14*/	int field_14;</i>
 <i>/*18*/	int field_18;</i>
 };</div>
-<div id='struc_FNGInfo'>struct <h3>FNGInfo</h3> { <i>/*23 members, size 50h*/</i> <em></em>
+<div id='struc_FNGInfo'>struct <h3>FNGInfo</h3> { <i>/*25 members, size 98h*/</i> <em></em>
 <i>/*0*/	int field_0;</i>
 <i id='struc_FNGInfo4'></i><span class='mm'>/**set to 0xABADCAFE in <a href='funcs.html#505400'>UIData_field8_field_DC::505400</a>*/</span>
 <i>/*4*/	</i><a href='structs.html#struc_FNGInfo'>struct FNGInfo</a> *child;
@@ -2872,7 +2993,13 @@ set to 0xABADCAFE in <a href='funcs.html#505400'>UIData_field8_field_DC::505400<
 <i>/*44*/	int field_44;</i>
 <i>/*48*/	int field_48;</i>
 <i id='struc_FNGInfo4C'></i><i>/*4C*/	</i><a href='structs.html#struc_UIElement'>struct UIElement</a> *rootUIElement;
+<i>/*50*/	char _pad50[0x40];</i>
+<i>/*90*/	int field_90;</i>
+<i>/*94*/	int field_94;</i>
 };</div>
+<div class='mm'>
+<p>size unknown
+<p></div>
 <p><strong>Methods:</strong></p>
 <ul>
 <li><pre><i>517FE0</i> <a href='funcs.html#517FE0' title='int __thiscall FNGInfo__FindElementByFieldC(struct FNGInfo *this, int searchingUIElementFieldC);'>FNGInfo::FindElementByFieldC</a></pre></li>
@@ -4685,27 +4812,25 @@ for money: hash of sound effect to play!?*/</span>
 <li><pre><i>4E3560</i> <a href='funcs.html#4E3560' title='struct OptionsMainFNGObject *__thiscall OptionsMainFNGObject__ctor(struct OptionsMainFNGObject *this, struct FNGShowData *fngShowData);'>OptionsMainFNGObject::ctor</a></pre></li>
 <li><pre><i>4B6080</i> <a href='funcs.html#4B6080' title='OptionsMainFNGObject::MessageHandler'>OptionsMainFNGObject::MessageHandler</a></pre></li>
 </ul>
-<div id='struc_OptionsPCControllerFNGObject'>struct <h3>OptionsPCControllerFNGObject</h3> { <i>/*48 members, size 15Ch*/</i> <em></em>
+<div id='struc_OptionsPCControllerFNGObject'>struct <h3>OptionsPCControllerFNGObject</h3> { <i>/*42 members, size 15Ch*/</i> <em></em>
 <i>/*0*/	</i><a href='#struc_FNGObject'>struct FNGObject</a> __parent;
 <span class='mm'>/**links struct ControllerOptionsRelated (+4)*/</span>
-<i>/*4C*/	</i><a href='#struc_ObjectLink'>struct ObjectLink</a> controllerOptionsRelatedLinkDescriptions;
+<i>/*4C*/	</i><a href='#struc_ObjectLink'>struct ObjectLink</a> controllerOptionsRelatedLinkTitles;
 <span class='mm'>/**links struct ControllerOptionsRelated (+4)*/</span>
 <i>/*54*/	</i><a href='#struc_ObjectLink'>struct ObjectLink</a> controllerOptionsRelatedLinkPrimary;
 <span class='mm'>/**links struct ControllerOptionsRelated (+4)*/</span>
 <i>/*5C*/	</i><a href='#struc_ObjectLink'>struct ObjectLink</a> controllerOptionsRelatedLinkSecondary;
-<i>/*64*/	</i>int ptrField_64 <u></u>;
-<i>/*68*/	</i>int ptrField_68 <u></u>;
-<i>/*6C*/	</i><a href='structs.html#struc_UIElement'>struct UIElement</a> *uielement_TITLE_MASTER;
+<i>/*64*/	</i><a href='structs.html#struc_ControllerOptionsRelated'>struct ControllerOptionsRelated</a> *focusedControl;
+<i>/*68*/	</i><a href='structs.html#struc_ControllerOptionsRelated'>struct ControllerOptionsRelated</a> *controllerOptionsRelated68;
+<i id='struc_OptionsPCControllerFNGObject6C'></i><i>/*6C*/	</i><a href='structs.html#struc_UIElement'>struct UIElement</a> *uielement_TITLE_MASTER;
 <i>/*70*/	</i><a href='structs.html#struc_UIElement'>struct UIElement</a> *uielement_DATA_MASTER;
 <i>/*74*/	</i><a href='structs.html#struc_UIElement'>struct UIElement</a> *uielement_DATA_MASTER2;
 <i>/*78*/	int field_78;</i>
 <i>/*7C*/	</i>int uielement_DONE_BUTTON <u></u>;
 <i>/*80*/	</i><a href='#struc_ScrollingThing'>struct ScrollingThing</a> scrollingThing;
 <i>/*D8*/	</i><a href='structs.html#struc_UILabel'>struct UILabel</a> *uilabel_Instructions_Label;
-<span class='mm'>/**type1 0D1CDA594h*/</span>
-<i>/*DC*/	</i><a href='structs.html#struc_UIElementType1'>struct UIElementType1</a> *uielement_DC;
-<span class='mm'>/**type1 9345E4A7h*/</span>
-<i>/*E0*/	</i><a href='structs.html#struc_UIElementType1'>struct UIElementType1</a> *uielement_E0;
+<i>/*DC*/	</i><a href='structs.html#struc_UIElementType1'>struct UIElementType1</a> *uielement_ControllerSelectionArrowLeft;
+<i>/*E0*/	</i><a href='structs.html#struc_UIElementType1'>struct UIElementType1</a> *uielement_ControllerSelectionArrowRight;
 <span class='mm'>/**4E11CF90h*/</span>
 <i>/*E4*/	</i><a href='structs.html#struc_UILabel'>struct UILabel</a> *uilabel_keyboardconfig;
 <span class='mm'>/**OPTION_NAME_*/</span>
@@ -4714,27 +4839,25 @@ for money: hash of sound effect to play!?*/</span>
 <i>/*EC*/	</i>char *strField_EC;
 <span class='mm'>/**OPTION_DATA2_*/</span>
 <i>/*F0*/	</i>char *strField_F0;
-<i>/*F4*/	int field_F4;</i>
-<i>/*F8*/	int field_F8;</i>
-<i>/*FC*/	int field_FC;</i>
-<i>/*100*/	int floatField_100;</i>
-<i>/*104*/	int field_104;</i>
-<i>/*108*/	int floatField_108;</i>
-<i>/*10C*/	float floatField_10C;</i>
-<i>/*110*/	float floatField_110;</i>
+<i id='struc_OptionsPCControllerFNGObjectF4'></i><span class='mm'>/**position of <a href='structs.html#struc_OptionsPCControllerFNGObject6C'>uielement_TITLE_MASTER</a>*/</span>
+<i>/*F4*/	</i><a href='#struc_vec2'>struct vec2</a> titleMasterPos;
+<span class='mm'>/**initialized to value of <a href='structs.html#struc_OptionsPCControllerFNGObjectF4'>titleMasterPos</a>*/</span>
+<i>/*FC*/	</i><a href='#struc_vec2'>struct vec2</a> titleMasterPosCopy;
+<i>/*104*/	</i>int dataMasterSizeXCopy <u></u>;
+<i>/*108*/	</i>int titleMasterSizeYCopy <u></u>;
+<i>/*10C*/	</i><a href='#struc_vec2'>struct vec2</a> titleMasterSize;
 <span class='mm'>/**used together with the field below (as x;y or with 2 more fields as x;y;w;h?)*/</span>
-<i>/*114*/	float floatField_114;</i>
-<i>/*118*/	float floatField_118;</i>
-<i>/*11C*/	int field_11C;</i>
-<i>/*120*/	int floatField_120;</i>
-<i>/*124*/	int field_124;</i>
-<i>/*128*/	int floatField_128;</i>
+<i>/*114*/	</i><a href='#struc_vec2'>struct vec2</a> dataMasterSize;
+<i>/*11C*/	</i><a href='#struc_vec2'>struct vec2</a> dataMasterPos;
+<i>/*124*/	</i><a href='#struc_vec2'>struct vec2</a> dataMaster2Pos;
 <i>/*12C*/	float floatField_12C;</i>
 <i>/*130*/	int floatField_130;</i>
-<i id='struc_OptionsPCControllerFNGObject134'></i><i>/*134*/	int field_134;</i>
+<i id='struc_OptionsPCControllerFNGObject134'></i><span class='mm'>/**incremented every time <a href='funcs.html#4CB4B0'>OptionsPCControllerFNGObject::AddOptionRow</a> is called*/</span>
+<i>/*134*/	</i>int currentOptionIndex <u></u>;
 <i>/*138*/	int field_138;</i>
-<i>/*13C*/	int field_13C;</i>
-<i>/*140*/	int field_140;</i>
+<span class='mm'>/**7*/</span>
+<i>/*13C*/	</i>int rowsPerPage <u></u>;
+<i>/*140*/	</i>unsigned int hash140;
 <i>/*144*/	int field_144;</i>
 <i>/*148*/	int field_148;</i>
 <i>/*14C*/	char field_14C;</i>
@@ -4744,28 +4867,35 @@ for money: hash of sound effect to play!?*/</span>
 <span class='mm'>/**set when about to set waitingForReassignmentKeyInput to 1*/</span>
 <i>/*150*/	char field_150;</i>
 <i>/*151*/	char _pad151[0x3];</i>
-<i>/*154*/	int field_154;</i>
-<i>/*158*/	int field_158;</i>
+<span class='mm'>/**num controllers where result of <a href='funcs.html#5B8720'>ControllerStruct874C40::5B8720</a> is 3*/</span>
+<i>/*154*/	</i>int numControllerConfigurations3 <u></u>;
+<i>/*158*/	</i>int numControllerConfigurations <u></u>;
 };</div>
 <p><strong>Methods:</strong></p>
 <ul>
-<li><pre><i>4ACAA0</i> <a href='funcs.html#4ACAA0' title='OptionsPCControllerFNGObject::4ACAA0'>OptionsPCControllerFNGObject::4ACAA0</a></pre></li>
-<li><pre><i>4ACD90</i> <a href='funcs.html#4ACD90' title='OptionsPCControllerFNGObject::4ACD90'>OptionsPCControllerFNGObject::4ACD90</a></pre></li>
 <li><pre><i>4ACE00</i> <a href='funcs.html#4ACE00' title='void __thiscall OptionsPCControllerFNGObject__4ACE00(struct OptionsPCControllerFNGObject *this);'>OptionsPCControllerFNGObject::4ACE00</a></pre></li>
-<li><pre><i>4CB660</i> <a href='funcs.html#4CB660' title='OptionsPCControllerFNGObject::4CB660'>OptionsPCControllerFNGObject::4CB660</a></pre></li>
-<li><pre><i>4CB970</i> <a href='funcs.html#4CB970' title='OptionsPCControllerFNGObject::4CB970'>OptionsPCControllerFNGObject::4CB970</a></pre></li>
+<li><pre><i>4CB9E0</i> <a href='funcs.html#4CB9E0' title='OptionsPCControllerFNGObject::4CB9E0'>OptionsPCControllerFNGObject::4CB9E0</a></pre></li>
 <li><pre><i>4DC9F0</i> <a href='funcs.html#4DC9F0' title='OptionsPCControllerFNGObject::4DC9F0'>OptionsPCControllerFNGObject::4DC9F0</a></pre></li>
 <li><pre><i>4DDC10</i> <a href='funcs.html#4DDC10' title='OptionsPCControllerFNGObject::4DDC10'>OptionsPCControllerFNGObject::4DDC10</a></pre></li>
-<li><pre><i>4DECD0</i> <a href='funcs.html#4DECD0' title='int __thiscall OptionsPCControllerFNGObject__4DECD0(struct OptionsPCControllerFNGObject *this);'>OptionsPCControllerFNGObject::4DECD0</a></pre></li>
-<li><pre><i>4DEE90</i> <a href='funcs.html#4DEE90' title='OptionsPCControllerFNGObject::4DEE90'>OptionsPCControllerFNGObject::4DEE90</a></pre></li>
-<li><pre><i>4ED140</i> <a href='funcs.html#4ED140' title='OptionsPCControllerFNGObject::4ED140'>OptionsPCControllerFNGObject::4ED140</a></pre></li>
+<li><pre><i>4DEE90</i> <a href='funcs.html#4DEE90' title='void __thiscall OptionsPCControllerFNGObject__4DEE90(struct OptionsPCControllerFNGObject *this);'>OptionsPCControllerFNGObject::4DEE90</a></pre></li>
 <li><pre><i>4ED380</i> <a href='funcs.html#4ED380' title='OptionsPCControllerFNGObject::4ED380'>OptionsPCControllerFNGObject::4ED380</a></pre></li>
-<li><pre><i>4CB4B0</i> <a href='funcs.html#4CB4B0' title='int __thiscall OptionsPCControllerFNGObject__AddOptionRow(struct OptionsPCControllerFNGObject *this, struct ControllerOptionsRelated *descriptionElement, struct ControllerOptionsRelated *primaryElement, struct ControllerOptionsRelated *secondaryElement);'>OptionsPCControllerFNGObject::AddOptionRow</a></pre></li>
-<li><pre><i>4ECD10</i> <a href='funcs.html#4ECD10' title='OptionsPCControllerFNGObject::ctor'>OptionsPCControllerFNGObject::ctor</a></pre></li>
-<li><pre><i>4ACCA0</i> <a href='funcs.html#4ACCA0' title='struct UILabel *__thiscall OptionsPCControllerFNGObject__FindLabelByName(struct OptionsPCControllerFNGObject *this, char *src1);'>OptionsPCControllerFNGObject::FindLabelByName</a></pre></li>
-<li><pre><i>4DBA50</i> <a href='funcs.html#4DBA50' title='OptionsPCControllerFNGObject::InitOptionListUI'>OptionsPCControllerFNGObject::InitOptionListUI</a></pre></li>
+<li><pre><i>4CB4B0</i> <a href='funcs.html#4CB4B0' title='int __thiscall OptionsPCControllerFNGObject__AddOptionRow(struct OptionsPCControllerFNGObject *this, struct ControllerOptionsRelated *titleElement, struct ControllerOptionsRelated *primaryElement, struct ControllerOptionsRelated *secondaryElement);'>OptionsPCControllerFNGObject::AddOptionRow</a></pre></li>
+<li><pre><i>4DBA50</i> <a href='funcs.html#4DBA50' title='void __thiscall OptionsPCControllerFNGObject__CreateOptionListElements(struct OptionsPCControllerFNGObject *this);'>OptionsPCControllerFNGObject::CreateOptionListElements</a></pre></li>
+<li><pre><i>4ECD10</i> <a href='funcs.html#4ECD10' title='int __thiscall OptionsPCControllerFNGObject__ctor(struct OptionsPCControllerFNGObject *this, struct FNGShowData *fngShowData);'>OptionsPCControllerFNGObject::ctor</a></pre></li>
+<li><pre><i>4CB7C0</i> <a href='funcs.html#4CB7C0' title='void __thiscall OptionsPCControllerFNGObject__DestroyOptionListElements(struct OptionsPCControllerFNGObject *this);'>OptionsPCControllerFNGObject::DestroyOptionListElements</a></pre></li>
+<li><pre><i>4ACCA0</i> <a href='funcs.html#4ACCA0' title='struct UILabel *__thiscall OptionsPCControllerFNGObject__FindLabelAtCurrentRowForColumnName(struct OptionsPCControllerFNGObject *this, char *columnName);'>OptionsPCControllerFNGObject::FindLabelAtCurrentRowForColumnName</a></pre></li>
+<li><pre><i>4CB970</i> <a href='funcs.html#4CB970' title='int __thiscall OptionsPCControllerFNGObject__GetIndexOfItemInPrimaryOrSecondaryLink(struct OptionsPCControllerFNGObject *this, struct ControllerOptionsRelated *cor);'>OptionsPCControllerFNGObject::GetIndexOfItemInPrimaryOrSecondaryLink</a></pre></li>
+<li><pre><i>4CB660</i> <a href='funcs.html#4CB660' title='struct ControllerOptionsRelated *__thiscall OptionsPCControllerFNGObject__GetItemAtIndexInTitleLink(struct OptionsPCControllerFNGObject *this, int index);'>OptionsPCControllerFNGObject::GetItemAtIndexInTitleLink</a></pre></li>
+<li><pre><i>4CB6B0</i> <a href='funcs.html#4CB6B0' title='struct ControllerOptionsRelated *__thiscall OptionsPCControllerFNGObject__GetOptionAtScreenPosition(struct OptionsPCControllerFNGObject *this, float x, float y);'>OptionsPCControllerFNGObject::GetOptionAtScreenPosition</a></pre></li>
+<li><pre><i>4ACAA0</i> <a href='funcs.html#4ACAA0' title='void __thiscall OptionsPCControllerFNGObject__HandleMessageChangeActiveConfiguration(struct OptionsPCControllerFNGObject *this, unsigned int message);'>OptionsPCControllerFNGObject::HandleMessageChangeActiveConfiguration</a></pre></li>
 <li><pre><i>4F9340</i> <a href='funcs.html#4F9340' title='OptionsPCControllerFNGObject::MessageHandler'>OptionsPCControllerFNGObject::MessageHandler</a></pre></li>
-<li><pre><i>4CB910</i> <a href='funcs.html#4CB910' title='OptionsPCControllerFNGObject::UpdateKeyLabels?'>OptionsPCControllerFNGObject::UpdateKeyLabels?</a></pre></li>
+<li><pre><i>4ED140</i> <a href='funcs.html#4ED140' title='void __thiscall OptionsPCControllerFNGObject__OnMouseActivity(struct OptionsPCControllerFNGObject *this);'>OptionsPCControllerFNGObject::OnMouseActivity</a></pre></li>
+<li><pre><i>4ACD90</i> <a href='funcs.html#4ACD90' title='void __thiscall OptionsPCControllerFNGObject__ResetControlBindingsToDefault(struct OptionsPCControllerFNGObject *this);'>OptionsPCControllerFNGObject::ResetControlBindingsToDefault</a></pre></li>
+<li><pre><i>4ACCF0</i> <a href='funcs.html#4ACCF0' title='void __thiscall OptionsPCControllerFNGObject__SaveMasterElementPositions(struct OptionsPCControllerFNGObject *this);'>OptionsPCControllerFNGObject::SaveMasterElementPositions</a></pre></li>
+<li><pre><i>4DEC40</i> <a href='funcs.html#4DEC40' title='void __thiscall OptionsPCControllerFNGObject__SetFocusedControl(struct OptionsPCControllerFNGObject *this, struct ControllerOptionsRelated *cor);'>OptionsPCControllerFNGObject::SetFocusedControl</a></pre></li>
+<li><pre><i>4DECD0</i> <a href='funcs.html#4DECD0' title='void __thiscall OptionsPCControllerFNGObject__UpdateControlElementPositions(struct OptionsPCControllerFNGObject *this);'>OptionsPCControllerFNGObject::UpdateControlElementPositions</a></pre></li>
+<li><pre><i>4CB910</i> <a href='funcs.html#4CB910' title='void __cdecl OptionsPCControllerFNGObject__UpdateKeyLabelsText(struct OptionsPCControllerFNGObject *this);'>OptionsPCControllerFNGObject::UpdateKeyLabelsText</a></pre></li>
+<li><pre><i>4ACBF0</i> <a href='funcs.html#4ACBF0' title='void __thiscall OptionsPCControllerFNGObject__UpdateScrollbarArrowAnimations(struct OptionsPCControllerFNGObject *this);'>OptionsPCControllerFNGObject::UpdateScrollbarArrowAnimations</a></pre></li>
 </ul>
 <div id='struc_PaintFNGObject'>struct <h3>PaintFNGObject</h3> { <i>/*2 members, size 190h*/</i> <em></em>
 <i>/*0*/	</i><a href='#struc_FNGObject'>struct FNGObject</a> __parent;
@@ -6061,6 +6191,7 @@ Markers is just section <code>3414A</code> but this func loads more than that
 <i>/*48*/	int field_48;</i>
 <i>/*4C*/	int field_4C;</i>
 <i>/*50*/	int field_50;</i>
+<span class='mm'>/**used as index for controllerStruct835930*/</span>
 <i>/*54*/	int field_54;</i>
 <i>/*58*/	int field_58;</i>
 <i>/*5C*/	int field_5C;</i>
@@ -6358,6 +6489,7 @@ size may be bigger, unknown
 <p></div>
 <p><strong>Methods:</strong></p>
 <ul>
+<li><pre><i>52CE40</i> <a href='funcs.html#52CE40' title='void __stdcall UIData__52CE40(char *fngName, unsigned int hash);'>UIData::52CE40</a></pre></li>
 <li><pre><i>5377A0</i> <a href='funcs.html#5377A0' title='int __thiscall UIData__5377A0(struct UIData *this, char *currentFNGName, char *fngName, int);'>UIData::5377A0</a></pre></li>
 <li><pre><i>555D00</i> <a href='funcs.html#555D00' title='int __thiscall UIData__AddFNGToUIObject(struct UIData *this, int flagsMaybe, char *fngName, char *parentFngName, int controlMask, void *data);'>UIData::AddFNGToUIObject</a></pre></li>
 <li><pre><i>5372E0</i> <a href='funcs.html#5372E0' title='struct UIData *__thiscall UIData__ctor(struct UIData *this);'>UIData::ctor</a></pre></li>
@@ -6486,8 +6618,7 @@ size may be bigger, unknown
 <i>/*14*/	int field_14;</i>
 <i id='struc_UIElement18'></i><span class='mm'>/**1-11? 2 = <a href='structs.html#struc_UILabel'>struct UILabel</a> 5 = <a href='structs.html#struc_UIContainer'>struct UIContainer</a>*/</span>
 <i>/*18*/	</i>int type;
-<i id='struc_UIElement1C'></i><span class='mm'>/**see <a href='enums.html#enu_UIELEMENTFLAGS'>enum UIELEMENTFLAGS</a>*/</span>
-<i>/*1C*/	</i><a href='enums.html#enu_UIELEMENTFLAGS'>enum UIELEMENTFLAGS</a> flags;
+<i id='struc_UIElement1C'></i><i>/*1C*/	</i><a href='enums.html#enu_UIELEMENTFLAGS'>enum UIELEMENTFLAGS</a> flags;
 <i>/*20*/	int field_20;</i>
 <span class='mm'>/**see 497414*/</span>
 <i>/*24*/	</i>unsigned int textureHash;

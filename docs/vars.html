@@ -253,7 +253,7 @@ pre.ida span.hi {
 <a href='cheatsheet.html'>cheatsheet</a></nav>
 </header>
 <div class='var'>
-<h2>Variables (923)</h2>
+<h2>Variables (929)</h2>
 <ul>
 <li><a href='#5CCFFC'>WndProcMsgJumpTable</a></li>
 <li><a href='#5CD010'>WndProcMsgJumpTableTable</a></li>
@@ -708,7 +708,7 @@ pre.ida span.hi {
 <li><a href='#79B2E0'>aFade_out</a></li>
 <li><a href='#79B2EC'>aFade_in</a></li>
 <li><a href='#79B2F8'>vtableControllerOptionsRelatedDefaultData</a></li>
-<li><a href='#79B338'>vtableControllerOptionsRelatedDefaultName</a></li>
+<li><a href='#79B338'>vtableControllerOptionsRelatedDefaultTitle</a></li>
 <li><a href='#79B4D8'>vtable_IconScrollerIcon</a></li>
 <li><a href='#79B910'>vtable_somethingui</a></li>
 <li><a href='#79BA14'>vtable_IcePartsOverlayFNGObject</a></li>
@@ -757,6 +757,7 @@ pre.ida span.hi {
 <li><a href='#7A3084'>value</a></li>
 <li><a href='#7A9410'>aWind</a></li>
 <li><a href='#7BFD00'>_GUID_SysMouse</a></li>
+<li><a href='#7BFDB0'>vec2_7BFDB0</a></li>
 <li><a href='#7BFDC8'>dinputdevice_dataformat_c_dfDIMouse</a></li>
 <li><a href='#7C01BC'>aRendermethod</a></li>
 <li><a href='#7C2ED0'>CRealCoreDriveNull$vtable</a></li>
@@ -885,6 +886,7 @@ pre.ida span.hi {
 <li><a href='#835840'>binSectionHandlerMagicMapEntry80134000</a></li>
 <li><a href='#8358D0'>binSectionHandlerMagicMapEntryB3320000</a></li>
 <li><a href='#8358F4'>a</a></li>
+<li><a href='#835930'>controllerStruct835930</a></li>
 <li><a href='#835980'>downloadingHttpCommandString</a></li>
 <li><a href='#835BB8'>wcharLoadedProfileName</a></li>
 <li><a href='#835C00'>careerStats</a></li>
@@ -979,8 +981,10 @@ pre.ida span.hi {
 <li><a href='#86B910'>_SomeVertexDeclarationptr86B910</a></li>
 <li><a href='#86BD18'>_pSomeTexture(Headlights?)</a></li>
 <li><a href='#86C120'>_d3d9AdapterIdentifier</a></li>
+<li><a href='#86E5C0'>controllerRelated86E5C0</a></li>
 <li><a href='#86E754'>Rect</a></li>
 <li><a href='#86E880'>isSupportedResolutionIdx</a></li>
+<li><a href='#86E89C'>controllerRelated86E89C</a></li>
 <li><a href='#86E8B0'>CDDrivePath</a></li>
 <li><a href='#86E9B4'>installDirPath</a></li>
 <li><a href='#86EB28'>_possibleShader_86EB28_0</a></li>
@@ -1006,6 +1010,7 @@ pre.ida span.hi {
 <li><a href='#86EB78'>_possibleShader_86EB28_20</a></li>
 <li><a href='#86EB7C'>_possibleShader_86EB28_21</a></li>
 <li><a href='#86EB80'>_possibleShader_86EB28_22</a></li>
+<li><a href='#86EC94'>controllerRelated86EC94</a></li>
 <li><a href='#86F870'>_d3dPresentationParameters</a></li>
 <li><a href='#86FF8C'>someRegValue_er</a></li>
 <li><a href='#870758'>pIDirectInput8Interface</a></li>
@@ -1068,6 +1073,7 @@ pre.ida span.hi {
 <li><a href='#870D1C'>_optRacingResolutionIdx</a></li>
 <li><a href='#870D20'>notFirstTime</a></li>
 <li><a href='#870D24'>_optVsync</a></li>
+<li><a href='#874C40'>controllerStruct874C40</a></li>
 <li><a href='#8763D0'>mouseData</a></li>
 <li><a href='#8764D0'>_optMaxSettingCarReflectionUpdateRate</a></li>
 <li><a href='#8764D4'>_optMaxSettingCarReflectionDetail</a></li>
@@ -1551,7 +1557,7 @@ for an application or device driver
 <div id='790B38'><i>790B38</i> int <h3>vtable_ChyronIGFNGObject</h3> <u></u></div>
 <div id='790B98'><i>790B98</i> int <h3>vtableControllerOptionsRelatedDefault1</h3> <u></u></div>
 <div class='mm'>
-<p>default vtable for ControllerOptionsRelated (but not really) see <a href='funcs.html#51DFC0'>ControllerOptionsRelated_Data::ctor</a>
+<p>default vtable for ControllerOptionsRelated (but not really) see <a href='funcs.html#51DFC0'>ControllerOptionsRelated::ctor_data</a>
 <p></div>
 <div id='790F78'><i>790F78</i> int <h3>vtable_StatusDVDFNGObject</h3> <u></u></div>
 <div id='790FC4'><i>790FC4</i> int <h3>vtable_TwoPPressStartFNGObject</h3> <u></u></div>
@@ -1729,7 +1735,7 @@ for an application or device driver
 <div class='mm'>
 <p>default vtable for ControllerOptionsRelated see 51DFC0
 <p></div>
-<div id='79B338'><i>79B338</i> int <h3>vtableControllerOptionsRelatedDefaultName</h3> <u></u></div>
+<div id='79B338'><i>79B338</i> int <h3>vtableControllerOptionsRelatedDefaultTitle</h3> <u></u></div>
 <div id='79B4D8'><i>79B4D8</i> int <h3>vtable_IconScrollerIcon</h3> <u></u></div>
 <div id='79B910'><i>79B910</i> int <h3>vtable_somethingui</h3> <u></u></div>
 <div class='mm'>
@@ -1784,6 +1790,7 @@ for an application or device driver
 <div id='7A3084'><i>7A3084</i> int <h3>value</h3> <u></u></div>
 <div id='7A9410'><i>7A9410</i> int <h3>aWind</h3> <u></u></div>
 <div id='7BFD00'><i>7BFD00</i> int <h3>_GUID_SysMouse</h3> <u></u></div>
+<div id='7BFDB0'><i>7BFDB0</i> <a href='structs.html#struc_vec2'>struct vec2</a> <h3>vec2_7BFDB0</h3></div>
 <div id='7BFDC8'><i>7BFDC8</i> int <h3>dinputdevice_dataformat_c_dfDIMouse</h3> <u></u></div>
 <div class='mm'>
 <p>used to call <code>IDirectInputDevice8::SetDataFormat</code>
@@ -2182,6 +2189,7 @@ see <a href='funcs.html#43C100'>FindBinSectionHandler</a>
 <div id='835840'><i>835840</i> <a href='structs.html#struc_BinSectionMagicMapEntry'>struct BinSectionMagicMapEntry</a> <h3>binSectionHandlerMagicMapEntry80134000</h3></div>
 <div id='8358D0'><i>8358D0</i> <a href='structs.html#struc_BinSectionMagicMapEntry'>struct BinSectionMagicMapEntry</a> <h3>binSectionHandlerMagicMapEntryB3320000</h3></div>
 <div id='8358F4'><i>8358F4</i> int <h3>a</h3> <u></u></div>
+<div id='835930'><i>835930</i> <a href='structs.html#struc_ControllerStruct835930'>struct ControllerStruct835930</a> <h3>controllerStruct835930</h3>[6]</div>
 <div id='835980'><i>835980</i> char <h3>downloadingHttpCommandString</h3>[512] <u></u></div>
 <div id='835BB8'><i>835BB8</i> short <h3>wcharLoadedProfileName</h3>[32] <u></u></div>
 <div id='835C00'><i>835C00</i> <a href='structs.html#struc_CareerStats'>struct CareerStats</a> <h3>careerStats</h3></div>
@@ -2412,8 +2420,10 @@ interesting when setting that var to 5 (same as 0, 1, 2) while in freeroam (shou
 <p>IDirect3DTexture9*
 <p></div>
 <div id='86C120'><i>86C120</i> <a href='structs.html#struc_D3DADAPTER_IDENTIFIER9'>struct D3DADAPTER_IDENTIFIER9</a> <h3>_d3d9AdapterIdentifier</h3></div>
+<div id='86E5C0'><i>86E5C0</i> int <h3>controllerRelated86E5C0</h3> <u></u></div>
 <div id='86E754'><i>86E754</i> <a href='structs.html#struc_tagRECT'>struct tagRECT</a> <h3>Rect</h3></div>
 <div id='86E880'><i>86E880</i> int <h3>isSupportedResolutionIdx</h3>[6] <u></u></div>
+<div id='86E89C'><i>86E89C</i> int <h3>controllerRelated86E89C</h3> <u></u></div>
 <div id='86E8B0'><i>86E8B0</i> char <h3>CDDrivePath</h3>[4] <u></u></div>
 <div id='86E9B4'><i>86E9B4</i> char <h3>installDirPath</h3>[260] <u></u></div>
 <div id='86EB28'><i>86EB28</i> int <h3>_possibleShader_86EB28_0</h3> <u></u></div>
@@ -2439,6 +2449,7 @@ interesting when setting that var to 5 (same as 0, 1, 2) while in freeroam (shou
 <div id='86EB78'><i>86EB78</i> int <h3>_possibleShader_86EB28_20</h3> <u></u></div>
 <div id='86EB7C'><i>86EB7C</i> int <h3>_possibleShader_86EB28_21</h3> <u></u></div>
 <div id='86EB80'><i>86EB80</i> int <h3>_possibleShader_86EB28_22</h3> <u></u></div>
+<div id='86EC94'><i>86EC94</i> int <h3>controllerRelated86EC94</h3> <u></u></div>
 <div id='86F870'><i>86F870</i> int <h3>_d3dPresentationParameters</h3> <u></u></div>
 <div id='86FF8C'><i>86FF8C</i> char <h3>someRegValue_er</h3>[21] <u></u></div>
 <div id='870758'><i>870758</i> int <h3>pIDirectInput8Interface</h3> <u></u></div>
@@ -2564,6 +2575,7 @@ interesting when setting that var to 5 (same as 0, 1, 2) while in freeroam (shou
 <p></div>
 <div id='870D20'><i>870D20</i> int <h3>notFirstTime</h3> <u></u></div>
 <div id='870D24'><i>870D24</i> int <h3>_optVsync</h3> <u></u></div>
+<div id='874C40'><i>874C40</i> <a href='structs.html#struc_ControllerStruct874C40'>struct ControllerStruct874C40</a> <h3>controllerStruct874C40</h3>[6]</div>
 <div id='8763D0'><i>8763D0</i> <a href='structs.html#struc_MouseData'>struct MouseData</a> <h3>mouseData</h3></div>
 <div id='8764D0'><i>8764D0</i> int <h3>_optMaxSettingCarReflectionUpdateRate</h3> <u></u></div>
 <div id='8764D4'><i>8764D4</i> int <h3>_optMaxSettingCarReflectionDetail</h3> <u></u></div>
