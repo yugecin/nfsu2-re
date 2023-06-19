@@ -1512,7 +1512,7 @@ pre.ida span.hi {
 <li><a href='#48B1E0'>SomeMathOp_??GetCarStructFromHandle</a></li>
 <li><a href='#570DD0'>somethingBinSections</a></li>
 <li><a href='#51BB30'>SomethingUI::FindBinSectionInLink?</a></li>
-<li><a href='#55DC20'>SomethingUI::SendSomethingToFNG</a></li>
+<li><a href='#55DC20'>SomethingUI::SendMessageToFNG</a></li>
 <li><a href='#55DC50'>SomethingUI::SendUIMessageImmediately?</a></li>
 <li><a href='#51BB70'>SomethingUI::UnlinkFNGWithname</a></li>
 <li><a href='#542530'>SomethingUI::UnloadFNGPackage</a></li>
@@ -2876,9 +2876,9 @@ although that is done by <a href='funcs.html#57CA10'>AllocateFileSystemPoolEntry
 <div class='mm'>
 <p>Goes through all the fng data above and returns the one with matching hash.
 <p></div>
-<div id='526C40'><i>526C40</i> int __cdecl <h3>GetFNGforDialog</h3>(<a href='structs.html#struc_DialogInfo'>struct DialogInfo</a> *dialog);</div>
+<div id='526C40'><i>526C40</i> char *__cdecl <h3>GetFNGforDialog</h3>(<a href='structs.html#struc_DialogInfo'>struct DialogInfo</a> *dialog);</div>
 <div class='mm'>
-<p>Returns a pointer to a string that says what FNG to display for the dialog that was passed.
+<p>Returns the name of what FNG to display for the dialog that was passed.
 See <code><a class='ext' href='https://github.com/yugecin/nfsu2-re/blob/master/nfsu2-re-hooks/replace-526C40-GetFNGForDialog.c'>nfsu2-re-hooks/replace-526C40-GetFNGForDialog.c</a></code>
 <p></div>
 <div id='52CEF0'><i>52CEF0</i> <a href='structs.html#struc_FNGInfo'>struct FNGInfo</a> *__cdecl <h3>GetFNGInfoByName</h3>(char *fngName);</div>
@@ -4217,7 +4217,7 @@ TODO where used?
 <div id='48B1E0'><i>48B1E0</i> <h3>SomeMathOp_??GetCarStructFromHandle</h3></div>
 <div id='570DD0'><i>570DD0</i> int __cdecl <h3>somethingBinSections</h3>(int, char *ptrBinData, int sectionSize, int, int, int);</div>
 <div id='51BB30'><i>51BB30</i> <a href='structs.html#struc_SomethingUIImpl'>struct SomethingUIImpl</a> *__thiscall <h3><a href='structs.html#struc_SomethingUI'>SomethingUI</a>::FindBinSectionInLink?</h3>(<a href='structs.html#struc_SomethingUI'>struct SomethingUI</a> *this, <a href='structs.html#struc_BinSection'>struct BinSection</a> *binsection);</div>
-<div id='55DC20'><i>55DC20</i> int __thiscall <h3><a href='structs.html#struc_SomethingUI'>SomethingUI</a>::SendSomethingToFNG</h3>(<a href='structs.html#struc_SomethingUI'>struct SomethingUI</a> *this, char *fng, int message);</div>
+<div id='55DC20'><i>55DC20</i> int __thiscall <h3><a href='structs.html#struc_SomethingUI'>SomethingUI</a>::SendMessageToFNG</h3>(<a href='structs.html#struc_SomethingUI'>struct SomethingUI</a> *this, char *fng, int message);</div>
 <div class='mm'>
 <p>Called when menus change.
 <p></div>

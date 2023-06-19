@@ -2804,15 +2804,17 @@ Version = LOWORD(DriverVersion.HighPart)*/</span>
 <i id='struc_DialogInfo318'></i><span class='mm'>/**Message to send when pressing esc. If 0, dialog is not escapable*/</span>
 <i>/*318*/	</i>unsigned int escMessage;
 <i id='struc_DialogInfo31C'></i><i>/*31C*/	int field_31C;</i>
-<i>/*320*/	</i>char *parentFNGName;
+<i id='struc_DialogInfo320'></i><i>/*320*/	</i>char *parentFNGName;
 <i id='struc_DialogInfo324'></i><i>/*324*/	</i>char *myFNGName;
 <i id='struc_DialogInfo328'></i><i>/*328*/	</i>int numButtons;
 <i id='struc_DialogInfo32C'></i><i>/*32C*/	char field_32C;</i>
 <i id='struc_DialogInfo32D'></i><i>/*32D*/	</i>char isHelpDialog;
 <i>/*32E*/	char field_32E;</i>
 <i>/*32F*/	</i>char textNeedsSomeWcharConversion;
-<span class='mm'>/**set to 0 at <code>558074</code> (in <a href='funcs.html#558020'>ShowDialog</a>)*/</span>
-<i>/*330*/	int field_330;</i>
+<span class='mm'>/**this is a message that will be sent (when non-zero) (with <a href='funcs.html#55DC20'>SomethingUI::SendMessageToFNG</a>) to <a href='structs.html#struc_DialogInfo320'>parentFNGName</a> when this dialog is dismissed due to <a href='funcs.html#558020'>ShowDialog</a> being called to show another dialog
+initialized to 0 in <a href='funcs.html#558020'>ShowDialog</a>, but some dialog set this later
+TODO: explore maybe?*/</span>
+<i>/*330*/	</i>unsigned int messageToSendToParentFNGWhenThisDialogIsDismissed;
 <i id='struc_DialogInfo334'></i><i>/*334*/	</i>int dialogId;
 };</div>
 <p><strong>Methods:</strong></p>
@@ -5866,7 +5868,7 @@ Markers is just section <code>3414A</code> but this func loads more than that
 <p><strong>Methods:</strong></p>
 <ul>
 <li><pre><i>51BB30</i> <a href='funcs.html#51BB30' title='struct SomethingUIImpl *__thiscall SomethingUI__FindBinSectionInLink_(struct SomethingUI *this, struct BinSection *binsection);'>SomethingUI::FindBinSectionInLink?</a></pre></li>
-<li><pre><i>55DC20</i> <a href='funcs.html#55DC20' title='int __thiscall SomethingUI__SendSomethingToFNG(struct SomethingUI *this, char *fng, int message);'>SomethingUI::SendSomethingToFNG</a></pre></li>
+<li><pre><i>55DC20</i> <a href='funcs.html#55DC20' title='int __thiscall SomethingUI__SendMessageToFNG(struct SomethingUI *this, char *fng, int message);'>SomethingUI::SendMessageToFNG</a></pre></li>
 <li><pre><i>55DC50</i> <a href='funcs.html#55DC50' title='void __thiscall SomethingUI__SendUIMessageImmediately_(struct SomethingUI *this, unsigned int, int);'>SomethingUI::SendUIMessageImmediately?</a></pre></li>
 <li><pre><i>51BB70</i> <a href='funcs.html#51BB70' title='struct SomethingUIImpl *__thiscall SomethingUI__UnlinkFNGWithname(struct SomethingUI *this, char *fngName);'>SomethingUI::UnlinkFNGWithname</a></pre></li>
 <li><pre><i>542530</i> <a href='funcs.html#542530' title='void __thiscall SomethingUI__UnloadFNGPackage(struct SomethingUI *this, struct BinSection *binsection, int zeroOrOneUnused);'>SomethingUI::UnloadFNGPackage</a></pre></li>
