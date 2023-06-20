@@ -253,7 +253,7 @@ pre.ida span.hi {
 <a href='cheatsheet.html'>cheatsheet</a></nav>
 </header>
 <div class='func'>
-<h2>Functions (1429)</h2>
+<h2>Functions (1434)</h2>
 <ul>
 <li><a href='#588630'>??ConnectToEAServer</a></li>
 <li><a href='#7789D9'>??ConnectToEAServer_SEH</a></li>
@@ -1513,13 +1513,18 @@ pre.ida span.hi {
 <li><a href='#48B1E0'>SomeMathOp_??GetCarStructFromHandle</a></li>
 <li><a href='#570DD0'>somethingBinSections</a></li>
 <li><a href='#51BB30'>SomethingUI::FindBinSectionInLink?</a></li>
+<li><a href='#51BCA0'>SomethingUI::LoadFromBinSectionAndAddAsLast</a></li>
 <li><a href='#51BB70'>SomethingUI::MoveEntryForFNGToTopAndReturnIt</a></li>
 <li><a href='#542390'>SomethingUI::NukeAllScreens</a></li>
 <li><a href='#55DC20'>SomethingUI::SendMessageToFNG</a></li>
 <li><a href='#55DC50'>SomethingUI::SendUIMessageImmediately?</a></li>
+<li><a href='#51BAD0'>SomethingUI::SumCSHashOfFNGNamesInEntries</a></li>
 <li><a href='#542530'>SomethingUI::UnloadFNGPackage</a></li>
+<li><a href='#51B8E0'>SomethingUIImpl::ctor</a></li>
+<li><a href='#51B990'>SomethingUIImpl::dtor</a></li>
 <li><a href='#50B920'>SomethingUIImpl::GetPackageHash?</a></li>
 <li><a href='#51BA60'>SomethingUIImpl::ReleaseFngAndFngInfoAndPtrFieldC</a></li>
+<li><a href='#51BB20'>SomethingUISumCSHashOfFNGNamesInEntries</a></li>
 <li><a href='#57CAC0'>SomethingWithAFile</a></li>
 <li><a href='#458520'>SoundEffectSystem::PlaySound?</a></li>
 <li><a href='#4C14C0'>SponsorIconScrollerIcon::IconSelected</a></li>
@@ -2878,9 +2883,9 @@ using a visitor that has <a href='funcs.html#5374F0'>UIElementVisitor_ClearFNGCa
 <p>Creates a <a href='structs.html#struc_bFileSystemPoolEntry'>struct bFileSystemPoolEntry</a> but no way to get it?
 although that is done by <a href='funcs.html#57CA10'>AllocateFileSystemPoolEntryForFileAndReadFileSize</a> and that func's docs say it may not be true that it allocates an instance
 <p></div>
-<div id='50B840'><i>50B840</i> <h3>GetFNGDataForHash</h3></div>
+<div id='50B840'><i>50B840</i> <a href='structs.html#struc_FNGData'>struct FNGData</a> *__cdecl <h3>GetFNGDataForHash</h3>(unsigned int fngHashCS);</div>
 <div class='mm'>
-<p>Goes through all the fng data above and returns the one with matching hash.
+<p>Goes through all entries in <a href='vars.html#7F7DC8'>fngdata</a> and returns the one with matching hash.
 <p></div>
 <div id='526C40'><i>526C40</i> char *__cdecl <h3>GetFNGforDialog</h3>(<a href='structs.html#struc_DialogInfo'>struct DialogInfo</a> *dialog);</div>
 <div class='mm'>
@@ -3213,7 +3218,7 @@ Some loaders that are in the map are also in the array.
 <div id='48E070'><i>48E070</i> int __cdecl <h3>LoadBinSection135200_80135100_80135000</h3>(<a href='structs.html#struc_BinSection'>struct BinSection</a> *binsection);</div>
 <div id='51BD30'><i>51BD30</i> int __cdecl <h3>LoadBinSection30203_30210</h3>(<a href='structs.html#struc_BinSection'>struct BinSection</a> *bindata);</div>
 <div class='mm'>
-<p>Loads FNG packages?
+<p>calls <a href='funcs.html#51BCA0'>SomethingUI::LoadFromBinSectionAndAddAsLast</a>
 <p></div>
 <div id='61C3C0'><i>61C3C0</i> int __cdecl <h3>LoadBinSection30220</h3>(<a href='structs.html#struc_BinSection'>struct BinSection</a> *bindata);</div>
 <div id='5108A0'><i>5108A0</i> int __cdecl <h3>LoadBinSection30230</h3>(<a href='structs.html#struc_BinSection'>struct BinSection</a> *bindata);</div>
@@ -4223,6 +4228,12 @@ TODO where used?
 <div id='48B1E0'><i>48B1E0</i> <h3>SomeMathOp_??GetCarStructFromHandle</h3></div>
 <div id='570DD0'><i>570DD0</i> int __cdecl <h3>somethingBinSections</h3>(int, char *ptrBinData, int sectionSize, int, int, int);</div>
 <div id='51BB30'><i>51BB30</i> <a href='structs.html#struc_SomethingUIImpl'>struct SomethingUIImpl</a> *__thiscall <h3><a href='structs.html#struc_SomethingUI'>SomethingUI</a>::FindBinSectionInLink?</h3>(<a href='structs.html#struc_SomethingUI'>struct SomethingUI</a> *this, <a href='structs.html#struc_BinSection'>struct BinSection</a> *binsection);</div>
+<div id='51BCA0'><i>51BCA0</i> void __thiscall <h3><a href='structs.html#struc_SomethingUI'>SomethingUI</a>::LoadFromBinSectionAndAddAsLast</h3>(<a href='structs.html#struc_SomethingUI'>struct SomethingUI</a> *this, <a href='structs.html#struc_BinSection'>struct BinSection</a> *data, int oneOrZero);</div>
+<div class='mm'>
+<p>just called from <a href='funcs.html#51BD30'>LoadBinSection30203_30210</a>
+</p><p>param oneOrZero is <code>!!<a href='vars.html#864F7C'>something_864F7C</a></code>
+</p><p>creates a new <a href='structs.html#struc_SomethingUIImpl'>struct SomethingUIImpl</a> from the data and adds it as last in <a href='vars.html#8637B0'>somethingUI</a>.<a href='structs.html#struc_SomethingUI4'>link</a>
+<p></div>
 <div id='51BB70'><i>51BB70</i> <a href='structs.html#struc_SomethingUIImpl'>struct SomethingUIImpl</a> *__thiscall <h3><a href='structs.html#struc_SomethingUI'>SomethingUI</a>::MoveEntryForFNGToTopAndReturnIt</h3>(<a href='structs.html#struc_SomethingUI'>struct SomethingUI</a> *this, char *fngName);</div>
 <div class='mm'>
 <p>in <a href='structs.html#struc_SomethingUI'>struct SomethingUI</a>.<a href='structs.html#struc_SomethingUI4'>link</a>, move the entry with matching (hash of) name to the front of the link and return it (or return null if not found)
@@ -4237,7 +4248,13 @@ TODO where used?
 <p>Called when menus change.
 <p></div>
 <div id='55DC50'><i>55DC50</i> void __thiscall <h3><a href='structs.html#struc_SomethingUI'>SomethingUI</a>::SendUIMessageImmediately?</h3>(<a href='structs.html#struc_SomethingUI'>struct SomethingUI</a> *this, unsigned int, int);</div>
+<div id='51BAD0'><i>51BAD0</i> unsigned int __thiscall <h3><a href='structs.html#struc_SomethingUI'>SomethingUI</a>::SumCSHashOfFNGNamesInEntries</h3>(<a href='structs.html#struc_SomethingUI'>struct SomethingUI</a> *this);</div>
 <div id='542530'><i>542530</i> void __thiscall <h3><a href='structs.html#struc_SomethingUI'>SomethingUI</a>::UnloadFNGPackage</h3>(<a href='structs.html#struc_SomethingUI'>struct SomethingUI</a> *this, <a href='structs.html#struc_BinSection'>struct BinSection</a> *binsection, int zeroOrOneUnused);</div>
+<div id='51B8E0'><i>51B8E0</i> <a href='structs.html#struc_SomethingUIImpl'>struct SomethingUIImpl</a> *__thiscall <h3><a href='structs.html#struc_SomethingUIImpl'>SomethingUIImpl</a>::ctor</h3>(<a href='structs.html#struc_SomethingUIImpl'>struct SomethingUIImpl</a> *this, <a href='structs.html#struc_BinSection'>struct BinSection</a> *data);</div>
+<div class='mm'>
+<p>data is binsection 30203 or 30210
+<p></div>
+<div id='51B990'><i>51B990</i> void __thiscall <h3><a href='structs.html#struc_SomethingUIImpl'>SomethingUIImpl</a>::dtor</h3>(<a href='structs.html#struc_SomethingUIImpl'>struct SomethingUIImpl</a> *this);</div>
 <div id='50B920'><i>50B920</i> unsigned int __thiscall <h3><a href='structs.html#struc_SomethingUIImpl'>SomethingUIImpl</a>::GetPackageHash?</h3>(<a href='structs.html#struc_SomethingUIImpl'>struct SomethingUIImpl</a> *this);</div>
 <div class='mm'>
 <p>exact same code can be found inlined at <code>51BBBF</code>
@@ -4247,8 +4264,12 @@ TODO where used?
 <div class='mm'>
 <p>calls dtor of <code>this-&gt;<a href='structs.html#struc_SomethingUIImpl14'>fng</a></code> and nulls it (if set),
 nulls <code>this-&gt;<a href='structs.html#struc_SomethingUIImpl18'>fnginfo</a>-><a href='structs.html#struc_FNGInfo40'>ptrField_40</a></code> and then nulls it (if set),
-frees <code>this-&gt;<a href='structs.html#struc_SomethingUIImplC'>ptrField_C</a></code> and then nulls it (if set)
+frees <code>this-&gt;<a href='structs.html#struc_SomethingUIImplC'>data30203</a></code> and then nulls it (if set)
 </p><p><a href='funcs.html#542390'>SomethingUI::NukeAllScreens</a> has this inlined
+<p></div>
+<div id='51BB20'><i>51BB20</i> unsigned int __cdecl <h3>SomethingUISumCSHashOfFNGNamesInEntries</h3>();</div>
+<div class='mm'>
+<p>cdecl for <a href='funcs.html#51BAD0'>SomethingUI::SumCSHashOfFNGNamesInEntries</a> with <a href='vars.html#8637B0'>somethingUI</a>
 <p></div>
 <div id='57CAC0'><i>57CAC0</i> int __cdecl <h3>SomethingWithAFile</h3>(char *filename);</div>
 <div class='mm'>

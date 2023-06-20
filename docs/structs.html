@@ -284,8 +284,9 @@ pre.ida span.hi {
 <li><a href='#struc_bFileSystemPoolEntry'>bFileSystemPoolEntry</a></li>
 <li><a href='#struc_BinDataLanguage39000'>BinDataLanguage39000</a></li>
 <li><a href='#struc_BinSection'>BinSection</a></li>
-<li><a href='#struc_BinSection30203'>BinSection30203</a></li>
+<li><a href='#struc_BinSection30203Data'>BinSection30203Data</a></li>
 <li><a href='#struc_BinSection30210'>BinSection30210</a></li>
+<li><a href='#struc_BinSection30210Data'>BinSection30210Data</a></li>
 <li><a href='#struc_BinSection34A11'>BinSection34A11</a></li>
 <li><a href='#struc_BinSection34A11_0'>BinSection34A11_0</a> <em></em></li>
 <li><a href='#struc_BinSection34A11_0_18'>BinSection34A11_0_18</a></li>
@@ -608,7 +609,6 @@ pre.ida span.hi {
 <li><a href='#struc_SomethingUI'>SomethingUI</a> <em></em></li>
 <li><a href='#struc_SomethingUI$vtable'>SomethingUI$vtable</a></li>
 <li><a href='#struc_SomethingUIImpl'>SomethingUIImpl</a> <em></em></li>
-<li><a href='#struc_SomethingUIImpl_FieldC'>SomethingUIImpl_FieldC</a></li>
 <li><a href='#struc_SoundEffectSystem'>SoundEffectSystem</a> <em></em></li>
 <li><a href='#struc_SoundIdBank'>SoundIdBank</a></li>
 <li><a href='#struc_SoundIdBanks'>SoundIdBanks</a></li>
@@ -913,15 +913,29 @@ pre.ida span.hi {
 };</div>
 <div id='struc_BinSection'>struct <h3>BinSection</h3> { <i>/*2 members, size 9h*/</i>
 <i id='struc_BinSection0'></i><i>/*0*/	</i><a href='#struc_BinSectionHeader'>struct BinSectionHeader</a> header;
-<i id='struc_BinSection8'></i><span class='mm'>/**actual array size is determined by <a href='structs.html#struc_BinSectionHeader'>struct BinSectionHeader</a>.<a href='structs.html#struc_BinSectionHeader4'>size</a>*/</span>
+<i id='struc_BinSection8'></i><span class='mm'>/**actual data size is determined by <a href='structs.html#struc_BinSectionHeader'>struct BinSectionHeader</a>.<a href='structs.html#struc_BinSectionHeader4'>size</a>*/</span>
 <i>/*8*/	</i>char data[1];
 };</div>
-<div id='struc_BinSection30203'>struct <h3>BinSection30203</h3> { <i>/*1 members, size 8h*/</i>
-<i>/*0*/	</i><a href='#struc_BinSectionHeader'>struct BinSectionHeader</a> header;
+<div id='struc_BinSection30203Data'>struct <h3>BinSection30203Data</h3> { <i>/*4 members, size 32h*/</i>
+<i>/*0*/	int field_0;</i>
+<i>/*4*/	char _pad4[0x4];</i>
+<i>/*8*/	int field_8;</i>
+<i>/*C*/	char _padC[0x4];</i>
+<i>/*10*/	int field_10;</i>
+<i>/*14*/	char _pad14[0x14];</i>
+<span class='mm'>/**length unknown*/</span>
+<i>/*28*/	</i>char fngName[10] <u></u>;
 };</div>
+<div class='mm'>
+<p>size is probably variable
+<p></div>
 <div id='struc_BinSection30210'>struct <h3>BinSection30210</h3> { <i>/*2 members, size Ch*/</i>
 <i>/*0*/	</i><a href='#struc_BinSectionHeader'>struct BinSectionHeader</a> header;
 <i>/*8*/	</i>unsigned int hash;
+};</div>
+<div id='struc_BinSection30210Data'>struct <h3>BinSection30210Data</h3> { <i>/*1 members, size 4h*/</i>
+<span class='mm'>/**see 51B97B for proof*/</span>
+<i>/*0*/	</i>unsigned int fngNameCSHash;
 };</div>
 <div id='struc_BinSection34A11'>struct <h3>BinSection34A11</h3> { <i>/*1 members, size 7700h*/</i>
 <i id='struc_BinSection34A110'></i><span class='mm'>/**since the section in my file is size 7700, I'm assuming this array has 224 entries*/</span>
@@ -5865,32 +5879,38 @@ Markers is just section <code>3414A</code> but this func loads more than that
 };</div>
 <div id='struc_SomethingUI'>struct <h3>SomethingUI</h3> { <i>/*2 members, size Ch*/</i> <em></em>
 <i>/*0*/	</i><a href='structs.html#struc_SomethingUI$vtable'>struct SomethingUI$vtable</a> *vtable;
-<i id='struc_SomethingUI4'></i><i>/*4*/	</i><a href='#struc_ObjectLink'>struct ObjectLink</a> link;
+<i id='struc_SomethingUI4'></i><span class='mm'>/**elements are <a href='structs.html#struc_SomethingUIImpl'>struct SomethingUIImpl</a>*/</span>
+<i>/*4*/	</i><a href='#struc_ObjectLink'>struct ObjectLink</a> link;
 };</div>
 <p><strong>Methods:</strong></p>
 <ul>
 <li><pre><i>51BB30</i> <a href='funcs.html#51BB30' title='struct SomethingUIImpl *__thiscall SomethingUI__FindBinSectionInLink_(struct SomethingUI *this, struct BinSection *binsection);'>SomethingUI::FindBinSectionInLink?</a></pre></li>
+<li><pre><i>51BCA0</i> <a href='funcs.html#51BCA0' title='void __thiscall SomethingUI__LoadFromBinSectionAndAddAsLast(struct SomethingUI *this, struct BinSection *data, int oneOrZero);'>SomethingUI::LoadFromBinSectionAndAddAsLast</a></pre></li>
 <li><pre><i>51BB70</i> <a href='funcs.html#51BB70' title='struct SomethingUIImpl *__thiscall SomethingUI__MoveEntryForFNGToTopAndReturnIt(struct SomethingUI *this, char *fngName);'>SomethingUI::MoveEntryForFNGToTopAndReturnIt</a></pre></li>
 <li><pre><i>542390</i> <a href='funcs.html#542390' title='void __thiscall SomethingUI__NukeAllScreens(struct SomethingUI *this, int keepFNGRenderObjects);'>SomethingUI::NukeAllScreens</a></pre></li>
 <li><pre><i>55DC20</i> <a href='funcs.html#55DC20' title='int __thiscall SomethingUI__SendMessageToFNG(struct SomethingUI *this, char *fng, int message);'>SomethingUI::SendMessageToFNG</a></pre></li>
 <li><pre><i>55DC50</i> <a href='funcs.html#55DC50' title='void __thiscall SomethingUI__SendUIMessageImmediately_(struct SomethingUI *this, unsigned int, int);'>SomethingUI::SendUIMessageImmediately?</a></pre></li>
+<li><pre><i>51BAD0</i> <a href='funcs.html#51BAD0' title='unsigned int __thiscall SomethingUI__SumCSHashOfFNGNamesInEntries(struct SomethingUI *this);'>SomethingUI::SumCSHashOfFNGNamesInEntries</a></pre></li>
 <li><pre><i>542530</i> <a href='funcs.html#542530' title='void __thiscall SomethingUI__UnloadFNGPackage(struct SomethingUI *this, struct BinSection *binsection, int zeroOrOneUnused);'>SomethingUI::UnloadFNGPackage</a></pre></li>
 </ul>
 <div id='struc_SomethingUI$vtable'>struct <h3>SomethingUI$vtable</h3> { <i>/*1 members, size 4h*/</i>
 <i>/*0*/	</i>void (__thiscall *dtor)(<a href='structs.html#struc_SomethingUI'>struct SomethingUI</a> *this, int dontFree);
 };</div>
-<div id='struc_SomethingUIImpl'>struct <h3>SomethingUIImpl</h3> { <i>/*26 members, size 60h*/</i> <em></em>
+<div id='struc_SomethingUIImpl'>struct <h3>SomethingUIImpl</h3> { <i>/*20 members, size 54h*/</i> <em></em>
 <span class='mm'>/**not certain at all that this struct is a descendant of SomethingUI. It just has a vtable and ObjectLink*/</span>
 <i>/*0*/	</i><a href='#struc_SomethingUI'>struct SomethingUI</a> __parent;
-<i id='struc_SomethingUIImplC'></i><i>/*C*/	</i><a href='structs.html#struc_SomethingUIImpl_FieldC'>struct SomethingUIImpl_FieldC</a> *ptrField_C;
+<i id='struc_SomethingUIImplC'></i><span class='mm'>/**set if this instance is from a 30203 binsection, else null*/</span>
+<i>/*C*/	</i><a href='structs.html#struc_BinSection30203Data'>struct BinSection30203Data</a> *data30203;
 <i>/*10*/	</i><a href='structs.html#struc_BinSection'>struct BinSection</a> *binsection;
 <i id='struc_SomethingUIImpl14'></i><i>/*14*/	</i><a href='structs.html#struc_FNGObject'>struct FNGObject</a> *fng;
 <i id='struc_SomethingUIImpl18'></i><i>/*18*/	</i><a href='structs.html#struc_FNGInfo'>struct FNGInfo</a> *fnginfo;
 <i>/*1C*/	short field_1C;</i>
 <i>/*1E*/	short field_1E;</i>
-<i>/*20*/	int field_20;</i>
+<span class='mm'>/**ptr to the entry in <a href='vars.html#7F7DC8'>fngdata</a> for the hash of this struct's fngname (which comes from its bindata), initialized in ctor*/</span>
+<i>/*20*/	</i><a href='structs.html#struc_FNGData'>struct FNGData</a> *fngData;
 <i>/*24*/	int field_24;</i>
-<i>/*28*/	int field_28;</i>
+<i>/*28*/	char field_28;</i>
+<i>/*29*/	char _pad29[0x3];</i>
 <i>/*2C*/	int field_2C;</i>
 <i>/*30*/	int field_30;</i>
 <i>/*34*/	int field_34;</i>
@@ -5901,29 +5921,18 @@ Markers is just section <code>3414A</code> but this func loads more than that
 <i>/*48*/	int field_48;</i>
 <i>/*4C*/	int field_4C;</i>
 <i>/*50*/	int field_50;</i>
-<i>/*54*/	short field_54;</i>
-<i>/*56*/	short field_56;</i>
-<i>/*58*/	short field_58;</i>
-<i>/*5A*/	short field_5A;</i>
-<i>/*5C*/	short field_5C;</i>
-<span class='mm'>/**if size is &lt; 60, then it'll be padded to 60 in some link/pool thing*/</span>
-<i>/*5E*/	short field_5E;</i>
 };</div>
+<div class='mm'>
+<p>an instance of this exists for every binsection <code>30203</code> or <code>30210</code> read, see <a href='funcs.html#51BD30'>LoadBinSection30203_30210</a>
+</p><p>old comment: "if size is &lt;60 then it'll be padded to 60 in some link/pool thing". But is this thing part of a pool? It's just linked in <a href='structs.html#struc_SomethingUI'>struct SomethingUI</a> afaik
+<p></div>
 <p><strong>Methods:</strong></p>
 <ul>
+<li><pre><i>51B8E0</i> <a href='funcs.html#51B8E0' title='struct SomethingUIImpl *__thiscall SomethingUIImpl__ctor(struct SomethingUIImpl *this, struct BinSection *data);'>SomethingUIImpl::ctor</a></pre></li>
+<li><pre><i>51B990</i> <a href='funcs.html#51B990' title='void __thiscall SomethingUIImpl__dtor(struct SomethingUIImpl *this);'>SomethingUIImpl::dtor</a></pre></li>
 <li><pre><i>50B920</i> <a href='funcs.html#50B920' title='unsigned int __thiscall SomethingUIImpl__GetPackageHash_(struct SomethingUIImpl *this);'>SomethingUIImpl::GetPackageHash?</a></pre></li>
 <li><pre><i>51BA60</i> <a href='funcs.html#51BA60' title='void __thiscall SomethingUIImpl__ReleaseFngAndFngInfoAndPtrFieldC(struct SomethingUIImpl *this);'>SomethingUIImpl::ReleaseFngAndFngInfoAndPtrFieldC</a></pre></li>
 </ul>
-<div id='struc_SomethingUIImpl_FieldC'>struct <h3>SomethingUIImpl_FieldC</h3> { <i>/*4 members, size 32h*/</i>
-<i>/*0*/	int field_0;</i>
-<i>/*4*/	char _pad4[0x4];</i>
-<i>/*8*/	int field_8;</i>
-<i>/*C*/	char _padC[0x4];</i>
-<i>/*10*/	int field_10;</i>
-<i>/*14*/	char _pad14[0x14];</i>
-<span class='mm'>/**length unknown*/</span>
-<i>/*28*/	</i>char fngName[10] <u></u>;
-};</div>
 <div id='struc_SoundEffectSystem'>struct <h3>SoundEffectSystem</h3> { <i>/*0 members, size 0h*/</i> <em></em>
 };</div>
 <p><strong>Methods:</strong></p>
