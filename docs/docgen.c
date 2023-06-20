@@ -1188,10 +1188,10 @@ void docgen_print_data(FILE *f, struct docgen *dg, struct docgen_datainfo *datai
 		}
 	} else if (data->data.data.flags & IDCP_DATA_FLOAT) {
 		assert(data->data.data.size == 4);
-		strcpy(type->data, "float");
+		strcpy(type->data, "float ");
 	} else if (data->data.data.flags & IDCP_DATA_DOUBLE) {
 		assert(data->data.data.size == 8);
-		strcpy(type->data, "double");
+		strcpy(type->data, "double ");
 	} else {
 		switch (data->data.data.size) {
 		case 1:
