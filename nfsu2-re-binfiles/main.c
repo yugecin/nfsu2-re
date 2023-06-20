@@ -143,13 +143,13 @@ int read_sections(FILE *in, int max_offset, char *lineprefix)
 		case 0x3414A:
 			read_3414A_stuff(in, section_header.size);
 			break;
-		case 0x80034147:
-		case 0x80034A10:
-			sprintf(newlineprefix, "%s%s", lineprefix, LINE_INDENT);
-			read_sections(in, section_header.size, newlineprefix);
-			break;
 		default:
-			fseek(in, section_header.size, SEEK_CUR);
+			if (section_header.magic & 0x80000000) {
+				sprintf(newlineprefix, "%s%s", lineprefix, LINE_INDENT);
+				read_sections(in, section_header.size, newlineprefix);
+			} else {
+				fseek(in, section_header.size, SEEK_CUR);
+			}
 			break;
 		}
 
