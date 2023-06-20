@@ -253,7 +253,7 @@ pre.ida span.hi {
 <a href='cheatsheet.html'>cheatsheet</a></nav>
 </header>
 <div class='func'>
-<h2>Functions (1427)</h2>
+<h2>Functions (1429)</h2>
 <ul>
 <li><a href='#588630'>??ConnectToEAServer</a></li>
 <li><a href='#7789D9'>??ConnectToEAServer_SEH</a></li>
@@ -688,6 +688,7 @@ pre.ida span.hi {
 <li><a href='#512990'>FindCareerSponsorBySponsorNameHash</a></li>
 <li><a href='#500190'>FindCareerStageSettingsForStageIndex</a></li>
 <li><a href='#6FAF1E'>FindFirstFileAWrapper</a></li>
+<li><a href='#51BD10'>FindFNGInEntriesOfSomethingUI</a></li>
 <li><a href='#4FFC50'>FindMarkerTypeD_E_FWithHash</a></li>
 <li><a href='#5798F0'>FindSomeExistingPoolEntryWithFilename</a></li>
 <li><a href='#50CE30'>FindTopPackage</a></li>
@@ -1512,12 +1513,13 @@ pre.ida span.hi {
 <li><a href='#48B1E0'>SomeMathOp_??GetCarStructFromHandle</a></li>
 <li><a href='#570DD0'>somethingBinSections</a></li>
 <li><a href='#51BB30'>SomethingUI::FindBinSectionInLink?</a></li>
+<li><a href='#51BB70'>SomethingUI::MoveEntryForFNGToTopAndReturnIt</a></li>
+<li><a href='#542390'>SomethingUI::NukeAllScreens</a></li>
 <li><a href='#55DC20'>SomethingUI::SendMessageToFNG</a></li>
 <li><a href='#55DC50'>SomethingUI::SendUIMessageImmediately?</a></li>
-<li><a href='#51BB70'>SomethingUI::UnlinkFNGWithname</a></li>
 <li><a href='#542530'>SomethingUI::UnloadFNGPackage</a></li>
-<li><a href='#51BA60'>SomethingUIImpl::DeletePtrFieldC</a></li>
 <li><a href='#50B920'>SomethingUIImpl::GetPackageHash?</a></li>
+<li><a href='#51BA60'>SomethingUIImpl::ReleaseFngAndFngInfoAndPtrFieldC</a></li>
 <li><a href='#57CAC0'>SomethingWithAFile</a></li>
 <li><a href='#458520'>SoundEffectSystem::PlaySound?</a></li>
 <li><a href='#4C14C0'>SponsorIconScrollerIcon::IconSelected</a></li>
@@ -2565,6 +2567,10 @@ return NULL;
 </p><p>param stageIndex: 0-7
 <p></div>
 <div id='6FAF1E'><i>6FAF1E</i> <h3>FindFirstFileAWrapper</h3></div>
+<div id='51BD10'><i>51BD10</i> <a href='structs.html#struc_FNGObject'>struct FNGObject</a> *__cdecl <h3>FindFNGInEntriesOfSomethingUI</h3>(char *fngName);</div>
+<div class='mm'>
+<p>uses <a href='funcs.html#51BB70'>SomethingUI::MoveEntryForFNGToTopAndReturnIt</a>
+<p></div>
 <div id='4FFC50'><i>4FFC50</i> <a href='structs.html#struc_Marker'>struct Marker</a> *__cdecl <h3>FindMarkerTypeD_E_FWithHash</h3>(unsigned int hash);</div>
 <div class='mm'>
 <p>finds any marker of type <a href='enums.html#enu_MARKER_TYPED'>MARKER_TYPE_D</a>/<a href='enums.html#enu_MARKER_TYPEE'>MARKER_TYPE_E</a>/<a href='enums.html#enu_MARKER_TYPEF'>MARKER_TYPE_F</a> with matching <a href='structs.html#struc_Marker30'>hash</a>
@@ -4217,18 +4223,33 @@ TODO where used?
 <div id='48B1E0'><i>48B1E0</i> <h3>SomeMathOp_??GetCarStructFromHandle</h3></div>
 <div id='570DD0'><i>570DD0</i> int __cdecl <h3>somethingBinSections</h3>(int, char *ptrBinData, int sectionSize, int, int, int);</div>
 <div id='51BB30'><i>51BB30</i> <a href='structs.html#struc_SomethingUIImpl'>struct SomethingUIImpl</a> *__thiscall <h3><a href='structs.html#struc_SomethingUI'>SomethingUI</a>::FindBinSectionInLink?</h3>(<a href='structs.html#struc_SomethingUI'>struct SomethingUI</a> *this, <a href='structs.html#struc_BinSection'>struct BinSection</a> *binsection);</div>
+<div id='51BB70'><i>51BB70</i> <a href='structs.html#struc_SomethingUIImpl'>struct SomethingUIImpl</a> *__thiscall <h3><a href='structs.html#struc_SomethingUI'>SomethingUI</a>::MoveEntryForFNGToTopAndReturnIt</h3>(<a href='structs.html#struc_SomethingUI'>struct SomethingUI</a> *this, char *fngName);</div>
+<div class='mm'>
+<p>in <a href='structs.html#struc_SomethingUI'>struct SomethingUI</a>.<a href='structs.html#struc_SomethingUI4'>link</a>, move the entry with matching (hash of) name to the front of the link and return it (or return null if not found)
+<p></div>
+<div id='542390'><i>542390</i> void __thiscall <h3><a href='structs.html#struc_SomethingUI'>SomethingUI</a>::NukeAllScreens</h3>(<a href='structs.html#struc_SomethingUI'>struct SomethingUI</a> *this, int keepFNGRenderObjects);</div>
+<div class='mm'>
+<p>has <a href='funcs.html#51BA60'>SomethingUIImpl::ReleaseFngAndFngInfoAndPtrFieldC</a> inlined
+</p><p>name is kinda dramatic but it seems like it clears all references to linked fngs?
+<p></div>
 <div id='55DC20'><i>55DC20</i> int __thiscall <h3><a href='structs.html#struc_SomethingUI'>SomethingUI</a>::SendMessageToFNG</h3>(<a href='structs.html#struc_SomethingUI'>struct SomethingUI</a> *this, char *fng, int message);</div>
 <div class='mm'>
 <p>Called when menus change.
 <p></div>
 <div id='55DC50'><i>55DC50</i> void __thiscall <h3><a href='structs.html#struc_SomethingUI'>SomethingUI</a>::SendUIMessageImmediately?</h3>(<a href='structs.html#struc_SomethingUI'>struct SomethingUI</a> *this, unsigned int, int);</div>
-<div id='51BB70'><i>51BB70</i> <a href='structs.html#struc_SomethingUIImpl'>struct SomethingUIImpl</a> *__thiscall <h3><a href='structs.html#struc_SomethingUI'>SomethingUI</a>::UnlinkFNGWithname</h3>(<a href='structs.html#struc_SomethingUI'>struct SomethingUI</a> *this, char *fngName);</div>
-<div class='mm'>
-<p>returns unlinked element
-<p></div>
 <div id='542530'><i>542530</i> void __thiscall <h3><a href='structs.html#struc_SomethingUI'>SomethingUI</a>::UnloadFNGPackage</h3>(<a href='structs.html#struc_SomethingUI'>struct SomethingUI</a> *this, <a href='structs.html#struc_BinSection'>struct BinSection</a> *binsection, int zeroOrOneUnused);</div>
-<div id='51BA60'><i>51BA60</i> void __thiscall <h3><a href='structs.html#struc_SomethingUIImpl'>SomethingUIImpl</a>::DeletePtrFieldC</h3>(<a href='structs.html#struc_SomethingUIImpl'>struct SomethingUIImpl</a> *this);</div>
 <div id='50B920'><i>50B920</i> unsigned int __thiscall <h3><a href='structs.html#struc_SomethingUIImpl'>SomethingUIImpl</a>::GetPackageHash?</h3>(<a href='structs.html#struc_SomethingUIImpl'>struct SomethingUIImpl</a> *this);</div>
+<div class='mm'>
+<p>exact same code can be found inlined at <code>51BBBF</code>
+</p><p>works with data with binsection header 30203 &amp; 30210
+<p></div>
+<div id='51BA60'><i>51BA60</i> void __thiscall <h3><a href='structs.html#struc_SomethingUIImpl'>SomethingUIImpl</a>::ReleaseFngAndFngInfoAndPtrFieldC</h3>(<a href='structs.html#struc_SomethingUIImpl'>struct SomethingUIImpl</a> *this);</div>
+<div class='mm'>
+<p>calls dtor of <code>this-&gt;<a href='structs.html#struc_SomethingUIImpl14'>fng</a></code> and nulls it (if set),
+nulls <code>this-&gt;<a href='structs.html#struc_SomethingUIImpl18'>fnginfo</a>-><a href='structs.html#struc_FNGInfo40'>ptrField_40</a></code> and then nulls it (if set),
+frees <code>this-&gt;<a href='structs.html#struc_SomethingUIImplC'>ptrField_C</a></code> and then nulls it (if set)
+</p><p><a href='funcs.html#542390'>SomethingUI::NukeAllScreens</a> has this inlined
+<p></div>
 <div id='57CAC0'><i>57CAC0</i> int __cdecl <h3>SomethingWithAFile</h3>(char *filename);</div>
 <div class='mm'>
 <p>lots of depth, many critical sections etc

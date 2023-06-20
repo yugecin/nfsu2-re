@@ -2990,7 +2990,8 @@ set to 0xABADCAFE in <a href='funcs.html#505400'>UIData_field8_field_DC::505400<
 <i>/*34*/	int field_34;</i>
 <i>/*38*/	int field_38;</i>
 <i>/*3C*/	int field_3C;</i>
-<span class='mm'>/**nulled when fng info is unloaded/deleted*/</span>
+<i id='struc_FNGInfo40'></i><span class='mm'>/**nulled when this object is removed from <a href='structs.html#struc_SomethingUIImpl'>struct SomethingUIImpl</a>.<a href='structs.html#struc_SomethingUIImpl18'>fnginfo</a> (by <a href='funcs.html#51BA60'>SomethingUIImpl::ReleaseFngAndFngInfoAndPtrFieldC</a>)
+i wouldn't be surprised if this is actually a reference to <a href='structs.html#struc_SomethingUIImpl'>struct SomethingUIImpl</a>*/</span>
 <i>/*40*/	</i>int ptrField_40 <u></u>;
 <i>/*44*/	int field_44;</i>
 <i>/*48*/	int field_48;</i>
@@ -4360,6 +4361,7 @@ for money: hash of sound effect to play!?*/</span>
 };</div>
 <div class='mm'>
 <p>for example in <a href='structs.html#struc_BootflowEntry'>struct BootflowEntry</a> this is at offset 4, so each element links to another <a href='structs.html#struc_BootflowEntry'>struct BootflowEntry</a> but you'd need to subtract 4 to get to the base struct from the link pointer
+</p><p>often (if not always), the ObjectLink instance found in the struct that owns it, is a dummy entry that just serves as an entrypoint and the actual first entry is at this-&gt;link-&gt;next
 <p></div>
 <p><strong>Methods:</strong></p>
 <ul>
@@ -5863,26 +5865,27 @@ Markers is just section <code>3414A</code> but this func loads more than that
 };</div>
 <div id='struc_SomethingUI'>struct <h3>SomethingUI</h3> { <i>/*2 members, size Ch*/</i> <em></em>
 <i>/*0*/	</i><a href='structs.html#struc_SomethingUI$vtable'>struct SomethingUI$vtable</a> *vtable;
-<i>/*4*/	</i><a href='#struc_ObjectLink'>struct ObjectLink</a> link;
+<i id='struc_SomethingUI4'></i><i>/*4*/	</i><a href='#struc_ObjectLink'>struct ObjectLink</a> link;
 };</div>
 <p><strong>Methods:</strong></p>
 <ul>
 <li><pre><i>51BB30</i> <a href='funcs.html#51BB30' title='struct SomethingUIImpl *__thiscall SomethingUI__FindBinSectionInLink_(struct SomethingUI *this, struct BinSection *binsection);'>SomethingUI::FindBinSectionInLink?</a></pre></li>
+<li><pre><i>51BB70</i> <a href='funcs.html#51BB70' title='struct SomethingUIImpl *__thiscall SomethingUI__MoveEntryForFNGToTopAndReturnIt(struct SomethingUI *this, char *fngName);'>SomethingUI::MoveEntryForFNGToTopAndReturnIt</a></pre></li>
+<li><pre><i>542390</i> <a href='funcs.html#542390' title='void __thiscall SomethingUI__NukeAllScreens(struct SomethingUI *this, int keepFNGRenderObjects);'>SomethingUI::NukeAllScreens</a></pre></li>
 <li><pre><i>55DC20</i> <a href='funcs.html#55DC20' title='int __thiscall SomethingUI__SendMessageToFNG(struct SomethingUI *this, char *fng, int message);'>SomethingUI::SendMessageToFNG</a></pre></li>
 <li><pre><i>55DC50</i> <a href='funcs.html#55DC50' title='void __thiscall SomethingUI__SendUIMessageImmediately_(struct SomethingUI *this, unsigned int, int);'>SomethingUI::SendUIMessageImmediately?</a></pre></li>
-<li><pre><i>51BB70</i> <a href='funcs.html#51BB70' title='struct SomethingUIImpl *__thiscall SomethingUI__UnlinkFNGWithname(struct SomethingUI *this, char *fngName);'>SomethingUI::UnlinkFNGWithname</a></pre></li>
 <li><pre><i>542530</i> <a href='funcs.html#542530' title='void __thiscall SomethingUI__UnloadFNGPackage(struct SomethingUI *this, struct BinSection *binsection, int zeroOrOneUnused);'>SomethingUI::UnloadFNGPackage</a></pre></li>
 </ul>
 <div id='struc_SomethingUI$vtable'>struct <h3>SomethingUI$vtable</h3> { <i>/*1 members, size 4h*/</i>
 <i>/*0*/	</i>void (__thiscall *dtor)(<a href='structs.html#struc_SomethingUI'>struct SomethingUI</a> *this, int dontFree);
 };</div>
 <div id='struc_SomethingUIImpl'>struct <h3>SomethingUIImpl</h3> { <i>/*26 members, size 60h*/</i> <em></em>
+<span class='mm'>/**not certain at all that this struct is a descendant of SomethingUI. It just has a vtable and ObjectLink*/</span>
 <i>/*0*/	</i><a href='#struc_SomethingUI'>struct SomethingUI</a> __parent;
-<i>/*C*/	</i>int ptrField_C <u></u>;
+<i id='struc_SomethingUIImplC'></i><i>/*C*/	</i><a href='structs.html#struc_SomethingUIImpl_FieldC'>struct SomethingUIImpl_FieldC</a> *ptrField_C;
 <i>/*10*/	</i><a href='structs.html#struc_BinSection'>struct BinSection</a> *binsection;
-<span class='mm'>/**has a vtable and shit*/</span>
-<i>/*14*/	</i>int objectField_14 <u></u>;
-<i>/*18*/	</i><a href='structs.html#struc_FNGInfo'>struct FNGInfo</a> *fnginfo;
+<i id='struc_SomethingUIImpl14'></i><i>/*14*/	</i><a href='structs.html#struc_FNGObject'>struct FNGObject</a> *fng;
+<i id='struc_SomethingUIImpl18'></i><i>/*18*/	</i><a href='structs.html#struc_FNGInfo'>struct FNGInfo</a> *fnginfo;
 <i>/*1C*/	short field_1C;</i>
 <i>/*1E*/	short field_1E;</i>
 <i>/*20*/	int field_20;</i>
@@ -5908,20 +5911,16 @@ Markers is just section <code>3414A</code> but this func loads more than that
 };</div>
 <p><strong>Methods:</strong></p>
 <ul>
-<li><pre><i>51BA60</i> <a href='funcs.html#51BA60' title='void __thiscall SomethingUIImpl__DeletePtrFieldC(struct SomethingUIImpl *this);'>SomethingUIImpl::DeletePtrFieldC</a></pre></li>
 <li><pre><i>50B920</i> <a href='funcs.html#50B920' title='unsigned int __thiscall SomethingUIImpl__GetPackageHash_(struct SomethingUIImpl *this);'>SomethingUIImpl::GetPackageHash?</a></pre></li>
+<li><pre><i>51BA60</i> <a href='funcs.html#51BA60' title='void __thiscall SomethingUIImpl__ReleaseFngAndFngInfoAndPtrFieldC(struct SomethingUIImpl *this);'>SomethingUIImpl::ReleaseFngAndFngInfoAndPtrFieldC</a></pre></li>
 </ul>
-<div id='struc_SomethingUIImpl_FieldC'>struct <h3>SomethingUIImpl_FieldC</h3> { <i>/*11 members, size 32h*/</i>
+<div id='struc_SomethingUIImpl_FieldC'>struct <h3>SomethingUIImpl_FieldC</h3> { <i>/*4 members, size 32h*/</i>
 <i>/*0*/	int field_0;</i>
-<i>/*4*/	int field_4;</i>
+<i>/*4*/	char _pad4[0x4];</i>
 <i>/*8*/	int field_8;</i>
-<i>/*C*/	int field_C;</i>
+<i>/*C*/	char _padC[0x4];</i>
 <i>/*10*/	int field_10;</i>
-<i>/*14*/	int field_14;</i>
-<i>/*18*/	int field_18;</i>
-<i>/*1C*/	int field_1C;</i>
-<i>/*20*/	int field_20;</i>
-<i>/*24*/	int field_24;</i>
+<i>/*14*/	char _pad14[0x14];</i>
 <span class='mm'>/**length unknown*/</span>
 <i>/*28*/	</i>char fngName[10] <u></u>;
 };</div>
