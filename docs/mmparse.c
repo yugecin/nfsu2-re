@@ -181,7 +181,7 @@ struct mmparse {
 		char *tagbuf;
 		int tagbuf_sizeleft;
 		int tag_stack_size;
-		char tag_length[MMPARSE_TAGSTACK_SIZE];
+		unsigned short tag_length[MMPARSE_TAGSTACK_SIZE];
 		int tag_opened_on_line[MMPARSE_TAGSTACK_SIZE];
 	} pd; /*parsedata*/
 	struct {
@@ -494,7 +494,7 @@ void mmparse_expand_line(struct mmparse *mm)
 				dir_data.contents[0] = 0;
 			} else {
 				dir_data.content_len = len = close_pos - open_pos - 1;
-				memcpy(dir_data.contents, raw_line + open_pos + 1,len);
+				memcpy(dir_data.contents, raw_line + open_pos + 1, len);
 				dir_data.contents[len] = 0;
 			}
 			mm->pd.tag_opened_on_line[mm->pd.tag_stack_size] = mm->in.current_line;
@@ -673,6 +673,7 @@ void mmparse_print_tag_with_directives(struct mmparse *mm, struct mmp_dir *dir, 
 
 	int i, len;
 
+	assert(sizeof(tmp) > MMPARSE_DIRECTIVE_ARGN_MAX_LEN + MMPARSE_DIRECTIVE_ARGV_MAX_LEN + 50);
 	len = sprintf(tmp, "<%s", dir->name);
 	mmparse_append_to_expanded_line(mm, tmp, len);
 	for (i = 0; i < dir->argc; i++) {
