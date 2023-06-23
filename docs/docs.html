@@ -292,6 +292,7 @@ pre.ida span.hi {
 </ul>
 </li>
 <li><a href='#fngthings'>FNG things</a></li>
+<li><a href='#listingallfng'>Listing all FNG screens</a></li>
 <li><a href='#some_fng_screens'>Some FNG screens</a>
 <ul>
 <li><a href='#replace_loading_screen'>Replacing the loading screen</a></li>
@@ -1200,7 +1201,7 @@ really is that the first one is case insensitive while the second one is case se
 In the <a href='funcs.html#505450'>SomeHashCI505450</a> one, it checks for every character if it is in the range
 <code>'a'-'z'</code> and subtracts <code>0x20</code> if so, making the character uppercase
 before updating the hash.
-</p><p>See <a href='dumps/hashes.txt'>hashes.txt</a> (254KB) for list of hashes, each line is formatted
+</p><p>See <a href='dumps/hashes.txt'>hashes.txt</a> (258KB) for list of hashes, each line is formatted
 as <code>hash\tinput\tresult\tproc\n</code>. This file is updated at random times. 8 minutes
 of playing gives about a 277MB file, all output was piped to <code>sort | uniq</code>.
 </p><p>How I collected these can be seen in the <code>nfsu2-re-hooks/hook-*-hash-*.c</code> files.
@@ -2617,11 +2618,244 @@ TODO:
 </ul>
 <p style='text-align:right'><small><a href='#index'>Index</a></small></p>
 </div>
+<div><p id='listingallfng'><small><a href='#ui'>UI</a></small></p>
+<h3>Listing all FNG screens <a href='#listingallfng'>#</a></h3>
+<p>Listed by <code><a class='ext' href='https://github.com/yugecin/nfsu2-re/blob/master/nfsu2-re-hooks/debug-custom-iterate-somethingui.c'>nfsu2-re-hooks/debug-custom-iterate-somethingui.c</a></code>
+</p><p>Listing <em>all that are loaded</em> when I run my game. I might've missed some but I ran that code for
+each place in the game that has a separate bin/bun file (like drag, drift, performance tuning, ...).
+</p><details><summary>~200 lines</summary>
+<pre>
+0027F0C1: fngdata UI_Paint.fng
+013932DF: fngdata UI_OLEALogin.fng
+01905520: fngdata UI_ChoosePaintCategory.fng
+01E17DF6: fngdata UI_OLISPConnect.fng
+028DFD06: fngdata UI_PostRace.fng
+0352B6D3: fngdata UI_OLCreateUser.fng
+04B053EB: fngdata GenericDialog_Animate_SMALL.fng
+04EDFC8D: fngdata IG_PlayMovie.fng
+066EAC16: fngdata UI_ChoosePerformanceCategory.fng
+0682FBB1: fngdata UI_MagazineSelect.fng
+07F516C3: fngdata UI_SMS_Mailbox.fng
+0800A835: fngdata GenericDialog.fng
+09AB5829: fngdata UI_OLAgeVerif.fng
+0A857B6D: fngdata UI_OLViewCareer.fng
+0B18389B: fngdata ScreenPrintf.fng
+0CEAC20E: HASH
+0F35F92F: fngdata UI_PauseOptions.fng
+12A62B7C: fngdata UI_CareerCarLot.fng
+13CA35C3: fngdata UI_Menu_Asset_Reputation.fng
+152631D1: fngdata UI_RewardsSponsor.fng
+15964F7E: fngdata UI_PerformanceBrandSelect.fng
+15BE6570: HASH
+173F7696: fngdata UI_MagazineReward.fng
+175B0026: fngdata UI_Options_PC_Controller.fng
+17B0719C: HASH
+1821F0A1: fngdata UI_OL_WebOffer2.fng
+19F14079: fngdata IG_GenericDialog_MED.fng
+1A4525D8: fngdata UI_PostRaceResults.fng
+1B2211AC: HASH
+1BB72367: HASH
+1C79317C: fngdata UI_DecalsOverlayInvis.fng
+1D3BEC2F: fngdata LS_Demo_Legal.fng
+1D9A9084: fngdata 2P_PressStart.fng
+1EA89655: fngdata UI_PerformanceDyno_MAIN.fng
+20626E14: fngdata UI_ChooseUniquePart.fng
+207415ED: HASH
+2373CEF6: fngdata UI_EngageShopDialog.fng
+250CFFA8: HASH
+25977A8D: fngdata GenericDialog_SMALL.fng
+272D4D66: fngdata UI_Status_DVD.fng
+2988130C: fngdata UI_DebugTest.fng
+298C7043: fngdata EA_Trax_Jukebox.fng
+2A008F69: fngdata UI_PerformanceTuning_Setting.fng
+2E8E7B34: fngdata UI_Status_Master.fng
+2EA28EA6: NAME    Loading.fng
+2ED34899: fngdata HelpDialog_SMALL.fng
+308FA458: NAME    PC_Loading.fng
+30AC2FA1: fngdata UI_OL_FriendDialogue.fng
+312C2437: fngdata UI_PerformanceTuning_Master.fng
+32A39AB7: fngdata MC_Background.fng
+334565B5: fngdata UI_ChooseVinylLayer.fng
+34157582: fngdata UI_IcePartsOverlay.fng
+364151B1: fngdata UI_OL_Disconnect_BG.fng
+368B832C: NAME    HUD_Short_Track.fng
+375CD530: fngdata UI_OL_ViewCar.fng
+39700EB6: fngdata UI_OptionsMain.fng
+3D0BB9B4: fngdata UI_PC_Help_Bar.fng
+3DFBA96A: fngdata GenericDialog_MED.fng
+3DFCB975: fngdata UI_CustomNeonMain.fng
+447DECC9: fngdata UI_OL_Disconnect.fng
+48897FC3: fngdata UI_Rims_Browser.fng
+48DEA295: fngdata UI_OLLobbyRoom.fng
+4B6AEF82: fngdata UI_ChooseCustomHUD.fng
+4B744508: fngdata DiscErrorPC.fng
+4BA5E3C5: fngdata UI_PC_Customize_Options.fng
+4DC4524F: fngdata UI_OL_ViewTrack.fng
+4E8F3E91: HASH
+4EE26A74: fngdata UI_PauseOptionsMain.fng
+51C5629B: fngdata UI_CribRewardOptionsMain.fng
+53EBF5F5: fngdata DiscError.fng
+559BF91D: fngdata UI_OLRankings.fng
+571933C1: fngdata UI_PerformanceTuning_Sliders.fng
+57608F53: HASH
+58A34EAF: fngdata UI_GenericParts_Browser.fng
+5A350141: fngdata UI_NeonPartsOverlay.fng
+5BD84D87: fngdata UI_ChooseCustomizeCategory.fng
+5C26695E: fngdata UI_QRCarSelect.fng
+5CFDCCDB: fngdata UI_InGame_WorldMap.fng
+5F511518: HASH
+60EFC10C: fngdata UI_MagazineView.fng
+62EDCD4B: fngdata UI_Trailers.fng
+6796BB48: HASH
+6A4D7065: HASH
+6B49C096: fngdata Credits.fng
+6BC30104: fngdata UI_ChoosePerformancePackage.fng
+6C4E4A5C: fngdata MC_Main.fng
+6DE29245: fngdata UI_ChooseSpinner.fng
+70B41B0E: fngdata LS_Demo_PSA.fng
+7595818A: fngdata PC_OL_SEARCH.fng
+75D5F4F4: HASH
+75E59577: fngdata UI_CareerCrib.fng
+75EF8A72: fngdata UI_PC_LAN.fng
+75F15DCE: fngdata LS_BlankMovie.fng
+7620B9D6: fngdata UI_Sponsorship_new.fng
+7A0532F0: fngdata UI_OLPreRaceStart.fng
+7E4A82FC: fngdata UI_OLX_Message.fng
+7E67096A: HASH
+7E75C222: fngdata UI_MagazineBack.fng
+7E794C7E: fngdata UI_EngageEventDialog.fng
+7E7FB245: fngdata UI_DebugCarCustomize.fng
+7F0E48FE: HASH
+82633365: fngdata Chyron_FE.fng
+837735E5: fngdata UI_OLCarLot.fng
+8549BCA3: fngdata UI_Showcase_Preview.fng
+882AFF54: fngdata UI_OLGameRoom_host.fng
+89561DF6: fngdata LS_Demo_ESRB.fng
+8986DE4A: fngdata Chyron_IG.fng
+8C07642F: fngdata UI_PostRace_TournResults.fng
+8C6DC7F5: fngdata UI_DateEntry.fng
+8D46762C: fngdata PC_OL_Lobby.fng
+8DD82E2F: fngdata UI_OLEAMessenger.fng
+8EB04A1A: fngdata UI_Showcase_DPAD.fng
+90C68FFB: fngdata UI_PerformanceTuning_NOS.fng
+93953D3D: fngdata UI_QRTrackSelect.fng
+93CDA4FA: fngdata LS_Chinese_Health.fng
+94B8EEC5: fngdata UI_StartCareer.fng
+94F5DE45: fngdata UI_Wheel_Options.fng
+966756A8: fngdata UI_PostRace_TournStandings.fng
+97396BBA: fngdata UI_Status_Career.fng
+97B8D7B1: fngdata UI_OLAgeTooYoung.fng
+985F0BEA: fngdata LS_PSAMovie.fng
+9917E7DD: fngdata UI_CareerWorldMap.fng
+991E7B6D: HASH
+9BAF3723: fngdata UI_CustomHUDOverlay.fng
+9C70ADBB: fngdata UI_ICEMAIN.fng
+9F0D0D93: HASH
+9F2A5298: fngdata MU_PostRaceConfirm.fng
+A07EE45F: fngdata UI_OLForgotAccountName.fng
+A12FD64D: fngdata UI_CareerCarSelect.fng
+A17E8D57: fngdata UI_OLGameRoom.fng
+A34791EE: fngdata IG_GenericDialog_LARGE.fng
+A419E049: HASH
+A448D5B6: HASH
+A6268CF5: fngdata UI_OLGameRoom_client.fng
+A67D2563: fngdata UI_Pause.fng
+A78253CC: HASH
+AA7FA5B8: fngdata UI_OLSelectPersona.fng
+AB4A06F1: fngdata UI_BuyPerformanceParts.fng
+AD1275DE: fngdata MW_LS_IntroFMV.fng
+AD574C17: fngdata MU_QuickRaceCarSelect.fng
+AF2B8985: NAME    Loading_Tips.fng
+AF735B2A: fngdata UI_Main.fng
+AF7CBBCE: HASH
+AFEF0EB4: fngdata MW_LS_Splash.fng
+B0426798: fngdata UI_OLUseExisting.fng
+B0A628AD: fngdata UI_QRModeSelect.fng
+B1801731: fngdata UI_ProfileManager.fng
+B18CA345: fngdata UI_OLMAIN.fng
+B2163416: fngdata UI_OLCarSelect.fng
+B3268EAF: fngdata UI_OL_WebOffer.fng
+B5B46040: fngdata LS_Demo_Warning.fng
+B6362877: fngdata UI_EngageRaceDialog.fng
+B80E4053: fngdata UI_DecalsOverlay.fng
+BAC65E4D: fngdata UI_SponsorPopup.fng
+C1A60945: fngdata HUD_SingleRace.fng
+C2C0D48B: fngdata UI_PostRaceReward.fng
+C3D52B59: fngdata UI_QRModeOptions.fng
+C5040108: HASH
+C6BE90AD: HASH
+C9D7D6AA: fngdata UI_OLX_FindResults.fng
+C9E86D9D: fngdata UI_PerformanceTuning_Graph.fng
+C9E9B24C: fngdata UI_Status_Region.fng
+CAC91380: fngdata UI_OLRankings_Personal.fng
+CD10D406: fngdata UI_InGameDialog.fng
+D0784C79: fngdata UI_OLFilters.fng
+D08AF008: fngdata LS_LangSelect.fng
+D2A8D47D: fngdata GenericDialog_Animate_LARGE.fng
+D3B29348: fngdata GenericDialog_Animate_MED.fng
+D4CC1CE2: fngdata UI_OL_Challenge.fng
+D4D60373: fngdata UI_ReplayControl.fng
+D54F115C: fngdata IG_GenericDialog_SMALL.fng
+D5FB7455: fngdata UI_ChooseRimBrand.fng
+D63ED3A4: fngdata UI_OL_Feedback.fng
+D7F96E7D: fngdata LS_EALogo.fng
+D8D4A69D: fngdata UI_VirtualKeyboard.fng
+D9430075: fngdata UI_PostRaceStats.fng
+DA67CC71: fngdata UI_Options.fng
+DC554682: fngdata UI_PerformanceDyno_Results.fng
+DD2161AC: fngdata UG_LS_Splash.fng
+E0A971A7: fngdata UI_OLRankings_Monthly.fng
+E2FCB91C: fngdata UI_OL_News.fng
+E309B843: fngdata UI_DecalMain.fng
+E3AD2FC9: NAME    Loading_Controller.fng
+E4DABD68: fngdata GenericDialog_ThreeButton.fng
+E648DFA3: fngdata UI_PerformanceTuning_Drivetrain.fng
+E8FCD890: fngdata MC_Bootup.fng
+ED044659: fngdata loading_boot.fng
+ED560791: HASH
+ED58A8C8: fngdata UI_PC_LAN_ServerSelect.fng
+F02566D6: fngdata UG_LS_IntroFMV.fng
+F0A3D2D5: HASH
+F1646EA1: fngdata UI_EngageMessageDialog.fng
+F38FFB1F: fngdata GenericDialog_LARGE.fng
+F4127481: fngdata HUD_Drift.fng
+F529AB42: fngdata UI_PerformanceDyno_Chart.fng
+FA10C7BB: HASH
+FB064971: fngdata UI_OLRankings_Overall.fng
+FC1ADA49: fngdata UI_Deleteprofile.fng
+FC6AB906: fngdata HUD_Drag.fng
+FCBA7C6B: fngdata PC_OL_GameRoom.fng
+FCCBC92B: fngdata HelpDialog_LARGE.fng
+FCFACC73: fngdata UI_OLPassword.fng
+FD948476: fngdata HelpDialog_MED.fng
+FE23C19A: fngdata LS_THXMovie.fng
+FF9E84D3: fngdata MC_List.fng
+FFD19C74: fngdata GarageMain.fng
+</pre>
+</details>
+<p>Lines with <code>fngdata</code> means they have a matching entry in <a href='vars.html#7F7DC8'>fngdata</a>.
+Lines with <code>NAME</code> don't, but are from binsection <code>30203</code> so they show their <a href='structs.html#struc_BinSection30203Data'>struct BinSection30203Data</a>.<a href='structs.html#struc_BinSection30203Data28'>fngName</a>.
+Lines with <code>HASH</code> don't, and are from binsection <code>30210</code> so they show their <a href='structs.html#struc_BinSection30210'>struct BinSection30210</a>.<a href='structs.html#struc_BinSection302108'>fngNameCSHash</a>.
+</p><p>One of those that don't have a name but do show a name from their binsection data is
+<code>Loading_Controller.fng</code>. Since this one isn't in <a href='vars.html#7F7DC8'>fngdata</a> nor is the string present in the
+executable, this is the first time I've seen it.
+</p><p>All entries that have no name but only a hash known:
+</p><pre>
+0CEAC20E 15BE6570 17B0719C 1B2211AC 1BB72367 250CFFA8 4E8F3E91 57608F53 5F511518 6796BB48 6A4D7065
+75D5F4F4 7E67096A 7F0E48FE 991E7B6D 9F0D0D93 A419E049 A448D5B6 A78253CC AF7CBBCE C5040108 C6BE90AD
+ED560791 F0A3D2D5 FA10C7BB 207415ED
+</pre>
+<p>Only of these are in <a href='dumps/hashes.txt'>hashes.txt</a> (258KB) at this moment (<code>207415ED: HUD_World_Loading.fng</code>),
+so I'm curious what the other screens are...  camera editor? I've seen strings and controls for it...):
+</p><p style='text-align:right'><small><a href='#index'>Index</a></small></p>
+</div>
 <div><p id='some_fng_screens'><small><a href='#ui'>UI</a></small></p>
 <h3>Some FNG screens <a href='#some_fng_screens'>#</a></h3>
 <p>This was done by putting pointers to their strings into the boot flow entries (see <a href='#speedyboot'>Speedy boot</a>).
 </p><details><summary><code>2P_PressStart.fng</code></summary><p class='center'><img src="img/2P_PRESS_START.JPG" alt="2player press start"/></p></details>
 <details><summary><code>loading_boot.fng</code></summary><p class='center'><img src="img/LOADING_BOOT.JPG" alt="alternative loading screen with nfsu2 logo"/></p></details>
+<details><summary><code>HUD_World_Loading.fng</code></summary><p class='center'><img src="img/HUD_WORLD_LOADING.JPG" alt="black screen with loader"/></p></details>
+<details><summary><code>Loading_Controller.fng</code></summary><p class='center'><img src="img/LOADING_CONTROLLER.JPG" alt="loading screen but with a list of control names, but the controller image itself is missing"/></p></details>
 <div><p id='replace_loading_screen'><small><a href='#ui'>UI</a> &gt; <a href='#some_fng_screens'>Some FNG screens</a></small></p>
 <h4>Replacing the loading screen <a href='#replace_loading_screen'>#</a></h4>
 <p>I found <code>loading_boot.fng</code> pretty cool, so I wondered if that could be used instead for
@@ -2638,6 +2872,7 @@ strcpy((char*) 0x790734, "loading_boot.fng");
 <p>It seems unused, so I guess it's fine. That made me wonder if that one could be used as loading
 screen, maybe it shows tips? But when trying it just shows a black screen. Maybe it's a cut
 feature?
+</p><p>Using <code>Loading_Controller.fng</code> and <code>HUG_World_Loading.fng</code> also works.
 </p><p style='text-align:right'><small><a href='#index'>Index</a></small></p>
 </div>
 <p><small><a href='#ui'>UI</a> &gt; <a href='#some_fng_screens'>Some FNG screens</a> (continuation)</small></p>
@@ -2665,7 +2900,7 @@ void hook_on_msg_WM_CHAR(int wparam)
 </pre>
 <p>It didn't crash, so that was a win already. The second parameter for that func is what I suspect some data to
 initialize the fng screen. It fortunately seems like either the ScreenPrintf one doesn't initialize anything or it has
-a null check. for the passed data It doesn't seem to show anything though. Then I thought of the UI elements and their
+a null check for the passed data. It doesn't seem to show anything though. Then I thought of the UI elements and their
 visitor methods (like <a href='funcs.html#504880'>FNGInfo::VisitUIRecursively</a>). So I tried to print all the UI elements that are on screen (See
 <code><a class='ext' href='https://github.com/yugecin/nfsu2-re/blob/master/nfsu2-re-hooks/debug-custom-uielementvisitor.c'>nfsu2-re-hooks/debug-custom-uielementvisitor.c</a></code>, and here's the output when in the options menu in the pause menu
 while in career freeroam:

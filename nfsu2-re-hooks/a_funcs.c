@@ -5,7 +5,7 @@ char* getCareerString(short offset)
 }
 
 static
-int cshash(char *input)
+unsigned int cshash(char *input)
 {
 	unsigned int result;
 	char c;

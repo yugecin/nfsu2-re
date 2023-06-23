@@ -253,7 +253,7 @@ pre.ida span.hi {
 <a href='cheatsheet.html'>cheatsheet</a></nav>
 </header>
 <div class='struc'>
-<h2>Structs (429)</h2>
+<h2>Structs (428)</h2>
 <ul>
 <li><a href='#struc__COMMCONFIG'>_COMMCONFIG</a></li>
 <li><a href='#struc__COMMTIMEOUTS'>_COMMTIMEOUTS</a></li>
@@ -286,7 +286,6 @@ pre.ida span.hi {
 <li><a href='#struc_BinSection'>BinSection</a></li>
 <li><a href='#struc_BinSection30203Data'>BinSection30203Data</a></li>
 <li><a href='#struc_BinSection30210'>BinSection30210</a></li>
-<li><a href='#struc_BinSection30210Data'>BinSection30210Data</a></li>
 <li><a href='#struc_BinSection34A11'>BinSection34A11</a></li>
 <li><a href='#struc_BinSection34A11_0'>BinSection34A11_0</a> <em></em></li>
 <li><a href='#struc_BinSection34A11_0_18'>BinSection34A11_0_18</a></li>
@@ -923,7 +922,7 @@ pre.ida span.hi {
 <i>/*C*/	char _padC[0x4];</i>
 <i>/*10*/	int field_10;</i>
 <i>/*14*/	char _pad14[0x14];</i>
-<span class='mm'>/**length unknown*/</span>
+<i id='struc_BinSection30203Data28'></i><span class='mm'>/**length unknown*/</span>
 <i>/*28*/	</i>char fngName[10] <u></u>;
 };</div>
 <div class='mm'>
@@ -931,11 +930,8 @@ pre.ida span.hi {
 <p></div>
 <div id='struc_BinSection30210'>struct <h3>BinSection30210</h3> { <i>/*2 members, size Ch*/</i>
 <i>/*0*/	</i><a href='#struc_BinSectionHeader'>struct BinSectionHeader</a> header;
-<i>/*8*/	</i>unsigned int hash;
-};</div>
-<div id='struc_BinSection30210Data'>struct <h3>BinSection30210Data</h3> { <i>/*1 members, size 4h*/</i>
-<span class='mm'>/**see 51B97B for proof*/</span>
-<i>/*0*/	</i>unsigned int fngNameCSHash;
+<i id='struc_BinSection302108'></i><span class='mm'>/**see 51B97B for proof*/</span>
+<i>/*8*/	</i>unsigned int fngNameCSHash;
 };</div>
 <div id='struc_BinSection34A11'>struct <h3>BinSection34A11</h3> { <i>/*1 members, size 7700h*/</i>
 <i id='struc_BinSection34A110'></i><span class='mm'>/**since the section in my file is size 7700, I'm assuming this array has 224 entries*/</span>
@@ -5896,9 +5892,9 @@ Markers is just section <code>3414A</code> but this func loads more than that
 <div id='struc_SomethingUI$vtable'>struct <h3>SomethingUI$vtable</h3> { <i>/*1 members, size 4h*/</i>
 <i>/*0*/	</i>void (__thiscall *dtor)(<a href='structs.html#struc_SomethingUI'>struct SomethingUI</a> *this, int dontFree);
 };</div>
-<div id='struc_SomethingUIImpl'>struct <h3>SomethingUIImpl</h3> { <i>/*20 members, size 54h*/</i> <em></em>
-<span class='mm'>/**not certain at all that this struct is a descendant of SomethingUI. It just has a vtable and ObjectLink*/</span>
-<i>/*0*/	</i><a href='#struc_SomethingUI'>struct SomethingUI</a> __parent;
+<div id='struc_SomethingUIImpl'>struct <h3>SomethingUIImpl</h3> { <i>/*21 members, size 54h*/</i> <em></em>
+<i>/*0*/	</i>void *vtable;
+<i>/*4*/	</i><a href='#struc_ObjectLink'>struct ObjectLink</a> link;
 <i id='struc_SomethingUIImplC'></i><span class='mm'>/**set if this instance is from a 30203 binsection, else null*/</span>
 <i>/*C*/	</i><a href='structs.html#struc_BinSection30203Data'>struct BinSection30203Data</a> *data30203;
 <i>/*10*/	</i><a href='structs.html#struc_BinSection'>struct BinSection</a> *binsection;

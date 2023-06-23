@@ -231,6 +231,28 @@ enum UIELEMENTFLAGS { /*6 members*/
 	NEED_UPDATE_2 = 0x2000000,
 };
 
+struct BinSectionHeader { /*2 members, size 8h*/
+/*0*/	unsigned int magic;
+/*4*/	int size;
+};
+
+struct BinSection { /*2 members, size 9h*/
+/*0*/	struct BinSectionHeader header;
+/**actual data size is determined by struct BinSectionHeader.size*/
+/*8*/	char data[1];
+};
+
+struct BinSection30203Data { /*4 members, size 32h*/
+/*0*/	int field_0;
+/*4*/	char _pad4[0x4];
+/*8*/	int field_8;
+/*C*/	char _padC[0x4];
+/*10*/	int field_10;
+/*14*/	char _pad14[0x14];
+/**length unknown*/
+/*28*/	char fngName[10] ;
+};
+
 struct DialogInfo {
 	char text[768];
 	int unused300;
@@ -333,6 +355,40 @@ struct FNGInfo {
         int field_48;
         struct UIElement *rootUIElement;
 };
+
+struct SomethingUIImpl { /*21 members, size 54h*/ 
+/*0*/	void *vtable;
+/*4*/	struct ObjectLink link;
+/**set if this instance is from a 30203 binsection, else null*/
+/*C*/	struct BinSection30203Data *data30203;
+/*10*/	struct BinSection *binsection;
+/*14*/	struct FNGObject *fng;
+/*18*/	struct FNGInfo *fnginfo;
+/*1C*/	short field_1C;
+/*1E*/	short field_1E;
+/**ptr to the entry in fngdata for the hash of this struct's fngname (which comes from its bindata), initialized in ctor*/
+/*20*/	struct FNGData *fngData;
+/*24*/	int field_24;
+/*28*/	char field_28;
+/*29*/	char _pad29[0x3];
+/*2C*/	int field_2C;
+/*30*/	int field_30;
+/*34*/	int field_34;
+/*38*/	int field_38;
+/*3C*/	int field_3C;
+/*40*/	int field_40;
+/*44*/	int field_44;
+/*48*/	int field_48;
+/*4C*/	int field_4C;
+/*50*/	int field_50;
+};
+
+struct SomethingUI { /*2 members, size Ch*/ 
+/*0*/	void *vtable;
+/**elements are struct SomethingUIImpl*/
+/*4*/	struct ObjectLink link;
+};
+
 struct MouseData {
 	void /*DInputDevice8*/ *dinputdevice;
 	int cursorX; // on 640x480 canvas
