@@ -1086,6 +1086,99 @@ the code to replace cars is in comments.
 .popmode section
 .pushmode section
 
+{Lists}   ||| h id=lists
+
+Many structs have a doubly linked list of data with a sentinel node (thanks Wikipedia for
+teaching me that name) being in the struct itself. It kinda looks like this:
+
+.pushmode pre
+struct SomeStruct {			struct Child {
+	void *vtable;				void *vtable;
+	// yada yada				struct Child *next;
+	struct Child *next;			struct Child *prev;
+	struct Child *prev;			// yada yada
+	// yada yada			}
+}
+.popmode pre
+
+So then one can loop over all nodes by going to next until next is the sentinel node:
+
+.pushmode pre
+void *sentinel = &someStruct->next;
+struct Child *next = someStruct->next;
+while (next != sentinel) {
+	doSomething(next);
+	next = next->next;
+}
+.popmode pre
+
+.pushmode section
+
+{ObjectLink}   ||| h id=objectlink
+
+Though almost always, the lists look something like this:
+
+.pushmode pre
+struct SomeStruct {			struct Child {
+	void *vtable;				void *vtable;
+	// yada yada				{struct ObjectLink} link;       ||| ref
+	{struct ObjectLink} link;		// yada yada                    ||| ref
+	// yada yada			}
+}
+.popmode pre
+
+So to loop over all nodes, one would have to do this:
+
+.pushmode pre
+struct ObjectLink *sentinel = &someStruct->link;
+struct ObjectLink *next = someStruct->next;
+struct Child *actual;
+while (next != sentinel) {
+	actual = (struct Child*)((int) next - 4);
+	doSomething(actual);
+	next = next->next;
+}
+.popmode pre
+
+Or I'm missing something. Either way I'm wondering what the source code looks like for these things.
+
+.popmode section
+.pushmode section
+
+{0xABADCAFE}   ||| h id=ABADCAFE
+
+{0xABADCAFE} is a constant that's {very} often used,                                         ||| code,em
+sometimes also used as bogus pointers on list nodes that are being removed:
+
+.pushmode pre
+struct Child *someNode = ...;
+
+someNode->prev->next = someNode->next;
+someNode->next->prev = someNode->prev;
+someNode->prev = (void*) 0xABADCAFE;
+someNode->next = (void*) 0xABADCAFE;
+delete someNode;
+.popmode pre
+
+This happens for example in {5362E0}.   ||| ref
+
+A quick search shows some known usages for this value:
+
+{"A bad cafe", Used to initialize all unallocated memory          ||| blockquote
+{(Wikipedia: Magic number # debug values)}  ||| a class=ext href=https://en.wikipedia.org/wiki/Magic_number_(programming)#Debug_values
+}|||
+
+{0xABADCAFE: A startup to this value to initialize all free memory to catch errant pointers ||| blockquote
+{(C/C++ programming language notes, yurichev.com)} ||| a class=ext href=https://yurichev.com/writings/C-notes-en.pdf
+}|||
+
+Though the usage observed here is often also before destruction of objects instead of
+only at initialization.
+
+.popmode section
+.popmode section
+.pushmode section
+
 {Debug print}  ||| h id=debugprint
 
 While scrolling through the data segment, I found these interesting strings:

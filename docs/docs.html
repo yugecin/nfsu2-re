@@ -289,6 +289,12 @@ pre.ida span.hi {
 <li><a href='#hashmess'>Messing with hash results</a></li>
 </ul>
 </li>
+<li><a href='#lists'>Lists</a>
+<ul>
+<li><a href='#objectlink'>ObjectLink</a></li>
+<li><a href='#ABADCAFE'>0xABADCAFE</a></li>
+</ul>
+</li>
 <li><a href='#debugprint'>Debug print</a></li>
 <li><a href='#ui'>UI</a>
 <ul>
@@ -1278,7 +1284,78 @@ the code to replace cars is in comments.
 </ul>
 <p style='text-align:right'><small><a href='#index'>Index</a></small></p>
 </div>
-<div><h2 id="debugprint">Debug print <a href='#debugprint'>#</a></h2>
+<div><h2 id="lists">Lists <a href='#lists'>#</a></h2>
+<p>Many structs have a doubly linked list of data with a sentinel node (thanks Wikipedia for
+teaching me that name) being in the struct itself. It kinda looks like this:
+</p><pre>
+struct SomeStruct {			struct Child {
+	void *vtable;				void *vtable;
+	// yada yada				struct Child *next;
+	struct Child *next;			struct Child *prev;
+	struct Child *prev;			// yada yada
+	// yada yada			}
+}
+</pre>
+<p>So then one can loop over all nodes by going to next until next is the sentinel node:
+</p><pre>
+void *sentinel = &amp;someStruct-&gt;next;
+struct Child *next = someStruct-&gt;next;
+while (next != sentinel) {
+	doSomething(next);
+	next = next-&gt;next;
+}
+</pre>
+<div><p id='objectlink'><small><a href='#lists'>Lists</a></small></p>
+<h3>ObjectLink <a href='#objectlink'>#</a></h3>
+<p>Though almost always, the lists look something like this:
+</p><pre>
+struct SomeStruct {			struct Child {
+	void *vtable;				void *vtable;
+	// yada yada				<a href='structs.html#struc_ObjectLink'>struct ObjectLink</a> link;
+	<a href='structs.html#struc_ObjectLink'>struct ObjectLink</a> link;		// yada yada
+	// yada yada			}
+}
+</pre>
+<p>So to loop over all nodes, one would have to do this:
+</p><pre>
+struct ObjectLink *sentinel = &amp;someStruct-&gt;link;
+struct ObjectLink *next = someStruct-&gt;next;
+struct Child *actual;
+while (next != sentinel) {
+	actual = (struct Child*)((int) next - 4);
+	doSomething(actual);
+	next = next-&gt;next;
+}
+</pre>
+<p>Or I'm missing something. Either way I'm wondering what the source code looks like for these things.
+</p><p style='text-align:right'><small><a href='#index'>Index</a></small></p>
+</div>
+<div><p id='ABADCAFE'><small><a href='#lists'>Lists</a></small></p>
+<h3>0xABADCAFE <a href='#ABADCAFE'>#</a></h3>
+<p><code>0xABADCAFE</code> is a constant that's <em>very</em> often used,
+sometimes also used as bogus pointers on list nodes that are being removed:
+</p><pre>
+struct Child *someNode = ...;
+
+someNode-&gt;prev-&gt;next = someNode-&gt;next;
+someNode-&gt;next-&gt;prev = someNode-&gt;prev;
+someNode-&gt;prev = (void*) 0xABADCAFE;
+someNode-&gt;next = (void*) 0xABADCAFE;
+delete someNode;
+</pre>
+<p>This happens for example in <a href='funcs.html#5362E0'>UIData_field8::DirectPopFNG</a>.
+</p><p>A quick search shows some known usages for this value:
+</p><blockquote>"A bad cafe", Used to initialize all unallocated memory
+<a class="ext" href="https://en.wikipedia.org/wiki/Magic_number_(programming)#Debug_values">(Wikipedia: Magic number # debug values)</a>
+</blockquote>
+<blockquote>0xABADCAFE: A startup to this value to initialize all free memory to catch errant pointers
+<a class="ext" href="https://yurichev.com/writings/C-notes-en.pdf">(C/C++ programming language notes, yurichev.com)</a>
+</blockquote>
+<p>Though the usage observed here is often also before destruction of objects instead of
+only at initialization.
+</p><p style='text-align:right'><small><a href='#index'>Index</a></small></p>
+</div>
+</div><div><h2 id="debugprint">Debug print <a href='#debugprint'>#</a></h2>
 <p>While scrolling through the data segment, I found these interesting strings:
 </p><pre class='ida'>
 <span class='mc'>.rdata:0079B160</span> <span class='ident'>aDeletingPackag</span> db <span class='str'>'Deleting package [%s]'</span>,<span class='num'>0Ah</span>,<span class='num'>0</span>
