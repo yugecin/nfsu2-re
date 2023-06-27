@@ -452,6 +452,7 @@ int mmpextras_line_can_have_paragraph(struct mmparse *mm)
 		tag++;
 	}
 	return *tag != 'h' && *tag != 'p' &&
+		strncmp(tag, "blockquote", 10) &&
 		strncmp(tag, "details", 7) &&
 		strncmp(tag, "table", 5) &&
 		strncmp(tag, "ul", 2);
