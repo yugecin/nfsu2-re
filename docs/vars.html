@@ -259,7 +259,7 @@ pre.ida span.hi {
 <a href='cheatsheet.html'>cheatsheet</a></nav>
 </header>
 <div class='var'>
-<h2>Variables (931)</h2>
+<h2>Variables (932)</h2>
 <ul>
 <li><a href='#5CCFFC'>WndProcMsgJumpTable</a></li>
 <li><a href='#5CD010'>WndProcMsgJumpTableTable</a></li>
@@ -1133,8 +1133,9 @@ pre.ida span.hi {
 <li><a href='#8A50F0'>CriticalSection</a></li>
 <li><a href='#8A510C'>Destination</a></li>
 <li><a href='#8A7360'>Msg</a></li>
+<li><a href='#8AD408'>didReadThreadIdAndDuplicateProcessHandle</a></li>
 <li><a href='#8AD40C'>mainThreadId</a></li>
-<li><a href='#8AD410'>TargetHandle</a></li>
+<li><a href='#8AD410'>currentProcessHandle</a></li>
 <li><a href='#8AD418'>uResolution</a></li>
 <li><a href='#8AD420'>uTimerID</a></li>
 <li><a href='#8AD430'>eventWrapper</a></li>
@@ -2640,11 +2641,12 @@ interesting when setting that var to 5 (same as 0, 1, 2) while in freeroam (shou
 <div id='8A50F0'><i>8A50F0</i> <a href='structs.html#struc__RTL_CRITICAL_SECTION'>struct _RTL_CRITICAL_SECTION</a> <h3>CriticalSection</h3></div>
 <div id='8A510C'><i>8A510C</i> int <h3>Destination</h3> <u></u></div>
 <div id='8A7360'><i>8A7360</i> <a href='structs.html#struc_MSG'>struct MSG</a> <h3>Msg</h3></div>
+<div id='8AD408'><i>8AD408</i> int <h3>didReadThreadIdAndDuplicateProcessHandle</h3> <u></u></div>
 <div id='8AD40C'><i>8AD40C</i> int <h3>mainThreadId</h3> <u></u></div>
+<div id='8AD410'><i>8AD410</i> int <h3>currentProcessHandle</h3> <u></u></div>
 <div class='mm'>
-<p>it's a thread id, probably main thread
+<p>not a pseudo; it's a duplicated handle, see <a href='funcs.html#6F57EA'>GetThreadIdAndProcessHandle</a>
 <p></div>
-<div id='8AD410'><i>8AD410</i> int <h3>TargetHandle</h3> <u></u></div>
 <div id='8AD418'><i>8AD418</i> int <h3>uResolution</h3> <u></u></div>
 <div id='8AD420'><i>8AD420</i> int <h3>uTimerID</h3> <u></u></div>
 <div id='8AD430'><i>8AD430</i> <a href='structs.html#struc_EventWrapper'>struct EventWrapper</a> <h3>eventWrapper</h3></div>

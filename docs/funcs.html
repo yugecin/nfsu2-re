@@ -259,7 +259,7 @@ pre.ida span.hi {
 <a href='cheatsheet.html'>cheatsheet</a></nav>
 </header>
 <div class='func'>
-<h2>Functions (1434)</h2>
+<h2>Functions (1443)</h2>
 <ul>
 <li><a href='#588630'>??ConnectToEAServer</a></li>
 <li><a href='#7789D9'>??ConnectToEAServer_SEH</a></li>
@@ -543,7 +543,6 @@ pre.ida span.hi {
 <li><a href='#6F7143'>Clearstruct8AD610LinkedListNodeAndReaddToList</a></li>
 <li><a href='#6F717C'>CloseFileHandleAndAddFileNodeBackToLinkedList</a></li>
 <li><a href='#4A0140'>CloseOLOrLanScreenBackToMainMenu</a></li>
-<li><a href='#542340'>ClosePackage</a></li>
 <li><a href='#75BC18'>closesocket</a></li>
 <li><a href='#74A2D0'>CloseSocketWrapper</a></li>
 <li><a href='#7569E0'>CloseSocketWrapperWrapper?</a></li>
@@ -641,6 +640,7 @@ pre.ida span.hi {
 <li><a href='#4A8DF0'>DemoPSAFNGObject::ctor</a></li>
 <li><a href='#4C5460'>DemoPSAFNGObject::MessageHandler</a></li>
 <li><a href='#782470'>destroyControllerStruct874C40</a></li>
+<li><a href='#5CF960'>DestroyGame</a></li>
 <li><a href='#7542C0'>DestroyNetwork0</a></li>
 <li><a href='#7596A0'>DestroyNetwork00</a></li>
 <li><a href='#745100'>DestroyNetwork44</a></li>
@@ -687,6 +687,7 @@ pre.ida span.hi {
 <li><a href='#6F631D'>EventWrapper__WaitForSingleObject_Unused_B</a></li>
 <li><a href='#6F6348'>EventWrapper__WaitForSingleObject_Unused_C</a></li>
 <li><a href='#4408A0'>ExecuteIncludeScriptCommand</a></li>
+<li><a href='#75D5A4'>ExitProcessWrapper</a></li>
 <li><a href='#52C390'>FERenderObject::FreeAllRenderEPolys</a></li>
 <li><a href='#52C3A0'>FERenderObject::FreeAllRenderEPolys_0</a></li>
 <li><a href='#4FFC90'>FindBinSection34A11_0WithField8Value</a></li>
@@ -709,6 +710,9 @@ pre.ida span.hi {
 <li><a href='#517F80'>FNGInfo::FindUIElementByHash</a></li>
 <li><a href='#504830'>FNGInfo::VisitContainerRecursively</a></li>
 <li><a href='#504880'>FNGInfo::VisitUIRecursively</a></li>
+<li><a href='#518280'>FNGInfoList::AddEntry</a></li>
+<li><a href='#519E50'>FNGInfoList::GetFNGInfoByNameByHierarchy</a></li>
+<li><a href='#505400'>FNGInfoList::RemoveEntry</a></li>
 <li><a href='#4CCED0'>FNGINIT_2P_PressStart.fng</a></li>
 <li><a href='#4CB180'>FNGINIT_Chyron_IG.fng</a></li>
 <li><a href='#4B8720'>FNGINIT_Credits.fng</a></li>
@@ -923,6 +927,7 @@ pre.ida span.hi {
 <li><a href='#6F78DC'>GetSomeStructCRealCoreDriveForPath</a></li>
 <li><a href='#6F57A1'>GetSomeTimerResolution</a></li>
 <li><a href='#6F6C47'>GetStruct6F79AFesiFromIndex</a></li>
+<li><a href='#6F57EA'>GetThreadIdAndProcessHandle</a></li>
 <li><a href='#74B730'>GetTickCount</a></li>
 <li><a href='#50C8E0'>GetTopPackage</a></li>
 <li><a href='#5120B0'>GetTranslatedCarName</a></li>
@@ -1331,6 +1336,7 @@ pre.ida span.hi {
 <li><a href='#598750'>PoolEntry::InitWrapper</a></li>
 <li><a href='#43E650'>PoolEntry::SortAllPreviousEntries?</a></li>
 <li><a href='#440E50'>PoolGetNextFreeItem_cdeclwrapper</a></li>
+<li><a href='#43F8F0'>PoolGetNextFreeItemRaw</a></li>
 <li><a href='#6F7112'>PopDword8AD610List</a></li>
 <li><a href='#4E94C0'>PostRaceFNGObject::ctor</a></li>
 <li><a href='#4F39A0'>PostRaceFNGObject::MessageHandler</a></li>
@@ -1378,7 +1384,6 @@ pre.ida span.hi {
 <li><a href='#451100'>RegisterDebugCameraJoys2</a></li>
 <li><a href='#44F2B0'>RegisterDebugCameraJoys3</a></li>
 <li><a href='#761E0B'>ReleaseThreadLocalStorageValue</a></li>
-<li><a href='#43F8F0'>RemoveFirstPoolEntry</a></li>
 <li><a href='#5379A0'>RemoveFNGFromUIObject</a></li>
 <li><a href='#5CAAD0'>Render3D</a></li>
 <li><a href='#48F7A0'>Render3DLODPoles??</a></li>
@@ -1525,11 +1530,12 @@ pre.ida span.hi {
 <li><a href='#55DC20'>SomethingUI::SendMessageToFNG</a></li>
 <li><a href='#55DC50'>SomethingUI::SendUIMessageImmediately?</a></li>
 <li><a href='#51BAD0'>SomethingUI::SumCSHashOfFNGNamesInEntries</a></li>
-<li><a href='#542530'>SomethingUI::UnloadFNGPackage</a></li>
+<li><a href='#542530'>SomethingUI::UnloadFNGPackageByBinsection</a></li>
 <li><a href='#51B8E0'>SomethingUIImpl::ctor</a></li>
 <li><a href='#51B990'>SomethingUIImpl::dtor</a></li>
 <li><a href='#50B920'>SomethingUIImpl::GetPackageHash?</a></li>
 <li><a href='#51BA60'>SomethingUIImpl::ReleaseFngAndFngInfoAndPtrFieldC</a></li>
+<li><a href='#542340'>SomethingUIImpl::Unload</a></li>
 <li><a href='#51BB20'>SomethingUISumCSHashOfFNGNamesInEntries</a></li>
 <li><a href='#57CAC0'>SomethingWithAFile</a></li>
 <li><a href='#458520'>SoundEffectSystem::PlaySound?</a></li>
@@ -1568,6 +1574,7 @@ pre.ida span.hi {
 <li><a href='#43DDA0'>strcpycat</a></li>
 <li><a href='#511630'>strcpyW</a></li>
 <li><a href='#43DCC0'>stricmp</a></li>
+<li><a href='#505310'>stricmp2</a></li>
 <li><a href='#43DBB0'>strlenWithNullcheck</a></li>
 <li><a href='#43DC60'>strncmp</a></li>
 <li><a href='#43DC00'>strncpy</a></li>
@@ -1590,28 +1597,29 @@ pre.ida span.hi {
 <li><a href='#4B2890'>TwoPPressStartFNGObject::ctor</a></li>
 <li><a href='#498070'>TwoPPressStartFNGObject::MessageHandler</a></li>
 <li><a href='#4FDAD0'>U2RECT::Add</a></li>
+<li><a href='#51CB20'>UIData::51CB20</a></li>
 <li><a href='#52CE40'>UIData::52CE40</a></li>
 <li><a href='#5377A0'>UIData::5377A0</a></li>
 <li><a href='#555D00'>UIData::AddFNGToUIObject</a></li>
+<li><a href='#537750'>UIData::ClosePackage</a></li>
 <li><a href='#5372E0'>UIData::ctor</a></li>
 <li><a href='#51CCD0'>UIData::GetLevelSorterPoolEntryForFngName</a></li>
 <li><a href='#54E4A0'>UIData::InitFNGPackage</a></li>
 <li><a href='#537690'>UIData::IsPointInUIElement</a></li>
-<li><a href='#537750'>UIData::PopPackage</a></li>
-<li><a href='#537580'>UIData::PopPackage_0</a></li>
+<li><a href='#537580'>UIData::PopPackage</a></li>
 <li><a href='#5376B0'>UIData::ReassignLevelSorterIndices</a></li>
 <li><a href='#50C860'>UIData::StoreMousePosButtonsIntoArg</a></li>
 <li><a href='#51CBA0'>UIData::SwitchFEngPackages</a></li>
 <li><a href='#51C8C0'>UIData::UnloadFNGPackage</a></li>
+<li><a href='#51A8B0'>UIData_field8::51A8B0</a></li>
 <li><a href='#51AB20'>UIData_field8::51AB20</a></li>
 <li><a href='#555860'>UIData_field8::555860</a></li>
+<li><a href='#51AC10'>UIData_field8::CreateAndAdd412CEntryForFNG</a></li>
 <li><a href='#536170'>UIData_field8::ctor</a></li>
 <li><a href='#5362E0'>UIData_field8::DirectPopFNG</a></li>
 <li><a href='#52C570'>UIData_field8::GetUIElementByHashInFngName</a></li>
 <li><a href='#51AA20'>UIData_field8::QueueUIMessage</a></li>
-<li><a href='#505400'>UIData_field8_field_DC::505400</a></li>
-<li><a href='#518280'>UIData_field8_field_DC::518280</a></li>
-<li><a href='#519E50'>UIData_field8_field_DC::GetFNGInfoByNameByHierarchy</a></li>
+<li><a href='#519DE0'>UIData_field8_412C::CopyFNGNameIntoCAndHashInto10</a></li>
 <li><a href='#517720'>UIElement::AnimationChanged</a></li>
 <li><a href='#51C8A0'>UIElementVisitor::acceptElement::forUnloadFNGPackage</a></li>
 <li><a href='#5374F0'>UIElementVisitor_ClearFNGCache::acceptElement</a></li>
@@ -1678,6 +1686,7 @@ pre.ida span.hi {
 <li><a href='#75D45B'>unnamed_75D45B</a></li>
 <li><a href='#75D65B'>unnamed_75D65B</a></li>
 <li><a href='#5D84D0'>UnoadBinSection34146</a></li>
+<li><a href='#6F582E'>UnsetThreadIdCloseProcessHandle</a></li>
 <li><a href='#5D2850'>UpdateAndRenderStuff</a></li>
 <li><a href='#44EFE0'>UpdateCamera</a></li>
 <li><a href='#4ACF40'>UpdateControllerLabelText</a></li>
@@ -2234,7 +2243,6 @@ but instead all fields are copied separately
 <p>esi = struct struct8AD610LinkedListNode*
 <p></div>
 <div id='4A0140'><i>4A0140</i> <h3>CloseOLOrLanScreenBackToMainMenu</h3></div>
-<div id='542340'><i>542340</i> void __cdecl <h3>ClosePackage</h3>(<a href='structs.html#struc_SomethingUIImpl'>struct SomethingUIImpl</a> *this);</div>
 <div id='75BC18'><i>75BC18</i> int __stdcall <h3>closesocket</h3>(SOCKET s);</div>
 <div id='74A2D0'><i>74A2D0</i> int __cdecl <h3>CloseSocketWrapper</h3>(<a href='structs.html#struc_SocketWrapper'>struct SocketWrapper</a> *socketWrapper);</div>
 <div class='mm'>
@@ -2464,6 +2472,7 @@ Implementation <code><a class='ext' href='https://github.com/yugecin/nfsu2-re/bl
 <div id='4A8DF0'><i>4A8DF0</i> <a href='structs.html#struc_DemoPSAFNGObject'>struct DemoPSAFNGObject</a> *__thiscall <h3><a href='structs.html#struc_DemoPSAFNGObject'>DemoPSAFNGObject</a>::ctor</h3>(<a href='structs.html#struc_DemoPSAFNGObject'>struct DemoPSAFNGObject</a> *this, int);</div>
 <div id='4C5460'><i>4C5460</i> <h3><a href='structs.html#struc_DemoPSAFNGObject'>DemoPSAFNGObject</a>::MessageHandler</h3></div>
 <div id='782470'><i>782470</i> void __cdecl <h3>destroyControllerStruct874C40</h3>();</div>
+<div id='5CF960'><i>5CF960</i> <h3>DestroyGame</h3></div>
 <div id='7542C0'><i>7542C0</i> void __cdecl <h3>DestroyNetwork0</h3>(<a href='structs.html#struc_Network0'>struct Network0</a> *network0);</div>
 <div id='7596A0'><i>7596A0</i> int __cdecl <h3>DestroyNetwork00</h3>(<a href='structs.html#struc_Network00'>struct Network00</a> *network00);</div>
 <div id='745100'><i>745100</i> void __cdecl <h3>DestroyNetwork44</h3>(<a href='structs.html#struc_Network44'>struct Network44</a> *network44);</div>
@@ -2548,6 +2557,7 @@ set it to the maximum value if it was exceeded.
 <div id='6F631D'><i>6F631D</i> int __cdecl <h3>EventWrapper__WaitForSingleObject_Unused_B</h3>(<a href='structs.html#struc_EventWrapper'>struct EventWrapper</a> *eventWrapper);</div>
 <div id='6F6348'><i>6F6348</i> int __cdecl <h3>EventWrapper__WaitForSingleObject_Unused_C</h3>(<a href='structs.html#struc_EventWrapper'>struct EventWrapper</a> *eventWrapper, int milliseconds);</div>
 <div id='4408A0'><i>4408A0</i> <h3>ExecuteIncludeScriptCommand</h3></div>
+<div id='75D5A4'><i>75D5A4</i> int __cdecl <h3>ExitProcessWrapper</h3>(int uExitCode);</div>
 <div id='52C390'><i>52C390</i> void __thiscall <h3><a href='structs.html#struc_FERenderObject'>FERenderObject</a>::FreeAllRenderEPolys</h3>(<a href='structs.html#struc_FERenderObject'>struct FERenderObject</a> *this);</div>
 <div id='52C3A0'><i>52C3A0</i> void __thiscall <h3><a href='structs.html#struc_FERenderObject'>FERenderObject</a>::FreeAllRenderEPolys_0</h3>(<a href='structs.html#struc_FERenderObject'>struct FERenderObject</a> *this, void *unused);</div>
 <div id='4FFC90'><i>4FFC90</i> <a href='structs.html#struc_BinSection34A11_0'>struct BinSection34A11_0</a> *__cdecl <h3>FindBinSection34A11_0WithField8Value</h3>(unsigned int hash);</div>
@@ -2594,7 +2604,7 @@ also seems to move the entry in the list?
 <div id='50CE30'><i>50CE30</i> char *__cdecl <h3>FindTopPackage</h3>(unsigned int *hashes, int numHashes);</div>
 <div class='mm'>
 <p>Checks if any of the given hashes conform with
-<code><a href='vars.html#8384C4'>pUIData</a>-><a href='structs.html#struc_UIData8'>field_8</a>-><a href='structs.html#struc_UIData_field8E4'>topPackage</a>-><a href='structs.html#struc_FNGInfo10'>hash</a></code>
+<code><a href='vars.html#8384C4'>pUIData</a>-><a href='structs.html#struc_UIData8'>field_8</a>-><a href='structs.html#struc_UIData_field8DC'>fngPackagesDC</a>.<a href='structs.html#struc_FNGInfoList8'>topPackage</a>-><a href='structs.html#struc_FNGInfo10'>hash</a></code>
 and return its <code><a href='structs.html#struc_FNGInfoC'>fngName</a></code>.
 <p></div>
 <div id='5379C0'><i>5379C0</i> <a href='structs.html#struc_UIElement'>struct UIElement</a> *__cdecl <h3>FindUIElementByHash</h3>(char *fngName, unsigned int hash);</div>
@@ -2643,6 +2653,14 @@ calls <code>visitor-&gt;<a href='structs.html#struc_UIElementVisitor0'>vtable</a
 calls <a href='funcs.html#504830'>FNGInfo::VisitContainerRecursively</a> for every child that is of type 5 (<code><a href='structs.html#struc_UIContainer'>struct UIContainer</a></code>),
 returns 0 when either calls return <code>0</code>.
 <p></div>
+<div id='518280'><i>518280</i> int __thiscall <h3><a href='structs.html#struc_FNGInfoList'>FNGInfoList</a>::AddEntry</h3>(<a href='structs.html#struc_FNGInfoList'>struct FNGInfoList</a> *this, <a href='structs.html#struc_FNGInfo'>struct FNGInfo</a> *fngInfo);</div>
+<div id='519E50'><i>519E50</i> <a href='structs.html#struc_FNGInfo'>struct FNGInfo</a> *__thiscall <h3><a href='structs.html#struc_FNGInfoList'>FNGInfoList</a>::GetFNGInfoByNameByHierarchy</h3>(<a href='structs.html#struc_FNGInfoList'>struct FNGInfoList</a> *thisUnused, char *fngName, <a href='structs.html#struc_FNGInfo'>struct FNGInfo</a> *fnginfo);</div>
+<div class='mm'>
+<p>Goes through <code><a href='structs.html#struc_FNGInfo4'>child</a></code> until the next one is null or its
+<code><a href='structs.html#struc_FNGInfoC'>fngName</a></code> and <code><a href='structs.html#struc_FNGInfo10'>hash</a></code> matches.
+<code>this</code> is unused.
+<p></div>
+<div id='505400'><i>505400</i> void __thiscall <h3><a href='structs.html#struc_FNGInfoList'>FNGInfoList</a>::RemoveEntry</h3>(<a href='structs.html#struc_FNGInfoList'>struct FNGInfoList</a> *this, <a href='structs.html#struc_FNGInfo'>struct FNGInfo</a> *fnginfo);</div>
 <div id='4CCED0'><i>4CCED0</i> <h3>FNGINIT_2P_PressStart.fng</h3></div>
 <div id='4CB180'><i>4CB180</i> <h3>FNGINIT_Chyron_IG.fng</h3></div>
 <div id='4B8720'><i>4B8720</i> <h3>FNGINIT_Credits.fng</h3></div>
@@ -2900,7 +2918,7 @@ See <code><a class='ext' href='https://github.com/yugecin/nfsu2-re/blob/master/n
 <p></div>
 <div id='52CEF0'><i>52CEF0</i> <a href='structs.html#struc_FNGInfo'>struct FNGInfo</a> *__cdecl <h3>GetFNGInfoByName</h3>(char *fngName);</div>
 <div class='mm'>
-<p>TODO, this probably searches everything instead of the hierarchy like <a href='funcs.html#519E50'>UIData_field8_field_DC::GetFNGInfoByNameByHierarchy</a>
+<p>TODO, this probably searches everything instead of the hierarchy like <a href='funcs.html#519E50'>FNGInfoList::GetFNGInfoByNameByHierarchy</a>
 <p></div>
 <div id='51BD70'><i>51BD70</i> <a href='structs.html#struc_FontData'>struct FontData</a> *__cdecl <h3>GetFontData?</h3>(int);</div>
 <div id='570A30'><i>570A30</i> int __cdecl <h3>GetGameRegion</h3>();</div>
@@ -2994,6 +3012,7 @@ See <code><a class='ext' href='https://github.com/yugecin/nfsu2-re/blob/master/n
 <div class='mm'>
 <p>index of array in <a href='vars.html#8AD610'>struct_8AD610</a>
 <p></div>
+<div id='6F57EA'><i>6F57EA</i> void __cdecl <h3>GetThreadIdAndProcessHandle</h3>();</div>
 <div id='74B730'><i>74B730</i> DWORD __stdcall <h3>GetTickCount</h3>();</div>
 <div id='50C8E0'><i>50C8E0</i> <a href='structs.html#struc_FNGInfo'>struct FNGInfo</a> *__cdecl <h3>GetTopPackage</h3>();</div>
 <div id='5120B0'><i>5120B0</i> char *__cdecl <h3>GetTranslatedCarName</h3>(int car_index);</div>
@@ -3722,6 +3741,9 @@ Implementation <code><a class='ext' href='https://github.com/yugecin/nfsu2-re/bl
 <p>returns <code>-1</code> when not in this pool (or any linked pools).
 <p></div>
 <div id='440D40'><i>440D40</i> <a href='structs.html#struc_PoolEntry'>struct PoolEntry</a> *__thiscall <h3><a href='structs.html#struc_Pool'>Pool</a>::GetNextFreeItem</h3>(<a href='structs.html#struc_Pool'>struct Pool</a> *this);</div>
+<div class='mm'>
+<p>see also <a href='funcs.html#43F8F0'>PoolGetNextFreeItemRaw</a>
+<p></div>
 <div id='43CD40'><i>43CD40</i> void __thiscall <h3><a href='structs.html#struc_Pool'>Pool</a>::Init</h3>(<a href='structs.html#struc_Pool'>struct Pool</a> *this);</div>
 <div class='mm'>
 <p>Called once, from <a href='funcs.html#440B40'>AllocateAndInitPool</a>.
@@ -3782,6 +3804,10 @@ this-&gt;<a href='structs.html#struc_PoolControl0'>inited</a> = 1;
 <div class='mm'>
 <p><a href='funcs.html#440D40'>Pool::GetNextFreeItem</a> but wrapped in an cdecl.
 <p></div>
+<div id='43F8F0'><i>43F8F0</i> <a href='structs.html#struc_PoolEntry'>struct PoolEntry</a> *__cdecl <h3>PoolGetNextFreeItemRaw</h3>(<a href='structs.html#struc_Pool'>struct Pool</a> *pool);</div>
+<div class='mm'>
+<p>like <a href='funcs.html#440D40'>Pool::GetNextFreeItem</a> except doesn't check if pool needs to be extended if no entries are left, and doesn't check if entry needs to be zero inited?
+<p></div>
 <div id='6F7112'><i>6F7112</i> <h3>PopDword8AD610List</h3></div>
 <div class='mm'>
 <p>pops and set node valuemaybe? to -1
@@ -3838,7 +3864,6 @@ this-&gt;<a href='structs.html#struc_PoolControl0'>inited</a> = 1;
 <div id='451100'><i>451100</i> <h3>RegisterDebugCameraJoys2</h3></div>
 <div id='44F2B0'><i>44F2B0</i> <h3>RegisterDebugCameraJoys3</h3></div>
 <div id='761E0B'><i>761E0B</i> <h3>ReleaseThreadLocalStorageValue</h3></div>
-<div id='43F8F0'><i>43F8F0</i> <a href='structs.html#struc_PoolEntry'>struct PoolEntry</a> *__cdecl <h3>RemoveFirstPoolEntry</h3>(<a href='structs.html#struc_Pool'>struct Pool</a> *pool);</div>
 <div id='5379A0'><i>5379A0</i> void __cdecl <h3>RemoveFNGFromUIObject</h3>(char *fngName);</div>
 <div id='5CAAD0'><i>5CAAD0</i> <h3>Render3D</h3></div>
 <div id='48F7A0'><i>48F7A0</i> <h3>Render3DLODPoles??</h3></div>
@@ -4249,13 +4274,16 @@ TODO where used?
 <p>has <a href='funcs.html#51BA60'>SomethingUIImpl::ReleaseFngAndFngInfoAndPtrFieldC</a> inlined
 </p><p>name is kinda dramatic but it seems like it clears all references to linked fngs?
 <p></div>
-<div id='55DC20'><i>55DC20</i> int __thiscall <h3><a href='structs.html#struc_SomethingUI'>SomethingUI</a>::SendMessageToFNG</h3>(<a href='structs.html#struc_SomethingUI'>struct SomethingUI</a> *this, char *fng, int message);</div>
+<div id='55DC20'><i>55DC20</i> int __thiscall <h3><a href='structs.html#struc_SomethingUI'>SomethingUI</a>::SendMessageToFNG</h3>(<a href='structs.html#struc_SomethingUI'>struct SomethingUI</a> *this, char *fngName, int message);</div>
 <div class='mm'>
 <p>Called when menus change.
 <p></div>
 <div id='55DC50'><i>55DC50</i> void __thiscall <h3><a href='structs.html#struc_SomethingUI'>SomethingUI</a>::SendUIMessageImmediately?</h3>(<a href='structs.html#struc_SomethingUI'>struct SomethingUI</a> *this, unsigned int, int);</div>
 <div id='51BAD0'><i>51BAD0</i> unsigned int __thiscall <h3><a href='structs.html#struc_SomethingUI'>SomethingUI</a>::SumCSHashOfFNGNamesInEntries</h3>(<a href='structs.html#struc_SomethingUI'>struct SomethingUI</a> *this);</div>
-<div id='542530'><i>542530</i> void __thiscall <h3><a href='structs.html#struc_SomethingUI'>SomethingUI</a>::UnloadFNGPackage</h3>(<a href='structs.html#struc_SomethingUI'>struct SomethingUI</a> *this, <a href='structs.html#struc_BinSection'>struct BinSection</a> *binsection, int zeroOrOneUnused);</div>
+<div id='542530'><i>542530</i> void __thiscall <h3><a href='structs.html#struc_SomethingUI'>SomethingUI</a>::UnloadFNGPackageByBinsection</h3>(<a href='structs.html#struc_SomethingUI'>struct SomethingUI</a> *this, <a href='structs.html#struc_BinSection'>struct BinSection</a> *binsection, int zeroOrOneUnused);</div>
+<div class='mm'>
+<p>called when the binsection is being unloaded
+<p></div>
 <div id='51B8E0'><i>51B8E0</i> <a href='structs.html#struc_SomethingUIImpl'>struct SomethingUIImpl</a> *__thiscall <h3><a href='structs.html#struc_SomethingUIImpl'>SomethingUIImpl</a>::ctor</h3>(<a href='structs.html#struc_SomethingUIImpl'>struct SomethingUIImpl</a> *this, <a href='structs.html#struc_BinSection'>struct BinSection</a> *data);</div>
 <div class='mm'>
 <p>data is binsection 30203 or 30210
@@ -4273,6 +4301,7 @@ nulls <code>this-&gt;<a href='structs.html#struc_SomethingUIImpl18'>fnginfo</a>-
 frees <code>this-&gt;<a href='structs.html#struc_SomethingUIImplC'>data30203</a></code> and then nulls it (if set)
 </p><p><a href='funcs.html#542390'>SomethingUI::NukeAllScreens</a> has this inlined
 <p></div>
+<div id='542340'><i>542340</i> void __thiscall <h3><a href='structs.html#struc_SomethingUIImpl'>SomethingUIImpl</a>::Unload</h3>(<a href='structs.html#struc_SomethingUIImpl'>struct SomethingUIImpl</a> *this);</div>
 <div id='51BB20'><i>51BB20</i> unsigned int __cdecl <h3>SomethingUISumCSHashOfFNGNamesInEntries</h3>();</div>
 <div class='mm'>
 <p>cdecl for <a href='funcs.html#51BAD0'>SomethingUI::SumCSHashOfFNGNamesInEntries</a> with <a href='vars.html#8637B0'>somethingUI</a>
@@ -4352,6 +4381,10 @@ also sets <a href='structs.html#struc_CareerStageSettings8'>sponsors</a> to the 
 <p>Checks if <code>dest</code> is NULL first.
 <p></div>
 <div id='43DCC0'><i>43DCC0</i> int __cdecl <h3>stricmp</h3>(char *a, char *b);</div>
+<div id='505310'><i>505310</i> int __cdecl <h3>stricmp2</h3>(char *a, char *b);</div>
+<div class='mm'>
+<p>same as the other stricmp, just implemented slightly differently (removes one redundant condition and does the 'case insensitive' calculation differently but equally correct)
+<p></div>
 <div id='43DBB0'><i>43DBB0</i> int __cdecl <h3>strlenWithNullcheck</h3>(char *str);</div>
 <div id='43DC60'><i>43DC60</i> int __cdecl <h3>strncmp</h3>(char *a, char *b, int maxlen);</div>
 <div id='43DC00'><i>43DC00</i> void __cdecl <h3>strncpy</h3>(char *dst, char *src, int maxlen);</div>
@@ -4399,12 +4432,14 @@ this might be resposible for reading files?
 <div class='mm'>
 <p>Sums <code>this</code> and <code>rect</code> into <code>this</code>.
 <p></div>
+<div id='51CB20'><i>51CB20</i> void __thiscall <h3><a href='structs.html#struc_UIData'>UIData</a>::51CB20</h3>(<a href='structs.html#struc_UIData'>struct UIData</a> *this, char *fngName, char *parentFngName, int controlMask);</div>
 <div id='52CE40'><i>52CE40</i> void __stdcall <h3><a href='structs.html#struc_UIData'>UIData</a>::52CE40</h3>(char *fngName, unsigned int hash);</div>
 <div id='5377A0'><i>5377A0</i> int __thiscall <h3><a href='structs.html#struc_UIData'>UIData</a>::5377A0</h3>(<a href='structs.html#struc_UIData'>struct UIData</a> *this, char *currentFNGName, char *fngName, int);</div>
 <div id='555D00'><i>555D00</i> int __thiscall <h3><a href='structs.html#struc_UIData'>UIData</a>::AddFNGToUIObject</h3>(<a href='structs.html#struc_UIData'>struct UIData</a> *this, int flagsMaybe, char *fngName, char *parentFngName, int controlMask, void *data);</div>
 <div class='mm'>
 <p><code>parentFngName</code> may be null.
 <p></div>
+<div id='537750'><i>537750</i> void __thiscall <h3><a href='structs.html#struc_UIData'>UIData</a>::ClosePackage</h3>(<a href='structs.html#struc_UIData'>struct UIData</a> *this, char *fngName);</div>
 <div id='5372E0'><i>5372E0</i> <a href='structs.html#struc_UIData'>struct UIData</a> *__thiscall <h3><a href='structs.html#struc_UIData'>UIData</a>::ctor</h3>(<a href='structs.html#struc_UIData'>struct UIData</a> *this);</div>
 <div class='mm'>
 <p>Called from <a href='funcs.html#57ED10'>??SetupPools</a>.
@@ -4419,8 +4454,7 @@ this might be resposible for reading files?
 <p>'this' unused, can be called as __stdcall
 </p><p>it just passes args to <a href='funcs.html#52D020'>IsPointInUIElement</a>
 <p></div>
-<div id='537750'><i>537750</i> void __thiscall <h3><a href='structs.html#struc_UIData'>UIData</a>::PopPackage</h3>(<a href='structs.html#struc_UIData'>struct UIData</a> *this, char *fngName);</div>
-<div id='537580'><i>537580</i> void __thiscall <h3><a href='structs.html#struc_UIData'>UIData</a>::PopPackage_0</h3>(<a href='structs.html#struc_UIData'>struct UIData</a> *this, char *fng);</div>
+<div id='537580'><i>537580</i> void __thiscall <h3><a href='structs.html#struc_UIData'>UIData</a>::PopPackage</h3>(<a href='structs.html#struc_UIData'>struct UIData</a> *this, char *fngName);</div>
 <div id='5376B0'><i>5376B0</i> int __thiscall <h3><a href='structs.html#struc_UIData'>UIData</a>::ReassignLevelSorterIndices</h3>(<a href='structs.html#struc_UIData'>struct UIData</a> *this);</div>
 <div class='mm'>
 <p>goes through <a href='structs.html#struc_UIData10'>levelSorterPoolEntry</a> and assigns <a href='structs.html#struc_LevelSorterPoolEntryC'>indexInLevelSorterLink</a> and <a href='structs.html#struc_FNGInfo18'>indexInLevelSorterLink</a>
@@ -4436,8 +4470,10 @@ this might be resposible for reading files?
 </div>
 <div id='51CBA0'><i>51CBA0</i> int __thiscall <h3><a href='structs.html#struc_UIData'>UIData</a>::SwitchFEngPackages</h3>(<a href='structs.html#struc_UIData'>struct UIData</a> *this, char *fromFngName, char *toFngName);</div>
 <div id='51C8C0'><i>51C8C0</i> int __thiscall <h3><a href='structs.html#struc_UIData'>UIData</a>::UnloadFNGPackage</h3>(<a href='structs.html#struc_UIData'>struct UIData</a> *this, <a href='structs.html#struc_FNGInfo'>struct FNGInfo</a> *fnginfo);</div>
+<div id='51A8B0'><i>51A8B0</i> void __thiscall <h3><a href='structs.html#struc_UIData_field8'>UIData_field8</a>::51A8B0</h3>(<a href='structs.html#struc_UIData_field8'>struct UIData_field8</a> *this, <a href='structs.html#struc_FNGInfo'>struct FNGInfo</a> *fngInfo);</div>
 <div id='51AB20'><i>51AB20</i> int __thiscall <h3><a href='structs.html#struc_UIData_field8'>UIData_field8</a>::51AB20</h3>(<a href='structs.html#struc_UIData_field8'>struct UIData_field8</a> *this, char *fngName, <a href='structs.html#struc_FNGInfo'>struct FNGInfo</a> *fngInfo);</div>
 <div id='555860'><i>555860</i> int __thiscall <h3><a href='structs.html#struc_UIData_field8'>UIData_field8</a>::555860</h3>(<a href='structs.html#struc_UIData_field8'>struct UIData_field8</a> *this, char *str, char, int);</div>
+<div id='51AC10'><i>51AC10</i> void __thiscall <h3><a href='structs.html#struc_UIData_field8'>UIData_field8</a>::CreateAndAdd412CEntryForFNG</h3>(<a href='structs.html#struc_UIData_field8'>struct UIData_field8</a> *this, char *fngName, <a href='structs.html#struc_FNGInfo'>struct FNGInfo</a> *parentFngInfo, int controlMask);</div>
 <div id='536170'><i>536170</i> <a href='structs.html#struc_UIData_field8'>struct UIData_field8</a> *__thiscall <h3><a href='structs.html#struc_UIData_field8'>UIData_field8</a>::ctor</h3>(<a href='structs.html#struc_UIData_field8'>struct UIData_field8</a> *this);</div>
 <div class='mm'>
 <p>TODO: complete stuff
@@ -4445,24 +4481,17 @@ this might be resposible for reading files?
 <div id='5362E0'><i>5362E0</i> int __thiscall <h3><a href='structs.html#struc_UIData_field8'>UIData_field8</a>::DirectPopFNG</h3>(<a href='structs.html#struc_UIData_field8'>struct UIData_field8</a> *this, <a href='structs.html#struc_FNGInfo'>struct FNGInfo</a> *fnginfo);</div>
 <div id='52C570'><i>52C570</i> <a href='structs.html#struc_UIElement'>struct UIElement</a> *__thiscall <h3><a href='structs.html#struc_UIData_field8'>UIData_field8</a>::GetUIElementByHashInFngName</h3>(<a href='structs.html#struc_UIData_field8'>struct UIData_field8</a> *this, unsigned int hash, char *fngName);</div>
 <div class='mm'>
-<p>When <code>fngName</code> is null, searches every FNG in <code>this-&gt;<a href='structs.html#struc_UIData_field8E4'>topPackage</a></code> for the given hash.
-Otherwise, limit the search to the FNG that is in the hierarchy of <code>this-&gt;<a href='structs.html#struc_UIData_field8E4'>topPackage</a></code>
-(by using <a href='funcs.html#519E50'>UIData_field8_field_DC::GetFNGInfoByNameByHierarchy</a>).
+<p>When <code>fngName</code> is null, searches every FNG in <code>this-&gt;<a href='structs.html#struc_UIData_field8DC'>fngPackagesDC</a>.<a href='structs.html#struc_FNGInfoList8'>topPackage</a></code> for the given hash.
+Otherwise, limit the search to the FNG that is in the hierarchy of <code>this-&gt;<a href='structs.html#struc_UIData_field8DC'>fngPackagesDC</a>.<a href='structs.html#struc_FNGInfoList8'>topPackage</a></code>
+(by using <a href='funcs.html#519E50'>FNGInfoList::GetFNGInfoByNameByHierarchy</a>).
 <p></div>
 <div class='mm'>
 <p>fngName is nullable
 <p></div>
 <div id='51AA20'><i>51AA20</i> int __thiscall <h3><a href='structs.html#struc_UIData_field8'>UIData_field8</a>::QueueUIMessage</h3>(<a href='structs.html#struc_UIData_field8'>struct UIData_field8</a> *this, unsigned int message, int, <a href='structs.html#struc_FNGInfo'>struct FNGInfo</a> *fng, int, int);</div>
-<div id='505400'><i>505400</i> void __thiscall <h3><a href='structs.html#struc_UIData_field8_field_DC'>UIData_field8_field_DC</a>::505400</h3>(<a href='structs.html#struc_UIData_field8_field_DC'>struct UIData_field8_field_DC</a> *this, <a href='structs.html#struc_FNGInfo'>struct FNGInfo</a> *fnginfo);</div>
+<div id='519DE0'><i>519DE0</i> void __thiscall <h3><a href='structs.html#struc_UIData_field8_412C'>UIData_field8_412C</a>::CopyFNGNameIntoCAndHashInto10</h3>(<a href='structs.html#struc_UIData_field8_412C'>struct UIData_field8_412C</a> *this, char *fngName);</div>
 <div class='mm'>
-<p>uses magic <code>0xABADCAFE</code>
-<p></div>
-<div id='518280'><i>518280</i> int __thiscall <h3><a href='structs.html#struc_UIData_field8_field_DC'>UIData_field8_field_DC</a>::518280</h3>(<a href='structs.html#struc_UIData_field8_field_DC'>struct UIData_field8_field_DC</a> *this, <a href='structs.html#struc_FNGInfo'>struct FNGInfo</a> *fngInfo);</div>
-<div id='519E50'><i>519E50</i> <a href='structs.html#struc_FNGInfo'>struct FNGInfo</a> *__thiscall <h3><a href='structs.html#struc_UIData_field8_field_DC'>UIData_field8_field_DC</a>::GetFNGInfoByNameByHierarchy</h3>(<a href='structs.html#struc_UIData_field8_field_DC'>struct UIData_field8_field_DC</a> *thisUnused, char *str, <a href='structs.html#struc_FNGInfo'>struct FNGInfo</a> *fnginfo);</div>
-<div class='mm'>
-<p>Goes through <code><a href='structs.html#struc_FNGInfo4'>child</a></code> until the next one is null or its
-<code><a href='structs.html#struc_FNGInfoC'>fngName</a></code> and <code><a href='structs.html#struc_FNGInfo10'>hash</a></code> matches.
-<code>this</code> is unused.
+<p>frees <a href='structs.html#struc_UIData_field8_412C'>struct UIData_field8_412C</a>.<a href='structs.html#struc_UIData_field8_412CC'>fngName</a> if not empty, then allocate just enough memory to fit fngName into it, copy it, cihash it and put it into <a href='structs.html#struc_UIData_field8_412C'>struct UIData_field8_412C</a>.<a href='structs.html#struc_UIData_field8_412C10'>fngNameCIHash</a>
 <p></div>
 <div id='517720'><i>517720</i> int __thiscall <h3><a href='structs.html#struc_UIElement'>UIElement</a>::AnimationChanged</h3>(<a href='structs.html#struc_UIElement'>struct UIElement</a> *this);</div>
 <div id='51C8A0'><i>51C8A0</i> int __thiscall <h3><a href='structs.html#struc_UIElementVisitor'>UIElementVisitor</a>::acceptElement::forUnloadFNGPackage</h3>(<a href='structs.html#struc_UIElementVisitor'>struct UIElementVisitor</a> *this, <a href='structs.html#struc_UIElement'>struct UIElement</a> *element);</div>
@@ -4576,6 +4605,7 @@ if (section-&gt;<a href='structs.html#struc_BinSection0'>header</a>.<a href='str
 <p></div>
 <div id='75D65B'><i>75D65B</i> <h3>unnamed_75D65B</h3></div>
 <div id='5D84D0'><i>5D84D0</i> int __cdecl <h3>UnoadBinSection34146</h3>(<a href='structs.html#struc_BinSection'>struct BinSection</a> *binsection);</div>
+<div id='6F582E'><i>6F582E</i> void __cdecl <h3>UnsetThreadIdCloseProcessHandle</h3>();</div>
 <div id='5D2850'><i>5D2850</i> <h3>UpdateAndRenderStuff</h3></div>
 <div id='44EFE0'><i>44EFE0</i> <h3>UpdateCamera</h3></div>
 <div id='4ACF40'><i>4ACF40</i> void __cdecl <h3>UpdateControllerLabelText</h3>(<a href='structs.html#struc_UIElement'>struct UIElement</a> *uielement, int keyIndex, int isSecondary, int controllerIndex);</div>
