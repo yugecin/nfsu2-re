@@ -695,7 +695,7 @@
 			</FileConfiguration>
 		</File>
 		<File
-			RelativePath=".\replace-50B790-ShowFNG.c"
+			RelativePath=".\replace-50B790-CreateFNGObject.c"
 			>
 			<FileConfiguration
 				Name="Debug|Win32"

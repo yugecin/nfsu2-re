@@ -259,7 +259,7 @@ pre.ida span.hi {
 <a href='cheatsheet.html'>cheatsheet</a></nav>
 </header>
 <div class='func'>
-<h2>Functions (1443)</h2>
+<h2>Functions (1459)</h2>
 <ul>
 <li><a href='#588630'>??ConnectToEAServer</a></li>
 <li><a href='#7789D9'>??ConnectToEAServer_SEH</a></li>
@@ -296,6 +296,8 @@ pre.ida span.hi {
 <li><a href='#4A83F0'>AllocateLoadingTipsFNGObject</a></li>
 <li><a href='#50CEB0'>AllocatePCHelpBarFNGObject</a></li>
 <li><a href='#6F58C1'>AreWeOnTheMainThread</a></li>
+<li><a href='#51CD40'>AssignSomethingUIImplField1C</a></li>
+<li><a href='#51CE80'>AssignSomethingUIImplField1E</a></li>
 <li><a href='#75C5ED'>atexit</a></li>
 <li><a href='#75BC24'>bind</a></li>
 <li><a href='#74A380'>BindWrapper</a></li>
@@ -310,6 +312,7 @@ pre.ida span.hi {
 <li><a href='#75B070'>bunchOfXorAddShit_0</a></li>
 <li><a href='#569CC0'>BuyPerformancePartsFNGObject::ctor</a></li>
 <li><a href='#569EE0'>BuyPerformancePartsFNGObject::MessageHandler</a></li>
+<li><a href='#7433A0'>CalcDialogTextLengthWcharAware</a></li>
 <li><a href='#5234C0'>CalculateVisualRep</a></li>
 <li><a href='#4A8C50'>CanUseQToExit</a></li>
 <li><a href='#5D21F0'>CapTextureFilteringAnd??LoadShaders</a></li>
@@ -594,6 +597,7 @@ pre.ida span.hi {
 <li><a href='#431380'>CreateAnim_CNFSAnimBankPool</a></li>
 <li><a href='#4313B0'>CreateAnimCtrlPool</a></li>
 <li><a href='#6FAD03'>CreateFileAWrapper</a></li>
+<li><a href='#50B790'>CreateFNGObject</a></li>
 <li><a href='#7568F0'>CreateICMPSocket</a></li>
 <li><a href='#4AC6D0'>CreateMinimapPools</a></li>
 <li><a href='#754230'>CreateNetwork0</a></li>
@@ -652,7 +656,6 @@ pre.ida span.hi {
 <li><a href='#5511E0'>DialogFNGObject::SendResultMessage</a></li>
 <li><a href='#54C3D0'>DialogFNGObject::SetButtonsAndText</a></li>
 <li><a href='#4FF250'>DialogInfo::ctor</a></li>
-<li><a href='#7433A0'>DialogInfo__CalcSomeWcharConversionRequiredLength</a></li>
 <li><a href='#50CDB0'>DidCursorPressInRect</a></li>
 <li><a href='#52D100'>DidCursorPressInUIElement</a></li>
 <li><a href='#63BD30'>Direct3DCreate9</a></li>
@@ -706,6 +709,8 @@ pre.ida span.hi {
 <li><a href='#4953C0'>FindUILabelByName</a></li>
 <li><a href='#75BED4'>floor64bit</a></li>
 <li><a href='#750520'>fnCallback</a></li>
+<li><a href='#54CE60'>FNGInfo::54CE60</a></li>
+<li><a href='#54D190'>FNGInfo::54D190</a></li>
 <li><a href='#517FE0'>FNGInfo::FindElementByFieldC</a></li>
 <li><a href='#517F80'>FNGInfo::FindUIElementByHash</a></li>
 <li><a href='#504830'>FNGInfo::VisitContainerRecursively</a></li>
@@ -899,6 +904,8 @@ pre.ida span.hi {
 <li><a href='#50B840'>GetFNGDataForHash</a></li>
 <li><a href='#526C40'>GetFNGforDialog</a></li>
 <li><a href='#52CEF0'>GetFNGInfoByName</a></li>
+<li><a href='#51CD60'>GetFNGInfoField8C</a></li>
+<li><a href='#526C10'>GetFNGInfoForCurrentlyShownDialogIfDialogIdMatches</a></li>
 <li><a href='#51BD70'>GetFontData?</a></li>
 <li><a href='#570A30'>GetGameRegion</a></li>
 <li><a href='#50CEA0'>GetHelpBarFNGName</a></li>
@@ -1446,6 +1453,7 @@ pre.ida span.hi {
 <li><a href='#50C900'>SetUILabelLanguageString</a></li>
 <li><a href='#605C70'>SetupCareerJoys?</a></li>
 <li><a href='#579550'>SetupJoystickEventNodeSlotPool</a></li>
+<li><a href='#7433F0'>SetWcharFromDialogText</a></li>
 <li><a href='#570A40'>ShouldUseCarUKNames</a></li>
 <li><a href='#558310'>ShowButtonlessFormattedDialog</a></li>
 <li><a href='#5582A0'>ShowButtonlessFormattedDialogPtr</a></li>
@@ -1454,7 +1462,6 @@ pre.ida span.hi {
 <li><a href='#4CE770'>ShowcasePreviewFNGObject::ctor</a></li>
 <li><a href='#4CF170'>ShowcasePreviewFNGObject::MessageHandler</a></li>
 <li><a href='#558020'>ShowDialog</a></li>
-<li><a href='#50B790'>ShowFNG</a></li>
 <li><a href='#558AC0'>ShowHelpDialog</a></li>
 <li><a href='#4976B0'>ShowMailboxOrSingleUnreadSms</a></li>
 <li><a href='#4B9090'>ShowOLLostConnectionDialog</a></li>
@@ -1523,6 +1530,7 @@ pre.ida span.hi {
 <li><a href='#43DB80'>SomeHashCS_WithStartValue</a></li>
 <li><a href='#48B1E0'>SomeMathOp_??GetCarStructFromHandle</a></li>
 <li><a href='#570DD0'>somethingBinSections</a></li>
+<li><a href='#52CC50'>SomethingUI::ctor</a></li>
 <li><a href='#51BB30'>SomethingUI::FindBinSectionInLink?</a></li>
 <li><a href='#51BCA0'>SomethingUI::LoadFromBinSectionAndAddAsLast</a></li>
 <li><a href='#51BB70'>SomethingUI::MoveEntryForFNGToTopAndReturnIt</a></li>
@@ -1534,6 +1542,7 @@ pre.ida span.hi {
 <li><a href='#51B8E0'>SomethingUIImpl::ctor</a></li>
 <li><a href='#51B990'>SomethingUIImpl::dtor</a></li>
 <li><a href='#50B920'>SomethingUIImpl::GetPackageHash?</a></li>
+<li><a href='#51B9D0'>SomethingUIImpl::LinkWithFNGInfoAndCreateFNGObject</a></li>
 <li><a href='#51BA60'>SomethingUIImpl::ReleaseFngAndFngInfoAndPtrFieldC</a></li>
 <li><a href='#542340'>SomethingUIImpl::Unload</a></li>
 <li><a href='#51BB20'>SomethingUISumCSHashOfFNGNamesInEntries</a></li>
@@ -1598,6 +1607,7 @@ pre.ida span.hi {
 <li><a href='#498070'>TwoPPressStartFNGObject::MessageHandler</a></li>
 <li><a href='#4FDAD0'>U2RECT::Add</a></li>
 <li><a href='#51CB20'>UIData::51CB20</a></li>
+<li><a href='#51CC00'>UIData::51CC00</a></li>
 <li><a href='#52CE40'>UIData::52CE40</a></li>
 <li><a href='#5377A0'>UIData::5377A0</a></li>
 <li><a href='#555D00'>UIData::AddFNGToUIObject</a></li>
@@ -1611,10 +1621,13 @@ pre.ida span.hi {
 <li><a href='#50C860'>UIData::StoreMousePosButtonsIntoArg</a></li>
 <li><a href='#51CBA0'>UIData::SwitchFEngPackages</a></li>
 <li><a href='#51C8C0'>UIData::UnloadFNGPackage</a></li>
+<li><a href='#5376F0'>UIData::UnloadPackageMaybe</a></li>
 <li><a href='#51A8B0'>UIData_field8::51A8B0</a></li>
 <li><a href='#51AB20'>UIData_field8::51AB20</a></li>
+<li><a href='#51AE80'>UIData_field8::51AE80</a></li>
 <li><a href='#555860'>UIData_field8::555860</a></li>
 <li><a href='#51AC10'>UIData_field8::CreateAndAdd412CEntryForFNG</a></li>
+<li><a href='#51ADB0'>UIData_field8::CreateAndAdd412CEntryForFNG_3</a></li>
 <li><a href='#536170'>UIData_field8::ctor</a></li>
 <li><a href='#5362E0'>UIData_field8::DirectPopFNG</a></li>
 <li><a href='#52C570'>UIData_field8::GetUIElementByHashInFngName</a></li>
@@ -1622,11 +1635,15 @@ pre.ida span.hi {
 <li><a href='#519DE0'>UIData_field8_412C::CopyFNGNameIntoCAndHashInto10</a></li>
 <li><a href='#517720'>UIElement::AnimationChanged</a></li>
 <li><a href='#51C8A0'>UIElementVisitor::acceptElement::forUnloadFNGPackage</a></li>
+<li><a href='#566240'>UIElementVisitor::acceptElement__forInitFNGPackage_1</a></li>
+<li><a href='#51C860'>UIElementVisitor::acceptElement__forInitFNGPackage_2</a></li>
+<li><a href='#517EE0'>UIElementVisitor::acceptElement__setElementsCurrentAnimationToInit</a></li>
 <li><a href='#5374F0'>UIElementVisitor_ClearFNGCache::acceptElement</a></li>
 <li><a href='#5048F0'>UIElementVisitor_FindByFieldC::acceptElement</a></li>
 <li><a href='#5048D0'>UIElementVisitor_FindByHash::acceptElement</a></li>
 <li><a href='#55DBD0'>UIHandleKey</a></li>
 <li><a href='#535FE0'>UILabel::SetString</a></li>
+<li><a href='#52C2F0'>UILabel::SetStringToDialogText</a></li>
 <li><a href='#535F40'>UILabel::SetWcharString</a></li>
 <li><a href='#74AED0'>UnGetICMPSocketWrapper8B7CAC</a></li>
 <li><a href='#43F920'>UngetPoolEntry</a></li>
@@ -1679,7 +1696,6 @@ pre.ida span.hi {
 <li><a href='#495040'>UnloadBinSectionB3300000_B332000_B0300100</a></li>
 <li><a href='#4FFAE0'>UnloadLanguageBinSection39000</a></li>
 <li><a href='#537290'>UnloadLanguageFontBinSection30201</a></li>
-<li><a href='#5376F0'>UnloadPackageMaybe</a></li>
 <li><a href='#5F08F0'>UnloadServerLib</a></li>
 <li><a href='#5047C0'>unnamed_5047C0</a></li>
 <li><a href='#577AB0'>unnamed_577AB0</a></li>
@@ -1777,6 +1793,8 @@ RETURN TYPE IS PROBABLY _NOT_ FILESYSTEMPOOLENTRY
 </li><li>else: returns 1 when <code>*((int*)arg+8/4)==current_thread_id</code>
 </li></ul>
 </div>
+<div id='51CD40'><i>51CD40</i> void __cdecl <h3>AssignSomethingUIImplField1C</h3>(char *fngName, __int16 value);</div>
+<div id='51CE80'><i>51CE80</i> void __cdecl <h3>AssignSomethingUIImplField1E</h3>(char *fngName, char value);</div>
 <div id='75C5ED'><i>75C5ED</i> int __cdecl <h3>atexit</h3>(void (__thiscall *dtor)(void *));</div>
 <div class='mm'>
 <p><a class="ext" href="https://docs.microsoft.com/en-us/cpp/c-runtime-library/reference/atexit?view=msvc-160">https://docs.microsoft.com/en-us/cpp/c-runtime-library/reference/atexit?view=msvc-160</a>
@@ -1818,6 +1836,7 @@ this-&gt;<a href='structs.html#struc_BinSectionMagicMapEntry0'>nextEntry</a> = <
 <div id='75B070'><i>75B070</i> <h3>bunchOfXorAddShit_0</h3></div>
 <div id='569CC0'><i>569CC0</i> <a href='structs.html#struc_BuyPerformancePartsFNGObject'>struct BuyPerformancePartsFNGObject</a> *__thiscall <h3><a href='structs.html#struc_BuyPerformancePartsFNGObject'>BuyPerformancePartsFNGObject</a>::ctor</h3>(<a href='structs.html#struc_BuyPerformancePartsFNGObject'>struct BuyPerformancePartsFNGObject</a> *this, int);</div>
 <div id='569EE0'><i>569EE0</i> int __thiscall <h3><a href='structs.html#struc_BuyPerformancePartsFNGObject'>BuyPerformancePartsFNGObject</a>::MessageHandler</h3>(<a href='structs.html#struc_BuyPerformancePartsFNGObject'>struct BuyPerformancePartsFNGObject</a> *this, int, int, int, int);</div>
+<div id='7433A0'><i>7433A0</i> int __cdecl <h3>CalcDialogTextLengthWcharAware</h3>(<a href='structs.html#struc_DialogInfo'>struct DialogInfo</a> *dialogInfo);</div>
 <div id='5234C0'><i>5234C0</i> <h3>CalculateVisualRep</h3></div>
 <div id='4A8C50'><i>4A8C50</i> int __cdecl <h3>CanUseQToExit</h3>();</div>
 <div id='5D21F0'><i>5D21F0</i> <h3>CapTextureFilteringAnd??LoadShaders</h3></div>
@@ -2396,6 +2415,10 @@ assumed __thiscall
 <p></div>
 <div id='4313B0'><i>4313B0</i> void __cdecl <h3>CreateAnimCtrlPool</h3>();</div>
 <div id='6FAD03'><i>6FAD03</i> int __stdcall <h3>CreateFileAWrapper</h3>(LPCSTR lpFileName, int, int);</div>
+<div id='50B790'><i>50B790</i> <a href='structs.html#struc_FNGObject'>struct FNGObject</a> *__cdecl <h3>CreateFNGObject</h3>(unsigned int fnghash, <a href='structs.html#struc_FNGInfo'>struct FNGInfo</a> *fngInfo, int);</div>
+<div class='mm'>
+<p>See <code><a class='ext' href='https://github.com/yugecin/nfsu2-re/blob/master/nfsu2-re-hooks/replace-50B790-CreateFNGObject.c'>nfsu2-re-hooks/replace-50B790-CreateFNGObject.c</a></code> for a reimplementation.
+<p></div>
 <div id='7568F0'><i>7568F0</i> <a href='structs.html#struc_SocketWrapperWrapper'>struct SocketWrapperWrapper</a> *__cdecl <h3>CreateICMPSocket</h3>(<a href='structs.html#struc_SocketWrapperWrapper'>struct SocketWrapperWrapper</a> *__return_ptr __struct_ptr retstr);</div>
 <div id='4AC6D0'><i>4AC6D0</i> int __cdecl <h3>CreateMinimapPools</h3>();</div>
 <div id='754230'><i>754230</i> <h3>CreateNetwork0</h3></div>
@@ -2497,7 +2520,6 @@ put <code>1</code> in <a href='vars.html#86E880'>isSupportedResolutionIdx</a> at
 <div class='mm'>
 <p>Initializes memory that was allocated to be a dialog.
 <p></div>
-<div id='7433A0'><i>7433A0</i> int __cdecl <h3>DialogInfo__CalcSomeWcharConversionRequiredLength</h3>(<a href='structs.html#struc_DialogInfo'>struct DialogInfo</a> *dialogInfo);</div>
 <div id='50CDB0'><i>50CDB0</i> int __cdecl <h3>DidCursorPressInRect</h3>(<a href='structs.html#struc__POS'>struct _POS</a> *pos, <a href='structs.html#struc__SIZE'>struct _SIZE</a> *size);</div>
 <div class='mm'>
 <p>Gets called in one location, but still haven't actually seen it being called.
@@ -2621,6 +2643,11 @@ and return its <code><a href='structs.html#struc_FNGInfoC'>fngName</a></code>.
 returns 64bit edx:eax?
 <p></div>
 <div id='750520'><i>750520</i> void __stdcall <h3>fnCallback</h3>(DWORD hDevice, DWORD dwMessage, DWORD dwInstance, DWORD dwParam1, DWORD dwParam2, DWORD dwParam3);</div>
+<div id='54CE60'><i>54CE60</i> int __thiscall <h3><a href='structs.html#struc_FNGInfo'>FNGInfo</a>::54CE60</h3>(<a href='structs.html#struc_FNGInfo'>struct FNGInfo</a> *this, <a href='structs.html#struc_UIElement'>struct UIElement</a> *uiElement, int);</div>
+<div id='54D190'><i>54D190</i> int __thiscall <h3><a href='structs.html#struc_FNGInfo'>FNGInfo</a>::54D190</h3>(<a href='structs.html#struc_FNGInfo'>struct FNGInfo</a> *this, <a href='structs.html#struc_UIData_field8'>struct UIData_field8</a> *pUIData_field8, int);</div>
+<div class='mm'>
+<p>calls <a href='funcs.html#54CE60'>FNGInfo::54CE60</a> for every UI element in this fng, possibly some init stuff
+<p></div>
 <div id='517FE0'><i>517FE0</i> int __thiscall <h3><a href='structs.html#struc_FNGInfo'>FNGInfo</a>::FindElementByFieldC</h3>(<a href='structs.html#struc_FNGInfo'>struct FNGInfo</a> *this, int searchingUIElementFieldC);</div>
 <div id='517F80'><i>517F80</i> <a href='structs.html#struc_UIElement'>struct UIElement</a> *__thiscall <h3><a href='structs.html#struc_FNGInfo'>FNGInfo</a>::FindUIElementByHash</h3>(<a href='structs.html#struc_FNGInfo'>struct FNGInfo</a> *this, unsigned int hash);</div>
 <div class='mm'>
@@ -2918,8 +2945,10 @@ See <code><a class='ext' href='https://github.com/yugecin/nfsu2-re/blob/master/n
 <p></div>
 <div id='52CEF0'><i>52CEF0</i> <a href='structs.html#struc_FNGInfo'>struct FNGInfo</a> *__cdecl <h3>GetFNGInfoByName</h3>(char *fngName);</div>
 <div class='mm'>
-<p>TODO, this probably searches everything instead of the hierarchy like <a href='funcs.html#519E50'>FNGInfoList::GetFNGInfoByNameByHierarchy</a>
+<p>searches either both hierarchies (<a href='structs.html#struc_UIData_field8'>struct UIData_field8</a>.<a href='structs.html#struc_UIData_field8DC'>fngPackagesDC</a> and <a href='structs.html#struc_UIData_field8'>struct UIData_field8</a>.<a href='structs.html#struc_UIData_field8EC'>fngPackagesEC</a>) or, if that's not initialized yet[citation needed], searches <a href='vars.html#8637B0'>somethingUI</a>
 <p></div>
+<div id='51CD60'><i>51CD60</i> int __cdecl <h3>GetFNGInfoField8C</h3>(char *fngName);</div>
+<div id='526C10'><i>526C10</i> <a href='structs.html#struc_FNGInfo'>struct FNGInfo</a> *__cdecl <h3>GetFNGInfoForCurrentlyShownDialogIfDialogIdMatches</h3>(int dialogid);</div>
 <div id='51BD70'><i>51BD70</i> <a href='structs.html#struc_FontData'>struct FontData</a> *__cdecl <h3>GetFontData?</h3>(int);</div>
 <div id='570A30'><i>570A30</i> int __cdecl <h3>GetGameRegion</h3>();</div>
 <div class='mm'>
@@ -3146,7 +3175,7 @@ Returns <code>1</code> on success.
 <p>Checks if the primary mouse button is held down.
 Delegates to <a href='funcs.html#52D020'>IsPointInUIElement</a>
 <p></div>
-<div id='52CF60'><i>52CF60</i> <h3>IsFNGLoaded?</h3></div>
+<div id='52CF60'><i>52CF60</i> int __cdecl <h3>IsFNGLoaded?</h3>(char *fngName);</div>
 <div id='5794E0'><i>5794E0</i> int __cdecl <h3>IsJoyIdRegisteredAtEntryWithIndex</h3>(int index, <a href='enums.html#enu_JOYID'>enum JOYID</a> joyId);</div>
 <div id='43D890'><i>43D890</i> int __cdecl <h3>IsMarkerInRange</h3>(<a href='structs.html#struc_vec2'>struct vec2</a> *position, <a href='structs.html#struc_vec2'>struct vec2</a> *markerPosition, int radius);</div>
 <div class='mm'>
@@ -3992,6 +4021,10 @@ Delegates to <a href='funcs.html#535FE0'>UILabel::SetString</a>.
 <div id='50C900'><i>50C900</i> int __cdecl <h3>SetUILabelLanguageString</h3>(<a href='structs.html#struc_UILabel'>struct UILabel</a> *label, unsigned int languageString);</div>
 <div id='605C70'><i>605C70</i> <h3>SetupCareerJoys?</h3></div>
 <div id='579550'><i>579550</i> <h3>SetupJoystickEventNodeSlotPool</h3></div>
+<div id='7433F0'><i>7433F0</i> void __cdecl <h3>SetWcharFromDialogText</h3>(wchar_t *ptrWchar, int length, <a href='structs.html#struc_DialogInfo'>struct DialogInfo</a> *dialogInfo);</div>
+<div class='mm'>
+<p>some wchar expand/set string like func
+<p></div>
 <div id='570A40'><i>570A40</i> int __cdecl <h3>ShouldUseCarUKNames</h3>();</div>
 <div class='mm'>
 <p><code>return <a href='vars.html#864F24'>_gameRegion</a> == 1 || (4 &lt; <a href='vars.html#864F24'>_gameRegion</a> &amp;&amp; <a href='vars.html#864F24'>_gameRegion</a> &lt; 10);</code>
@@ -4016,10 +4049,6 @@ Unsure about this name.
 <div class='mm'>
 <p>Returns the new dialog id for it (value in <a href='vars.html#838640'>shownDialog</a>.<a href='structs.html#struc_DialogInfo334'>dialogId</a>) or zero when
 it didn't show because of some override.
-<p></div>
-<div id='50B790'><i>50B790</i> int __cdecl <h3>ShowFNG</h3>(unsigned int fnghash, int, int);</div>
-<div class='mm'>
-<p>See <code><a class='ext' href='https://github.com/yugecin/nfsu2-re/blob/master/nfsu2-re-hooks/replace-50B790-ShowFNG.c'>nfsu2-re-hooks/replace-50B790-ShowFNG.c</a></code> for a reimplementation.
 <p></div>
 <div id='558AC0'><i>558AC0</i> int __cdecl <h3>ShowHelpDialog</h3>(char *dialogParentFNGName, char *dialogFNGName, unsigned int textLanguageString);</div>
 <div class='mm'>
@@ -4258,6 +4287,7 @@ TODO where used?
 <p></div>
 <div id='48B1E0'><i>48B1E0</i> <h3>SomeMathOp_??GetCarStructFromHandle</h3></div>
 <div id='570DD0'><i>570DD0</i> int __cdecl <h3>somethingBinSections</h3>(int, char *ptrBinData, int sectionSize, int, int, int);</div>
+<div id='52CC50'><i>52CC50</i> void __thiscall <h3><a href='structs.html#struc_SomethingUI'>SomethingUI</a>::ctor</h3>(<a href='structs.html#struc_SomethingUI'>struct SomethingUI</a> *this);</div>
 <div id='51BB30'><i>51BB30</i> <a href='structs.html#struc_SomethingUIImpl'>struct SomethingUIImpl</a> *__thiscall <h3><a href='structs.html#struc_SomethingUI'>SomethingUI</a>::FindBinSectionInLink?</h3>(<a href='structs.html#struc_SomethingUI'>struct SomethingUI</a> *this, <a href='structs.html#struc_BinSection'>struct BinSection</a> *binsection);</div>
 <div id='51BCA0'><i>51BCA0</i> void __thiscall <h3><a href='structs.html#struc_SomethingUI'>SomethingUI</a>::LoadFromBinSectionAndAddAsLast</h3>(<a href='structs.html#struc_SomethingUI'>struct SomethingUI</a> *this, <a href='structs.html#struc_BinSection'>struct BinSection</a> *data, int oneOrZero);</div>
 <div class='mm'>
@@ -4294,10 +4324,11 @@ TODO where used?
 <p>exact same code can be found inlined at <code>51BBBF</code>
 </p><p>works with data with binsection header 30203 &amp; 30210
 <p></div>
+<div id='51B9D0'><i>51B9D0</i> int __thiscall <h3><a href='structs.html#struc_SomethingUIImpl'>SomethingUIImpl</a>::LinkWithFNGInfoAndCreateFNGObject</h3>(<a href='structs.html#struc_SomethingUIImpl'>struct SomethingUIImpl</a> *this, <a href='structs.html#struc_FNGInfo'>struct FNGInfo</a> *fngInfo, int);</div>
 <div id='51BA60'><i>51BA60</i> void __thiscall <h3><a href='structs.html#struc_SomethingUIImpl'>SomethingUIImpl</a>::ReleaseFngAndFngInfoAndPtrFieldC</h3>(<a href='structs.html#struc_SomethingUIImpl'>struct SomethingUIImpl</a> *this);</div>
 <div class='mm'>
-<p>calls dtor of <code>this-&gt;<a href='structs.html#struc_SomethingUIImpl14'>fng</a></code> and nulls it (if set),
-nulls <code>this-&gt;<a href='structs.html#struc_SomethingUIImpl18'>fnginfo</a>-><a href='structs.html#struc_FNGInfo40'>ptrField_40</a></code> and then nulls it (if set),
+<p>calls dtor of <code>this-&gt;<a href='structs.html#struc_SomethingUIImpl14'>fngObject</a></code> and nulls it (if set),
+nulls <code>this-&gt;<a href='structs.html#struc_SomethingUIImpl18'>fngInfo</a>-><a href='structs.html#struc_FNGInfo40'>somethingUIImpl</a></code> and then nulls it (if set),
 frees <code>this-&gt;<a href='structs.html#struc_SomethingUIImplC'>data30203</a></code> and then nulls it (if set)
 </p><p><a href='funcs.html#542390'>SomethingUI::NukeAllScreens</a> has this inlined
 <p></div>
@@ -4433,7 +4464,8 @@ this might be resposible for reading files?
 <p>Sums <code>this</code> and <code>rect</code> into <code>this</code>.
 <p></div>
 <div id='51CB20'><i>51CB20</i> void __thiscall <h3><a href='structs.html#struc_UIData'>UIData</a>::51CB20</h3>(<a href='structs.html#struc_UIData'>struct UIData</a> *this, char *fngName, char *parentFngName, int controlMask);</div>
-<div id='52CE40'><i>52CE40</i> void __stdcall <h3><a href='structs.html#struc_UIData'>UIData</a>::52CE40</h3>(char *fngName, unsigned int hash);</div>
+<div id='51CC00'><i>51CC00</i> int __thiscall <h3><a href='structs.html#struc_UIData'>UIData</a>::51CC00</h3>(<a href='structs.html#struc_UIData'>struct UIData</a> *this, char *fngName);</div>
+<div id='52CE40'><i>52CE40</i> void __thiscall <h3><a href='structs.html#struc_UIData'>UIData</a>::52CE40</h3>(<a href='structs.html#struc_UIData'>struct UIData</a> *this, char *fngName, unsigned int hash);</div>
 <div id='5377A0'><i>5377A0</i> int __thiscall <h3><a href='structs.html#struc_UIData'>UIData</a>::5377A0</h3>(<a href='structs.html#struc_UIData'>struct UIData</a> *this, char *currentFNGName, char *fngName, int);</div>
 <div id='555D00'><i>555D00</i> int __thiscall <h3><a href='structs.html#struc_UIData'>UIData</a>::AddFNGToUIObject</h3>(<a href='structs.html#struc_UIData'>struct UIData</a> *this, int flagsMaybe, char *fngName, char *parentFngName, int controlMask, void *data);</div>
 <div class='mm'>
@@ -4448,7 +4480,7 @@ this might be resposible for reading files?
 <div class='mm'>
 <p>Searches through <a href='structs.html#struc_UIData8'>field_8</a>.
 <p></div>
-<div id='54E4A0'><i>54E4A0</i> int __thiscall <h3><a href='structs.html#struc_UIData'>UIData</a>::InitFNGPackage</h3>(<a href='structs.html#struc_UIData'>struct UIData</a> *this, UIElementVisitor data);</div>
+<div id='54E4A0'><i>54E4A0</i> int __thiscall <h3><a href='structs.html#struc_UIData'>UIData</a>::InitFNGPackage</h3>(<a href='structs.html#struc_UIData'>struct UIData</a> *this, <a href='structs.html#struc_FNGInfo'>struct FNGInfo</a> *fngInfo);</div>
 <div id='537690'><i>537690</i> int __thiscall <h3><a href='structs.html#struc_UIData'>UIData</a>::IsPointInUIElement</h3>(<a href='structs.html#struc_UIData'>struct UIData</a> *this, float xFromMid, float yFromMid, <a href='structs.html#struc_UIElement'>struct UIElement</a> *uiElement);</div>
 <div class='mm'>
 <p>'this' unused, can be called as __stdcall
@@ -4470,10 +4502,13 @@ this might be resposible for reading files?
 </div>
 <div id='51CBA0'><i>51CBA0</i> int __thiscall <h3><a href='structs.html#struc_UIData'>UIData</a>::SwitchFEngPackages</h3>(<a href='structs.html#struc_UIData'>struct UIData</a> *this, char *fromFngName, char *toFngName);</div>
 <div id='51C8C0'><i>51C8C0</i> int __thiscall <h3><a href='structs.html#struc_UIData'>UIData</a>::UnloadFNGPackage</h3>(<a href='structs.html#struc_UIData'>struct UIData</a> *this, <a href='structs.html#struc_FNGInfo'>struct FNGInfo</a> *fnginfo);</div>
+<div id='5376F0'><i>5376F0</i> void __thiscall <h3><a href='structs.html#struc_UIData'>UIData</a>::UnloadPackageMaybe</h3>(<a href='structs.html#struc_UIData'>struct UIData</a> *this, char *fngName);</div>
 <div id='51A8B0'><i>51A8B0</i> void __thiscall <h3><a href='structs.html#struc_UIData_field8'>UIData_field8</a>::51A8B0</h3>(<a href='structs.html#struc_UIData_field8'>struct UIData_field8</a> *this, <a href='structs.html#struc_FNGInfo'>struct FNGInfo</a> *fngInfo);</div>
 <div id='51AB20'><i>51AB20</i> int __thiscall <h3><a href='structs.html#struc_UIData_field8'>UIData_field8</a>::51AB20</h3>(<a href='structs.html#struc_UIData_field8'>struct UIData_field8</a> *this, char *fngName, <a href='structs.html#struc_FNGInfo'>struct FNGInfo</a> *fngInfo);</div>
+<div id='51AE80'><i>51AE80</i> int __thiscall <h3><a href='structs.html#struc_UIData_field8'>UIData_field8</a>::51AE80</h3>(<a href='structs.html#struc_UIData_field8'>struct UIData_field8</a> *this, char *fngName);</div>
 <div id='555860'><i>555860</i> int __thiscall <h3><a href='structs.html#struc_UIData_field8'>UIData_field8</a>::555860</h3>(<a href='structs.html#struc_UIData_field8'>struct UIData_field8</a> *this, char *str, char, int);</div>
 <div id='51AC10'><i>51AC10</i> void __thiscall <h3><a href='structs.html#struc_UIData_field8'>UIData_field8</a>::CreateAndAdd412CEntryForFNG</h3>(<a href='structs.html#struc_UIData_field8'>struct UIData_field8</a> *this, char *fngName, <a href='structs.html#struc_FNGInfo'>struct FNGInfo</a> *parentFngInfo, int controlMask);</div>
+<div id='51ADB0'><i>51ADB0</i> int __thiscall <h3><a href='structs.html#struc_UIData_field8'>UIData_field8</a>::CreateAndAdd412CEntryForFNG_3</h3>(<a href='structs.html#struc_UIData_field8'>struct UIData_field8</a> *this, <a href='structs.html#struc_FNGInfo'>struct FNGInfo</a> *fngInfo);</div>
 <div id='536170'><i>536170</i> <a href='structs.html#struc_UIData_field8'>struct UIData_field8</a> *__thiscall <h3><a href='structs.html#struc_UIData_field8'>UIData_field8</a>::ctor</h3>(<a href='structs.html#struc_UIData_field8'>struct UIData_field8</a> *this);</div>
 <div class='mm'>
 <p>TODO: complete stuff
@@ -4488,7 +4523,7 @@ Otherwise, limit the search to the FNG that is in the hierarchy of <code>this-&g
 <div class='mm'>
 <p>fngName is nullable
 <p></div>
-<div id='51AA20'><i>51AA20</i> int __thiscall <h3><a href='structs.html#struc_UIData_field8'>UIData_field8</a>::QueueUIMessage</h3>(<a href='structs.html#struc_UIData_field8'>struct UIData_field8</a> *this, unsigned int message, int, <a href='structs.html#struc_FNGInfo'>struct FNGInfo</a> *fng, int, int);</div>
+<div id='51AA20'><i>51AA20</i> int __thiscall <h3><a href='structs.html#struc_UIData_field8'>UIData_field8</a>::QueueUIMessage</h3>(<a href='structs.html#struc_UIData_field8'>struct UIData_field8</a> *this, unsigned int message, int, <a href='structs.html#struc_FNGInfo'>struct FNGInfo</a> *fngInfo, int, int);</div>
 <div id='519DE0'><i>519DE0</i> void __thiscall <h3><a href='structs.html#struc_UIData_field8_412C'>UIData_field8_412C</a>::CopyFNGNameIntoCAndHashInto10</h3>(<a href='structs.html#struc_UIData_field8_412C'>struct UIData_field8_412C</a> *this, char *fngName);</div>
 <div class='mm'>
 <p>frees <a href='structs.html#struc_UIData_field8_412C'>struct UIData_field8_412C</a>.<a href='structs.html#struc_UIData_field8_412CC'>fngName</a> if not empty, then allocate just enough memory to fit fngName into it, copy it, cihash it and put it into <a href='structs.html#struc_UIData_field8_412C'>struct UIData_field8_412C</a>.<a href='structs.html#struc_UIData_field8_412C10'>fngNameCIHash</a>
@@ -4498,6 +4533,16 @@ Otherwise, limit the search to the FNG that is in the hierarchy of <code>this-&g
 <div class='mm'>
 <p>used in <a href='funcs.html#51C8C0'>UIData::UnloadFNGPackage</a>
 <p></div>
+<div id='566240'><i>566240</i> int __thiscall <h3><a href='structs.html#struc_UIElementVisitor'>UIElementVisitor</a>::acceptElement__forInitFNGPackage_1</h3>(<a href='structs.html#struc_UIElementVisitor'>struct UIElementVisitor</a> *this, <a href='structs.html#struc_UIElement'>struct UIElement</a> *element);</div>
+<div class='mm'>
+<p>used in <a href='funcs.html#54E4A0'>UIData::InitFNGPackage</a> at <code>54E558</code>
+</p><p>only does things with ui elements type 7 (movie)
+<p></div>
+<div id='51C860'><i>51C860</i> int __thiscall <h3><a href='structs.html#struc_UIElementVisitor'>UIElementVisitor</a>::acceptElement__forInitFNGPackage_2</h3>(<a href='structs.html#struc_UIElementVisitor'>struct UIElementVisitor</a> *this, <a href='structs.html#struc_UIElement'>struct UIElement</a> *element);</div>
+<div class='mm'>
+<p>used in <a href='funcs.html#54E4A0'>UIData::InitFNGPackage</a> at <code>54E571</code>
+<p></div>
+<div id='517EE0'><i>517EE0</i> int __thiscall <h3><a href='structs.html#struc_UIElementVisitor'>UIElementVisitor</a>::acceptElement__setElementsCurrentAnimationToInit</h3>(<a href='structs.html#struc_UIElementVisitor'>struct UIElementVisitor</a> *this, <a href='structs.html#struc_UIElement'>struct UIElement</a> *element);</div>
 <div id='5374F0'><i>5374F0</i> int __thiscall <h3><a href='structs.html#struc_UIElementVisitor_ClearFNGCache'>UIElementVisitor_ClearFNGCache</a>::acceptElement</h3>(<a href='structs.html#struc_UIElementVisitor_ClearFNGCache'>struct UIElementVisitor_ClearFNGCache</a> *this, <a href='structs.html#struc_UIElement'>struct UIElement</a> *element);</div>
 <div class='mm'>
 <p>Frees <code><a href='structs.html#struc_UIElement'>struct UIElement</a>::<a href='structs.html#struc_UIElement58'>FERenderObject</a></code> and its EPoly objects with <a href='funcs.html#52C3A0'>FERenderObject::FreeAllRenderEPolys_0</a> and <a href='funcs.html#52C390'>FERenderObject::FreeAllRenderEPolys</a>.
@@ -4518,6 +4563,7 @@ Navigating menus seems unaffected
 <div class='mm'>
 <p>Only seems to be used for dynamic things such as: money, player name, sms messages, track length...
 <p></div>
+<div id='52C2F0'><i>52C2F0</i> int __thiscall <h3><a href='structs.html#struc_UILabel'>UILabel</a>::SetStringToDialogText</h3>(<a href='structs.html#struc_UILabel'>struct UILabel</a> *this, <a href='structs.html#struc_DialogInfo'>struct DialogInfo</a> *dialogInfo);</div>
 <div id='535F40'><i>535F40</i> void __thiscall <h3><a href='structs.html#struc_UILabel'>UILabel</a>::SetWcharString</h3>(<a href='structs.html#struc_UILabel'>struct UILabel</a> *this, wchar_t *wcharBuffer);</div>
 <div id='74AED0'><i>74AED0</i> <h3>UnGetICMPSocketWrapper8B7CAC</h3></div>
 <div id='43F920'><i>43F920</i> int __cdecl <h3>UngetPoolEntry</h3>(<a href='structs.html#struc_Pool'>struct Pool</a> *pool, <a href='structs.html#struc_PoolEntry'>struct PoolEntry</a> *entry);</div>
@@ -4595,7 +4641,6 @@ if (section-&gt;<a href='structs.html#struc_BinSection0'>header</a>.<a href='str
 </pre>
 </div>
 <div id='537290'><i>537290</i> int __cdecl <h3>UnloadLanguageFontBinSection30201</h3>(<a href='structs.html#struc_BinSection'>struct BinSection</a> *bindata);</div>
-<div id='5376F0'><i>5376F0</i> <h3>UnloadPackageMaybe</h3></div>
 <div id='5F08F0'><i>5F08F0</i> <h3>UnloadServerLib</h3></div>
 <div id='5047C0'><i>5047C0</i> <h3>unnamed_5047C0</h3></div>
 <div id='577AB0'><i>577AB0</i> <h3>unnamed_577AB0</h3></div>

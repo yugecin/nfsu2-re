@@ -326,7 +326,7 @@ EXPECT_SIZE(struct FNGData, 0x1C);
 
 struct FNGShowData {
 	char *fngname;
-	int arg1;
+	struct FNGInfo *fngInfo;
 	unsigned int helpTextLanguageString;
 	unsigned int helpBarMask;
 	int arg2;
