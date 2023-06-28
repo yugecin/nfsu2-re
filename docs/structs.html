@@ -4458,7 +4458,7 @@ for money: hash of sound effect to play!?*/</span>
 <i>/*10*/	</i>char *someCode;
 };</div>
 <div id='struc_ObjectLink'>struct <h3>ObjectLink</h3> { <i>/*2 members, size 8h*/</i> <em></em>
-<i id='struc_ObjectLink0'></i><i>/*0*/	</i><a href='structs.html#struc_ObjectLink'>struct ObjectLink</a> *next;
+<i>/*0*/	</i><a href='structs.html#struc_ObjectLink'>struct ObjectLink</a> *next;
 <i>/*4*/	</i><a href='structs.html#struc_ObjectLink'>struct ObjectLink</a> *prev;
 };</div>
 <div class='mm'>
@@ -6714,7 +6714,7 @@ size may be bigger, unknown
 <ul>
 <li><pre><i>519DE0</i> <a href='funcs.html#519DE0' title='void __thiscall UIData_field8_412C__CopyFNGNameIntoCAndHashInto10(struct UIData_field8_412C *this, char *fngName);'>UIData_field8_412C::CopyFNGNameIntoCAndHashInto10</a></pre></li>
 </ul>
-<div id='struc_UIElement'>struct <h3>UIElement</h3> { <i>/*22 members, size 5Ch*/</i> <em></em>
+<div id='struc_UIElement'>struct <h3>UIElement</h3> { <i>/*23 members, size 5Ch*/</i> <em></em>
 <i>/*0*/	</i>int vtable <u></u>;
 <i id='struc_UIElement4'></i><i>/*4*/	</i><a href='structs.html#struc_UIElement'>struct UIElement</a> *nextSibling;
 <i>/*8*/	int field_8;</i>
@@ -6741,8 +6741,9 @@ although if this element is a label, the measured text height (which is also a g
 <i>/*40*/	int field_40;</i>
 <i>/*44*/	int field_44;</i>
 <i>/*48*/	int field_48;</i>
-<i id='struc_UIElement4C'></i><span class='mm'>/**entries are <a href='structs.html#struc_UIElement_Animation'>struct UIElement_Animation</a>*/</span>
-<i>/*4C*/	</i><a href='#struc_ObjectLink'>struct ObjectLink</a> animationLink?;
+<i id='struc_UIElement4C'></i><span class='mm'>/**not <a href='structs.html#struc_ObjectLink'>struct ObjectLink</a>, it's non-doubly linked list*/</span>
+<i>/*4C*/	</i><a href='structs.html#struc_UIElement_Animation'>struct UIElement_Animation</a> *firstAnimation;
+<i>/*50*/	</i><a href='structs.html#struc_UIElement_Animation'>struct UIElement_Animation</a> *lastAnimation;
 <i id='struc_UIElement54'></i><i>/*54*/	</i><a href='structs.html#struc_UIElement_Animation'>struct UIElement_Animation</a> *currentAnimation?;
 <i id='struc_UIElement58'></i><i>/*58*/	</i><a href='structs.html#struc_FERenderObject'>struct FERenderObject</a> *FERenderObject;
 };</div>
@@ -6754,9 +6755,8 @@ although if this element is a label, the measured text height (which is also a g
 <li><pre><i>517720</i> <a href='funcs.html#517720' title='int __thiscall UIElement__AnimationChanged(struct UIElement *this);'>UIElement::AnimationChanged</a></pre></li>
 </ul>
 <div id='struc_UIElement_Animation'>struct <h3>UIElement_Animation</h3> { <i>/*13 members, size 34h*/</i>
-<i>/*0*/	int field_0;</i>
-<span class='mm'>/**ptr to same struct type*/</span>
-<i>/*4*/	</i><a href='structs.html#struc_UIElement_Animation'>struct UIElement_Animation</a> *next?;
+<i>/*0*/	</i>int vtable <u></u>;
+<i>/*4*/	</i><a href='structs.html#struc_UIElement_Animation'>struct UIElement_Animation</a> *next;
 <i>/*8*/	int field_8;</i>
 <span class='mm'>/**related with field_10*/</span>
 <i>/*C*/	int field_C;</i>
@@ -6841,7 +6841,7 @@ although if this element is a label, the measured text height (which is also a g
 <li><pre><i>5048D0</i> <a href='funcs.html#5048D0' title='int __thiscall UIElementVisitor_FindByHash__acceptElement(struct UIElementVisitor_FindByHash *this, struct UIElement *element);'>UIElementVisitor_FindByHash::acceptElement</a></pre></li>
 </ul>
 <div id='struc_UILabel'>struct <h3>UILabel</h3> { <i>/*7 members, size 78h*/</i> <em></em>
-<i id='struc_UILabel0'></i><i>/*0*/	</i><a href='#struc_UIElement'>struct UIElement</a> __parent;
+<i>/*0*/	</i><a href='#struc_UIElement'>struct UIElement</a> __parent;
 <span class='mm'>/**some string pointer?*/</span>
 <i>/*5C*/	int field_5C;</i>
 <i id='struc_UILabel60'></i><span class='mm'>/**the text (of the language files entry that matches this key) this label will display if its <a href='structs.html#struc_UIElement1C'>flags</a> does not include <a href='enums.html#enu_UIELEMENTFLAGS2'>USE_CUSTOM_TEXT</a>*/</span>

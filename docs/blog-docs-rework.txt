@@ -49,7 +49,7 @@ Small example:
 .pushmode pre
 Here's a function {529B50} and variable {838454} struct {struct SmsData} and  \||| ref,ref,ref
 enum {enum SMS_TYPE} with members {{struct SmsData+2} == {enum SMS_TYPE/0x4}} \||| ref,code,ref,ref
-struct inner member and chained members {{struct UILabel.4C.0}}               \||| code,ref
+struct inner member and chained members {{struct Career.5D20.1404}}           \||| code,ref
 with pointer {{struct SmsMessage.0.2}}                                        \||| code,ref
 chained from variable of type struct {{838640.328}}                           \||| code,ref
 chained from variable of type struct pointer {{8384C4.8.E4}}                  \||| code,ref
@@ -59,7 +59,7 @@ Results in:
 
 Here's a function {529B50} and variable {838454} struct {struct SmsData} and   ||| ref,ref,ref
 enum {enum SMS_TYPE} with members {{struct SmsData+2} == {enum SMS_TYPE/0x4}}  ||| ref,code,ref,ref
-struct inner member and chained members {{struct UILabel.4C.0}}                ||| code,ref
+struct inner member and chained members {{struct Career.5D20.1404}}            ||| code,ref
 with pointer {{struct SmsMessage.0.2}}                                         ||| code,ref
 chained from variable of type struct {{838640.328}}                            ||| code,ref
 chained from variable of type struct pointer {{8384C4.8.E4}}                   ||| code,ref
