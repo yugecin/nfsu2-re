@@ -1425,14 +1425,20 @@ Most things (especially when mouse is involved) seem to be positioned
 <code>([-320,+320],[-240,+240])</code>.
 </p><p>A UI element is described by <a href='structs.html#struc_UIElement'>struct UIElement</a>. Its <a href='structs.html#struc_UIElement18'>type</a> field tells which
 kind of element it is. Currently I have:
+</p><p>(later I found <a href='funcs.html#5359D0'>UIData_field8_4134::ctor</a> which kinda seems like it has names for some types of elements?
+I put those names in the list below between square brackets)
 </p><ul>
-<li>type 1: <a href='structs.html#struc_UIElementType1'>struct UIElementType1</a>: shows a texture
-</li><li>type 2: <a href='structs.html#struc_UILabel'>struct UILabel</a>: shows text
-</li><li>type 3-4: ?
-</li><li>type 5: <a href='structs.html#struc_UIContainer'>struct UIContainer</a>: groups child ui elements
-</li><li>type 6: ?
-</li><li>type 7: movie (like the THX logo, EA logo, intro etc)
-</li><li>type 8-11: ?
+<li>type 1: <a href='structs.html#struc_UIElementType1'>struct UIElementType1</a>: shows a texture [Image]
+</li><li>type 2: <a href='structs.html#struc_UILabel'>struct UILabel</a>: shows text [String]
+</li><li>type 3: ? [Model]
+</li><li>type 4: ? [List]
+</li><li>type 5: <a href='structs.html#struc_UIContainer'>struct UIContainer</a>: groups child ui elements [Group]
+</li><li>type 6: ? [Code List]
+</li><li>type 7: movie (like the THX logo, EA logo, intro etc) [Movie]
+</li><li>type 8: ? [Effect]
+</li><li>type 9: ? [Bottom Left]
+</li><li>type 10: ? [Frame Number]
+</li><li>type 11: ? [Simple Image]
 </li></ul>
 <p>All UI elements are addressable by the hash (see <a href='#hashfuncs'>Hash functions</a>) of its name (stored in its field
 <a href='structs.html#struc_UIElement10'>hash</a>). So then one can find UI elements by using <a href='funcs.html#4953C0'>FindUILabelByName</a> or <a href='funcs.html#537A10'>FindUILabelByHash</a> and

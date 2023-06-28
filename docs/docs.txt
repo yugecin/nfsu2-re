@@ -1265,14 +1265,21 @@ Most things (especially when mouse is involved) seem to be positioned
 A UI element is described by {struct UIElement}. Its {struct UIElement+18} field tells which    ||| ref,ref
 kind of element it is. Currently I have:
 
+(later I found {5359D0} which kinda seems like it has names for some types of elements?         ||| ref
+I put those names in the list below between square brackets)
+
 .pushmode ul
-- type 1: {struct UIElementType1}: shows a texture                                              ||| ref
-- type 2: {struct UILabel}: shows text                                                          ||| ref
-- type 3-4: ?
-- type 5: {struct UIContainer}: groups child ui elements                                        ||| ref
-- type 6: ?
-- type 7: movie (like the THX logo, EA logo, intro etc)
-- type 8-11: ?
+- type 1: {struct UIElementType1}: shows a texture [Image]                                      ||| ref
+- type 2: {struct UILabel}: shows text [String]                                                 ||| ref
+- type 3: ? [Model]
+- type 4: ? [List]
+- type 5: {struct UIContainer}: groups child ui elements [Group]                                ||| ref
+- type 6: ? [Code List]
+- type 7: movie (like the THX logo, EA logo, intro etc) [Movie]
+- type 8: ? [Effect]
+- type 9: ? [Bottom Left]
+- type 10: ? [Frame Number]
+- type 11: ? [Simple Image]
 .popmode ul
 
 All UI elements are addressable by the hash (see {hashfuncs}) of its name (stored in its field  ||| href

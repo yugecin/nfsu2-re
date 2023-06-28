@@ -259,7 +259,7 @@ pre.ida span.hi {
 <a href='cheatsheet.html'>cheatsheet</a></nav>
 </header>
 <div class='func'>
-<h2>Functions (1459)</h2>
+<h2>Functions (1463)</h2>
 <ul>
 <li><a href='#588630'>??ConnectToEAServer</a></li>
 <li><a href='#7789D9'>??ConnectToEAServer_SEH</a></li>
@@ -938,6 +938,7 @@ pre.ida span.hi {
 <li><a href='#74B730'>GetTickCount</a></li>
 <li><a href='#50C8E0'>GetTopPackage</a></li>
 <li><a href='#5120B0'>GetTranslatedCarName</a></li>
+<li><a href='#50CE20'>GetUIDataFieldC</a></li>
 <li><a href='#51D9F0'>GetUIElementRect</a></li>
 <li><a href='#51D170'>GetUIElementRightBottom</a></li>
 <li><a href='#51D730'>GetUIElementSize??</a></li>
@@ -1013,6 +1014,7 @@ pre.ida span.hi {
 <li><a href='#4FF2F0'>IsAllowedCharacterInChatTextbox</a></li>
 <li><a href='#52D090'>IsCursorDownInUIElement</a></li>
 <li><a href='#52CF60'>IsFNGLoaded?</a></li>
+<li><a href='#49FFA0'>IsFNGScreenPrintfOrChyronFEOrGarageMainOrPCHelpbar</a></li>
 <li><a href='#5794E0'>IsJoyIdRegisteredAtEntryWithIndex</a></li>
 <li><a href='#43D890'>IsMarkerInRange</a></li>
 <li><a href='#50CD00'>IsPointInRect</a></li>
@@ -1626,6 +1628,7 @@ pre.ida span.hi {
 <li><a href='#51AB20'>UIData_field8::51AB20</a></li>
 <li><a href='#51AE80'>UIData_field8::51AE80</a></li>
 <li><a href='#555860'>UIData_field8::555860</a></li>
+<li><a href='#558C00'>UIData_field8::558C00</a></li>
 <li><a href='#51AC10'>UIData_field8::CreateAndAdd412CEntryForFNG</a></li>
 <li><a href='#51ADB0'>UIData_field8::CreateAndAdd412CEntryForFNG_3</a></li>
 <li><a href='#536170'>UIData_field8::ctor</a></li>
@@ -1633,6 +1636,7 @@ pre.ida span.hi {
 <li><a href='#52C570'>UIData_field8::GetUIElementByHashInFngName</a></li>
 <li><a href='#51AA20'>UIData_field8::QueueUIMessage</a></li>
 <li><a href='#519DE0'>UIData_field8_412C::CopyFNGNameIntoCAndHashInto10</a></li>
+<li><a href='#5359D0'>UIData_field8_4134::ctor</a></li>
 <li><a href='#517720'>UIElement::AnimationChanged</a></li>
 <li><a href='#51C8A0'>UIElementVisitor::acceptElement::forUnloadFNGPackage</a></li>
 <li><a href='#566240'>UIElementVisitor::acceptElement__forInitFNGPackage_1</a></li>
@@ -3049,6 +3053,7 @@ See <code><a class='ext' href='https://github.com/yugecin/nfsu2-re/blob/master/n
 <p><code>return <a href='funcs.html#4FF9D0'>GetLanguageStringOrNull</a>(hashf("CAR_NAME_%s%s", cars[car_index].<a href='structs.html#struc_CarC0'>manufacturerName</a>, ""));</code>
 does the <code>DEFAULT_STRING_ERROR</code> dance if no such language string exists
 <p></div>
+<div id='50CE20'><i>50CE20</i> <h3>GetUIDataFieldC</h3></div>
 <div id='51D9F0'><i>51D9F0</i> int __cdecl <h3>GetUIElementRect</h3>(<a href='structs.html#struc_UIElement'>struct UIElement</a> *element, <a href='structs.html#struc_U2RECT'>struct U2RECT</a> *out);</div>
 <div class='mm'>
 <p>out will be (<code>[-cw/2,cw/2]</code>,<code>[-ch/2,ch/2]</code>)
@@ -3176,6 +3181,7 @@ Returns <code>1</code> on success.
 Delegates to <a href='funcs.html#52D020'>IsPointInUIElement</a>
 <p></div>
 <div id='52CF60'><i>52CF60</i> int __cdecl <h3>IsFNGLoaded?</h3>(char *fngName);</div>
+<div id='49FFA0'><i>49FFA0</i> int __cdecl <h3>IsFNGScreenPrintfOrChyronFEOrGarageMainOrPCHelpbar</h3>(char *fngName);</div>
 <div id='5794E0'><i>5794E0</i> int __cdecl <h3>IsJoyIdRegisteredAtEntryWithIndex</h3>(int index, <a href='enums.html#enu_JOYID'>enum JOYID</a> joyId);</div>
 <div id='43D890'><i>43D890</i> int __cdecl <h3>IsMarkerInRange</h3>(<a href='structs.html#struc_vec2'>struct vec2</a> *position, <a href='structs.html#struc_vec2'>struct vec2</a> *markerPosition, int radius);</div>
 <div class='mm'>
@@ -4506,7 +4512,8 @@ this might be resposible for reading files?
 <div id='51A8B0'><i>51A8B0</i> void __thiscall <h3><a href='structs.html#struc_UIData_field8'>UIData_field8</a>::51A8B0</h3>(<a href='structs.html#struc_UIData_field8'>struct UIData_field8</a> *this, <a href='structs.html#struc_FNGInfo'>struct FNGInfo</a> *fngInfo);</div>
 <div id='51AB20'><i>51AB20</i> int __thiscall <h3><a href='structs.html#struc_UIData_field8'>UIData_field8</a>::51AB20</h3>(<a href='structs.html#struc_UIData_field8'>struct UIData_field8</a> *this, char *fngName, <a href='structs.html#struc_FNGInfo'>struct FNGInfo</a> *fngInfo);</div>
 <div id='51AE80'><i>51AE80</i> int __thiscall <h3><a href='structs.html#struc_UIData_field8'>UIData_field8</a>::51AE80</h3>(<a href='structs.html#struc_UIData_field8'>struct UIData_field8</a> *this, char *fngName);</div>
-<div id='555860'><i>555860</i> int __thiscall <h3><a href='structs.html#struc_UIData_field8'>UIData_field8</a>::555860</h3>(<a href='structs.html#struc_UIData_field8'>struct UIData_field8</a> *this, char *str, char, int);</div>
+<div id='555860'><i>555860</i> int __thiscall <h3><a href='structs.html#struc_UIData_field8'>UIData_field8</a>::555860</h3>(<a href='structs.html#struc_UIData_field8'>struct UIData_field8</a> *this, char *fngName, char, int);</div>
+<div id='558C00'><i>558C00</i> int __thiscall <h3><a href='structs.html#struc_UIData_field8'>UIData_field8</a>::558C00</h3>(<a href='structs.html#struc_UIData_field8'>struct UIData_field8</a> *this, int, int);</div>
 <div id='51AC10'><i>51AC10</i> void __thiscall <h3><a href='structs.html#struc_UIData_field8'>UIData_field8</a>::CreateAndAdd412CEntryForFNG</h3>(<a href='structs.html#struc_UIData_field8'>struct UIData_field8</a> *this, char *fngName, <a href='structs.html#struc_FNGInfo'>struct FNGInfo</a> *parentFngInfo, int controlMask);</div>
 <div id='51ADB0'><i>51ADB0</i> int __thiscall <h3><a href='structs.html#struc_UIData_field8'>UIData_field8</a>::CreateAndAdd412CEntryForFNG_3</h3>(<a href='structs.html#struc_UIData_field8'>struct UIData_field8</a> *this, <a href='structs.html#struc_FNGInfo'>struct FNGInfo</a> *fngInfo);</div>
 <div id='536170'><i>536170</i> <a href='structs.html#struc_UIData_field8'>struct UIData_field8</a> *__thiscall <h3><a href='structs.html#struc_UIData_field8'>UIData_field8</a>::ctor</h3>(<a href='structs.html#struc_UIData_field8'>struct UIData_field8</a> *this);</div>
@@ -4528,6 +4535,7 @@ Otherwise, limit the search to the FNG that is in the hierarchy of <code>this-&g
 <div class='mm'>
 <p>frees <a href='structs.html#struc_UIData_field8_412C'>struct UIData_field8_412C</a>.<a href='structs.html#struc_UIData_field8_412CC'>fngName</a> if not empty, then allocate just enough memory to fit fngName into it, copy it, cihash it and put it into <a href='structs.html#struc_UIData_field8_412C'>struct UIData_field8_412C</a>.<a href='structs.html#struc_UIData_field8_412C10'>fngNameCIHash</a>
 <p></div>
+<div id='5359D0'><i>5359D0</i> int __thiscall <h3><a href='structs.html#struc_UIData_field8_4134'>UIData_field8_4134</a>::ctor</h3>(<a href='structs.html#struc_UIData_field8_4134'>struct UIData_field8_4134</a> *this);</div>
 <div id='517720'><i>517720</i> int __thiscall <h3><a href='structs.html#struc_UIElement'>UIElement</a>::AnimationChanged</h3>(<a href='structs.html#struc_UIElement'>struct UIElement</a> *this);</div>
 <div id='51C8A0'><i>51C8A0</i> int __thiscall <h3><a href='structs.html#struc_UIElementVisitor'>UIElementVisitor</a>::acceptElement::forUnloadFNGPackage</h3>(<a href='structs.html#struc_UIElementVisitor'>struct UIElementVisitor</a> *this, <a href='structs.html#struc_UIElement'>struct UIElement</a> *element);</div>
 <div class='mm'>

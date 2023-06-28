@@ -259,7 +259,7 @@ pre.ida span.hi {
 <a href='cheatsheet.html'>cheatsheet</a></nav>
 </header>
 <div class='struc'>
-<h2>Structs (429)</h2>
+<h2>Structs (430)</h2>
 <ul>
 <li><a href='#struc__COMMCONFIG'>_COMMCONFIG</a></li>
 <li><a href='#struc__COMMTIMEOUTS'>_COMMTIMEOUTS</a></li>
@@ -668,6 +668,7 @@ pre.ida span.hi {
 <li><a href='#struc_UIData$vtable'>UIData$vtable</a></li>
 <li><a href='#struc_UIData_field8'>UIData_field8</a> <em></em></li>
 <li><a href='#struc_UIData_field8_412C'>UIData_field8_412C</a> <em></em></li>
+<li><a href='#struc_UIData_field8_4134'>UIData_field8_4134</a> <em></em></li>
 <li><a href='#struc_UIElement'>UIElement</a> <em></em></li>
 <li><a href='#struc_UIElement_Animation'>UIElement_Animation</a></li>
 <li><a href='#struc_UIElement_Field2C'>UIElement_Field2C</a></li>
@@ -3099,8 +3100,8 @@ TODO: explore maybe?*/</span>
 <li><pre><i>504830</i> <a href='funcs.html#504830' title='int __thiscall FNGInfo__VisitContainerRecursively(struct FNGInfo *this, struct UIContainer *container, struct UIElementVisitor *data);'>FNGInfo::VisitContainerRecursively</a></pre></li>
 <li><pre><i>504880</i> <a href='funcs.html#504880' title='int __thiscall FNGInfo__VisitUIRecursively(struct FNGInfo *this, struct UIElementVisitor *visitor);'>FNGInfo::VisitUIRecursively</a></pre></li>
 </ul>
-<div id='struc_FNGInfoList'>struct <h3>FNGInfoList</h3> { <i>/*3 members, size 10h*/</i> <em></em>
-<i>/*0*/	char _pad0[0x4];</i>
+<div id='struc_FNGInfoList'>struct <h3>FNGInfoList</h3> { <i>/*4 members, size 10h*/</i> <em></em>
+<i>/*0*/	int field_0;</i>
 <i>/*4*/	</i>int numPackages <u></u>;
 <i id='struc_FNGInfoList8'></i><span class='mm'>/**could also just be an <a href='structs.html#struc_ObjectLink'>struct ObjectLink</a> :^)*/</span>
 <i>/*8*/	</i><a href='structs.html#struc_FNGInfo'>struct FNGInfo</a> *topPackage;
@@ -6586,9 +6587,6 @@ size may be bigger, unknown
 <i>/*C*/	int field_C;</i>
 <i id='struc_UIData10'></i><i>/*10*/	</i><a href='#struc_PoolEntry'>struct PoolEntry</a> levelSorterPoolEntry;
 };</div>
-<div class='mm'>
-<p>TODO, incomplete (probably)
-<p></div>
 <p><strong>Methods:</strong></p>
 <ul>
 <li><pre><i>51CB20</i> <a href='funcs.html#51CB20' title='void __thiscall UIData__51CB20(struct UIData *this, char *fngName, char *parentFngName, int controlMask);'>UIData::51CB20</a></pre></li>
@@ -6638,7 +6636,7 @@ size may be bigger, unknown
 <i>/*60*/	int field_60;</i>
 <i>/*64*/	int field_64;</i>
 };</div>
-<div id='struc_UIData_field8'>struct <h3>UIData_field8</h3> { <i>/*36 members, size 5254h*/</i> <em></em>
+<div id='struc_UIData_field8'>struct <h3>UIData_field8</h3> { <i>/*45 members, size 5254h*/</i> <em></em>
 <i>/*0*/	char field_0;</i>
 <span class='mm'>/**can't interact with ui when 0 EXCEPT you can scroll iconscrollers with mouse :D*/</span>
 <i>/*1*/	</i>char inputsEnabled <u></u>;
@@ -6661,7 +6659,8 @@ size may be bigger, unknown
 <i>/*2C*/	int field_2C;</i>
 <i>/*30*/	int field_30;</i>
 <i>/*34*/	int field_34;</i>
-<i>/*38*/	char _pad38[0x98];</i>
+<i>/*38*/	char _pad38[0x4C];</i>
+<i>/*84*/	char field_84[76];</i>
 <i>/*D0*/	int field_D0;</i>
 <i>/*D4*/	int field_D4;</i>
 <i>/*D8*/	char _padD8[0x4];</i>
@@ -6673,15 +6672,22 @@ size may be bigger, unknown
 <i>/*108*/	int field_108;</i>
 <span class='mm'>/**its <a href='structs.html#struc_UIData8'>field_8</a> links to this struct*/</span>
 <i>/*10C*/	</i><a href='structs.html#struc_UIData'>struct UIData</a> *uiData;
-<i>/*110*/	char _pad110[0x4008];</i>
+<i>/*110*/	int field_110;</i>
+<i>/*114*/	char _pad114[0x4000];</i>
+<i>/*4114*/int field_4114;</i>
 <i>/*4118*/</i>int numMessagesInQueue <u></u>;
 <span class='mm'>/**entries are <a href='structs.html#struc_UIMessage'>struct UIMessage</a>*/</span>
 <i>/*411C*/</i><a href='#struc_ObjectLink'>struct ObjectLink</a> messagesQueueLink;
-<i>/*4124*/char _pad4124[0x4];</i>
+<i>/*4124*/int field_4124;</i>
 <i>/*4128*/</i>int numEntriesInlink412C <u></u>;
 <span class='mm'>/**entries are <a href='structs.html#struc_UIData_field8_412C'>struct UIData_field8_412C</a>*/</span>
 <i>/*412C*/</i><a href='#struc_ObjectLink'>struct ObjectLink</a> link412C;
-<i>/*4134*/char _pad4134[0x111C];</i>
+<i>/*4134*/<a href='#struc_UIData_field8_4134'>struct UIData_field8_4134</a> field_4134;</i>
+<i>/*4145*/char _pad4145[0x3];</i>
+<i>/*4148*/int field_4148;</i>
+<i>/*414C*/char field_414C[4096];</i>
+<i>/*514C*/int field_514C;</i>
+<i>/*5150*/char field_5150[256];</i>
 <i>/*5250*/char field_5250;</i>
 <i>/*5251*/char field_5251;</i>
 <i>/*5252*/char field_5252;</i>
@@ -6692,7 +6698,8 @@ size may be bigger, unknown
 <li><pre><i>51A8B0</i> <a href='funcs.html#51A8B0' title='void __thiscall UIData_field8__51A8B0(struct UIData_field8 *this, struct FNGInfo *fngInfo);'>UIData_field8::51A8B0</a></pre></li>
 <li><pre><i>51AB20</i> <a href='funcs.html#51AB20' title='int __thiscall UIData_field8__51AB20(struct UIData_field8 *this, char *fngName, struct FNGInfo *fngInfo);'>UIData_field8::51AB20</a></pre></li>
 <li><pre><i>51AE80</i> <a href='funcs.html#51AE80' title='int __thiscall UIData_field8__51AE80(struct UIData_field8 *this, char *fngName);'>UIData_field8::51AE80</a></pre></li>
-<li><pre><i>555860</i> <a href='funcs.html#555860' title='int __thiscall UIData_field8__555860(struct UIData_field8 *this, char *str, char, int);'>UIData_field8::555860</a></pre></li>
+<li><pre><i>555860</i> <a href='funcs.html#555860' title='int __thiscall UIData_field8__555860(struct UIData_field8 *this, char *fngName, char, int);'>UIData_field8::555860</a></pre></li>
+<li><pre><i>558C00</i> <a href='funcs.html#558C00' title='int __thiscall UIData_field8__558C00(struct UIData_field8 *this, int, int);'>UIData_field8::558C00</a></pre></li>
 <li><pre><i>51AC10</i> <a href='funcs.html#51AC10' title='void __thiscall UIData_field8__CreateAndAdd412CEntryForFNG(struct UIData_field8 *this, char *fngName, struct FNGInfo *parentFngInfo, int controlMask);'>UIData_field8::CreateAndAdd412CEntryForFNG</a></pre></li>
 <li><pre><i>51ADB0</i> <a href='funcs.html#51ADB0' title='int __thiscall UIData_field8__CreateAndAdd412CEntryForFNG_3(struct UIData_field8 *this, struct FNGInfo *fngInfo);'>UIData_field8::CreateAndAdd412CEntryForFNG_3</a></pre></li>
 <li><pre><i>536170</i> <a href='funcs.html#536170' title='struct UIData_field8 *__thiscall UIData_field8__ctor(struct UIData_field8 *this);'>UIData_field8::ctor</a></pre></li>
@@ -6713,6 +6720,17 @@ size may be bigger, unknown
 <p><strong>Methods:</strong></p>
 <ul>
 <li><pre><i>519DE0</i> <a href='funcs.html#519DE0' title='void __thiscall UIData_field8_412C__CopyFNGNameIntoCAndHashInto10(struct UIData_field8_412C *this, char *fngName);'>UIData_field8_412C::CopyFNGNameIntoCAndHashInto10</a></pre></li>
+</ul>
+<div id='struc_UIData_field8_4134'>struct <h3>UIData_field8_4134</h3> { <i>/*5 members, size 11h*/</i> <em></em>
+<i>/*0*/	int field_0;</i>
+<i>/*4*/	int field_4;</i>
+<i>/*8*/	int field_8;</i>
+<i>/*C*/	int field_C;</i>
+<i>/*10*/	char field_10;</i>
+};</div>
+<p><strong>Methods:</strong></p>
+<ul>
+<li><pre><i>5359D0</i> <a href='funcs.html#5359D0' title='int __thiscall UIData_field8_4134__ctor(struct UIData_field8_4134 *this);'>UIData_field8_4134::ctor</a></pre></li>
 </ul>
 <div id='struc_UIElement'>struct <h3>UIElement</h3> { <i>/*23 members, size 5Ch*/</i> <em></em>
 <i>/*0*/	</i>int vtable <u></u>;
