@@ -1277,8 +1277,8 @@ I put those names in the list below between square brackets)
 - type 6: ? [Code List]
 - type 7: movie (like the THX logo, EA logo, intro etc) [Movie]
 - type 8: ? [Effect]
-- type 9: ? [Bottom Left]
-- type 10: ? [Frame Number]
+- type 9: ? [CBV Image]
+- type 10: ? [Anim Image]
 - type 11: ? [Simple Image]
 .popmode ul
 
