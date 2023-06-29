@@ -7,7 +7,7 @@ struct FNGObject* CreateFNGObject(int fnghash, struct FNGInfo *fngInfo, int arg2
 {
 	struct FNGShowData data;
 	struct FNGData *fng;
-	int result;
+	struct FNGObject *result;
 	int i;
 
 	log(buf, sprintf(buf, "CreateFNGObject showing for hash: %p", fnghash));
