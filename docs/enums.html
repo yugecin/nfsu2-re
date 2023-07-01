@@ -259,7 +259,7 @@ pre.ida span.hi {
 <a href='cheatsheet.html'>cheatsheet</a></nav>
 </header>
 <div class='enum'>
-<h2>Enums (44)</h2>
+<h2>Enums (45)</h2>
 <ul>
 <li><a href='#enu___MIDL___MIDL_itf_searchapi_0000_0025_0001'>__MIDL___MIDL_itf_searchapi_0000_0025_0001</a></li>
 <li><a href='#enu__D3DFORMAT'>_D3DFORMAT</a></li>
@@ -276,6 +276,7 @@ pre.ida span.hi {
 <li><a href='#enu_D3DPTFILTERCAPS'>D3DPTFILTERCAPS</a></li>
 <li><a href='#enu_D3DSWAPEFFECT'>D3DSWAPEFFECT</a></li>
 <li><a href='#enu_DINPUT_GUIDS'>DINPUT_GUIDS</a></li>
+<li><a href='#enu_INVENTORY_CAR_FLAGS'>INVENTORY_CAR_FLAGS</a></li>
 <li><a href='#enu_JOYID'>JOYID</a></li>
 <li><a href='#enu_LANGUAGE_LABELS'>LANGUAGE_LABELS</a></li>
 <li><a href='#enu_MACRO_AF'>MACRO_AF</a></li>
@@ -476,6 +477,15 @@ pre.ida span.hi {
 	GUID_SysMouse = 0x6F1D2B60,
 	GUID_SysKeyboard = 0x6F1D2B61,
 	GUID_Joystick = 0x6F1D2B70,
+};</div>
+<div id='enu_INVENTORY_CAR_FLAGS'>enum <h3>INVENTORY_CAR_FLAGS</h3> { <i>/*5 members*/</i>
+<i id='enu_INVENTORY_CAR_FLAGS1'></i>	IS_STOCK_CAR = 0x1,
+<span class='mm'>/**seen for online &amp; tuned cars*/</span>
+	INVENTORY_CAR_FLAG_2 = 0x2,
+<i id='enu_INVENTORY_CAR_FLAGS4'></i>	IS_CAREER_CAR = 0x4,
+	IS_SPONSOR_CAR = 0x8,
+<span class='mm'>/**seen for online cars*/</span>
+	INVENTORY_CAR_FLAG_16 = 0x10,
 };</div>
 <div id='enu_JOYID'>enum <h3>JOYID</h3> { <i>/*222 members*/</i>
 	JOY_EVENT_NULL = 0x0,
