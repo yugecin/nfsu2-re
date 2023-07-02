@@ -259,7 +259,7 @@ pre.ida span.hi {
 <a href='cheatsheet.html'>cheatsheet</a></nav>
 </header>
 <div class='var'>
-<h2>Variables (938)</h2>
+<h2>Variables (940)</h2>
 <ul>
 <li><a href='#5CCFFC'>WndProcMsgJumpTable</a></li>
 <li><a href='#5CD010'>WndProcMsgJumpTableTable</a></li>
@@ -702,6 +702,8 @@ pre.ida span.hi {
 <li><a href='#798308'>vtable_MCBootupFNGObject</a></li>
 <li><a href='#798390'>vtable_PostRaceTournStandingsFNGObject</a></li>
 <li><a href='#799108'>vtable_PostRaceStatsFNGObject</a></li>
+<li><a href='#79A9F0'>inventoryCar$vtable</a></li>
+<li><a href='#79AADC'>stockCar$vtable</a></li>
 <li><a href='#79AAEC'>vtable_UIElementVisitor_setElementsCurrentAnimationToInit</a></li>
 <li><a href='#79AAF4'>vtable_UIElementVisitor_FindByHash</a></li>
 <li><a href='#79AAFC'>vtable_UIElementVisitor_FindByFieldC</a></li>
@@ -711,6 +713,8 @@ pre.ida span.hi {
 <li><a href='#79AC00'>vtable_baseFngObject</a></li>
 <li><a href='#79AC60'>vtable_PerformanceDynoChartFNGObject</a></li>
 <li><a href='#79ACE8'>vtable_MagazineViewFNGObject</a></li>
+<li><a href='#79AD18'>sponsorCar$vtable</a></li>
+<li><a href='#79B12C'>tunedCar_careerCar_onlineCar$vtable</a></li>
 <li><a href='#79B15C'>SomethingUIImpl$vtable</a></li>
 <li><a href='#79B2DC'>vtable_PCHelpBarFNGObjectChildEntry</a></li>
 <li><a href='#79B2E0'>aFade_out</a></li>
@@ -779,17 +783,22 @@ pre.ida span.hi {
 <li><a href='#7EB3F4'>binSectionHandlerMagicMapEntry0</a></li>
 <li><a href='#7EB578'>parameter</a></li>
 <li><a href='#7EC840'>unknown</a></li>
+<li><a href='#7ECD80'>traxEntries</a></li>
+<li><a href='#7ECD90'>traxEntry2</a></li>
+<li><a href='#7ECE90'>traxEntry18</a></li>
 <li><a href='#7ECFA8'>filename</a></li>
 <li><a href='#7ED148'>src2</a></li>
 <li><a href='#7ED164'>src1</a></li>
 <li><a href='#7ED608'>hFile</a></li>
 <li><a href='#7F4348'>param</a></li>
+<li><a href='#7F444C'>flagsToCheck</a></li>
 <li><a href='#7F44B0'>parentFngName</a></li>
 <li><a href='#7F44FC'>fngName</a></li>
 <li><a href='#7F4524'>hash</a></li>
 <li><a href='#7F45D8'>carselJoys</a></li>
 <li><a href='#7F65E8'>bootflowEntries_NA</a></li>
 <li><a href='#7F6620'>bootflowEntries_EU</a></li>
+<li><a href='#7F6CD0'>computerRacerNames</a></li>
 <li><a href='#7F6DE0'>nextDialogId</a></li>
 <li><a href='#7F6DE8'>languageStuff7F6DE8</a></li>
 <li><a href='#7F6E60'>languageStuff7F6E60</a></li>
@@ -846,6 +855,7 @@ pre.ida span.hi {
 <li><a href='#80C0D0'>hIcon</a></li>
 <li><a href='#80C0D4'>hCursor</a></li>
 <li><a href='#80C0E0'>lpClassName</a></li>
+<li><a href='#80F0F0'>funcs_6DFA80</a></li>
 <li><a href='#813AB0'>numberOfPaths</a></li>
 <li><a href='#813AC8'>nNumberOfBytesToRead</a></li>
 <li><a href='#8149E0'>aNNN</a></li>
@@ -900,6 +910,7 @@ pre.ida span.hi {
 <li><a href='#835BB8'>wcharLoadedProfileName</a></li>
 <li><a href='#835C00'>careerStats</a></li>
 <li><a href='#83632C'>smsOpenType</a></li>
+<li><a href='#836338'>onlineCar</a></li>
 <li><a href='#836370'>ol836370</a></li>
 <li><a href='#836480'>loadingTipsFNGObject</a></li>
 <li><a href='#836488'>bootflow</a></li>
@@ -948,16 +959,7 @@ pre.ida span.hi {
 <li><a href='#838640'>shownDialog</a></li>
 <li><a href='#8389AC'>tunedCarBeingCustomizedRightNow</a></li>
 <li><a href='#83A7B0'>textboxData</a></li>
-<li><a href='#83A9E0'>loadedProfileName</a></li>
-<li><a href='#83AA1A'>useMetricSystem</a></li>
-<li><a href='#83AD90'>profileData.carCollection0</a></li>
-<li><a href='#8458DC'>profileData.carCollection1</a></li>
-<li><a href='#850078'>someOLState</a></li>
-<li><a href='#85036C'>from</a></li>
-<li><a href='#85AD40'>career</a></li>
-<li><a href='#8637B0'>somethingUI</a></li>
-<li><a href='#8641A8'>olCarSlotData</a></li>
-<li><a href='#8641F4'>binSection80034A10loaded</a></li>
+<li><a href='#83A9D0'>profileData</a></li>
 <li><a href='#864F24'>_gameRegion</a></li>
 <li><a href='#864F4C'>_isGameClosing</a></li>
 <li><a href='#864F54'>AmountOfQueuedFileSlotPoolEntries</a></li>
@@ -1206,7 +1208,7 @@ pre.ida span.hi {
 <p></div>
 <div id='5CD010'><i>5CD010</i> char <h3>WndProcMsgJumpTableTable</h3>[14] <u></u></div>
 <div class='mm'>
-<p>WM_DESTROY
+<p>indirect table for switch statement
 <p></div>
 <div id='5CD020'><i>5CD020</i> int <h3>WndProcKeyDownJumpTable</h3>[6] <u></u></div>
 <div class='mm'>
@@ -1214,7 +1216,7 @@ pre.ida span.hi {
 <p></div>
 <div id='5CD038'><i>5CD038</i> char <h3>WndProcKeyDownJumpTableTable</h3>[89] <u></u></div>
 <div class='mm'>
-<p>VK_END
+<p>indirect table for switch statement
 <p></div>
 <div id='5CD094'><i>5CD094</i> int <h3>WndProcMsg2JumpTable</h3>[4] <u></u></div>
 <div class='mm'>
@@ -1222,7 +1224,7 @@ pre.ida span.hi {
 <p></div>
 <div id='5CD0A4'><i>5CD0A4</i> char <h3>WndProcMsg2JumpTableTable</h3>[243] <u></u></div>
 <div class='mm'>
-<p>WM_SYSCOMMAND
+<p>indirect table for switch statement
 <p></div>
 <div id='5D2CA8'><i>5D2CA8</i> int <h3>switch5D290A</h3>[4] <u></u></div>
 <div class='mm'>
@@ -1724,6 +1726,8 @@ for an application or device driver
 <div id='798308'><i>798308</i> int <h3>vtable_MCBootupFNGObject</h3> <u></u></div>
 <div id='798390'><i>798390</i> int <h3>vtable_PostRaceTournStandingsFNGObject</h3> <u></u></div>
 <div id='799108'><i>799108</i> int <h3>vtable_PostRaceStatsFNGObject</h3> <u></u></div>
+<div id='79A9F0'><i>79A9F0</i> int <h3>inventoryCar$vtable</h3> <u></u></div>
+<div id='79AADC'><i>79AADC</i> int <h3>stockCar$vtable</h3> <u></u></div>
 <div id='79AAEC'><i>79AAEC</i> <a href='structs.html#struc_UIElementVisitor$vtable'>struct UIElementVisitor$vtable</a> <h3>vtable_UIElementVisitor_setElementsCurrentAnimationToInit</h3></div>
 <div id='79AAF4'><i>79AAF4</i> <a href='structs.html#struc_UIElementVisitor$vtable'>struct UIElementVisitor$vtable</a> <h3>vtable_UIElementVisitor_FindByHash</h3></div>
 <div class='mm'>
@@ -1738,6 +1742,8 @@ for an application or device driver
 <div id='79AC00'><i>79AC00</i> int <h3>vtable_baseFngObject</h3> <u></u></div>
 <div id='79AC60'><i>79AC60</i> int <h3>vtable_PerformanceDynoChartFNGObject</h3> <u></u></div>
 <div id='79ACE8'><i>79ACE8</i> int <h3>vtable_MagazineViewFNGObject</h3> <u></u></div>
+<div id='79AD18'><i>79AD18</i> int <h3>sponsorCar$vtable</h3> <u></u></div>
+<div id='79B12C'><i>79B12C</i> int <h3>tunedCar_careerCar_onlineCar$vtable</h3> <u></u></div>
 <div id='79B15C'><i>79B15C</i> int <h3>SomethingUIImpl$vtable</h3> <u></u></div>
 <div id='79B2DC'><i>79B2DC</i> int <h3>vtable_PCHelpBarFNGObjectChildEntry</h3> <u></u></div>
 <div id='79B2E0'><i>79B2E0</i> char <h3>aFade_out</h3> <u></u></div>
@@ -1756,7 +1762,7 @@ for an application or device driver
 <div id='79B4D8'><i>79B4D8</i> int <h3>vtable_IconScrollerIcon</h3> <u></u></div>
 <div id='79B910'><i>79B910</i> int <h3>vtable_somethingui</h3> <u></u></div>
 <div class='mm'>
-<p>for <a href='vars.html#8637B0'>somethingUI</a>
+<p>for <a href='vars.html#83A9D0'>profileData</a>.<a href='structs.html#struc_ProfileData28DE0'>somethingUI</a>
 <p></div>
 <div id='79BA14'><i>79BA14</i> int <h3>vtable_IcePartsOverlayFNGObject</h3> <u></u></div>
 <div id='79BCD8'><i>79BCD8</i> int <h3>vtable_UIData</h3> <u></u></div>
@@ -1834,11 +1840,15 @@ Some of them are constructors being called.
 <p></div>
 <div id='7EB578'><i>7EB578</i> int <h3>parameter</h3> <u></u></div>
 <div id='7EC840'><i>7EC840</i> int <h3>unknown</h3> <u></u></div>
+<div id='7ECD80'><i>7ECD80</i> <a href='structs.html#struc_TraxEntry'>struct TraxEntry</a> <h3>traxEntries</h3></div>
+<div id='7ECD90'><i>7ECD90</i> <a href='structs.html#struc_TraxEntry'>struct TraxEntry</a> <h3>traxEntry2</h3></div>
+<div id='7ECE90'><i>7ECE90</i> <a href='structs.html#struc_TraxEntry'>struct TraxEntry</a> <h3>traxEntry18</h3></div>
 <div id='7ECFA8'><i>7ECFA8</i> int <h3>filename</h3> <u></u></div>
 <div id='7ED148'><i>7ED148</i> int <h3>src2</h3> <u></u></div>
 <div id='7ED164'><i>7ED164</i> int <h3>src1</h3> <u></u></div>
 <div id='7ED608'><i>7ED608</i> int <h3>hFile</h3> <u></u></div>
 <div id='7F4348'><i>7F4348</i> int <h3>param</h3> <u></u></div>
+<div id='7F444C'><i>7F444C</i> int <h3>flagsToCheck</h3> <u></u></div>
 <div id='7F44B0'><i>7F44B0</i> int <h3>parentFngName</h3> <u></u></div>
 <div class='mm'>
 <p>this probably does not always get used, maybe only scoped to OL stuff?l
@@ -1848,6 +1858,7 @@ Some of them are constructors being called.
 <div id='7F45D8'><i>7F45D8</i> int <h3>carselJoys</h3>[11] <u></u></div>
 <div id='7F65E8'><i>7F65E8</i> int <h3>bootflowEntries_NA</h3> <u></u></div>
 <div id='7F6620'><i>7F6620</i> int <h3>bootflowEntries_EU</h3> <u></u></div>
+<div id='7F6CD0'><i>7F6CD0</i> int <h3>computerRacerNames</h3> <u></u></div>
 <div id='7F6DE0'><i>7F6DE0</i> int <h3>nextDialogId</h3> <u></u></div>
 <div class='mm'>
 <p>When <a href='funcs.html#558020'>ShowDialog</a> is called, value is put into <a href='vars.html#838640'>shownDialog</a>.<a href='structs.html#struc_DialogInfo334'>dialogId</a> and incremented.
@@ -2073,6 +2084,7 @@ int (*<a href='vars.html#7FA8E8'>binSectionUnloadFuncs</a>)(<a href='structs.htm
 <div id='80C0D0'><i>80C0D0</i> int <h3>hIcon</h3> <u></u></div>
 <div id='80C0D4'><i>80C0D4</i> int <h3>hCursor</h3> <u></u></div>
 <div id='80C0E0'><i>80C0E0</i> int <h3>lpClassName</h3> <u></u></div>
+<div id='80F0F0'><i>80F0F0</i> int <h3>funcs_6DFA80</h3>[78] <u></u></div>
 <div id='813AB0'><i>813AB0</i> int <h3>numberOfPaths</h3> <u></u></div>
 <div class='mm'>
 <p>used when looping through paths for reading a file. the one at index 0 is usually the game dir. (at index 1 is a null?)
@@ -2221,6 +2233,7 @@ see <a href='funcs.html#43C100'>FindBinSectionHandler</a>
 then esc goes to the category of the msg.
 2 = mailbox opened from tab into inbox, then esc goes to the index again.
 <p></div>
+<div id='836338'><i>836338</i> int <h3>onlineCar</h3> <u></u></div>
 <div id='836370'><i>836370</i> int <h3>ol836370</h3> <u></u></div>
 <div id='836480'><i>836480</i> int <h3>loadingTipsFNGObject</h3> <u></u></div>
 <div id='836488'><i>836488</i> int <h3>bootflow</h3> <u></u></div>
@@ -2367,22 +2380,7 @@ in the language file.
 <p></div>
 <div id='8389AC'><i>8389AC</i> int <h3>tunedCarBeingCustomizedRightNow</h3> <u></u></div>
 <div id='83A7B0'><i>83A7B0</i> <a href='structs.html#struc_TextboxData'>struct TextboxData</a> <h3>textboxData</h3></div>
-<div id='83A9E0'><i>83A9E0</i> char <h3>loadedProfileName</h3>[32] <u></u></div>
-<div id='83AA1A'><i>83AA1A</i> char <h3>useMetricSystem</h3> <u></u></div>
-<div id='83AD90'><i>83AD90</i> <a href='structs.html#struc_CarCollection'>struct CarCollection</a> <h3>profileData.carCollection0</h3></div>
-<div id='8458DC'><i>8458DC</i> <a href='structs.html#struc_CarCollection'>struct CarCollection</a> <h3>profileData.carCollection1</h3></div>
-<div id='850078'><i>850078</i> int <h3>someOLState</h3> <u></u></div>
-<div class='mm'>
-<p>0x200 when connecting to OL, 8 when connecting LAN(?), 8 when opening online menu, 2 in menus, 1 ingame, 0x100 =?
-<p></div>
-<div id='85036C'><i>85036C</i> <a href='structs.html#struc_CareerD24_54_30'>struct CareerD24_54_30</a> <h3>from</h3></div>
-<div id='85AD40'><i>85AD40</i> <a href='structs.html#struc_Career'>struct Career</a> <h3>career</h3></div>
-<div id='8637B0'><i>8637B0</i> <a href='structs.html#struc_SomethingUI'>struct SomethingUI</a> <h3>somethingUI</h3></div>
-<div id='8641A8'><i>8641A8</i> <a href='structs.html#struc_OLCarSlotData'>struct OLCarSlotData</a> <h3>olCarSlotData</h3></div>
-<div id='8641F4'><i>8641F4</i> int <h3>binSection80034A10loaded</h3> <u></u></div>
-<div class='mm'>
-<p>Ensures this section only gets loaded once.
-<p></div>
+<div id='83A9D0'><i>83A9D0</i> <a href='structs.html#struc_ProfileData'>struct ProfileData</a> <h3>profileData</h3></div>
 <div id='864F24'><i>864F24</i> int <h3>_gameRegion</h3> <u></u></div>
 <div id='864F4C'><i>864F4C</i> int <h3>_isGameClosing</h3> <u></u></div>
 <div id='864F54'><i>864F54</i> int <h3>AmountOfQueuedFileSlotPoolEntries</h3> <u></u></div>

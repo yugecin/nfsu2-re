@@ -584,7 +584,7 @@ for example the data of section with magic <code>80034147</code> contains more s
 <li><a href='vars.html#835784'>binSectionHandlerMagicMapEntry135200</a></li>
 <li><a href='vars.html#835840'>binSectionHandlerMagicMapEntry80134000</a></li>
 <li><a href='vars.html#8358D0'>binSectionHandlerMagicMapEntryB3320000</a></li>
-<li><a href='vars.html#8641F4'>binSection80034A10loaded</a></li>
+<li><a href='vars.html#83A9D0'>profileData</a>.<a href='structs.html#struc_ProfileData29824'>binSection80034A10loaded</a></li>
 <li><a href='vars.html#8653A0'>binSectionHandlerMagicMapEntry39101</a></li>
 <li><a href='vars.html#865470'>binSectionHandlerMagicMapEntry39102</a></li>
 <li><a href='vars.html#86596C'>binSectionHandlerMagicMapEntry39100</a></li>
@@ -956,7 +956,7 @@ of the main pool.
 <li><a href='vars.html#827B60'>anim_CAnimSkeletonPoolCreated</a></li>
 <li><a href='vars.html#827B64'>anim_CAnimPartPool</a></li>
 <li><a href='vars.html#827B68'>anim_CAnimPartPoolCreated</a></li>
-<li><a href='vars.html#83AA1A'>useMetricSystem</a></li>
+<li><a href='vars.html#83A9D0'>profileData</a>.<a href='structs.html#struc_ProfileData10'>player1</a>.<a href='structs.html#struc_Player24'>p24</a>.<a href='structs.html#struc_Player2416'>useMetricSystem</a></li>
 <li><a href='funcs.html#431380'>CreateAnim_CNFSAnimBankPool</a></li>
 <li><a href='funcs.html#4314E0'>CreateAnim_CAnimSkeletonPool</a></li>
 <li><a href='funcs.html#431580'>CreateAnim_CAnimPartPool</a></li>
@@ -3592,7 +3592,7 @@ career yet.
 <a href='vars.html#865130'>cheatExtraCareerMoney1000</a> = 1000;
 // ^ used when starting a new career from a profile that
 // was loaded from the profile menu
-if (!<a href='vars.html#85AD40'>career</a>.<a href='structs.html#struc_Career873C'>isProfileWithStartedCareerLoaded</a>)  {
+if (!<a href='vars.html#83A9D0'>profileData</a>.<a href='structs.html#struc_ProfileData20370'>career</a>.<a href='structs.html#struc_Career873C'>isProfileWithStartedCareerLoaded</a>)  {
 	if (<a href='funcs.html#500F90'>CareerBank::GetMoney</a>() == 0)  {
 		<a href='funcs.html#500F80'>CareerBank::AddMoney</a>(1000);
 		// ^ This only has an effect when the profile was
@@ -3682,10 +3682,17 @@ void __thiscall <a href='funcs.html#575770'>CheatScreenData::InitCheats?</a>(<a 
 <li><a href='vars.html#865130'>cheatExtraCareerMoney1000</a></li>
 <li><a href='vars.html#865930'>cheatScreenData</a></li>
 <li><a href='funcs.html#575770'>CheatScreenData::InitCheats?</a></li>
+<li><a href='funcs.html#576000'>CheatScreenData::HasCheatBeenTriggered</a></li>
 <li><a href='funcs.html#576050'>CheatScreenData::UndoCheat??</a></li>
 <li><a href='funcs.html#576090'>GetExtraCheatedCareerMoney</a></li>
 <li><a href='funcs.html#5760A0'>CheatScreenData::DoCareerCheat</a></li>
 <li><a href='funcs.html#579CB0'>CheatScreenData::CheatMatched</a></li>
+<li><a href='funcs.html#579D30'>CheatScreenData::ShouldCarBeAvailableByCheat</a></li>
+<li><a href='funcs.html#579D60'>CheatScreenData::IsTriggeredREGMEBABY</a></li>
+<li><a href='funcs.html#579D70'>CheatScreenData::IsSponsorCarCheatTriggered</a></li>
+<li><a href='funcs.html#579D80'>CheatScreenData::IsVisualCheatTriggered</a></li>
+<li><a href='funcs.html#579D90'>CheatScreenData::IsPerformanceCheatTriggered</a></li>
+<li><a href='funcs.html#579DA0'>CheatScreenData::IsVinylCheatTriggered</a></li>
 <li><a href='funcs.html#57B8B0'>CheatScreenData::CheatCheck</a></li>
 </ul>
 <p style='text-align:right'><small><a href='#index'>Index</a></small></p>
@@ -3841,7 +3848,7 @@ which is in file <code>GLOBAL/GLOBALB.BUN</code>).
 <li><a href='vars.html#83632C'>smsOpenType</a></li>
 <li><a href='vars.html#838450'>numSmsDatas</a></li>
 <li><a href='vars.html#838454'>smsDatas</a></li>
-<li><a href='vars.html#85AD40'>career</a>.<a href='structs.html#struc_Career5D20'>smsMessageList</a></li>
+<li><a href='vars.html#83A9D0'>profileData</a>.<a href='structs.html#struc_ProfileData20370'>career</a>.<a href='structs.html#struc_Career5D20'>smsMessageList</a></li>
 <li><a href='funcs.html#4976B0'>ShowMailboxOrSingleUnreadSms</a></li>
 <li><a href='funcs.html#497760'>GetSmsMessageSubjectHeader</a></li>
 <li><a href='funcs.html#4977C0'>HideSmsMailbox</a></li>
@@ -3887,7 +3894,7 @@ which is in file <code>GLOBAL/GLOBALB.BUN</code>).
 <li><a href='vars.html#83648C'>loadIntoCareerImmediately?</a></li>
 <li><a href='vars.html#83840C'>ptr83840C</a></li>
 <li><a href='vars.html#838428'>careerStringPool838428</a></li>
-<li><a href='vars.html#85AD40'>career</a></li>
+<li><a href='vars.html#83A9D0'>profileData</a>.<a href='structs.html#struc_ProfileData20370'>career</a></li>
 <li><a href='funcs.html#495D30'>CareerShowSponsorSelectScreen?</a></li>
 <li><a href='funcs.html#500F90'>CareerBank::GetMoney</a></li>
 <li><a href='funcs.html#500180'>CareerSponsor::GetInternalSponsorName</a></li>
@@ -3957,8 +3964,8 @@ which is in file <code>GLOBAL/GLOBALB.BUN</code>).
 <li><a href='vars.html#8709D8'>_isCTRLKeyDown</a></li>
 <li><a href='vars.html#8A1CCC'>ptrCarData</a></li>
 <li><a href='vars.html#835BB8'>wcharLoadedProfileName</a></li>
-<li><a href='vars.html#83A9E0'>loadedProfileName</a></li>
-<li><a href='vars.html#850078'>someOLState</a></li>
+<li><a href='vars.html#83A9D0'>profileData</a>.<a href='structs.html#struc_ProfileData10'>player1</a></li>
+<li><a href='vars.html#83A9D0'>profileData</a>.<a href='structs.html#struc_ProfileData156A8'>someOLState</a></li>
 <li><a href='vars.html#8654A4'>_??gameStateSomething</a></li>
 <li><a href='vars.html#89E7E6'>isInPerformanceTuning</a></li>
 <li><a href='funcs.html#4035D0'>LoadAIStuff</a></li>

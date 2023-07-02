@@ -291,7 +291,7 @@ for example the data of section with magic {80034147} contains more sections, wi
 - 835784
 - 835840
 - 8358D0
-- 8641F4
+- 83A9D0.29824
 - 8653A0
 - 865470
 - 86596C
@@ -692,7 +692,7 @@ of the main pool.
 - 827B60
 - 827B64
 - 827B68
-- 83AA1A
+- 83A9D0.4A
 - 431380
 - 4314E0
 - 431580
@@ -3520,7 +3520,7 @@ career yet.
 [865130] = 1000;                                                                                ||| ref
 // ^ used when starting a new career from a profile that
 // was loaded from the profile menu
-if (![85AD40.873C])  {                                                                          ||| ref
+if (![83A9D0.20370.873C])  {                                                                    ||| ref
 	if ([500F90]() == 0)  {                                                                 ||| ref
 		[500F80](1000);                                                                 ||| ref
 		// ^ This only has an effect when the profile was
@@ -3611,10 +3611,17 @@ void __thiscall {575770}({struct CheatScreenData} *this)                        
 - 865130
 - 865930
 - 575770
+- 576000
 - 576050
 - 576090
 - 5760A0
 - 579CB0
+- 579D30
+- 579D60
+- 579D70
+- 579D80
+- 579D90
+- 579DA0
 - 57B8B0
 .popmode symbols
 
@@ -3795,7 +3802,7 @@ which is in file {GLOBAL/GLOBALB.BUN}).                                         
 - 83632C
 - 838450
 - 838454
-- 85AD40.5D20
+- 83A9D0.20370.5D20
 - 4976B0
 - 497760
 - 4977C0
@@ -3840,7 +3847,7 @@ which is in file {GLOBAL/GLOBALB.BUN}).                                         
 - 83648C
 - 83840C
 - 838428
-- 85AD40
+- 83A9D0.20370
 - 495D30
 - 500F90
 - 500180
@@ -3917,8 +3924,8 @@ which is in file {GLOBAL/GLOBALB.BUN}).                                         
 - 8709D8
 - 8A1CCC
 - 835BB8
-- 83A9E0
-- 850078
+- 83A9D0.10
+- 83A9D0.156A8
 - 8654A4
 - 89E7E6
 - 4035D0
