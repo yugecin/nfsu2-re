@@ -259,7 +259,7 @@ pre.ida span.hi {
 <a href='cheatsheet.html'>cheatsheet</a></nav>
 </header>
 <div class='struc'>
-<h2>Structs (470)</h2>
+<h2>Structs (471)</h2>
 <ul>
 <li><a href='#struc__COMMCONFIG'>_COMMCONFIG</a></li>
 <li><a href='#struc__COMMTIMEOUTS'>_COMMTIMEOUTS</a></li>
@@ -350,6 +350,7 @@ pre.ida span.hi {
 <li><a href='#struc_CareerStatsDvdCover'>CareerStatsDvdCover</a></li>
 <li><a href='#struc_CareerStatsRegionDvdCovers'>CareerStatsRegionDvdCovers</a></li>
 <li><a href='#struc_CareerWorldMapFNGObject'>CareerWorldMapFNGObject</a> <em></em></li>
+<li><a href='#struc_CarPreset'>CarPreset</a></li>
 <li><a href='#struc_CCarHeadlightsPosition'>CCarHeadlightsPosition</a></li>
 <li><a href='#struc_CheatData'>CheatData</a></li>
 <li><a href='#struc_CheatScreenData'>CheatScreenData</a> <em></em></li>
@@ -2154,6 +2155,16 @@ size 50 (see 512AC9)
 <li><pre><i>4EE690</i> <a href='funcs.html#4EE690' title='CareerWorldMapFNGObject::ctor'>CareerWorldMapFNGObject::ctor</a></pre></li>
 <li><pre><i>4E0F60</i> <a href='funcs.html#4E0F60' title='CareerWorldMapFNGObject::MessageHandler'>CareerWorldMapFNGObject::MessageHandler</a></pre></li>
 </ul>
+<div id='struc_CarPreset'>struct <h3>CarPreset</h3> { <i>/*4 members, size 338h*/</i>
+<span class='mm'>/**sentinel node is <a href='vars.html#8A31E4'>carPresets</a>*/</span>
+<i>/*0*/	</i><a href='#struc_ObjectLink'>struct ObjectLink</a> link;
+<span class='mm'>/**like <a href='structs.html#struc_Car'>struct Car</a>.<a href='structs.html#struc_Car0'>name0</a>*/</span>
+<i>/*8*/	</i>char modelName[32];
+<i id='struc_CarPreset28'></i><span class='mm'>/**DDAY_PLAYER_CAR, DEMO_AI_300GT_BLUE, sponsor cars, ...*/</span>
+<i>/*28*/	</i>char name[32];
+<i>/*48*/	char _pad48[0x2EF];</i>
+<i>/*337*/	</i>char __end <u></u>;
+};</div>
 <div id='struc_CCarHeadlightsPosition'>struct <h3>CCarHeadlightsPosition</h3> { <i>/*19 members, size 150h*/</i>
 <i>/*0*/	char _pad0[0x30];</i>
 <i>/*30*/	</i>int fX0 <u></u>;
@@ -3610,7 +3621,11 @@ TODO please reconfirm*/</span>
 <span class='mm'>/**not only a destructor!*/</span>
 <i>/*0*/	</i><a href='structs.html#struc_InventoryCar$vtable'>struct InventoryCar$vtable</a> *vtable;
 <i>/*4*/	int field_4;</i>
-<span class='mm'>/**STOCK_PEUGEOT when stock, 0 when unused tuned, CAREER_SLOT_%d when career, SPONSOR_SNOOP_DOGG when sponsor*/</span>
+<span class='mm'>/**STOCK_PEUGEOT when stock,
+0 when unused tuned,
+CAREER_SLOT_%d when career,
+SPONSOR_SNOOP_DOGG when sponsor
+sometimes this is also just hash of the car name? I wanna cry*/</span>
 <i>/*8*/	</i>int slotHash <u></u>;
 <i>/*C*/	int floatField_C;</i>
 <span class='mm'>/**sponsorcar: 1 after hash is assigned, career: inited to 1 | slotHasCar or something?*/</span>
@@ -4627,6 +4642,7 @@ for money: hash of sound effect to play!?*/</span>
 <p></div>
 <p><strong>Methods:</strong></p>
 <ul>
+<li><pre><i>4DEF30</i> <a href='funcs.html#4DEF30' title='void __thiscall ObjectLink__dtor(void *this);'>ObjectLink::dtor</a></pre></li>
 <li><pre><i>43BE60</i> <a href='funcs.html#43BE60' title='struct ObjectLink *__thiscall ObjectLink__GetObjectAtIndex(struct ObjectLink *this, int index);'>ObjectLink::GetObjectAtIndex</a></pre></li>
 </ul>
 <div id='struc_OL138'>struct <h3>OL138</h3> { <i>/*4 members, size 14h*/</i>
@@ -6626,8 +6642,8 @@ usually a stock car, often STOCK_RX8. some kind of "default car to pick"*/</span
 };</div>
 <div id='struc_SponsorCar'>struct <h3>SponsorCar</h3> { <i>/*2 members, size 1Ch*/</i> <em></em>
 <i>/*0*/	</i><a href='#struc_InventoryCar'>struct InventoryCar</a> __parent;
-<span class='mm'>/**set to hash of SNOOP_DOGG etc*/</span>
-<i>/*18*/	</i>unsigned int sponsorHash;
+<span class='mm'>/**set to hash of SNOOP_DOGG etc, matches <a href='structs.html#struc_CarPreset28'>name</a>*/</span>
+<i>/*18*/	</i>unsigned int carPresetHash;
 };</div>
 <p><strong>Methods:</strong></p>
 <ul>

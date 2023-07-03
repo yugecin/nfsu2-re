@@ -5,6 +5,8 @@
 
 #undef PRINT_3414A
 #undef PRINT_LANGUAGE_STRINGS
+#undef PRINT_30220_CARPRESETS
+
 #define LINE_INDENT "    "
 
 static
@@ -109,6 +111,33 @@ void read_language_strings(FILE *in, int size)
 #endif
 }
 
+static
+void read_30220_carpresets(FILE *in, int size)
+{
+#if defined PRINT_30220_CARPRESETS
+	struct {
+		void *link[2];
+		char modelName[32];
+		char name[32];
+	} *bin;
+
+	char *data;
+
+	data = malloc(size);
+	fread(data, size, 1, in);
+	bin = (void*) data;
+	while (size > 0) {
+		printf("30220 entry: %s model: %s\n", bin->name, bin->modelName);
+		bin = (void*) ((int) bin + 0x338);
+		size -= 0x338;
+	}
+	printf("30220 size left is %d\n", size);
+	free(data);
+#else
+	fseek(in, size, SEEK_CUR);
+#endif
+}
+
 int read_sections(FILE *in, int max_offset, char *lineprefix)
 {
 	struct {
@@ -142,6 +171,9 @@ int read_sections(FILE *in, int max_offset, char *lineprefix)
 			break;
 		case 0x3414A:
 			read_3414A_stuff(in, section_header.size);
+			break;
+		case 0x30220:
+			read_30220_carpresets(in, section_header.size);
 			break;
 		default:
 			if (section_header.magic & 0x80000000) {

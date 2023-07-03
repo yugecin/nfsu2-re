@@ -259,7 +259,7 @@ pre.ida span.hi {
 <a href='cheatsheet.html'>cheatsheet</a></nav>
 </header>
 <div class='func'>
-<h2>Functions (1553)</h2>
+<h2>Functions (1556)</h2>
 <ul>
 <li><a href='#588630'>??ConnectToEAServer</a></li>
 <li><a href='#7789D9'>??ConnectToEAServer_SEH</a></li>
@@ -297,6 +297,7 @@ pre.ida span.hi {
 <li><a href='#51CD40'>AssignSomethingUIImplField1C</a></li>
 <li><a href='#51CE80'>AssignSomethingUIImplField1E</a></li>
 <li><a href='#75C5ED'>atexit</a></li>
+<li><a href='#782860'>atexit_destroy_carPresets</a></li>
 <li><a href='#75BC24'>bind</a></li>
 <li><a href='#74A380'>BindWrapper</a></li>
 <li><a href='#4FFDE0'>BinSection34A11_0::4FFDE0</a></li>
@@ -733,6 +734,7 @@ pre.ida span.hi {
 <li><a href='#6FAF1E'>FindFirstFileAWrapper</a></li>
 <li><a href='#51BD10'>FindFNGInEntriesOfSomethingUI</a></li>
 <li><a href='#4FFC50'>FindMarkerTypeD_E_FWithHash</a></li>
+<li><a href='#61C460'>FindPresetCar</a></li>
 <li><a href='#5798F0'>FindSomeExistingPoolEntryWithFilename</a></li>
 <li><a href='#50CE30'>FindTopPackage</a></li>
 <li><a href='#5379C0'>FindUIElementByHash</a></li>
@@ -1212,6 +1214,7 @@ pre.ida span.hi {
 <li><a href='#6E2421'>nullsub_17</a></li>
 <li><a href='#4022C0'>nullsub_1_maybe_console_check_enabled?</a></li>
 <li><a href='#4031C0'>nullsub_3</a></li>
+<li><a href='#4DEF30'>ObjectLink::dtor</a></li>
 <li><a href='#43BE60'>ObjectLink::GetObjectAtIndex</a></li>
 <li><a href='#4B9690'>OL836370::ContinueToNextFNG</a></li>
 <li><a href='#4E3960'>OL836370::ctor</a></li>
@@ -1892,6 +1895,7 @@ RETURN TYPE IS PROBABLY _NOT_ FILESYSTEMPOOLENTRY
 <p><a class="ext" href="https://docs.microsoft.com/en-us/cpp/c-runtime-library/reference/atexit?view=msvc-160">https://docs.microsoft.com/en-us/cpp/c-runtime-library/reference/atexit?view=msvc-160</a>
 </p><p>We sure arg1 is a __thiscall func ptr?
 <p></div>
+<div id='782860'><i>782860</i> void __cdecl <h3>atexit_destroy_carPresets</h3>();</div>
 <div id='75BC24'><i>75BC24</i> int __stdcall <h3>bind</h3>(SOCKET s, const <a href='structs.html#struc_sockaddr'>struct sockaddr</a> *name, int namelen);</div>
 <div id='74A380'><i>74A380</i> int __cdecl <h3>BindWrapper</h3>(<a href='structs.html#struc_SocketWrapper'>struct SocketWrapper</a> *socketWrapper, int name, int namelen);</div>
 <div class='mm'>
@@ -2790,6 +2794,44 @@ return NULL;
 <div class='mm'>
 <p>finds any marker of type <a href='enums.html#enu_MARKER_TYPED'>MARKER_TYPE_D</a>/<a href='enums.html#enu_MARKER_TYPEE'>MARKER_TYPE_E</a>/<a href='enums.html#enu_MARKER_TYPEF'>MARKER_TYPE_F</a> with matching <a href='structs.html#struc_Marker30'>hash</a>
 <p></div>
+<div id='61C460'><i>61C460</i> <a href='structs.html#struc_CarPreset'>struct CarPreset</a> *__cdecl <h3>FindPresetCar</h3>(unsigned int nameHash);</div>
+<div class='mm'>
+<p>preset cars of my game:
+</p><pre>
+DDAY_PLAYER_CAR model: 350Z
+DDAY_PLAYER_CAR_OLD_RX8 model: RX8
+DDAY_PLAYER_CAR_OLD model: LANCEREVO8
+DEMO_AI_IMPREZAWRX_WHITE model: IMPREZAWRX
+DEMO_AI_IMPREZAWRX_BLUE model: IMPREZAWRX
+DEMO_AI_300GT_ORANGE model: 3000GT
+DEMO_AI_300GT_BLUE model: 3000GT
+DEMO_AI_350Z_SILVER model: 350Z
+DEMO_AI_350Z_BROWN model: 350Z
+TT_AI_PRESET_1 model: TT
+G35_AI_PRESET_1 model: G35
+LANCEREVO8_AI_PRESET_1 model: LANCEREVO8
+350Z_AI_PRESET_1 model: 350Z
+CALEB_GTO model: GTO
+NIKKI_MUSTANGGT model: MUSTANGGT
+NIGEL_3000GT model: 3000GT
+TOM_G35 model: G35
+AL_RX8 model: RX8
+MARCUS_CELICA model: CELICA
+SCOTT_TT model: TT
+DEMO_PRESET_1 model: 350Z
+DEMO_PRESET_2 model: 350Z
+DEMO_PRESET_3 model: 350Z
+DEMO_PRESET_4 model: 350Z
+CHINGY model: NAVIGATOR
+CAPONE model: HUMMER
+D3 model: ECLIPSE
+SHINESTREET model: IS300
+DAVIDCHOE model: COROLLA
+JAPANTUNING model: G35
+SNOOP_DOGG model: ESCALADE
+THE_DOORS model: GTO
+</pre>
+</div>
 <div id='5798F0'><i>5798F0</i> int __cdecl <h3>FindSomeExistingPoolEntryWithFilename</h3>(int filename);</div>
 <div class='mm'>
 <p>what type of pool entry is this?
@@ -3688,6 +3730,7 @@ sometimes also string passed: 600976
 <div class='mm'>
 <p>pops 1 arg
 <p></div>
+<div id='4DEF30'><i>4DEF30</i> void __thiscall <h3><a href='structs.html#struc_ObjectLink'>ObjectLink</a>::dtor</h3>(void *this);</div>
 <div id='43BE60'><i>43BE60</i> <a href='structs.html#struc_ObjectLink'>struct ObjectLink</a> *__thiscall <h3><a href='structs.html#struc_ObjectLink'>ObjectLink</a>::GetObjectAtIndex</h3>(<a href='structs.html#struc_ObjectLink'>struct ObjectLink</a> *this, int index);</div>
 <div id='4B9690'><i>4B9690</i> void __thiscall <h3><a href='structs.html#struc_OL836370'>OL836370</a>::ContinueToNextFNG</h3>(<a href='structs.html#struc_OL836370'>struct OL836370</a> *this);</div>
 <div id='4E3960'><i>4E3960</i> <h3><a href='structs.html#struc_OL836370'>OL836370</a>::ctor</h3></div>
