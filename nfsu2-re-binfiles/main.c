@@ -6,6 +6,7 @@
 #undef PRINT_3414A
 #undef PRINT_LANGUAGE_STRINGS
 #undef PRINT_30220_CARPRESETS
+#undef PRINT_34A19_CAREERSPONSORS
 
 #define LINE_INDENT "    "
 
@@ -119,19 +120,60 @@ void read_30220_carpresets(FILE *in, int size)
 		void *link[2];
 		char modelName[32];
 		char name[32];
-	} *bin;
+	} *preset;
 
 	char *data;
 
 	data = malloc(size);
 	fread(data, size, 1, in);
-	bin = (void*) data;
+	preset = (void*) data;
 	while (size > 0) {
-		printf("30220 entry: %s model: %s\n", bin->name, bin->modelName);
-		bin = (void*) ((int) bin + 0x338);
+		printf("30220 entry: %s model: %s\n", preset->name, preset->modelName);
+		preset = (void*) ((int) preset + 0x338);
 		size -= 0x338;
 	}
 	printf("30220 size left is %d\n", size);
+	free(data);
+#else
+	fseek(in, size, SEEK_CUR);
+#endif
+}
+
+static
+void read_34A19_careersponsors(FILE *in, int size)
+{
+#if defined PRINT_34A19_CAREERSPONSORS
+	struct { /*8 members, size 10h*/ 
+	/**offset in string table careerStringPool838428, which will point to something like STREETGLOW,
+	which is then used to get name and info like SPONSOR_%S SPONSOR_INFO_%S*/
+	/*0*/	short sponsorNameStrpoolOffset;
+	/*2*/	short bankPerRaceWon;
+	/*4*/	char field_4;
+	/*5*/	char field_5;
+	/*6*/	char field_6;
+	/*7*/	char field_7;
+	/*8*/	char _pad8[0x4];
+	/**money amount*/
+	/*C*/	short signingBonus;
+	/**this sponsor will only be available when player's average reputation per race in the
+	previous stage was equal or higher than this*/
+	/*E*/	short requiredAverageReputation;
+	} *sponsor;
+
+	char *data;
+
+	data = malloc(size);
+	fread(data, size, 1, in);
+	sponsor = (void*) data;
+	while (size > 0) {
+		printf("careersponsor:\n");
+		printf("  bankPerRaceWon %d\n", sponsor->bankPerRaceWon);
+		printf("  signingBonus %d\n", sponsor->signingBonus);
+		printf("  requiredAverageReputation %d\n", sponsor->requiredAverageReputation);
+		sponsor = (void*) ((int) sponsor + 0x10);
+		size -= 0x10;
+	}
+	printf("34A19 size left is %d\n", size);
 	free(data);
 #else
 	fseek(in, size, SEEK_CUR);
@@ -174,6 +216,9 @@ int read_sections(FILE *in, int max_offset, char *lineprefix)
 			break;
 		case 0x30220:
 			read_30220_carpresets(in, section_header.size);
+			break;
+		case 0x34A19:
+			read_34A19_careersponsors(in, section_header.size);
 			break;
 		default:
 			if (section_header.magic & 0x80000000) {

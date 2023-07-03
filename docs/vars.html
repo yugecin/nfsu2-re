@@ -259,7 +259,7 @@ pre.ida span.hi {
 <a href='cheatsheet.html'>cheatsheet</a></nav>
 </header>
 <div class='var'>
-<h2>Variables (941)</h2>
+<h2>Variables (959)</h2>
 <ul>
 <li><a href='#5CCFFC'>WndProcMsgJumpTable</a></li>
 <li><a href='#5CD010'>WndProcMsgJumpTableTable</a></li>
@@ -919,6 +919,7 @@ pre.ida span.hi {
 <li><a href='#836498'>struct836498</a></li>
 <li><a href='#836520'>currentFNGName</a></li>
 <li><a href='#837B60'>languageString</a></li>
+<li><a href='#837B90'>bin34A15_C</a></li>
 <li><a href='#837FE0'>soundIdBanks</a></li>
 <li><a href='#8383A4'>struct8383A4</a></li>
 <li><a href='#8383AC'>??isGameLoading</a></li>
@@ -928,17 +929,32 @@ pre.ida span.hi {
 <li><a href='#8383D0'>loadedLanguage</a></li>
 <li><a href='#8383D8'>languageTable</a></li>
 <li><a href='#8383DC'>languageConversionTable</a></li>
-<li><a href='#8383E0'>loadedBinSection34A11</a></li>
-<li><a href='#8383E4'>numEntriesInBinSection34A11Field0</a></li>
-<li><a href='#83840C'>ptr83840C</a></li>
+<li><a href='#8383E0'>bin34A11</a></li>
+<li><a href='#8383E4'>num34A11</a></li>
+<li><a href='#8383F0'>bin34A12</a></li>
+<li><a href='#8383F4'>numBin34A12</a></li>
+<li><a href='#8383F8'>bin34A15</a></li>
+<li><a href='#8383FC'>numBin34A15</a></li>
+<li><a href='#838400'>bin34A14</a></li>
+<li><a href='#838404'>numBin34A14</a></li>
+<li><a href='#838408'>numBin34A16</a></li>
+<li><a href='#83840C'>bin34A16</a></li>
 <li><a href='#838410'>numCareerSponsors</a></li>
 <li><a href='#838414'>careerSponsors</a></li>
 <li><a href='#838418'>numCareerStageSettingsEntries</a></li>
 <li><a href='#83841C'>careerStageSettingsEntries</a></li>
-<li><a href='#838428'>careerStringPool838428</a></li>
-<li><a href='#838430'>sound</a></li>
+<li><a href='#838420'>numBin34A1B</a></li>
+<li><a href='#838424'>bin34A1B</a></li>
+<li><a href='#838428'>careerStringPool</a></li>
+<li><a href='#83842C'>careerStringPoolSize</a></li>
+<li><a href='#838430'>bin34A1E</a></li>
+<li><a href='#838434'>numBin34A1E</a></li>
+<li><a href='#838438'>bin34A1F</a></li>
+<li><a href='#83843C'>numBin34A1F</a></li>
 <li><a href='#838450'>numSmsDatas</a></li>
 <li><a href='#838454'>smsDatas</a></li>
+<li><a href='#83845C'>bin34A1C</a></li>
+<li><a href='#838460'>numBin34A1C</a></li>
 <li><a href='#838464'>showAllCarsRegardlessOfUnlockStatusAndRegion</a></li>
 <li><a href='#838470'>showTrafficCarsInMenus</a></li>
 <li><a href='#838478'>object838478</a></li>
@@ -990,6 +1006,8 @@ pre.ida span.hi {
 <li><a href='#86A388'>network86A388</a></li>
 <li><a href='#86A450'>network86A388Inited</a></li>
 <li><a href='#86A858'>ol86A858</a></li>
+<li><a href='#86B340'>bin34A1A</a></li>
+<li><a href='#86B344'>numBin34A1A</a></li>
 <li><a href='#86B4AC'>binSectionHandlerMagicMapEntry34027</a></li>
 <li><a href='#86B580'>binSectionHandlerMagicMapEntry34026</a></li>
 <li><a href='#86B790'>_clientWindowCoordinates</a></li>
@@ -2249,6 +2267,7 @@ then esc goes to the category of the msg.
 <div id='836498'><i>836498</i> <a href='structs.html#struc_Struct836498'>struct Struct836498</a> <h3>struct836498</h3></div>
 <div id='836520'><i>836520</i> int <h3>currentFNGName</h3> <u></u></div>
 <div id='837B60'><i>837B60</i> int <h3>languageString</h3> <u></u></div>
+<div id='837B90'><i>837B90</i> int <h3>bin34A15_C</h3>[68] <u></u></div>
 <div id='837FE0'><i>837FE0</i> <a href='structs.html#struc_SoundIdBanks'>struct SoundIdBanks</a> <h3>soundIdBanks</h3></div>
 <div id='8383A4'><i>8383A4</i> int <h3>struct8383A4</h3> <u></u></div>
 <div id='8383AC'><i>8383AC</i> int <h3>??isGameLoading</h3> <u></u></div>
@@ -2263,21 +2282,48 @@ It has one XREF, surrounded by some language stuff? TODO
 <div id='8383D0'><i>8383D0</i> int <h3>loadedLanguage</h3> <u></u></div>
 <div id='8383D8'><i>8383D8</i> int <h3>languageTable</h3> <u></u></div>
 <div id='8383DC'><i>8383DC</i> int <h3>languageConversionTable</h3> <u></u></div>
-<div id='8383E0'><i>8383E0</i> int <h3>loadedBinSection34A11</h3> <u></u></div>
-<div id='8383E4'><i>8383E4</i> int <h3>numEntriesInBinSection34A11Field0</h3> <u></u></div>
+<div id='8383E0'><i>8383E0</i> int <h3>bin34A11</h3> <u></u></div>
 <div class='mm'>
-<p>num entries in <a href='vars.html#8383E0'>loadedBinSection34A11</a>-&gt;<a href='structs.html#struc_BinSection34A110'>field_0</a>
+<p>entrytype <a href='structs.html#struc_Bin34A11'>struct Bin34A11</a>, num entries <a href='vars.html#8383E4'>num34A11</a>
 <p></div>
+<div id='8383E4'><i>8383E4</i> int <h3>num34A11</h3> <u></u></div>
 <div class='mm'>
-<p>the result of: (binsectionsize * 0xF0F0F0F1).hi32 &gt;&gt; 7
+<p>num entries in <a href='vars.html#8383E0'>bin34A11</a>
 <p></div>
-<div id='83840C'><i>83840C</i> int <h3>ptr83840C</h3> <u></u></div>
+<div id='8383F0'><i>8383F0</i> int <h3>bin34A12</h3> <u></u></div>
+<div class='mm'>
+<p>entrytype <a href='structs.html#struc_Bin34A12'>struct Bin34A12</a>, num entries <a href='vars.html#8383F4'>numBin34A12</a>
+<p></div>
+<div id='8383F4'><i>8383F4</i> int <h3>numBin34A12</h3> <u></u></div>
+<div class='mm'>
+<p>num entries in <a href='vars.html#8383F0'>bin34A12</a>
+<p></div>
+<div id='8383F8'><i>8383F8</i> int <h3>bin34A15</h3> <u></u></div>
+<div class='mm'>
+<p>entrytype <a href='structs.html#struc_Bin34A15'>struct Bin34A15</a>, num entries <a href='vars.html#8383FC'>numBin34A15</a>
+<p></div>
+<div id='8383FC'><i>8383FC</i> int <h3>numBin34A15</h3> <u></u></div>
+<div class='mm'>
+<p>num entries in <a href='vars.html#8383FC'>numBin34A15</a>
+<p></div>
+<div id='838400'><i>838400</i> int <h3>bin34A14</h3> <u></u></div>
+<div class='mm'>
+<p>entrytype <a href='structs.html#struc_Bin34A14'>struct Bin34A14</a>, num entries <a href='vars.html#838404'>numBin34A14</a>
+<p></div>
+<div id='838404'><i>838404</i> int <h3>numBin34A14</h3> <u></u></div>
+<div class='mm'>
+<p>num entries in <a href='vars.html#838400'>bin34A14</a>
+<p></div>
+<div id='838408'><i>838408</i> int <h3>numBin34A16</h3> <u></u></div>
+<div class='mm'>
+<p>num entries in <a href='vars.html#83840C'>bin34A16</a>
+<p></div>
+<div id='83840C'><i>83840C</i> int <h3>bin34A16</h3> <u></u></div>
 <div class='mm'>
 <p>Pointer to some struct with DVD/SHOW related stuff.
 <p></div>
 <div class='mm'>
-<p>ptr to something DVD/SHOW related
-element size 40? see 5134EC
+<p>entrytype <a href='structs.html#struc_Bin34A16'>struct Bin34A16</a>, num entries <a href='vars.html#838408'>numBin34A16</a>. DVD/Show related
 <p></div>
 <div id='838410'><i>838410</i> int <h3>numCareerSponsors</h3> <u></u></div>
 <div class='mm'>
@@ -2285,7 +2331,7 @@ element size 40? see 5134EC
 <p></div>
 <div id='838414'><i>838414</i> int <h3>careerSponsors</h3> <u></u></div>
 <div class='mm'>
-<p><a href='vars.html#838410'>numCareerSponsors</a> num entries
+<p><a href='vars.html#838410'>numCareerSponsors</a> num entries, entries of <a href='structs.html#struc_CareerSponsor'>struct CareerSponsor</a>
 bin section 34A19
 <p></div>
 <div id='838418'><i>838418</i> int <h3>numCareerStageSettingsEntries</h3> <u></u></div>
@@ -2297,11 +2343,38 @@ bin section 34A19
 <p><a href='vars.html#838418'>numCareerStageSettingsEntries</a> num entries
 bin section 34A18, size 50h, see 5001B8
 <p></div>
-<div id='838428'><i>838428</i> int <h3>careerStringPool838428</h3> <u></u></div>
+<div id='838420'><i>838420</i> int <h3>numBin34A1B</h3> <u></u></div>
 <div class='mm'>
-<p>string table, used to form a sponsorship language key to hash and load
+<p>num entries in <a href='vars.html#838424'>bin34A1B</a>
 <p></div>
-<div id='838430'><i>838430</i> int <h3>sound</h3> <u></u></div>
+<div id='838424'><i>838424</i> int <h3>bin34A1B</h3> <u></u></div>
+<div class='mm'>
+<p>entrytype <a href='structs.html#struc_Bin34A1B'>struct Bin34A1B</a>, num entries <a href='vars.html#838420'>numBin34A1B</a>
+<p></div>
+<div id='838428'><i>838428</i> int <h3>careerStringPool</h3> <u></u></div>
+<div class='mm'>
+<p>bunch of zero term strings after each other. Other data will have an offset and sum it to this pointer, to get the actual required string
+<p></div>
+<div id='83842C'><i>83842C</i> int <h3>careerStringPoolSize</h3> <u></u></div>
+<div class='mm'>
+<p>size of data in <a href='vars.html#838428'>careerStringPool</a>
+<p></div>
+<div id='838430'><i>838430</i> int <h3>bin34A1E</h3> <u></u></div>
+<div class='mm'>
+<p>entrytype <a href='structs.html#struc_Bin34A1E'>struct Bin34A1E</a>, <a href='vars.html#838434'>numBin34A1E</a> amount of entries
+<p></div>
+<div id='838434'><i>838434</i> int <h3>numBin34A1E</h3> <u></u></div>
+<div class='mm'>
+<p>num entries in <a href='vars.html#838430'>bin34A1E</a>
+<p></div>
+<div id='838438'><i>838438</i> int <h3>bin34A1F</h3> <u></u></div>
+<div class='mm'>
+<p>entrytype <a href='structs.html#struc_Bin34A1F'>struct Bin34A1F</a>, <a href='vars.html#83843C'>numBin34A1F</a> amount of entries entries
+<p></div>
+<div id='83843C'><i>83843C</i> int <h3>numBin34A1F</h3> <u></u></div>
+<div class='mm'>
+<p>num entries in <a href='vars.html#838438'>bin34A1F</a>
+<p></div>
 <div id='838450'><i>838450</i> int <h3>numSmsDatas</h3> <u></u></div>
 <div class='mm'>
 <p>Number of stuffs in <a href='vars.html#838454'>smsDatas</a>.
@@ -2310,6 +2383,14 @@ Loaded in <a href='funcs.html#5012F0'>StoreSmsDatas</a>.
 <div id='838454'><i>838454</i> int <h3>smsDatas</h3> <u></u></div>
 <div class='mm'>
 <p>Loaded in <a href='funcs.html#5012F0'>StoreSmsDatas</a>.
+<p></div>
+<div id='83845C'><i>83845C</i> int <h3>bin34A1C</h3> <u></u></div>
+<div class='mm'>
+<p>entrytype <a href='structs.html#struc_Bin34A1C'>struct Bin34A1C</a>, num entries <a href='vars.html#838460'>numBin34A1C</a>
+<p></div>
+<div id='838460'><i>838460</i> int <h3>numBin34A1C</h3> <u></u></div>
+<div class='mm'>
+<p>num entries in <a href='vars.html#83845C'>bin34A1C</a>
 <p></div>
 <div id='838464'><i>838464</i> char <h3>showAllCarsRegardlessOfUnlockStatusAndRegion</h3> <u></u></div>
 <div id='838470'><i>838470</i> int <h3>showTrafficCarsInMenus</h3> <u></u></div>
@@ -2429,6 +2510,14 @@ interesting when setting that var to 5 (same as 0, 1, 2) while in freeroam (shou
 <div id='86A388'><i>86A388</i> <a href='structs.html#struc_Network86A388'>struct Network86A388</a> <h3>network86A388</h3></div>
 <div id='86A450'><i>86A450</i> int <h3>network86A388Inited</h3> <u></u></div>
 <div id='86A858'><i>86A858</i> <a href='structs.html#struc_OL86A858'>struct OL86A858</a> <h3>ol86A858</h3></div>
+<div id='86B340'><i>86B340</i> int <h3>bin34A1A</h3> <u></u></div>
+<div class='mm'>
+<p>entrytype <a href='structs.html#struc_Bin34A1A'>struct Bin34A1A</a>, num entries <a href='vars.html#86B344'>numBin34A1A</a>
+<p></div>
+<div id='86B344'><i>86B344</i> int <h3>numBin34A1A</h3> <u></u></div>
+<div class='mm'>
+<p>num entries in <a href='vars.html#86B340'>bin34A1A</a>
+<p></div>
 <div id='86B4AC'><i>86B4AC</i> <a href='structs.html#struc_BinSectionMagicMapEntry'>struct BinSectionMagicMapEntry</a> <h3>binSectionHandlerMagicMapEntry34027</h3></div>
 <div id='86B580'><i>86B580</i> <a href='structs.html#struc_BinSectionMagicMapEntry'>struct BinSectionMagicMapEntry</a> <h3>binSectionHandlerMagicMapEntry34026</h3></div>
 <div id='86B790'><i>86B790</i> <a href='structs.html#struc_tagRECT'>struct tagRECT</a> <h3>_clientWindowCoordinates</h3></div>

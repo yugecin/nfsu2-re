@@ -259,7 +259,7 @@ pre.ida span.hi {
 <a href='cheatsheet.html'>cheatsheet</a></nav>
 </header>
 <div class='func'>
-<h2>Functions (1556)</h2>
+<h2>Functions (1562)</h2>
 <ul>
 <li><a href='#588630'>??ConnectToEAServer</a></li>
 <li><a href='#7789D9'>??ConnectToEAServer_SEH</a></li>
@@ -298,10 +298,10 @@ pre.ida span.hi {
 <li><a href='#51CE80'>AssignSomethingUIImplField1E</a></li>
 <li><a href='#75C5ED'>atexit</a></li>
 <li><a href='#782860'>atexit_destroy_carPresets</a></li>
+<li><a href='#4FFDE0'>Bin34A11::4FFDE0</a></li>
+<li><a href='#4AE8B0'>Bin34A11::Is_34_3_And_D_1</a></li>
 <li><a href='#75BC24'>bind</a></li>
 <li><a href='#74A380'>BindWrapper</a></li>
-<li><a href='#4FFDE0'>BinSection34A11_0::4FFDE0</a></li>
-<li><a href='#4AE8B0'>BinSection34A11_0::Is_34_3_And_D_1</a></li>
 <li><a href='#43C0B0'>BinSectionMagicMapEntry::RegisterBinSectionHandler</a></li>
 <li><a href='#4D9580'>Bootflow::ctor</a></li>
 <li><a href='#4D9700'>Bootflow::dtor</a></li>
@@ -320,6 +320,7 @@ pre.ida span.hi {
 <li><a href='#610170'>Car::GetManufacturerName</a></li>
 <li><a href='#503590'>CarCollection::503590</a></li>
 <li><a href='#534850'>CarCollection::534850</a></li>
+<li><a href='#5348E0'>CarCollection::5348E0</a></li>
 <li><a href='#52A8A0'>CarCollection::Clear</a></li>
 <li><a href='#516480'>CarCollection::ClearCareerCarData</a></li>
 <li><a href='#52A7F0'>CarCollection::ClearOnlineCarData</a></li>
@@ -490,6 +491,8 @@ pre.ida span.hi {
 <li><a href='#503DB0'>CareerCar434::503DB0</a></li>
 <li><a href='#503E70'>CareerCar434::Init</a></li>
 <li><a href='#5037F0'>CareerCar::5037F0</a></li>
+<li><a href='#496160'>CareerCarLotFNGObject::496160</a></li>
+<li><a href='#4AFE00'>CareerCarLotFNGObject::4AFE00</a></li>
 <li><a href='#4EE1A0'>CareerCarLotFNGObject::4EE1A0</a></li>
 <li><a href='#496050'>CareerCarLotFNGObject::BuyCar</a></li>
 <li><a href='#495F70'>CareerCarLotFNGObject::CountAvailableInventorySlots</a></li>
@@ -1288,7 +1291,7 @@ pre.ida span.hi {
 <li><a href='#4E7540'>OLXMessageFNGObject::ctor</a></li>
 <li><a href='#4E77A0'>OLXMessageFNGObject::MessageHandler</a></li>
 <li><a href='#49B740'>OnLevelOfDetailChanged</a></li>
-<li><a href='#516B90'>OnlineCar::516B90</a></li>
+<li><a href='#516B90'>OnlineCareerCar::516B90</a></li>
 <li><a href='#525CF0'>OnlineCareerCar::ctor</a></li>
 <li><a href='#6F79AF'>OpenFileGetstruct8AD610LinkedListNodeForPath?</a></li>
 <li><a href='#5B7C40'>OpenPatchesWebsite</a></li>
@@ -1377,6 +1380,7 @@ pre.ida span.hi {
 <li><a href='#515AA0'>Player::Clear</a></li>
 <li><a href='#5344A0'>Player::ctor</a></li>
 <li><a href='#525CE0'>Player::dtor</a></li>
+<li><a href='#5026F0'>PlayerD4::5026F0</a></li>
 <li><a href='#515800'>PlayerD4::Clear</a></li>
 <li><a href='#52A220'>PlayerD4::ctor</a></li>
 <li><a href='#525CA0'>PlayerD4_100::ctor</a></li>
@@ -1644,6 +1648,8 @@ pre.ida span.hi {
 <li><a href='#503A60'>StockCar::GetCarNameHash</a></li>
 <li><a href='#503A80'>StockCar::vtableProcC</a></li>
 <li><a href='#742C60'>StopAllSocketsAndThread</a></li>
+<li><a href='#500000'>StoreBin34A15</a></li>
+<li><a href='#59AE20'>StoreBin34A1A</a></li>
 <li><a href='#512A70'>StoreCareerStageSettings</a></li>
 <li><a href='#5BE190'>StoreOptLightGlowSetToZero</a></li>
 <li><a href='#5012F0'>StoreSmsDatas</a></li>
@@ -1896,6 +1902,11 @@ RETURN TYPE IS PROBABLY _NOT_ FILESYSTEMPOOLENTRY
 </p><p>We sure arg1 is a __thiscall func ptr?
 <p></div>
 <div id='782860'><i>782860</i> void __cdecl <h3>atexit_destroy_carPresets</h3>();</div>
+<div id='4FFDE0'><i>4FFDE0</i> int __thiscall <h3><a href='structs.html#struc_Bin34A11'>Bin34A11</a>::4FFDE0</h3>(<a href='structs.html#struc_Bin34A11'>struct Bin34A11</a> *this, void *);</div>
+<div id='4AE8B0'><i>4AE8B0</i> int __thiscall <h3><a href='structs.html#struc_Bin34A11'>Bin34A11</a>::Is_34_3_And_D_1</h3>(<a href='structs.html#struc_Bin34A11'>struct Bin34A11</a> *this);</div>
+<div class='mm'>
+<p><code>return this-&gt;<a href='structs.html#struc_Bin34A1134'>field_34</a> == 3 &amp;&amp; this-&gt;<a href='structs.html#struc_Bin34A11D'>field_D</a> == 1;</code>
+<p></div>
 <div id='75BC24'><i>75BC24</i> int __stdcall <h3>bind</h3>(SOCKET s, const <a href='structs.html#struc_sockaddr'>struct sockaddr</a> *name, int namelen);</div>
 <div id='74A380'><i>74A380</i> int __cdecl <h3>BindWrapper</h3>(<a href='structs.html#struc_SocketWrapper'>struct SocketWrapper</a> *socketWrapper, int name, int namelen);</div>
 <div class='mm'>
@@ -1905,11 +1916,6 @@ RETURN TYPE IS PROBABLY _NOT_ FILESYSTEMPOOLENTRY
 -5 on <code>WSAENETUNREACH</code>/<code>WSAEHOSTDOWN</code>,
 -6 on <code>WSAECONNREFUSED</code>,
 -7 on other err.
-<p></div>
-<div id='4FFDE0'><i>4FFDE0</i> int __thiscall <h3><a href='structs.html#struc_BinSection34A11_0'>BinSection34A11_0</a>::4FFDE0</h3>(<a href='structs.html#struc_BinSection34A11_0'>struct BinSection34A11_0</a> *this, void *);</div>
-<div id='4AE8B0'><i>4AE8B0</i> int __thiscall <h3><a href='structs.html#struc_BinSection34A11_0'>BinSection34A11_0</a>::Is_34_3_And_D_1</h3>(<a href='structs.html#struc_BinSection34A11_0'>struct BinSection34A11_0</a> *this);</div>
-<div class='mm'>
-<p><code>return this-&gt;<a href='structs.html#struc_BinSection34A11_034'>field_34</a> == 3 &amp;&amp; this-&gt;<a href='structs.html#struc_BinSection34A11_0D'>field_D</a> == 1;</code>
 <p></div>
 <div id='43C0B0'><i>43C0B0</i> void __thiscall <h3><a href='structs.html#struc_BinSectionMagicMapEntry'>BinSectionMagicMapEntry</a>::RegisterBinSectionHandler</h3>(<a href='structs.html#struc_BinSectionMagicMapEntry'>struct BinSectionMagicMapEntry</a> *this, <a href='structs.html#struc_BinSectionHandler'>struct BinSectionHandler</a> handler);</div>
 <div class='mm'>
@@ -1941,6 +1947,10 @@ this-&gt;<a href='structs.html#struc_BinSectionMagicMapEntry0'>nextEntry</a> = <
 <div id='610170'><i>610170</i> char *__thiscall <h3><a href='structs.html#struc_Car'>Car</a>::GetManufacturerName</h3>(<a href='structs.html#struc_Car'>struct Car</a> *this);</div>
 <div id='503590'><i>503590</i> <h3><a href='structs.html#struc_CarCollection'>CarCollection</a>::503590</h3></div>
 <div id='534850'><i>534850</i> int __thiscall <h3><a href='structs.html#struc_CarCollection'>CarCollection</a>::534850</h3>(<a href='structs.html#struc_CarCollection'>struct CarCollection</a> *this, <a href='enums.html#enu_INVENTORY_CAR_FLAGS'>enum INVENTORY_CAR_FLAGS</a> flagsToCheck, int);</div>
+<div id='5348E0'><i>5348E0</i> void __thiscall <h3><a href='structs.html#struc_CarCollection'>CarCollection</a>::5348E0</h3>(<a href='structs.html#struc_CarCollection'>struct CarCollection</a> *this, int slotIndex, unsigned int stockCarHash);</div>
+<div class='mm'>
+<p>stockCarHash like STOCK_PEUGEOT
+<p></div>
 <div id='52A8A0'><i>52A8A0</i> void __thiscall <h3><a href='structs.html#struc_CarCollection'>CarCollection</a>::Clear</h3>(<a href='structs.html#struc_CarCollection'>struct CarCollection</a> *this, int someNumber);</div>
 <div id='516480'><i>516480</i> void __thiscall <h3><a href='structs.html#struc_CarCollection'>CarCollection</a>::ClearCareerCarData</h3>(<a href='structs.html#struc_CarCollection'>struct CarCollection</a> *this);</div>
 <div class='mm'>
@@ -1998,13 +2008,13 @@ this-&gt;<a href='structs.html#struc_BinSectionMagicMapEntry0'>nextEntry</a> = <
 <div id='637190'><i>637190</i> int __thiscall <h3><a href='structs.html#struc_Career4230_10'>Career4230_10</a>::637190</h3>(<a href='structs.html#struc_Career4230_10'>struct Career4230_10</a> *this);</div>
 <div id='502420'><i>502420</i> int __thiscall <h3><a href='structs.html#struc_Career713C'>Career713C</a>::502420</h3>(<a href='structs.html#struc_Career713C'>struct Career713C</a> *this);</div>
 <div id='534290'><i>534290</i> int __thiscall <h3><a href='structs.html#struc_Career713C'>Career713C</a>::534290</h3>(<a href='structs.html#struc_Career713C'>struct Career713C</a> *this);</div>
-<div id='5007A0'><i>5007A0</i> void __thiscall <h3><a href='structs.html#struc_Career7148'>Career7148</a>::5007A0</h3>(<a href='structs.html#struc_Career7148'>struct Career7148</a> *this, <a href='structs.html#struc_BinSection34A11_0'>struct BinSection34A11_0</a> *);</div>
+<div id='5007A0'><i>5007A0</i> void __thiscall <h3><a href='structs.html#struc_Career7148'>Career7148</a>::5007A0</h3>(<a href='structs.html#struc_Career7148'>struct Career7148</a> *this, <a href='structs.html#struc_Bin34A11'>struct Bin34A11</a> *);</div>
 <div id='5135A0'><i>5135A0</i> int __thiscall <h3><a href='structs.html#struc_Career7148'>Career7148</a>::5135A0</h3>(<a href='structs.html#struc_Career7148'>struct Career7148</a> *this, int);</div>
-<div id='513600'><i>513600</i> int __thiscall <h3><a href='structs.html#struc_Career7148'>Career7148</a>::513600</h3>(<a href='structs.html#struc_Career7148'>struct Career7148</a> *this, <a href='structs.html#struc_BinSection34A11_0'>struct BinSection34A11_0</a> *, int);</div>
+<div id='513600'><i>513600</i> int __thiscall <h3><a href='structs.html#struc_Career7148'>Career7148</a>::513600</h3>(<a href='structs.html#struc_Career7148'>struct Career7148</a> *this, <a href='structs.html#struc_Bin34A11'>struct Bin34A11</a> *, int);</div>
 <div id='513770'><i>513770</i> int __thiscall <h3><a href='structs.html#struc_Career7148'>Career7148</a>::513770</h3>(<a href='structs.html#struc_Career7148'>struct Career7148</a> *this, int);</div>
 <div id='527970'><i>527970</i> int __thiscall <h3><a href='structs.html#struc_Career7148'>Career7148</a>::527970</h3>(<a href='structs.html#struc_Career7148'>struct Career7148</a> *this, <a href='structs.html#struc_CareerStage'>struct CareerStage</a> *stage, int);</div>
 <div id='527AA0'><i>527AA0</i> int __thiscall <h3><a href='structs.html#struc_Career7148'>Career7148</a>::527AA0</h3>(<a href='structs.html#struc_Career7148'>struct Career7148</a> *this, int);</div>
-<div id='527BB0'><i>527BB0</i> <a href='structs.html#struc_BinSection34A11_0'>struct BinSection34A11_0</a> *__thiscall <h3><a href='structs.html#struc_Career7148'>Career7148</a>::527BB0</h3>(<a href='structs.html#struc_Career7148'>struct Career7148</a> *this, int);</div>
+<div id='527BB0'><i>527BB0</i> <a href='structs.html#struc_Bin34A11'>struct Bin34A11</a> *__thiscall <h3><a href='structs.html#struc_Career7148'>Career7148</a>::527BB0</h3>(<a href='structs.html#struc_Career7148'>struct Career7148</a> *this, int);</div>
 <div id='500910'><i>500910</i> int __thiscall <h3><a href='structs.html#struc_Career7148'>Career7148</a>::CountAmountOfField0AreUsed</h3>(<a href='structs.html#struc_Career7148'>struct Career7148</a> *this);</div>
 <div id='500820'><i>500820</i> int __thiscall <h3><a href='structs.html#struc_Career7148'>Career7148</a>::CountAmountOfField80AreUsed</h3>(<a href='structs.html#struc_Career7148'>struct Career7148</a> *this);</div>
 <div id='500880'><i>500880</i> int __thiscall <h3><a href='structs.html#struc_Career7148'>Career7148</a>::CountAmountOfField80HaveField7FSet</h3>(<a href='structs.html#struc_Career7148'>struct Career7148</a> *this);</div>
@@ -2013,8 +2023,8 @@ this-&gt;<a href='structs.html#struc_BinSectionMagicMapEntry0'>nextEntry</a> = <
 <div id='511000'><i>511000</i> void __thiscall <h3><a href='structs.html#struc_Career887C'>Career887C</a>::511000</h3>(<a href='structs.html#struc_Career887C'>struct Career887C</a> *this);</div>
 <div id='5111F0'><i>5111F0</i> int __thiscall <h3><a href='structs.html#struc_Career887C'>Career887C</a>::5111F0</h3>(<a href='structs.html#struc_Career887C'>struct Career887C</a> *this, int *, int, int);</div>
 <div id='5112B0'><i>5112B0</i> int __thiscall <h3><a href='structs.html#struc_Career887C'>Career887C</a>::5112B0</h3>(<a href='structs.html#struc_Career887C'>struct Career887C</a> *this);</div>
-<div id='524240'><i>524240</i> int __thiscall <h3><a href='structs.html#struc_Career887C'>Career887C</a>::524240</h3>(<a href='structs.html#struc_Career887C'>struct Career887C</a> *this, <a href='structs.html#struc_BinSection34A11_0'>struct BinSection34A11_0</a> *);</div>
-<div id='5242C0'><i>5242C0</i> int __thiscall <h3><a href='structs.html#struc_Career887C'>Career887C</a>::5242C0</h3>(<a href='structs.html#struc_Career887C'>struct Career887C</a> *this, <a href='structs.html#struc_BinSection34A11_0'>struct BinSection34A11_0</a> *, int);</div>
+<div id='524240'><i>524240</i> int __thiscall <h3><a href='structs.html#struc_Career887C'>Career887C</a>::524240</h3>(<a href='structs.html#struc_Career887C'>struct Career887C</a> *this, <a href='structs.html#struc_Bin34A11'>struct Bin34A11</a> *);</div>
+<div id='5242C0'><i>5242C0</i> int __thiscall <h3><a href='structs.html#struc_Career887C'>Career887C</a>::5242C0</h3>(<a href='structs.html#struc_Career887C'>struct Career887C</a> *this, <a href='structs.html#struc_Bin34A11'>struct Bin34A11</a> *, int);</div>
 <div id='5253F0'><i>5253F0</i> int __thiscall <h3><a href='structs.html#struc_Career887C'>Career887C</a>::5253F0</h3>(<a href='structs.html#struc_Career887C'>struct Career887C</a> *this, int);</div>
 <div id='525650'><i>525650</i> void __thiscall <h3><a href='structs.html#struc_Career887C'>Career887C</a>::525650</h3>(<a href='structs.html#struc_Career887C'>struct Career887C</a> *this);</div>
 <div id='53E0B0'><i>53E0B0</i> int __thiscall <h3><a href='structs.html#struc_Career887C'>Career887C</a>::53E0B0</h3>(<a href='structs.html#struc_Career887C'>struct Career887C</a> *this, int, int);</div>
@@ -2040,7 +2050,7 @@ this-&gt;<a href='structs.html#struc_BinSectionMagicMapEntry0'>nextEntry</a> = <
 <div class='mm'>
 <p><code>return this-&gt;<a href='structs.html#struc_Career8704'>field_8704</a> ? this-&gt;<a href='structs.html#struc_Career8714'>field_8714</a> : 0;</code>
 <p></div>
-<div id='5003F0'><i>5003F0</i> <a href='structs.html#struc_BinSection34A11_0'>struct BinSection34A11_0</a> *__thiscall <h3><a href='structs.html#struc_Career'>Career</a>::5003F0</h3>(<a href='structs.html#struc_Career'>struct Career</a> *this, int value);</div>
+<div id='5003F0'><i>5003F0</i> <a href='structs.html#struc_Bin34A11'>struct Bin34A11</a> *__thiscall <h3><a href='structs.html#struc_Career'>Career</a>::5003F0</h3>(<a href='structs.html#struc_Career'>struct Career</a> *this, int value);</div>
 <div class='mm'>
 <p>basically __stdcall wrapper around <a href='funcs.html#4FFC90'>FindBinSection34A11_0WithField8Value</a> because 'this' is not used
 <p></div>
@@ -2102,7 +2112,7 @@ this-&gt;<a href='structs.html#struc_Career8710'>field_8710</a> = 0;
 <div id='513C50'><i>513C50</i> int __thiscall <h3><a href='structs.html#struc_Career'>Career</a>::513C50</h3>(<a href='structs.html#struc_Career'>struct Career</a> *this, int);</div>
 <div id='5142E0'><i>5142E0</i> int __thiscall <h3><a href='structs.html#struc_Career'>Career</a>::5142E0</h3>(<a href='structs.html#struc_Career'>struct Career</a> *this, int, int, int);</div>
 <div id='5143C0'><i>5143C0</i> int __thiscall <h3><a href='structs.html#struc_Career'>Career</a>::5143C0</h3>(<a href='structs.html#struc_Career'>struct Career</a> *this, int, int);</div>
-<div id='527780'><i>527780</i> <a href='structs.html#struc_BinSection34A11_0'>struct BinSection34A11_0</a> *__thiscall <h3><a href='structs.html#struc_Career'>Career</a>::527780</h3>(<a href='structs.html#struc_Career'>struct Career</a> *this, <a href='structs.html#struc_Marker'>struct Marker</a> *marker);</div>
+<div id='527780'><i>527780</i> <a href='structs.html#struc_Bin34A11'>struct Bin34A11</a> *__thiscall <h3><a href='structs.html#struc_Career'>Career</a>::527780</h3>(<a href='structs.html#struc_Career'>struct Career</a> *this, <a href='structs.html#struc_Marker'>struct Marker</a> *marker);</div>
 <div id='527800'><i>527800</i> int __thiscall <h3><a href='structs.html#struc_Career'>Career</a>::527800</h3>(<a href='structs.html#struc_Career'>struct Career</a> *this, int, <a href='structs.html#struc_Marker'>struct Marker</a> *);</div>
 <div id='527890'><i>527890</i> int __thiscall <h3><a href='structs.html#struc_Career'>Career</a>::527890</h3>(<a href='structs.html#struc_Career'>struct Career</a> *this);</div>
 <div class='mm'>
@@ -2129,12 +2139,12 @@ this-&gt;<a href='structs.html#struc_Career8710'>field_8710</a> = 0;
 <p></div>
 <div id='5331C0'><i>5331C0</i> int __thiscall <h3><a href='structs.html#struc_Career'>Career</a>::5331C0</h3>(<a href='structs.html#struc_Career'>struct Career</a> *this);</div>
 <div id='533310'><i>533310</i> int __thiscall <h3><a href='structs.html#struc_Career'>Career</a>::533310</h3>(<a href='structs.html#struc_Career'>struct Career</a> *this);</div>
-<div id='5410E0'><i>5410E0</i> int __thiscall <h3><a href='structs.html#struc_Career'>Career</a>::5410E0</h3>(<a href='structs.html#struc_Career'>struct Career</a> *this, <a href='structs.html#struc_BinSection34A11_0'>struct BinSection34A11_0</a> *);</div>
+<div id='5410E0'><i>5410E0</i> int __thiscall <h3><a href='structs.html#struc_Career'>Career</a>::5410E0</h3>(<a href='structs.html#struc_Career'>struct Career</a> *this, <a href='structs.html#struc_Bin34A11'>struct Bin34A11</a> *);</div>
 <div id='541120'><i>541120</i> int __thiscall <h3><a href='structs.html#struc_Career'>Career</a>::541120</h3>(<a href='structs.html#struc_Career'>struct Career</a> *this, int);</div>
-<div id='541160'><i>541160</i> int __thiscall <h3><a href='structs.html#struc_Career'>Career</a>::541160</h3>(<a href='structs.html#struc_Career'>struct Career</a> *this, <a href='structs.html#struc_BinSection34A11_0'>struct BinSection34A11_0</a> *);</div>
+<div id='541160'><i>541160</i> int __thiscall <h3><a href='structs.html#struc_Career'>Career</a>::541160</h3>(<a href='structs.html#struc_Career'>struct Career</a> *this, <a href='structs.html#struc_Bin34A11'>struct Bin34A11</a> *);</div>
 <div id='5412D0'><i>5412D0</i> int __thiscall <h3><a href='structs.html#struc_Career'>Career</a>::5412D0</h3>(<a href='structs.html#struc_Career'>struct Career</a> *this);</div>
 <div id='541420'><i>541420</i> int __thiscall <h3><a href='structs.html#struc_Career'>Career</a>::541420</h3>(<a href='structs.html#struc_Career'>struct Career</a> *this, unsigned int hash);</div>
-<div id='541540'><i>541540</i> void __thiscall <h3><a href='structs.html#struc_Career'>Career</a>::541540</h3>(<a href='structs.html#struc_Career'>struct Career</a> *this, void *param, int);</div>
+<div id='541540'><i>541540</i> void __thiscall <h3><a href='structs.html#struc_Career'>Career</a>::541540</h3>(<a href='structs.html#struc_Career'>struct Career</a> *this, int slotIndex, unsigned int stockCarHash);</div>
 <div class='mm'>
 <p>changes <a href='structs.html#struc_Career8740'>activeCarSlotHash</a>
 also sets <code>this-&gt;<a href='structs.html#struc_Career873D'>field_873D</a> = 1</code>
@@ -2261,6 +2271,8 @@ stageIndex 0-7
 <p>just nulls everything
 <p></div>
 <div id='5037F0'><i>5037F0</i> int __thiscall <h3><a href='structs.html#struc_CareerCar'>CareerCar</a>::5037F0</h3>(<a href='structs.html#struc_CareerCar'>struct CareerCar</a> *this);</div>
+<div id='496160'><i>496160</i> void __thiscall <h3><a href='structs.html#struc_CareerCarLotFNGObject'>CareerCarLotFNGObject</a>::496160</h3>(<a href='structs.html#struc_CareerCarLotFNGObject'>struct CareerCarLotFNGObject</a> *this);</div>
+<div id='4AFE00'><i>4AFE00</i> void __thiscall <h3><a href='structs.html#struc_CareerCarLotFNGObject'>CareerCarLotFNGObject</a>::4AFE00</h3>(<a href='structs.html#struc_CareerCarLotFNGObject'>struct CareerCarLotFNGObject</a> *this);</div>
 <div id='4EE1A0'><i>4EE1A0</i> int __thiscall <h3><a href='structs.html#struc_CareerCarLotFNGObject'>CareerCarLotFNGObject</a>::4EE1A0</h3>(<a href='structs.html#struc_CareerCarLotFNGObject'>struct CareerCarLotFNGObject</a> *this);</div>
 <div id='496050'><i>496050</i> int __thiscall <h3><a href='structs.html#struc_CareerCarLotFNGObject'>CareerCarLotFNGObject</a>::BuyCar</h3>(<a href='structs.html#struc_CareerCarLotFNGObject'>struct CareerCarLotFNGObject</a> *this, unsigned int hashOfCareerSlot, unsigned int stockCarHash);</div>
 <div class='mm'>
@@ -2291,7 +2303,7 @@ stockCarHash like STOCK_PEUGEOT
 <div id='513FE0'><i>513FE0</i> int __thiscall <h3><a href='structs.html#struc_CareerD24'>CareerD24</a>::513FE0</h3>(<a href='structs.html#struc_CareerD24'>struct CareerD24</a> *this);</div>
 <div id='528710'><i>528710</i> int __thiscall <h3><a href='structs.html#struc_CareerD24'>CareerD24</a>::528710</h3>(<a href='structs.html#struc_CareerD24'>struct CareerD24</a> *this);</div>
 <div id='5287A0'><i>5287A0</i> int __thiscall <h3><a href='structs.html#struc_CareerD24'>CareerD24</a>::5287A0</h3>(<a href='structs.html#struc_CareerD24'>struct CareerD24</a> *this, int);</div>
-<div id='532EA0'><i>532EA0</i> int __thiscall <h3><a href='structs.html#struc_CareerD24'>CareerD24</a>::532EA0</h3>(<a href='structs.html#struc_CareerD24'>struct CareerD24</a> *this, <a href='structs.html#struc_BinSection34A11_0'>struct BinSection34A11_0</a> *);</div>
+<div id='532EA0'><i>532EA0</i> int __thiscall <h3><a href='structs.html#struc_CareerD24'>CareerD24</a>::532EA0</h3>(<a href='structs.html#struc_CareerD24'>struct CareerD24</a> *this, <a href='structs.html#struc_Bin34A11'>struct Bin34A11</a> *);</div>
 <div id='528680'><i>528680</i> <a href='structs.html#struc_CareerD24'>struct CareerD24</a> *__thiscall <h3><a href='structs.html#struc_CareerD24'>CareerD24</a>::ctor</h3>(<a href='structs.html#struc_CareerD24'>struct CareerD24</a> *this);</div>
 <div id='5330D0'><i>5330D0</i> <h3><a href='structs.html#struc_CareerD24'>CareerD24</a>::GetReputationWonFromRace</h3></div>
 <div id='525D10'><i>525D10</i> void __thiscall <h3><a href='structs.html#struc_CareerD24_54_30'>CareerD24_54_30</a>::CopyFrom</h3>(<a href='structs.html#struc_CareerD24_54_30'>struct CareerD24_54_30</a> *this, <a href='structs.html#struc_CareerD24_54_30'>struct CareerD24_54_30</a> *from);</div>
@@ -2319,10 +2331,10 @@ but instead all fields are copied separately
 <p></div>
 <div id='500610'><i>500610</i> int __thiscall <h3><a href='structs.html#struc_CareerStage'>CareerStage</a>::500610</h3>(<a href='structs.html#struc_CareerStage'>struct CareerStage</a> *this);</div>
 <div id='5132E0'><i>5132E0</i> float __thiscall <h3><a href='structs.html#struc_CareerStage'>CareerStage</a>::5132E0</h3>(<a href='structs.html#struc_CareerStage'>struct CareerStage</a> *this);</div>
-<div id='513390'><i>513390</i> int __thiscall <h3><a href='structs.html#struc_CareerStage'>CareerStage</a>::513390</h3>(<a href='structs.html#struc_CareerStage'>struct CareerStage</a> *this, <a href='structs.html#struc_BinSection34A11_0'>struct BinSection34A11_0</a> *);</div>
-<div id='513430'><i>513430</i> int __thiscall <h3><a href='structs.html#struc_CareerStage'>CareerStage</a>::513430</h3>(<a href='structs.html#struc_CareerStage'>struct CareerStage</a> *this, int, <a href='structs.html#struc_BinSection34A11_0'>struct BinSection34A11_0</a> *);</div>
+<div id='513390'><i>513390</i> int __thiscall <h3><a href='structs.html#struc_CareerStage'>CareerStage</a>::513390</h3>(<a href='structs.html#struc_CareerStage'>struct CareerStage</a> *this, <a href='structs.html#struc_Bin34A11'>struct Bin34A11</a> *);</div>
+<div id='513430'><i>513430</i> int __thiscall <h3><a href='structs.html#struc_CareerStage'>CareerStage</a>::513430</h3>(<a href='structs.html#struc_CareerStage'>struct CareerStage</a> *this, int, <a href='structs.html#struc_Bin34A11'>struct Bin34A11</a> *);</div>
 <div id='513490'><i>513490</i> int __thiscall <h3><a href='structs.html#struc_CareerStage'>CareerStage</a>::513490</h3>(<a href='structs.html#struc_CareerStage'>struct CareerStage</a> *this);</div>
-<div id='513510'><i>513510</i> int __thiscall <h3><a href='structs.html#struc_CareerStage'>CareerStage</a>::513510</h3>(<a href='structs.html#struc_CareerStage'>struct CareerStage</a> *this, <a href='structs.html#struc_BinSection34A11_0'>struct BinSection34A11_0</a> *);</div>
+<div id='513510'><i>513510</i> int __thiscall <h3><a href='structs.html#struc_CareerStage'>CareerStage</a>::513510</h3>(<a href='structs.html#struc_CareerStage'>struct CareerStage</a> *this, <a href='structs.html#struc_Bin34A11'>struct Bin34A11</a> *);</div>
 <div id='5004D0'><i>5004D0</i> int __thiscall <h3><a href='structs.html#struc_CareerStage'>CareerStage</a>::CountNumField0Set</h3>(<a href='structs.html#struc_CareerStage'>struct CareerStage</a> *this);</div>
 <div id='5005A0'><i>5005A0</i> int __thiscall <h3><a href='structs.html#struc_CareerStage'>CareerStage</a>::CountNumField8CSet</h3>(<a href='structs.html#struc_CareerStage'>struct CareerStage</a> *this);</div>
 <div id='500520'><i>500520</i> int __thiscall <h3><a href='structs.html#struc_CareerStage'>CareerStage</a>::CountNumField9CSet</h3>(<a href='structs.html#struc_CareerStage'>struct CareerStage</a> *this);</div>
@@ -2754,7 +2766,7 @@ set it to the maximum value if it was exceeded.
 <div id='75D5A4'><i>75D5A4</i> int __cdecl <h3>ExitProcessWrapper</h3>(int uExitCode);</div>
 <div id='52C390'><i>52C390</i> void __thiscall <h3><a href='structs.html#struc_FERenderObject'>FERenderObject</a>::FreeAllRenderEPolys</h3>(<a href='structs.html#struc_FERenderObject'>struct FERenderObject</a> *this);</div>
 <div id='52C3A0'><i>52C3A0</i> void __thiscall <h3><a href='structs.html#struc_FERenderObject'>FERenderObject</a>::FreeAllRenderEPolys_0</h3>(<a href='structs.html#struc_FERenderObject'>struct FERenderObject</a> *this, void *unused);</div>
-<div id='4FFC90'><i>4FFC90</i> <a href='structs.html#struc_BinSection34A11_0'>struct BinSection34A11_0</a> *__cdecl <h3>FindBinSection34A11_0WithField8Value</h3>(unsigned int hash);</div>
+<div id='4FFC90'><i>4FFC90</i> <a href='structs.html#struc_Bin34A11'>struct Bin34A11</a> *__cdecl <h3>FindBinSection34A11_0WithField8Value</h3>(unsigned int hash);</div>
 <div id='43C100'><i>43C100</i> <a href='structs.html#struc_BinSectionMagicMapEntry'>struct BinSectionMagicMapEntry</a> *__cdecl <h3>FindBinSectionHandler</h3>(int binMagic);</div>
 <div class='mm'>
 <p>Used in <a href='funcs.html#570D70'>LoadBinSection</a> and <a href='funcs.html#577B10'>UnloadBinSection</a>.
@@ -2778,7 +2790,7 @@ return NULL;
 <p></div>
 <div id='512990'><i>512990</i> <a href='structs.html#struc_CareerSponsor'>struct CareerSponsor</a> *__cdecl <h3>FindCareerSponsorBySponsorNameHash</h3>(unsigned int sponsorNameHash);</div>
 <div class='mm'>
-<p>searches in <a href='vars.html#838414'>careerSponsors</a> with use of <a href='vars.html#838428'>careerStringPool838428</a>
+<p>searches in <a href='vars.html#838414'>careerSponsors</a> with use of <a href='vars.html#838428'>careerStringPool</a>
 <p></div>
 <div id='500190'><i>500190</i> <a href='structs.html#struc_CareerStageSettings'>struct CareerStageSettings</a> *__cdecl <h3>FindCareerStageSettingsForStageIndex</h3>(int stageIndex);</div>
 <div class='mm'>
@@ -3242,7 +3254,7 @@ TODO: xref this for fun and profit (only 2 usages?)
 <div id='501310'><i>501310</i> <a href='structs.html#struc_SmsData'>struct SmsData</a> *__cdecl <h3>GetSmsDataForHash</h3>(unsigned int hash);</div>
 <div class='mm'>
 <p>Goes through all <a href='vars.html#838454'>smsDatas</a> and returns the one that has a matching
-<code>cshash(<a href='vars.html#838428'>careerStringPool838428</a> + <a href='structs.html#struc_SmsData0'>careerTextLanguageTableOffset</a>)</code>.
+<code>cshash(<a href='vars.html#838428'>careerStringPool</a> + <a href='structs.html#struc_SmsData0'>careerTextLanguageTableOffset</a>)</code>.
 <p></div>
 <div id='497760'><i>497760</i> void __cdecl <h3>GetSmsMessageSubjectHeader</h3>(<a href='structs.html#struc_SmsMessage'>struct SmsMessage</a> *sms, char *dest, int maxLength);</div>
 <div class='mm'>
@@ -3730,7 +3742,7 @@ sometimes also string passed: 600976
 <div class='mm'>
 <p>pops 1 arg
 <p></div>
-<div id='4DEF30'><i>4DEF30</i> void __thiscall <h3><a href='structs.html#struc_ObjectLink'>ObjectLink</a>::dtor</h3>(void *this);</div>
+<div id='4DEF30'><i>4DEF30</i> void __thiscall <h3><a href='structs.html#struc_ObjectLink'>ObjectLink</a>::dtor</h3>(<a href='structs.html#struc_ObjectLink'>struct ObjectLink</a> *this);</div>
 <div id='43BE60'><i>43BE60</i> <a href='structs.html#struc_ObjectLink'>struct ObjectLink</a> *__thiscall <h3><a href='structs.html#struc_ObjectLink'>ObjectLink</a>::GetObjectAtIndex</h3>(<a href='structs.html#struc_ObjectLink'>struct ObjectLink</a> *this, int index);</div>
 <div id='4B9690'><i>4B9690</i> void __thiscall <h3><a href='structs.html#struc_OL836370'>OL836370</a>::ContinueToNextFNG</h3>(<a href='structs.html#struc_OL836370'>struct OL836370</a> *this);</div>
 <div id='4E3960'><i>4E3960</i> <h3><a href='structs.html#struc_OL836370'>OL836370</a>::ctor</h3></div>
@@ -3810,10 +3822,7 @@ sometimes also string passed: 600976
 <div id='4E7540'><i>4E7540</i> <a href='structs.html#struc_OLXMessageFNGObject'>struct OLXMessageFNGObject</a> *__thiscall <h3><a href='structs.html#struc_OLXMessageFNGObject'>OLXMessageFNGObject</a>::ctor</h3>(<a href='structs.html#struc_OLXMessageFNGObject'>struct OLXMessageFNGObject</a> *this, int);</div>
 <div id='4E77A0'><i>4E77A0</i> <h3><a href='structs.html#struc_OLXMessageFNGObject'>OLXMessageFNGObject</a>::MessageHandler</h3></div>
 <div id='49B740'><i>49B740</i> <h3>OnLevelOfDetailChanged</h3></div>
-<div id='516B90'><i>516B90</i> int __thiscall <h3><a href='structs.html#struc_OnlineCar'>OnlineCar</a>::516B90</h3>(<a href='structs.html#struc_OnlineCar'>struct OnlineCar</a> *this, unsigned int slotHash, <a href='structs.html#struc_InventoryCar'>struct InventoryCar</a> *car);</div>
-<div class='mm'>
-<p>also called for CareerCar...
-<p></div>
+<div id='516B90'><i>516B90</i> int __thiscall <h3><a href='structs.html#struc_OnlineCareerCar'>OnlineCareerCar</a>::516B90</h3>(<a href='structs.html#struc_OnlineCareerCar'>struct OnlineCareerCar</a> *this, unsigned int slotHash, <a href='structs.html#struc_InventoryCar'>struct InventoryCar</a> *car);</div>
 <div id='525CF0'><i>525CF0</i> void __thiscall <h3><a href='structs.html#struc_OnlineCareerCar'>OnlineCareerCar</a>::ctor</h3>(<a href='structs.html#struc_OnlineCareerCar'>struct OnlineCareerCar</a> *this);</div>
 <div id='6F79AF'><i>6F79AF</i> <a href='structs.html#struc_struct8AD610LinkedListNode'>struct struct8AD610LinkedListNode</a> *__cdecl <h3>OpenFileGetstruct8AD610LinkedListNodeForPath?</h3>(char *filepathfromgamedir, int unk1);</div>
 <div id='5B7C40'><i>5B7C40</i> <h3>OpenPatchesWebsite</h3></div>
@@ -3992,6 +4001,7 @@ if (<a href='vars.html#83A9D0'>profileData</a>.<a href='structs.html#struc_Profi
 <div id='515AA0'><i>515AA0</i> void __thiscall <h3><a href='structs.html#struc_Player'>Player</a>::Clear</h3>(<a href='structs.html#struc_Player'>struct Player</a> *this, int playerIndex, int);</div>
 <div id='5344A0'><i>5344A0</i> void __thiscall <h3><a href='structs.html#struc_Player'>Player</a>::ctor</h3>(<a href='structs.html#struc_Player'>struct Player</a> *this);</div>
 <div id='525CE0'><i>525CE0</i> void __thiscall <h3><a href='structs.html#struc_Player'>Player</a>::dtor</h3>(<a href='structs.html#struc_Player'>struct Player</a> *this);</div>
+<div id='5026F0'><i>5026F0</i> void __thiscall <h3><a href='structs.html#struc_PlayerD4'>PlayerD4</a>::5026F0</h3>(<a href='structs.html#struc_PlayerD4'>struct PlayerD4</a> *this);</div>
 <div id='515800'><i>515800</i> void __thiscall <h3><a href='structs.html#struc_PlayerD4'>PlayerD4</a>::Clear</h3>(<a href='structs.html#struc_PlayerD4'>struct PlayerD4</a> *this);</div>
 <div id='52A220'><i>52A220</i> void __thiscall <h3><a href='structs.html#struc_PlayerD4'>PlayerD4</a>::ctor</h3>(<a href='structs.html#struc_PlayerD4'>struct PlayerD4</a> *this);</div>
 <div id='525CA0'><i>525CA0</i> void __thiscall <h3><a href='structs.html#struc_PlayerD4_100'>PlayerD4_100</a>::ctor</h3>(<a href='structs.html#struc_PlayerD4_100'>struct PlayerD4_100</a> *this);</div>
@@ -4281,7 +4291,7 @@ Delegates to <a href='funcs.html#535FE0'>UILabel::SetString</a>.
 <p></div>
 <div id='5022C0'><i>5022C0</i> int __cdecl <h3>ShouldCarBeShownForCurrentRegion</h3>(int carIndex);</div>
 <div class='mm'>
-<p>arg is <a href='structs.html#struc_Car'>struct Car</a>.<a href='structs.html#struc_Car840'>carIndex</a>
+<p>arg is <a href='structs.html#struc_Car'>struct Car</a>.<a href='structs.html#struc_Car840'>carIndex</a>, checks <a href='vars.html#7F7C48'>carsToHideForRegionUS</a> and <a href='vars.html#7F7C50'>carsToHideForRegionNotUS</a>
 <p></div>
 <div id='570A40'><i>570A40</i> int __cdecl <h3>ShouldUseCarUKNames</h3>();</div>
 <div class='mm'>
@@ -4396,7 +4406,7 @@ Uses <code>0x639(OK)</code> for <a href='structs.html#struc_DialogInfo310'>middl
 <p>Uses <a href='funcs.html#505450'>SomeHashCI505450</a>.
 <p></div>
 <div id='75BC1E'><i>75BC1E</i> int __stdcall <h3>shutdown</h3>(SOCKET s, int how);</div>
-<div id='501370'><i>501370</i> int __thiscall <h3><a href='structs.html#struc_SmsData'>SmsData</a>::CanSendUnlockMessage?</h3>(<a href='structs.html#struc_SmsData'>struct SmsData</a> *this, <a href='structs.html#struc_BinSection34A11_0'>struct BinSection34A11_0</a> *ptrMaybeGameState);</div>
+<div id='501370'><i>501370</i> int __thiscall <h3><a href='structs.html#struc_SmsData'>SmsData</a>::CanSendUnlockMessage?</h3>(<a href='structs.html#struc_SmsData'>struct SmsData</a> *this, <a href='structs.html#struc_Bin34A11'>struct Bin34A11</a> *ptrMaybeGameState);</div>
 <div class='mm'>
 <p>TODO may be able to find out some gameprogress things here
 <p></div>
@@ -4508,7 +4518,7 @@ TODO xref to explore outrun code
 with that type)? Also checks for type <code><a href='enums.html#enu_SMS_TYPE4'>SMS_TYPE_OUTRUN_INFO</a></code>, then does more checks with <code>arg0</code> before sending.
 </p><p>arg0 is also put in {struct Career+field_8734} before calling this
 <p></div>
-<div id='529920'><i>529920</i> void __thiscall <h3><a href='structs.html#struc_SmsMessageList'>SmsMessageList</a>::SendUnlockMessagesForCurrentGameProgress</h3>(<a href='structs.html#struc_SmsMessageList'>struct SmsMessageList</a> *this, <a href='structs.html#struc_BinSection34A11_0'>struct BinSection34A11_0</a> *ptrMaybeGameState);</div>
+<div id='529920'><i>529920</i> void __thiscall <h3><a href='structs.html#struc_SmsMessageList'>SmsMessageList</a>::SendUnlockMessagesForCurrentGameProgress</h3>(<a href='structs.html#struc_SmsMessageList'>struct SmsMessageList</a> *this, <a href='structs.html#struc_Bin34A11'>struct Bin34A11</a> *ptrMaybeGameState);</div>
 <div id='5014F0'><i>5014F0</i> int __thiscall <h3><a href='structs.html#struc_SmsMessageList'>SmsMessageList</a>::WriteToSaveData</h3>(<a href='structs.html#struc_SmsMessageList'>struct SmsMessageList</a> *this, int, int);</div>
 <div id='75BC12'><i>75BC12</i> SOCKET __stdcall <h3>socket</h3>(int af, int type, int protocol);</div>
 <div id='440390'><i>440390</i> int __cdecl <h3>SomeAlloc?</h3>(int size, int somestring, int, int);</div>
@@ -4641,6 +4651,8 @@ frees <code>this-&gt;<a href='structs.html#struc_SomethingUIImplC'>data30203</a>
 <div id='503A60'><i>503A60</i> unsigned int __thiscall <h3><a href='structs.html#struc_StockCar'>StockCar</a>::GetCarNameHash</h3>(<a href='structs.html#struc_StockCar'>struct StockCar</a> *this);</div>
 <div id='503A80'><i>503A80</i> int __thiscall <h3><a href='structs.html#struc_StockCar'>StockCar</a>::vtableProcC</h3>(<a href='structs.html#struc_StockCar'>struct StockCar</a> *this, int, <a href='structs.html#struc_Career4230_10'>struct Career4230_10</a> *, int);</div>
 <div id='742C60'><i>742C60</i> <h3>StopAllSocketsAndThread</h3></div>
+<div id='500000'><i>500000</i> void __cdecl <h3>StoreBin34A15</h3>(<a href='structs.html#struc_Bin34A15'>struct Bin34A15</a> *data, int totalSize);</div>
+<div id='59AE20'><i>59AE20</i> void __cdecl <h3>StoreBin34A1A</h3>(<a href='structs.html#struc_Bin34A1A'>struct Bin34A1A</a> *data, int totalSize);</div>
 <div id='512A70'><i>512A70</i> void __cdecl <h3>StoreCareerStageSettings</h3>(<a href='structs.html#struc_CareerStageSettings'>struct CareerStageSettings</a> *data, int size);</div>
 <div class='mm'>
 <p>data comes from bin section 34A18 in GLOBALB.BUN
