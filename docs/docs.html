@@ -3592,7 +3592,7 @@ career yet.
 <a href='vars.html#865130'>cheatExtraCareerMoney1000</a> = 1000;
 // ^ used when starting a new career from a profile that
 // was loaded from the profile menu
-if (!<a href='vars.html#83A9D0'>profileData</a>.<a href='structs.html#struc_ProfileData20370'>career</a>.<a href='structs.html#struc_Career873C'>isProfileWithStartedCareerLoaded</a>)  {
+if (!<a href='vars.html#83A9D0'>profileData</a>.<a href='structs.html#struc_ProfileData20370'>career</a>.<a href='structs.html#struc_Career873C'>isCareerStarted</a>)  {
 	if (<a href='funcs.html#500F90'>CareerBank::GetMoney</a>() == 0)  {
 		<a href='funcs.html#500F80'>CareerBank::AddMoney</a>(1000);
 		// ^ This only has an effect when the profile was

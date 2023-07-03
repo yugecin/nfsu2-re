@@ -1266,7 +1266,7 @@ nulling entries removes discovered shops from the map*/</span>
 this value is set to 0 when the textbox to enter a name appears.
 When canceling at that point, it's set back to 1
 (if the loaded profile already had career started).*/</span>
-<i>/*873C*/</i>char isProfileWithStartedCareerLoaded <u></u>;
+<i>/*873C*/</i>char isCareerStarted <u></u>;
 <i id='struc_Career873D'></i><i>/*873D*/char field_873D;</i>
 <i>/*873E*/char field_873E;</i>
 <i>/*873F*/char field_873F;</i>
@@ -2243,7 +2243,7 @@ size 50 (see 512AC9)
 <li><pre><i>579D70</i> <a href='funcs.html#579D70' title='int __thiscall CheatScreenData__IsSponsorCarCheatTriggered(struct CheatScreenData *this, unsigned int sponsorHash);'>CheatScreenData::IsSponsorCarCheatTriggered</a></pre></li>
 <li><pre><i>579D60</i> <a href='funcs.html#579D60' title='int __cdecl CheatScreenData__IsTriggeredREGMEBABY(struct CheatScreenData *this);'>CheatScreenData::IsTriggeredREGMEBABY</a></pre></li>
 <li><pre><i>579DA0</i> <a href='funcs.html#579DA0' title='int __thiscall CheatScreenData__IsVinylCheatTriggered(struct CheatScreenData *this, unsigned int vinylHash);'>CheatScreenData::IsVinylCheatTriggered</a></pre></li>
-<li><pre><i>579D80</i> <a href='funcs.html#579D80' title='int __thiscall CheatScreenData__IsVisualCheatTriggered(struct CheatScreenData *this, unsigned int vinyl);'>CheatScreenData::IsVisualCheatTriggered</a></pre></li>
+<li><pre><i>579D80</i> <a href='funcs.html#579D80' title='int __thiscall CheatScreenData__IsVisualCheatTriggered(struct CheatScreenData *this, unsigned int visual);'>CheatScreenData::IsVisualCheatTriggered</a></pre></li>
 <li><pre><i>579D30</i> <a href='funcs.html#579D30' title='int __thiscall CheatScreenData__ShouldCarBeAvailableByCheat(struct CheatScreenData *this, int carIndex);'>CheatScreenData::ShouldCarBeAvailableByCheat</a></pre></li>
 <li><pre><i>576050</i> <a href='funcs.html#576050' title='void __thiscall CheatScreenData__UndoCheat__(struct CheatScreenData *this, int cheatdata_field28);'>CheatScreenData::UndoCheat??</a></pre></li>
 </ul>
@@ -5865,7 +5865,8 @@ usually a stock car, often STOCK_RX8. some kind of "default car to pick"*/</span
 <i>/*C*/	int field_C;</i>
 <i id='struc_ProfileData10'></i><i>/*10*/	</i><a href='#struc_Player'>struct Player</a> player1;
 <i>/*AB5C*/</i><a href='#struc_Player'>struct Player</a> player2;
-<i id='struc_ProfileData156A8'></i><i>/*156A8*/</i>int someOLState <u></u>;
+<i id='struc_ProfileData156A8'></i><span class='mm'>/**0x200 when connecting to OL, 8 when connecting LAN(?), 8 when opening online menu, 2 in menus, 1 ingame, 0x100 =?*/</span>
+<i>/*156A8*/</i>int someOLState <u></u>;
 <i>/*156AC*/char _pad156AC[0x4];</i>
 <i>/*156B0*/<a href='#struc_ProfileData156B0'>struct ProfileData156B0</a> field_156B0;</i>
 <i>/*1576C*/char _pad1576C[0x14];</i>
