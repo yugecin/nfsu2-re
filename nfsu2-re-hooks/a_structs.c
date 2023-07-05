@@ -808,3 +808,14 @@ struct MailBoxRelated2 { /*2 members, size 10h*/
 /**element with name "MESSAGE_TEXT_%d"*/
 /*C*/	int uielement ;
 };
+
+struct CarPreset { /*4 members, size 338h*/
+/**sentinel node is carPresets*/
+/*0*/	struct ObjectLink link;
+/**like struct Car.name0*/
+/*8*/	char modelName[32];
+/**DDAY_PLAYER_CAR, DEMO_AI_300GT_BLUE, sponsor cars, ...*/
+/*28*/	char name[32];
+/*48*/	char _pad48[0x2EF];
+/*337*/	char __end ;
+};

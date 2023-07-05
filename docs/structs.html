@@ -259,7 +259,7 @@ pre.ida span.hi {
 <a href='cheatsheet.html'>cheatsheet</a></nav>
 </header>
 <div class='struc'>
-<h2>Structs (481)</h2>
+<h2>Structs (488)</h2>
 <ul>
 <li><a href='#struc__COMMCONFIG'>_COMMCONFIG</a></li>
 <li><a href='#struc__COMMTIMEOUTS'>_COMMTIMEOUTS</a></li>
@@ -289,6 +289,8 @@ pre.ida span.hi {
 <li><a href='#struc_AudioStuff'>AudioStuff</a></li>
 <li><a href='#struc_bFileSystemPoolEntry'>bFileSystemPoolEntry</a></li>
 <li><a href='#struc_Bin34A11'>Bin34A11</a> <em></em></li>
+<li><a href='#struc_Bin34A11_18'>Bin34A11_18</a></li>
+<li><a href='#struc_Bin34A11_38'>Bin34A11_38</a></li>
 <li><a href='#struc_Bin34A12'>Bin34A12</a></li>
 <li><a href='#struc_Bin34A14'>Bin34A14</a></li>
 <li><a href='#struc_Bin34A15'>Bin34A15</a></li>
@@ -304,8 +306,6 @@ pre.ida span.hi {
 <li><a href='#struc_BinSection30203Data'>BinSection30203Data</a></li>
 <li><a href='#struc_BinSection30210'>BinSection30210</a></li>
 <li><a href='#struc_BinSection34A11'>BinSection34A11</a></li>
-<li><a href='#struc_BinSection34A11_0_18'>BinSection34A11_0_18</a></li>
-<li><a href='#struc_BinSection34A11_0_38'>BinSection34A11_0_38</a></li>
 <li><a href='#struc_BinSectionHandler'>BinSectionHandler</a></li>
 <li><a href='#struc_BinSectionHeader'>BinSectionHeader</a></li>
 <li><a href='#struc_BinSectionLoadFunc'>BinSectionLoadFunc</a></li>
@@ -343,6 +343,10 @@ pre.ida span.hi {
 <li><a href='#struc_CareerCar434_294'>CareerCar434_294</a></li>
 <li><a href='#struc_CareerCar434_29C'>CareerCar434_29C</a></li>
 <li><a href='#struc_CareerCarLotFNGObject'>CareerCarLotFNGObject</a> <em></em></li>
+<li><a href='#struc_CareerCarLotFNGObject_50'>CareerCarLotFNGObject_50</a> <em></em></li>
+<li><a href='#struc_CareerCarLotFNGObject_50_20'>CareerCarLotFNGObject_50_20</a> <em></em></li>
+<li><a href='#struc_CareerCarLotFNGObject_50_20_10'>CareerCarLotFNGObject_50_20_10</a> <em></em></li>
+<li><a href='#struc_CareerCarLotFNGObject_50_20_10_2E0'>CareerCarLotFNGObject_50_20_10_2E0</a> <em></em></li>
 <li><a href='#struc_CareerCarSelectFNGObject'>CareerCarSelectFNGObject</a> <em></em></li>
 <li><a href='#struc_CareerCribFNGObject'>CareerCribFNGObject</a> <em></em></li>
 <li><a href='#struc_CareerD24'>CareerD24</a> <em></em></li>
@@ -630,6 +634,8 @@ pre.ida span.hi {
 <li><a href='#struc_ResourceFileSlotPoolEntry'>ResourceFileSlotPoolEntry</a> <em></em></li>
 <li><a href='#struc_RewardsSponsorFNGObject'>RewardsSponsorFNGObject</a> <em></em></li>
 <li><a href='#struc_RimsBrowserFNGObject'>RimsBrowserFNGObject</a> <em></em></li>
+<li><a href='#struc_s734'>s734</a> <em></em></li>
+<li><a href='#struc_s735'>s735</a></li>
 <li><a href='#struc_ScrollingThing'>ScrollingThing</a> <em></em></li>
 <li><a href='#struc_ShowcaseDPADFNGObject'>ShowcaseDPADFNGObject</a> <em></em></li>
 <li><a href='#struc_ShowcasePreviewFNGObject'>ShowcasePreviewFNGObject</a> <em></em></li>
@@ -693,6 +699,7 @@ pre.ida span.hi {
 <li><a href='#struc_TextboxData'>TextboxData</a> <em></em></li>
 <li><a href='#struc_timecaps_tag'>timecaps_tag</a></li>
 <li><a href='#struc_timeval'>timeval</a></li>
+<li><a href='#struc_Tmp4DF9C0ListEntry'>Tmp4DF9C0ListEntry</a></li>
 <li><a href='#struc_TrailersFNGObject'>TrailersFNGObject</a> <em></em></li>
 <li><a href='#struc_TraxConfig'>TraxConfig</a></li>
 <li><a href='#struc_TraxEntry'>TraxEntry</a></li>
@@ -965,9 +972,11 @@ pre.ida span.hi {
 <p></div>
 <div id='struc_Bin34A11'>struct <h3>Bin34A11</h3> { <i>/*18 members, size 88h*/</i> <em></em>
 <i>/*0*/	char _pad0[0x4];</i>
-<span class='mm'>/**see usage at 513A71*/</span>
-<i>/*4*/	</i>short offsetInStringTable838428 <u></u>;
+<span class='mm'>/**see usage at 513A71
+but in reality these are all zero, and that is an empty string :D*/</span>
+<i>/*4*/	</i>short offsetInCareerStringpool <u></u>;
 <i>/*6*/	char _pad6[0x2];</i>
+<span class='mm'>/**this is at some point compared to field8 of sms data SMS_END_OF_GAME_MESSAGE*/</span>
 <i>/*8*/	</i>unsigned int hash8;
 <i>/*C*/	char field_C;</i>
 <i id='struc_Bin34A11D'></i><i>/*D*/	char field_D;</i>
@@ -977,7 +986,7 @@ pre.ida span.hi {
 <i>/*10*/	unsigned int field_10;</i>
 <i>/*14*/	char _pad14[0x4];</i>
 <span class='mm'>/**this is an array; but what size? guessing 4 for now*/</span>
-<i>/*18*/	<a href='#struc_BinSection34A11_0_18'>struct BinSection34A11_0_18</a> field_18[4];</i>
+<i>/*18*/	<a href='#struc_Bin34A11_18'>struct Bin34A11_18</a> field_18[4];</i>
 <i>/*28*/	</i>unsigned int markerHash28;
 <i>/*2C*/	int field_2C;</i>
 <span class='mm'>/**see 5414D7, -1 means no money? see 500A8F*/</span>
@@ -988,7 +997,7 @@ pre.ida span.hi {
 <span class='mm'>/**index for <a href='structs.html#struc_Career72D8'>stage0</a>*/</span>
 <i>/*37*/	</i>char stageIndex <u></u>;
 <span class='mm'>/**how big is this array? 8 is a guess*/</span>
-<i>/*38*/	<a href='#struc_BinSection34A11_0_38'>struct BinSection34A11_0_38</a> field_38[8];</i>
+<i>/*38*/	<a href='#struc_Bin34A11_38'>struct Bin34A11_38</a> field_38[8];</i>
 <i>/*78*/	char _pad78[0x4];</i>
 <i>/*7C*/	char field_7C;</i>
 <i>/*7D*/	char _pad7D[0x1];</i>
@@ -998,14 +1007,21 @@ pre.ida span.hi {
 <i>/*80*/	char _pad80[0x7];</i>
 <i>/*87*/	</i>char __end <u></u>;
 };</div>
-<div class='mm'>
-<p>size 0x88
-<p></div>
 <p><strong>Methods:</strong></p>
 <ul>
 <li><pre><i>4FFDE0</i> <a href='funcs.html#4FFDE0' title='int __thiscall Bin34A11__4FFDE0(struct Bin34A11 *this, void *);'>Bin34A11::4FFDE0</a></pre></li>
 <li><pre><i>4AE8B0</i> <a href='funcs.html#4AE8B0' title='int __thiscall Bin34A11__Is_34_3_And_D_1(struct Bin34A11 *this);'>Bin34A11::Is_34_3_And_D_1</a></pre></li>
 </ul>
+<div id='struc_Bin34A11_18'>struct <h3>Bin34A11_18</h3> { <i>/*3 members, size 4h*/</i>
+<i>/*0*/	short field_0;</i>
+<i>/*2*/	char field_2;</i>
+<i>/*3*/	char field_3;</i>
+};</div>
+<div id='struc_Bin34A11_38'>struct <h3>Bin34A11_38</h3> { <i>/*2 members, size 8h*/</i>
+<i>/*0*/	char field_0;</i>
+<i>/*1*/	char _pad1[0x3];</i>
+<i>/*4*/	</i>unsigned int hash4;
+};</div>
 <div id='struc_Bin34A12'>struct <h3>Bin34A12</h3> { <i>/*1 members, size A0h*/</i>
 <i>/*0*/	char _pad0[0x9F];</i>
 <i>/*9F*/	</i>char __end <u></u>;
@@ -1014,18 +1030,22 @@ pre.ida span.hi {
 <i>/*0*/	char _pad0[0x43];</i>
 <i>/*43*/	</i>char __end <u></u>;
 };</div>
-<div id='struc_Bin34A15'>struct <h3>Bin34A15</h3> { <i>/*3 members, size 17Ch*/</i>
-<i>/*0*/	char _pad0[0x8];</i>
+<div id='struc_Bin34A15'>struct <h3>Bin34A15</h3> { <i>/*4 members, size 17Ch*/</i>
+<i>/*0*/	int field_0;</i>
+<i>/*4*/	char _pad4[0x4];</i>
 <i>/*8*/	</i>int numEntriesInFieldC <u></u>;
 <i>/*C*/	<a href='#struc_Bin34A15_C'>struct Bin34A15_C</a> field_C[3];</i>
 <i>/*120*/	char _pad120[0x5B];</i>
 <i>/*17B*/	</i>char __end <u></u>;
 };</div>
-<div id='struc_Bin34A15_C'>struct <h3>Bin34A15_C</h3> { <i>/*2 members, size 5Ch*/</i>
+<div id='struc_Bin34A15_C'>struct <h3>Bin34A15_C</h3> { <i>/*3 members, size 5Ch*/</i>
 <span class='mm'>/**index because <a href='vars.html#837B90'>bin34A15_C</a>[index] = this;*/</span>
 <i>/*0*/	</i>int index <u></u>;
-<i>/*4*/	char _pad4[0x57];</i>
-<i>/*5B*/	</i>char __end <u></u>;
+<i>/*4*/	char _pad4[0x3C];</i>
+<span class='mm'>/**also points to an index for this same kind of struct*/</span>
+<i>/*40*/	</i>char moreIndices40[20] <u></u>;
+<span class='mm'>/**also points to an index for this same kind of struct*/</span>
+<i>/*54*/	</i>char moreIndices50[8] <u></u>;
 };</div>
 <div id='struc_Bin34A16'>struct <h3>Bin34A16</h3> { <i>/*1 members, size 40h*/</i>
 <i>/*0*/	char _pad0[0x3F];</i>
@@ -1047,9 +1067,12 @@ pre.ida span.hi {
 <i>/*0*/	char _pad0[0xB];</i>
 <i>/*B*/	</i>char __end <u></u>;
 };</div>
-<div id='struc_Bin34A1F'>struct <h3>Bin34A1F</h3> { <i>/*1 members, size Ch*/</i>
-<i>/*0*/	char _pad0[0xB];</i>
-<i>/*B*/	</i>char __end <u></u>;
+<div id='struc_Bin34A1F'>struct <h3>Bin34A1F</h3> { <i>/*3 members, size Ch*/</i>
+<i>/*0*/	</i>unsigned int carNameHash;
+<span class='mm'>/**to be matched with {struct Bin34A11+8} when game region is US*/</span>
+<i>/*4*/	</i>unsigned int hash4;
+<span class='mm'>/**to be matched with {struct Bin34A11+8} when game region is NOT US*/</span>
+<i>/*8*/	</i>unsigned int hash8;
 };</div>
 <div id='struc_BinDataLanguage39000'>struct <h3>BinDataLanguage39000</h3> { <i>/*4 members, size 10h*/</i>
 <i id='struc_BinDataLanguage390000'></i><i>/*0*/	int field_0;</i>
@@ -1086,22 +1109,6 @@ pre.ida span.hi {
 };</div>
 <div class='mm'>
 <p>in GLOBALB.BUN section 80034A10, size 7700
-<p></div>
-<div id='struc_BinSection34A11_0_18'>struct <h3>BinSection34A11_0_18</h3> { <i>/*3 members, size 4h*/</i>
-<i>/*0*/	short field_0;</i>
-<i>/*2*/	char field_2;</i>
-<i>/*3*/	char field_3;</i>
-};</div>
-<div class='mm'>
-<p>size 4
-<p></div>
-<div id='struc_BinSection34A11_0_38'>struct <h3>BinSection34A11_0_38</h3> { <i>/*2 members, size 8h*/</i>
-<i>/*0*/	char field_0;</i>
-<i>/*1*/	char _pad1[0x3];</i>
-<i>/*4*/	</i>unsigned int hash4;
-};</div>
-<div class='mm'>
-<p>size 8
 <p></div>
 <div id='struc_BinSectionHandler'>struct <h3>BinSectionHandler</h3> { <i>/*3 members, size Ch*/</i>
 <i id='struc_BinSectionHandler0'></i><i>/*0*/	</i>unsigned int magic;
@@ -1233,6 +1240,7 @@ unknown length, but max 16?*/</span>
 <li><pre><i>516340</i> <a href='funcs.html#516340' title='int __thiscall CarCollection__IsCareerSlotUsed(struct CarCollection *this, unsigned int slotNameHash);'>CarCollection::IsCareerSlotUsed</a></pre></li>
 <li><pre><i>5163A0</i> <a href='funcs.html#5163A0' title='int __thiscall CarCollection__IsSlotUsed(struct CarCollection *this, unsigned int slotNameHash);'>CarCollection::IsSlotUsed</a></pre></li>
 <li><pre><i>516500</i> <a href='funcs.html#516500' title='void __thiscall CarCollection__LoadStockCars(struct CarCollection *this, int unused);'>CarCollection::LoadStockCars</a></pre></li>
+<li><pre><i>5166B0</i> <a href='funcs.html#5166B0' title='int __thiscall CarCollection__WriteToSaveData(struct CarCollection *this, int, int);'>CarCollection::WriteToSaveData</a></pre></li>
 </ul>
 <div id='struc_CarCollection9BD8'>struct <h3>CarCollection9BD8</h3> { <i>/*3 members, size Ch*/</i>
 <i>/*0*/	</i>int vtable <u></u>;
@@ -1386,7 +1394,6 @@ When canceling at that point, it's set back to 1
 <li><pre><i>513A50</i> <a href='funcs.html#513A50' title='int __thiscall Career__513A50(struct Career *this, char, char *dst);'>Career::513A50</a></pre></li>
 <li><pre><i>513B30</i> <a href='funcs.html#513B30' title='void __thiscall Career__513B30(struct Career *this);'>Career::513B30</a></pre></li>
 <li><pre><i>513BC0</i> <a href='funcs.html#513BC0' title='int __thiscall Career__513BC0(struct Career *this);'>Career::513BC0</a></pre></li>
-<li><pre><i>513C50</i> <a href='funcs.html#513C50' title='int __thiscall Career__513C50(struct Career *this, int);'>Career::513C50</a></pre></li>
 <li><pre><i>5142E0</i> <a href='funcs.html#5142E0' title='int __thiscall Career__5142E0(struct Career *this, int, int, int);'>Career::5142E0</a></pre></li>
 <li><pre><i>5143C0</i> <a href='funcs.html#5143C0' title='int __thiscall Career__5143C0(struct Career *this, int, int);'>Career::5143C0</a></pre></li>
 <li><pre><i>527780</i> <a href='funcs.html#527780' title='struct Bin34A11 *__thiscall Career__527780(struct Career *this, struct Marker *marker);'>Career::527780</a></pre></li>
@@ -1429,6 +1436,7 @@ When canceling at that point, it's set back to 1
 <li><pre><i>532740</i> <a href='funcs.html#532740' title='struct Career *__thiscall Career__ctor(struct Career *this);'>Career::ctor</a></pre></li>
 <li><pre><i>532D40</i> <a href='funcs.html#532D40' title='void __thiscall Career__EngageTipMarkerHit(struct Career *this, struct Marker *marker);'>Career::EngageTipMarkerHit</a></pre></li>
 <li><pre><i>5003B0</i> <a href='funcs.html#5003B0' title='struct Career7B00 *__thiscall Career__FindCareer7B00WithHash0(struct Career *this, unsigned int hash);'>Career::FindCareer7B00WithHash0</a></pre></li>
+<li><pre><i>513C50</i> <a href='funcs.html#513C50' title='void __thiscall Career__GetAvailableStockCars(struct Career *this, struct ObjectLink *link);'>Career::GetAvailableStockCars</a></pre></li>
 <li><pre><i>532E50</i> <a href='funcs.html#532E50' title='int __thiscall Career__GetBankWonFromRace(struct Career *this);'>Career::GetBankWonFromRace</a></pre></li>
 <li><pre><i>513C30</i> <a href='funcs.html#513C30' title='struct CareerCar *__thiscall Career__GetCarForActiveCareerCarSlot(struct Career *this);'>Career::GetCarForActiveCareerCarSlot</a></pre></li>
 <li><pre><i>5004C0</i> <a href='funcs.html#5004C0' title='int __thiscall Career__getField7138(struct Career *this);'>Career::getField7138</a></pre></li>
@@ -1725,6 +1733,7 @@ When canceling at that point, it's set back to 1
 <p><strong>Methods:</strong></p>
 <ul>
 <li><pre><i>5037F0</i> <a href='funcs.html#5037F0' title='int __thiscall CareerCar__5037F0(struct CareerCar *this);'>CareerCar::5037F0</a></pre></li>
+<li><pre><i>516620</i> <a href='funcs.html#516620' title='int __thiscall CareerCar__WriteToSaveData(struct CareerCar *this, int, int);'>CareerCar::WriteToSaveData</a></pre></li>
 </ul>
 <div id='struc_CareerCar434'>struct <h3>CareerCar434</h3> { <i>/*10 members, size 3C0h*/</i> <em></em>
 <span class='mm'>/**87 entries see 503E8B*/</span>
@@ -1816,8 +1825,10 @@ When canceling at that point, it's set back to 1
 <div id='struc_CareerCarLotFNGObject'>struct <h3>CareerCarLotFNGObject</h3> { <i>/*27 members, size 1C0h*/</i> <em></em>
 <i>/*0*/	</i><a href='#struc_FNGObject'>struct FNGObject</a> __parent;
 <i>/*4C*/	int field_4C;</i>
+<span class='mm'>/**entries are <a href='structs.html#struc_CareerCarLotFNGObject_50'>struct CareerCarLotFNGObject_50</a> (link offset 10h)*/</span>
 <i>/*50*/	</i><a href='#struc_ObjectLink'>struct ObjectLink</a> link50;
-<i>/*58*/	</i>int ptrField_58 <u></u>;
+<span class='mm'>/**this is an entry that is in <a href='structs.html#struc_CareerCarLotFNGObject_5010'>link</a>*/</span>
+<i>/*58*/	</i><a href='structs.html#struc_CareerCarLotFNGObject_50'>struct CareerCarLotFNGObject_50</a> *currentSelectedCar;
 <i>/*5C*/	int field_5C;</i>
 <i>/*60*/	</i>unsigned int currentActiveSlotHash?;
 <i>/*64*/	int field_64;</i>
@@ -1827,7 +1838,7 @@ When canceling at that point, it's set back to 1
 <i id='struc_CareerCarLotFNGObject74'></i><i>/*74*/	</i>int numUnlockedAndFreeInventorySlots;
 <i id='struc_CareerCarLotFNGObject78'></i><i>/*78*/	</i>int numUnlockedInventorySlots;
 <i>/*7C*/	int field_7C;</i>
-<i>/*80*/	int field_80;</i>
+<i>/*80*/	</i>int numEntriesInLink50 <u></u>;
 <i>/*84*/	int field_84;</i>
 <i>/*88*/	</i><a href='#struc_ScrollingThing'>struct ScrollingThing</a> scrollingThing;
 <i>/*E0*/	int field_E0;</i>
@@ -1845,16 +1856,115 @@ When canceling at that point, it's set back to 1
 };</div>
 <p><strong>Methods:</strong></p>
 <ul>
-<li><pre><i>496160</i> <a href='funcs.html#496160' title='void __thiscall CareerCarLotFNGObject__496160(struct CareerCarLotFNGObject *this);'>CareerCarLotFNGObject::496160</a></pre></li>
-<li><pre><i>4AFE00</i> <a href='funcs.html#4AFE00' title='void __thiscall CareerCarLotFNGObject__4AFE00(struct CareerCarLotFNGObject *this);'>CareerCarLotFNGObject::4AFE00</a></pre></li>
-<li><pre><i>4EE1A0</i> <a href='funcs.html#4EE1A0' title='int __thiscall CareerCarLotFNGObject__4EE1A0(struct CareerCarLotFNGObject *this);'>CareerCarLotFNGObject::4EE1A0</a></pre></li>
+<li><pre><i>495F00</i> <a href='funcs.html#495F00' title='int __thiscall CareerCarLotFNGObject__495F00(struct CareerCarLotFNGObject *this, int);'>CareerCarLotFNGObject::495F00</a></pre></li>
+<li><pre><i>4ED8A0</i> <a href='funcs.html#4ED8A0' title='int __thiscall CareerCarLotFNGObject__4ED8A0(struct CareerCarLotFNGObject *this, int);'>CareerCarLotFNGObject::4ED8A0</a></pre></li>
 <li><pre><i>496050</i> <a href='funcs.html#496050' title='int __thiscall CareerCarLotFNGObject__BuyCar(struct CareerCarLotFNGObject *this, unsigned int hashOfCareerSlot, unsigned int stockCarHash);'>CareerCarLotFNGObject::BuyCar</a></pre></li>
 <li><pre><i>495F70</i> <a href='funcs.html#495F70' title='void __thiscall CareerCarLotFNGObject__CountAvailableInventorySlots(struct CareerCarLotFNGObject *this);'>CareerCarLotFNGObject::CountAvailableInventorySlots</a></pre></li>
 <li><pre><i>4F9930</i> <a href='funcs.html#4F9930' title='struct CareerCarLotFNGObject *__thiscall CareerCarLotFNGObject__ctor(struct CareerCarLotFNGObject *this, void *fngShowData);'>CareerCarLotFNGObject::ctor</a></pre></li>
 <li><pre><i>495FD0</i> <a href='funcs.html#495FD0' title='int __thiscall CareerCarLotFNGObject__GetFirstUnlockedUnusedCareerCarSlotIndex(struct CareerCarLotFNGObject *this);'>CareerCarLotFNGObject::GetFirstUnlockedUnusedCareerCarSlotIndex</a></pre></li>
 <li><pre><i>4DF9C0</i> <a href='funcs.html#4DF9C0' title='void __thiscall CareerCarLotFNGObject__InitializeBrowsableCars(struct CareerCarLotFNGObject *this, enum INVENTORY_CAR_FLAGS flag14ToCheck);'>CareerCarLotFNGObject::InitializeBrowsableCars</a></pre></li>
+<li><pre><i>4EE1A0</i> <a href='funcs.html#4EE1A0' title='int __thiscall CareerCarLotFNGObject__InitializeBrowsableCarsAndSelectFirst(struct CareerCarLotFNGObject *this);'>CareerCarLotFNGObject::InitializeBrowsableCarsAndSelectFirst</a></pre></li>
 <li><pre><i>496080</i> <a href='funcs.html#496080' title='void __thiscall CareerCarLotFNGObject__InitializeProgressBars(struct CareerCarLotFNGObject *this);'>CareerCarLotFNGObject::InitializeProgressBars</a></pre></li>
+<li><pre><i>4AFF40</i> <a href='funcs.html#4AFF40' title='int __thiscall CareerCarLotFNGObject__IsCarInAvailableStockCarList(struct CareerCarLotFNGObject *this, int, struct InventoryCar *inventoryCar, struct ObjectLink *availableStockCarList);'>CareerCarLotFNGObject::IsCarInAvailableStockCarList</a></pre></li>
 <li><pre><i>4ED9E0</i> <a href='funcs.html#4ED9E0' title='CareerCarLotFNGObject::MessageHandler'>CareerCarLotFNGObject::MessageHandler</a></pre></li>
+<li><pre><i>496160</i> <a href='funcs.html#496160' title='void __thiscall CareerCarLotFNGObject__UpdateAccelerationTopspeedHandlingProgressBars(struct CareerCarLotFNGObject *this);'>CareerCarLotFNGObject::UpdateAccelerationTopspeedHandlingProgressBars</a></pre></li>
+<li><pre><i>4AFE00</i> <a href='funcs.html#4AFE00' title='void __thiscall CareerCarLotFNGObject__UpdateUIForSelectedCar(struct CareerCarLotFNGObject *this);'>CareerCarLotFNGObject::UpdateUIForSelectedCar</a></pre></li>
+</ul>
+<div id='struc_CareerCarLotFNGObject_50'>struct <h3>CareerCarLotFNGObject_50</h3> { <i>/*17 members, size 930h*/</i> <em></em>
+<span class='mm'>/**just a dtor*/</span>
+<i>/*0*/	</i>int vtable <u></u>;
+<i>/*4*/	int field_4;</i>
+<i>/*8*/	int field_8;</i>
+<i>/*C*/	int field_C;</i>
+<i id='struc_CareerCarLotFNGObject_5010'></i><i>/*10*/	</i><a href='#struc_ObjectLink'>struct ObjectLink</a> link;
+<i>/*18*/	int field_18;</i>
+<i>/*1C*/	int field_1C;</i>
+<i>/*20*/	<a href='#struc_CareerCarLotFNGObject_50_20'>struct CareerCarLotFNGObject_50_20</a> field_20;</i>
+<i>/*90C*/	int field_90C;</i>
+<span class='mm'>/**1 or 2*/</span>
+<i>/*910*/	</i>unsigned int playerId;
+<span class='mm'>/**just a guess*/</span>
+<i>/*914*/	</i>char needApplyTuningToCarInstance;
+<i>/*915*/	char _pad915[0x3];</i>
+<i>/*918*/	</i><a href='structs.html#struc_Car'>struct Car</a> *car;
+<i>/*91C*/	int field_91C;</i>
+<span class='mm'>/**gets its value from <a href='structs.html#struc_InventoryCar'>struct InventoryCar</a>.<a href='structs.html#struc_InventoryCar8'>slotHash</a>*/</span>
+<i>/*920*/	</i>int slotHash <u></u>;
+<i>/*924*/	int field_924;</i>
+<i>/*928*/	int field_928;</i>
+<i>/*92C*/	char _pad92C[0x3];</i>
+<i>/*92F*/	</i>char __end <u></u>;
+};</div>
+<p><strong>Methods:</strong></p>
+<ul>
+<li><pre><i>511E00</i> <a href='funcs.html#511E00' title='struct CareerCarLotFNGObject_50_20 *__thiscall CareerCarLotFNGObject_50__ApplyTuningToCarInstanceIfNotDoneAlready(struct CareerCarLotFNGObject_50 *this);'>CareerCarLotFNGObject_50::ApplyTuningToCarInstanceIfNotDoneAlready</a></pre></li>
+<li><pre><i>511DB0</i> <a href='funcs.html#511DB0' title='int __thiscall CareerCarLotFNGObject_50__ctor(struct CareerCarLotFNGObject_50 *this, struct Car *car, int, unsigned int slotHash, int playerId, char);'>CareerCarLotFNGObject_50::ctor</a></pre></li>
+</ul>
+<div id='struc_CareerCarLotFNGObject_50_20'>struct <h3>CareerCarLotFNGObject_50_20</h3> { <i>/*13 members, size 8ECh*/</i> <em></em>
+<i>/*0*/	int field_0;</i>
+<i>/*4*/	char field_4;</i>
+<i>/*5*/	char field_5;</i>
+<i>/*6*/	char field_6;</i>
+<i>/*7*/	char field_7;</i>
+<i>/*8*/	char _pad8[0x8];</i>
+<i>/*10*/	<a href='#struc_CareerCarLotFNGObject_50_20_10'>struct CareerCarLotFNGObject_50_20_10</a> field_10;</i>
+<i>/*580*/	char field_580;</i>
+<i>/*581*/	char field_581;</i>
+<i>/*582*/	char _pad582[0x2];</i>
+<i>/*584*/	int field_584;</i>
+<i>/*588*/	char _pad588[0x8];</i>
+<i>/*590*/	char field_590[680];</i>
+<i>/*838*/	char field_838[170];</i>
+<i>/*8E2*/	char _pad8E2[0x2];</i>
+<i>/*8E4*/	int field_8E4;</i>
+<i>/*8E8*/	int field_8E8;</i>
+};</div>
+<p><strong>Methods:</strong></p>
+<ul>
+<li><pre><i>610270</i> <a href='funcs.html#610270' title='int __thiscall CareerCarLotFNGObject_50_20__610270(struct CareerCarLotFNGObject_50_20 *this, int, int, char, char);'>CareerCarLotFNGObject_50_20::610270</a></pre></li>
+<li><pre><i>40C910</i> <a href='funcs.html#40C910' title='void __thiscall CareerCarLotFNGObject_50_20__ctor(struct CareerCarLotFNGObject_50_20 *this);'>CareerCarLotFNGObject_50_20::ctor</a></pre></li>
+</ul>
+<div id='struc_CareerCarLotFNGObject_50_20_10'>struct <h3>CareerCarLotFNGObject_50_20_10</h3> { <i>/*18 members, size 570h*/</i> <em></em>
+<i>/*0*/	int field_0;</i>
+<i>/*4*/	char field_4;</i>
+<i>/*5*/	char _pad5[0x3];</i>
+<i>/*8*/	int field_8;</i>
+<i>/*C*/	int field_C;</i>
+<i>/*10*/	int field_10;</i>
+<i>/*14*/	int field_14;</i>
+<i>/*18*/	int field_18;</i>
+<i>/*1C*/	int field_1C;</i>
+<i>/*20*/	int field_20;</i>
+<i>/*24*/	char _pad24[0xC];</i>
+<i>/*30*/	int field_30;</i>
+<i>/*34*/	char _pad34[0x10C];</i>
+<i>/*140*/	int field_140;</i>
+<i>/*144*/	int field_144;</i>
+<i>/*148*/	int field_148;</i>
+<i>/*14C*/	int field_14C;</i>
+<i>/*150*/	char _pad150[0x40];</i>
+<i>/*190*/	int field_190;</i>
+<i>/*194*/	char _pad194[0x14C];</i>
+<i>/*2E0*/	<a href='#struc_CareerCarLotFNGObject_50_20_10_2E0'>struct CareerCarLotFNGObject_50_20_10_2E0</a> field_2E0;</i>
+<i>/*374*/	<a href='#struc_s734'>struct s734</a> field_374;</i>
+<i>/*45C*/	<a href='#struc_s735'>struct s735</a> field_45C;</i>
+};</div>
+<p><strong>Methods:</strong></p>
+<ul>
+<li><pre><i>5A7890</i> <a href='funcs.html#5A7890' title='int __thiscall CareerCarLotFNGObject_50_20_10__5A7890(struct CareerCarLotFNGObject_50_20_10 *this, int);'>CareerCarLotFNGObject_50_20_10::5A7890</a></pre></li>
+<li><pre><i>5AC6E0</i> <a href='funcs.html#5AC6E0' title='int __thiscall CareerCarLotFNGObject_50_20_10__ctor(struct CareerCarLotFNGObject_50_20_10 *this);'>CareerCarLotFNGObject_50_20_10::ctor</a></pre></li>
+</ul>
+<div id='struc_CareerCarLotFNGObject_50_20_10_2E0'>struct <h3>CareerCarLotFNGObject_50_20_10_2E0</h3> { <i>/*3 members, size 94h*/</i> <em></em>
+<i>/*0*/	char field_0[40];</i>
+<i>/*28*/	char field_28[40];</i>
+<i>/*50*/	char field_50[68];</i>
+};</div>
+<p><strong>Methods:</strong></p>
+<ul>
+<li><pre><i>599680</i> <a href='funcs.html#599680' title='int __thiscall CareerCarLotFNGObject_50_20_10_2E0__599680(struct CareerCarLotFNGObject_50_20_10_2E0 *this, int index, int, int);'>CareerCarLotFNGObject_50_20_10_2E0::599680</a></pre></li>
+<li><pre><i>5A6320</i> <a href='funcs.html#5A6320' title='int __thiscall CareerCarLotFNGObject_50_20_10_2E0__5A6320(struct CareerCarLotFNGObject_50_20_10_2E0 *this, struct Bin34A15_C *bin34A15_C, int, int);'>CareerCarLotFNGObject_50_20_10_2E0::5A6320</a></pre></li>
+<li><pre><i>5A6400</i> <a href='funcs.html#5A6400' title='int __thiscall CareerCarLotFNGObject_50_20_10_2E0__5A6400(struct CareerCarLotFNGObject_50_20_10_2E0 *this, struct Bin34A15 *bin34A15, int);'>CareerCarLotFNGObject_50_20_10_2E0::5A6400</a></pre></li>
+<li><pre><i>5A6450</i> <a href='funcs.html#5A6450' title='int __thiscall CareerCarLotFNGObject_50_20_10_2E0__5A6450(struct CareerCarLotFNGObject_50_20_10_2E0 *this, int);'>CareerCarLotFNGObject_50_20_10_2E0::5A6450</a></pre></li>
 </ul>
 <div id='struc_CareerCarSelectFNGObject'>struct <h3>CareerCarSelectFNGObject</h3> { <i>/*2 members, size 1B0h*/</i> <em></em>
 <i>/*0*/	</i><a href='#struc_FNGObject'>struct FNGObject</a> __parent;
@@ -3679,7 +3789,7 @@ TODO please reconfirm*/</span>
 <span class='mm'>/**not only a destructor!*/</span>
 <i>/*0*/	</i><a href='structs.html#struc_InventoryCar$vtable'>struct InventoryCar$vtable</a> *vtable;
 <i>/*4*/	int field_4;</i>
-<span class='mm'>/**STOCK_PEUGEOT when stock,
+<i id='struc_InventoryCar8'></i><span class='mm'>/**STOCK_PEUGEOT when stock,
 0 when unused tuned,
 CAREER_SLOT_%d when career,
 SPONSOR_SNOOP_DOGG when sponsor
@@ -4701,6 +4811,7 @@ for money: hash of sound effect to play!?*/</span>
 <p><strong>Methods:</strong></p>
 <ul>
 <li><pre><i>4DEF30</i> <a href='funcs.html#4DEF30' title='void __thiscall ObjectLink__dtor(struct ObjectLink *this);'>ObjectLink::dtor</a></pre></li>
+<li><pre><i>479100</i> <a href='funcs.html#479100' title='void __cdecl ObjectLink__EmptyAndFreeAll_Offset10(struct ObjectLink *this);'>ObjectLink::EmptyAndFreeAll_Offset10</a></pre></li>
 <li><pre><i>43BE60</i> <a href='funcs.html#43BE60' title='struct ObjectLink *__thiscall ObjectLink__GetObjectAtIndex(struct ObjectLink *this, int index);'>ObjectLink::GetObjectAtIndex</a></pre></li>
 </ul>
 <div id='struc_OL138'>struct <h3>OL138</h3> { <i>/*4 members, size 14h*/</i>
@@ -5637,6 +5748,7 @@ Markers is just section <code>3414A</code> but this func loads more than that
 <li><pre><i>515AA0</i> <a href='funcs.html#515AA0' title='void __thiscall Player__Clear(struct Player *this, int playerIndex, int);'>Player::Clear</a></pre></li>
 <li><pre><i>5344A0</i> <a href='funcs.html#5344A0' title='void __thiscall Player__ctor(struct Player *this);'>Player::ctor</a></pre></li>
 <li><pre><i>525CE0</i> <a href='funcs.html#525CE0' title='void __thiscall Player__dtor(struct Player *this);'>Player::dtor</a></pre></li>
+<li><pre><i>52A280</i> <a href='funcs.html#52A280' title='Player::WriteToSaveData'>Player::WriteToSaveData</a></pre></li>
 </ul>
 <div id='struc_Player24'>struct <h3>Player24</h3> { <i>/*28 members, size B0h*/</i> <em></em>
 <i>/*0*/	int field_0;</i>
@@ -5924,7 +6036,7 @@ usually a stock car, often STOCK_RX8. some kind of "default car to pick"*/</span
 <i id='struc_ProfileData156A8'></i><span class='mm'>/**0x200 when connecting to OL, 8 when connecting LAN(?), 8 when opening online menu, 2 in menus, 1 ingame, 0x100 =?*/</span>
 <i>/*156A8*/</i>int someOLState <u></u>;
 <i>/*156AC*/char _pad156AC[0x4];</i>
-<i>/*156B0*/<a href='#struc_ProfileData156B0'>struct ProfileData156B0</a> field_156B0;</i>
+<i id='struc_ProfileData156B0'></i><i>/*156B0*/<a href='#struc_ProfileData156B0'>struct ProfileData156B0</a> field_156B0;</i>
 <i>/*1576C*/char _pad1576C[0x14];</i>
 <i>/*15780*/int field_15780;</i>
 <i>/*15784*/int field_15784;</i>
@@ -6087,6 +6199,7 @@ usually a stock car, often STOCK_RX8. some kind of "default car to pick"*/</span
 <p><strong>Methods:</strong></p>
 <ul>
 <li><pre><i>5030E0</i> <a href='funcs.html#5030E0' title='void __thiscall ProfileData156B0__ctor(struct ProfileData156B0 *this);'>ProfileData156B0::ctor</a></pre></li>
+<li><pre><i>515BF0</i> <a href='funcs.html#515BF0' title='ProfileData156B0::WriteToSaveData'>ProfileData156B0::WriteToSaveData</a></pre></li>
 </ul>
 <div id='struc_ProfileData156B0_SubA'>struct <h3>ProfileData156B0_SubA</h3> { <i>/*4 members, size Dh*/</i>
 <i>/*0*/	int field_0;</i>
@@ -6323,8 +6436,38 @@ usually a stock car, often STOCK_RX8. some kind of "default car to pick"*/</span
 <li><pre><i>5678E0</i> <a href='funcs.html#5678E0' title='struct RimsBrowserFNGObject *__thiscall RimsBrowserFNGObject__ctor(struct RimsBrowserFNGObject *this, struct FNGShowData *fngShowData);'>RimsBrowserFNGObject::ctor</a></pre></li>
 <li><pre><i>567A50</i> <a href='funcs.html#567A50' title='RimsBrowserFNGObject::MessageHandler'>RimsBrowserFNGObject::MessageHandler</a></pre></li>
 </ul>
+<div id='struc_s734'>struct <h3>s734</h3> { <i>/*10 members, size E8h*/</i> <em></em>
+<span class='mm'>/**initialized to -1*/</span>
+<i>/*0*/	int field_0;</i>
+<span class='mm'>/**initialized to 1*/</span>
+<i>/*4*/	int field_4;</i>
+<i>/*8*/	int field_8;</i>
+<i>/*C*/	int field_C;</i>
+<i>/*10*/	int field_10;</i>
+<span class='mm'>/**gonna take a leap and assume this is this struct. it looks the same &amp; is initialized the same.*/</span>
+<i>/*14*/	<a href='#struc_TunedCar360'>struct TunedCar360</a> field_14;</i>
+<i>/*3D*/	char _pad3D[0x3];</i>
+<i>/*40*/	char field_40[92];</i>
+<i>/*9C*/	char field_9C[36];</i>
+<i>/*C0*/	char field_C0[36];</i>
+<i>/*E4*/	int field_E4;</i>
+};</div>
+<p><strong>Methods:</strong></p>
+<ul>
+<li><pre><i>5A7970</i> <a href='funcs.html#5A7970' title='struct s734 *__thiscall s734__ctor(struct s734 *this);'>s734::ctor</a></pre></li>
+</ul>
+<div id='struc_s735'>struct <h3>s735</h3> { <i>/*6 members, size 114h*/</i>
+<i>/*0*/	float floatField_0[64];</i>
+<i>/*100*/	int field_100;</i>
+<i>/*104*/	float field_104;</i>
+<i>/*108*/	float floatField_108;</i>
+<i>/*10C*/	int floatField_10C;</i>
+<span class='mm'>/**it's initialized to <code>this</code>, but it could be more broad*/</span>
+<i>/*110*/	<a href='structs.html#struc_s735'>struct s735</a> *field_110;</i>
+};</div>
 <div id='struc_ScrollingThing'>struct <h3>ScrollingThing</h3> { <i>/*25 members, size 58h*/</i> <em></em>
-<i>/*0*/	char field_0;</i>
+<i>/*0*/	</i>char isVertical? <u></u>;
+<span class='mm'>/**handle gets drawn stretched horizontally if 1*/</span>
 <i>/*1*/	char field_1;</i>
 <i>/*2*/	char field_2;</i>
 <i>/*3*/	char field_3;</i>
@@ -6364,16 +6507,17 @@ usually a stock car, often STOCK_RX8. some kind of "default car to pick"*/</span
 <p></div>
 <p><strong>Methods:</strong></p>
 <ul>
-<li><pre><i>52E200</i> <a href='funcs.html#52E200' title='int __thiscall ScrollingThing__52E200(struct ScrollingThing *this, float, float ptrFloatA, float ptrFloatB);'>ScrollingThing::52E200</a></pre></li>
-<li><pre><i>52E320</i> <a href='funcs.html#52E320' title='int __thiscall ScrollingThing__52E320(struct ScrollingThing *this, float, float, int);'>ScrollingThing::52E320</a></pre></li>
 <li><pre><i>52E4E0</i> <a href='funcs.html#52E4E0' title='void __thiscall ScrollingThing__52E4E0(struct ScrollingThing *this);'>ScrollingThing::52E4E0</a></pre></li>
-<li><pre><i>538080</i> <a href='funcs.html#538080' title='int __thiscall ScrollingThing__538080(struct ScrollingThing *this, int, int, int);'>ScrollingThing::538080</a></pre></li>
+<li><pre><i>538080</i> <a href='funcs.html#538080' title='int __thiscall ScrollingThing__538080(struct ScrollingThing *this, int, int numEntries, int);'>ScrollingThing::538080</a></pre></li>
 <li><pre><i>495810</i> <a href='funcs.html#495810' title='void __thiscall ScrollingThing__ApplyBlinkAnimationToLeftArrowIfNotAlready(struct ScrollingThing *this);'>ScrollingThing::ApplyBlinkAnimationToLeftArrowIfNotAlready</a></pre></li>
 <li><pre><i>495850</i> <a href='funcs.html#495850' title='void __thiscall ScrollingThing__ApplyBlinkAnimationToRightArrowIfNotAlready(struct ScrollingThing *this);'>ScrollingThing::ApplyBlinkAnimationToRightArrowIfNotAlready</a></pre></li>
 <li><pre><i>52E470</i> <a href='funcs.html#52E470' title='void __thiscall ScrollingThing__CheckMouseClickOnArrows(struct ScrollingThing *this);'>ScrollingThing::CheckMouseClickOnArrows</a></pre></li>
 <li><pre><i>52E670</i> <a href='funcs.html#52E670' title='void __thiscall ScrollingThing__CheckMouseClickOnBar(struct ScrollingThing *this);'>ScrollingThing::CheckMouseClickOnBar</a></pre></li>
 <li><pre><i>538130</i> <a href='funcs.html#538130' title='void __thiscall ScrollingThing__CheckMouseInput(struct ScrollingThing *this);'>ScrollingThing::CheckMouseInput</a></pre></li>
 <li><pre><i>542AC0</i> <a href='funcs.html#542AC0' title='struct ScrollingThing *__thiscall ScrollingThing__ctor(struct ScrollingThing *this, char *fngName, char *basename, char, char, char);'>ScrollingThing::ctor</a></pre></li>
+<li><pre><i>50D820</i> <a href='funcs.html#50D820' title='void __thiscall ScrollingThing__SetArrowVisibility(struct ScrollingThing *this, int arrow, char visible);'>ScrollingThing::SetArrowVisibility</a></pre></li>
+<li><pre><i>52E200</i> <a href='funcs.html#52E200' title='int __thiscall ScrollingThing__UpdateHandlePositionProbably1(struct ScrollingThing *this, int, int numEntries, int);'>ScrollingThing::UpdateHandlePositionProbably1</a></pre></li>
+<li><pre><i>52E320</i> <a href='funcs.html#52E320' title='int __thiscall ScrollingThing__UpdateHandlePositionProbably2(struct ScrollingThing *this, int, int numEntries, int);'>ScrollingThing::UpdateHandlePositionProbably2</a></pre></li>
 </ul>
 <div id='struc_ShowcaseDPADFNGObject'>struct <h3>ShowcaseDPADFNGObject</h3> { <i>/*1 members, size 4Ch*/</i> <em></em>
 <i>/*0*/	</i><a href='#struc_FNGObject'>struct FNGObject</a> __parent;
@@ -7161,6 +7305,13 @@ size may be bigger, unknown
 <i>/*0*/	</i>int tv_sec;
 <i>/*4*/	</i>int tv_usec;
 };</div>
+<div id='struc_Tmp4DF9C0ListEntry'>struct <h3>Tmp4DF9C0ListEntry</h3> { <i>/*2 members, size Ch*/</i>
+<i>/*0*/	</i><a href='#struc_ObjectLink'>struct ObjectLink</a> link;
+<i>/*8*/	</i>int carIndex;
+};</div>
+<div class='mm'>
+<p>allocated at 513CF8 in <a href='funcs.html#513C50'>Career::GetAvailableStockCars</a>, used &amp; free'd in <a href='funcs.html#4DF9C0'>CareerCarLotFNGObject::InitializeBrowsableCars</a>
+<p></div>
 <div id='struc_TrailersFNGObject'>struct <h3>TrailersFNGObject</h3> { <i>/*1 members, size 4Ch*/</i> <em></em>
 <i>/*0*/	</i><a href='#struc_FNGObject'>struct FNGObject</a> __parent;
 };</div>
@@ -7556,7 +7707,7 @@ same as <a href='structs.html#struc_TunedCar18_348_20'>struct TunedCar18_348_20<
 <i>/*18*/	</i>int type;
 <i id='struc_UIElement1C'></i><i>/*1C*/	</i><a href='enums.html#enu_UIELEMENTFLAGS'>enum UIELEMENTFLAGS</a> flags;
 <i>/*20*/	int field_20;</i>
-<span class='mm'>/**see 497414 (textureHash) and 566250 (movieName)*/</span>
+<i id='struc_UIElement24'></i><span class='mm'>/**see 497414 (textureHash) and 566250 (movieName)*/</span>
 <i>/*24*/	</i>unsigned int textureHashOrMovieName;
 <i>/*28*/	int field_28;</i>
 <span class='mm'>/**some positioning (and maybe size) thing?*/</span>
@@ -7736,6 +7887,7 @@ although if this element is a label, the measured text height (which is also a g
 <ul>
 <li><pre><i>4FF430</i> <a href='funcs.html#4FF430' title='void __thiscall UIProgressBar__ctor(struct UIProgressBar *this);'>UIProgressBar::ctor</a></pre></li>
 <li><pre><i>540C10</i> <a href='funcs.html#540C10' title='void __thiscall UIProgressBar__InitializeElements(struct UIProgressBar *this, struct UIProgressBarInitializeElementsConfig *config, char toBePutInField4);'>UIProgressBar::InitializeElements</a></pre></li>
+<li><pre><i>4FF550</i> <a href='funcs.html#4FF550' title='void __thiscall UIProgressBar__SetValue(struct UIProgressBar *this, float value);'>UIProgressBar::SetValue</a></pre></li>
 <li><pre><i>512240</i> <a href='funcs.html#512240' title='void __thiscall UIProgressBar__ShowOrHideElements(struct UIProgressBar *this, char doShow);'>UIProgressBar::ShowOrHideElements</a></pre></li>
 </ul>
 <div id='struc_UIProgressBar$vtable'>struct <h3>UIProgressBar$vtable</h3> { <i>/*9 members, size 24h*/</i>
@@ -7751,7 +7903,7 @@ although if this element is a label, the measured text height (which is also a g
 <span class='mm'>/**526F80*/</span>
 <i>/*14*/	int field_14;</i>
 <span class='mm'>/**4FF530*/</span>
-<i>/*18*/	int field_18;</i>
+<i>/*18*/	</i>int procUpdateUIToReflectCurrentValue <u></u>;
 <span class='mm'>/**540E90*/</span>
 <i>/*1C*/	int field_1C;</i>
 <span class='mm'>/**540D20*/</span>
