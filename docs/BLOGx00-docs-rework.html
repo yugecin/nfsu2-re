@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang='en'><head><meta charset='utf-8'/>
+<!DOCTYPE html><html lang='en'><head><meta charset=utf-8>
 <title>nfsu2-re/BLOGx00: Docs rework</title>
 <style>
 body {
@@ -204,6 +204,16 @@ AgMAAAArG7R0AAAABGdBTUEAALGPC/xhBQAAAAFzUkdCAK7OHOkAAAAJcEhZcwAADsMAAA7DAcdvqGQ\
 AAAAJUExURUdwTAD/AAAA//ENIZIAAAABdFJOUwBA5thmAAAAL0lEQVQI12NggAFRBwaG0AQGptAVDF\
 wzsxi4Zq1k4JqaCcZMU1cwMCxbwMCg1QAArE8JoyhJwYoAAAAASUVORK5CYII=') no-repeat;
 }
+.sym div.mm {
+	background: #efefef;
+	border: 1px dashed #000;
+	border-bottom: 0;
+	margin-bottom: 0;
+	padding: .2em .5em;
+}
+.sym div.mm + div {
+	margin-top: 0;
+}
 div.mm div {
 	margin: 2em 0;
 	padding-left: 1em;
@@ -267,7 +277,7 @@ information is split between the <a href="docs.html">docs</a> and
 <a href="funcs.html">functions</a>/<a href="structs.html">structs</a>/<a href="enums.html">enums</a>/<a href="vars.html">variables</a> pages.
 There's also this new 'blog' section, so I can put more 'discovering' style
 content in here and keep the docs more clean and tidy and to-the-point.
-</p><p><a class="ext" href="https://github.com/yugecin/nfsu2-re/commit/7c18467184fe0d8a8ad13b6c320272320c80b897">In the beginning I wrote the docs html manually</a>, which was fine for a while
+<p><a class="ext" href="https://github.com/yugecin/nfsu2-re/commit/7c18467184fe0d8a8ad13b6c320272320c80b897">In the beginning I wrote the docs html manually</a>, which was fine for a while
 but soon became a tedious job. I'm not a big fan of Markdown because it seems
 like many places use a different dialect (the meaning for <code>__</code>/<code>**</code>/<code>*</code> may
 differ, for example on Slack and Discord) and certain elements (like links)
@@ -277,24 +287,24 @@ I named this 'margin markup' because the configuration of the presentation
 would be put in the document's margin. It has its own problems of course (for
 example you constantly need to reorder/copy the margin when editing lines) but
 so far I think the positives outweigh the negatives.
-</p><p>That was better, but I still copied symbol information from my IDA database
+<p>That was better, but I still copied symbol information from my IDA database
 into the docs manually. That means it could get outdated very easily,
 information would be spread between the docs and the IDA database (because
 usually I put function descriptions in the docs but not as comments in IDA)
 and it is just an annoying chore to synchronize it all the time.
-</p><p>Then at some point I had the idea of just generating these docs based on the
+<p>Then at some point I had the idea of just generating these docs based on the
 IDA database. Since the IDA database is a binary file, which is undocumented
 (I think), and may change between versions of IDA, I decided to use the
 'dump database to IDC file' feature of IDA and parse that IDC file instead.
 IDC is some kind of custom c-like scripting language, so I wrote a parser
 for that (<code><a class='ext' href='https://github.com/yugecin/nfsu2-re/blob/master/docs/idcparse.c'>docs/idcparse.c</a></code>).
-</p><p>After doing that, I moved all of the function/structure documentation into
+<p>After doing that, I moved all of the function/structure documentation into
 comments in IDA, which now also get parsed using the 'margin markup' format
 I made. Now I can write docs and blogposts and easily link to all of the
 symbols, because they are written to their html pages and anchors are added
 as needed.
-</p><div><p>Small example:
-</p><pre>
+<div><p>Small example:
+<pre>
 Here's a function {529B50} and variable {838454} struct {struct SmsData} and  ||| ref,ref,ref
 enum {enum SMS_TYPE} with members {{struct SmsData+2} == {enum SMS_TYPE/0x4}} ||| ref,code,ref,ref
 struct inner member and chained members {{struct Career.5D20.1404}}           ||| code,ref
@@ -303,18 +313,18 @@ chained from variable of type struct {{838640.328}}                           ||
 chained from variable of type struct pointer {{8384C4.8.E4}}                  ||| code,ref
 </pre>
 <p>Results in:
-</p><p>Here's a function <a href='funcs.html#529B50'>SmsMessageList::SendOutrunInfoSms</a> and variable <a href='vars.html#838454'>smsDatas</a> struct <a href='structs.html#struc_SmsData'>struct SmsData</a> and
-enum <a href='enums.html#enu_SMS_TYPE'>enum SMS_TYPE</a> with members <code><a href='structs.html#struc_SmsData2'>type</a> == <a href='enums.html#enu_SMS_TYPE4'>SMS_TYPE_OUTRUN_INFO</a></code>
-struct inner member and chained members <code><a href='structs.html#struc_Career'>struct Career</a>.<a href='structs.html#struc_Career5D20'>smsMessageList</a>.<a href='structs.html#struc_SmsMessageList1404'>numUnreadMessages</a></code>
-with pointer <code><a href='structs.html#struc_SmsMessage'>struct SmsMessage</a>.<a href='structs.html#struc_SmsMessage0'>data</a>-><a href='structs.html#struc_SmsData2'>type</a></code>
-chained from variable of type struct <code><a href='vars.html#838640'>shownDialog</a>.<a href='structs.html#struc_DialogInfo328'>numButtons</a></code>
-chained from variable of type struct pointer <code><a href='vars.html#8384C4'>pUIData</a>-><a href='structs.html#struc_UIData8'>field_8</a>-><a href='structs.html#struc_UIData_field8DC'>fngPackagesDC</a>.<a href='structs.html#struc_FNGInfoList8'>topPackage</a></code>
-</p></div><p>When a struct or enum changes name now, I'll get an error while the docs are
+<p>Here's a function <a href=funcs.html#529B50>SmsMessageList::SendOutrunInfoSms</a> and variable <a href=vars.html#838454>smsDatas</a> struct <a href=structs.html#struc_SmsData>struct SmsData</a> and
+enum <a href=enums.html#enu_SMS_TYPE>enum SMS_TYPE</a> with members <code><a href=structs.html#struc_SmsData2>type</a> == <a href=enums.html#enu_SMS_TYPE4>SMS_TYPE_OUTRUN_INFO</a></code>
+struct inner member and chained members <code><a href=structs.html#struc_Career>struct Career</a>.<a href=structs.html#struc_Career5D20>smsMessageList</a>.<a href=structs.html#struc_SmsMessageList1404>numUnreadMessages</a></code>
+with pointer <code><a href=structs.html#struc_SmsMessage>struct SmsMessage</a>.<a href=structs.html#struc_SmsMessage0>data</a>-><a href=structs.html#struc_SmsData2>type</a></code>
+chained from variable of type struct <code><a href=vars.html#838640>shownDialog</a>.<a href=structs.html#struc_DialogInfo328>numButtons</a></code>
+chained from variable of type struct pointer <code><a href=vars.html#8384C4>pUIData</a>-><a href=structs.html#struc_UIData8>field_8</a>-><a href=structs.html#struc_UIData_field8DC>fngPackagesDC</a>.<a href=structs.html#struc_FNGInfoList8>topPackage</a></code>
+</div><p>When a struct or enum changes name now, I'll get an error while the docs are
 being generated. That way the docs can't be too desynchronized anymore from
 what I have in the IDA database. Function and variable name changes are free
 because those are references by their addresses, so nothing in the docs source
 needs to be updated for those.
-</p><p>Now I probably won't touch this project for a few months while I go back to
+<p>Now I probably won't touch this project for a few months while I go back to
 another project that I haven't touched in months :^)
-</p></div>
+</div>
 </div></body></html>

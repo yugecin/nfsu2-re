@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang='en'><head><meta charset='utf-8'/>
+<!DOCTYPE html><html lang='en'><head><meta charset=utf-8>
 <title>nfsu2-re/docs</title>
 <style>
 body {
@@ -204,6 +204,16 @@ AgMAAAArG7R0AAAABGdBTUEAALGPC/xhBQAAAAFzUkdCAK7OHOkAAAAJcEhZcwAADsMAAA7DAcdvqGQ\
 AAAAJUExURUdwTAD/AAAA//ENIZIAAAABdFJOUwBA5thmAAAAL0lEQVQI12NggAFRBwaG0AQGptAVDF\
 wzsxi4Zq1k4JqaCcZMU1cwMCxbwMCg1QAArE8JoyhJwYoAAAAASUVORK5CYII=') no-repeat;
 }
+.sym div.mm {
+	background: #efefef;
+	border: 1px dashed #000;
+	border-bottom: 0;
+	margin-bottom: 0;
+	padding: .2em .5em;
+}
+.sym div.mm + div {
+	margin-top: 0;
+}
 div.mm div {
 	margin: 2em 0;
 	padding-left: 1em;
@@ -337,165 +347,165 @@ pre.ida span.hi {
 </div>
 <div><h2 id="displaysettings">Display settings <a href='#displaysettings'>#</a></h2>
 <p>Display settings get saved in the windows registry. See <a href='#registry'>Registry</a>.
-</p><p>TODO. I was writing this when I got distracted by the language stuff.
-</p><p><strong>Symbols:</strong></p>
+<p>TODO. I was writing this when I got distracted by the language stuff.
+<p><strong>Symbols:</strong></p>
 <ul>
-<li><a href='vars.html#800538'>_resolutionWidths</a></li>
-<li><a href='vars.html#800550'>_resolutionHeights</a></li>
-<li><a href='vars.html#86E880'>isSupportedResolutionIdx</a></li>
-<li><a href='vars.html#87099C'>_optLevelOfDetail</a></li>
-<li><a href='vars.html#8709D4'>tempStoredOptLightGlow</a></li>
-<li><a href='vars.html#870CB8'>_optCarReflectionUpdateRate</a></li>
-<li><a href='vars.html#870CBC'>_optCarReflectionDetail</a></li>
-<li><a href='vars.html#870CC0'>_optCarShadowNeon</a></li>
-<li><a href='vars.html#870CC4'>_optCarHeadlight</a></li>
-<li><a href='vars.html#870CC8'>_optCarLightingEnableUNUSED</a></li>
-<li><a href='vars.html#870CCC'>_optCarDamageEnableUNUSED</a></li>
-<li><a href='vars.html#870CD0'>_optCrowds</a></li>
-<li><a href='vars.html#870CD4'>_optWorldReflectionDetail</a></li>
-<li><a href='vars.html#870CD8'>_optFog</a></li>
-<li><a href='vars.html#870CDC'>_optMotionBlur</a></li>
-<li><a href='vars.html#870CE0'>_optLightTrails</a></li>
-<li><a href='vars.html#870CE4'>_optLightGlow</a></li>
-<li><a href='vars.html#870CE8'>_optAnimatedTextureEnable</a></li>
-<li><a href='vars.html#870CEC'>_optParticleSystem</a></li>
-<li><a href='vars.html#870CF0'>_optDepthOfField</a></li>
-<li><a href='vars.html#870CF4'>_optWorldDetail</a></li>
-<li><a href='vars.html#870CF8'>_optCarGeometryDetail</a></li>
-<li><a href='vars.html#870CFC'>_optOverBright</a></li>
-<li><a href='vars.html#870D00'>_optEnchancedContrast</a></li>
-<li><a href='vars.html#870D04'>_optTinting</a></li>
-<li><a href='vars.html#870D08'>_optFSAALevel</a></li>
-<li><a href='vars.html#870D0C'>_optHorizonFog</a></li>
-<li><a href='vars.html#870D10'>_optRainSplatter</a></li>
-<li><a href='vars.html#870D18'>_optTextureFiltering</a></li>
-<li><a href='vars.html#870D1C'>_optRacingResolutionIdx</a></li>
-<li><a href='vars.html#870D24'>_optVsync</a></li>
-<li><a href='vars.html#8764D0'>_optMaxSettingCarReflectionUpdateRate</a></li>
-<li><a href='vars.html#8764D4'>_optMaxSettingCarReflectionDetail</a></li>
-<li><a href='vars.html#8764D8'>_optMaxSettingCarShadowNeon</a></li>
-<li><a href='vars.html#8764DC'>_optMaxSettingCarHeadlight</a></li>
-<li><a href='vars.html#8764E0'>_optMaxSettingCarLightingEnable</a></li>
-<li><a href='vars.html#8764E4'>_optMaxSettingCarDamageEnable</a></li>
-<li><a href='vars.html#8764E8'>_optMaxSettingCrowds</a></li>
-<li><a href='vars.html#8764EC'>_optMaxSettingWorldReflectionDetail</a></li>
-<li><a href='vars.html#8764F0'>_optMaxSettingFog</a></li>
-<li><a href='vars.html#8764F4'>_optMaxSettingMotionBlur</a></li>
-<li><a href='vars.html#8764F8'>_optMaxSettingLightTrails</a></li>
-<li><a href='vars.html#8764FC'>_optMaxSettingLightGlow</a></li>
-<li><a href='vars.html#876500'>_optMaxSettingAnimatedTextureEnable</a></li>
-<li><a href='vars.html#876504'>_optMaxSettingParticleSystem</a></li>
-<li><a href='vars.html#876508'>_optMaxSettingDepthOfField</a></li>
-<li><a href='vars.html#87650C'>_optMaxSettingWorldDetail</a></li>
-<li><a href='vars.html#876510'>_optMaxSettingCarGeometryDetail</a></li>
-<li><a href='vars.html#876514'>_optMaxSettingOverBright</a></li>
-<li><a href='vars.html#876518'>_optMaxSettingEnchancedContrast</a></li>
-<li><a href='vars.html#876520'>_optMaxSettingFSAALevel</a></li>
-<li><a href='vars.html#876524'>_optMaxSettingHorizonFog</a></li>
-<li><a href='vars.html#876528'>_optMaxSettingRainSplatter</a></li>
-<li><a href='vars.html#876530'>_optMaxSettingTextureFiltering</a></li>
-<li><a href='funcs.html#5BE190'>StoreOptLightGlowSetToZero</a></li>
-<li><a href='funcs.html#5BE1B0'>RestoreOptLightGlow</a></li>
-<li><a href='funcs.html#5BE1C0'>GetWorldDetailClampBetween0And2</a></li>
-<li><a href='funcs.html#5BE200'>DetermineMaxDisplaySettingValuesForDevice</a></li>
-<li><a href='funcs.html#5BE560'>GetRealFilteringLevelForCurrentSetting</a></li>
-<li><a href='funcs.html#5BE5A0'>DetermineSupportedResolutions</a></li>
-<li><a href='funcs.html#5BE690'>EnsureDisplayOptionsDontExceedMaxSettings</a></li>
-<li><a href='funcs.html#5BE870'>SetPresetDisplayLevelFromLevelOfDetail</a></li>
-<li><a href='funcs.html#5BE9F0'>SetPresetDisplayLevelFromLevelOfDetailAndLimit</a></li>
+<li><a href=vars.html#800538>_resolutionWidths</a></li>
+<li><a href=vars.html#800550>_resolutionHeights</a></li>
+<li><a href=vars.html#86E880>isSupportedResolutionIdx</a></li>
+<li><a href=vars.html#87099C>_optLevelOfDetail</a></li>
+<li><a href=vars.html#8709D4>tempStoredOptLightGlow</a></li>
+<li><a href=vars.html#870CB8>_optCarReflectionUpdateRate</a></li>
+<li><a href=vars.html#870CBC>_optCarReflectionDetail</a></li>
+<li><a href=vars.html#870CC0>_optCarShadowNeon</a></li>
+<li><a href=vars.html#870CC4>_optCarHeadlight</a></li>
+<li><a href=vars.html#870CC8>_optCarLightingEnableUNUSED</a></li>
+<li><a href=vars.html#870CCC>_optCarDamageEnableUNUSED</a></li>
+<li><a href=vars.html#870CD0>_optCrowds</a></li>
+<li><a href=vars.html#870CD4>_optWorldReflectionDetail</a></li>
+<li><a href=vars.html#870CD8>_optFog</a></li>
+<li><a href=vars.html#870CDC>_optMotionBlur</a></li>
+<li><a href=vars.html#870CE0>_optLightTrails</a></li>
+<li><a href=vars.html#870CE4>_optLightGlow</a></li>
+<li><a href=vars.html#870CE8>_optAnimatedTextureEnable</a></li>
+<li><a href=vars.html#870CEC>_optParticleSystem</a></li>
+<li><a href=vars.html#870CF0>_optDepthOfField</a></li>
+<li><a href=vars.html#870CF4>_optWorldDetail</a></li>
+<li><a href=vars.html#870CF8>_optCarGeometryDetail</a></li>
+<li><a href=vars.html#870CFC>_optOverBright</a></li>
+<li><a href=vars.html#870D00>_optEnchancedContrast</a></li>
+<li><a href=vars.html#870D04>_optTinting</a></li>
+<li><a href=vars.html#870D08>_optFSAALevel</a></li>
+<li><a href=vars.html#870D0C>_optHorizonFog</a></li>
+<li><a href=vars.html#870D10>_optRainSplatter</a></li>
+<li><a href=vars.html#870D18>_optTextureFiltering</a></li>
+<li><a href=vars.html#870D1C>_optRacingResolutionIdx</a></li>
+<li><a href=vars.html#870D24>_optVsync</a></li>
+<li><a href=vars.html#8764D0>_optMaxSettingCarReflectionUpdateRate</a></li>
+<li><a href=vars.html#8764D4>_optMaxSettingCarReflectionDetail</a></li>
+<li><a href=vars.html#8764D8>_optMaxSettingCarShadowNeon</a></li>
+<li><a href=vars.html#8764DC>_optMaxSettingCarHeadlight</a></li>
+<li><a href=vars.html#8764E0>_optMaxSettingCarLightingEnable</a></li>
+<li><a href=vars.html#8764E4>_optMaxSettingCarDamageEnable</a></li>
+<li><a href=vars.html#8764E8>_optMaxSettingCrowds</a></li>
+<li><a href=vars.html#8764EC>_optMaxSettingWorldReflectionDetail</a></li>
+<li><a href=vars.html#8764F0>_optMaxSettingFog</a></li>
+<li><a href=vars.html#8764F4>_optMaxSettingMotionBlur</a></li>
+<li><a href=vars.html#8764F8>_optMaxSettingLightTrails</a></li>
+<li><a href=vars.html#8764FC>_optMaxSettingLightGlow</a></li>
+<li><a href=vars.html#876500>_optMaxSettingAnimatedTextureEnable</a></li>
+<li><a href=vars.html#876504>_optMaxSettingParticleSystem</a></li>
+<li><a href=vars.html#876508>_optMaxSettingDepthOfField</a></li>
+<li><a href=vars.html#87650C>_optMaxSettingWorldDetail</a></li>
+<li><a href=vars.html#876510>_optMaxSettingCarGeometryDetail</a></li>
+<li><a href=vars.html#876514>_optMaxSettingOverBright</a></li>
+<li><a href=vars.html#876518>_optMaxSettingEnchancedContrast</a></li>
+<li><a href=vars.html#876520>_optMaxSettingFSAALevel</a></li>
+<li><a href=vars.html#876524>_optMaxSettingHorizonFog</a></li>
+<li><a href=vars.html#876528>_optMaxSettingRainSplatter</a></li>
+<li><a href=vars.html#876530>_optMaxSettingTextureFiltering</a></li>
+<li><a href=funcs.html#5BE190>StoreOptLightGlowSetToZero</a></li>
+<li><a href=funcs.html#5BE1B0>RestoreOptLightGlow</a></li>
+<li><a href=funcs.html#5BE1C0>GetWorldDetailClampBetween0And2</a></li>
+<li><a href=funcs.html#5BE200>DetermineMaxDisplaySettingValuesForDevice</a></li>
+<li><a href=funcs.html#5BE560>GetRealFilteringLevelForCurrentSetting</a></li>
+<li><a href=funcs.html#5BE5A0>DetermineSupportedResolutions</a></li>
+<li><a href=funcs.html#5BE690>EnsureDisplayOptionsDontExceedMaxSettings</a></li>
+<li><a href=funcs.html#5BE870>SetPresetDisplayLevelFromLevelOfDetail</a></li>
+<li><a href=funcs.html#5BE9F0>SetPresetDisplayLevelFromLevelOfDetailAndLimit</a></li>
 </ul>
 <p style='text-align:right'><small><a href='#index'>Index</a></small></p>
 </div>
 <div><h2 id="registry">Registry <a href='#registry'>#</a></h2>
-<p>Many values (mainly display settings) are loaded/saved in procs <a href='funcs.html#5BEA20'>LoadRegistrySettings</a> and <a href='funcs.html#5BEEA0'>SaveRegistrySettings</a>.
-</p><p>They are saved in key <code>Software\EA Games\Need for Speed Underground 2</code> in <code>HKEY_CURRENT_USER</code>.
+<p>Many values (mainly display settings) are loaded/saved in procs <a href=funcs.html#5BEA20>LoadRegistrySettings</a> and <a href=funcs.html#5BEEA0>SaveRegistrySettings</a>.
+<p>They are saved in key <code>Software\EA Games\Need for Speed Underground 2</code> in <code>HKEY_CURRENT_USER</code>.
 On my machine this translates to:
 <code>HKEY_CURRENT_USER\Software\Classes\VirtualStore\MACHINE\SOFTWARE\Wow6432Node\EA
 Games\Need for Speed Underground 2</code>.
 I'm guessing the extra path in between is because of WOW64.
-</p><p>Variables loaded from there:
-</p><table>
+<p>Variables loaded from there:
+<table>
 <thead><tr><th>Variable</th><th>Key</th></tr></thead>
 <tbody>
-<tr><td><a href='vars.html#870CB0'>_optVERSIONUNUSED</a></td>     <td><code>VERSION</code></td></tr>
-<tr><td><a href='vars.html#870CB4'>_optSIZEUNUSED</a></td>     <td><code>SIZE</code></td></tr>
-<tr><td><a href='vars.html#870CB8'>_optCarReflectionUpdateRate</a></td>     <td><code>g_CarEnvironmentMapEnable</code></td></tr>
-<tr><td><a href='vars.html#870CBC'>_optCarReflectionDetail</a></td>     <td><code>g_CarEnvironmentMapUpdateData</code></td></tr>
-<tr><td><a href='vars.html#870CC0'>_optCarShadowNeon</a></td>     <td><code>g_CarShadowEnable</code></td></tr>
-<tr><td><a href='vars.html#870CC4'>_optCarHeadlight</a></td>     <td><code>g_CarHeadlightEnable</code></td></tr>
-<tr><td><a href='vars.html#870CC8'>_optCarLightingEnableUNUSED</a></td>     <td><code>g_CarLightingEnable</code></td></tr>
-<tr><td><a href='vars.html#870CCC'>_optCarDamageEnableUNUSED</a></td>     <td><code>g_CarDamageEnable</code></td></tr>
-<tr><td><a href='vars.html#870CD0'>_optCrowds</a></td>     <td><code>g_CrowdEnable</code></td></tr>
-<tr><td><a href='vars.html#870CD4'>_optWorldReflectionDetail</a></td>     <td><code>g_RoadReflectionEnable</code></td></tr>
-<tr><td><a href='vars.html#870CD8'>_optFog</a></td>     <td><code>g_FogEnable</code></td></tr>
-<tr><td><a href='vars.html#870CDC'>_optMotionBlur</a></td>     <td><code>g_MotionBlurEnable</code></td></tr>
-<tr><td><a href='vars.html#870CE0'>_optLightTrails</a></td>     <td><code>g_LightStreaksEnable</code></td></tr>
-<tr><td><a href='vars.html#870CE4'>_optLightGlow</a></td>     <td><code>g_LightGlowEnable</code></td></tr>
-<tr><td><a href='vars.html#870CE8'>_optAnimatedTextureEnable</a></td>     <td><code>g_AnimatedTextureEnable</code></td></tr>
-<tr><td><a href='vars.html#870CEC'>_optParticleSystem</a></td>     <td><code>g_ParticleSystemEnable</code></td></tr>
-<tr><td><a href='vars.html#870CF0'>_optDepthOfField</a></td>     <td><code>g_DepthOfFieldEnable</code></td></tr>
-<tr><td><a href='vars.html#870CF4'>_optWorldDetail</a></td>     <td><code>g_WorldLodLevel</code></td></tr>
-<tr><td><a href='vars.html#870CF8'>_optCarGeometryDetail</a></td>     <td><code>g_CarLodLevel</code></td></tr>
-<tr><td><a href='vars.html#870CFC'>_optOverBright</a></td>     <td><code>g_OverBrightEnable</code></td></tr>
-<tr><td><a href='vars.html#870D00'>_optEnchancedContrast</a></td>     <td><code>g_BleachByPassEnable</code></td></tr>
-<tr><td><a href='vars.html#870D04'>_optTinting</a></td>     <td><code>g_TintingEnable</code></td></tr>
-<tr><td><a href='vars.html#870D08'>_optFSAALevel</a></td>     <td><code>g_FSAALevel</code></td></tr>
-<tr><td><a href='vars.html#870D0C'>_optHorizonFog</a></td>     <td><code>g_HorizonFogEnable</code></td></tr>
-<tr><td><a href='vars.html#870D10'>_optRainSplatter</a></td>     <td><code>g_RainEnable</code></td></tr>
-<tr><td><a href='vars.html#870D18'>_optTextureFiltering</a></td>     <td><code>g_TextureFiltering</code></td></tr>
-<tr><td><a href='vars.html#870D1C'>_optRacingResolutionIdx</a></td>     <td><code>g_RacingResolution</code></td></tr>
-<tr><td><a href='vars.html#87099C'>_optLevelOfDetail</a></td>     <td><code>g_PerformanceLevel</code></td></tr>
-<tr><td><a href='vars.html#870D24'>_optVsync</a></td>     <td><code>g_VSyncOn</code></td></tr>
+<tr><td><a href=vars.html#870CB0>_optVERSIONUNUSED</a></td>     <td><code>VERSION</code></td></tr>
+<tr><td><a href=vars.html#870CB4>_optSIZEUNUSED</a></td>     <td><code>SIZE</code></td></tr>
+<tr><td><a href=vars.html#870CB8>_optCarReflectionUpdateRate</a></td>     <td><code>g_CarEnvironmentMapEnable</code></td></tr>
+<tr><td><a href=vars.html#870CBC>_optCarReflectionDetail</a></td>     <td><code>g_CarEnvironmentMapUpdateData</code></td></tr>
+<tr><td><a href=vars.html#870CC0>_optCarShadowNeon</a></td>     <td><code>g_CarShadowEnable</code></td></tr>
+<tr><td><a href=vars.html#870CC4>_optCarHeadlight</a></td>     <td><code>g_CarHeadlightEnable</code></td></tr>
+<tr><td><a href=vars.html#870CC8>_optCarLightingEnableUNUSED</a></td>     <td><code>g_CarLightingEnable</code></td></tr>
+<tr><td><a href=vars.html#870CCC>_optCarDamageEnableUNUSED</a></td>     <td><code>g_CarDamageEnable</code></td></tr>
+<tr><td><a href=vars.html#870CD0>_optCrowds</a></td>     <td><code>g_CrowdEnable</code></td></tr>
+<tr><td><a href=vars.html#870CD4>_optWorldReflectionDetail</a></td>     <td><code>g_RoadReflectionEnable</code></td></tr>
+<tr><td><a href=vars.html#870CD8>_optFog</a></td>     <td><code>g_FogEnable</code></td></tr>
+<tr><td><a href=vars.html#870CDC>_optMotionBlur</a></td>     <td><code>g_MotionBlurEnable</code></td></tr>
+<tr><td><a href=vars.html#870CE0>_optLightTrails</a></td>     <td><code>g_LightStreaksEnable</code></td></tr>
+<tr><td><a href=vars.html#870CE4>_optLightGlow</a></td>     <td><code>g_LightGlowEnable</code></td></tr>
+<tr><td><a href=vars.html#870CE8>_optAnimatedTextureEnable</a></td>     <td><code>g_AnimatedTextureEnable</code></td></tr>
+<tr><td><a href=vars.html#870CEC>_optParticleSystem</a></td>     <td><code>g_ParticleSystemEnable</code></td></tr>
+<tr><td><a href=vars.html#870CF0>_optDepthOfField</a></td>     <td><code>g_DepthOfFieldEnable</code></td></tr>
+<tr><td><a href=vars.html#870CF4>_optWorldDetail</a></td>     <td><code>g_WorldLodLevel</code></td></tr>
+<tr><td><a href=vars.html#870CF8>_optCarGeometryDetail</a></td>     <td><code>g_CarLodLevel</code></td></tr>
+<tr><td><a href=vars.html#870CFC>_optOverBright</a></td>     <td><code>g_OverBrightEnable</code></td></tr>
+<tr><td><a href=vars.html#870D00>_optEnchancedContrast</a></td>     <td><code>g_BleachByPassEnable</code></td></tr>
+<tr><td><a href=vars.html#870D04>_optTinting</a></td>     <td><code>g_TintingEnable</code></td></tr>
+<tr><td><a href=vars.html#870D08>_optFSAALevel</a></td>     <td><code>g_FSAALevel</code></td></tr>
+<tr><td><a href=vars.html#870D0C>_optHorizonFog</a></td>     <td><code>g_HorizonFogEnable</code></td></tr>
+<tr><td><a href=vars.html#870D10>_optRainSplatter</a></td>     <td><code>g_RainEnable</code></td></tr>
+<tr><td><a href=vars.html#870D18>_optTextureFiltering</a></td>     <td><code>g_TextureFiltering</code></td></tr>
+<tr><td><a href=vars.html#870D1C>_optRacingResolutionIdx</a></td>     <td><code>g_RacingResolution</code></td></tr>
+<tr><td><a href=vars.html#87099C>_optLevelOfDetail</a></td>     <td><code>g_PerformanceLevel</code></td></tr>
+<tr><td><a href=vars.html#870D24>_optVsync</a></td>     <td><code>g_VSyncOn</code></td></tr>
 </tbody>
 </table>
-<p><a href='funcs.html#5B76F0'>LoadOtherRegistrySettings</a> also loads registry settings, but only once at boot.
+<p><a href=funcs.html#5B76F0>LoadOtherRegistrySettings</a> also loads registry settings, but only once at boot.
 It seems to load a special key that I haven't seen before:
 <code>Software\Electronic Arts\EA Games\Need for Speed Underground 2\er</code>. This key
 is not present on my system, so this seems interesting.
-</p><pre>
+<pre>
 HKEY key;
 DWORD type, lenData;
 if (RegOpenKeyExA(HKEY_LOCAL_MACHINE, "Software\\E...2\\er", 0, KEY_READ, &amp;key)) {
 	type = REG_SZ; // a null-terminated string
 	lenData = 21;
-	if (RegQueryValueExA(key, 0, 0, &amp;type, &amp;<a href='vars.html#86FF8C'>someRegValue_er</a>, &amp;lenData)) {
-		<a href='vars.html#86FF8C'>someRegValue_er</a>[20] = 0;
+	if (RegQueryValueExA(key, 0, 0, &amp;type, &amp;<a href=vars.html#86FF8C>someRegValue_er</a>, &amp;lenData)) {
+		<a href=vars.html#86FF8C>someRegValue_er</a>[20] = 0;
 	} else {
-		<a href='vars.html#86FF8C'>someRegValue_er</a>[0] = 0;
+		<a href=vars.html#86FF8C>someRegValue_er</a>[0] = 0;
 	}
 }
 RegCloseKey(&amp;key);
 </pre>
 <p>Then it loads more stuff from the normal key:
-</p><p><code>Install Dir</code> is read. If set, passed to (winapi) <code>GetLongPathNameA</code>.
-and if that succeeds, the value is copied to buffer at <a href='vars.html#86E9B4'>installDirPath</a>.
-</p><p><code>CD Drive</code> is read. If set, passed to (winapi) <code>GetLongPathNameA</code>.
-passed to (winapi) <code>GetLastError</code> and if that succeeds, the value is copied to <a href='vars.html#86E8B0'>CDDrivePath</a>.
-</p><p><code>NotFirstTime</code> is read. If set, <a href='vars.html#870D20'>notFirstTime</a> gets set to 1, otherwise 0.
+<p><code>Install Dir</code> is read. If set, passed to (winapi) <code>GetLongPathNameA</code>.
+and if that succeeds, the value is copied to buffer at <a href=vars.html#86E9B4>installDirPath</a>.
+<p><code>CD Drive</code> is read. If set, passed to (winapi) <code>GetLongPathNameA</code>.
+passed to (winapi) <code>GetLastError</code> and if that succeeds, the value is copied to <a href=vars.html#86E8B0>CDDrivePath</a>.
+<p><code>NotFirstTime</code> is read. If set, <a href=vars.html#870D20>notFirstTime</a> gets set to 1, otherwise 0.
 It doesn't check the value in the register key. Then 1 is written to the register key.
-</p><p><code>CacheSize</code> is read. If set, <a href='funcs.html#75D65B'>unnamed_75D65B</a> is called with the value. TODO
-</p><p><code>SwapSize</code> is read. If set, proc at <a href='funcs.html#75D65B'>unnamed_75D65B</a> is called with the value. TODO
-</p><p><code>Language</code> is read. Then it does something with looping through a language.
+<p><code>CacheSize</code> is read. If set, <a href=funcs.html#75D65B>unnamed_75D65B</a> is called with the value. TODO
+<p><code>SwapSize</code> is read. If set, proc at <a href=funcs.html#75D65B>unnamed_75D65B</a> is called with the value. TODO
+<p><code>Language</code> is read. Then it does something with looping through a language.
 This took some deciphering but I found out that there is some struct with language
 information and associated data. See <a href='#language_metadata'>Language metadata</a>.
-</p><p><code>StreamingInstall</code> is read. Then something with <a href='funcs.html#75DD6F'>SomeElaborateStrcmp??</a>. TODO
-</p><p><strong>Symbols:</strong></p>
+<p><code>StreamingInstall</code> is read. Then something with <a href=funcs.html#75DD6F>SomeElaborateStrcmp??</a>. TODO
+<p><strong>Symbols:</strong></p>
 <ul>
-<li><a href='vars.html#86E8B0'>CDDrivePath</a></li>
-<li><a href='vars.html#86E9B4'>installDirPath</a></li>
-<li><a href='vars.html#86FF8C'>someRegValue_er</a></li>
-<li><a href='vars.html#870CB0'>_optVERSIONUNUSED</a></li>
-<li><a href='vars.html#870CB4'>_optSIZEUNUSED</a></li>
-<li><a href='vars.html#870D20'>notFirstTime</a></li>
-<li><a href='funcs.html#5B76F0'>LoadOtherRegistrySettings</a></li>
-<li><a href='funcs.html#5BEA20'>LoadRegistrySettings</a></li>
-<li><a href='funcs.html#5BEEA0'>SaveRegistrySettings</a></li>
+<li><a href=vars.html#86E8B0>CDDrivePath</a></li>
+<li><a href=vars.html#86E9B4>installDirPath</a></li>
+<li><a href=vars.html#86FF8C>someRegValue_er</a></li>
+<li><a href=vars.html#870CB0>_optVERSIONUNUSED</a></li>
+<li><a href=vars.html#870CB4>_optSIZEUNUSED</a></li>
+<li><a href=vars.html#870D20>notFirstTime</a></li>
+<li><a href=funcs.html#5B76F0>LoadOtherRegistrySettings</a></li>
+<li><a href=funcs.html#5BEA20>LoadRegistrySettings</a></li>
+<li><a href=funcs.html#5BEEA0>SaveRegistrySettings</a></li>
 </ul>
 <p style='text-align:right'><small><a href='#index'>Index</a></small></p>
 </div>
 <div><h2 id="gameregion">Game region <a href='#gameregion'>#</a></h2>
-<p>List by <a href='funcs.html#571380'>GetCountryCode</a>:
-</p><ul>
+<p>List by <a href=funcs.html#571380>GetCountryCode</a>:
+<ul>
 <li>region 0: US
 </li><li>region 2: Korea
 </li><li>region 3: Japan
@@ -514,8 +524,8 @@ information and associated data. See <a href='#language_metadata'>Language metad
 </li><li>region 11: China
 </li><li>region 12: Thailand
 </li></ul>
-<p>List by <a href='funcs.html#5B7C40'>OpenPatchesWebsite</a>:
-</p><ul>
+<p>List by <a href=funcs.html#5B7C40>OpenPatchesWebsite</a>:
+<ul>
 <li>0: US
 </li><li>2: Korea
 </li><li>3: Japan
@@ -528,24 +538,24 @@ information and associated data. See <a href='#language_metadata'>Language metad
 </li><li>11: China
 </li><li>12: Thailand
 </li></ul>
-<p>Then some network region stuff at <a href='vars.html#7FA740'>networkRegionStuff</a> showed a 14th entry:
-</p><ul>
+<p>Then some network region stuff at <a href=vars.html#7FA740>networkRegionStuff</a> showed a 14th entry:
+<ul>
 <li>13: South America
 </li></ul>
 <p><strong>Symbols:</strong></p>
 <ul>
-<li><a href='vars.html#864F24'>_gameRegion</a></li>
-<li><a href='funcs.html#570A30'>GetGameRegion</a></li>
-<li><a href='funcs.html#570A40'>ShouldUseCarUKNames</a></li>
-<li><a href='funcs.html#571380'>GetCountryCode</a></li>
-<li><a href='funcs.html#5B7C40'>OpenPatchesWebsite</a></li>
+<li><a href=vars.html#864F24>_gameRegion</a></li>
+<li><a href=funcs.html#570A30>GetGameRegion</a></li>
+<li><a href=funcs.html#570A40>ShouldUseCarUKNames</a></li>
+<li><a href=funcs.html#571380>GetCountryCode</a></li>
+<li><a href=funcs.html#5B7C40>OpenPatchesWebsite</a></li>
 </ul>
 <p style='text-align:right'><small><a href='#index'>Index</a></small></p>
 </div>
 <div><h2 id="bindata">Bin data <a href='#bindata'>#</a></h2>
-<p>Lots of data is in <code>.bin</code> files. These files can contain multiple <a href='structs.html#struc_BinSection'>struct BinSection</a> entries.
-</p><p>These are all the sections that are in the <code>LANGUAGES/English.bin</code> file:
-</p><pre>
+<p>Lots of data is in <code>.bin</code> files. These files can contain multiple <a href=structs.html#struc_BinSection>struct BinSection</a> entries.
+<p>These are all the sections that are in the <code>LANGUAGES/English.bin</code> file:
+<pre>
 offset 00000: section 00039000 size 3D230
 offset 3D238: section 00000000 size 40
 offset 3D280: section 00030201 size FF0
@@ -561,170 +571,170 @@ offset 41378: section 00000000 size 0
 offset 41380: section 00030201 size CF0
 </pre>
 <p>This is output by an early version of <code><a class='ext' href='https://github.com/yugecin/nfsu2-re/blob/master/nfsu2-re-binfiles/main.c'>nfsu2-re-binfiles/main.c</a></code>.
-</p><p>Note that the offset also increments by 8, being <code>sizeof <a href='structs.html#struc_BinSectionHeader'>struct BinSectionHeader</a></code>.
-</p><p>A section with magic <code>0</code> seems to be just for padding/alignment uses.
-</p><p>Sections that have magic starting with <code>8</code> seem to be sections that have more sections inside,
+<p>Note that the offset also increments by 8, being <code>sizeof <a href=structs.html#struc_BinSectionHeader>struct BinSectionHeader</a></code>.
+<p>A section with magic <code>0</code> seems to be just for padding/alignment uses.
+<p>Sections that have magic starting with <code>8</code> seem to be sections that have more sections inside,
 for example the data of section with magic <code>80034147</code> contains more sections, with magic
 <code>34148</code>, <code>34149</code>, <code>3414A</code>, <code>3414C</code>, <code>3414D</code>.
-</p><p><strong>Symbols:</strong></p>
+<p><strong>Symbols:</strong></p>
 <ul>
-<li><a href='structs.html#struc_BinSectionHeader'>struct BinSectionHeader</a></li>
-<li><a href='structs.html#struc_BinSection'>struct BinSection</a></li>
-<li><a href='structs.html#struc_BinSectionHandler'>struct BinSectionHandler</a></li>
-<li><a href='structs.html#struc_BinSectionMagicMapEntry'>struct BinSectionMagicMapEntry</a></li>
-<li><a href='vars.html#7EB3F4'>binSectionHandlerMagicMapEntry0</a></li>
-<li><a href='vars.html#7FA858'>binSectionLoadFuncs</a></li>
-<li><a href='vars.html#7FA8E8'>binSectionUnloadFuncs</a></li>
-<li><a href='vars.html#827FE8'>numBinSectionLoadFunctionsInMagicMapBucket</a></li>
-<li><a href='vars.html#828050'>binSectionMagicMap</a></li>
-<li><a href='vars.html#82DBA0'>binSectionHandlerMagicMapEntryB3300000</a></li>
-<li><a href='vars.html#82DBB0'>binSectionHandlerMagicMapEntry80135000</a></li>
-<li><a href='vars.html#830AF8'>binSectionHandlerMagicMapEntry80135100</a></li>
-<li><a href='vars.html#830B08'>binSectionHandlerMagicMapEntryB0300100</a></li>
-<li><a href='vars.html#835784'>binSectionHandlerMagicMapEntry135200</a></li>
-<li><a href='vars.html#835840'>binSectionHandlerMagicMapEntry80134000</a></li>
-<li><a href='vars.html#8358D0'>binSectionHandlerMagicMapEntryB3320000</a></li>
-<li><a href='vars.html#83A9D0'>profileData</a>.<a href='structs.html#struc_ProfileData29824'>binSection80034A10loaded</a></li>
-<li><a href='vars.html#8653A0'>binSectionHandlerMagicMapEntry39101</a></li>
-<li><a href='vars.html#865470'>binSectionHandlerMagicMapEntry39102</a></li>
-<li><a href='vars.html#86596C'>binSectionHandlerMagicMapEntry39100</a></li>
-<li><a href='vars.html#86B4AC'>binSectionHandlerMagicMapEntry34027</a></li>
-<li><a href='vars.html#86B580'>binSectionHandlerMagicMapEntry34026</a></li>
-<li><a href='vars.html#88A2AC'>binSectionHandlerMagicMapEntry80034130</a></li>
-<li><a href='vars.html#88E9B4'>binSectionHandlerMagicMapEntry80034100</a></li>
-<li><a href='vars.html#88E9CC'>binSectionHandlerMagicMapEntry80034147</a></li>
-<li><a href='vars.html#88E9DC'>binSectionHandlerMagicMapEntry34113</a></li>
-<li><a href='vars.html#88E9EC'>binSectionHandlerMagicMapEntry3412F</a></li>
-<li><a href='vars.html#88EA74'>binSectionHandlerMagicMapEntry34112</a></li>
-<li><a href='vars.html#88EA94'>binSectionHandlerMagicMapEntry34107</a></li>
-<li><a href='vars.html#88EAA4'>binSectionHandlerMagicMapEntry34108</a></li>
-<li><a href='vars.html#88EAB4'>binSectionHandlerMagicMapEntry34110</a></li>
-<li><a href='vars.html#88EAC4'>binSectionHandlerMagicMapEntry34146</a></li>
-<li><a href='vars.html#88F27C'>binSectionHandlerMagicMapEntry34111</a></li>
-<li><a href='vars.html#88F750'>binSectionHandlerMagicMapEntry34201</a></li>
-<li><a href='funcs.html#43C0B0'>BinSectionMagicMapEntry::RegisterBinSectionHandler</a></li>
-<li><a href='funcs.html#408200'>LoadBinSection34B00</a></li>
-<li><a href='funcs.html#408220'>UnloadBinSection34B00</a></li>
-<li><a href='funcs.html#40A460'>LoadBinSection3A000</a></li>
-<li><a href='funcs.html#40A4A0'>UnloadBinSection3A000</a></li>
-<li><a href='funcs.html#431870'>LoadBinSection80037050</a></li>
-<li><a href='funcs.html#4318D0'>UnloadBinSection80037050</a></li>
-<li><a href='funcs.html#432080'>LoadBinSection37140</a></li>
-<li><a href='funcs.html#4320C0'>UnloadBinSection37140</a></li>
-<li><a href='funcs.html#4325C0'>UnloadBinSection80037020</a></li>
-<li><a href='funcs.html#4348F0'>LoadBinSection0E34010</a></li>
-<li><a href='funcs.html#4349A0'>UnloadBinSection0E34010</a></li>
-<li><a href='funcs.html#434E10'>LoadBinSection0E34009</a></li>
-<li><a href='funcs.html#435A50'>UnloadBinSection37110</a></li>
-<li><a href='funcs.html#435A90'>LoadBinSection37080</a></li>
-<li><a href='funcs.html#4365B0'>UnloadBinSection0E34009</a></li>
-<li><a href='funcs.html#4377F0'>LoadBinSection80037020</a></li>
-<li><a href='funcs.html#4381B0'>LoadBinSection37100</a></li>
-<li><a href='funcs.html#438720'>UnloadBinSection37150</a></li>
-<li><a href='funcs.html#438C20'>UnloadBinSection37080</a></li>
-<li><a href='funcs.html#438C60'>UnloadBinSection37090</a></li>
-<li><a href='funcs.html#439D70'>UnloadBinSection37100</a></li>
-<li><a href='funcs.html#43A1F0'>LoadBinSection37150</a></li>
-<li><a href='funcs.html#43A260'>LoadBinSection37110</a></li>
-<li><a href='funcs.html#43A460'>LoadBinSection37090</a></li>
-<li><a href='funcs.html#43C0A0'>LoadUnloadBinSection0</a></li>
-<li><a href='funcs.html#43C100'>FindBinSectionHandler</a></li>
-<li><a href='funcs.html#44AB60'>LoadBinSection8003B200_8003B201_8003B202</a></li>
-<li><a href='funcs.html#452E90'>UnloadBinSection8003B200_8003B201_8003B202</a></li>
-<li><a href='funcs.html#47BC30'>LoadBinSection8003B500</a></li>
-<li><a href='funcs.html#482D20'>UnloadBinSection8003B500</a></li>
-<li><a href='funcs.html#48A280'>LoadBinSection3B700</a></li>
-<li><a href='funcs.html#48A2B0'>UnloadBinSection3B700</a></li>
-<li><a href='funcs.html#48B4A0'>LoadBinSection34202</a></li>
-<li><a href='funcs.html#48B740'>UnloadBinSection34202</a></li>
-<li><a href='funcs.html#48E070'>LoadBinSection135200_80135100_80135000</a></li>
-<li><a href='funcs.html#48E270'>UnloadBinSection135200_80135100_80135000</a></li>
-<li><a href='funcs.html#491C70'>LoadBinSection80035000_80035010_35021_35020</a></li>
-<li><a href='funcs.html#491D50'>UnloadBinSection80035000_80035010_35021_35020</a></li>
-<li><a href='funcs.html#494060'>LoadBinSection80134000</a></li>
-<li><a href='funcs.html#4940E0'>UnloadBinSection80134000</a></li>
-<li><a href='funcs.html#494EA0'>LoadBinSectionB3300000_B332000_B0300100</a></li>
-<li><a href='funcs.html#495040'>UnloadBinSectionB3300000_B332000_B0300100</a></li>
-<li><a href='funcs.html#500290'>UnloadBinSection80034A10</a></li>
-<li><a href='funcs.html#5108A0'>LoadBinSection30230</a></li>
-<li><a href='funcs.html#5108C0'>UnloadBinSection30230</a></li>
-<li><a href='funcs.html#5108E0'>LoadBinSection30231</a></li>
-<li><a href='funcs.html#510900'>UnloadBinSection30231</a></li>
-<li><a href='funcs.html#512C00'>LoadBinSection80034A10</a></li>
-<li><a href='funcs.html#51BD30'>LoadBinSection30203_30210</a></li>
-<li><a href='funcs.html#51C610'>UnloadBinSection39020</a></li>
-<li><a href='funcs.html#52CD90'>LoadBinSection39020</a></li>
-<li><a href='funcs.html#5425A0'>UnloadBinSection30203_30210</a></li>
-<li><a href='funcs.html#56C4C0'>LoadBinSection34A07</a></li>
-<li><a href='funcs.html#56C4E0'>UnloadBinSection34A07</a></li>
-<li><a href='funcs.html#570D70'>LoadBinSection</a></li>
-<li><a href='funcs.html#577B10'>UnloadBinSection</a></li>
-<li><a href='funcs.html#579340'>LoadBinSection39100_39101_39102</a></li>
-<li><a href='funcs.html#579350'>UnloadBinSection39100_39101_39102</a></li>
-<li><a href='funcs.html#57A470'>LoadBinSection8003B000</a></li>
-<li><a href='funcs.html#57BCE0'>UnloadBinSection8003B000</a></li>
-<li><a href='funcs.html#599440'>LoadBinSection80034A30</a></li>
-<li><a href='funcs.html#5994D0'>UnloadBinSection80034A30</a></li>
-<li><a href='funcs.html#5A1750'>LoadBinSection80034020</a></li>
-<li><a href='funcs.html#5A1860'>UnloadBinSection80034020</a></li>
-<li><a href='funcs.html#5A8BD0'>UnloadBinSection34026_34027</a></li>
-<li><a href='funcs.html#5B0E30'>LoadBinSection34026_34027</a></li>
-<li><a href='funcs.html#5D3EB0'>LoadBinSection34201</a></li>
-<li><a href='funcs.html#5D3EF0'>UnloadBinSection34201</a></li>
-<li><a href='funcs.html#5D6440'>UnloadBinSection34108</a></li>
-<li><a href='funcs.html#5D8470'>LoadBinSection34146</a></li>
-<li><a href='funcs.html#5D84D0'>UnoadBinSection34146</a></li>
-<li><a href='funcs.html#5DA490'>LoadBinSection80034147</a></li>
-<li><a href='funcs.html#5DB2E0'>LoadBinSection34108</a></li>
-<li><a href='funcs.html#5DB5A0'>UnloadBinSection80034150</a></li>
-<li><a href='funcs.html#5DBF60'>LoadBinSection80036000</a></li>
-<li><a href='funcs.html#5DC050'>UnloadBinSection80036000</a></li>
-<li><a href='funcs.html#5DEB80'>LoadBinSection34121_34122_34123_34124</a></li>
-<li><a href='funcs.html#5DEE00'>UnloadBinSection80034147</a></li>
-<li><a href='funcs.html#5DEF30'>LoadBinSection_34110_34111_34112_34113</a></li>
-<li><a href='funcs.html#5DF8A0'>LoadBinSection80034100_34107</a></li>
-<li><a href='funcs.html#5DFBA0'>UnloadBinSection80034100_34107</a></li>
-<li><a href='funcs.html#5E0190'>LoadBinSection34250</a></li>
-<li><a href='funcs.html#5E0220'>UnloadBinSection34250</a></li>
-<li><a href='funcs.html#5E4820'>UnloadBinSection34121_34122_34123_34124</a></li>
-<li><a href='funcs.html#5E4E60'>UnloadBinSection_34110_34111_34112_34113</a></li>
-<li><a href='funcs.html#5E81C0'>LoadBinSection80034130_3412F</a></li>
-<li><a href='funcs.html#5E8660'>UnloadBinSection80034130_3412F</a></li>
-<li><a href='funcs.html#5E9C10'>[LoadBinSection80034150_thiscall</a></li>
-<li><a href='funcs.html#5EA0F0'>LoadBinSection80034150</a></li>
-<li><a href='funcs.html#60B810'>LoadBinSection8003B600</a></li>
-<li><a href='funcs.html#60BAC0'>UnloadBinSection8003B600</a></li>
-<li><a href='funcs.html#61B460'>UnloadBinSection34600_34601_80034602</a></li>
-<li><a href='funcs.html#61C3C0'>LoadBinSection30220</a></li>
-<li><a href='funcs.html#61C420'>UnloadBinSection30220</a></li>
-<li><a href='funcs.html#61CB50'>LoadBinSection34030</a></li>
-<li><a href='funcs.html#61CB90'>UnloadBinSection34030</a></li>
-<li><a href='funcs.html#636BE0'>LoadBinSection34600_34601_34608_34609_34607_80034602</a></li>
-<li><a href='funcs.html#77B620'>init_function_77B620_registerBinSectionHandler0</a></li>
-<li><a href='funcs.html#77CB00'>init_function_77CB00_registerBinSectionHandler80134000</a></li>
-<li><a href='funcs.html#77CC20'>init_function_77CC20_registerBinSectionHandler135200</a></li>
-<li><a href='funcs.html#77CC40'>init_function_77CC40_registerBinSectionHandler80135100</a></li>
-<li><a href='funcs.html#77CC60'>init_function_77CC60_registerBinSectionHandler80135000</a></li>
-<li><a href='funcs.html#77CD60'>init_function_77CD60_registerBinSectionHandlerB3300000</a></li>
-<li><a href='funcs.html#77CDA0'>init_function_77CDA0_registerBinSectionHandlerB0300100</a></li>
-<li><a href='funcs.html#77CD80'>init_function_77CD80_registerBinSectionHandlerB332000</a></li>
-<li><a href='funcs.html#77D960'>init_function_77D960_registerBinSectionHandler39100</a></li>
-<li><a href='funcs.html#77D980'>init_function_77D980_registerBinSectionHandler39101</a></li>
-<li><a href='funcs.html#77D9A0'>init_function_77D9A0_registerBinSectionhandler39102</a></li>
-<li><a href='funcs.html#77E190'>init_function_77E190_registerBinSectionHandler34026</a></li>
-<li><a href='funcs.html#77E1B0'>init_function_77E1B0_registerBinSectionHandler34027</a></li>
-<li><a href='funcs.html#77E6C0'>init_function_77E6C0_registerBinSectionHandler80034140</a></li>
-<li><a href='funcs.html#77E6E0'>init_function_77E6E0_registerBinSectionHandler3412F</a></li>
-<li><a href='funcs.html#77E720'>init_function_77E720_registerBinSectionHandler34146</a></li>
-<li><a href='funcs.html#77E740'>init_function_77E740_registerBinSectionHandler34201</a></li>
-<li><a href='funcs.html#77E7A0'>init_function_77E7A0_registerBinSectionHandler80034147</a></li>
-<li><a href='funcs.html#77E7D0'>init_function_77E7D0_registerBinSectionHandler34110</a></li>
-<li><a href='funcs.html#77E7F0'>init_function_77E7F0_registerBinSectionHandler34113</a></li>
-<li><a href='funcs.html#77E810'>init_function_77E810_registerBinSectionHandler34111</a></li>
-<li><a href='funcs.html#77E830'>init_function_77E830_registerBinSectionHandler34112</a></li>
-<li><a href='funcs.html#77E890'>init_function_77E890_registerBinSectionHandler34108</a></li>
-<li><a href='funcs.html#77E8B0'>init_function_77E8B0_registerBinSectionHandler80034100</a></li>
-<li><a href='funcs.html#77E8D0'>init_function_77E8D0_registerBinSectionHandler34107</a></li>
+<li><a href=structs.html#struc_BinSectionHeader>struct BinSectionHeader</a></li>
+<li><a href=structs.html#struc_BinSection>struct BinSection</a></li>
+<li><a href=structs.html#struc_BinSectionHandler>struct BinSectionHandler</a></li>
+<li><a href=structs.html#struc_BinSectionMagicMapEntry>struct BinSectionMagicMapEntry</a></li>
+<li><a href=vars.html#7EB3F4>binSectionHandlerMagicMapEntry0</a></li>
+<li><a href=vars.html#7FA858>binSectionLoadFuncs</a></li>
+<li><a href=vars.html#7FA8E8>binSectionUnloadFuncs</a></li>
+<li><a href=vars.html#827FE8>numBinSectionLoadFunctionsInMagicMapBucket</a></li>
+<li><a href=vars.html#828050>binSectionMagicMap</a></li>
+<li><a href=vars.html#82DBA0>binSectionHandlerMagicMapEntryB3300000</a></li>
+<li><a href=vars.html#82DBB0>binSectionHandlerMagicMapEntry80135000</a></li>
+<li><a href=vars.html#830AF8>binSectionHandlerMagicMapEntry80135100</a></li>
+<li><a href=vars.html#830B08>binSectionHandlerMagicMapEntryB0300100</a></li>
+<li><a href=vars.html#835784>binSectionHandlerMagicMapEntry135200</a></li>
+<li><a href=vars.html#835840>binSectionHandlerMagicMapEntry80134000</a></li>
+<li><a href=vars.html#8358D0>binSectionHandlerMagicMapEntryB3320000</a></li>
+<li><a href=vars.html#83A9D0>profileData</a>.<a href=structs.html#struc_ProfileData29824>binSection80034A10loaded</a></li>
+<li><a href=vars.html#8653A0>binSectionHandlerMagicMapEntry39101</a></li>
+<li><a href=vars.html#865470>binSectionHandlerMagicMapEntry39102</a></li>
+<li><a href=vars.html#86596C>binSectionHandlerMagicMapEntry39100</a></li>
+<li><a href=vars.html#86B4AC>binSectionHandlerMagicMapEntry34027</a></li>
+<li><a href=vars.html#86B580>binSectionHandlerMagicMapEntry34026</a></li>
+<li><a href=vars.html#88A2AC>binSectionHandlerMagicMapEntry80034130</a></li>
+<li><a href=vars.html#88E9B4>binSectionHandlerMagicMapEntry80034100</a></li>
+<li><a href=vars.html#88E9CC>binSectionHandlerMagicMapEntry80034147</a></li>
+<li><a href=vars.html#88E9DC>binSectionHandlerMagicMapEntry34113</a></li>
+<li><a href=vars.html#88E9EC>binSectionHandlerMagicMapEntry3412F</a></li>
+<li><a href=vars.html#88EA74>binSectionHandlerMagicMapEntry34112</a></li>
+<li><a href=vars.html#88EA94>binSectionHandlerMagicMapEntry34107</a></li>
+<li><a href=vars.html#88EAA4>binSectionHandlerMagicMapEntry34108</a></li>
+<li><a href=vars.html#88EAB4>binSectionHandlerMagicMapEntry34110</a></li>
+<li><a href=vars.html#88EAC4>binSectionHandlerMagicMapEntry34146</a></li>
+<li><a href=vars.html#88F27C>binSectionHandlerMagicMapEntry34111</a></li>
+<li><a href=vars.html#88F750>binSectionHandlerMagicMapEntry34201</a></li>
+<li><a href=funcs.html#43C0B0>BinSectionMagicMapEntry::RegisterBinSectionHandler</a></li>
+<li><a href=funcs.html#408200>LoadBinSection34B00</a></li>
+<li><a href=funcs.html#408220>UnloadBinSection34B00</a></li>
+<li><a href=funcs.html#40A460>LoadBinSection3A000</a></li>
+<li><a href=funcs.html#40A4A0>UnloadBinSection3A000</a></li>
+<li><a href=funcs.html#431870>LoadBinSection80037050</a></li>
+<li><a href=funcs.html#4318D0>UnloadBinSection80037050</a></li>
+<li><a href=funcs.html#432080>LoadBinSection37140</a></li>
+<li><a href=funcs.html#4320C0>UnloadBinSection37140</a></li>
+<li><a href=funcs.html#4325C0>UnloadBinSection80037020</a></li>
+<li><a href=funcs.html#4348F0>LoadBinSection0E34010</a></li>
+<li><a href=funcs.html#4349A0>UnloadBinSection0E34010</a></li>
+<li><a href=funcs.html#434E10>LoadBinSection0E34009</a></li>
+<li><a href=funcs.html#435A50>UnloadBinSection37110</a></li>
+<li><a href=funcs.html#435A90>LoadBinSection37080</a></li>
+<li><a href=funcs.html#4365B0>UnloadBinSection0E34009</a></li>
+<li><a href=funcs.html#4377F0>LoadBinSection80037020</a></li>
+<li><a href=funcs.html#4381B0>LoadBinSection37100</a></li>
+<li><a href=funcs.html#438720>UnloadBinSection37150</a></li>
+<li><a href=funcs.html#438C20>UnloadBinSection37080</a></li>
+<li><a href=funcs.html#438C60>UnloadBinSection37090</a></li>
+<li><a href=funcs.html#439D70>UnloadBinSection37100</a></li>
+<li><a href=funcs.html#43A1F0>LoadBinSection37150</a></li>
+<li><a href=funcs.html#43A260>LoadBinSection37110</a></li>
+<li><a href=funcs.html#43A460>LoadBinSection37090</a></li>
+<li><a href=funcs.html#43C0A0>LoadUnloadBinSection0</a></li>
+<li><a href=funcs.html#43C100>FindBinSectionHandler</a></li>
+<li><a href=funcs.html#44AB60>LoadBinSection8003B200_8003B201_8003B202</a></li>
+<li><a href=funcs.html#452E90>UnloadBinSection8003B200_8003B201_8003B202</a></li>
+<li><a href=funcs.html#47BC30>LoadBinSection8003B500</a></li>
+<li><a href=funcs.html#482D20>UnloadBinSection8003B500</a></li>
+<li><a href=funcs.html#48A280>LoadBinSection3B700</a></li>
+<li><a href=funcs.html#48A2B0>UnloadBinSection3B700</a></li>
+<li><a href=funcs.html#48B4A0>LoadBinSection34202</a></li>
+<li><a href=funcs.html#48B740>UnloadBinSection34202</a></li>
+<li><a href=funcs.html#48E070>LoadBinSection135200_80135100_80135000</a></li>
+<li><a href=funcs.html#48E270>UnloadBinSection135200_80135100_80135000</a></li>
+<li><a href=funcs.html#491C70>LoadBinSection80035000_80035010_35021_35020</a></li>
+<li><a href=funcs.html#491D50>UnloadBinSection80035000_80035010_35021_35020</a></li>
+<li><a href=funcs.html#494060>LoadBinSection80134000</a></li>
+<li><a href=funcs.html#4940E0>UnloadBinSection80134000</a></li>
+<li><a href=funcs.html#494EA0>LoadBinSectionB3300000_B332000_B0300100</a></li>
+<li><a href=funcs.html#495040>UnloadBinSectionB3300000_B332000_B0300100</a></li>
+<li><a href=funcs.html#500290>UnloadBinSection80034A10</a></li>
+<li><a href=funcs.html#5108A0>LoadBinSection30230</a></li>
+<li><a href=funcs.html#5108C0>UnloadBinSection30230</a></li>
+<li><a href=funcs.html#5108E0>LoadBinSection30231</a></li>
+<li><a href=funcs.html#510900>UnloadBinSection30231</a></li>
+<li><a href=funcs.html#512C00>LoadBinSection80034A10</a></li>
+<li><a href=funcs.html#51BD30>LoadBinSection30203_30210</a></li>
+<li><a href=funcs.html#51C610>UnloadBinSection39020</a></li>
+<li><a href=funcs.html#52CD90>LoadBinSection39020</a></li>
+<li><a href=funcs.html#5425A0>UnloadBinSection30203_30210</a></li>
+<li><a href=funcs.html#56C4C0>LoadBinSection34A07</a></li>
+<li><a href=funcs.html#56C4E0>UnloadBinSection34A07</a></li>
+<li><a href=funcs.html#570D70>LoadBinSection</a></li>
+<li><a href=funcs.html#577B10>UnloadBinSection</a></li>
+<li><a href=funcs.html#579340>LoadBinSection39100_39101_39102</a></li>
+<li><a href=funcs.html#579350>UnloadBinSection39100_39101_39102</a></li>
+<li><a href=funcs.html#57A470>LoadBinSection8003B000</a></li>
+<li><a href=funcs.html#57BCE0>UnloadBinSection8003B000</a></li>
+<li><a href=funcs.html#599440>LoadBinSection80034A30</a></li>
+<li><a href=funcs.html#5994D0>UnloadBinSection80034A30</a></li>
+<li><a href=funcs.html#5A1750>LoadBinSection80034020</a></li>
+<li><a href=funcs.html#5A1860>UnloadBinSection80034020</a></li>
+<li><a href=funcs.html#5A8BD0>UnloadBinSection34026_34027</a></li>
+<li><a href=funcs.html#5B0E30>LoadBinSection34026_34027</a></li>
+<li><a href=funcs.html#5D3EB0>LoadBinSection34201</a></li>
+<li><a href=funcs.html#5D3EF0>UnloadBinSection34201</a></li>
+<li><a href=funcs.html#5D6440>UnloadBinSection34108</a></li>
+<li><a href=funcs.html#5D8470>LoadBinSection34146</a></li>
+<li><a href=funcs.html#5D84D0>UnoadBinSection34146</a></li>
+<li><a href=funcs.html#5DA490>LoadBinSection80034147</a></li>
+<li><a href=funcs.html#5DB2E0>LoadBinSection34108</a></li>
+<li><a href=funcs.html#5DB5A0>UnloadBinSection80034150</a></li>
+<li><a href=funcs.html#5DBF60>LoadBinSection80036000</a></li>
+<li><a href=funcs.html#5DC050>UnloadBinSection80036000</a></li>
+<li><a href=funcs.html#5DEB80>LoadBinSection34121_34122_34123_34124</a></li>
+<li><a href=funcs.html#5DEE00>UnloadBinSection80034147</a></li>
+<li><a href=funcs.html#5DEF30>LoadBinSection_34110_34111_34112_34113</a></li>
+<li><a href=funcs.html#5DF8A0>LoadBinSection80034100_34107</a></li>
+<li><a href=funcs.html#5DFBA0>UnloadBinSection80034100_34107</a></li>
+<li><a href=funcs.html#5E0190>LoadBinSection34250</a></li>
+<li><a href=funcs.html#5E0220>UnloadBinSection34250</a></li>
+<li><a href=funcs.html#5E4820>UnloadBinSection34121_34122_34123_34124</a></li>
+<li><a href=funcs.html#5E4E60>UnloadBinSection_34110_34111_34112_34113</a></li>
+<li><a href=funcs.html#5E81C0>LoadBinSection80034130_3412F</a></li>
+<li><a href=funcs.html#5E8660>UnloadBinSection80034130_3412F</a></li>
+<li><a href=funcs.html#5E9C10>[LoadBinSection80034150_thiscall</a></li>
+<li><a href=funcs.html#5EA0F0>LoadBinSection80034150</a></li>
+<li><a href=funcs.html#60B810>LoadBinSection8003B600</a></li>
+<li><a href=funcs.html#60BAC0>UnloadBinSection8003B600</a></li>
+<li><a href=funcs.html#61B460>UnloadBinSection34600_34601_80034602</a></li>
+<li><a href=funcs.html#61C3C0>LoadBinSection30220</a></li>
+<li><a href=funcs.html#61C420>UnloadBinSection30220</a></li>
+<li><a href=funcs.html#61CB50>LoadBinSection34030</a></li>
+<li><a href=funcs.html#61CB90>UnloadBinSection34030</a></li>
+<li><a href=funcs.html#636BE0>LoadBinSection34600_34601_34608_34609_34607_80034602</a></li>
+<li><a href=funcs.html#77B620>init_function_77B620_registerBinSectionHandler0</a></li>
+<li><a href=funcs.html#77CB00>init_function_77CB00_registerBinSectionHandler80134000</a></li>
+<li><a href=funcs.html#77CC20>init_function_77CC20_registerBinSectionHandler135200</a></li>
+<li><a href=funcs.html#77CC40>init_function_77CC40_registerBinSectionHandler80135100</a></li>
+<li><a href=funcs.html#77CC60>init_function_77CC60_registerBinSectionHandler80135000</a></li>
+<li><a href=funcs.html#77CD60>init_function_77CD60_registerBinSectionHandlerB3300000</a></li>
+<li><a href=funcs.html#77CDA0>init_function_77CDA0_registerBinSectionHandlerB0300100</a></li>
+<li><a href=funcs.html#77CD80>init_function_77CD80_registerBinSectionHandlerB332000</a></li>
+<li><a href=funcs.html#77D960>init_function_77D960_registerBinSectionHandler39100</a></li>
+<li><a href=funcs.html#77D980>init_function_77D980_registerBinSectionHandler39101</a></li>
+<li><a href=funcs.html#77D9A0>init_function_77D9A0_registerBinSectionhandler39102</a></li>
+<li><a href=funcs.html#77E190>init_function_77E190_registerBinSectionHandler34026</a></li>
+<li><a href=funcs.html#77E1B0>init_function_77E1B0_registerBinSectionHandler34027</a></li>
+<li><a href=funcs.html#77E6C0>init_function_77E6C0_registerBinSectionHandler80034140</a></li>
+<li><a href=funcs.html#77E6E0>init_function_77E6E0_registerBinSectionHandler3412F</a></li>
+<li><a href=funcs.html#77E720>init_function_77E720_registerBinSectionHandler34146</a></li>
+<li><a href=funcs.html#77E740>init_function_77E740_registerBinSectionHandler34201</a></li>
+<li><a href=funcs.html#77E7A0>init_function_77E7A0_registerBinSectionHandler80034147</a></li>
+<li><a href=funcs.html#77E7D0>init_function_77E7D0_registerBinSectionHandler34110</a></li>
+<li><a href=funcs.html#77E7F0>init_function_77E7F0_registerBinSectionHandler34113</a></li>
+<li><a href=funcs.html#77E810>init_function_77E810_registerBinSectionHandler34111</a></li>
+<li><a href=funcs.html#77E830>init_function_77E830_registerBinSectionHandler34112</a></li>
+<li><a href=funcs.html#77E890>init_function_77E890_registerBinSectionHandler34108</a></li>
+<li><a href=funcs.html#77E8B0>init_function_77E8B0_registerBinSectionHandler80034100</a></li>
+<li><a href=funcs.html#77E8D0>init_function_77E8D0_registerBinSectionHandler34107</a></li>
 </ul>
 <p style='text-align:right'><small><a href='#index'>Index</a></small></p>
 </div>
@@ -732,15 +742,15 @@ for example the data of section with magic <code>80034147</code> contains more s
 <p>There seems to be no way to change the language, except for changing the value
 in the registry? See <a href='#registry'>Registry</a>. Perhaps it is only set
 when the game is installed?
-</p><p>TODO:
-</p><pre class='ida'>
+<p>TODO:
+<pre class='ida'>
 <span class='mc'>.rdata:007983D0</span> aLanguageselect db <span class='str'>'LanguageSelectScreen'</span>,<span class='num'>0</span> <span class='comment'>; TODO</span>
 </pre>
 <div><p id='language_metadata'><small><a href='#language'>Language</a></small></p>
 <h3>Language metadata <a href='#language_metadata'>#</a></h3>
 <p>Thanks to code where it reads the Registry, I found following data:
-</p><pre>
-<a href='structs.html#struc_LanguageData'>struct LanguageData</a> <a href='vars.html#7FCA08'>languageData</a>[] = {
+<pre>
+<a href=structs.html#struc_LanguageData>struct LanguageData</a> <a href=vars.html#7FCA08>languageData</a>[] = {
         { "English US",            0,        0 },
         { "English UK",            0,        5 },
         { "French",                1,        6 },
@@ -760,12 +770,12 @@ when the game is installed?
 </pre>
 <p>The value stored in the registry for <code>Language</code> is checked against
 all language strings in the above data. The matching language's
-<a href='structs.html#struc_LanguageData4'>field_4</a> gets stored in <a href='vars.html#7FCA00'>languageIndex</a>, or 0 when the
+<a href=structs.html#struc_LanguageData4>field_4</a> gets stored in <a href=vars.html#7FCA00>languageIndex</a>, or 0 when the
 name stored in the registry didn't match any names.
-</p><p>After chasing usages of a region related proc,
-I found more language data which is being used in <a href='funcs.html#4FF680'>LoadLanguageSomething</a>.
+<p>After chasing usages of a region related proc,
+I found more language data which is being used in <a href=funcs.html#4FF680>LoadLanguageSomething</a>.
 They seem to fit into three more structs.
-</p><pre>
+<pre>
 /*from hashes, prefixed with HASH_*/
 #define HASH_CONDUITMDITC_TT21I 0x5B9D88B9
 #define HASH_font_impact36 0x0920075C
@@ -783,7 +793,7 @@ They seem to fit into three more structs.
 #define HASH_conduitmditc_tt14i_thailand 0xA73823FF
 #define HASH_conduitmditc_tt21i_thailand 0x4815619D
 
-<a href='structs.html#struc_LanguageStruct7F6DE8'>struct LanguageStruct7F6DE8</a> <a href='vars.html#7F6DE8'>languageStuff7F6DE8</a>[] = {
+<a href=structs.html#struc_LanguageStruct7F6DE8>struct LanguageStruct7F6DE8</a> <a href=vars.html#7F6DE8>languageStuff7F6DE8</a>[] = {
         { HASH_CONDUITMDITC_TT21I,          0x0 },
         { HASH_font_impact36,               0x40000 },
         { HASH_CONDUITMDITC_TT14I,          0x10000 },
@@ -801,195 +811,195 @@ They seem to fit into three more structs.
         { HASH_conduitmditc_tt21i_thailand, 0x80000 },
 };
 
-<a href='structs.html#struc_LanguageFontData'>struct LanguageFontData</a> <a href='vars.html#7F6E60'>languageStuff7F6E60</a>;
-<a href='vars.html#7F6E60'>languageStuff7F6E60</a>[0][0] = HASH_CONDUITMDITC_TT21I;
-<a href='vars.html#7F6E60'>languageStuff7F6E60</a>[0][1] = HASH_arial;
-<a href='vars.html#7F6E60'>languageStuff7F6E60</a>[0][2] = HASH_CONDUITMDITC_TT14I;
-<a href='vars.html#7F6E60'>languageStuff7F6E60</a>[0][3] = HASH_lcd_let48;
-<a href='vars.html#7F6E60'>languageStuff7F6E60</a>[0][8] = HASH_FONT_CONDUITMDITCTT38BI;
-<a href='vars.html#7F6E60'>languageStuff7F6E60</a>[0][16] = HASH_arial12;
-<a href='vars.html#7F6E60'>languageStuff7F6E60</a>[0][17] = HASH_font_impact36;
-<a href='vars.html#7F6E60'>languageStuff7F6E60</a>[1][0] = HASH_conduitmditc_tt21i_korean;
-<a href='vars.html#7F6E60'>languageStuff7F6E60</a>[1][1] = HASH_arial;
-<a href='vars.html#7F6E60'>languageStuff7F6E60</a>[1][2] = HASH_conduitmditc_tt14i_korean;
-<a href='vars.html#7F6E60'>languageStuff7F6E60</a>[1][3] = HASH_lcd_let48;
-<a href='vars.html#7F6E60'>languageStuff7F6E60</a>[1][16] = HASH_arial12;
-<a href='vars.html#7F6E60'>languageStuff7F6E60</a>[1][17] = HASH_font_impact36;
-<a href='vars.html#7F6E60'>languageStuff7F6E60</a>[2][0] = HASH_conduitmditc_tt21i_japanese;
-<a href='vars.html#7F6E60'>languageStuff7F6E60</a>[2][1] = HASH_arial;
-<a href='vars.html#7F6E60'>languageStuff7F6E60</a>[2][2] = HASH_conduitmditc_tt14i_japanese;
-<a href='vars.html#7F6E60'>languageStuff7F6E60</a>[2][3] = HASH_lcd_let48;
-<a href='vars.html#7F6E60'>languageStuff7F6E60</a>[2][8] = HASH_FONT_CONDUITMDITCTT38BI;
-<a href='vars.html#7F6E60'>languageStuff7F6E60</a>[2][16] = HASH_arial12;
-<a href='vars.html#7F6E60'>languageStuff7F6E60</a>[2][17] = HASH_font_impact36;
-<a href='vars.html#7F6E60'>languageStuff7F6E60</a>[3][0] = HASH_conduitmditc_tt21i_chinese;
-<a href='vars.html#7F6E60'>languageStuff7F6E60</a>[3][1] = HASH_arial;
-<a href='vars.html#7F6E60'>languageStuff7F6E60</a>[3][2] = HASH_conduitmditc_tt14i_chinese;
-<a href='vars.html#7F6E60'>languageStuff7F6E60</a>[3][3] = HASH_lcd_let48;
-<a href='vars.html#7F6E60'>languageStuff7F6E60</a>[3][16] = HASH_arial12;
-<a href='vars.html#7F6E60'>languageStuff7F6E60</a>[3][17] = HASH_font_impact36;
+<a href=structs.html#struc_LanguageFontData>struct LanguageFontData</a> <a href=vars.html#7F6E60>languageStuff7F6E60</a>;
+<a href=vars.html#7F6E60>languageStuff7F6E60</a>[0][0] = HASH_CONDUITMDITC_TT21I;
+<a href=vars.html#7F6E60>languageStuff7F6E60</a>[0][1] = HASH_arial;
+<a href=vars.html#7F6E60>languageStuff7F6E60</a>[0][2] = HASH_CONDUITMDITC_TT14I;
+<a href=vars.html#7F6E60>languageStuff7F6E60</a>[0][3] = HASH_lcd_let48;
+<a href=vars.html#7F6E60>languageStuff7F6E60</a>[0][8] = HASH_FONT_CONDUITMDITCTT38BI;
+<a href=vars.html#7F6E60>languageStuff7F6E60</a>[0][16] = HASH_arial12;
+<a href=vars.html#7F6E60>languageStuff7F6E60</a>[0][17] = HASH_font_impact36;
+<a href=vars.html#7F6E60>languageStuff7F6E60</a>[1][0] = HASH_conduitmditc_tt21i_korean;
+<a href=vars.html#7F6E60>languageStuff7F6E60</a>[1][1] = HASH_arial;
+<a href=vars.html#7F6E60>languageStuff7F6E60</a>[1][2] = HASH_conduitmditc_tt14i_korean;
+<a href=vars.html#7F6E60>languageStuff7F6E60</a>[1][3] = HASH_lcd_let48;
+<a href=vars.html#7F6E60>languageStuff7F6E60</a>[1][16] = HASH_arial12;
+<a href=vars.html#7F6E60>languageStuff7F6E60</a>[1][17] = HASH_font_impact36;
+<a href=vars.html#7F6E60>languageStuff7F6E60</a>[2][0] = HASH_conduitmditc_tt21i_japanese;
+<a href=vars.html#7F6E60>languageStuff7F6E60</a>[2][1] = HASH_arial;
+<a href=vars.html#7F6E60>languageStuff7F6E60</a>[2][2] = HASH_conduitmditc_tt14i_japanese;
+<a href=vars.html#7F6E60>languageStuff7F6E60</a>[2][3] = HASH_lcd_let48;
+<a href=vars.html#7F6E60>languageStuff7F6E60</a>[2][8] = HASH_FONT_CONDUITMDITCTT38BI;
+<a href=vars.html#7F6E60>languageStuff7F6E60</a>[2][16] = HASH_arial12;
+<a href=vars.html#7F6E60>languageStuff7F6E60</a>[2][17] = HASH_font_impact36;
+<a href=vars.html#7F6E60>languageStuff7F6E60</a>[3][0] = HASH_conduitmditc_tt21i_chinese;
+<a href=vars.html#7F6E60>languageStuff7F6E60</a>[3][1] = HASH_arial;
+<a href=vars.html#7F6E60>languageStuff7F6E60</a>[3][2] = HASH_conduitmditc_tt14i_chinese;
+<a href=vars.html#7F6E60>languageStuff7F6E60</a>[3][3] = HASH_lcd_let48;
+<a href=vars.html#7F6E60>languageStuff7F6E60</a>[3][16] = HASH_arial12;
+<a href=vars.html#7F6E60>languageStuff7F6E60</a>[3][17] = HASH_font_impact36;
 
-<a href='structs.html#struc_LanguageFileData'>struct LanguageFileData</a> <a href='vars.html#7F7020'>languageFileData</a>[] = {
-	{  0, "ENGLISH", "LANGUAGES\\ENGLISH.BIN", <a href='vars.html#7F6E60'>languageStuff7F6E60</a> + 0 ,
-	{  1, "FRENCH", "LANGUAGES\\FRENCH.BIN", <a href='vars.html#7F6E60'>languageStuff7F6E60</a> + 0 ,
-	{  2, "GERMAN", "LANGUAGES\\GERMAN.BIN", <a href='vars.html#7F6E60'>languageStuff7F6E60</a> + 0 ,
-	{  3, "ITALIAN", "LANGUAGES\\ITALIAN.BIN", <a href='vars.html#7F6E60'>languageStuff7F6E60</a> + 0 ,
-	{  4, "SPANISH", "LANGUAGES\\SPANISH.BIN", <a href='vars.html#7F6E60'>languageStuff7F6E60</a> + 0 ,
-	{  5, "DUTCH", "LANGUAGES\\DUTCH.BIN", <a href='vars.html#7F6E60'>languageStuff7F6E60</a> + 0 ,
-	{  6, "SWEDISH", "LANGUAGES\\SWEDISH.BIN", <a href='vars.html#7F6E60'>languageStuff7F6E60</a> + 0 ,
-	{  7, "DANISH", "LANGUAGES\\DANISH.BIN", <a href='vars.html#7F6E60'>languageStuff7F6E60</a> + 0 ,
-	{  8, "KOREAN", "LANGUAGES\\KOREAN.BIN", <a href='vars.html#7F6E60'>languageStuff7F6E60</a> + 1 ,
-	{  9, "CHINESE", "LANGUAGES\\CHINESE.BIN", <a href='vars.html#7F6E60'>languageStuff7F6E60</a> + 3 ,
-	{ 10, "JAPANESE", "LANGUAGES\\JAPANESE.BIN", <a href='vars.html#7F6E60'>languageStuff7F6E60</a> + 2 ,
+<a href=structs.html#struc_LanguageFileData>struct LanguageFileData</a> <a href=vars.html#7F7020>languageFileData</a>[] = {
+	{  0, "ENGLISH", "LANGUAGES\\ENGLISH.BIN", <a href=vars.html#7F6E60>languageStuff7F6E60</a> + 0 ,
+	{  1, "FRENCH", "LANGUAGES\\FRENCH.BIN", <a href=vars.html#7F6E60>languageStuff7F6E60</a> + 0 ,
+	{  2, "GERMAN", "LANGUAGES\\GERMAN.BIN", <a href=vars.html#7F6E60>languageStuff7F6E60</a> + 0 ,
+	{  3, "ITALIAN", "LANGUAGES\\ITALIAN.BIN", <a href=vars.html#7F6E60>languageStuff7F6E60</a> + 0 ,
+	{  4, "SPANISH", "LANGUAGES\\SPANISH.BIN", <a href=vars.html#7F6E60>languageStuff7F6E60</a> + 0 ,
+	{  5, "DUTCH", "LANGUAGES\\DUTCH.BIN", <a href=vars.html#7F6E60>languageStuff7F6E60</a> + 0 ,
+	{  6, "SWEDISH", "LANGUAGES\\SWEDISH.BIN", <a href=vars.html#7F6E60>languageStuff7F6E60</a> + 0 ,
+	{  7, "DANISH", "LANGUAGES\\DANISH.BIN", <a href=vars.html#7F6E60>languageStuff7F6E60</a> + 0 ,
+	{  8, "KOREAN", "LANGUAGES\\KOREAN.BIN", <a href=vars.html#7F6E60>languageStuff7F6E60</a> + 1 ,
+	{  9, "CHINESE", "LANGUAGES\\CHINESE.BIN", <a href=vars.html#7F6E60>languageStuff7F6E60</a> + 3 ,
+	{ 10, "JAPANESE", "LANGUAGES\\JAPANESE.BIN", <a href=vars.html#7F6E60>languageStuff7F6E60</a> + 2 ,
 	/*there is no Thai entry here?*/
 };
 </pre>
-<p>In <a href='funcs.html#4FF680'>LoadLanguageSomething</a>, <a href='vars.html#7F7020'>languageFileData</a> is searched. If <a href='funcs.html#570A30'>GetGameRegion</a> is 2, the entry with id 8 is searched,
+<p>In <a href=funcs.html#4FF680>LoadLanguageSomething</a>, <a href=vars.html#7F7020>languageFileData</a> is searched. If <a href=funcs.html#570A30>GetGameRegion</a> is 2, the entry with id 8 is searched,
 otherwise id 0 is searched.
 When it's not found the game will segfault because of the code below:
-</p><pre class='ida'>
+<pre class='ida'>
 <span class='mt'>.text:004FF6A2</span>                 jl      short loc_4FF693
 <span class='mt'>.text:004FF6A4</span> loc_4FF6A4:
 <span class='mt'>.text:004FF6A4</span>                 xor     edx, edx
 <span class='mt'>.text:004FF6A6</span> loc_4FF6A6:
 <span class='mt'>.text:004FF6A6</span>                 mov     ecx, [edx+<span class='num'>0Ch</span>]
 </pre>
-<p>Then <code><a href='structs.html#struc_LanguageFileData'>struct LanguageFileData</a>.<a href='structs.html#struc_LanguageFileDataC'>fontdata</a></code> is read.
-Its <code><a href='structs.html#struc_LanguageFontData0'>field_0</a>[0]</code> value is read and then a
-matching entry in <a href='vars.html#7F6DE8'>languageStuff7F6DE8</a> is searched.
+<p>Then <code><a href=structs.html#struc_LanguageFileData>struct LanguageFileData</a>.<a href=structs.html#struc_LanguageFileDataC>fontdata</a></code> is read.
+Its <code><a href=structs.html#struc_LanguageFontData0>field_0</a>[0]</code> value is read and then a
+matching entry in <a href=vars.html#7F6DE8>languageStuff7F6DE8</a> is searched.
 More stuff is read in a loop and reset and I lost track.
 Eventually something is called with string <code>LanguageMemoryPool</code>.
-</p><pre class='ida'>
+<pre class='ida'>
 <span class='mc'>.rdata:007983D0</span> aLanguageselect db <span class='str'>'LanguageSelectScreen'</span>,<span class='num'>0</span> <span class='comment'>; TODO</span>
 </pre>
 <p><strong>Symbols:</strong></p>
 <ul>
-<li><a href='structs.html#struc_LanguageData'>struct LanguageData</a></li>
-<li><a href='structs.html#struc_LanguageStruct7F6DE8'>struct LanguageStruct7F6DE8</a></li>
-<li><a href='structs.html#struc_LanguageFontData'>struct LanguageFontData</a></li>
-<li><a href='structs.html#struc_LanguageFileData'>struct LanguageFileData</a></li>
-<li><a href='vars.html#7F6DE8'>languageStuff7F6DE8</a></li>
-<li><a href='vars.html#7F6E60'>languageStuff7F6E60</a></li>
-<li><a href='vars.html#7FCA00'>languageIndex</a></li>
-<li><a href='vars.html#7FCA08'>languageData</a></li>
-<li><a href='vars.html#7F7020'>languageFileData</a></li>
-<li><a href='funcs.html#4FF680'>LoadLanguageSomething</a></li>
-<li><a href='funcs.html#512520'>LoadLanguageAtBoot</a></li>
+<li><a href=structs.html#struc_LanguageData>struct LanguageData</a></li>
+<li><a href=structs.html#struc_LanguageStruct7F6DE8>struct LanguageStruct7F6DE8</a></li>
+<li><a href=structs.html#struc_LanguageFontData>struct LanguageFontData</a></li>
+<li><a href=structs.html#struc_LanguageFileData>struct LanguageFileData</a></li>
+<li><a href=vars.html#7F6DE8>languageStuff7F6DE8</a></li>
+<li><a href=vars.html#7F6E60>languageStuff7F6E60</a></li>
+<li><a href=vars.html#7FCA00>languageIndex</a></li>
+<li><a href=vars.html#7FCA08>languageData</a></li>
+<li><a href=vars.html#7F7020>languageFileData</a></li>
+<li><a href=funcs.html#4FF680>LoadLanguageSomething</a></li>
+<li><a href=funcs.html#512520>LoadLanguageAtBoot</a></li>
 </ul>
 <p style='text-align:right'><small><a href='#index'>Index</a></small></p>
 </div>
 <div><p id='language_files'><small><a href='#language'>Language</a></small></p>
 <h3>Language files <a href='#language_files'>#</a></h3>
 <p>The language strings are in a bin section with magic <code>0x39000</code>, and is structured like this:
-</p><pre>
-<a href='structs.html#struc_BinDataLanguage39000'>struct BinDataLanguage39000</a> header;
-char unknown[header.<a href='structs.html#struc_BinDataLanguage390008'>tableOffset</a> - sizeof(header)];
-<a href='structs.html#struc_LanguageTableEntry'>struct LanguageTableEntry</a> tableEntries[header.<a href='structs.html#struc_BinDataLanguage390004'>numStrings</a>];
+<pre>
+<a href=structs.html#struc_BinDataLanguage39000>struct BinDataLanguage39000</a> header;
+char unknown[header.<a href=structs.html#struc_BinDataLanguage390008>tableOffset</a> - sizeof(header)];
+<a href=structs.html#struc_LanguageTableEntry>struct LanguageTableEntry</a> tableEntries[header.<a href=structs.html#struc_BinDataLanguage390004>numStrings</a>];
 char *strings; /*all zero-terminated strings after each other*/
 </pre>
 <p>The <code>tableEntries</code> are sorted (low hash to high hash),
 required because a binary search is used at lookup.
-</p><pre class='ida'>
+<pre class='ida'>
 <span class='mt'>.text:00497766</span>                 push    <span class='num'>04B5DE3E9h</span> <span class='comment'>; hash (SMS_SUBJECT_HEADER)</span>
 <span class='mt'>.text:0049776B</span>                 lea     eax, [esp+<span class='num'>104h</span>+<span class='str'>buffer</span>]
 <span class='mt'>.text:00497772</span>                 push    <span class='num'>80h</span>             ; <span class='comment'>destlen</span>
 <span class='mt'>.text:00497777</span>                 push    eax             ; <span class='comment'>dest</span>
-<span class='mt'>.text:00497778</span>                 call    <a href='funcs.html#4FFA50'>GetLanguageStringIntoBuf</a>
+<span class='mt'>.text:00497778</span>                 call    <a href=funcs.html#4FFA50>GetLanguageStringIntoBuf</a>
 </pre>
-<p>Loading is done in <a href='funcs.html#5125B0'>LoadLanguageBinSection39000</a>.
+<p>Loading is done in <a href=funcs.html#5125B0>LoadLanguageBinSection39000</a>.
 See <a href='dumps/language_english.txt'>language_english.txt</a> (339KB) for all <code>LANGUAGES/English.bin</code> strings by their hash.
 (This was generated by an early version of <code><a class='ext' href='https://github.com/yugecin/nfsu2-re/blob/master/nfsu2-re-binfiles/main.c'>nfsu2-re-binfiles/main.c</a></code>)
-</p><p>The hashes seem to be made with the case insensitive hash function <a href='funcs.html#43DB50'>SomeHashCS43DB50</a>.
+<p>The hashes seem to be made with the case insensitive hash function <a href=funcs.html#43DB50>SomeHashCS43DB50</a>.
 The original labels are also stored as a language file in <code>LANGUAGES/Labels.bin</code>
-</p><p>TODO: language files also contain bin sections with magic <code>0x30201</code>
-</p><p><strong>Symbols:</strong></p>
+<p>TODO: language files also contain bin sections with magic <code>0x30201</code>
+<p><strong>Symbols:</strong></p>
 <ul>
-<li><a href='structs.html#struc_BinDataLanguage39000'>struct BinDataLanguage39000</a></li>
-<li><a href='structs.html#struc_LanguageTableEntry'>struct LanguageTableEntry</a></li>
-<li><a href='structs.html#struc_LoadedLanguage'>struct LoadedLanguage</a></li>
-<li><a href='structs.html#struc_LanguageConversionTable'>struct LanguageConversionTable</a></li>
-<li><a href='vars.html#8383D0'>loadedLanguage</a></li>
-<li><a href='vars.html#838530'>skipWcharTable</a></li>
-<li><a href='funcs.html#4FF9D0'>GetLanguageStringOrNull</a></li>
-<li><a href='funcs.html#4FFA50'>GetLanguageStringIntoBuf</a></li>
-<li><a href='funcs.html#4FFA80'>GetLanguageString</a></li>
-<li><a href='funcs.html#4FFAA0'>GetNumberSuffix</a></li>
-<li><a href='funcs.html#4FFAE0'>UnloadLanguageBinSection39000</a></li>
-<li><a href='funcs.html#50D3C0'>LanguageConversionTable::StrcpyCharToWchar</a></li>
-<li><a href='funcs.html#512530'>LanguageAwareStrcpyCharToWchar</a></li>
-<li><a href='funcs.html#5125B0'>LoadLanguageBinSection39000</a></li>
-<li><a href='funcs.html#52CD00'>LoadLanguageFontBinSection30201</a></li>
-<li><a href='funcs.html#537290'>UnloadLanguageFontBinSection30201</a></li>
+<li><a href=structs.html#struc_BinDataLanguage39000>struct BinDataLanguage39000</a></li>
+<li><a href=structs.html#struc_LanguageTableEntry>struct LanguageTableEntry</a></li>
+<li><a href=structs.html#struc_LoadedLanguage>struct LoadedLanguage</a></li>
+<li><a href=structs.html#struc_LanguageConversionTable>struct LanguageConversionTable</a></li>
+<li><a href=vars.html#8383D0>loadedLanguage</a></li>
+<li><a href=vars.html#838530>skipWcharTable</a></li>
+<li><a href=funcs.html#4FF9D0>GetLanguageStringOrNull</a></li>
+<li><a href=funcs.html#4FFA50>GetLanguageStringIntoBuf</a></li>
+<li><a href=funcs.html#4FFA80>GetLanguageString</a></li>
+<li><a href=funcs.html#4FFAA0>GetNumberSuffix</a></li>
+<li><a href=funcs.html#4FFAE0>UnloadLanguageBinSection39000</a></li>
+<li><a href=funcs.html#50D3C0>LanguageConversionTable::StrcpyCharToWchar</a></li>
+<li><a href=funcs.html#512530>LanguageAwareStrcpyCharToWchar</a></li>
+<li><a href=funcs.html#5125B0>LoadLanguageBinSection39000</a></li>
+<li><a href=funcs.html#52CD00>LoadLanguageFontBinSection30201</a></li>
+<li><a href=funcs.html#537290>UnloadLanguageFontBinSection30201</a></li>
 </ul>
 <p style='text-align:right'><small><a href='#index'>Index</a></small></p>
 </div>
 </div><div><h2 id="pools">Pools <a href='#pools'>#</a></h2>
-<p>I hooked <a href='funcs.html#440B40'>AllocateAndInitPool</a> and collected some output: <a href='dumps/createpoollog.txt'>createpoollog.txt</a> (10KB)
+<p>I hooked <a href=funcs.html#440B40>AllocateAndInitPool</a> and collected some output: <a href='dumps/createpoollog.txt'>createpoollog.txt</a> (10KB)
 This will probably help a lot when trying to figure out other things.
 Note that the first time the <code>AUD: NFS3DMixCtl Pool</code> is made, it has an element amount of zero.
 The dump is from just starting the game and starting a circuit race.
-</p><p>Pools can be enlarged by <a href='funcs.html#440BB0'>Pool::Extend</a>, but only if its <code><a href='structs.html#struc_Pool14'>flags</a></code> has the <a href='enums.html#enu_POOLFLAGS1'>POOL_FLAG_EXTENDABLE</a>
+<p>Pools can be enlarged by <a href=funcs.html#440BB0>Pool::Extend</a>, but only if its <code><a href=structs.html#struc_Pool14>flags</a></code> has the <a href=enums.html#enu_POOLFLAGS1>POOL_FLAG_EXTENDABLE</a>
 flag. When extending, the newly created pool gets added as last in the main pool's
-<code><a href='structs.html#struc_Pool8'>nextLinkedPool</a></code>. The main pool's <code><a href='structs.html#struc_Pool10'>firstAvailableElement</a></code> will point to the first allocated element of
+<code><a href=structs.html#struc_Pool8>nextLinkedPool</a></code>. The main pool's <code><a href=structs.html#struc_Pool10>firstAvailableElement</a></code> will point to the first allocated element of
 the next pool, and the last allocated element of the new pool will point to the first element
 of the main pool.
-</p><p><strong>Symbols:</strong></p>
+<p><strong>Symbols:</strong></p>
 <ul>
-<li><a href='enums.html#enu_POOLFLAGS'>enum POOLFLAGS</a></li>
-<li><a href='structs.html#struc_PoolLink'>struct PoolLink</a></li>
-<li><a href='structs.html#struc_PoolControl'>struct PoolControl</a></li>
-<li><a href='structs.html#struc_Pool'>struct Pool</a></li>
-<li><a href='structs.html#struc_PoolEntry'>struct PoolEntry</a></li>
-<li><a href='structs.html#struc_bFileSystemPoolEntry'>struct bFileSystemPoolEntry</a></li>
-<li><a href='funcs.html#77B670'>init_function_77B670</a></li>
-<li><a href='vars.html#828530'>pools</a></li>
-<li><a href='vars.html#865104'>p_bFileSystemPool</a></li>
-<li><a href='vars.html#81CB6C'>AIActionPool</a></li>
-<li><a href='vars.html#81CB70'>AIGoalPool</a></li>
-<li><a href='vars.html#81CBB4'>futurePointPool</a></li>
-<li><a href='vars.html#81CBB8'>pathfindingNodePool</a></li>
-<li><a href='vars.html#81CBBC'>pathfindingNodeLitePool</a></li>
-<li><a href='vars.html#827B4C'>anim_CNFSAnimBankPool</a></li>
-<li><a href='vars.html#827B50'>anim_CNFSAnimBankPoolCreated</a></li>
-<li><a href='vars.html#827B54'>animCtrlPool</a></li>
-<li><a href='vars.html#827B5C'>anim_CAnimSkeletonPool</a></li>
-<li><a href='vars.html#827B60'>anim_CAnimSkeletonPoolCreated</a></li>
-<li><a href='vars.html#827B64'>anim_CAnimPartPool</a></li>
-<li><a href='vars.html#827B68'>anim_CAnimPartPoolCreated</a></li>
-<li><a href='vars.html#83A9D0'>profileData</a>.<a href='structs.html#struc_ProfileData10'>player1</a>.<a href='structs.html#struc_Player24'>p24</a>.<a href='structs.html#struc_Player2416'>useMetricSystem</a></li>
-<li><a href='funcs.html#431380'>CreateAnim_CNFSAnimBankPool</a></li>
-<li><a href='funcs.html#4314E0'>CreateAnim_CAnimSkeletonPool</a></li>
-<li><a href='funcs.html#431580'>CreateAnim_CAnimPartPool</a></li>
-<li><a href='funcs.html#43CD40'>Pool::Init</a></li>
-<li><a href='funcs.html#43CD80'>Pool::GetIndexOfEntry</a></li>
-<li><a href='funcs.html#43CDF0'>Pool::UngetEntry</a></li>
-<li><a href='funcs.html#43F8F0'>PoolGetNextFreeItemRaw</a></li>
-<li><a href='funcs.html#43F920'>UngetPoolEntry</a></li>
-<li><a href='funcs.html#440390'>SomeAlloc?</a></li>
-<li><a href='funcs.html#4407B0'>PoolControl::Init</a></li>
-<li><a href='funcs.html#440B40'>AllocateAndInitPool</a></li>
-<li><a href='funcs.html#440BB0'>Pool::Extend</a></li>
-<li><a href='funcs.html#440DF0'>CreatePool</a></li>
-<li><a href='funcs.html#440D40'>Pool::GetNextFreeItem</a></li>
-<li><a href='funcs.html#440E50'>PoolGetNextFreeItem_cdeclwrapper</a></li>
-<li><a href='funcs.html#440DA0'>PoolControl::DeletePool</a></li>
-<li><a href='funcs.html#440E40'>DeletePool</a></li>
-<li><a href='funcs.html#57ED10'>??SetupPools</a></li>
-<li><a href='funcs.html#5EA8B0'>isUseMetricSystem</a></li>
+<li><a href=enums.html#enu_POOLFLAGS>enum POOLFLAGS</a></li>
+<li><a href=structs.html#struc_PoolLink>struct PoolLink</a></li>
+<li><a href=structs.html#struc_PoolControl>struct PoolControl</a></li>
+<li><a href=structs.html#struc_Pool>struct Pool</a></li>
+<li><a href=structs.html#struc_PoolEntry>struct PoolEntry</a></li>
+<li><a href=structs.html#struc_bFileSystemPoolEntry>struct bFileSystemPoolEntry</a></li>
+<li><a href=funcs.html#77B670>init_function_77B670</a></li>
+<li><a href=vars.html#828530>pools</a></li>
+<li><a href=vars.html#865104>p_bFileSystemPool</a></li>
+<li><a href=vars.html#81CB6C>AIActionPool</a></li>
+<li><a href=vars.html#81CB70>AIGoalPool</a></li>
+<li><a href=vars.html#81CBB4>futurePointPool</a></li>
+<li><a href=vars.html#81CBB8>pathfindingNodePool</a></li>
+<li><a href=vars.html#81CBBC>pathfindingNodeLitePool</a></li>
+<li><a href=vars.html#827B4C>anim_CNFSAnimBankPool</a></li>
+<li><a href=vars.html#827B50>anim_CNFSAnimBankPoolCreated</a></li>
+<li><a href=vars.html#827B54>animCtrlPool</a></li>
+<li><a href=vars.html#827B5C>anim_CAnimSkeletonPool</a></li>
+<li><a href=vars.html#827B60>anim_CAnimSkeletonPoolCreated</a></li>
+<li><a href=vars.html#827B64>anim_CAnimPartPool</a></li>
+<li><a href=vars.html#827B68>anim_CAnimPartPoolCreated</a></li>
+<li><a href=vars.html#83A9D0>profileData</a>.<a href=structs.html#struc_ProfileData10>player1</a>.<a href=structs.html#struc_Player24>p24</a>.<a href=structs.html#struc_Player2416>useMetricSystem</a></li>
+<li><a href=funcs.html#431380>CreateAnim_CNFSAnimBankPool</a></li>
+<li><a href=funcs.html#4314E0>CreateAnim_CAnimSkeletonPool</a></li>
+<li><a href=funcs.html#431580>CreateAnim_CAnimPartPool</a></li>
+<li><a href=funcs.html#43CD40>Pool::Init</a></li>
+<li><a href=funcs.html#43CD80>Pool::GetIndexOfEntry</a></li>
+<li><a href=funcs.html#43CDF0>Pool::UngetEntry</a></li>
+<li><a href=funcs.html#43F8F0>PoolGetNextFreeItemRaw</a></li>
+<li><a href=funcs.html#43F920>UngetPoolEntry</a></li>
+<li><a href=funcs.html#440390>SomeAlloc?</a></li>
+<li><a href=funcs.html#4407B0>PoolControl::Init</a></li>
+<li><a href=funcs.html#440B40>AllocateAndInitPool</a></li>
+<li><a href=funcs.html#440BB0>Pool::Extend</a></li>
+<li><a href=funcs.html#440DF0>CreatePool</a></li>
+<li><a href=funcs.html#440D40>Pool::GetNextFreeItem</a></li>
+<li><a href=funcs.html#440E50>PoolGetNextFreeItem_cdeclwrapper</a></li>
+<li><a href=funcs.html#440DA0>PoolControl::DeletePool</a></li>
+<li><a href=funcs.html#440E40>DeletePool</a></li>
+<li><a href=funcs.html#57ED10>??SetupPools</a></li>
+<li><a href=funcs.html#5EA8B0>isUseMetricSystem</a></li>
 </ul>
 <p style='text-align:right'><small><a href='#index'>Index</a></small></p>
 </div>
 <div><h2 id="speedyboot">Speedy boot <a href='#speedyboot'>#</a></h2>
 <p><em>I want a fast startup because I'm booting the game so many times
 (not to mention the numerious crashes)</em>
-</p><p>During startup, with the debug string output enabled, there are a few entries
+<p>During startup, with the debug string output enabled, there are a few entries
 showing loading and unloading states, such as <code>LS_THXMovie.fng</code>.
 I already sped up boot by replacing the <code>MOVIES/THX_logo.vp6</code> with
 <code>MOVIES/blank.vp6</code>. While that skips the unskippable intro logos,
 it still takes some time because it switches to a state where it tries loading
 and it takes slightly under a second to switch to the next state.
-</p><p>So by following the debug prints, I found following section:
-</p><pre class='ida'>
+<p>So by following the debug prints, I found following section:
+<pre class='ida'>
 <span class='mc'>.data:007F65E8</span> off_7F65E8  dd offset <span class='ident'>aDiscerrorpc_fn</span>
 <span class='mc'>.data:007F65EC</span>             dd offset byte_783FE5
 <span class='mc'>.data:007F65F0</span>             dd offset <span class='ident'>aMc_bootup_fng</span> <span class='comment'>; "MC_Bootup.fng"</span>
@@ -1008,32 +1018,32 @@ and it takes slightly under a second to switch to the next state.
 <p>This very much looks like the boot states the game goes through.
 <code>byte_783FE5</code> is basically an empty string, so maybe there used to
 be more states, or some are for different game versions?
-</p><p>Putting all of them to a reference to an empty string makes the boot pretty speedy
+<p>Putting all of them to a reference to an empty string makes the boot pretty speedy
 but then it doesn't do much. After initial boot, there's a black screen for a
 short moment, then the basic loading progressbar screen with the cars and Rachel
 shows, then it goes to a black screen and you can move the cursor. So the game is
 running but nothing of UI is running so you can't do much.
-</p><p>Only leaving <code>UG_LS_Splash.fng</code> shows the splash screen with Rachel and
+<p>Only leaving <code>UG_LS_Splash.fng</code> shows the splash screen with Rachel and
 the cars, the famous music starts playing and when the beat drops the EA TRAX message
 shows and "Press enter" shows. When pressing enter, we're back to the black screen
 with a moveable cursor.
-</p><p>Only leaving <code>MC_BACKGROUND.fng</code> shows the splash screen with Rachel and
+<p>Only leaving <code>MC_BACKGROUND.fng</code> shows the splash screen with Rachel and
 the cars and the prompt if I want to create a new profile. When pressing 'no', we're
 back to the black screen. When pressing 'yes' I get to enter a name but when it then
 asks to save the profile, it says 'Unable to save profile' so I have to choose 'no'.
 Then black screen again.
-</p><p>Only leaving <code>UI_MAIN.fng</code> directly jumps to the main menu where you see
+<p>Only leaving <code>UI_MAIN.fng</code> directly jumps to the main menu where you see
 Rachel's car after a short moment after the loading screen showed. It didn't ask
 for a profile to load and when I try to load a profile it says that no profiles
 were found. Scary. I can create a new profile but it says 'Unable to save'. There
 is no music in the menu. Music does start when starting a race but going back to
 the menus stops the music again. Going to EA TRAX in the option does suddenly
 start the music in the menus.
-</p><p>When only leaving <code>LS_EALogo.fng</code>, the ea logo movie sound starts to play
+<p>When only leaving <code>LS_EALogo.fng</code>, the ea logo movie sound starts to play
 while the 'loading' screen is still showing, then there's one frame of the logo movie
 when it's about halfway the sound of the movie and then it goes to black screen with
 cursor. Leaving <code>LS_BlankMovie.fng</code> in as well fixes that problem.
-</p><p>Leaving just <code>MC_Bootup.fng</code> doesn't seem to change much, not even timing
+<p>Leaving just <code>MC_Bootup.fng</code> doesn't seem to change much, not even timing
 wise. It does sound important, so I tried this in combination with
 <code>UI_MAIN.fng</code>. It jumps into the main menu, but when I go to the profile
 manager now, I can load my profiles. Nice. The main menu music still doesn't load
@@ -1042,141 +1052,141 @@ doesn't show the 'quit game' dialog. After searching a bit, it seems like
 <code>LS_PSAMovie.fng</code> is the one that makes the Q to quit keybind happen. That's
 quite interesting, definitely something to research when/if I get more into the workings
 of the UI.
-</p><p>(Later I found the PSA screen(s) put <a href='vars.html#836494'>canUseQToExit</a> on 1 after they're done, I'm guessing for
+<p>(Later I found the PSA screen(s) put <a href=vars.html#836494>canUseQToExit</a> on 1 after they're done, I'm guessing for
 some reason they don't want us to exit while the PSA is playing, or before the intro
 movies end.)
-</p><p>So my final setup is to only leave in <code>MC_Bootup</code> (because it makes profiles
+<p>So my final setup is to only leave in <code>MC_Bootup</code> (because it makes profiles
 work), <code>MC_Background</code> (so I can load a profile at start) and
-<code>UI_Main</code> (obviously). Then also write <code>1</code> to <a href='vars.html#836494'>canUseQToExit</a>.
+<code>UI_Main</code> (obviously). Then also write <code>1</code> to <a href=vars.html#836494>canUseQToExit</a>.
 Code in <code><a class='ext' href='https://github.com/yugecin/nfsu2-re/blob/master/nfsu2-re-hooks/speedyboot.c'>nfsu2-re-hooks/speedyboot.c</a></code>.
-</p><p style='text-align:right'><small><a href='#index'>Index</a></small></p>
+<p style='text-align:right'><small><a href='#index'>Index</a></small></p>
 </div>
 <div><h2 id="consoleleftover">Console leftovers <a href='#consoleleftover'>#</a></h2>
 <p><em>Note: console as in somewhere you type in, not a videogame console</em>
-</p><p>In the hooks project, I "enabled" this console in the functions <code>initConsolePOC</code>
+<p>In the hooks project, I "enabled" this console in the functions <code>initConsolePOC</code>
 in the file <code><a class='ext' href='https://github.com/yugecin/nfsu2-re/blob/master/nfsu2-re-hooks/faux-enable-console.c'>nfsu2-re-hooks/faux-enable-console.c</a></code>.
 As it doesn't seem to be used anywhere, the only effect you can see is that whatever you
 type is written into the <code>console_real_text</code> buffer (use CheatEngine or something
 you like to inspect it).
-</p><div><p id='console_consume_key'><small><a href='#consoleleftover'>Console leftovers</a></small></p>
+<div><p id='console_consume_key'><small><a href='#consoleleftover'>Console leftovers</a></small></p>
 <h3>ConsoleConsumeKey <a href='#console_consume_key'>#</a></h3>
-<p>When looking at the <a href='funcs.html#5CCD60'>MainWndProc</a> (which is not to hard too find because it's
+<p>When looking at the <a href=funcs.html#5CCD60>MainWndProc</a> (which is not to hard too find because it's
 passed in a struct to <code>RegisterClassExA</code>), I saw a call to a function that
 is called on every <code>WM_CHAR</code> event. The function does nothing when the value
-in <a href='vars.html#8709BC'>consoleEnabledFlag</a> is zero, and there are no write references to it, so it seems
+in <a href=vars.html#8709BC>consoleEnabledFlag</a> is zero, and there are no write references to it, so it seems
 like it will always be zero.
-</p><p>First it seems like the input is dropped if it's a <code>CR</code> (carriage return) and
-when the value at <a href='vars.html#8709C4'>consoleIgnoreNextCR</a> is non-zero. Again, this is always zero so CR's
+<p>First it seems like the input is dropped if it's a <code>CR</code> (carriage return) and
+when the value at <a href=vars.html#8709C4>consoleIgnoreNextCR</a> is non-zero. Again, this is always zero so CR's
 are never dropped.
-</p><p>Then it has four different handlers. The first one handles a backspace character, second
+<p>Then it has four different handlers. The first one handles a backspace character, second
 one does escape, third one does tab and CR, and the last one does everything else. Basically
 one character is deleted when pressing backspace and one character is added in all other
 cases. I named following variables:
-</p><ul>
-<li><a href='vars.html#8709B8'>consoleTextCaretPosition</a>
-</li><li><a href='vars.html#8709C0'>consoleTextStringMaxLength</a>
-</li><li><a href='vars.html#8709B0'>consoleTextString</a>
-</li><li><a href='vars.html#8709B4'>consoleTextStringLength</a>
-</li><li><a href='vars.html#8709BC'>consoleEnabledFlag</a>
+<ul>
+<li><a href=vars.html#8709B8>consoleTextCaretPosition</a>
+</li><li><a href=vars.html#8709C0>consoleTextStringMaxLength</a>
+</li><li><a href=vars.html#8709B0>consoleTextString</a>
+</li><li><a href=vars.html#8709B4>consoleTextStringLength</a>
+</li><li><a href=vars.html#8709BC>consoleEnabledFlag</a>
 </li></ul>
-<p>Basically, on backspace it checks if <a href='vars.html#8709B8'>consoleTextCaretPosition</a> is bigger than zero,
-copies everything in <a href='vars.html#8709B0'>consoleTextString</a> starting from <a href='vars.html#8709B8'>consoleTextCaretPosition</a> to a
-zero byte into a newly allocated buffer, decrements <a href='vars.html#8709B8'>consoleTextCaretPosition</a> and <a href='vars.html#8709B4'>consoleTextStringLength</a>,
-and copies everything from the allocated buffer back into <a href='vars.html#8709B0'>consoleTextString</a> at position <a href='vars.html#8709B8'>consoleTextCaretPosition</a>.
-</p><p>When inserting, it checks if <a href='vars.html#8709B4'>consoleTextStringLength</a> is less than <a href='vars.html#8709C0'>consoleTextStringMaxLength</a>,
-copies everything in <a href='vars.html#8709B0'>consoleTextString</a> starting from <a href='vars.html#8709B8'>consoleTextCaretPosition</a> to a zero byte into
-a newly allocated buffer, inserts the character in <a href='vars.html#8709B0'>consoleTextString</a> at position <a href='vars.html#8709B8'>consoleTextCaretPosition</a>,
-increments <a href='vars.html#8709B8'>consoleTextCaretPosition</a> and <a href='vars.html#8709B4'>consoleTextStringLength</a> by one,
-and copies everything from the allocated buffer back into <a href='vars.html#8709B0'>consoleTextString</a> at position <a href='vars.html#8709B8'>consoleTextCaretPosition</a>.
-</p><ul>
+<p>Basically, on backspace it checks if <a href=vars.html#8709B8>consoleTextCaretPosition</a> is bigger than zero,
+copies everything in <a href=vars.html#8709B0>consoleTextString</a> starting from <a href=vars.html#8709B8>consoleTextCaretPosition</a> to a
+zero byte into a newly allocated buffer, decrements <a href=vars.html#8709B8>consoleTextCaretPosition</a> and <a href=vars.html#8709B4>consoleTextStringLength</a>,
+and copies everything from the allocated buffer back into <a href=vars.html#8709B0>consoleTextString</a> at position <a href=vars.html#8709B8>consoleTextCaretPosition</a>.
+<p>When inserting, it checks if <a href=vars.html#8709B4>consoleTextStringLength</a> is less than <a href=vars.html#8709C0>consoleTextStringMaxLength</a>,
+copies everything in <a href=vars.html#8709B0>consoleTextString</a> starting from <a href=vars.html#8709B8>consoleTextCaretPosition</a> to a zero byte into
+a newly allocated buffer, inserts the character in <a href=vars.html#8709B0>consoleTextString</a> at position <a href=vars.html#8709B8>consoleTextCaretPosition</a>,
+increments <a href=vars.html#8709B8>consoleTextCaretPosition</a> and <a href=vars.html#8709B4>consoleTextStringLength</a> by one,
+and copies everything from the allocated buffer back into <a href=vars.html#8709B0>consoleTextString</a> at position <a href=vars.html#8709B8>consoleTextCaretPosition</a>.
+<ul>
 <li>Backspace: delete character before caret
 </li><li>Escape: insert zero byte
 </li><li>Tab and CR: insert LF
 </li><li>Other: insert char if it's <code>a-z</code> or <code>A-Z</code> or <code>0-9</code> or,
-if <a href='vars.html#80057E'>consoleDisallowSpecialChars</a> is zero, <code>_</code> or <code>@</code> or <code>.</code> or
+if <a href=vars.html#80057E>consoleDisallowSpecialChars</a> is zero, <code>_</code> or <code>@</code> or <code>.</code> or
 <code>-</code>. If none of these pass, do a check for more keys as described below
 </li></ul>
 <div><p id='console_consume_key_check'><small><a href='#consoleleftover'>Console leftovers</a> &gt; <a href='#console_consume_key'>ConsoleConsumeKey</a></small></p>
 <h4>A hardcoded key check <a href='#console_consume_key_check'>#</a></h4>
 <p>At the end of looking if a character is valid, when it hasn't passed any of the criteria
-above, it checks one last function if <a href='vars.html#8709C7'>consoleFilterSpecialChars</a> is <code>1</code>. The function
+above, it checks one last function if <a href=vars.html#8709C7>consoleFilterSpecialChars</a> is <code>1</code>. The function
 seems to check if the key is one of 55 configured values and if so, the char is accepted.
-</p><p style='text-align:right'><small><a href='#index'>Index</a></small></p>
+<p style='text-align:right'><small><a href='#index'>Index</a></small></p>
 </div>
 </div><div><p id='console_move_caret'><small><a href='#consoleleftover'>Console leftovers</a></small></p>
 <h3>ConsoleMoveCaret <a href='#console_move_caret'>#</a></h3>
-<p>This function is also called from <a href='funcs.html#5CCD60'>MainWndProc</a>, this time when a
+<p>This function is also called from <a href=funcs.html#5CCD60>MainWndProc</a>, this time when a
 <code>WM_KEYDOWN</code> message is received. One parameter is passed based on the keycode
 of the event:
-</p><ul>
+<ul>
 <li><code>VK_LEFT</code>: <code>-1</code>
 </li><li><code>VK_RIGHT</code>: <code>1</code>
-</li><li><code>VK_HOME</code>: <code>-<a href='vars.html#8709C0'>consoleTextStringMaxLength</a></code>
-</li><li><code>VK_END</code>: <code><a href='vars.html#8709C0'>consoleTextStringMaxLength</a></code>
+</li><li><code>VK_HOME</code>: <code>-<a href=vars.html#8709C0>consoleTextStringMaxLength</a></code>
+</li><li><code>VK_END</code>: <code><a href=vars.html#8709C0>consoleTextStringMaxLength</a></code>
 </li></ul>
-<p>This is the only other function that checks if <a href='vars.html#8709BC'>consoleEnabledFlag</a> is non-zero.
-</p><p style='text-align:right'><small><a href='#index'>Index</a></small></p>
+<p>This is the only other function that checks if <a href=vars.html#8709BC>consoleEnabledFlag</a> is non-zero.
+<p style='text-align:right'><small><a href='#index'>Index</a></small></p>
 </div>
 <p><small><a href='#consoleleftover'>Console leftovers</a> (continuation)</small></p>
 <p><strong>Symbols:</strong></p>
 <ul>
-<li><a href='vars.html#80057E'>consoleDisallowSpecialChars</a></li>
-<li><a href='vars.html#80057D'>consoleLastCharTyped?</a></li>
-<li><a href='vars.html#8709B0'>consoleTextString</a></li>
-<li><a href='vars.html#8709B4'>consoleTextStringLength</a></li>
-<li><a href='vars.html#8709B8'>consoleTextCaretPosition</a></li>
-<li><a href='vars.html#8709BC'>consoleEnabledFlag</a></li>
-<li><a href='vars.html#8709C0'>consoleTextStringMaxLength</a></li>
-<li><a href='vars.html#8709C4'>consoleIgnoreNextCR</a></li>
-<li><a href='vars.html#8709C5'>??DebugUnusedLastKeyPressed</a></li>
-<li><a href='vars.html#8709C7'>consoleFilterSpecialChars</a></li>
-<li><a href='funcs.html#5BF260'>ConsoleIsArgOneOfTheseHardcodedValues</a></li>
-<li><a href='funcs.html#5BF3A0'>ConsoleMoveCaret</a></li>
+<li><a href=vars.html#80057E>consoleDisallowSpecialChars</a></li>
+<li><a href=vars.html#80057D>consoleLastCharTyped?</a></li>
+<li><a href=vars.html#8709B0>consoleTextString</a></li>
+<li><a href=vars.html#8709B4>consoleTextStringLength</a></li>
+<li><a href=vars.html#8709B8>consoleTextCaretPosition</a></li>
+<li><a href=vars.html#8709BC>consoleEnabledFlag</a></li>
+<li><a href=vars.html#8709C0>consoleTextStringMaxLength</a></li>
+<li><a href=vars.html#8709C4>consoleIgnoreNextCR</a></li>
+<li><a href=vars.html#8709C5>??DebugUnusedLastKeyPressed</a></li>
+<li><a href=vars.html#8709C7>consoleFilterSpecialChars</a></li>
+<li><a href=funcs.html#5BF260>ConsoleIsArgOneOfTheseHardcodedValues</a></li>
+<li><a href=funcs.html#5BF3A0>ConsoleMoveCaret</a></li>
 </ul>
 <p style='text-align:right'><small><a href='#index'>Index</a></small></p>
 </div>
 <div><h2 id="hashfuncs">Hash functions <a href='#hashfuncs'>#</a></h2>
 <p>While scrolling and looking at references to some strings, I found some parts that look like
 following excerpt:
-</p><pre class='ida'>
+<pre class='ida'>
 <span class='mt'>.text:005121AE</span>     push    offset <span class='ident'>aGenericdialo_2</span> <span class='comment'>; "GenericDialog_Animate_SMALL.fng"</span>
-<span class='mt'>.text:005121B3</span>     call    <a href='funcs.html#505450'>SomeHashCI505450</a>
+<span class='mt'>.text:005121B3</span>     call    <a href=funcs.html#505450>SomeHashCI505450</a>
 <span class='mt'>.text:005121B8</span>     add     esp, <span class='num'>4</span>
 <span class='mt'>.text:005121BB</span>     cmp     esi, eax
 <span class='mt'>.text:005121BD</span>     jz      short loc_512218
 <span class='mt'>.text:005121BF</span>     push    offset <span class='ident'>aGenericdialog_</span> <span class='comment'>; "GenericDialog_SMALL.fng"</span>
-<span class='mt'>.text:005121C4</span>     call    <a href='funcs.html#505450'>SomeHashCI505450</a>
+<span class='mt'>.text:005121C4</span>     call    <a href=funcs.html#505450>SomeHashCI505450</a>
 <span class='mt'>.text:005121C9</span>     add     esp, <span class='num'>4</span>
 <span class='mt'>.text:005121CC</span>     cmp     esi, eax
 <span class='mt'>.text:005121CE</span>     jz      short loc_512218
 <span class='mt'>.text:005121D0</span>     push    offset <span class='ident'>aGenericdialo_3</span> <span class='comment'>; "GenericDialog_Animate_MED.fng"</span>
-<span class='mt'>.text:005121D5</span>     call    <a href='funcs.html#505450'>SomeHashCI505450</a>
+<span class='mt'>.text:005121D5</span>     call    <a href=funcs.html#505450>SomeHashCI505450</a>
 <span class='mt'>.text:005121DA</span>     add     esp, <span class='num'>4</span>
 <span class='mt'>.text:005121DD</span>     cmp     esi, eax
 <span class='mt'>.text:005121DF</span>     jz      short loc_512218
 <span class='mt'>.text:005121E1</span>     push    offset <span class='ident'>aGenericdialo_4</span> <span class='comment'>; "GenericDialog_MED.fng"</span>
-<span class='mt'>.text:005121E6</span>     call    <a href='funcs.html#505450'>SomeHashCI505450</a>
+<span class='mt'>.text:005121E6</span>     call    <a href=funcs.html#505450>SomeHashCI505450</a>
 <span class='mt'>.text:005121EB</span>     add     esp, <span class='num'>4</span>
 <span class='mt'>.text:005121EE</span>     cmp     esi, eax
 <span class='mt'>.text:005121F0</span>     jz      short loc_512218
 <span class='mt'>.text:005121F2</span>     push    offset <span class='ident'>aGenericdialo_5</span> <span class='comment'>; "GenericDialog_Animate_LARGE.fng"</span>
-<span class='mt'>.text:005121F7</span>     call    <a href='funcs.html#505450'>SomeHashCI505450</a>
+<span class='mt'>.text:005121F7</span>     call    <a href=funcs.html#505450>SomeHashCI505450</a>
 <span class='mt'>.text:005121FC</span>     add     esp, <span class='num'>4</span>
 <span class='mt'>.text:005121FF</span>     cmp     esi, eax
 <span class='mt'>.text:00512201</span>     jz      short loc_512218
 <span class='mt'>.text:00512203</span>     push    offset <span class='ident'>aGenericdialo_0</span> <span class='comment'>; "GenericDialog_LARGE.fng"</span>
-<span class='mt'>.text:00512208</span>     call    <a href='funcs.html#505450'>SomeHashCI505450</a>
+<span class='mt'>.text:00512208</span>     call    <a href=funcs.html#505450>SomeHashCI505450</a>
 <span class='mt'>.text:0051220D</span>     add     esp, <span class='num'>4</span>
 <span class='mt'>.text:00512210</span>     cmp     esi, eax
 <span class='mt'>.text:00512212</span>     jz      short loc_512218
 </pre>
-<p>The proc <a href='funcs.html#505450'>SomeHashCI505450</a> doesn't look very complicated; it has one argument and
+<p>The proc <a href=funcs.html#505450>SomeHashCI505450</a> doesn't look very complicated; it has one argument and
 doesn't perform any calls. It dereferences the given argument and increment its position,
 until a zero has been found. While it's doing that, <code>eax</code> is modified based on the read value.
 So I assumed it is some hashing function and hooked it to see what kind of things are passed
 through it.
-</p><p>As it turns out, it gets called many, many times.
-</p><pre>
+<p>As it turns out, it gets called many, many times.
+<pre>
 <strong>time        input                       result</strong>
 53.42743683 GenericDialog_SMALL.fng     6962C0CD
 53.42753220 UI_PC_Help_Bar.fng          33AC1CB4
@@ -1205,24 +1215,24 @@ through it.
 53.42928696 GarageMain.fng              4CDD8B14
 </pre>
 <p>The excerpt above is probably from one cycle in the update loop, and is repeated a lot.
-</p><p>Some time later I found a very similar looking proc: <a href='funcs.html#43DB50'>SomeHashCS43DB50</a>, so I copied
+<p>Some time later I found a very similar looking proc: <a href=funcs.html#43DB50>SomeHashCS43DB50</a>, so I copied
 the previous hook for this function. This one gets called many times seemingly at startup
 and when car parts or maps get loaded.
-</p><p>When writing this I took a better look at the procedures and saw that the only difference
+<p>When writing this I took a better look at the procedures and saw that the only difference
 really is that the first one is case insensitive while the second one is case sensitive.
-In the <a href='funcs.html#505450'>SomeHashCI505450</a> one, it checks for every character if it is in the range
+In the <a href=funcs.html#505450>SomeHashCI505450</a> one, it checks for every character if it is in the range
 <code>'a'-'z'</code> and subtracts <code>0x20</code> if so, making the character uppercase
 before updating the hash.
-</p><p>See <a href='dumps/hashes.txt'>hashes.txt</a> (258KB) for list of hashes, each line is formatted
+<p>See <a href='dumps/hashes.txt'>hashes.txt</a> (258KB) for list of hashes, each line is formatted
 as <code>hash\tinput\tresult\tproc\n</code>. This file is updated at random times. 8 minutes
 of playing gives about a 277MB file, all output was piped to <code>sort | uniq</code>.
-</p><p>How I collected these can be seen in the <code>nfsu2-re-hooks/hook-*-hash-*.c</code> files.
-</p><div><p id='hashmess'><small><a href='#hashfuncs'>Hash functions</a></small></p>
+<p>How I collected these can be seen in the <code>nfsu2-re-hooks/hook-*-hash-*.c</code> files.
+<div><p id='hashmess'><small><a href='#hashfuncs'>Hash functions</a></small></p>
 <h3>Messing with hash results <a href='#hashmess'>#</a></h3>
 <p>I had an impulse to try to return different results for certain hashes. For example, return
 the result of <code>FIRETRUCK</code> when the input is <code>240SX</code>. The result is ..
 difficult to describe. Here's some short points:
-</p><ul>
+<ul>
 <li>Browsing to the stock 240sx to customize shows an empty spot, no car
 </li><li>Selecting the stock car to customize will suddenly swap to the firetruck model
 </li><li>I can modify the firetruck, I can't select any bumpers but I can choose spoilers,
@@ -1231,7 +1241,7 @@ although it does nothing
 </li><li>Then going out of the customization menu crashes the game
 (this includes going to performance tuning)
 </li></ul>
-<p class='imgholder'><img src="img/FIRETRUCK.GIF" alt="jumping firetruck"/><br/>Hop hop skippity hop</p>
+<p class='imgholder'><img src="img/FIRETRUCK.GIF" alt="jumping firetruck"><br>Hop hop skippity hop</p>
 <ul>
 <li>Browsing a previously customized 240sx only shows the wheels of the car
 </li><li>If the wheels were not customized, it shows black rectangles as wheels and the game
@@ -1252,11 +1262,11 @@ the position where they should be for the firetruck
 (you just see headlights driving without a vehicle body)
 </li><li>It doesn't lag at all in the performance tuning
 </li></ul>
-<p class='imgholder'><img src="img/FIRETRUCK-DYNO.JPG" alt="dyno chart"/><br/>Here's a dyno chart of the firetruck</p>
+<p class='imgholder'><img src="img/FIRETRUCK-DYNO.JPG" alt="dyno chart"><br>Here's a dyno chart of the firetruck</p>
 <p>While the firetruck is unused in the game,
 I also tried to do this with the taxi, but it gave the same results.
 Then I tried to replace it with a "normal" car, the Mustang.
-</p><ul>
+<ul>
 <li>Browsing a stock 240sx only shows black rectangles for wheels
 </li><li>When selecting the car, it gets replaced with a mustang, and now I'm customizing a mustang
 </li><li>The only change I can see is that there are no headlights or taillights
@@ -1265,29 +1275,29 @@ Then I tried to replace it with a "normal" car, the Mustang.
 </li><li>Going ingame again now shows the car fully as it should
 </li><li>Selecting a customized 240sx now shows the doors of a mustang
 </li></ul>
-<p class='imgholder'><img src="img/MUSTANG.JPG" alt="driving invisible mustang"/><br/>Car?</p>
+<p class='imgholder'><img src="img/MUSTANG.JPG" alt="driving invisible mustang"><br>Car?</p>
 <p>The behavior isn't always the same, just give it a try and see for yourself.
 Replacing the taxi with the ambulance just lags out the game whenever a taxi comes in sight.
-</p><p>Check the function <code>SomeHashCS43DB50Print</code> in the file
+<p>Check the function <code>SomeHashCS43DB50Print</code> in the file
 <code><a class='ext' href='https://github.com/yugecin/nfsu2-re/blob/master/nfsu2-re-hooks/hook-43DB50-hash-cs.c'>nfsu2-re-hooks/hook-43DB50-hash-cs.c</a></code> to see how I did this,
 the code to replace cars is in comments.
-</p><p style='text-align:right'><small><a href='#index'>Index</a></small></p>
+<p style='text-align:right'><small><a href='#index'>Index</a></small></p>
 </div>
 <p><small><a href='#hashfuncs'>Hash functions</a> (continuation)</small></p>
 <p><strong>Symbols:</strong></p>
 <ul>
-<li><a href='funcs.html#43DB50'>SomeHashCS43DB50</a></li>
-<li><a href='funcs.html#43DB80'>SomeHashCS_WithStartValue</a></li>
-<li><a href='funcs.html#505450'>SomeHashCI505450</a></li>
-<li><a href='funcs.html#50B990'>FormatWithSinglePlaceholderAndHashCS43DB50</a></li>
-<li><a href='funcs.html#50B9C0'>FormatWithSinglePlaceholderAndHashCI</a></li>
+<li><a href=funcs.html#43DB50>SomeHashCS43DB50</a></li>
+<li><a href=funcs.html#43DB80>SomeHashCS_WithStartValue</a></li>
+<li><a href=funcs.html#505450>SomeHashCI505450</a></li>
+<li><a href=funcs.html#50B990>FormatWithSinglePlaceholderAndHashCS43DB50</a></li>
+<li><a href=funcs.html#50B9C0>FormatWithSinglePlaceholderAndHashCI</a></li>
 </ul>
 <p style='text-align:right'><small><a href='#index'>Index</a></small></p>
 </div>
 <div><h2 id="lists">Lists <a href='#lists'>#</a></h2>
 <p>Many structs have a doubly linked list of data with a sentinel node (thanks Wikipedia for
 teaching me that name) being in the struct itself. It kinda looks like this:
-</p><pre>
+<pre>
 struct SomeStruct {			struct Child {
 	void *vtable;				void *vtable;
 	// yada yada				struct Child *next;
@@ -1297,7 +1307,7 @@ struct SomeStruct {			struct Child {
 }
 </pre>
 <p>So then one can loop over all nodes by going to next until next is the sentinel node:
-</p><pre>
+<pre>
 void *sentinel = &amp;someStruct-&gt;next;
 struct Child *next = someStruct-&gt;next;
 while (next != sentinel) {
@@ -1308,16 +1318,16 @@ while (next != sentinel) {
 <div><p id='objectlink'><small><a href='#lists'>Lists</a></small></p>
 <h3>ObjectLink <a href='#objectlink'>#</a></h3>
 <p>Though almost always, the lists look something like this:
-</p><pre>
+<pre>
 struct SomeStruct {			struct Child {
 	void *vtable;				void *vtable;
-	// yada yada				<a href='structs.html#struc_ObjectLink'>struct ObjectLink</a> link;
-	<a href='structs.html#struc_ObjectLink'>struct ObjectLink</a> link;		// yada yada
+	// yada yada				<a href=structs.html#struc_ObjectLink>struct ObjectLink</a> link;
+	<a href=structs.html#struc_ObjectLink>struct ObjectLink</a> link;		// yada yada
 	// yada yada			}
 }
 </pre>
 <p>So to loop over all nodes, one would have to do this:
-</p><pre>
+<pre>
 struct ObjectLink *sentinel = &amp;someStruct-&gt;link;
 struct ObjectLink *next = someStruct-&gt;next;
 struct Child *actual;
@@ -1328,13 +1338,13 @@ while (next != sentinel) {
 }
 </pre>
 <p>Or I'm missing something. Either way I'm wondering what the source code looks like for these things.
-</p><p style='text-align:right'><small><a href='#index'>Index</a></small></p>
+<p style='text-align:right'><small><a href='#index'>Index</a></small></p>
 </div>
 <div><p id='ABADCAFE'><small><a href='#lists'>Lists</a></small></p>
 <h3>0xABADCAFE <a href='#ABADCAFE'>#</a></h3>
 <p><code>0xABADCAFE</code> is a constant that's <em>very</em> often used,
 sometimes also used as bogus pointers on list nodes that are being removed:
-</p><pre>
+<pre>
 struct Child *someNode = ...;
 
 someNode-&gt;prev-&gt;next = someNode-&gt;next;
@@ -1343,9 +1353,9 @@ someNode-&gt;prev = (void*) 0xABADCAFE;
 someNode-&gt;next = (void*) 0xABADCAFE;
 delete someNode;
 </pre>
-<p>This happens for example in <a href='funcs.html#5362E0'>UIData_field8::DirectPopFNG</a>.
-</p><p>A quick search shows some known usages for this value:
-</p><blockquote>"A bad cafe", Used to initialize all unallocated memory
+<p>This happens for example in <a href=funcs.html#5362E0>UIData_field8::DirectPopFNG</a>.
+<p>A quick search shows some known usages for this value:
+<blockquote>"A bad cafe", Used to initialize all unallocated memory
 <a class="ext" href="https://en.wikipedia.org/wiki/Magic_number_(programming)#Debug_values">(Wikipedia: Magic number # debug values)</a>
 </blockquote>
 <blockquote>0xABADCAFE: A startup to this value to initialize all free memory to catch errant pointers
@@ -1353,11 +1363,11 @@ delete someNode;
 </blockquote>
 <p>Though the usage observed here is often also before destruction of objects instead of
 only at initialization.
-</p><p style='text-align:right'><small><a href='#index'>Index</a></small></p>
+<p style='text-align:right'><small><a href='#index'>Index</a></small></p>
 </div>
 </div><div><h2 id="debugprint">Debug print <a href='#debugprint'>#</a></h2>
 <p>While scrolling through the data segment, I found these interesting strings:
-</p><pre class='ida'>
+<pre class='ida'>
 <span class='mc'>.rdata:0079B160</span> <span class='ident'>aDeletingPackag</span> db <span class='str'>'Deleting package [%s]'</span>,<span class='num'>0Ah</span>,<span class='num'>0</span>
 <span class='mc'>.rdata:0079B177</span>                 align <span class='num'>4</span>
 <span class='mc'>.rdata:0079B178</span> <span class='ident'>aUnActivateXX</span>   db <span class='str'>'Un-Activate!!! %x %x'</span>,<span class='num'>0Ah</span>,<span class='num'>0</span>
@@ -1366,26 +1376,26 @@ only at initialization.
 </pre>
 <p>Even more interesting is that these strings are using by pushing them on to the stack,
 followed by a call to a specific proc that looks like this:
-</p><pre class='ida'>
+<pre class='ida'>
 <span class='mt'>.text:0050D510</span> <span class='ident'>sub_50D510  proc near</span>
 <span class='mt'>.text:0050D510</span>                 xor     eax, eax
 <span class='mt'>.text:0050D512</span>                 retn
 <span class='mt'>.text:0050D512</span> <span class='ident'>sub_50D510  endp</span>
 </pre>
 <p>It appears as if this used to be some kind of debug printf function, so I named it
-<a href='funcs.html#50D510'>SomeDebugPrint</a>. I hooked the function and made it output to a log file,
+<a href=funcs.html#50D510>SomeDebugPrint</a>. I hooked the function and made it output to a log file,
 see <code><a class='ext' href='https://github.com/yugecin/nfsu2-re/blob/master/nfsu2-re-hooks/replace-50D510-DebugPrint.c'>nfsu2-re-hooks/replace-50D510-DebugPrint.c</a></code>.
-</p><p>It also seems to pass data that is not a pointer to a string. I'm guessing since the
+<p>It also seems to pass data that is not a pointer to a string. I'm guessing since the
 implementation of this function was removed (and now just returns zero), and there
 were probably other removed functions, so some calls that are supposed to be done
 to different functions may now all point to this one function that also happened to
 be used for the debug print stuff. My simple solution is to check if the first passed
 argument points to memory in the data section, and print if so.
-</p><p>I did a short session browsing customization options and performance tuning with this
+<p>I did a short session browsing customization options and performance tuning with this
 enabled, the results can be seen in the log file
 <a href='dumps/debugstring50D510.txt'>debugstring50D510.txt</a> (149KB). Each line is formatted as
 <code>debugstr\t50D510\tcallee\tstring\n</code>. Here is a 'small' excerpt:
-</p><pre>
+<pre>
 DIALOG :: --------- ShowDialog -----------
 DIALOG :: |_ Do you want to convert your trunk to carbon fiber?
 DIALOG :: Oh shit - the control mask is zero.  This is bad.  Try to use Top Package's control mask.
@@ -1414,25 +1424,25 @@ package[GenericDialog_SMALL.fng] will unload
 </pre>
 <p>Most of the messages seem to be about dialogs, joy (keyboard) events,
 FEng/fng packages (I'm guessing those are ui resources/designs?).
-</p><p style='text-align:right'><small><a href='#index'>Index</a></small></p>
+<p style='text-align:right'><small><a href='#index'>Index</a></small></p>
 </div>
 <div><h2 id="ui">UI <a href='#ui'>#</a></h2>
 <p>Names with <code>.FNG</code> seem to be occuring a lot, it seems like that are UI
 resources or some kind of UI widget descriptors.
-</p><p>In text strings, <code>^</code> is a line feed (but <code>\n</code> might work as well, TODO).
-</p><p>UI things seem to work on a <code>640x480</code> canvas.
+<p>In text strings, <code>^</code> is a line feed (but <code>\n</code> might work as well, TODO).
+<p>UI things seem to work on a <code>640x480</code> canvas.
 Most things (especially when mouse is involved) seem to be positioned
 <code>([-320,+320],[-240,+240])</code>.
-</p><p>A UI element is described by <a href='structs.html#struc_UIElement'>struct UIElement</a>. Its <a href='structs.html#struc_UIElement18'>type</a> field tells which
+<p>A UI element is described by <a href=structs.html#struc_UIElement>struct UIElement</a>. Its <a href=structs.html#struc_UIElement18>type</a> field tells which
 kind of element it is. Currently I have:
-</p><p>(later I found <a href='funcs.html#5359D0'>UIData_field8_4134::ctor</a> which kinda seems like it has names for some types of elements?
+<p>(later I found <a href=funcs.html#5359D0>UIData_field8_4134::ctor</a> which kinda seems like it has names for some types of elements?
 I put those names in the list below between square brackets)
-</p><ul>
-<li>type 1: <a href='structs.html#struc_UIElementType1'>struct UIElementType1</a>: shows a texture [Image]
-</li><li>type 2: <a href='structs.html#struc_UILabel'>struct UILabel</a>: shows text [String]
+<ul>
+<li>type 1: <a href=structs.html#struc_UIElementType1>struct UIElementType1</a>: shows a texture [Image]
+</li><li>type 2: <a href=structs.html#struc_UILabel>struct UILabel</a>: shows text [String]
 </li><li>type 3: ? [Model]
 </li><li>type 4: ? [List]
-</li><li>type 5: <a href='structs.html#struc_UIContainer'>struct UIContainer</a>: groups child ui elements [Group]
+</li><li>type 5: <a href=structs.html#struc_UIContainer>struct UIContainer</a>: groups child ui elements [Group]
 </li><li>type 6: ? [Code List]
 </li><li>type 7: movie (like the THX logo, EA logo, intro etc) [Movie]
 </li><li>type 8: ? [Effect]
@@ -1441,39 +1451,39 @@ I put those names in the list below between square brackets)
 </li><li>type 11: ? [Simple Image]
 </li></ul>
 <p>All UI elements are addressable by the hash (see <a href='#hashfuncs'>Hash functions</a>) of its name (stored in its field
-<a href='structs.html#struc_UIElement10'>hash</a>). So then one can find UI elements by using <a href='funcs.html#4953C0'>FindUILabelByName</a> or <a href='funcs.html#537A10'>FindUILabelByHash</a> and
+<a href=structs.html#struc_UIElement10>hash</a>). So then one can find UI elements by using <a href=funcs.html#4953C0>FindUILabelByName</a> or <a href=funcs.html#537A10>FindUILabelByHash</a> and
 the likes.
-</p><p>See also <a href='BLOGx01-exploring-UI.html'>blogpost: Exploring UI</a>
-</p><div><p id='ui_dialog'><small><a href='#ui'>UI</a></small></p>
+<p>See also <a href='BLOGx01-exploring-UI.html'>blogpost: Exploring UI</a>
+<div><p id='ui_dialog'><small><a href='#ui'>UI</a></small></p>
 <h3>Dialogs <a href='#ui_dialog'>#</a></h3>
 <p>Thanks to the <a href='#debugprint'>Debug print</a> discovery, my attention got grabbed
 by something that looked like dialog code. These leftover debug strings helped so much.
-</p><p>Someone left a trace here:
-</p><pre class='ida'>
-<span class='mt'>.text:005541FC</span>                 call    <a href='funcs.html#4FF250'>DialogInfo::ctor</a>
+<p>Someone left a trace here:
+<pre class='ida'>
+<span class='mt'>.text:005541FC</span>                 call    <a href=funcs.html#4FF250>DialogInfo::ctor</a>
 <span class='mt'>.text:00554201</span>                 push    offset <span class='ident'>aDialogConstruc</span> <span class='comment'>; "DIALOG :: Constructor\n"</span>
-<span class='mt'>.text:00554206</span>                 call    <a href='funcs.html#50D510'>SomeDebugPrint</a>
+<span class='mt'>.text:00554206</span>                 call    <a href=funcs.html#50D510>SomeDebugPrint</a>
 </pre>
-<p>One of the first thing <a href='funcs.html#558020'>ShowDialog</a> does is calling <a href='funcs.html#526C40'>GetFNGforDialog</a>,
+<p>One of the first thing <a href=funcs.html#558020>ShowDialog</a> does is calling <a href=funcs.html#526C40>GetFNGforDialog</a>,
 which looks like initializes the dialog maybe? One argument is passed, seemingly the
 dialog name. But then it checks something at the passed dialog name <code>+324h</code>. Conclusion:
 it's passing a struct with dialog info, of which the first member is the name.
-</p><div><p id='ui_dialog_getfngfordialog'><small><a href='#ui'>UI</a> &gt; <a href='#ui_dialog'>Dialogs</a></small></p>
+<div><p id='ui_dialog_getfngfordialog'><small><a href='#ui'>UI</a> &gt; <a href='#ui_dialog'>Dialogs</a></small></p>
 <h4>GetFNGForDialog <a href='#ui_dialog_getfngfordialog'>#</a></h4>
-<p>This function is only used once, by the <a href='funcs.html#558020'>ShowDialog</a> function. It checks
+<p>This function is only used once, by the <a href=funcs.html#558020>ShowDialog</a> function. It checks
 the value at <code>+324h</code>, which seems to be a pointer to a string,
 looks like maybe a type of dialog?
 It's checked if that value is either <code>NULL</code> or empty string or equal to
 <code>animating</code> or <code>3button</code>. I decided to reimplement that function.
 Fun fact: while doing this I managed to write an infinite loop which caused a BSOD.
-</p><p>At the end I decided upon the name <a href='funcs.html#526C40'>GetFNGforDialog</a>. It returns a pointer
+<p>At the end I decided upon the name <a href=funcs.html#526C40>GetFNGforDialog</a>. It returns a pointer
 to a string that says what FNG to display for the dialog that was passed.
-</p><p>The dialog info may already have the FNG set, this function will return that unless
+<p>The dialog info may already have the FNG set, this function will return that unless
 it's not set or it's not either <code>animating</code> or <code>3button</code>.
-</p><ul>
-<li><code>HelpDialog_SMALL.fng</code> when <code><a href='structs.html#struc_DialogInfo32D'>isHelpDialog</a></code> and text has less than 5 linebreaks
-</li><li><code>HelpDialog_MED.fng</code> when <code><a href='structs.html#struc_DialogInfo32D'>isHelpDialog</a></code> and text has more than 4 linebreaks
-</li><li><code>GenericDialog_ThreeButton.fng</code> when <code><a href='structs.html#struc_DialogInfo324'>myFNGName</a></code> is <code>3button</code>
+<ul>
+<li><code>HelpDialog_SMALL.fng</code> when <code><a href=structs.html#struc_DialogInfo32D>isHelpDialog</a></code> and text has less than 5 linebreaks
+</li><li><code>HelpDialog_MED.fng</code> when <code><a href=structs.html#struc_DialogInfo32D>isHelpDialog</a></code> and text has more than 4 linebreaks
+</li><li><code>GenericDialog_ThreeButton.fng</code> when <code><a href=structs.html#struc_DialogInfo324>myFNGName</a></code> is <code>3button</code>
 </li><li><code>GenericDialog_SMALL.fng</code> when text width is <code>&lt; 2561.0f</code>
 </li><li><code>GenericDialog_Animate_SMALL.fng</code> same as above, but when type is <code>animating</code>
 </li><li><code>GenericDialog_MED.fng</code> when text width is <code>&lt; 5122.0f</code>
@@ -1483,67 +1493,67 @@ it's not set or it's not either <code>animating</code> or <code>3button</code>.
 </li></ul>
 <p>See the <code><a class='ext' href='https://github.com/yugecin/nfsu2-re/blob/master/nfsu2-re-hooks/replace-526C40-GetFNGForDialog.c'>nfsu2-re-hooks/replace-526C40-GetFNGForDialog.c</a></code> function
 for the complete reimplementation.
-</p><p>Here's me messing with the returned value:
-</p><p class='imgholder'><img src="img/dialoghelp.jpg" alt="dialog"/><br/><code>HelpDialog_SMALL.fng</code></p>
-<p class='imgholder'><img src="img/dialoggenericmed.jpg" alt="dialog"/><br/><code>GenericDialog_MED.fng</code></p>
-<p class='imgholder'><img src="img/dialog3button.jpg" alt="dialog"/><br/><code>GenericDialog_ThreeButton.fng</code></p>
-<p class='imgholder'><img src="img/dialoganimate.gif" alt="dialog"/><br/><code>GenericDialog_Animate_SMALL.fng</code></p>
+<p>Here's me messing with the returned value:
+<p class='imgholder'><img src="img/dialoghelp.jpg" alt="dialog"><br><code>HelpDialog_SMALL.fng</code></p>
+<p class='imgholder'><img src="img/dialoggenericmed.jpg" alt="dialog"><br><code>GenericDialog_MED.fng</code></p>
+<p class='imgholder'><img src="img/dialog3button.jpg" alt="dialog"><br><code>GenericDialog_ThreeButton.fng</code></p>
+<p class='imgholder'><img src="img/dialoganimate.gif" alt="dialog"><br><code>GenericDialog_Animate_SMALL.fng</code></p>
 <p>I can't remember seeing this animate style dialog... But when adding some debug prints,
 it seems like the online/LAN play uses this: <code>dialog 'Retrieving updated games
 list^from the server...' has type animating</code> but that dialog disappears so fast
 I probably never noticed it.
-</p><p>Then I tried replacing it with something totally different,
+<p>Then I tried replacing it with something totally different,
 <code>UI_GenericParts_Browser.fng</code>. I half expected the game to crash, so I was
 surprised when it showed me this:
-</p><p class='imgholder'><img src="img/dialoggenericpartsbrowser.jpg" alt="main menu ui on splash screen"/><br/>:)</p>
+<p class='imgholder'><img src="img/dialoggenericpartsbrowser.jpg" alt="main menu ui on splash screen"><br>:)</p>
 <p>Seems like this is a nice place to test loading other screens. Some do crash, but
 here's <code>UI_OLEAMessenger.fng</code>:
-</p><p class='imgholder'><img src="img/dialogoleamessenger.jpg" alt="online messenger menu with placeholder text"/><br/>No idea why that text is .. Spanish?</p>
+<p class='imgholder'><img src="img/dialogoleamessenger.jpg" alt="online messenger menu with placeholder text"><br>No idea why that text is .. Spanish?</p>
 <p>Printing the dialog info struct address sadly showed that it wasn't stored in the
 executable itself so it's probably somewhere deep in a bin file.
-</p><p style='text-align:right'><small><a href='#index'>Index</a></small></p>
+<p style='text-align:right'><small><a href='#index'>Index</a></small></p>
 </div>
 <p><small><a href='#ui'>UI</a> &gt; <a href='#ui_dialog'>Dialogs</a> (continuation)</small></p>
-<p><a href='structs.html#struc_DialogInfo'>struct DialogInfo</a> was made by looking at all of the above and more.
-(Especially <a href='funcs.html#4FF250'>DialogInfo::ctor</a> helped here.)
-</p><p><strong>Symbols:</strong></p>
+<p><a href=structs.html#struc_DialogInfo>struct DialogInfo</a> was made by looking at all of the above and more.
+(Especially <a href=funcs.html#4FF250>DialogInfo::ctor</a> helped here.)
+<p><strong>Symbols:</strong></p>
 <ul>
-<li><a href='structs.html#struc_DialogInfo'>struct DialogInfo</a></li>
-<li><a href='vars.html#7F6DE0'>nextDialogId</a></li>
-<li><a href='vars.html#838640'>shownDialog</a></li>
-<li><a href='funcs.html#4FF250'>DialogInfo::ctor</a></li>
-<li><a href='funcs.html#526C40'>GetFNGforDialog</a></li>
-<li><a href='funcs.html#540A60'>DismissDialog</a></li>
-<li><a href='funcs.html#54C050'>DialogFNGObject::MessageHandler</a></li>
-<li><a href='funcs.html#5542A0'>FNGINIT_Dialogs</a></li>
-<li><a href='funcs.html#558020'>ShowDialog</a></li>
-<li><a href='funcs.html#5582A0'>ShowButtonlessFormattedDialogPtr</a></li>
-<li><a href='funcs.html#558310'>ShowButtonlessFormattedDialog</a></li>
-<li><a href='funcs.html#558330'>ShowButtonlessFormattedLanguageDialog</a></li>
-<li><a href='funcs.html#558390'>ShowStandardFormattedErrorDialog</a></li>
-<li><a href='funcs.html#558430'>ShowStandardFormattedLanguageErrorDialog</a></li>
-<li><a href='funcs.html#558490'>ShowSingleButtonEscapableFormattedDialog32C</a></li>
-<li><a href='funcs.html#558540'>ShowSingleButtonEscapableFormattedDialog</a></li>
-<li><a href='funcs.html#558570'>ShowSingleButtonEscapableFormattedLanguageDialog</a></li>
-<li><a href='funcs.html#5585E0'>ShowSingleButtonFormattedDialog</a></li>
-<li><a href='funcs.html#558610'>ShowSingleButtonFormattedLanguageDialog</a></li>
-<li><a href='funcs.html#558680'>ShowTwoButtonEscapableFormattedDialog31C_32C</a></li>
-<li><a href='funcs.html#558750'>ShowTwoButtonEscapableFormattedDialog31C</a></li>
-<li><a href='funcs.html#558790'>ShowTwoButtonEscapableFormattedLanguageDialog31C</a></li>
-<li><a href='funcs.html#558820'>ShowTwoButtonFormattedDialog31C</a></li>
-<li><a href='funcs.html#558860'>ShowTwoButtonFormattedLanguageDialog31C</a></li>
-<li><a href='funcs.html#5588F0'>ShowThreeButtonEscapableFormattedDialogPtr31C</a></li>
-<li><a href='funcs.html#5589D0'>ShowThreeButtonEscapableFormattedDialog31C</a></li>
-<li><a href='funcs.html#558A20'>ShowThreeButtonEscapableFormattedLanguageDialog31C</a></li>
-<li><a href='funcs.html#558AC0'>ShowHelpDialog</a></li>
+<li><a href=structs.html#struc_DialogInfo>struct DialogInfo</a></li>
+<li><a href=vars.html#7F6DE0>nextDialogId</a></li>
+<li><a href=vars.html#838640>shownDialog</a></li>
+<li><a href=funcs.html#4FF250>DialogInfo::ctor</a></li>
+<li><a href=funcs.html#526C40>GetFNGforDialog</a></li>
+<li><a href=funcs.html#540A60>DismissDialog</a></li>
+<li><a href=funcs.html#54C050>DialogFNGObject::MessageHandler</a></li>
+<li><a href=funcs.html#5542A0>FNGINIT_Dialogs</a></li>
+<li><a href=funcs.html#558020>ShowDialog</a></li>
+<li><a href=funcs.html#5582A0>ShowButtonlessFormattedDialogPtr</a></li>
+<li><a href=funcs.html#558310>ShowButtonlessFormattedDialog</a></li>
+<li><a href=funcs.html#558330>ShowButtonlessFormattedLanguageDialog</a></li>
+<li><a href=funcs.html#558390>ShowStandardFormattedErrorDialog</a></li>
+<li><a href=funcs.html#558430>ShowStandardFormattedLanguageErrorDialog</a></li>
+<li><a href=funcs.html#558490>ShowSingleButtonEscapableFormattedDialog32C</a></li>
+<li><a href=funcs.html#558540>ShowSingleButtonEscapableFormattedDialog</a></li>
+<li><a href=funcs.html#558570>ShowSingleButtonEscapableFormattedLanguageDialog</a></li>
+<li><a href=funcs.html#5585E0>ShowSingleButtonFormattedDialog</a></li>
+<li><a href=funcs.html#558610>ShowSingleButtonFormattedLanguageDialog</a></li>
+<li><a href=funcs.html#558680>ShowTwoButtonEscapableFormattedDialog31C_32C</a></li>
+<li><a href=funcs.html#558750>ShowTwoButtonEscapableFormattedDialog31C</a></li>
+<li><a href=funcs.html#558790>ShowTwoButtonEscapableFormattedLanguageDialog31C</a></li>
+<li><a href=funcs.html#558820>ShowTwoButtonFormattedDialog31C</a></li>
+<li><a href=funcs.html#558860>ShowTwoButtonFormattedLanguageDialog31C</a></li>
+<li><a href=funcs.html#5588F0>ShowThreeButtonEscapableFormattedDialogPtr31C</a></li>
+<li><a href=funcs.html#5589D0>ShowThreeButtonEscapableFormattedDialog31C</a></li>
+<li><a href=funcs.html#558A20>ShowThreeButtonEscapableFormattedLanguageDialog31C</a></li>
+<li><a href=funcs.html#558AC0>ShowHelpDialog</a></li>
 </ul>
 <p style='text-align:right'><small><a href='#index'>Index</a></small></p>
 </div>
 <div><p id='fngthings'><small><a href='#ui'>UI</a></small></p>
 <h3>FNG things <a href='#fngthings'>#</a></h3>
-<details><summary><a href='vars.html#7F7DC8'>fngdata</a></summary>
+<details><summary><a href=vars.html#7F7DC8>fngdata</a></summary>
 <pre>
-<a href='structs.html#struc_FNGData'>struct FNGData</a> <a href='vars.html#7F7DC8'>fngdata</a>[] = {
+<a href=structs.html#struc_FNGData>struct FNGData</a> <a href=vars.html#7F7DC8>fngdata</a>[] = {
 /*7F7DC8*/{ "UI_Main.fng", // 0
             0x4ED6B0,
             HELP_MAIN_MENU,
@@ -2626,9 +2636,9 @@ executable itself so it's probably somewhere deep in a bin file.
 };
 </pre>
 </details>
-<details><summary>Short excerpt from hooking <a href='funcs.html#50B790'>CreateFNGObject</a></summary>
+<details><summary>Short excerpt from hooking <a href=funcs.html#50B790>CreateFNGObject</a></summary>
 <p><code>arg2</code> for the dialogs are a pointer to the text string
-</p><pre>
+<pre>
 ShowFNG(AB447B38 (""), 037864A0, 00000000) = 00000000
 ShowFNG(33AC1CB4 ("UI_PC_Help_Bar.fng"), 0378BD30, 00000000) = 03D7EB60
 ShowFNG(E503D390 ("MC_Bootup.fng"), 0379ADE0, 00000000) = 03786140
@@ -2676,43 +2686,43 @@ TODO:
 </pre>
 <p><strong>Symbols:</strong></p>
 <ul>
-<li><a href='structs.html#struc_FNGShowData'>struct FNGShowData</a></li>
-<li><a href='structs.html#struc_FNGData'>struct FNGData</a></li>
-<li><a href='structs.html#struc_FNGInfo'>struct FNGInfo</a></li>
-<li><a href='structs.html#struc_UIData'>struct UIData</a></li>
-<li><a href='structs.html#struc_UIData_field8'>struct UIData_field8</a></li>
-<li><a href='structs.html#struc_FERenderObject'>struct FERenderObject</a></li>
-<li><a href='vars.html#7F7DC8'>fngdata</a></li>
-<li><a href='vars.html#8384E0'>gCallingScreenPackageName</a></li>
-<li><a href='funcs.html#4B2240'>FNGINIT_UI_EngageMessageDialog.fng</a></li>
-<li><a href='funcs.html#50B840'>GetFNGDataForHash</a></li>
-<li><a href='funcs.html#50B8E0'>SetInitializeHandlerForFNG</a></li>
-<li><a href='funcs.html#50B790'>CreateFNGObject</a></li>
-<li><a href='funcs.html#50C550'>FreeFNGFeRenderObjects</a></li>
-<li><a href='funcs.html#50CE30'>FindTopPackage</a></li>
-<li><a href='funcs.html#519E50'>FNGInfoList::GetFNGInfoByNameByHierarchy</a></li>
-<li><a href='funcs.html#51CBA0'>UIData::SwitchFEngPackages</a></li>
-<li><a href='funcs.html#51CCD0'>UIData::GetLevelSorterPoolEntryForFngName</a></li>
-<li><a href='funcs.html#52C390'>FERenderObject::FreeAllRenderEPolys</a></li>
-<li><a href='funcs.html#52C3A0'>FERenderObject::FreeAllRenderEPolys_0</a></li>
-<li><a href='funcs.html#52CEF0'>GetFNGInfoByName</a></li>
-<li><a href='funcs.html#5374F0'>UIElementVisitor_ClearFNGCache::acceptElement</a></li>
-<li><a href='funcs.html#5379A0'>RemoveFNGFromUIObject</a></li>
-<li><a href='funcs.html#555E80'>AddFngToUIObject_1</a></li>
-<li><a href='funcs.html#555F10'>AddFngToUIObjectWrapper</a></li>
-<li><a href='funcs.html#555D00'>UIData::AddFNGToUIObject</a></li>
-<li><a href='funcs.html#558B70'>TextboxData::HandleQuitKey</a></li>
-<li><a href='funcs.html#55DBD0'>UIHandleKey</a></li>
-<li><a href='funcs.html#55DC20'>SomethingUI::SendMessageToFNG</a></li>
+<li><a href=structs.html#struc_FNGShowData>struct FNGShowData</a></li>
+<li><a href=structs.html#struc_FNGData>struct FNGData</a></li>
+<li><a href=structs.html#struc_FNGInfo>struct FNGInfo</a></li>
+<li><a href=structs.html#struc_UIData>struct UIData</a></li>
+<li><a href=structs.html#struc_UIData_field8>struct UIData_field8</a></li>
+<li><a href=structs.html#struc_FERenderObject>struct FERenderObject</a></li>
+<li><a href=vars.html#7F7DC8>fngdata</a></li>
+<li><a href=vars.html#8384E0>gCallingScreenPackageName</a></li>
+<li><a href=funcs.html#4B2240>FNGINIT_UI_EngageMessageDialog.fng</a></li>
+<li><a href=funcs.html#50B840>GetFNGDataForHash</a></li>
+<li><a href=funcs.html#50B8E0>SetInitializeHandlerForFNG</a></li>
+<li><a href=funcs.html#50B790>CreateFNGObject</a></li>
+<li><a href=funcs.html#50C550>FreeFNGFeRenderObjects</a></li>
+<li><a href=funcs.html#50CE30>FindTopPackage</a></li>
+<li><a href=funcs.html#519E50>FNGInfoList::GetFNGInfoByNameByHierarchy</a></li>
+<li><a href=funcs.html#51CBA0>UIData::SwitchFEngPackages</a></li>
+<li><a href=funcs.html#51CCD0>UIData::GetLevelSorterPoolEntryForFngName</a></li>
+<li><a href=funcs.html#52C390>FERenderObject::FreeAllRenderEPolys</a></li>
+<li><a href=funcs.html#52C3A0>FERenderObject::FreeAllRenderEPolys_0</a></li>
+<li><a href=funcs.html#52CEF0>GetFNGInfoByName</a></li>
+<li><a href=funcs.html#5374F0>UIElementVisitor_ClearFNGCache::acceptElement</a></li>
+<li><a href=funcs.html#5379A0>RemoveFNGFromUIObject</a></li>
+<li><a href=funcs.html#555E80>AddFngToUIObject_1</a></li>
+<li><a href=funcs.html#555F10>AddFngToUIObjectWrapper</a></li>
+<li><a href=funcs.html#555D00>UIData::AddFNGToUIObject</a></li>
+<li><a href=funcs.html#558B70>TextboxData::HandleQuitKey</a></li>
+<li><a href=funcs.html#55DBD0>UIHandleKey</a></li>
+<li><a href=funcs.html#55DC20>SomethingUI::SendMessageToFNG</a></li>
 </ul>
 <p style='text-align:right'><small><a href='#index'>Index</a></small></p>
 </div>
 <div><p id='listingallfng'><small><a href='#ui'>UI</a></small></p>
 <h3>Listing all FNG screens <a href='#listingallfng'>#</a></h3>
 <p>Listed by <code><a class='ext' href='https://github.com/yugecin/nfsu2-re/blob/master/nfsu2-re-hooks/debug-custom-iterate-somethingui.c'>nfsu2-re-hooks/debug-custom-iterate-somethingui.c</a></code>
-</p><p>Listing <em>all that are loaded</em> when I run my game. I might've missed some but I ran that code for
+<p>Listing <em>all that are loaded</em> when I run my game. I might've missed some but I ran that code for
 each place in the game that has a separate bin/bun file (like drag, drift, performance tuning, ...).
-</p><details><summary>~200 lines</summary>
+<details><summary>~200 lines</summary>
 <pre>
 0027F0C1: fngdata UI_Paint.fng
 013932DF: fngdata UI_OLEALogin.fng
@@ -2922,78 +2932,78 @@ FF9E84D3: fngdata MC_List.fng
 FFD19C74: fngdata GarageMain.fng
 </pre>
 </details>
-<p>Lines with <code>fngdata</code> means they have a matching entry in <a href='vars.html#7F7DC8'>fngdata</a>.
-Lines with <code>NAME</code> don't, but are from binsection <code>30203</code> so they show their <a href='structs.html#struc_BinSection30203Data'>struct BinSection30203Data</a>.<a href='structs.html#struc_BinSection30203Data28'>fngName</a>.
-Lines with <code>HASH</code> don't, and are from binsection <code>30210</code> so they show their <a href='structs.html#struc_BinSection30210'>struct BinSection30210</a>.<a href='structs.html#struc_BinSection302108'>fngNameCSHash</a>.
-</p><p>One of those that don't have a name but do show a name from their binsection data is
-<code>Loading_Controller.fng</code>. Since this one isn't in <a href='vars.html#7F7DC8'>fngdata</a> nor is the string present in the
+<p>Lines with <code>fngdata</code> means they have a matching entry in <a href=vars.html#7F7DC8>fngdata</a>.
+Lines with <code>NAME</code> don't, but are from binsection <code>30203</code> so they show their <a href=structs.html#struc_BinSection30203Data>struct BinSection30203Data</a>.<a href=structs.html#struc_BinSection30203Data28>fngName</a>.
+Lines with <code>HASH</code> don't, and are from binsection <code>30210</code> so they show their <a href=structs.html#struc_BinSection30210>struct BinSection30210</a>.<a href=structs.html#struc_BinSection302108>fngNameCSHash</a>.
+<p>One of those that don't have a name but do show a name from their binsection data is
+<code>Loading_Controller.fng</code>. Since this one isn't in <a href=vars.html#7F7DC8>fngdata</a> nor is the string present in the
 executable, this is the first time I've seen it.
-</p><p>All entries that have no name but only a hash known:
-</p><pre>
+<p>All entries that have no name but only a hash known:
+<pre>
 0CEAC20E 15BE6570 17B0719C 1B2211AC 1BB72367 250CFFA8 4E8F3E91 57608F53 5F511518 6796BB48 6A4D7065
 75D5F4F4 7E67096A 7F0E48FE 991E7B6D 9F0D0D93 A419E049 A448D5B6 A78253CC AF7CBBCE C5040108 C6BE90AD
 ED560791 F0A3D2D5 FA10C7BB 207415ED
 </pre>
 <p>Only of these are in <a href='dumps/hashes.txt'>hashes.txt</a> (258KB) at this moment (<code>207415ED: HUD_World_Loading.fng</code>),
 so I'm curious what the other screens are...  camera editor? I've seen strings and controls for it...):
-</p><p style='text-align:right'><small><a href='#index'>Index</a></small></p>
+<p style='text-align:right'><small><a href='#index'>Index</a></small></p>
 </div>
 <div><p id='some_fng_screens'><small><a href='#ui'>UI</a></small></p>
 <h3>Some FNG screens <a href='#some_fng_screens'>#</a></h3>
 <p>This was done by putting pointers to their strings into the boot flow entries (see <a href='#speedyboot'>Speedy boot</a>).
-</p><details><summary><code>2P_PressStart.fng</code></summary><p class='center'><img src="img/2P_PRESS_START.JPG" alt="2player press start"/></p></details>
-<details><summary><code>loading_boot.fng</code></summary><p class='center'><img src="img/LOADING_BOOT.JPG" alt="alternative loading screen with nfsu2 logo"/></p></details>
-<details><summary><code>HUD_World_Loading.fng</code></summary><p class='center'><img src="img/HUD_WORLD_LOADING.JPG" alt="black screen with loader"/></p></details>
-<details><summary><code>Loading_Controller.fng</code></summary><p class='center'><img src="img/LOADING_CONTROLLER.JPG" alt="loading screen but with a list of control names, but the controller image itself is missing"/></p></details>
+<details><summary><code>2P_PressStart.fng</code></summary><p class='center'><img src="img/2P_PRESS_START.JPG" alt="2player press start"></p></details>
+<details><summary><code>loading_boot.fng</code></summary><p class='center'><img src="img/LOADING_BOOT.JPG" alt="alternative loading screen with nfsu2 logo"></p></details>
+<details><summary><code>HUD_World_Loading.fng</code></summary><p class='center'><img src="img/HUD_WORLD_LOADING.JPG" alt="black screen with loader"></p></details>
+<details><summary><code>Loading_Controller.fng</code></summary><p class='center'><img src="img/LOADING_CONTROLLER.JPG" alt="loading screen but with a list of control names, but the controller image itself is missing"></p></details>
 <div><p id='replace_loading_screen'><small><a href='#ui'>UI</a> &gt; <a href='#some_fng_screens'>Some FNG screens</a></small></p>
 <h4>Replacing the loading screen <a href='#replace_loading_screen'>#</a></h4>
 <p>I found <code>loading_boot.fng</code> pretty cool, so I wondered if that could be used instead for
 the loading screens (on boot, when loading race, going into freeroam, ..).
-</p><p>I've seen lots of places refer to a string with content <code>PC_Loading.fng</code>, so I thought maybe
+<p>I've seen lots of places refer to a string with content <code>PC_Loading.fng</code>, so I thought maybe
 replacing that with <code>loading_boot.fng</code> will just work. And it does.
-</p><pre>
+<pre>
 strcpy((char*) 0x790734, "loading_boot.fng");
 </pre>
 <p>Since the string is longer, it will override this string with an empty string though:
-</p><pre class='ida'>
+<pre class='ida'>
 <span class='mc'>.rdata:00790744</span> <span class='ident'>aLoadingTipsFng</span> db <span class='str'>'Loading_Tips.fng'</span>,<span class='num'>0</span>
 </pre>
 <p>It seems unused, so I guess it's fine. That made me wonder if that one could be used as loading
 screen, maybe it shows tips? But when trying it just shows a black screen. Maybe it's a cut
 feature?
-</p><p>Using <code>Loading_Controller.fng</code> and <code>HUG_World_Loading.fng</code> also works.
-</p><p style='text-align:right'><small><a href='#index'>Index</a></small></p>
+<p>Using <code>Loading_Controller.fng</code> and <code>HUG_World_Loading.fng</code> also works.
+<p style='text-align:right'><small><a href='#index'>Index</a></small></p>
 </div>
 <p><small><a href='#ui'>UI</a> &gt; <a href='#some_fng_screens'>Some FNG screens</a> (continuation)</small></p>
-<details><summary><code>UI_DebugTest.fng</code></summary><p class='center'><img src="img/UI_DEBUGTEST.JPG" alt="pulsing text and different colored circles"/></p></details>
-<details><summary><code>UI_OLAgeTooYoung.fng</code></summary><p class='center'><img src="img/UI_OLAGETOOYOUNG.JPG" alt="age too young"/></p></details>
-<details><summary><code>UI_OLMAIN.fng</code></summary><p class='center'><img src="img/UI_OLMAIN.JPG" alt="online main menu"/></p></details>
-<details><summary><code>UI_OL_Feedback.fng</code></summary><p class='center'><img src="img/UI_OL_FEEDBACK.JPG" alt="online player feedback menu"/></p></details>
-<details><summary><code>UI_OL_FriendDialogue.fng</code></summary><p class='center'><img src="img/UI_OL_FRIENDDIALOGUE.JPG" alt="online friend dialogue"/></p></details>
-<details><summary><code>UI_OL_Voice_Chat.fng</code></summary><p class='center'><img src="img/UI_OL_VOICE_CHAT.JPG" alt="online voice chat"/></p></details>
+<details><summary><code>UI_DebugTest.fng</code></summary><p class='center'><img src="img/UI_DEBUGTEST.JPG" alt="pulsing text and different colored circles"></p></details>
+<details><summary><code>UI_OLAgeTooYoung.fng</code></summary><p class='center'><img src="img/UI_OLAGETOOYOUNG.JPG" alt="age too young"></p></details>
+<details><summary><code>UI_OLMAIN.fng</code></summary><p class='center'><img src="img/UI_OLMAIN.JPG" alt="online main menu"></p></details>
+<details><summary><code>UI_OL_Feedback.fng</code></summary><p class='center'><img src="img/UI_OL_FEEDBACK.JPG" alt="online player feedback menu"></p></details>
+<details><summary><code>UI_OL_FriendDialogue.fng</code></summary><p class='center'><img src="img/UI_OL_FRIENDDIALOGUE.JPG" alt="online friend dialogue"></p></details>
+<details><summary><code>UI_OL_Voice_Chat.fng</code></summary><p class='center'><img src="img/UI_OL_VOICE_CHAT.JPG" alt="online voice chat"></p></details>
 <p style='text-align:right'><small><a href='#index'>Index</a></small></p>
 </div>
 <div><p id='screenprintf'><small><a href='#ui'>UI</a></small></p>
 <h3>ScreenPrintf.fng <a href='#screenprintf'>#</a></h3>
 <p>So this is an interesting name, but doesn't really seem used (it makes sense, it shouldn't be used in a
 release build of the game). Though now with the few functions I documented maybe I can make it show?
-</p><p>I tried following code:
-</p><pre>
+<p>I tried following code:
+<pre>
 static
 void hook_on_msg_WM_CHAR(int wparam)
 {
 	if (wparam == 121) { // y
-		<a href='funcs.html#555E80'>AddFngToUIObject_1</a>("ScreenPrintf.fng", 0);
+		<a href=funcs.html#555E80>AddFngToUIObject_1</a>("ScreenPrintf.fng", 0);
 	}
 }
 </pre>
 <p>It didn't crash, so that was a win already. The second parameter for that func is what I suspect some data to
 initialize the fng screen. It fortunately seems like either the ScreenPrintf one doesn't initialize anything or it has
 a null check for the passed data. It doesn't seem to show anything though. Then I thought of the UI elements and their
-visitor methods (like <a href='funcs.html#504880'>FNGInfo::VisitUIRecursively</a>). So I tried to print all the UI elements that are on screen (See
+visitor methods (like <a href=funcs.html#504880>FNGInfo::VisitUIRecursively</a>). So I tried to print all the UI elements that are on screen (See
 <code><a class='ext' href='https://github.com/yugecin/nfsu2-re/blob/master/nfsu2-re-hooks/debug-custom-uielementvisitor.c'>nfsu2-re-hooks/debug-custom-uielementvisitor.c</a></code>, and here's the output when in the options menu in the pause menu
 while in career freeroam:
-</p><details><summary>Output</summary>
+<details><summary>Output</summary>
 <pre>
 fng UI_PauseOptionsMain.fng:
     element type 5 hash 8D7E0C53 flags 40000000:
@@ -3433,110 +3443,110 @@ fng ScreenPrintf.fng:
 <p>At the end we can see all the elements of the <code>ScreenPrintf.fng</code> package. Seems like it just has a bunch of labels.
 But this is a nice confirmation that my previous code to load it, did actually work. From the other elements, I guessed
 that flag <code>2</code> means it should be visible, so I tried adding that.
-</p><p class='imgholder'><img src="img/SCREENPRINTF_1.JPG" alt="default string"/><br/>Cool.</p>
+<p class='imgholder'><img src="img/SCREENPRINTF_1.JPG" alt="default string"><br>Cool.</p>
 <p>Then the text can be changed easily by one of the many funcs, for example:
-</p><pre>
-<a href='funcs.html#537B80'>SetUILabelByHashFormattedStringAndMakeVisible</a>("ScreenPrintf.fng", 0xB9D457DE, "0xB9D457DE", "");
+<pre>
+<a href=funcs.html#537B80>SetUILabelByHashFormattedStringAndMakeVisible</a>("ScreenPrintf.fng", 0xB9D457DE, "0xB9D457DE", "");
 </pre>
-<p class='imgholder'><img src="img/SCREENPRINTF_2.JPG" alt="custom strings"/><br/>Nice.</p>
+<p class='imgholder'><img src="img/SCREENPRINTF_2.JPG" alt="custom strings"><br>Nice.</p>
 <p>A quick search of all the label hashes did not give any result, so it seems like there is no code left in the program
 where it would set any of the labels' text.
-</p><p style='text-align:right'><small><a href='#index'>Index</a></small></p>
+<p style='text-align:right'><small><a href='#index'>Index</a></small></p>
 </div>
 <div><p id='pc_help_bar'><small><a href='#ui'>UI</a></small></p>
 <h3>PC help bar <a href='#pc_help_bar'>#</a></h3>
 <p>This is the button bar at the bottom of the screen, with the player name and money text. It also has some elements
 that are only shown when you're connected online (TODO).
-</p><p>Buttons are changed by using <a href='funcs.html#54E6E0'>PCHelpBarFNGObject::SyncByMask</a>. Buttons are predetermined, you can only specify which buttons you want and
-not set an arbitrary text label. The positions are shown below. See <a href='funcs.html#54E6E0'>PCHelpBarFNGObject::SyncByMask</a> and <a href='enums.html#enu_PCHELPBARFLAGS'>enum PCHELPBARFLAGS</a> for the button
+<p>Buttons are changed by using <a href=funcs.html#54E6E0>PCHelpBarFNGObject::SyncByMask</a>. Buttons are predetermined, you can only specify which buttons you want and
+not set an arbitrary text label. The positions are shown below. See <a href=funcs.html#54E6E0>PCHelpBarFNGObject::SyncByMask</a> and <a href=enums.html#enu_PCHELPBARFLAGS>enum PCHELPBARFLAGS</a> for the button
 masks. The lowest matching mask gets placed on button1, and so on.
-</p><p class='imgholder'><img src="img/PCHELPBAR.JPG" alt="two line button bar with 6 buttons"/><br/>Normal bar</p>
-<p class='imgholder'><img src="img/PCHELPBAR10000.JPG" alt="wide button bar with 3 buttons"/><br/><code>LAYOUT_ONE_LINE_NO_BG</code></p>
-<p class='imgholder'><img src="img/PCHELPBAR10000-8000.JPG" alt="wide button bar with 3 buttons, slighty up"/><br/><code>LAYOUT_ONE_LINE_NO_BG | LAYOUT_WORLDMAP_POSITION</code></p>
-<p class='imgholder'><img src="img/PCHELPBAR10000-20000.JPG" alt="wide button bar with 3 buttons, up"/><br/><code>LAYOUT_ONE_LINE_NO_BG | LAYOUT_PAUSEMENU_POSITION</code></p>
-<p class='imgholder'><img src="img/PCHELPBAR10000-80000000.JPG" alt="right aligned button bar with 2 buttons"/><br/><code>LAYOUT_ONE_LINE_NO_BG | LAYOUT_RIGHT_POSITION</code></p>
+<p class='imgholder'><img src="img/PCHELPBAR.JPG" alt="two line button bar with 6 buttons"><br>Normal bar</p>
+<p class='imgholder'><img src="img/PCHELPBAR10000.JPG" alt="wide button bar with 3 buttons"><br><code>LAYOUT_ONE_LINE_NO_BG</code></p>
+<p class='imgholder'><img src="img/PCHELPBAR10000-8000.JPG" alt="wide button bar with 3 buttons, slighty up"><br><code>LAYOUT_ONE_LINE_NO_BG | LAYOUT_WORLDMAP_POSITION</code></p>
+<p class='imgholder'><img src="img/PCHELPBAR10000-20000.JPG" alt="wide button bar with 3 buttons, up"><br><code>LAYOUT_ONE_LINE_NO_BG | LAYOUT_PAUSEMENU_POSITION</code></p>
+<p class='imgholder'><img src="img/PCHELPBAR10000-80000000.JPG" alt="right aligned button bar with 2 buttons"><br><code>LAYOUT_ONE_LINE_NO_BG | LAYOUT_RIGHT_POSITION</code></p>
 <p><strong>Symbols:</strong></p>
 <ul>
-<li><a href='enums.html#enu_PCHELPBARFLAGS'>enum PCHELPBARFLAGS</a></li>
-<li><a href='structs.html#struc_PCHelpBarFNGObject'>struct PCHelpBarFNGObject</a></li>
-<li><a href='vars.html#8384D8'>pcHelpBarFNGObject</a></li>
-<li><a href='funcs.html#50CF10'>PCHelpBarFNGObject::IsSomethingStillAnimating</a></li>
-<li><a href='funcs.html#52D170'>PCHelpBarFNGObject::GetMessageToSendFromMask</a></li>
-<li><a href='funcs.html#52D330'>PCHelpBarFNGObject::GetButtonLanguageKey</a></li>
-<li><a href='funcs.html#52D4F0'>PCHelpBarFNGObject::OnCursorMoved</a></li>
-<li><a href='funcs.html#542990'>PCHelpBarFNGObject::SetVisible</a></li>
-<li><a href='funcs.html#54E6A0'>PCHelpBarFNGObject::Show</a></li>
-<li><a href='funcs.html#54E6B0'>PCHelpBarFNGObject::Hide</a></li>
-<li><a href='funcs.html#54E6E0'>PCHelpBarFNGObject::SyncByMask</a></li>
-<li><a href='funcs.html#55DE00'>PCHelpBarFNGObject::OnPrimaryCursorJustPressed</a></li>
-<li><a href='funcs.html#55DFA0'>PCHelpBarFNGObject::MessageHandler</a></li>
+<li><a href=enums.html#enu_PCHELPBARFLAGS>enum PCHELPBARFLAGS</a></li>
+<li><a href=structs.html#struc_PCHelpBarFNGObject>struct PCHelpBarFNGObject</a></li>
+<li><a href=vars.html#8384D8>pcHelpBarFNGObject</a></li>
+<li><a href=funcs.html#50CF10>PCHelpBarFNGObject::IsSomethingStillAnimating</a></li>
+<li><a href=funcs.html#52D170>PCHelpBarFNGObject::GetMessageToSendFromMask</a></li>
+<li><a href=funcs.html#52D330>PCHelpBarFNGObject::GetButtonLanguageKey</a></li>
+<li><a href=funcs.html#52D4F0>PCHelpBarFNGObject::OnCursorMoved</a></li>
+<li><a href=funcs.html#542990>PCHelpBarFNGObject::SetVisible</a></li>
+<li><a href=funcs.html#54E6A0>PCHelpBarFNGObject::Show</a></li>
+<li><a href=funcs.html#54E6B0>PCHelpBarFNGObject::Hide</a></li>
+<li><a href=funcs.html#54E6E0>PCHelpBarFNGObject::SyncByMask</a></li>
+<li><a href=funcs.html#55DE00>PCHelpBarFNGObject::OnPrimaryCursorJustPressed</a></li>
+<li><a href=funcs.html#55DFA0>PCHelpBarFNGObject::MessageHandler</a></li>
 </ul>
 <p style='text-align:right'><small><a href='#index'>Index</a></small></p>
 </div>
 <p><small><a href='#ui'>UI</a> (continuation)</small></p>
 <p>UI keys seem to be hashed with the case insensitive hash.
-</p><p><strong>Symbols:</strong></p>
+<p><strong>Symbols:</strong></p>
 <ul>
-<li><a href='enums.html#enu_UIELEMENTFLAGS'>enum UIELEMENTFLAGS</a></li>
-<li><a href='structs.html#struc_U2RECT'>struct U2RECT</a></li>
-<li><a href='structs.html#struc_UIElement'>struct UIElement</a></li>
-<li><a href='structs.html#struc_UIElementType1'>struct UIElementType1</a></li>
-<li><a href='structs.html#struc_UILabel'>struct UILabel</a></li>
-<li><a href='structs.html#struc_UIContainer'>struct UIContainer</a></li>
-<li><a href='structs.html#struc_UIElementVisitor'>struct UIElementVisitor</a></li>
-<li><a href='structs.html#struc_UIElementVisitor$vtable'>struct UIElementVisitor$vtable</a></li>
-<li><a href='structs.html#struc_UIElementVisitor_FindByHash'>struct UIElementVisitor_FindByHash</a></li>
-<li><a href='vars.html#78DA30'>canvasHeight2</a></li>
-<li><a href='vars.html#797D50'>canvasWidth2</a></li>
-<li><a href='vars.html#797D54'>canvasHeight480</a></li>
-<li><a href='vars.html#797D58'>canvasWidth640</a></li>
-<li><a href='vars.html#79AAF4'>vtable_UIElementVisitor_FindByHash</a></li>
-<li><a href='vars.html#79BCD8'>vtable_UIData</a></li>
-<li><a href='vars.html#836494'>canUseQToExit</a></li>
-<li><a href='vars.html#8384C4'>pUIData</a></li>
-<li><a href='vars.html#838528'>someThingKeyboardInputEAMessengerRelated</a></li>
-<li><a href='funcs.html#4953C0'>FindUILabelByName</a></li>
-<li><a href='funcs.html#4953E0'>FindUIElementType1ByName</a></li>
-<li><a href='funcs.html#495460'>SetUILabelByHashLanguageString</a></li>
-<li><a href='funcs.html#495490'>SetUILabelByNameLanguageString</a></li>
-<li><a href='funcs.html#4954C0'>HideUIElementAndChildrenByName</a></li>
-<li><a href='funcs.html#4954E0'>HideUIElementAndChildrenByHash</a></li>
-<li><a href='funcs.html#495500'>ShowUIElementAndChildrenByName</a></li>
-<li><a href='funcs.html#495520'>ShowUIElementAndChildrenByHash</a></li>
-<li><a href='funcs.html#4FDAD0'>U2RECT::Add</a></li>
-<li><a href='funcs.html#504830'>FNGInfo::VisitContainerRecursively</a></li>
-<li><a href='funcs.html#504880'>FNGInfo::VisitUIRecursively</a></li>
-<li><a href='funcs.html#5048D0'>UIElementVisitor_FindByHash::acceptElement</a></li>
-<li><a href='funcs.html#5048F0'>UIElementVisitor_FindByFieldC::acceptElement</a></li>
-<li><a href='funcs.html#50B460'>RenderCursor</a></li>
-<li><a href='funcs.html#50C900'>SetUILabelLanguageString</a></li>
-<li><a href='funcs.html#50C990'>SetUIElementTexture</a></li>
-<li><a href='funcs.html#50CA00'>HideUIElementAndChildren</a></li>
-<li><a href='funcs.html#50CA50'>ShowUIElementAndChildren</a></li>
-<li><a href='funcs.html#50CD00'>IsPointInRect</a></li>
-<li><a href='funcs.html#517F80'>FNGInfo::FindUIElementByHash</a></li>
-<li><a href='funcs.html#517FE0'>FNGInfo::FindElementByFieldC</a></li>
-<li><a href='funcs.html#51CF70'>SetUIElementAnimationByName</a></li>
-<li><a href='funcs.html#51CFE0'>SetUIElementAnimationByHash</a></li>
-<li><a href='funcs.html#51D040'>IsUIElementAnimationOngoing</a></li>
-<li><a href='funcs.html#51D070'>GetUIElementTopLeft</a></li>
-<li><a href='funcs.html#51D170'>GetUIElementRightBottom</a></li>
-<li><a href='funcs.html#51D9F0'>GetUIElementRect</a></li>
-<li><a href='funcs.html#52C570'>UIData_field8::GetUIElementByHashInFngName</a></li>
-<li><a href='funcs.html#52D020'>IsPointInUIElement</a></li>
-<li><a href='funcs.html#535FE0'>UILabel::SetString</a></li>
-<li><a href='funcs.html#5372E0'>UIData::ctor</a></li>
-<li><a href='funcs.html#537750'>UIData::ClosePackage</a></li>
-<li><a href='funcs.html#537830'>CreateUI</a></li>
-<li><a href='funcs.html#5379C0'>FindUIElementByHash</a></li>
-<li><a href='funcs.html#537A10'>FindUILabelByHash</a></li>
-<li><a href='funcs.html#537A60'>FindUIElementType1ByHash</a></li>
-<li><a href='funcs.html#537B30'>SetUILabelFormattedStringAndMakeVisible</a></li>
-<li><a href='funcs.html#537B80'>SetUILabelByHashFormattedStringAndMakeVisible</a></li>
-<li><a href='funcs.html#542600'>SetUILabelByNameFormattedStringAndMakeVisible</a></li>
-<li><a href='funcs.html#537690'>UIData::IsPointInUIElement</a></li>
-<li><a href='funcs.html#537BE0'>SetNullableUILabelFormattedStringAndMakeVisible</a></li>
-<li><a href='funcs.html#5663B0'>DoUI</a></li>
+<li><a href=enums.html#enu_UIELEMENTFLAGS>enum UIELEMENTFLAGS</a></li>
+<li><a href=structs.html#struc_U2RECT>struct U2RECT</a></li>
+<li><a href=structs.html#struc_UIElement>struct UIElement</a></li>
+<li><a href=structs.html#struc_UIElementType1>struct UIElementType1</a></li>
+<li><a href=structs.html#struc_UILabel>struct UILabel</a></li>
+<li><a href=structs.html#struc_UIContainer>struct UIContainer</a></li>
+<li><a href=structs.html#struc_UIElementVisitor>struct UIElementVisitor</a></li>
+<li><a href=structs.html#struc_UIElementVisitor$vtable>struct UIElementVisitor$vtable</a></li>
+<li><a href=structs.html#struc_UIElementVisitor_FindByHash>struct UIElementVisitor_FindByHash</a></li>
+<li><a href=vars.html#78DA30>canvasHeight2</a></li>
+<li><a href=vars.html#797D50>canvasWidth2</a></li>
+<li><a href=vars.html#797D54>canvasHeight480</a></li>
+<li><a href=vars.html#797D58>canvasWidth640</a></li>
+<li><a href=vars.html#79AAF4>vtable_UIElementVisitor_FindByHash</a></li>
+<li><a href=vars.html#79BCD8>vtable_UIData</a></li>
+<li><a href=vars.html#836494>canUseQToExit</a></li>
+<li><a href=vars.html#8384C4>pUIData</a></li>
+<li><a href=vars.html#838528>someThingKeyboardInputEAMessengerRelated</a></li>
+<li><a href=funcs.html#4953C0>FindUILabelByName</a></li>
+<li><a href=funcs.html#4953E0>FindUIElementType1ByName</a></li>
+<li><a href=funcs.html#495460>SetUILabelByHashLanguageString</a></li>
+<li><a href=funcs.html#495490>SetUILabelByNameLanguageString</a></li>
+<li><a href=funcs.html#4954C0>HideUIElementAndChildrenByName</a></li>
+<li><a href=funcs.html#4954E0>HideUIElementAndChildrenByHash</a></li>
+<li><a href=funcs.html#495500>ShowUIElementAndChildrenByName</a></li>
+<li><a href=funcs.html#495520>ShowUIElementAndChildrenByHash</a></li>
+<li><a href=funcs.html#4FDAD0>U2RECT::Add</a></li>
+<li><a href=funcs.html#504830>FNGInfo::VisitContainerRecursively</a></li>
+<li><a href=funcs.html#504880>FNGInfo::VisitUIRecursively</a></li>
+<li><a href=funcs.html#5048D0>UIElementVisitor_FindByHash::acceptElement</a></li>
+<li><a href=funcs.html#5048F0>UIElementVisitor_FindByFieldC::acceptElement</a></li>
+<li><a href=funcs.html#50B460>RenderCursor</a></li>
+<li><a href=funcs.html#50C900>SetUILabelLanguageString</a></li>
+<li><a href=funcs.html#50C990>SetUIElementTexture</a></li>
+<li><a href=funcs.html#50CA00>HideUIElementAndChildren</a></li>
+<li><a href=funcs.html#50CA50>ShowUIElementAndChildren</a></li>
+<li><a href=funcs.html#50CD00>IsPointInRect</a></li>
+<li><a href=funcs.html#517F80>FNGInfo::FindUIElementByHash</a></li>
+<li><a href=funcs.html#517FE0>FNGInfo::FindElementByFieldC</a></li>
+<li><a href=funcs.html#51CF70>SetUIElementAnimationByName</a></li>
+<li><a href=funcs.html#51CFE0>SetUIElementAnimationByHash</a></li>
+<li><a href=funcs.html#51D040>IsUIElementAnimationOngoing</a></li>
+<li><a href=funcs.html#51D070>GetUIElementTopLeft</a></li>
+<li><a href=funcs.html#51D170>GetUIElementRightBottom</a></li>
+<li><a href=funcs.html#51D9F0>GetUIElementRect</a></li>
+<li><a href=funcs.html#52C570>UIData_field8::GetUIElementByHashInFngName</a></li>
+<li><a href=funcs.html#52D020>IsPointInUIElement</a></li>
+<li><a href=funcs.html#535FE0>UILabel::SetString</a></li>
+<li><a href=funcs.html#5372E0>UIData::ctor</a></li>
+<li><a href=funcs.html#537750>UIData::ClosePackage</a></li>
+<li><a href=funcs.html#537830>CreateUI</a></li>
+<li><a href=funcs.html#5379C0>FindUIElementByHash</a></li>
+<li><a href=funcs.html#537A10>FindUILabelByHash</a></li>
+<li><a href=funcs.html#537A60>FindUIElementType1ByHash</a></li>
+<li><a href=funcs.html#537B30>SetUILabelFormattedStringAndMakeVisible</a></li>
+<li><a href=funcs.html#537B80>SetUILabelByHashFormattedStringAndMakeVisible</a></li>
+<li><a href=funcs.html#542600>SetUILabelByNameFormattedStringAndMakeVisible</a></li>
+<li><a href=funcs.html#537690>UIData::IsPointInUIElement</a></li>
+<li><a href=funcs.html#537BE0>SetNullableUILabelFormattedStringAndMakeVisible</a></li>
+<li><a href=funcs.html#5663B0>DoUI</a></li>
 </ul>
 <p style='text-align:right'><small><a href='#index'>Index</a></small></p>
 </div>
@@ -3545,36 +3555,36 @@ masks. The lowest matching mask gets placed on button1, and so on.
 <h3>Mouse input <a href='#mouseinput'>#</a></h3>
 <p>While the canvas is <code>640x480</code>, mouse position seems to be handled mostly
 as <code>([-320,+320],[-240,+240])</code>.
-</p><p><strong>Symbols:</strong></p>
+<p><strong>Symbols:</strong></p>
 <ul>
-<li><a href='structs.html#struc_MouseData'>struct MouseData</a></li>
-<li><a href='vars.html#8763D0'>mouseData</a></li>
-<li><a href='funcs.html#50CD70'>GetMousePositionFromMiddle</a></li>
-<li><a href='funcs.html#50C860'>UIData::StoreMousePosButtonsIntoArg</a></li>
-<li><a href='funcs.html#50CDA0'>GetMouseWheel</a></li>
-<li><a href='funcs.html#50CDB0'>DidCursorPressInRect</a></li>
-<li><a href='funcs.html#52D090'>IsCursorDownInUIElement</a></li>
-<li><a href='funcs.html#52D100'>DidCursorPressInUIElement</a></li>
-<li><a href='funcs.html#5BF6E0'>MouseData::CreateDinputDevice</a></li>
-<li><a href='funcs.html#5BF750'>MouseData::QueryAndUpdateCursorPosition</a></li>
-<li><a href='funcs.html#5BF860'>MouseData::QueryAndUpdateMouseState</a></li>
-<li><a href='funcs.html#5BF940'>MouseData::HaveCursorActivity</a></li>
-<li><a href='funcs.html#5C8600'>MouseData::ctor</a></li>
+<li><a href=structs.html#struc_MouseData>struct MouseData</a></li>
+<li><a href=vars.html#8763D0>mouseData</a></li>
+<li><a href=funcs.html#50CD70>GetMousePositionFromMiddle</a></li>
+<li><a href=funcs.html#50C860>UIData::StoreMousePosButtonsIntoArg</a></li>
+<li><a href=funcs.html#50CDA0>GetMouseWheel</a></li>
+<li><a href=funcs.html#50CDB0>DidCursorPressInRect</a></li>
+<li><a href=funcs.html#52D090>IsCursorDownInUIElement</a></li>
+<li><a href=funcs.html#52D100>DidCursorPressInUIElement</a></li>
+<li><a href=funcs.html#5BF6E0>MouseData::CreateDinputDevice</a></li>
+<li><a href=funcs.html#5BF750>MouseData::QueryAndUpdateCursorPosition</a></li>
+<li><a href=funcs.html#5BF860>MouseData::QueryAndUpdateMouseState</a></li>
+<li><a href=funcs.html#5BF940>MouseData::HaveCursorActivity</a></li>
+<li><a href=funcs.html#5C8600>MouseData::ctor</a></li>
 </ul>
 <p style='text-align:right'><small><a href='#index'>Index</a></small></p>
 </div>
 <div><p id='joyinput'><small><a href='#input'>Input</a></small></p>
 <h3>Key (Joy) input <a href='#joyinput'>#</a></h3>
-<p>List of joy ids in <a href='enums.html#enu_JOYID'>enum JOYID</a> comes from the very helpful strings in <a href='vars.html#7FABA8'>joyKeyData</a>.
-</p><p>Patching in the <code>B5 JOY_EVENT_AUTO_PILOT</code> id (by for example replacing the world-map key in career
+<p>List of joy ids in <a href=enums.html#enu_JOYID>enum JOYID</a> comes from the very helpful strings in <a href=vars.html#7FABA8>joyKeyData</a>.
+<p>Patching in the <code>B5 JOY_EVENT_AUTO_PILOT</code> id (by for example replacing the world-map key in career
 to this key), makes it so the player's car starts driving like an AI car. Example in
 <code><a class='ext' href='https://github.com/yugecin/nfsu2-re/blob/master/nfsu2-re-hooks/switch-joyids-in-career.c'>nfsu2-re-hooks/switch-joyids-in-career.c</a></code>.
-</p><p><strong>Symbols:</strong></p>
+<p><strong>Symbols:</strong></p>
 <ul>
-<li><a href='enums.html#enu_JOYID'>enum JOYID</a></li>
-<li><a href='structs.html#struc_JoyKeyData'>struct JoyKeyData</a></li>
-<li><a href='vars.html#7FABA8'>joyKeyData</a></li>
-<li><a href='funcs.html#571AD0'>GetJoyIdFromName</a></li>
+<li><a href=enums.html#enu_JOYID>enum JOYID</a></li>
+<li><a href=structs.html#struc_JoyKeyData>struct JoyKeyData</a></li>
+<li><a href=vars.html#7FABA8>joyKeyData</a></li>
+<li><a href=funcs.html#571AD0>GetJoyIdFromName</a></li>
 </ul>
 <p style='text-align:right'><small><a href='#index'>Index</a></small></p>
 </div>
@@ -3582,27 +3592,27 @@ to this key), makes it so the player's car starts driving like an AI car. Exampl
 <p>Cheats can only be inserted at the 'press enter key' screen at boot. (I remember
 this from looking up cheats in my childhood), but toggling sponsor car cheats when
 ingame has immediate effect.
-</p><p>The career money cheat is mildly interesting, as it seems to work in two different
+<p>The career money cheat is mildly interesting, as it seems to work in two different
 ways. It adds the amount to a variable that is used when a new career is started and
 it adds the amount to the current career data if the loaded profile didn't start
 career yet.
-</p><pre>
-/*from <a href='funcs.html#5760A0'>CheatScreenData::DoCareerCheat</a>*/
+<pre>
+/*from <a href=funcs.html#5760A0>CheatScreenData::DoCareerCheat</a>*/
 /*ordermebaby ($1000 career start bonus)*/
-<a href='vars.html#865130'>cheatExtraCareerMoney1000</a> = 1000;
+<a href=vars.html#865130>cheatExtraCareerMoney1000</a> = 1000;
 // ^ used when starting a new career from a profile that
 // was loaded from the profile menu
-if (!<a href='vars.html#83A9D0'>profileData</a>.<a href='structs.html#struc_ProfileData20370'>career</a>.<a href='structs.html#struc_Career873C'>isCareerStarted</a>)  {
-	if (<a href='funcs.html#500F90'>CareerBank::GetMoney</a>() == 0)  {
-		<a href='funcs.html#500F80'>CareerBank::AddMoney</a>(1000);
+if (!<a href=vars.html#83A9D0>profileData</a>.<a href=structs.html#struc_ProfileData20370>career</a>.<a href=structs.html#struc_Career873C>isCareerStarted</a>)  {
+	if (<a href=funcs.html#500F90>CareerBank::GetMoney</a>() == 0)  {
+		<a href=funcs.html#500F80>CareerBank::AddMoney</a>(1000);
 		// ^ This only has an effect when the profile was
 		// loaded from the loading screen
 	}
 }
 </pre>
 <pre>
-<a href='structs.html#struc_CheatScreenData'>struct CheatScreenData</a> <a href='vars.html#865930'>cheatScreenData</a>; // partially initialized by <a href='funcs.html#575770'>CheatScreenData::InitCheats?</a>
-<a href='structs.html#struc_CheatData'>struct CheatData</a> <a href='vars.html#7FB960'>cheatData</a>[20] = {
+<a href=structs.html#struc_CheatScreenData>struct CheatScreenData</a> <a href=vars.html#865930>cheatScreenData</a>; // partially initialized by <a href=funcs.html#575770>CheatScreenData::InitCheats?</a>
+<a href=structs.html#struc_CheatData>struct CheatData</a> <a href=vars.html#7FB960>cheatData</a>[20] = {
 	{ "needperformance1",	2, 1, 0, 0, 0, 1, 1, 0 }, // 0
 	{ "needperformance2",	2, 2, 0, 0, 0, 1, 1, 0 }, // 1
 	{ "gimmevisual1",	1, 2, 0, 0, 0, 1, 1, 0 }, // 2
@@ -3624,9 +3634,9 @@ if (!<a href='vars.html#83A9D0'>profileData</a>.<a href='structs.html#struc_Prof
 	{ ""			0, 0, 0, 0, 0, 0, 0, 0 }, // 18
 	{ ""			0, 0, 0, 0, 0, 0, 0, 0 }, // 19
 };
-// after <a href='funcs.html#575770'>CheatScreenData::InitCheats?</a> was called, it looks like this:
+// after <a href=funcs.html#575770>CheatScreenData::InitCheats?</a> was called, it looks like this:
 // hashes are done with case sensitive hash
-<a href='structs.html#struc_CheatData'>struct CheatData</a> <a href='vars.html#7FB960'>cheatData</a>[20] = {
+<a href=structs.html#struc_CheatData>struct CheatData</a> <a href=vars.html#7FB960>cheatData</a>[20] = {
 	{ "needperformance1",	2, 0x00000001, 0, 0, 0, 1, 1, 0 }, //
 	{ "needperformance2",	2, 0x00000002, 0, 0, 0, 1, 1, 0 }, //
 	{ "gimmevisual1",	1, 0x00000002, 0, 0, 0, 1, 1, 0 }, //
@@ -3649,77 +3659,77 @@ if (!<a href='vars.html#83A9D0'>profileData</a>.<a href='structs.html#struc_Prof
 	{ "ordermebaby"		5, 0x00000004, 0, 0, 0, 1, 1, 0 }, //
 };
 
-void __thiscall <a href='funcs.html#575770'>CheatScreenData::InitCheats?</a>(<a href='structs.html#struc_CheatScreenData'>struct CheatScreenData</a> *this)
+void __thiscall <a href=funcs.html#575770>CheatScreenData::InitCheats?</a>(<a href=structs.html#struc_CheatScreenData>struct CheatScreenData</a> *this)
 {
 	int i;
 
 	// TODO reimplement this instead of putting this code in docs...
-	this-&gt;<a href='structs.html#struc_CheatScreenData0'>ppFunction</a> = (void*) <a href='vars.html#7A0604'>unnamed_7A0604</a>; // TODO!!
-	this-&gt;<a href='structs.html#struc_CheatScreenData4'>doCheatCheck</a> = 0;
-	this-&gt;<a href='structs.html#struc_CheatScreenDataC'>cheats</a> = <a href='vars.html#7FB960'>cheatData</a>;
-	this-&gt;<a href='structs.html#struc_CheatScreenData10'>numCheats</a> = 20;
-	this-&gt;<a href='structs.html#struc_CheatScreenData34'>typedCheatLength</a> = 0;
-	this-&gt;<a href='structs.html#struc_CheatScreenData38'>field_38</a> = 0;
+	this-&gt;<a href=structs.html#struc_CheatScreenData0>ppFunction</a> = (void*) <a href=vars.html#7A0604>unnamed_7A0604</a>; // TODO!!
+	this-&gt;<a href=structs.html#struc_CheatScreenData4>doCheatCheck</a> = 0;
+	this-&gt;<a href=structs.html#struc_CheatScreenDataC>cheats</a> = <a href=vars.html#7FB960>cheatData</a>;
+	this-&gt;<a href=structs.html#struc_CheatScreenData10>numCheats</a> = 20;
+	this-&gt;<a href=structs.html#struc_CheatScreenData34>typedCheatLength</a> = 0;
+	this-&gt;<a href=structs.html#struc_CheatScreenData38>field_38</a> = 0;
 
 	for (i = 0; i &lt; 20; i++) {
-		if (this-&gt;<a href='structs.html#struc_CheatScreenDataC'>cheats</a>[i].<a href='structs.html#struc_CheatData20'>cheatType</a> == CHEAT_TYPE_VINYL &amp;&amp;
-			this-&gt;<a href='structs.html#struc_CheatScreenDataC'>cheats</a>[i].<a href='structs.html#struc_CheatData24'>cheatData</a> == hashCS43DB50("AD_BESTBUY") &amp;&amp;
-			<a href='vars.html#864F24'>_gameRegion</a> != 0 /*REGION_US*/)
+		if (this-&gt;<a href=structs.html#struc_CheatScreenDataC>cheats</a>[i].<a href=structs.html#struc_CheatData20>cheatType</a> == CHEAT_TYPE_VINYL &amp;&amp;
+			this-&gt;<a href=structs.html#struc_CheatScreenDataC>cheats</a>[i].<a href=structs.html#struc_CheatData24>cheatData</a> == hashCS43DB50("AD_BESTBUY") &amp;&amp;
+			<a href=vars.html#864F24>_gameRegion</a> != 0 /*REGION_US*/)
 		{
-			this-&gt;<a href='structs.html#struc_CheatScreenDataC'>cheats</a>[i].<a href='structs.html#struc_CheatData32'>cheatEnabled</a> = 0;
+			this-&gt;<a href=structs.html#struc_CheatScreenDataC>cheats</a>[i].<a href=structs.html#struc_CheatData32>cheatEnabled</a> = 0;
 		}
 	}
 }
 </pre>
 <p><strong>Symbols:</strong></p>
 <ul>
-<li><a href='enums.html#enu_CHEATTYPE'>enum CHEATTYPE</a></li>
-<li><a href='structs.html#struc_CheatScreenData'>struct CheatScreenData</a></li>
-<li><a href='structs.html#struc_CheatData'>struct CheatData</a></li>
-<li><a href='vars.html#7FB960'>cheatData</a></li>
-<li><a href='vars.html#8383C8'>cheatCareerNeverPossible</a></li>
-<li><a href='vars.html#86512C'>cheatExtraCareerMoney200</a></li>
-<li><a href='vars.html#865130'>cheatExtraCareerMoney1000</a></li>
-<li><a href='vars.html#865930'>cheatScreenData</a></li>
-<li><a href='funcs.html#575770'>CheatScreenData::InitCheats?</a></li>
-<li><a href='funcs.html#576000'>CheatScreenData::HasCheatBeenTriggered</a></li>
-<li><a href='funcs.html#576050'>CheatScreenData::UndoCheat??</a></li>
-<li><a href='funcs.html#576090'>GetExtraCheatedCareerMoney</a></li>
-<li><a href='funcs.html#5760A0'>CheatScreenData::DoCareerCheat</a></li>
-<li><a href='funcs.html#579CB0'>CheatScreenData::CheatMatched</a></li>
-<li><a href='funcs.html#579D30'>CheatScreenData::ShouldCarBeAvailableByCheat</a></li>
-<li><a href='funcs.html#579D60'>CheatScreenData::IsTriggeredREGMEBABY</a></li>
-<li><a href='funcs.html#579D70'>CheatScreenData::IsSponsorCarCheatTriggered</a></li>
-<li><a href='funcs.html#579D80'>CheatScreenData::IsVisualCheatTriggered</a></li>
-<li><a href='funcs.html#579D90'>CheatScreenData::IsPerformanceCheatTriggered</a></li>
-<li><a href='funcs.html#579DA0'>CheatScreenData::IsVinylCheatTriggered</a></li>
-<li><a href='funcs.html#57B8B0'>CheatScreenData::CheatCheck</a></li>
+<li><a href=enums.html#enu_CHEATTYPE>enum CHEATTYPE</a></li>
+<li><a href=structs.html#struc_CheatScreenData>struct CheatScreenData</a></li>
+<li><a href=structs.html#struc_CheatData>struct CheatData</a></li>
+<li><a href=vars.html#7FB960>cheatData</a></li>
+<li><a href=vars.html#8383C8>cheatCareerNeverPossible</a></li>
+<li><a href=vars.html#86512C>cheatExtraCareerMoney200</a></li>
+<li><a href=vars.html#865130>cheatExtraCareerMoney1000</a></li>
+<li><a href=vars.html#865930>cheatScreenData</a></li>
+<li><a href=funcs.html#575770>CheatScreenData::InitCheats?</a></li>
+<li><a href=funcs.html#576000>CheatScreenData::HasCheatBeenTriggered</a></li>
+<li><a href=funcs.html#576050>CheatScreenData::UndoCheat??</a></li>
+<li><a href=funcs.html#576090>GetExtraCheatedCareerMoney</a></li>
+<li><a href=funcs.html#5760A0>CheatScreenData::DoCareerCheat</a></li>
+<li><a href=funcs.html#579CB0>CheatScreenData::CheatMatched</a></li>
+<li><a href=funcs.html#579D30>CheatScreenData::ShouldCarBeAvailableByCheat</a></li>
+<li><a href=funcs.html#579D60>CheatScreenData::IsTriggeredREGMEBABY</a></li>
+<li><a href=funcs.html#579D70>CheatScreenData::IsSponsorCarCheatTriggered</a></li>
+<li><a href=funcs.html#579D80>CheatScreenData::IsVisualCheatTriggered</a></li>
+<li><a href=funcs.html#579D90>CheatScreenData::IsPerformanceCheatTriggered</a></li>
+<li><a href=funcs.html#579DA0>CheatScreenData::IsVinylCheatTriggered</a></li>
+<li><a href=funcs.html#57B8B0>CheatScreenData::CheatCheck</a></li>
 </ul>
 <p style='text-align:right'><small><a href='#index'>Index</a></small></p>
 </div>
 <div><h2 id="carmodeldata">Car model data <a href='#carmodeldata'>#</a></h2>
-<p>When jumping around XREFs I stumbled upon a function that I named <a href='funcs.html#511E60'>GetLogoHashForCarModel</a>.
+<p>When jumping around XREFs I stumbled upon a function that I named <a href=funcs.html#511E60>GetLogoHashForCarModel</a>.
 It uses a lot of strings that are manufacturers and stuff like <code>CARSELECT_MANUFACTURER_%s</code>.
 There are two parameters, the first seems to be the index of the car and the second is if
 the caller wants the manufacturer logo or the brand logo.
 The function gave some nice information:
-</p><ul>
-<li><a href='vars.html#8A1CCC'>ptrCarData</a> is a pointer to something that's probably car model data
+<ul>
+<li><a href=vars.html#8A1CCC>ptrCarData</a> is a pointer to something that's probably car model data
 </li><li>That data is an array with component size <code>0x890</code>
 </li><li>At <code>+0x0</code>, there is a brand name
 </li><li>At <code>+0xC0</code>, there is a manufacturer name
 </li><li>(returning zero from this func will show a star image for the manufacturer/brand)
 </li></ul>
 <p>After hooking and printing addresses, some more obvious data could be seen:
-</p><ul>
+<ul>
 <li>At <code>+0x20</code> is a the brand name again
 </li><li>At <code>+0x40</code> is a geometry path (example <code>CARS\A3\GEOMETRY.BIN</code>)
 </li><li>At <code>+0x60</code> is a geometry path (example <code>CARS\A3\GEOMETRY.LZC</code>)
 </li></ul>
-<p>This became <a href='structs.html#struc_Car'>struct Car</a>.
-</p><p>Looping through all the data and printing their names:
-</p><pre>
-car #: <a href='structs.html#struc_Car0'>name0</a> <a href='structs.html#struc_Car20'>name1</a> <a href='structs.html#struc_CarC0'>manufacturerName</a>
+<p>This became <a href=structs.html#struc_Car>struct Car</a>.
+<p>Looping through all the data and printing their names:
+<pre>
+car #: <a href=structs.html#struc_Car0>name0</a> <a href=structs.html#struc_Car20>name1</a> <a href=structs.html#struc_CarC0>manufacturerName</a>
 car 0: PEUGOT PEUGOT PEUGEOT
 car 1: FOCUS FOCUS FORD
 car 2: COROLLA COROLLA TOYOTA
@@ -3769,72 +3779,72 @@ car 45: HATCHBACK02 HATCHBACK02 GENERIC
 </pre>
 <p><strong>Symbols:</strong></p>
 <ul>
-<li><a href='structs.html#struc_Car'>struct Car</a></li>
-<li><a href='vars.html#8A1CCC'>ptrCarData</a></li>
-<li><a href='funcs.html#511E60'>GetLogoHashForCarModel</a></li>
-<li><a href='funcs.html#512050'>GetCarBrandNameHash</a></li>
-<li><a href='funcs.html#512080'>GetCarNameHash</a></li>
-<li><a href='funcs.html#5120B0'>GetTranslatedCarName</a></li>
-<li><a href='funcs.html#610170'>Car::GetManufacturerName</a></li>
-<li><a href='vars.html#7F7C08'>carIndicesAvailableAtCareerStartUS</a></li>
-<li><a href='vars.html#7F7C28'>carIndicesAvailableAtCareerStartNonUS</a></li>
-<li><a href='vars.html#7F7C48'>carsToHideForRegionUS</a></li>
-<li><a href='vars.html#7F7C50'>carsToHideForRegionNotUS</a></li>
-<li><a href='vars.html#838464'>showAllCarsRegardlessOfUnlockStatusAndRegion</a></li>
+<li><a href=structs.html#struc_Car>struct Car</a></li>
+<li><a href=vars.html#8A1CCC>ptrCarData</a></li>
+<li><a href=funcs.html#511E60>GetLogoHashForCarModel</a></li>
+<li><a href=funcs.html#512050>GetCarBrandNameHash</a></li>
+<li><a href=funcs.html#512080>GetCarNameHash</a></li>
+<li><a href=funcs.html#5120B0>GetTranslatedCarName</a></li>
+<li><a href=funcs.html#610170>Car::GetManufacturerName</a></li>
+<li><a href=vars.html#7F7C08>carIndicesAvailableAtCareerStartUS</a></li>
+<li><a href=vars.html#7F7C28>carIndicesAvailableAtCareerStartNonUS</a></li>
+<li><a href=vars.html#7F7C48>carsToHideForRegionUS</a></li>
+<li><a href=vars.html#7F7C50>carsToHideForRegionNotUS</a></li>
+<li><a href=vars.html#838464>showAllCarsRegardlessOfUnlockStatusAndRegion</a></li>
 </ul>
 <p style='text-align:right'><small><a href='#index'>Index</a></small></p>
 </div>
 <div><h2 id="sound">Sound <a href='#sound'>#</a></h2>
 <p><strong>Symbols:</strong></p>
 <ul>
-<li><a href='structs.html#struc_SoundEffectSystem'>struct SoundEffectSystem</a></li>
-<li><a href='vars.html#82B884'>soundEffectSystem?</a></li>
-<li><a href='funcs.html#458520'>SoundEffectSystem::PlaySound?</a></li>
-<li><a href='funcs.html#51DE60'>PlayUISoundEffect</a></li>
-<li><a href='funcs.html#528370'>PlaySound528370</a></li>
+<li><a href=structs.html#struc_SoundEffectSystem>struct SoundEffectSystem</a></li>
+<li><a href=vars.html#82B884>soundEffectSystem?</a></li>
+<li><a href=funcs.html#458520>SoundEffectSystem::PlaySound?</a></li>
+<li><a href=funcs.html#51DE60>PlayUISoundEffect</a></li>
+<li><a href=funcs.html#528370>PlaySound528370</a></li>
 </ul>
 <p style='text-align:right'><small><a href='#index'>Index</a></small></p>
 </div>
 <div><h2 id="career">Career <a href='#career'>#</a></h2>
-<p><a href='vars.html#83648C'>loadIntoCareerImmediately?</a> is a weird variable. It changes the boot process so when <code>UI_Main.fng</code> is loaded,
+<p><a href=vars.html#83648C>loadIntoCareerImmediately?</a> is a weird variable. It changes the boot process so when <code>UI_Main.fng</code> is loaded,
 the game immediately goes in career freeroam after loading a profile.
 Except, you're in Rachel's car. When entering a shop, you're back in your own car,
 but when exiting the GPS is set to the crib. When arriving at the crib though, you can't
 enter it. However, you can enter the crib if that first shop you entered was the car lot.
-</p><p>Doing this on a finished career profile will put you in Rachel's car at the airport parking,
+<p>Doing this on a finished career profile will put you in Rachel's car at the airport parking,
 just like when starting a new career. The end of game sms will be open. When driving, the
 phonecalls from the start of the game come in (friends telling Rachel where the races are
 going on), but they don't appear on the map.
-</p><p>My best guess is that this 'load into career' option is a cut/unfinished feature.
-</p><div><p id='markers'><small><a href='#career'>Career</a></small></p>
+<p>My best guess is that this 'load into career' option is a cut/unfinished feature.
+<div><p id='markers'><small><a href='#career'>Career</a></small></p>
 <h3>Markers <a href='#markers'>#</a></h3>
 <p>The money pickup/info pickup(engage sms messages)/race/shop/garage/neighbourhood/and more? markers.
 They are in bin section <code>0x3414A</code>, which is in bin section <code>0x80034147</code>, in <code>TRACKS\ROUTESL4R%c\Paths%d.bin</code>.
-Bin section <code>3414A</code> is loaded as part of <a href='funcs.html#5D9A90'>PathsData::ReadFromBinData</a> and inited in <a href='funcs.html#5D5630'>PathsData::InitAfterReadFromBinData</a>.
-</p><p>After reading, they are in <code><a href='vars.html#88F298'>pathsData</a>.<a href='structs.html#struc_PathsData43C'>allMarkers</a></code>, which has <code><a href='vars.html#88F298'>pathsData</a>.<a href='structs.html#struc_PathsData434'>numMarkers</a></code> entries.
-They are also in <code><a href='vars.html#88F298'>pathsData</a>.<a href='structs.html#struc_PathsData440'>markers</a></code>, which is an array. Each entry points to an array of markers with
+Bin section <code>3414A</code> is loaded as part of <a href=funcs.html#5D9A90>PathsData::ReadFromBinData</a> and inited in <a href=funcs.html#5D5630>PathsData::InitAfterReadFromBinData</a>.
+<p>After reading, they are in <code><a href=vars.html#88F298>pathsData</a>.<a href=structs.html#struc_PathsData43C>allMarkers</a></code>, which has <code><a href=vars.html#88F298>pathsData</a>.<a href=structs.html#struc_PathsData434>numMarkers</a></code> entries.
+They are also in <code><a href=vars.html#88F298>pathsData</a>.<a href=structs.html#struc_PathsData440>markers</a></code>, which is an array. Each entry points to an array of markers with
 their type matching the index of the array, except the last entry. The last entry at index 21 points to where the end
 of the array of index 20 is, it does not point to an array of markers itself.
-</p><p>This data is only loaded while in career/quickrace/freeroam.
-</p><p>Not loading bin section <code>0x3414A</code> results in no career markers at all, and no traffic (but other racers do still spawn).
-</p><p>See <a href='dumps/markerdump.txt'>markerdump.txt</a> (39KB) for a data dump as made by <code><a class='ext' href='https://github.com/yugecin/nfsu2-re/blob/master/nfsu2-re-hooks/debug-custom-dump-markers.c'>nfsu2-re-hooks/debug-custom-dump-markers.c</a></code>.
-</p><p><strong>Symbols:</strong></p>
+<p>This data is only loaded while in career/quickrace/freeroam.
+<p>Not loading bin section <code>0x3414A</code> results in no career markers at all, and no traffic (but other racers do still spawn).
+<p>See <a href='dumps/markerdump.txt'>markerdump.txt</a> (39KB) for a data dump as made by <code><a class='ext' href='https://github.com/yugecin/nfsu2-re/blob/master/nfsu2-re-hooks/debug-custom-dump-markers.c'>nfsu2-re-hooks/debug-custom-dump-markers.c</a></code>.
+<p><strong>Symbols:</strong></p>
 <ul>
-<li><a href='enums.html#enu_MARKER_TYPE'>enum MARKER_TYPE</a></li>
-<li><a href='structs.html#struc_Marker'>struct Marker</a></li>
-<li><a href='structs.html#struc_NeighbourhoodName'>struct NeighbourhoodName</a></li>
-<li><a href='structs.html#struc_PathsData'>struct PathsData</a></li>
-<li><a href='vars.html#88F298'>pathsData</a></li>
-<li><a href='vars.html#800C38'>neighbourhoodData</a></li>
-<li><a href='vars.html#883D9C'>neighbourhoodHashesCalculatedAlready</a></li>
-<li><a href='funcs.html#43D890'>IsMarkerInRange</a></li>
-<li><a href='funcs.html#4FFC50'>FindMarkerTypeD_E_FWithHash</a></li>
-<li><a href='funcs.html#5283C0'>Career::MoneyMarkerHitPlaySound??</a></li>
-<li><a href='funcs.html#5D3DE0'>GetNeighbourhoodNameForHash</a></li>
-<li><a href='funcs.html#5D5630'>PathsData::InitAfterReadFromBinData</a></li>
-<li><a href='funcs.html#5D9A90'>PathsData::ReadFromBinData</a></li>
-<li><a href='funcs.html#5D9BF0'>PathsData::FindMarkerAtPosWithTypeAfterIndex</a></li>
-<li><a href='funcs.html#5D9C70'>PathsData::FirstMarkerOfTypeAtPos</a></li>
+<li><a href=enums.html#enu_MARKER_TYPE>enum MARKER_TYPE</a></li>
+<li><a href=structs.html#struc_Marker>struct Marker</a></li>
+<li><a href=structs.html#struc_NeighbourhoodName>struct NeighbourhoodName</a></li>
+<li><a href=structs.html#struc_PathsData>struct PathsData</a></li>
+<li><a href=vars.html#88F298>pathsData</a></li>
+<li><a href=vars.html#800C38>neighbourhoodData</a></li>
+<li><a href=vars.html#883D9C>neighbourhoodHashesCalculatedAlready</a></li>
+<li><a href=funcs.html#43D890>IsMarkerInRange</a></li>
+<li><a href=funcs.html#4FFC50>FindMarkerTypeD_E_FWithHash</a></li>
+<li><a href=funcs.html#5283C0>Career::MoneyMarkerHitPlaySound??</a></li>
+<li><a href=funcs.html#5D3DE0>GetNeighbourhoodNameForHash</a></li>
+<li><a href=funcs.html#5D5630>PathsData::InitAfterReadFromBinData</a></li>
+<li><a href=funcs.html#5D9A90>PathsData::ReadFromBinData</a></li>
+<li><a href=funcs.html#5D9BF0>PathsData::FindMarkerAtPosWithTypeAfterIndex</a></li>
+<li><a href=funcs.html#5D9C70>PathsData::FirstMarkerOfTypeAtPos</a></li>
 </ul>
 <p style='text-align:right'><small><a href='#index'>Index</a></small></p>
 </div>
@@ -3843,94 +3853,94 @@ of the array of index 20 is, it does not point to an array of markers itself.
 <p>Dump of all sms message data: <a href='dumps/smsdump.txt'>smsdump.txt</a> (63KB).
 This data is in bin section <code>0x34A17</code> (which is inside bin section <code>0x80034A10</code>,
 which is in file <code>GLOBAL/GLOBALB.BUN</code>).
-</p><p><strong>Symbols:</strong></p>
+<p><strong>Symbols:</strong></p>
 <ul>
-<li><a href='structs.html#struc_Mailbox'>struct Mailbox</a></li>
-<li><a href='structs.html#struc_SmsData'>struct SmsData</a></li>
-<li><a href='structs.html#struc_SmsMessage'>struct SmsMessage</a></li>
-<li><a href='structs.html#struc_SmsMessageList'>struct SmsMessageList</a></li>
-<li><a href='structs.html#struc_SmsListEntry'>struct SmsListEntry</a></li>
-<li><a href='vars.html#83632C'>smsOpenType</a></li>
-<li><a href='vars.html#838450'>numSmsDatas</a></li>
-<li><a href='vars.html#838454'>smsDatas</a></li>
-<li><a href='vars.html#83A9D0'>profileData</a>.<a href='structs.html#struc_ProfileData20370'>career</a>.<a href='structs.html#struc_Career5D20'>smsMessageList</a></li>
-<li><a href='funcs.html#4976B0'>ShowMailboxOrSingleUnreadSms</a></li>
-<li><a href='funcs.html#497760'>GetSmsMessageSubjectHeader</a></li>
-<li><a href='funcs.html#4977C0'>HideSmsMailbox</a></li>
-<li><a href='funcs.html#497850'>EngageMessageDialogFNGObject::ctor</a></li>
-<li><a href='funcs.html#4CBB60'>[generic_dtor</a></li>
-<li><a href='funcs.html#4CC7C0'>SmsListEntry::ctor</a></li>
-<li><a href='funcs.html#4CC900'>SMSMailboxFNGObject::ShowSmsList</a></li>
-<li><a href='funcs.html#4E1BF0'>SMSMailboxFNGObject::ctor</a></li>
-<li><a href='funcs.html#4E2050'>FNGINIT_UI_SMS_Mailbox.fng</a></li>
-<li><a href='funcs.html#5012F0'>StoreSmsDatas</a></li>
-<li><a href='funcs.html#501310'>GetSmsDataForHash</a></li>
-<li><a href='funcs.html#501470'>SmsMessage::GetSenderLanguageHash</a></li>
-<li><a href='funcs.html#5014A0'>SmsMessageList::GetAtIndex</a></li>
-<li><a href='funcs.html#5014C0'>SmsMessageList::MarkMessageDeletedAndRead</a></li>
-<li><a href='funcs.html#5149C0'>SmsMessage::GetSubject</a></li>
-<li><a href='funcs.html#514B00'>SmsMessage::GetBody</a></li>
-<li><a href='funcs.html#514CB0'>SmsMessageList::IsMessageAlreadyReceived</a></li>
-<li><a href='funcs.html#514CF0'>SmsMessageList::GetFirstUnreadSmsMessage</a></li>
-<li><a href='funcs.html#514D30'>SmsMessageList::GetNumUnreadMessages</a></li>
-<li><a href='funcs.html#514D80'>SmsMessageList::MarkReadMessagesMovedToCorrectInbox</a></li>
-<li><a href='funcs.html#514E10'>SmsMessageList::IsEngageTipUncollected</a></li>
-<li><a href='funcs.html#5295F0'>SmsMessageList::SendMessage</a></li>
-<li><a href='funcs.html#529670'>SmsMessageList::SendMessageFormatted</a></li>
-<li><a href='funcs.html#529860'>SmsMessageList::SendSomeCareerStartMsgs?</a></li>
-<li><a href='funcs.html#529920'>SmsMessageList::SendUnlockMessagesForCurrentGameProgress</a></li>
-<li><a href='funcs.html#5299B0'>SmsMessageList::SendDVDCoverSmsWithIndex</a></li>
-<li><a href='funcs.html#529B50'>SmsMessageList::SendOutrunInfoSms</a></li>
-<li><a href='funcs.html#529BD0'>SmsMessageList::SendOutrunVictoryOrDefeatSms</a></li>
-<li><a href='funcs.html#529C40'>SmsMessageList::SendEngageTipSmsMessage</a></li>
-<li><a href='funcs.html#533890'>SmsMessageList::SendMessageByHash</a></li>
-<li><a href='funcs.html#5338C0'>SmsMessageList::SendMagOrUnlockMessage</a></li>
+<li><a href=structs.html#struc_Mailbox>struct Mailbox</a></li>
+<li><a href=structs.html#struc_SmsData>struct SmsData</a></li>
+<li><a href=structs.html#struc_SmsMessage>struct SmsMessage</a></li>
+<li><a href=structs.html#struc_SmsMessageList>struct SmsMessageList</a></li>
+<li><a href=structs.html#struc_SmsListEntry>struct SmsListEntry</a></li>
+<li><a href=vars.html#83632C>smsOpenType</a></li>
+<li><a href=vars.html#838450>numSmsDatas</a></li>
+<li><a href=vars.html#838454>smsDatas</a></li>
+<li><a href=vars.html#83A9D0>profileData</a>.<a href=structs.html#struc_ProfileData20370>career</a>.<a href=structs.html#struc_Career5D20>smsMessageList</a></li>
+<li><a href=funcs.html#4976B0>ShowMailboxOrSingleUnreadSms</a></li>
+<li><a href=funcs.html#497760>GetSmsMessageSubjectHeader</a></li>
+<li><a href=funcs.html#4977C0>HideSmsMailbox</a></li>
+<li><a href=funcs.html#497850>EngageMessageDialogFNGObject::ctor</a></li>
+<li><a href=funcs.html#4CBB60>[generic_dtor</a></li>
+<li><a href=funcs.html#4CC7C0>SmsListEntry::ctor</a></li>
+<li><a href=funcs.html#4CC900>SMSMailboxFNGObject::ShowSmsList</a></li>
+<li><a href=funcs.html#4E1BF0>SMSMailboxFNGObject::ctor</a></li>
+<li><a href=funcs.html#4E2050>FNGINIT_UI_SMS_Mailbox.fng</a></li>
+<li><a href=funcs.html#5012F0>StoreSmsDatas</a></li>
+<li><a href=funcs.html#501310>GetSmsDataForHash</a></li>
+<li><a href=funcs.html#501470>SmsMessage::GetSenderLanguageHash</a></li>
+<li><a href=funcs.html#5014A0>SmsMessageList::GetAtIndex</a></li>
+<li><a href=funcs.html#5014C0>SmsMessageList::MarkMessageDeletedAndRead</a></li>
+<li><a href=funcs.html#5149C0>SmsMessage::GetSubject</a></li>
+<li><a href=funcs.html#514B00>SmsMessage::GetBody</a></li>
+<li><a href=funcs.html#514CB0>SmsMessageList::IsMessageAlreadyReceived</a></li>
+<li><a href=funcs.html#514CF0>SmsMessageList::GetFirstUnreadSmsMessage</a></li>
+<li><a href=funcs.html#514D30>SmsMessageList::GetNumUnreadMessages</a></li>
+<li><a href=funcs.html#514D80>SmsMessageList::MarkReadMessagesMovedToCorrectInbox</a></li>
+<li><a href=funcs.html#514E10>SmsMessageList::IsEngageTipUncollected</a></li>
+<li><a href=funcs.html#5295F0>SmsMessageList::SendMessage</a></li>
+<li><a href=funcs.html#529670>SmsMessageList::SendMessageFormatted</a></li>
+<li><a href=funcs.html#529860>SmsMessageList::SendSomeCareerStartMsgs?</a></li>
+<li><a href=funcs.html#529920>SmsMessageList::SendUnlockMessagesForCurrentGameProgress</a></li>
+<li><a href=funcs.html#5299B0>SmsMessageList::SendDVDCoverSmsWithIndex</a></li>
+<li><a href=funcs.html#529B50>SmsMessageList::SendOutrunInfoSms</a></li>
+<li><a href=funcs.html#529BD0>SmsMessageList::SendOutrunVictoryOrDefeatSms</a></li>
+<li><a href=funcs.html#529C40>SmsMessageList::SendEngageTipSmsMessage</a></li>
+<li><a href=funcs.html#533890>SmsMessageList::SendMessageByHash</a></li>
+<li><a href=funcs.html#5338C0>SmsMessageList::SendMagOrUnlockMessage</a></li>
 </ul>
 <p style='text-align:right'><small><a href='#index'>Index</a></small></p>
 </div>
 <p><small><a href='#career'>Career</a> (continuation)</small></p>
 <p><strong>Symbols:</strong></p>
 <ul>
-<li><a href='structs.html#struc_Career'>struct Career</a></li>
-<li><a href='structs.html#struc_CareerSponsor'>struct CareerSponsor</a></li>
-<li><a href='structs.html#struc_CareerStage'>struct CareerStage</a></li>
-<li><a href='structs.html#struc_CareerStageSettings'>struct CareerStageSettings</a></li>
-<li><a href='structs.html#struc_CareerStats'>struct CareerStats</a></li>
-<li><a href='vars.html#83648C'>loadIntoCareerImmediately?</a></li>
-<li><a href='vars.html#83840C'>bin34A16</a></li>
-<li><a href='vars.html#838428'>careerStringPool</a></li>
-<li><a href='vars.html#83A9D0'>profileData</a>.<a href='structs.html#struc_ProfileData20370'>career</a></li>
-<li><a href='funcs.html#495D30'>CareerShowSponsorSelectScreen?</a></li>
-<li><a href='funcs.html#500F90'>CareerBank::GetMoney</a></li>
-<li><a href='funcs.html#500180'>CareerSponsor::GetInternalSponsorName</a></li>
-<li><a href='funcs.html#500F80'>CareerBank::AddMoney</a></li>
-<li><a href='funcs.html#5129F0'>CareerSponsor::GetSponsorNameLanguageKey</a></li>
-<li><a href='funcs.html#528980'>Career::RecalculateCollectedEngageMarkers</a></li>
-<li><a href='funcs.html#532830'>Career::InitOnProfileLoad</a></li>
-<li><a href='funcs.html#532D40'>Career::EngageTipMarkerHit</a></li>
+<li><a href=structs.html#struc_Career>struct Career</a></li>
+<li><a href=structs.html#struc_CareerSponsor>struct CareerSponsor</a></li>
+<li><a href=structs.html#struc_CareerStage>struct CareerStage</a></li>
+<li><a href=structs.html#struc_CareerStageSettings>struct CareerStageSettings</a></li>
+<li><a href=structs.html#struc_CareerStats>struct CareerStats</a></li>
+<li><a href=vars.html#83648C>loadIntoCareerImmediately?</a></li>
+<li><a href=vars.html#83840C>bin34A16</a></li>
+<li><a href=vars.html#838428>careerStringPool</a></li>
+<li><a href=vars.html#83A9D0>profileData</a>.<a href=structs.html#struc_ProfileData20370>career</a></li>
+<li><a href=funcs.html#495D30>CareerShowSponsorSelectScreen?</a></li>
+<li><a href=funcs.html#500F90>CareerBank::GetMoney</a></li>
+<li><a href=funcs.html#500180>CareerSponsor::GetInternalSponsorName</a></li>
+<li><a href=funcs.html#500F80>CareerBank::AddMoney</a></li>
+<li><a href=funcs.html#5129F0>CareerSponsor::GetSponsorNameLanguageKey</a></li>
+<li><a href=funcs.html#528980>Career::RecalculateCollectedEngageMarkers</a></li>
+<li><a href=funcs.html#532830>Career::InitOnProfileLoad</a></li>
+<li><a href=funcs.html#532D40>Career::EngageTipMarkerHit</a></li>
 </ul>
 <p style='text-align:right'><small><a href='#index'>Index</a></small></p>
 </div>
 <div><h2 id="networkstuff">LAN/OL <a href='#networkstuff'>#</a></h2>
 <p><strong>Symbols:</strong></p>
 <ul>
-<li><a href='structs.html#struc_SocketWrapper'>struct SocketWrapper</a></li>
-<li><a href='structs.html#struc_CriticalSectionWrapper_3'>struct CriticalSectionWrapper_3</a></li>
-<li><a href='structs.html#struc_SocketWrapperWrapper'>struct SocketWrapperWrapper</a></li>
-<li><a href='vars.html#8B7C9C'>socketWrapper</a></li>
-<li><a href='funcs.html#74A220'>CreateNonBlockingSocket</a></li>
-<li><a href='funcs.html#74A2D0'>CloseSocketWrapper</a></li>
-<li><a href='funcs.html#74A380'>BindWrapper</a></li>
+<li><a href=structs.html#struc_SocketWrapper>struct SocketWrapper</a></li>
+<li><a href=structs.html#struc_CriticalSectionWrapper_3>struct CriticalSectionWrapper_3</a></li>
+<li><a href=structs.html#struc_SocketWrapperWrapper>struct SocketWrapperWrapper</a></li>
+<li><a href=vars.html#8B7C9C>socketWrapper</a></li>
+<li><a href=funcs.html#74A220>CreateNonBlockingSocket</a></li>
+<li><a href=funcs.html#74A2D0>CloseSocketWrapper</a></li>
+<li><a href=funcs.html#74A380>BindWrapper</a></li>
 </ul>
 <p style='text-align:right'><small><a href='#index'>Index</a></small></p>
 </div>
 <div><h2 id="d3d9stuff">D3D9 Stuff <a href='#d3d9stuff'>#</a></h2>
 <p><strong>Symbols:</strong></p>
 <ul>
-<li><a href='vars.html#86C120'>_d3d9AdapterIdentifier</a></li>
-<li><a href='vars.html#870970'>_IDirect3D9ptr</a></li>
-<li><a href='vars.html#870974'>_IDirect3DDevice9ptr</a></li>
-<li><a href='vars.html#8709AC'>_displayAdapter</a></li>
+<li><a href=vars.html#86C120>_d3d9AdapterIdentifier</a></li>
+<li><a href=vars.html#870970>_IDirect3D9ptr</a></li>
+<li><a href=vars.html#870974>_IDirect3DDevice9ptr</a></li>
+<li><a href=vars.html#8709AC>_displayAdapter</a></li>
 </ul>
 <p style='text-align:right'><small><a href='#index'>Index</a></small></p>
 </div>
@@ -3950,54 +3960,54 @@ which is in file <code>GLOBAL/GLOBALB.BUN</code>).
 </pre>
 <p><strong>Symbols:</strong></p>
 <ul>
-<li><a href='structs.html#struc_ObjectLink'>struct ObjectLink</a></li>
-<li><a href='structs.html#struc_WideCharString'>struct WideCharString</a></li>
-<li><a href='structs.html#struc_WorldAnimStuff'>struct WorldAnimStuff</a></li>
-<li><a href='funcs.html#741650'>strncpy_0</a></li>
-<li><a href='funcs.html#75BCC7'>start</a></li>
-<li><a href='funcs.html#75D45B'>unnamed_75D45B</a></li>
-<li><a href='funcs.html#75D65B'>unnamed_75D65B</a></li>
-<li><a href='funcs.html#75DD6F'>SomeElaborateStrcmp??</a></li>
-<li><a href='funcs.html#77B5E0'>init_function_77B5E0</a></li>
-<li><a href='funcs.html#77E580'>init_function_77E580_MouseData_ctor</a></li>
-<li><a href='vars.html#7E8000'>someInitFunctions</a></li>
-<li><a href='vars.html#7F91C4'>drawHud</a></li>
-<li><a href='vars.html#827EF0'>worldAnimStuff</a></li>
-<li><a href='vars.html#828518'>_TimeSpentInFormatWithSinglePlaceholder</a></li>
-<li><a href='vars.html#82851C'>_FormatWithSinglePlaceholderCallCount</a></li>
-<li><a href='vars.html#864F4C'>_isGameClosing</a></li>
-<li><a href='vars.html#8709D8'>_isCTRLKeyDown</a></li>
-<li><a href='vars.html#8A1CCC'>ptrCarData</a></li>
-<li><a href='vars.html#835BB8'>wcharLoadedProfileName</a></li>
-<li><a href='vars.html#83A9D0'>profileData</a>.<a href='structs.html#struc_ProfileData10'>player1</a></li>
-<li><a href='vars.html#83A9D0'>profileData</a>.<a href='structs.html#struc_ProfileData156A8'>someOLState</a></li>
-<li><a href='vars.html#8654A4'>_??gameStateSomething</a></li>
-<li><a href='vars.html#89E7E6'>isInPerformanceTuning</a></li>
-<li><a href='funcs.html#4035D0'>LoadAIStuff</a></li>
-<li><a href='funcs.html#4385B0'>WorldAnimStuff::CreatePools?</a></li>
-<li><a href='funcs.html#439EA0'>WorldAnimStuff::ctor</a></li>
-<li><a href='funcs.html#43DBB0'>strlenWithNullcheck</a></li>
-<li><a href='funcs.html#43DBD0'>strcpy</a></li>
-<li><a href='funcs.html#43DC00'>strncpy</a></li>
-<li><a href='funcs.html#43DC30'>strcmp</a></li>
-<li><a href='funcs.html#43DC60'>strncmp</a></li>
-<li><a href='funcs.html#43DCC0'>stricmp</a></li>
-<li><a href='funcs.html#43DDA0'>strcpycat</a></li>
-<li><a href='funcs.html#43E000'>NaiveStrcpyCharToWchar</a></li>
-<li><a href='funcs.html#43E950'>bPrintf</a></li>
-<li><a href='funcs.html#43FBC0'>FormatWithSinglePlaceholderPtrTimed</a></li>
-<li><a href='funcs.html#5047C0'>unnamed_5047C0</a></li>
-<li><a href='funcs.html#50D510'>SomeDebugPrint</a></li>
-<li><a href='funcs.html#50DC70'>CommonFNGObjectStructA::FindNewlineW</a></li>
-<li><a href='funcs.html#50DCB0'>CommonFNGObjectStructA::GetEndOfStringW</a></li>
-<li><a href='funcs.html#511630'>strcpyW</a></li>
-<li><a href='funcs.html#51DE90'>WideCharString::EnsureAllocatedSize</a></li>
-<li><a href='funcs.html#532670'>WideCharString::SetFromCharString</a></li>
-<li><a href='funcs.html#575620'>j_HeapAllocWrapper75C6C8</a></li>
-<li><a href='funcs.html#575630'>j_HeapFreeWrapper75C6DA</a></li>
-<li><a href='funcs.html#577AB0'>unnamed_577AB0</a></li>
-<li><a href='funcs.html#5B7A70'>LoadPaths?</a></li>
-<li><a href='funcs.html#5CCD60'>MainWndProc</a></li>
+<li><a href=structs.html#struc_ObjectLink>struct ObjectLink</a></li>
+<li><a href=structs.html#struc_WideCharString>struct WideCharString</a></li>
+<li><a href=structs.html#struc_WorldAnimStuff>struct WorldAnimStuff</a></li>
+<li><a href=funcs.html#741650>strncpy_0</a></li>
+<li><a href=funcs.html#75BCC7>start</a></li>
+<li><a href=funcs.html#75D45B>unnamed_75D45B</a></li>
+<li><a href=funcs.html#75D65B>unnamed_75D65B</a></li>
+<li><a href=funcs.html#75DD6F>SomeElaborateStrcmp??</a></li>
+<li><a href=funcs.html#77B5E0>init_function_77B5E0</a></li>
+<li><a href=funcs.html#77E580>init_function_77E580_MouseData_ctor</a></li>
+<li><a href=vars.html#7E8000>someInitFunctions</a></li>
+<li><a href=vars.html#7F91C4>drawHud</a></li>
+<li><a href=vars.html#827EF0>worldAnimStuff</a></li>
+<li><a href=vars.html#828518>_TimeSpentInFormatWithSinglePlaceholder</a></li>
+<li><a href=vars.html#82851C>_FormatWithSinglePlaceholderCallCount</a></li>
+<li><a href=vars.html#864F4C>_isGameClosing</a></li>
+<li><a href=vars.html#8709D8>_isCTRLKeyDown</a></li>
+<li><a href=vars.html#8A1CCC>ptrCarData</a></li>
+<li><a href=vars.html#835BB8>wcharLoadedProfileName</a></li>
+<li><a href=vars.html#83A9D0>profileData</a>.<a href=structs.html#struc_ProfileData10>player1</a></li>
+<li><a href=vars.html#83A9D0>profileData</a>.<a href=structs.html#struc_ProfileData156A8>someOLState</a></li>
+<li><a href=vars.html#8654A4>_??gameStateSomething</a></li>
+<li><a href=vars.html#89E7E6>isInPerformanceTuning</a></li>
+<li><a href=funcs.html#4035D0>LoadAIStuff</a></li>
+<li><a href=funcs.html#4385B0>WorldAnimStuff::CreatePools?</a></li>
+<li><a href=funcs.html#439EA0>WorldAnimStuff::ctor</a></li>
+<li><a href=funcs.html#43DBB0>strlenWithNullcheck</a></li>
+<li><a href=funcs.html#43DBD0>strcpy</a></li>
+<li><a href=funcs.html#43DC00>strncpy</a></li>
+<li><a href=funcs.html#43DC30>strcmp</a></li>
+<li><a href=funcs.html#43DC60>strncmp</a></li>
+<li><a href=funcs.html#43DCC0>stricmp</a></li>
+<li><a href=funcs.html#43DDA0>strcpycat</a></li>
+<li><a href=funcs.html#43E000>NaiveStrcpyCharToWchar</a></li>
+<li><a href=funcs.html#43E950>bPrintf</a></li>
+<li><a href=funcs.html#43FBC0>FormatWithSinglePlaceholderPtrTimed</a></li>
+<li><a href=funcs.html#5047C0>unnamed_5047C0</a></li>
+<li><a href=funcs.html#50D510>SomeDebugPrint</a></li>
+<li><a href=funcs.html#50DC70>CommonFNGObjectStructA::FindNewlineW</a></li>
+<li><a href=funcs.html#50DCB0>CommonFNGObjectStructA::GetEndOfStringW</a></li>
+<li><a href=funcs.html#511630>strcpyW</a></li>
+<li><a href=funcs.html#51DE90>WideCharString::EnsureAllocatedSize</a></li>
+<li><a href=funcs.html#532670>WideCharString::SetFromCharString</a></li>
+<li><a href=funcs.html#575620>j_HeapAllocWrapper75C6C8</a></li>
+<li><a href=funcs.html#575630>j_HeapFreeWrapper75C6DA</a></li>
+<li><a href=funcs.html#577AB0>unnamed_577AB0</a></li>
+<li><a href=funcs.html#5B7A70>LoadPaths?</a></li>
+<li><a href=funcs.html#5CCD60>MainWndProc</a></li>
 </ul>
 <p style='text-align:right'><small><a href='#index'>Index</a></small></p>
 </div>

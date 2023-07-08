@@ -273,6 +273,13 @@ struct mmpextras_userdata {
 			/**Option to not add links to "index" at the end of sections*/
 			char no_end_index_links;
 		} section;
+		struct {
+			/**closing p tags is optional in html*/
+			char print_closing_tags;
+			/*remove last linefeed before paragraph endings.
+			Makes for nicer html but is very hacky, thus 'experimental'*/
+			char experimental_remove_last_lf;
+		} paragraphed;
 	} config;
 	struct {
 		int num_entries;
@@ -481,8 +488,10 @@ int mmpextras_cb_mode_paragraphed_println(struct mmparse *mm)
 	if (is_empty_line) {
 		if (ud->paragraphed.has_p) {
 			ud->paragraphed.has_p = 0;
-			extra_offset = 4;
-			mmparse_append_to_main_output(mm, "</p>", 4);
+			if (ud->config.paragraphed.print_closing_tags) {
+				extra_offset = 4;
+				mmparse_append_to_main_output(mm, "</p>", 4);
+			}
 		}
 		ud->paragraphed.should_open_p = 1;
 	} else {
@@ -506,7 +515,15 @@ void mmpextras_cb_mode_paragraphed_end(struct mmparse *mm)
 	ud = mmpextras_get_userdata(mm);
 	if (ud->paragraphed.has_p) {
 		ud->paragraphed.has_p = 0;
-		mmparse_append_to_main_output(mm, "<p>", 3);
+		if (ud->config.paragraphed.experimental_remove_last_lf) {
+			/*so hacky!*/
+			/*if we have a p, it means we have a line so there is a lf to remove... right?*/
+			mm->op.data0buf_sizeleft += 1;
+			mm->op.current_part->data0_len -= 1;
+		}
+		if (ud->config.paragraphed.print_closing_tags) {
+			mmparse_append_to_main_output(mm, "</p>", 4);
+		}
 	}
 }
 /*jeanine:p:i:28;p:16;a:b;y:40.25;*/

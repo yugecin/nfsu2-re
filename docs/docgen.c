@@ -239,36 +239,6 @@ int docgen_get_struct_size(struct idcparse *idcp, struct idcp_struct *struc)
 }
 
 static
-int docgen_stricmp(char *a, char *b)
-{
-	register char d;
-	char i, j;
-
-nchr:
-	i = *a;
-	j = *b;
-	if ('A' <= i && i <= 'Z') {
-		i |= 0x20;
-	}
-	if ('A' <= j && j <= 'Z') {
-		j |= 0x20;
-	}
-	d = i - j;
-	if (d) {
-		return d;
-	}
-	if (!i) {
-		return -1;
-	}
-	if (!j) {
-		return 1;
-	}
-	a++;
-	b++;
-	goto nchr;
-}
-
-static
 void docgen_get_func_friendlyname(char *dest, char *name)
 {
 	char c;
@@ -708,7 +678,7 @@ int docgen_link_structs_enums(struct docgen *dg, struct docgen_tmpbuf **tmpbuf)
 			} while (c != ' ' && c != ')' && c != '*' && c != '[');
 			*n = 0;
 			if (name[0] != '#' && docgen_find_struct(dg, name, strlen(name))) {
-				bufp += sprintf(bufp, "<a href='structs.html#struc_%s'>struct %s</a>", name, name);
+				bufp += sprintf(bufp, "<a href=structs.html#struc_%s>struct %s</a>", name, name);
 			} else {
 				hasunknown = 1;
 				bufp += sprintf(bufp, "<strong>struct %s</strong>", name);
@@ -741,7 +711,7 @@ int docgen_link_structs_enums(struct docgen *dg, struct docgen_tmpbuf **tmpbuf)
 			} while (c != ' ' && c != ')' && c != '*' && c != '[');
 			*n = 0;
 			if (docgen_find_enum(dg, name, strlen(name))) {
-				bufp += sprintf(bufp, "<a href='enums.html#enu_%s'>enum %s</a>", name, name);
+				bufp += sprintf(bufp, "<a href=enums.html#enu_%s>enum %s</a>", name, name);
 			} else {
 				hasunknown = 1;
 				bufp += sprintf(bufp, "<strong>enum %s</strong>", name);
@@ -771,15 +741,6 @@ void docgen_parseidc(struct idcparse *idcp)
 	} else {
 		idcparse(idcp, buf, length);
 	}
-}
-/*jeanine:p:i:15;p:87;a:r;x:13.89;*/
-static
-int docgen_func_sort_compar(const void *_a, const void *_b)
-{
-	register const struct idcp_stuff *a = ((struct docgen_funcinfo*) _a)->func;
-	register const struct idcp_stuff *b = ((struct docgen_funcinfo*) _b)->func;
-
-	return docgen_stricmp(a->name, b->name);
 }
 /*jeanine:p:i:19;p:17;a:r;x:121.55;y:-45.22;*/
 /**
@@ -828,7 +789,7 @@ void docgen_gen_func_signature(struct docgen_tmpbuf **signaturebuf, struct docge
 		classname[classname_len] = 0;
 		if ((funcinfo->methodof = docgen_find_struct(dg, classname, classname_len))) {
 			funcinfo->methodof->is_class = 1;
-			b += sprintf(b, "<a href='structs.html#struc_%s'>%s</a>", classname, classname);
+			b += sprintf(b, "<a href=structs.html#struc_%s>%s</a>", classname, classname);
 			/*Check that the 'this' argument is of the expected type.*/
 			if (func->data.func.type) {
 				checkbuf = docgen_get_tmpbuf(10000);
@@ -868,12 +829,12 @@ static
 void docgen_symbol_print_comments_block(FILE *f, struct docgen_symbol_comments *comments)
 {
 	if (comments->normal.buf) {
-		fwrite("\n<div class='mm'>\n", 18, 1, f);
+		fwrite("\n<div class=mm>", 15, 1, f);
 		fwrite(comments->normal.buf, comments->normal.buf_len, 1, f);
 		fwrite("</div>", 6, 1, f);
 	}
 	if (comments->rep.buf) {
-		fwrite("\n<div class='mm'>\n", 18, 1, f);
+		fwrite("\n<div class=mm>", 15, 1, f);
 		fwrite(comments->rep.buf, comments->rep.buf_len, 1, f);
 		fwrite("</div>", 6, 1, f);
 	}
@@ -908,21 +869,13 @@ void docgen_print_func(FILE *f, struct docgen *dg, struct docgen_funcinfo *funci
 {
 	struct docgen_tmpbuf *signaturebuf;
 
+	fprintf(f, "\n<a id=%X></a>", func->addr);
+	docgen_symbol_print_comments_block(f, &funcinfo->comments);/*jeanine:r:i:69;*/
 	signaturebuf = docgen_get_tmpbuf(10000);
 	docgen_gen_func_signature(&signaturebuf, dg, funcinfo, func);/*jeanine:r:i:19;*/
 	/*these are 'div' instead of 'pre' because 'h3' can't be inside 'pre'*/
-	fprintf(f, "\n<div id='%X'><i>%X</i> %s</div>", func->addr, func->addr, signaturebuf->data);
+	fprintf(f, "\n<div><i>%X</i> %s</div>", func->addr, signaturebuf->data);
 	docgen_free_tmpbuf(signaturebuf);
-	docgen_symbol_print_comments_block(f, &funcinfo->comments);/*jeanine:r:i:69;*/
-}
-/*jeanine:p:i:4;p:80;a:r;x:3.33;*/
-static
-int docgen_struct_sort_compar(const void *_a, const void *_b)
-{
-	register const struct idcp_struct *a = ((struct docgen_structinfo*) _a)->struc;
-	register const struct idcp_struct *b = ((struct docgen_structinfo*) _b)->struc;
-
-	return docgen_stricmp(a->name, b->name);
 }
 /*jeanine:p:i:9;p:11;a:r;x:58.67;y:-38.50;*/
 static
@@ -934,7 +887,7 @@ void docgen_format_struct_member_typeandname_when_enum(char *buf, struct idcpars
 
 	assert(0 <= mem->typeid && mem->typeid < idcp->num_enums);
 	en = idcp->enums + mem->typeid;
-	buf += sprintf(buf, "<a href='enums.html#enu_%s'>enum %s</a> %s", en->name, en->name, mem->name);
+	buf += sprintf(buf, "<a href=enums.html#enu_%s>enum %s</a> %s", en->name, en->name, mem->name);
 }
 /*jeanine:p:i:13;p:11;a:r;x:58.22;y:-24.75;*/
 static
@@ -949,7 +902,7 @@ void docgen_format_struct_member_typeandname_when_struct(char *buf, struct idcpa
 
 	assert(0 <= mem->typeid && mem->typeid < idcp->num_structs);
 	struc = idcp->structs + mem->typeid;
-	buf += sprintf(buf, "<a href='#struc_%s'>struct %s</a> %s", struc->name, struc->name, mem->name);
+	buf += sprintf(buf, "<a href=#struc_%s>struct %s</a> %s", struc->name, struc->name, mem->name);
 	/*member struct type can't be an empty struct*/
 	assert((struc_size = docgen_get_struct_size(idcp, struc)));
 	if (mem->nbytes > struc_size) {
@@ -1026,7 +979,7 @@ void docgen_print_struct_member(FILE *f, struct docgen *dg, struct idcp_struct *
 	if (mem) {
 		idx = mem - dg->idcp->struct_members;
 		if (dg->struct_member_needs_anchor[idx]) {
-			fprintf(f, "<i id='struc_%s%X'></i>", struc->name, mem->offset);
+			fprintf(f, "<i id=struc_%s%X></i>", struc->name, mem->offset);
 		}
 		isplaceholder = !strncmp(mem->name, "field_", 6) || !strncmp(mem->name, "floatField_", 11);
 		if (IDC_is_enum(mem->flag)) {
@@ -1083,9 +1036,10 @@ void docgen_print_struct(FILE *f, struct docgen *dg, struct docgen_structinfo *s
 	num_members = struc->end_idx - struc->start_idx;
 	size = docgen_get_struct_size(dg->idcp, struc);
 
+	fprintf(f, "\n<a id=struc_%s></a>", struc->name);
+	docgen_symbol_print_comments_block(f, &structinfo->comments);/*jeanine:s:a:r;i:69;*/
 	/*these are 'div' instead of 'pre' because 'h3' can't be inside 'pre'*/
-	fprintf(f, "\n<div id='struc_%s'>%s <h3>%s</h3> { <i>/*%d members, size %Xh*/</i>%s\n",
-		struc->name,
+	fprintf(f, "\n<div>%s <h3>%s</h3> { <i>/*%d members, size %Xh*/</i>%s\n",
 		struc->is_union ? "<b>union</b>" : "struct",
 		struc->name,
 		num_members,
@@ -1102,13 +1056,13 @@ void docgen_print_struct(FILE *f, struct docgen *dg, struct docgen_structinfo *s
 		lastoffset = mem->offset + mem->nbytes;
 	}
 	fwrite("};</div>", 8, 1, f);
-	docgen_symbol_print_comments_block(f, &structinfo->comments);/*jeanine:s:a:r;i:69;*/
 	if (structinfo->is_class) {
-		fwrite("\n<p><strong>Methods:</strong></p>\n<ul>\n", 39, 1, f);
+		fwrite("\n<p><strong>Methods:</strong>\n<ul>\n", 35, 1, f);
 		for (i = 0, funcinfo = dg->funcinfos; i < dg->num_funcinfos; i++, funcinfo++) {
 			if (funcinfo->methodof == structinfo) {
 				func = funcinfo->func;
-				fprintf(f, "<li><pre><i>%X</i> <a href='funcs.html#%X' title='%s'>%s</a></pre></li>\n",
+				fprintf(f, "<li><!--%X-->\n<pre><i>%X</i> <a href=funcs.html#%X title='%s'>%s</a></pre>\n",
+					func->addr,
 					func->addr,
 					func->addr,
 					func->data.func.type ? func->data.func.type : func->name,
@@ -1128,27 +1082,19 @@ void docgen_print_enum(FILE *f, struct docgen *dg, struct docgen_enuminfo *enumi
 
 	num_members = enu->end_idx - enu->start_idx;
 
+	fprintf(f, "\n<a id=enu_%s></a>", enu->name);
+	docgen_symbol_print_comments_block(f, &enuminfo->comments);/*jeanine:s:a:r;i:69;*/
 	/*these are 'div' instead of 'pre' because 'h3' can't be inside 'pre'*/
-	fprintf(f, "\n<div id='enu_%s'>enum <h3>%s</h3> { <i>/*%d members*/</i>\n", enu->name, enu->name, num_members);
+	fprintf(f, "\n<div>enum <h3>%s</h3> { <i>/*%d members*/</i>\n", enu->name, num_members);
 	mem = dg->idcp->enum_members + enu->start_idx;
 	for (idx = enu->start_idx; num_members; num_members--, mem++, idx++) {
 		if (dg->enum_member_needs_anchor[idx]) {
-			fprintf(f, "<i id='enu_%s%X'></i>", enu->name, mem->value);
+			fprintf(f, "<i id=enu_%s%X></i>", enu->name, mem->value);
 		}
 		docgen_symbol_print_comments_inline(f, dg->enum_member_comments + idx);/*jeanine:r:i:71;:s:a:r;i:71;*/
 		fprintf(f, "\t%s = 0x%X,\n", mem->name, mem->value);
 	}
 	fwrite("};</div>", 8, 1, f);
-	docgen_symbol_print_comments_block(f, &enuminfo->comments);/*jeanine:s:a:r;i:69;*/
-}
-/*jeanine:p:i:21;p:81;a:r;x:3.33;*/
-static
-int docgen_enum_sort_compar(const void *_a, const void *_b)
-{
-	register const struct idcp_enum *a = ((struct docgen_enuminfo*) _a)->enu;
-	register const struct idcp_enum *b = ((struct docgen_enuminfo*) _b)->enu;
-
-	return docgen_stricmp(a->name, b->name);
 }
 /*jeanine:p:i:23;p:88;a:r;x:20.58;y:32.39;*/
 static
@@ -1165,7 +1111,7 @@ void docgen_print_data(FILE *f, struct docgen *dg, struct docgen_datainfo *datai
 	if (data->data.data.struct_type) {
 		st = data->data.data.struct_type;
 		if (docgen_find_struct(dg, st, strlen(st))) {
-			sprintf(type->data, "<a href='structs.html#struc_%s'>struct %s</a> ", st, st);
+			sprintf(type->data, "<a href=structs.html#struc_%s>struct %s</a> ", st, st);
 		} else {
 			fprintf(stderr, "warn: cannot find struct '%s' for var %X '%s'\n", st, data->addr, data->name);
 			sprintf(type->data, "<strong>struct %s<strong> ", st);
@@ -1174,7 +1120,7 @@ void docgen_print_data(FILE *f, struct docgen *dg, struct docgen_datainfo *datai
 		strucinfo = docgen_find_struct_from_text_type(dg, datainfo->type, datainfo->type_len);
 		if (strucinfo) {
 			st = strucinfo->struc->name;
-			sprintf(type->data, "<a href='structs.html#struc_%s'>struct %s</a>", st, st);
+			sprintf(type->data, "<a href=structs.html#struc_%s>struct %s</a>", st, st);
 			len = 7 + strlen(st);
 			if (len < datainfo->type_len) {
 				strncat(type->data, datainfo->type + len, datainfo->type_len - len);
@@ -1209,8 +1155,10 @@ void docgen_print_data(FILE *f, struct docgen *dg, struct docgen_datainfo *datai
 		};
 		unconfirmed_type = 1;
 	}
+	fprintf(f, "\n<a id=%X></a>", data->addr);
+	docgen_symbol_print_comments_block(f, &datainfo->comments);/*jeanine:s:a:r;i:69;*/
 	/*these are 'div' instead of 'pre' because 'h3' can't be inside 'pre'*/
-	fprintf(f, "\n<div id='%X'><i>%X</i> %s<h3>%s</h3>", data->addr, data->addr, type->data, data->name);
+	fprintf(f, "\n<div><i>%X</i> %s<h3>%s</h3>", data->addr, type->data, data->name);
 	docgen_free_tmpbuf(type);
 	if (data->data.data.arraysize) {
 		fprintf(f, "[%d]", data->data.data.arraysize);
@@ -1219,7 +1167,6 @@ void docgen_print_data(FILE *f, struct docgen *dg, struct docgen_datainfo *datai
 		fwrite(" <u></u>", 8, 1, f);
 	}
 	fwrite("</div>", 6, 1, f);
-	docgen_symbol_print_comments_block(f, &datainfo->comments);/*jeanine:s:a:r;i:69;*/
 }
 /*jeanine:p:i:56;p:37;a:r;x:128.71;y:-20.02;*/
 /**
@@ -1241,29 +1188,29 @@ void docgen_append_ref_text(struct mmparse *mm, void (*append_func)(struct mmpar
 		switch (element->type) {
 		case FUNC:
 			len = sprintf(addr, "%X", element->el.func->addr);
-			append_func(mm, "<a href='funcs.html#", 20);
+			append_func(mm, "<a href=funcs.html#", 19);
 			append_func(mm, addr, len);
-			append_func(mm, "'>", 2);
+			append_func(mm, ">", 1);
 			name = element->el.func->name;
 			append_func(mm, name, strlen(name));
 			append_func(mm, "</a>", 4);
 			break;
 		case DATA:
 			len = sprintf(addr, "%X", element->el.data->addr);
-			append_func(mm, "<a href='vars.html#", 19);
+			append_func(mm, "<a href=vars.html#", 18);
 			append_func(mm, addr, len);
-			append_func(mm, "'>", 2);
+			append_func(mm, ">", 1);
 			name = element->el.data->name;
 			append_func(mm, name, strlen(name));
 			append_func(mm, "</a>", 4);
 			break;
 		case STRUCTMEMBER:
 			ud->dg->struct_member_needs_anchor[element->member.struc - ud->dg->idcp->struct_members] = 1;
-			append_func(mm, "<a href='structs.html#struc_", 28);
+			append_func(mm, "<a href=structs.html#struc_", 27);
 			append_func(mm, element->el.struc->name, strlen(element->el.struc->name));
 			len = sprintf(addr, "%X", element->member.struc->offset);
 			append_func(mm, addr, len);
-			append_func(mm, "'>", 2);
+			append_func(mm, ">", 1);
 			name = element->member.struc->name;
 			append_func(mm, name, strlen(name));
 			append_func(mm, "</a>", 4);
@@ -1271,19 +1218,19 @@ void docgen_append_ref_text(struct mmparse *mm, void (*append_func)(struct mmpar
 		case STRUCT:
 			name = element->el.struc->name;
 			len = strlen(name);
-			append_func(mm, "<a href='structs.html#struc_", 28);
+			append_func(mm, "<a href=structs.html#struc_", 27);
 			append_func(mm, name, len);
-			append_func(mm, "'>struct ", 9);
+			append_func(mm, ">struct ", 8);
 			append_func(mm, name, len);
 			append_func(mm, "</a>", 4);
 			break;
 		case ENUMMEMBER:
 			ud->dg->enum_member_needs_anchor[element->member.enu - ud->dg->idcp->enum_members] = 1;
-			append_func(mm, "<a href='enums.html#enu_", 24);
+			append_func(mm, "<a href=enums.html#enu_", 23);
 			append_func(mm, element->el.enu->name, strlen(element->el.enu->name));
 			len = sprintf(addr, "%X", element->member.enu->value);
 			append_func(mm, addr, len);
-			append_func(mm, "'>", 2);
+			append_func(mm, ">", 1);
 			name = element->member.enu->name;
 			append_func(mm, name, strlen(name));
 			append_func(mm, "</a>", 4);
@@ -1291,9 +1238,9 @@ void docgen_append_ref_text(struct mmparse *mm, void (*append_func)(struct mmpar
 		case ENUM:
 			name = element->el.enu->name;
 			len = strlen(name);
-			append_func(mm, "<a href='enums.html#enu_", 24);
+			append_func(mm, "<a href=enums.html#enu_", 23);
 			append_func(mm, name, len);
-			append_func(mm, "'>enum ", 7);
+			append_func(mm, ">enum ", 6);
 			append_func(mm, name, len);
 			append_func(mm, "</a>", 4);
 			break;
@@ -1482,7 +1429,7 @@ enum mmp_dir_content_action docgen_mmparse_dir_img(struct mmparse *mm, struct mm
 	memcpy(alt_arg->value, data->contents, data->content_len + 1);
 	docgen_mmparse_img_directive_validate_and_trunc_name(mm, data);/*jeanine:s:a:r;i:67;*/
 	mmparse_append_to_expanded_line(mm, "<p class='imgholder'>", 21);
-	mmparse_print_tag_with_directives(mm, data->directive, "/>");
+	mmparse_print_tag_with_directives(mm, data->directive, ">");
 	mmparse_append_to_expanded_line(mm, "</p>", 4);
 	return DELETE_CONTENTS;
 }
@@ -1492,7 +1439,7 @@ enum mmp_dir_content_action docgen_mmparse_dir_imgcaptioned(struct mmparse *mm, 
 {
 	docgen_mmparse_img_directive_validate_and_trunc_name(mm, data);/*jeanine:r:i:67;*/
 	mmparse_append_to_expanded_line(mm, "<p class='imgholder'>", 21);
-	mmparse_print_tag_with_directives(mm, data->directive, "/><br/>");
+	mmparse_print_tag_with_directives(mm, data->directive, "><br>");
 	mmparse_append_to_closing_tag(mm, "</p>", 4);
 	return LEAVE_CONTENTS;
 }
@@ -1509,7 +1456,7 @@ enum mmp_dir_content_action docgen_mmparse_dir_imgcollapsed(struct mmparse *mm, 
 	append it to the expanded line while I want it to be in the closing tag.
 	So this hax will call it and then remove it from the expanded line and paste it in the closing tag.*/
 	expanded_line_len = mm->pd.line_len;
-	mmparse_print_tag_with_directives(mm, data->directive, "/></p></details>");
+	mmparse_print_tag_with_directives(mm, data->directive, "></p></details>");
 	len = mm->pd.line_len - expanded_line_len;
 	mm->pd.line_len -= len;
 	mm->pd.next_placeholder_offset -= len;
@@ -1720,7 +1667,6 @@ void docgen_collect_funcinfos(struct docgen *dg)
 			}
 		}
 	}
-	qsort((void*) dg->funcinfos, dg->num_funcinfos, sizeof(struct docgen_funcinfo), docgen_func_sort_compar);/*jeanine:r:i:15;*/
 }
 /*jeanine:p:i:80;p:90;a:r;x:7.78;y:-5.00;*/
 static
@@ -1735,7 +1681,6 @@ void docgen_collect_structinfos(struct docgen *dg)
 		dg->structinfos[i].name_len = strlen(idcp->structs[i].name);
 	}
 	dg->num_structinfos = idcp->num_structs;
-	qsort((void*) dg->structinfos, dg->num_structinfos, sizeof(struct docgen_structinfo), docgen_struct_sort_compar);/*jeanine:r:i:4;*/
 }
 /*jeanine:p:i:81;p:90;a:r;x:7.78;y:12.00;*/
 static
@@ -1750,7 +1695,6 @@ void docgen_collect_enuminfos(struct docgen *dg)
 		dg->enuminfos[i].name_len = strlen(idcp->enums[i].name);
 	}
 	dg->num_enuminfos = idcp->num_enums;
-	qsort((void*) dg->enuminfos, dg->num_enuminfos, sizeof(struct docgen_enuminfo), docgen_enum_sort_compar);/*jeanine:r:i:21;*/
 }
 /*jeanine:p:i:78;p:90;a:r;x:7.78;y:28.00;*/
 static
@@ -1785,7 +1729,6 @@ void docgen_collect_datainfos(struct docgen *dg)
 			}
 		}
 	}
-	/*not sorting these*/
 }
 /*jeanine:p:i:76;p:75;a:r;x:14.77;*/
 /**
@@ -1980,6 +1923,8 @@ void docgen_mmparse(struct docgen *dg, struct mmparse **out_mm_index, struct mmp
 		ud->mmpextras.config.section.no_breadcrumbs = 1;
 		ud->mmpextras.config.section.no_continuation_breadcrumbs = 1;
 		ud->mmpextras.config.section.no_end_index_links = 1;
+		ud->mmpextras.config.paragraphed.print_closing_tags = 0;
+		ud->mmpextras.config.paragraphed.experimental_remove_last_lf = 1;
 		ud->blogpost.htmlfile = blogfile;
 		ud->blogpost.is_blogpost = 1;
 		ud->blogpost.index = blogname - blogposts;
@@ -1997,6 +1942,8 @@ void docgen_mmparse(struct docgen *dg, struct mmparse **out_mm_index, struct mmp
 	ud->mmpextras.config.section.no_breadcrumbs = 1;
 	ud->mmpextras.config.section.no_continuation_breadcrumbs = 1;
 	ud->mmpextras.config.section.no_end_index_links = 1;
+	ud->mmpextras.config.paragraphed.print_closing_tags = 0;
+	ud->mmpextras.config.paragraphed.experimental_remove_last_lf = 1;
 	mmparse(mm_index);
 	docgen_adjust_mmp_data_after_mmparse(&mmpd, mm_index);/*jeanine:s:a:r;i:76;*/
 	*out_mm_index = mm_index;
@@ -2016,6 +1963,8 @@ void docgen_mmparse(struct docgen *dg, struct mmparse **out_mm_index, struct mmp
 	mm_sym->config.modes = docgen_mmp_sym_modes;
 	ud = mm_sym->config.userdata;
 	ud->mmpextras.config.href_output_immediately = 1;
+	ud->mmpextras.config.paragraphed.print_closing_tags = 0;
+	ud->mmpextras.config.paragraphed.experimental_remove_last_lf = 1;
 	docgen_mmparse_all_symbol_comments(dg, mm_sym);/*jeanine:r:i:83;*/
 }
 /*jeanine:p:i:90;p:88;a:r;x:83.07;y:-70.73;*/
@@ -2050,7 +1999,7 @@ int main(int argc, char **argv)
 
 	docgen_readfile("style.css", &css, &css_len);
 
-	html_skel0 = "<!DOCTYPE html><html lang='en'><head><meta charset='utf-8'/>\n<title>";
+	html_skel0 = "<!DOCTYPE html><html lang='en'><head><meta charset=utf-8>\n<title>";
 	html_skel0_len = strlen(html_skel0);
 	html_skel1 = "</title>\n<style>\n";
 	html_skel1_len = strlen(html_skel1);
@@ -2166,7 +2115,7 @@ int main(int argc, char **argv)
 	fwrite(html_skel2, html_skel2_len, 1, file);
 	fprintf(file, "%s%d%s", "<div class='func'>\n<h2>Functions (", dg->num_funcinfos, ")</h2>\n<ul>\n");
 	for (i = 0, funcinfo = dg->funcinfos; i < dg->num_funcinfos; i++, funcinfo++) {
-		fprintf(file, "<li><a href='#%X'>%s</a></li>\n", funcinfo->func->addr, funcinfo->func->name);
+		fprintf(file, "<li><a href=#%X>\n%s</a>\n", funcinfo->func->addr, funcinfo->func->name);
 	}
 	fprintf(file, "%s", "</ul></div><div class='func sym'>");
 	for (i = 0, funcinfo = dg->funcinfos; i < dg->num_funcinfos; i++, funcinfo++) {
@@ -2185,14 +2134,14 @@ int main(int argc, char **argv)
 	fprintf(file, "%s%d%s", "<div class='struc'>\n<h2>Structs (", dg->num_structinfos, ")</h2>\n<ul>\n");
 	for (i = 0, structinfo = dg->structinfos; i < dg->num_structinfos; i++, structinfo++) {
 		name = structinfo->struc->name;
-		fprintf(file, "<li><a href='#struc_%s'>%s</a>", name, name);
+		fprintf(file, "<li><a href=#struc_%s>%s</a>", name, name);
 		if (structinfo->struc->is_union) {
 			fprintf(file, " <b></b>");
 		}
 		if (structinfo->is_class) {
 			fprintf(file, " <em></em>");
 		}
-		fprintf(file, "</li>\n");
+		fprintf(file, "\n");
 	}
 	fprintf(file, "%s", "</ul></div><div class='struc sym'>");
 	for (i = 0, structinfo = dg->structinfos; i < dg->num_structinfos; i++, structinfo++) {
@@ -2210,7 +2159,7 @@ int main(int argc, char **argv)
 	fwrite(html_skel2, html_skel2_len, 1, file);
 	fprintf(file, "%s%d%s", "<div class='var'>\n<h2>Variables (", dg->num_datainfos, ")</h2>\n<ul>\n");
 	for (i = 0, datainfo = dg->datainfos; i < dg->num_datainfos; i++, datainfo++) {
-		fprintf(file, "<li><a href='#%X'>%s</a></li>\n", datainfo->data->addr, datainfo->data->name);
+		fprintf(file, "<li><a href=#%X>\n%s</a>\n", datainfo->data->addr, datainfo->data->name);
 	}
 	fprintf(file, "%s", "</ul></div><div class='var sym'>");
 	for (i = 0, datainfo = dg->datainfos; i < dg->num_datainfos; i++, datainfo++) {
@@ -2229,7 +2178,7 @@ int main(int argc, char **argv)
 	fprintf(file, "%s%d%s", "<div class='enum'>\n<h2>Enums (", dg->num_enuminfos, ")</h2>\n<ul>\n");
 	for (i = 0, enuminfo = dg->enuminfos; i < dg->num_enuminfos; i++, enuminfo++) {
 		name = enuminfo->enu->name;
-		fprintf(file, "<li><a href='#enu_%s'>%s</a></li>\n", name, name);
+		fprintf(file, "<li><a href=#enu_%s>%s</a>\n", name, name);
 	}
 	fprintf(file, "%s", "</ul></div><div class='enum sym'>");
 	for (i = 0, enuminfo = dg->enuminfos; i < dg->num_enuminfos; i++, enuminfo++) {
