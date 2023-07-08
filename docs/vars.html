@@ -259,7 +259,7 @@ pre.ida span.hi {
 <a href='cheatsheet.html'>cheatsheet</a></nav>
 </header>
 <div class='var'>
-<h2>Variables (959)</h2>
+<h2>Variables (960)</h2>
 <ul>
 <li><a href='#5CCFFC'>WndProcMsgJumpTable</a></li>
 <li><a href='#5CD010'>WndProcMsgJumpTableTable</a></li>
@@ -521,8 +521,6 @@ pre.ida span.hi {
 <li><a href='#783418'>__imp_WSACleanup</a></li>
 <li><a href='#783420'>__imp_Direct3DCreate9</a></li>
 <li><a href='#783FE5'>emptyString</a></li>
-<li><a href='#78446C'>aDrivetarget</a></li>
-<li><a href='#78447C'>aDrivingchoice</a></li>
 <li><a href='#784744'>aFuturepoint</a></li>
 <li><a href='#7868E8'>someXORtable</a></li>
 <li><a href='#786DE0'>vtable_786DE0</a></li>
@@ -674,7 +672,7 @@ pre.ida span.hi {
 <li><a href='#797548'>vtable_CareerCribFNGObject</a></li>
 <li><a href='#797564'>vtable_CribRewardOptionsMainFNGObject</a></li>
 <li><a href='#7975AC'>vtable_RewardsSponsorFNGObject</a></li>
-<li><a href='#79770C'>vtable_QROLCarSelectFNGObject</a></li>
+<li><a href='#79770C'>vtable_CarSelectFNGObject</a></li>
 <li><a href='#797734'>vtable_QRModeSelectFNGObject</a></li>
 <li><a href='#797794'>vtable_OptionsMainFNGObject</a></li>
 <li><a href='#7977F0'>vtable_OL836370</a></li>
@@ -806,6 +804,8 @@ pre.ida span.hi {
 <li><a href='#7F70D0'>_currentLoadedLanguage</a></li>
 <li><a href='#7F70D4'>SomethingLanguage</a></li>
 <li><a href='#7F70D8'>languageDefaultStrings</a></li>
+<li><a href='#7F7C08'>carIndicesAvailableAtCareerStartUS</a></li>
+<li><a href='#7F7C28'>carIndicesAvailableAtCareerStartNonUS</a></li>
 <li><a href='#7F7C48'>carsToHideForRegionUS</a></li>
 <li><a href='#7F7C50'>carsToHideForRegionNotUS</a></li>
 <li><a href='#7F7D50'>message</a></li>
@@ -918,6 +918,7 @@ pre.ida span.hi {
 <li><a href='#836494'>canUseQToExit</a></li>
 <li><a href='#836498'>struct836498</a></li>
 <li><a href='#836520'>currentFNGName</a></li>
+<li><a href='#836750'>carInstance</a></li>
 <li><a href='#837B60'>languageString</a></li>
 <li><a href='#837B90'>bin34A15_C</a></li>
 <li><a href='#837FE0'>soundIdBanks</a></li>
@@ -1543,8 +1544,6 @@ for an application or device driver
 <div id='783418'><i>783418</i> int <h3>__imp_WSACleanup</h3> <u></u></div>
 <div id='783420'><i>783420</i> int <h3>__imp_Direct3DCreate9</h3> <u></u></div>
 <div id='783FE5'><i>783FE5</i> char <h3>emptyString</h3>[3] <u></u></div>
-<div id='78446C'><i>78446C</i> int <h3>aDrivetarget</h3> <u></u></div>
-<div id='78447C'><i>78447C</i> int <h3>aDrivingchoice</h3> <u></u></div>
 <div id='784744'><i>784744</i> int <h3>aFuturepoint</h3> <u></u></div>
 <div id='7868E8'><i>7868E8</i> int <h3>someXORtable</h3>[250] <u></u></div>
 <div id='786DE0'><i>786DE0</i> int <h3>vtable_786DE0</h3> <u></u></div>
@@ -1705,7 +1704,7 @@ for an application or device driver
 <div id='797548'><i>797548</i> int <h3>vtable_CareerCribFNGObject</h3> <u></u></div>
 <div id='797564'><i>797564</i> int <h3>vtable_CribRewardOptionsMainFNGObject</h3> <u></u></div>
 <div id='7975AC'><i>7975AC</i> int <h3>vtable_RewardsSponsorFNGObject</h3> <u></u></div>
-<div id='79770C'><i>79770C</i> int <h3>vtable_QROLCarSelectFNGObject</h3> <u></u></div>
+<div id='79770C'><i>79770C</i> int <h3>vtable_CarSelectFNGObject</h3> <u></u></div>
 <div id='797734'><i>797734</i> int <h3>vtable_QRModeSelectFNGObject</h3> <u></u></div>
 <div id='797794'><i>797794</i> int <h3>vtable_OptionsMainFNGObject</h3> <u></u></div>
 <div id='7977F0'><i>7977F0</i> int <h3>vtable_OL836370</h3> <u></u></div>
@@ -1868,6 +1867,9 @@ Some of them are constructors being called.
 <div id='7ED608'><i>7ED608</i> int <h3>hFile</h3> <u></u></div>
 <div id='7F4348'><i>7F4348</i> int <h3>param</h3> <u></u></div>
 <div id='7F444C'><i>7F444C</i> int <h3>flagsToCheck</h3> <u></u></div>
+<div class='mm'>
+<p>influences the filter control in car selection stuff (and probably other things)
+<p></div>
 <div id='7F44B0'><i>7F44B0</i> int <h3>parentFngName</h3> <u></u></div>
 <div class='mm'>
 <p>this probably does not always get used, maybe only scoped to OL stuff?l
@@ -1891,8 +1893,16 @@ Some of them are constructors being called.
 <div class='mm'>
 <p>0: "th"
 <p></div>
+<div id='7F7C08'><i>7F7C08</i> int <h3>carIndicesAvailableAtCareerStartUS</h3>[8] <u></u></div>
+<div id='7F7C28'><i>7F7C28</i> int <h3>carIndicesAvailableAtCareerStartNonUS</h3>[8] <u></u></div>
 <div id='7F7C48'><i>7F7C48</i> int <h3>carsToHideForRegionUS</h3>[2] <u></u></div>
+<div class='mm'>
+<p>7(corsa),6(peugot106)
+<p></div>
 <div id='7F7C50'><i>7F7C50</i> int <h3>carsToHideForRegionNotUS</h3>[2] <u></u></div>
+<div class='mm'>
+<p>5(civic),18(rsx)
+<p></div>
 <div id='7F7D50'><i>7F7D50</i> int <h3>message</h3> <u></u></div>
 <div id='7F7DC8'><i>7F7DC8</i> <a href='structs.html#struc_FNGData'>struct FNGData</a> <h3>fngdata</h3>[180]</div>
 <div id='7F91C4'><i>7F91C4</i> int <h3>drawHud</h3> <u></u></div>
@@ -2266,6 +2276,7 @@ then esc goes to the category of the msg.
 <p></div>
 <div id='836498'><i>836498</i> <a href='structs.html#struc_Struct836498'>struct Struct836498</a> <h3>struct836498</h3></div>
 <div id='836520'><i>836520</i> int <h3>currentFNGName</h3> <u></u></div>
+<div id='836750'><i>836750</i> <a href='structs.html#struc_CareerCarLotFNGObject_50'>struct CareerCarLotFNGObject_50</a> <h3>carInstance</h3></div>
 <div id='837B60'><i>837B60</i> int <h3>languageString</h3> <u></u></div>
 <div id='837B90'><i>837B90</i> int <h3>bin34A15_C</h3>[68] <u></u></div>
 <div id='837FE0'><i>837FE0</i> <a href='structs.html#struc_SoundIdBanks'>struct SoundIdBanks</a> <h3>soundIdBanks</h3></div>

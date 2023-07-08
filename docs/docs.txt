@@ -3714,6 +3714,11 @@ car 45: HATCHBACK02 HATCHBACK02 GENERIC
 - 512080
 - 5120B0
 - 610170
+- 7F7C08
+- 7F7C28
+- 7F7C48
+- 7F7C50
+- 838464
 .popmode symbols
 
 .popmode section

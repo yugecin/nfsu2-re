@@ -56,6 +56,14 @@
       <ZeroTerminate>1</ZeroTerminate>
       <Address>83A9D0+10+AB4C</Address>
     </CheatEntry>
+    <CheatEntry>
+      <ID>6</ID>
+      <Description>"someOLState"</Description>
+      <ShowAsHex>1</ShowAsHex>
+      <ShowAsSigned>0</ShowAsSigned>
+      <VariableType>4 Bytes</VariableType>
+      <Address>83A9D0+156A8</Address>
+    </CheatEntry>
   </CheatEntries>
   <UserdefinedSymbols/>
 </CheatTable>

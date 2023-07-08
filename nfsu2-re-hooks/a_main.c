@@ -79,6 +79,8 @@ static void stub() {}
 #include "ignorefocuslossintextboxandlist.c"
 //#include "switch-joyids-in-career.c"
 
+//#include "fun-destroy-garage-backdrop.c"
+
 #include "dbgw_a_main.c"
 
 //#include "generate-fngdata-list.c"
