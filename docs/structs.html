@@ -416,9 +416,9 @@ pre.ida span.hi {
 <li><a href=#struc_s734>s734</a> <em></em>
 <li><a href=#struc_s735_100>s735_100</a>
 <li><a href=#struc_s735>s735</a> <em></em>
-<li><a href=#struc_CareerCarLotFNGObject_50_20>CareerCarLotFNGObject_50_20</a> <em></em>
-<li><a href=#struc_CareerCarLotFNGObject_50_20_10>CareerCarLotFNGObject_50_20_10</a> <em></em>
-<li><a href=#struc_CareerCarLotFNGObject_50_20_10_2E0>CareerCarLotFNGObject_50_20_10_2E0</a> <em></em>
+<li><a href=#struc_MenuCarInstance>MenuCarInstance</a> <em></em>
+<li><a href=#struc_MenuCarInstance_10>MenuCarInstance_10</a> <em></em>
+<li><a href=#struc_MenuCarInstance_10_2E0>MenuCarInstance_10_2E0</a> <em></em>
 <li><a href=#struc_Tmp4DF9C0ListEntry>Tmp4DF9C0ListEntry</a>
 <li><a href=#struc_UIProgressBar$vtable>UIProgressBar$vtable</a>
 <li><a href=#struc_UIProgressBarInitializeElementsConfig>UIProgressBarInitializeElementsConfig</a>
@@ -2849,7 +2849,7 @@ return amount of bytes actually read*/</span>
 <i id=struc_CareerCarLotFNGObject_5010></i><i>/*10*/	</i><a href=#struc_ObjectLink>struct ObjectLink</a> link;
 <i>/*18*/	int field_18;</i>
 <i>/*1C*/	int field_1C;</i>
-<i>/*20*/	<a href=#struc_CareerCarLotFNGObject_50_20>struct CareerCarLotFNGObject_50_20</a> field_20;</i>
+<i>/*20*/	<a href=#struc_MenuCarInstance>struct MenuCarInstance</a> field_20;</i>
 <span class='mm'>/**1 or 2*/</span>
 <i>/*910*/	</i>unsigned int playerId;
 <span class='mm'>/**just a guess*/</span>
@@ -2869,7 +2869,7 @@ return amount of bytes actually read*/</span>
 <li><!--511DB0-->
 <pre><i>511DB0</i> <a href=funcs.html#511DB0 title='int __thiscall CareerCarLotFNGObject_50__ctor(struct CareerCarLotFNGObject_50 *this, struct Car *car, int, unsigned int slotHash, int playerId, char);'>CareerCarLotFNGObject_50::ctor</a></pre>
 <li><!--511E00-->
-<pre><i>511E00</i> <a href=funcs.html#511E00 title='struct CareerCarLotFNGObject_50_20 *__thiscall CareerCarLotFNGObject_50__ApplyTuningToCarInstanceIfNotDoneAlready(struct CareerCarLotFNGObject_50 *this);'>CareerCarLotFNGObject_50::ApplyTuningToCarInstanceIfNotDoneAlready</a></pre>
+<pre><i>511E00</i> <a href=funcs.html#511E00 title='struct MenuCarInstance *__thiscall CareerCarLotFNGObject_50__ApplyTuningToCarInstanceIfNotDoneAlready(struct CareerCarLotFNGObject_50 *this);'>CareerCarLotFNGObject_50::ApplyTuningToCarInstanceIfNotDoneAlready</a></pre>
 </ul>
 <a id=struc_s734></a>
 <div>struct <h3>s734</h3> { <i>/*10 members, size E8h*/</i> <em></em>
@@ -2877,8 +2877,8 @@ return amount of bytes actually read*/</span>
 <i>/*0*/	int field_0;</i>
 <span class='mm'>/**initialized to 1*/</span>
 <i>/*4*/	int field_4;</i>
-<i>/*8*/	<a href=structs.html#struc_CareerCarLotFNGObject_50_20_10_2E0>struct CareerCarLotFNGObject_50_20_10_2E0</a> *field_8;</i>
-<span class='mm'>/**<code>&amp;<a href=structs.html#struc_CareerCarLotFNGObject_50_20_10>struct CareerCarLotFNGObject_50_20_10</a>.<a href=structs.html#struc_CareerCarLotFNGObject_50_20_1030>field_30</a></code>*/</span>
+<i>/*8*/	<a href=structs.html#struc_MenuCarInstance_10_2E0>struct MenuCarInstance_10_2E0</a> *field_8;</i>
+<span class='mm'>/**<code>&amp;<a href=structs.html#struc_MenuCarInstance_10>struct MenuCarInstance_10</a>.<a href=structs.html#struc_MenuCarInstance_1030>field_30</a></code>*/</span>
 <i>/*C*/	void *field_C;</i>
 <i>/*10*/	int field_10;</i>
 <span class='mm'>/**gonna take a leap and assume this is this struct. it looks the same &amp; is initialized the same.*/</span>
@@ -2916,15 +2916,15 @@ return amount of bytes actually read*/</span>
 <li><!--4133D0-->
 <pre><i>4133D0</i> <a href=funcs.html#4133D0 title='void __thiscall s735__CopyFrom(struct s735 *this, struct s735 *from);'>s735::CopyFrom</a></pre>
 </ul>
-<a id=struc_CareerCarLotFNGObject_50_20></a>
-<div>struct <h3>CareerCarLotFNGObject_50_20</h3> { <i>/*16 members, size 8F0h*/</i> <em></em>
+<a id=struc_MenuCarInstance></a>
+<div>struct <h3>MenuCarInstance</h3> { <i>/*16 members, size 8F0h*/</i> <em></em>
 <i>/*0*/	</i>int carIndex <u></u>;
 <i>/*4*/	char field_4;</i>
 <i>/*5*/	char field_5;</i>
 <i>/*6*/	char field_6;</i>
 <i>/*7*/	char field_7;</i>
 <i>/*8*/	char _pad8[0x8];</i>
-<i>/*10*/	<a href=#struc_CareerCarLotFNGObject_50_20_10>struct CareerCarLotFNGObject_50_20_10</a> field_10;</i>
+<i>/*10*/	<a href=#struc_MenuCarInstance_10>struct MenuCarInstance_10</a> field_10;</i>
 <i>/*580*/	char field_580;</i>
 <i>/*581*/	char field_581;</i>
 <i>/*582*/	char _pad582[0x2];</i>
@@ -2941,18 +2941,18 @@ return amount of bytes actually read*/</span>
 <p><strong>Methods:</strong>
 <ul>
 <li><!--40C910-->
-<pre><i>40C910</i> <a href=funcs.html#40C910 title='void __thiscall CareerCarLotFNGObject_50_20__ctor(struct CareerCarLotFNGObject_50_20 *this);'>CareerCarLotFNGObject_50_20::ctor</a></pre>
+<pre><i>40C910</i> <a href=funcs.html#40C910 title='void __thiscall MenuCarInstance__ctor(struct MenuCarInstance *this);'>MenuCarInstance::ctor</a></pre>
 <li><!--413440-->
-<pre><i>413440</i> <a href=funcs.html#413440 title='int __thiscall CareerCarLotFNGObject_50_20__CopyFrom(struct CareerCarLotFNGObject_50_20 *this, struct CareerCarLotFNGObject_50_20 *from);'>CareerCarLotFNGObject_50_20::CopyFrom</a></pre>
+<pre><i>413440</i> <a href=funcs.html#413440 title='int __thiscall MenuCarInstance__CopyFrom(struct MenuCarInstance *this, struct MenuCarInstance *from);'>MenuCarInstance::CopyFrom</a></pre>
 <li><!--610270-->
-<pre><i>610270</i> <a href=funcs.html#610270 title='int __thiscall CareerCarLotFNGObject_50_20__610270(struct CareerCarLotFNGObject_50_20 *this, int, int, char, char);'>CareerCarLotFNGObject_50_20::610270</a></pre>
+<pre><i>610270</i> <a href=funcs.html#610270 title='int __thiscall MenuCarInstance__610270(struct MenuCarInstance *this, int, int, char, char);'>MenuCarInstance::610270</a></pre>
 <li><!--637040-->
-<pre><i>637040</i> <a href=funcs.html#637040 title='int __thiscall CareerCarLotFNGObject_50_20__637040(struct CareerCarLotFNGObject_50_20 *this, int);'>CareerCarLotFNGObject_50_20::637040</a></pre>
+<pre><i>637040</i> <a href=funcs.html#637040 title='int __thiscall MenuCarInstance__637040(struct MenuCarInstance *this, int);'>MenuCarInstance::637040</a></pre>
 <li><!--637190-->
-<pre><i>637190</i> <a href=funcs.html#637190 title='int __thiscall CareerCarLotFNGObject_50_20__637190(struct CareerCarLotFNGObject_50_20 *this);'>CareerCarLotFNGObject_50_20::637190</a></pre>
+<pre><i>637190</i> <a href=funcs.html#637190 title='int __thiscall MenuCarInstance__637190(struct MenuCarInstance *this);'>MenuCarInstance::637190</a></pre>
 </ul>
-<a id=struc_CareerCarLotFNGObject_50_20_10></a>
-<div>struct <h3>CareerCarLotFNGObject_50_20_10</h3> { <i>/*18 members, size 570h*/</i> <em></em>
+<a id=struc_MenuCarInstance_10></a>
+<div>struct <h3>MenuCarInstance_10</h3> { <i>/*18 members, size 570h*/</i> <em></em>
 <i>/*0*/	int field_0;</i>
 <i>/*4*/	char field_4;</i>
 <i>/*5*/	char _pad5[0x3];</i>
@@ -2964,7 +2964,7 @@ return amount of bytes actually read*/</span>
 <i>/*1C*/	int field_1C;</i>
 <i>/*20*/	int field_20;</i>
 <i>/*24*/	char _pad24[0xC];</i>
-<i id=struc_CareerCarLotFNGObject_50_20_1030></i><i>/*30*/	int field_30;</i>
+<i id=struc_MenuCarInstance_1030></i><i>/*30*/	int field_30;</i>
 <i>/*34*/	char _pad34[0x10C];</i>
 <i>/*140*/	int field_140;</i>
 <i>/*144*/	int field_144;</i>
@@ -2973,19 +2973,19 @@ return amount of bytes actually read*/</span>
 <i>/*150*/	char _pad150[0x40];</i>
 <i>/*190*/	int field_190;</i>
 <i>/*194*/	char _pad194[0x14C];</i>
-<i>/*2E0*/	<a href=#struc_CareerCarLotFNGObject_50_20_10_2E0>struct CareerCarLotFNGObject_50_20_10_2E0</a> field_2E0;</i>
+<i>/*2E0*/	<a href=#struc_MenuCarInstance_10_2E0>struct MenuCarInstance_10_2E0</a> field_2E0;</i>
 <i>/*374*/	<a href=#struc_s734>struct s734</a> field_374;</i>
 <i>/*45C*/	<a href=#struc_s735>struct s735</a> field_45C;</i>
 };</div>
 <p><strong>Methods:</strong>
 <ul>
 <li><!--5A7890-->
-<pre><i>5A7890</i> <a href=funcs.html#5A7890 title='int __thiscall CareerCarLotFNGObject_50_20_10__5A7890(struct CareerCarLotFNGObject_50_20_10 *this, int);'>CareerCarLotFNGObject_50_20_10::5A7890</a></pre>
+<pre><i>5A7890</i> <a href=funcs.html#5A7890 title='int __thiscall MenuCarInstance_10__5A7890(struct MenuCarInstance_10 *this, int);'>MenuCarInstance_10::5A7890</a></pre>
 <li><!--5AC6E0-->
-<pre><i>5AC6E0</i> <a href=funcs.html#5AC6E0 title='int __thiscall CareerCarLotFNGObject_50_20_10__ctor(struct CareerCarLotFNGObject_50_20_10 *this);'>CareerCarLotFNGObject_50_20_10::ctor</a></pre>
+<pre><i>5AC6E0</i> <a href=funcs.html#5AC6E0 title='int __thiscall MenuCarInstance_10__ctor(struct MenuCarInstance_10 *this);'>MenuCarInstance_10::ctor</a></pre>
 </ul>
-<a id=struc_CareerCarLotFNGObject_50_20_10_2E0></a>
-<div>struct <h3>CareerCarLotFNGObject_50_20_10_2E0</h3> { <i>/*3 members, size 94h*/</i> <em></em>
+<a id=struc_MenuCarInstance_10_2E0></a>
+<div>struct <h3>MenuCarInstance_10_2E0</h3> { <i>/*3 members, size 94h*/</i> <em></em>
 <i>/*0*/	char field_0[40];</i>
 <i>/*28*/	char field_28[40];</i>
 <i>/*50*/	char field_50[68];</i>
@@ -2993,13 +2993,13 @@ return amount of bytes actually read*/</span>
 <p><strong>Methods:</strong>
 <ul>
 <li><!--599680-->
-<pre><i>599680</i> <a href=funcs.html#599680 title='int __thiscall CareerCarLotFNGObject_50_20_10_2E0__599680(struct CareerCarLotFNGObject_50_20_10_2E0 *this, int index, int, int);'>CareerCarLotFNGObject_50_20_10_2E0::599680</a></pre>
+<pre><i>599680</i> <a href=funcs.html#599680 title='int __thiscall MenuCarInstance_10_2E0__599680(struct MenuCarInstance_10_2E0 *this, int index, int, int);'>MenuCarInstance_10_2E0::599680</a></pre>
 <li><!--5A6320-->
-<pre><i>5A6320</i> <a href=funcs.html#5A6320 title='int __thiscall CareerCarLotFNGObject_50_20_10_2E0__5A6320(struct CareerCarLotFNGObject_50_20_10_2E0 *this, struct Bin34A15_C *bin34A15_C, int, int);'>CareerCarLotFNGObject_50_20_10_2E0::5A6320</a></pre>
+<pre><i>5A6320</i> <a href=funcs.html#5A6320 title='int __thiscall MenuCarInstance_10_2E0__5A6320(struct MenuCarInstance_10_2E0 *this, struct Bin34A15_C *bin34A15_C, int, int);'>MenuCarInstance_10_2E0::5A6320</a></pre>
 <li><!--5A6400-->
-<pre><i>5A6400</i> <a href=funcs.html#5A6400 title='int __thiscall CareerCarLotFNGObject_50_20_10_2E0__5A6400(struct CareerCarLotFNGObject_50_20_10_2E0 *this, struct Bin34A15 *bin34A15, int);'>CareerCarLotFNGObject_50_20_10_2E0::5A6400</a></pre>
+<pre><i>5A6400</i> <a href=funcs.html#5A6400 title='int __thiscall MenuCarInstance_10_2E0__5A6400(struct MenuCarInstance_10_2E0 *this, struct Bin34A15 *bin34A15, int);'>MenuCarInstance_10_2E0::5A6400</a></pre>
 <li><!--5A6450-->
-<pre><i>5A6450</i> <a href=funcs.html#5A6450 title='int __thiscall CareerCarLotFNGObject_50_20_10_2E0__5A6450(struct CareerCarLotFNGObject_50_20_10_2E0 *this, int);'>CareerCarLotFNGObject_50_20_10_2E0::5A6450</a></pre>
+<pre><i>5A6450</i> <a href=funcs.html#5A6450 title='int __thiscall MenuCarInstance_10_2E0__5A6450(struct MenuCarInstance_10_2E0 *this, int);'>MenuCarInstance_10_2E0::5A6450</a></pre>
 </ul>
 <a id=struc_Tmp4DF9C0ListEntry></a>
 <div class=mm><p>allocated at 513CF8 in <a href=funcs.html#513C50>Career::GetAvailableStockCars</a>, used &amp; free'd in <a href=funcs.html#4DF9C0>CareerCarLotFNGObject::InitializeBrowsableCars</a></div>
@@ -3625,7 +3625,7 @@ return amount of bytes actually read*/</span>
 <p><strong>Methods:</strong>
 <ul>
 <li><!--4D8C70-->
-<pre><i>4D8C70</i> <a href=funcs.html#4D8C70 title='int __thiscall GarageMainFNGObject__4D8C70(struct GarageMainFNGObject *this, struct CareerCarLotFNGObject_50_20 *carInstance, int);'>GarageMainFNGObject::4D8C70</a></pre>
+<pre><i>4D8C70</i> <a href=funcs.html#4D8C70 title='int __thiscall GarageMainFNGObject__4D8C70(struct GarageMainFNGObject *this, struct MenuCarInstance *carInstance, int);'>GarageMainFNGObject::4D8C70</a></pre>
 <li><!--4D8D20-->
 <pre><i>4D8D20</i> <a href=funcs.html#4D8D20 title='GarageMainFNGObject::MessageHandler'>GarageMainFNGObject::MessageHandler</a></pre>
 <li><!--4EA900-->
@@ -3635,11 +3635,11 @@ return amount of bytes actually read*/</span>
 <div>struct <h3>GarageMainFNGObject_234</h3> { <i>/*16 members, size 2CF0h*/</i> <em></em>
 <i>/*0*/	int field_0;</i>
 <i>/*4*/	char _pad4[0xC];</i>
-<i>/*10*/	<a href=#struc_CareerCarLotFNGObject_50_20>struct CareerCarLotFNGObject_50_20</a> field_10;</i>
-<i>/*900*/	<a href=#struc_CareerCarLotFNGObject_50_20>struct CareerCarLotFNGObject_50_20</a> field_900;</i>
-<i>/*11F0*/<a href=#struc_CareerCarLotFNGObject_50_20>struct CareerCarLotFNGObject_50_20</a> field_11F0;</i>
-<i>/*1AE0*/<a href=#struc_CareerCarLotFNGObject_50_20>struct CareerCarLotFNGObject_50_20</a> field_1AE0;</i>
-<i>/*23D0*/<a href=#struc_CareerCarLotFNGObject_50_20>struct CareerCarLotFNGObject_50_20</a> field_23D0;</i>
+<i>/*10*/	<a href=#struc_MenuCarInstance>struct MenuCarInstance</a> field_10;</i>
+<i>/*900*/	<a href=#struc_MenuCarInstance>struct MenuCarInstance</a> field_900;</i>
+<i>/*11F0*/<a href=#struc_MenuCarInstance>struct MenuCarInstance</a> field_11F0;</i>
+<i>/*1AE0*/<a href=#struc_MenuCarInstance>struct MenuCarInstance</a> field_1AE0;</i>
+<i>/*23D0*/<a href=#struc_MenuCarInstance>struct MenuCarInstance</a> field_23D0;</i>
 <i>/*2CC0*/int field_2CC0;</i>
 <i>/*2CC4*/int field_2CC4;</i>
 <i>/*2CC8*/int field_2CC8;</i>
@@ -3658,7 +3658,7 @@ return amount of bytes actually read*/</span>
 <li><!--4C1730-->
 <pre><i>4C1730</i> <a href=funcs.html#4C1730 title='GarageMainFNGObject_234::ctor'>GarageMainFNGObject_234::ctor</a></pre>
 <li><!--4D8030-->
-<pre><i>4D8030</i> <a href=funcs.html#4D8030 title='int __thiscall GarageMainFNGObject_234__4D8030(struct GarageMainFNGObject_234 *this, struct CareerCarLotFNGObject_50_20 *arg4);'>GarageMainFNGObject_234::4D8030</a></pre>
+<pre><i>4D8030</i> <a href=funcs.html#4D8030 title='int __thiscall GarageMainFNGObject_234__4D8030(struct GarageMainFNGObject_234 *this, struct MenuCarInstance *arg4);'>GarageMainFNGObject_234::4D8030</a></pre>
 </ul>
 <a id=struc_GarageMainFNGObject_1D8></a>
 <div>struct <h3>GarageMainFNGObject_1D8</h3> { <i>/*6 members, size 18h*/</i> <em></em>
@@ -7059,7 +7059,7 @@ sometimes this is also just hash of the car name? I wanna cry*/</span>
 <li><!--503A60-->
 <pre><i>503A60</i> <a href=funcs.html#503A60 title='unsigned int __thiscall StockCar__GetCarNameHash(struct StockCar *this);'>StockCar::GetCarNameHash</a></pre>
 <li><!--503A80-->
-<pre><i>503A80</i> <a href=funcs.html#503A80 title='int __thiscall StockCar__vtableProcC(struct StockCar *this, int, struct CareerCarLotFNGObject_50_20 *, int);'>StockCar::vtableProcC</a></pre>
+<pre><i>503A80</i> <a href=funcs.html#503A80 title='int __thiscall StockCar__vtableProcC(struct StockCar *this, int, struct MenuCarInstance *, int);'>StockCar::vtableProcC</a></pre>
 </ul>
 <a id=struc_InventoryCar$vtable></a>
 <div>struct <h3>InventoryCar$vtable</h3> { <i>/*4 members, size 10h*/</i>
@@ -8297,7 +8297,7 @@ but in reality these are all zero, and that is an empty string :D*/</span>
 <a id=struc_Career4230></a>
 <div>struct <h3>Career4230</h3> { <i>/*4 members, size 1AECh*/</i> <em></em>
 <i>/*0*/	char _pad0[0x10];</i>
-<i>/*10*/	<a href=#struc_CareerCarLotFNGObject_50_20>struct CareerCarLotFNGObject_50_20</a> field_10[3];</i>
+<i>/*10*/	<a href=#struc_MenuCarInstance>struct MenuCarInstance</a> field_10[3];</i>
 <i id=struc_Career42301AE0></i><i>/*1AE0*/int field_1AE0;</i>
 <i id=struc_Career42301AE4></i><i>/*1AE4*/float floatField_1AE4;</i>
 <i id=struc_Career42301AE8></i><i>/*1AE8*/int field_1AE8;</i>
@@ -8311,7 +8311,7 @@ but in reality these are all zero, and that is an empty string :D*/</span>
 <li><!--500CF0-->
 <pre><i>500CF0</i> <a href=funcs.html#500CF0 title='int __thiscall Career4230__500CF0(struct Career4230 *this);'>Career4230::500CF0</a></pre>
 <li><!--500D00-->
-<pre><i>500D00</i> <a href=funcs.html#500D00 title='struct CareerCarLotFNGObject_50_20 *__thiscall Career4230__Get4230_10AtIndex(struct Career4230 *this, int index);'>Career4230::Get4230_10AtIndex</a></pre>
+<pre><i>500D00</i> <a href=funcs.html#500D00 title='struct MenuCarInstance *__thiscall Career4230__GetMenuCarInstanceAtIndex(struct Career4230 *this, int index);'>Career4230::GetMenuCarInstanceAtIndex</a></pre>
 <li><!--500D20-->
 <pre><i>500D20</i> <a href=funcs.html#500D20 title='int __thiscall Career4230__500D20(struct Career4230 *this, int);'>Career4230::500D20</a></pre>
 <li><!--500D70-->
