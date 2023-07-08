@@ -355,8 +355,6 @@ pre.ida span.hi {
 <li><a href='#513DB0'>Career4230::513DB0</a></li>
 <li><a href='#513E00'>Career4230::513E00</a></li>
 <li><a href='#500D00'>Career4230::Get4230_10AtIndex</a></li>
-<li><a href='#637040'>Career4230_10::637040</a></li>
-<li><a href='#637190'>Career4230_10::637190</a></li>
 <li><a href='#502420'>Career713C::502420</a></li>
 <li><a href='#534290'>Career713C::534290</a></li>
 <li><a href='#5007A0'>Career7148::5007A0</a></li>
@@ -513,6 +511,8 @@ pre.ida span.hi {
 <li><a href='#511E00'>CareerCarLotFNGObject_50::ApplyTuningToCarInstanceIfNotDoneAlready</a></li>
 <li><a href='#511DB0'>CareerCarLotFNGObject_50::ctor</a></li>
 <li><a href='#610270'>CareerCarLotFNGObject_50_20::610270</a></li>
+<li><a href='#637040'>CareerCarLotFNGObject_50_20::637040</a></li>
+<li><a href='#637190'>CareerCarLotFNGObject_50_20::637190</a></li>
 <li><a href='#413440'>CareerCarLotFNGObject_50_20::CopyFrom</a></li>
 <li><a href='#40C910'>CareerCarLotFNGObject_50_20::ctor</a></li>
 <li><a href='#5A7890'>CareerCarLotFNGObject_50_20_10::5A7890</a></li>
@@ -2073,12 +2073,10 @@ it supports creating from existing tuned/career car, but that is never actually 
 <div id='513D30'><i>513D30</i> int __thiscall <h3><a href='structs.html#struc_Career4230'>Career4230</a>::513D30</h3>(<a href='structs.html#struc_Career4230'>struct Career4230</a> *this);</div>
 <div id='513DB0'><i>513DB0</i> void __thiscall <h3><a href='structs.html#struc_Career4230'>Career4230</a>::513DB0</h3>(<a href='structs.html#struc_Career4230'>struct Career4230</a> *this);</div>
 <div id='513E00'><i>513E00</i> int __thiscall <h3><a href='structs.html#struc_Career4230'>Career4230</a>::513E00</h3>(<a href='structs.html#struc_Career4230'>struct Career4230</a> *this, int);</div>
-<div id='500D00'><i>500D00</i> <a href='structs.html#struc_Career4230_10'>struct Career4230_10</a> *__thiscall <h3><a href='structs.html#struc_Career4230'>Career4230</a>::Get4230_10AtIndex</h3>(<a href='structs.html#struc_Career4230'>struct Career4230</a> *this, int index);</div>
+<div id='500D00'><i>500D00</i> <a href='structs.html#struc_CareerCarLotFNGObject_50_20'>struct CareerCarLotFNGObject_50_20</a> *__thiscall <h3><a href='structs.html#struc_Career4230'>Career4230</a>::Get4230_10AtIndex</h3>(<a href='structs.html#struc_Career4230'>struct Career4230</a> *this, int index);</div>
 <div class='mm'>
 <p>index 0-2
 <p></div>
-<div id='637040'><i>637040</i> int __thiscall <h3><a href='structs.html#struc_Career4230_10'>Career4230_10</a>::637040</h3>(<a href='structs.html#struc_Career4230_10'>struct Career4230_10</a> *this, int);</div>
-<div id='637190'><i>637190</i> int __thiscall <h3><a href='structs.html#struc_Career4230_10'>Career4230_10</a>::637190</h3>(<a href='structs.html#struc_Career4230_10'>struct Career4230_10</a> *this);</div>
 <div id='502420'><i>502420</i> int __thiscall <h3><a href='structs.html#struc_Career713C'>Career713C</a>::502420</h3>(<a href='structs.html#struc_Career713C'>struct Career713C</a> *this);</div>
 <div id='534290'><i>534290</i> int __thiscall <h3><a href='structs.html#struc_Career713C'>Career713C</a>::534290</h3>(<a href='structs.html#struc_Career713C'>struct Career713C</a> *this);</div>
 <div id='5007A0'><i>5007A0</i> void __thiscall <h3><a href='structs.html#struc_Career7148'>Career7148</a>::5007A0</h3>(<a href='structs.html#struc_Career7148'>struct Career7148</a> *this, <a href='structs.html#struc_Bin34A11'>struct Bin34A11</a> *);</div>
@@ -2384,6 +2382,8 @@ stockCarHash like STOCK_PEUGEOT
 <div id='511E00'><i>511E00</i> <a href='structs.html#struc_CareerCarLotFNGObject_50_20'>struct CareerCarLotFNGObject_50_20</a> *__thiscall <h3><a href='structs.html#struc_CareerCarLotFNGObject_50'>CareerCarLotFNGObject_50</a>::ApplyTuningToCarInstanceIfNotDoneAlready</h3>(<a href='structs.html#struc_CareerCarLotFNGObject_50'>struct CareerCarLotFNGObject_50</a> *this);</div>
 <div id='511DB0'><i>511DB0</i> int __thiscall <h3><a href='structs.html#struc_CareerCarLotFNGObject_50'>CareerCarLotFNGObject_50</a>::ctor</h3>(<a href='structs.html#struc_CareerCarLotFNGObject_50'>struct CareerCarLotFNGObject_50</a> *this, <a href='structs.html#struc_Car'>struct Car</a> *car, int, unsigned int slotHash, int playerId, char);</div>
 <div id='610270'><i>610270</i> int __thiscall <h3><a href='structs.html#struc_CareerCarLotFNGObject_50_20'>CareerCarLotFNGObject_50_20</a>::610270</h3>(<a href='structs.html#struc_CareerCarLotFNGObject_50_20'>struct CareerCarLotFNGObject_50_20</a> *this, int, int, char, char);</div>
+<div id='637040'><i>637040</i> int __thiscall <h3><a href='structs.html#struc_CareerCarLotFNGObject_50_20'>CareerCarLotFNGObject_50_20</a>::637040</h3>(<a href='structs.html#struc_CareerCarLotFNGObject_50_20'>struct CareerCarLotFNGObject_50_20</a> *this, int);</div>
+<div id='637190'><i>637190</i> int __thiscall <h3><a href='structs.html#struc_CareerCarLotFNGObject_50_20'>CareerCarLotFNGObject_50_20</a>::637190</h3>(<a href='structs.html#struc_CareerCarLotFNGObject_50_20'>struct CareerCarLotFNGObject_50_20</a> *this);</div>
 <div id='413440'><i>413440</i> int __thiscall <h3><a href='structs.html#struc_CareerCarLotFNGObject_50_20'>CareerCarLotFNGObject_50_20</a>::CopyFrom</h3>(<a href='structs.html#struc_CareerCarLotFNGObject_50_20'>struct CareerCarLotFNGObject_50_20</a> *this, <a href='structs.html#struc_CareerCarLotFNGObject_50_20'>struct CareerCarLotFNGObject_50_20</a> *from);</div>
 <div class='mm'>
 <p>not an exact copy
@@ -4807,7 +4807,7 @@ frees <code>this-&gt;<a href='structs.html#struc_SomethingUIImplC'>data30203</a>
 <div id='503A00'><i>503A00</i> void __thiscall <h3><a href='structs.html#struc_StockCar'>StockCar</a>::ctor</h3>(<a href='structs.html#struc_StockCar'>struct StockCar</a> *this);</div>
 <div id='503A30'><i>503A30</i> int __thiscall <h3><a href='structs.html#struc_StockCar'>StockCar</a>::GetCarIndex</h3>(<a href='structs.html#struc_StockCar'>struct StockCar</a> *this);</div>
 <div id='503A60'><i>503A60</i> unsigned int __thiscall <h3><a href='structs.html#struc_StockCar'>StockCar</a>::GetCarNameHash</h3>(<a href='structs.html#struc_StockCar'>struct StockCar</a> *this);</div>
-<div id='503A80'><i>503A80</i> int __thiscall <h3><a href='structs.html#struc_StockCar'>StockCar</a>::vtableProcC</h3>(<a href='structs.html#struc_StockCar'>struct StockCar</a> *this, int, <a href='structs.html#struc_Career4230_10'>struct Career4230_10</a> *, int);</div>
+<div id='503A80'><i>503A80</i> int __thiscall <h3><a href='structs.html#struc_StockCar'>StockCar</a>::vtableProcC</h3>(<a href='structs.html#struc_StockCar'>struct StockCar</a> *this, int, <a href='structs.html#struc_CareerCarLotFNGObject_50_20'>struct CareerCarLotFNGObject_50_20</a> *, int);</div>
 <div id='742C60'><i>742C60</i> <h3>StopAllSocketsAndThread</h3></div>
 <div id='500000'><i>500000</i> void __cdecl <h3>StoreBin34A15</h3>(<a href='structs.html#struc_Bin34A15'>struct Bin34A15</a> *data, int totalSize);</div>
 <div id='59AE20'><i>59AE20</i> void __cdecl <h3>StoreBin34A1A</h3>(<a href='structs.html#struc_Bin34A1A'>struct Bin34A1A</a> *data, int totalSize);</div>
