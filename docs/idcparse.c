@@ -239,6 +239,7 @@ struct idcparse {
 	char *token_str_pool;
 	char *token_str_pool_ptr;
 	int num_lines;
+	int line_being_executed;
 };
 
 /*Below definitions are only applicable during execution phase.*/
@@ -813,7 +814,7 @@ void idcp_func_get_struc_id(struct idcparse *idcp, struct idcp_functioncallframe
 static
 void idcp_func_get_enum_member(struct idcparse *idcp, struct idcp_functioncallframe *frame)
 {
-	int enum_id, value, serial, idx, end;
+	int enum_id, value, serial, ser, idx, end;
 	struct idcp_enum_member *mbr;
 
 	assert(frame->num_arguments == 4);
@@ -830,19 +831,20 @@ void idcp_func_get_enum_member(struct idcparse *idcp, struct idcp_functioncallfr
 	idx = idcp->enums[enum_id].start_idx;
 	end = idcp->enums[enum_id].end_idx;
 	mbr = idcp->enum_members + idx;
+	ser = serial;
 	while (idx < end) {
 		if (mbr->value == value) {
-			if (!serial) {
+			if (!ser) {
 				frame->returnvalue.type = IDCP_VARIABLE_TYPE_ENUM_MEMBER_ID;
 				frame->returnvalue.value.integer = idx;
 				return;
 			}
-			serial--;
+			ser--;
 		}
 		mbr++;
 		idx++;
 	}
-	fprintf(stderr, "get_enum_member: can't find member for value 0x%x\n", value);
+	fprintf(stderr, "%d: get_enum_member: can't find member for value 0x%x (serial %d, curr %d)\n", idcp->line_being_executed, value, serial, ser);
 	assert(0);
 }
 /*jeanine:p:i:17;p:10;a:r;x:28.89;y:258.00;*/
@@ -1945,6 +1947,7 @@ void idcp_execute_function(struct idcparse *idcp, struct idcp_functioncallframe 
 	tok = idcp->tokens + func->start_token_idx;
 	tokensleft = func->end_token_idx - func->start_token_idx;
 	while (tokensleft) {
+		idcp->line_being_executed = tok->line;
 		if (tok->type == IDCP_TOKENTYPE_SEMICOLON) {
 			/*empty statement, seen once in the Segments() function*/
 			/*DO I REALLY NEED THIS BRANCH FOR ONE OF 750K LINES?*/
