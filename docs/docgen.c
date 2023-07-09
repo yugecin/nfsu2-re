@@ -1055,7 +1055,7 @@ void docgen_print_struct(FILE *f, struct docgen *dg, struct docgen_structinfo *s
 		docgen_print_struct_member(f, dg, struc, mem->offset, mem->nbytes, mem);/*jeanine:r:i:11;*/
 		lastoffset = mem->offset + mem->nbytes;
 	}
-	fwrite("};</div>", 8, 1, f);
+	fprintf(f, "};\n<i>EXPECT_SIZE(struct %s, 0x%X);</i></div>", struc->name, size);
 	if (structinfo->is_class) {
 		fwrite("\n<ul>\n", 6, 1, f);
 		for (i = 0, funcinfo = dg->funcinfos; i < dg->num_funcinfos; i++, funcinfo++) {
