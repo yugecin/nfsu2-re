@@ -222,6 +222,25 @@
 #define JOY_EVENT_CAMERA_EDITOR_SHUTTLE_LEFT_RIGHT 0xF7
 #define JOY_EVENT_CAMERA_EDITOR_SHUTTLE_SPEED 0xF8
 
+enum MENU_STATE { /*7 members*/
+	MENU_STATE_CAREER_MENU = 0x1,
+	MENU_STATE_MAIN_MENU = 0x2,
+	MENU_STATE_4 = 0x4,
+	MENU_STATE_ONLINE_MAIN_MENU = 0x8,
+	MENU_STATE_OPTIONS = 0x10,
+	MENU_STATE_CAR_CUSTOMIZE = 0x20,
+	MENU_STATE_CUSTOMIZE_FROM_ONLINE_MAIN_MENU = 0x100,
+	MENU_STATE_LAN_MAIN_MENU = 0x200,
+};
+
+enum INVENTORY_CAR_FLAGS { /*5 members*/
+	IS_STOCK_CAR = 0x1,
+	IS_TUNED_CAR = 0x2,
+	IS_CAREER_CAR = 0x4,
+	IS_SPONSOR_CAR = 0x8,
+	IS_ONLINE_CAR = 0x10,
+};
+
 enum UIELEMENTFLAGS { /*6 members*/
 	HIDDEN = 0x1,
 	USE_CUSTOM_TEXT = 0x2,
@@ -687,6 +706,71 @@ struct FNGObject {
 };
 EXPECT_SIZE(struct FNGObject, 0x4C);
 
+struct CareerCarLotFNGObject_50 { /*16 members, size 930h*/ 
+/**just a dtor*/
+/*0*/	int vtable ;
+/*4*/	int field_4;
+/*8*/	int field_8;
+/*C*/	int field_C;
+/*10*/	struct ObjectLink link;
+/*18*/	int field_18;
+/*1C*/	int field_1C;
+/*20*/	char field_20[0x8F0];
+/**1 or 2*/
+/*910*/	unsigned int playerId;
+/**just a guess*/
+/*914*/	char needApplyTuningToCarInstance;
+/*915*/	char _pad915[0x3];
+/*918*/	struct Car *car;
+/*91C*/	int field_91C;
+/**gets its value from struct InventoryCar.slotHash*/
+/*920*/	unsigned int slotHash ;
+/*924*/	int field_924;
+/*928*/	int field_928;
+/*92C*/	char _pad92C[0x3];
+/*92F*/	char __end ;
+};
+EXPECT_SIZE(struct CareerCarLotFNGObject_50, 0x930);
+
+struct CarSelectFNGObject { /*28 members, size 1B8h*/ 
+/*0*/	struct FNGObject __parent;
+/*4C*/	char field_4C;
+/*4D*/	char field_4D;
+/*4E*/	char field_4E;
+/*4F*/	char _pad4F[0x1];
+/**entries are struct CareerCarLotFNGObject_50 (link offset 10h)*/
+/*50*/	struct ObjectLink selectableCars;
+/*58*/	struct CareerCarLotFNGObject_50 *currentSelectedCar;
+/**0/1*/
+/*5C*/	int browsingPlayerIndex;
+/*60*/	int numSelectableCars;
+/**assumption; please confirm
+0 is sentinel node*/
+/*64*/	int currentIndexInSelectableCars;
+/*68*/	int field_68;
+/*6C*/  char scrollingThing[0x58];
+/*C4*/	int field_C4;
+/*C8*/	struct UIElementType1 *manufacturerLogoUIElement;
+/*CC*/	struct UIElementType1 *carBadgeUIElement;
+/*D0*/	struct UIElement *prevCategoryButton;
+/*D4*/	struct UIElement *nextCategoryButton;
+/*D8*/	char accelerationIndicator[0x44];
+/*11C*/ char topSpeedIndicator[0x44];
+/*160*/	char handlingIndicator[0x44];
+/*1A4*/	char field_1A4;
+/*1A5*/	char field_1A5;
+/*1A6*/	char field_1A6;
+/*1A7*/	char field_1A7;
+/**initialized to profileData.player1.d4.currentCarSelectionSlotHash?*/
+/*1A8*/	unsigned int slotHash;
+/*1AC*/	int field_1AC;
+/*1B0*/	int field_1B0;
+/*1B4*/	char field_1B4;
+/*1B5*/	char _pad1B5[0x2];
+/*1B7*/	char __end ;
+};
+EXPECT_SIZE(struct CarSelectFNGObject, 0x1B8);
+
 struct PCHelpBarFNGObject {
 	struct FNGObject __parent;
 	struct ObjectLink buttonsLink;
@@ -818,4 +902,432 @@ struct CarPreset { /*4 members, size 338h*/
 /*28*/	char name[32];
 /*48*/	char _pad48[0x2EF];
 /*337*/	char __end ;
+};
+
+struct Player24_60 { /*19 members, size 28h*/
+/*0*/	char field_0;
+/*1*/	char field_1;
+/*2*/	char field_2;
+/*3*/	char field_3;
+/*4*/	char field_4;
+/*5*/	char field_5;
+/*6*/	char field_6;
+/*7*/	char _pad7[0x1];
+/*8*/	int field_8;
+/*C*/	char field_C;
+/*D*/	char _padD[0x3];
+/**initialized to 3*/
+/*10*/	int field_10;
+/*14*/	char field_14;
+/*15*/	char field_15;
+/*16*/	char field_16;
+/*17*/	char field_17;
+/*18*/	char field_18;
+/*19*/	char field_19;
+/*1A*/	char _pad1A[0x2];
+/**initialized to 1.O*/
+/*1C*/	float floatField_1C;
+/**initialized to 12.5*/
+/*20*/	float floatField_20;
+/**initialized to 1.0*/
+/*24*/	float floatField_24;
+};
+EXPECT_SIZE(struct Player24_60, 0x28);
+
+struct Player24 { /*28 members, size B0h*/ 
+/*0*/	int field_0;
+/**initialized to .5*/
+/*4*/	float floatField_4;
+/*8*/	int field_8;
+/*C*/	int field_C;
+/*10*/	char field_10;
+/*11*/	char _pad11[0x3];
+/*14*/	char field_14;
+/*15*/	char field_15;
+/**initialized to 1 if _currentLoadedLanguage is not 0*/
+/*16*/	char useMetricSystem ;
+/*17*/	char field_17;
+/*18*/	char field_18;
+/*19*/	char _pad19[0x3];
+/**initialized to 127.5*/
+/*1C*/	float floatField_1C;
+/**initialized to 127.5*/
+/*20*/	float floatField_20;
+/**initialized to 1.0*/
+/*24*/	float floatField_24;
+/**initialized to 1.0*/
+/*28*/	float floatField_28;
+/**initialized to 0.7*/
+/*2C*/	float floatField_2C;
+/**initialized to 1.0*/
+/*30*/	float floatField_30;
+/**initialized to 1.0*/
+/*34*/	float floatField_34;
+/**initialized to 1.0*/
+/*38*/	float floatField_38;
+/**initialized to 1.0*/
+/*3C*/	float floatField_3C;
+/**initialized to 1.0*/
+/*40*/	float floatField_40;
+/*44*/	int field_44;
+/*48*/	int field_48;
+/*4C*/	int field_4C;
+/*50*/	int field_50;
+/*54*/	int field_54;
+/*58*/	int field_58;
+/*5C*/	int field_5C;
+/*60*/	struct Player24_60 field_60[2];
+};
+EXPECT_SIZE(struct Player24, 0xB0);
+
+struct PlayerD4_10 { /*14 members, size 14h*/
+/*0*/	char field_0;
+/*1*/	char field_1;
+/*2*/	char field_2;
+/*3*/	char field_3;
+/*4*/	char field_4;
+/*5*/	char field_5;
+/*6*/	char field_6;
+/*7*/	char field_7;
+/*8*/	short field_8;
+/*A*/	short field_A;
+/*C*/	int field_C;
+/*10*/	char field_10;
+/*11*/	char field_11;
+/*12*/	char _pad12[0x1];
+/*13*/	char __end ;
+};
+EXPECT_SIZE(struct PlayerD4_10, 0x14);
+
+struct PlayerD4_100_1C { /*6 members, size Ch*/
+/*0*/	short field_0;
+/*2*/	short field_2;
+/*4*/	int field_4;
+/*8*/	char field_8;
+/*9*/	char field_9;
+/*A*/	char _padA[0x1];
+/*B*/	char __end ;
+};
+EXPECT_SIZE(struct PlayerD4_100_1C, 0xC);
+
+struct PlayerD4_100 { /*15 members, size 7Ch*/ 
+/*0*/	char field_0;
+/*1*/	char field_1;
+/*2*/	char field_2;
+/*3*/	char field_3;
+/*4*/	char field_4;
+/*5*/	char field_5;
+/*6*/	char _pad6[0x2];
+/*8*/	int field_8;
+/*C*/	int field_C;
+/*10*/	int field_10;
+/*14*/	char field_14;
+/*15*/	char field_15;
+/*16*/	char _pad16[0x2];
+/*18*/	char field_18;
+/*19*/	char field_19;
+/*1A*/	char field_1A;
+/*1B*/	char _pad1B[0x1];
+/*1C*/	struct PlayerD4_100_1C field_1C[8];
+};
+EXPECT_SIZE(struct PlayerD4_100, 0x7C);
+
+struct PlayerD4 { /*5 members, size 17Ch*/ 
+/*0*/	int field_0;
+/**see 515985
+
+usually a stock car, often STOCK_RX8. some kind of "default car to pick"*/
+/*4*/	unsigned int currentCarSelectionSlotHash[2];
+/*C*/	enum INVENTORY_CAR_FLAGS currentCarSelectionCategory;
+/*10*/	struct PlayerD4_10 field_10[12];
+/*100*/	struct PlayerD4_100 field_100;
+};
+EXPECT_SIZE(struct PlayerD4, 0x17C);
+
+struct TraxConfig { /*3 members, size 8h*/
+/**index in traxEntries*/
+/*0*/	int traxIndex;
+/**0x0 = off, 0x1 = menus, 0x2 = race, 0x3 = all*/
+/*4*/	char playWhen;
+/*5*/	char _pad5[0x2];
+/*7*/	char __end ;
+};
+EXPECT_SIZE(struct TraxConfig, 0x8);
+
+struct InventoryCar$vtable { /*4 members, size 10h*/
+/*0*/	void *dtor;
+/**index in ptrCarData. stock: StockCar::GetCarIndex sponsor: SponsorCar::GetCarIndex else: TunedCar::GetCarIndex*/
+/*4*/	int (*procGetCarIndex)(struct InventoryCar *this);
+/**stock: StockCar::GetCarNameHash sponsor: SponsorCar::GetCarNameHash else: TunedCar::GetCarNameHash*/
+/*8*/	unsigned int (*procGetCarNameHash)(struct InventoryCar *this);
+/**stock: StockCar::vtableProcC sponsor: SponsorCar::vtableProcC else: TunedCar::vtableProcC*/
+/*C*/	int field_C;
+};
+EXPECT_SIZE(struct InventoryCar$vtable, 0x10);
+
+struct InventoryCar { /*6 members, size 18h*/ 
+/**not only a destructor!*/
+/*0*/	struct InventoryCar$vtable *vtable;
+/*4*/	int field_4;
+/**STOCK_PEUGEOT when stock,
+0 when unused tuned, TUNED_CAR_%d when used tuned,
+CAREER_SLOT_%d when career,
+SPONSOR_SNOOP_DOGG when sponsor
+sometimes this is also just hash of the car name? I wanna cry*/
+/*8*/	int slotHash ;
+/*C*/	int floatField_C;
+/**sponsorcar: 1 after hash is assigned, career: inited to 1 | slotHasCar or something?, tunedcar: 1 after car is assigned?*/
+/*10*/	int field_10;
+/*14*/	enum INVENTORY_CAR_FLAGS flags14;
+};
+EXPECT_SIZE(struct InventoryCar, 0x18);
+
+struct StockCar { /*2 members, size 1Ch*/ 
+/*0*/	struct InventoryCar __parent;
+/**index in ptrCarData*/
+/*18*/	int indexInCarData ;
+};
+EXPECT_SIZE(struct StockCar, 0x1C);
+
+struct MenuCarInstance_10_2E0 { /*3 members, size 94h*/ 
+/*0*/	char field_0[40];
+/*28*/	char field_28[40];
+/*50*/	char field_50[68];
+};
+EXPECT_SIZE(struct MenuCarInstance_10_2E0, 0x94);
+
+struct TunedCar360_17 { /*3 members, size 9h*/
+/*0*/	int field_0;
+/*4*/	int field_4;
+/*8*/	char field_8;
+};
+EXPECT_SIZE(struct TunedCar360_17, 0x9);
+
+struct TunedCar360_20 { /*3 members, size 9h*/
+/*0*/	int field_0;
+/*4*/	int field_4;
+/*8*/	char field_8;
+};
+EXPECT_SIZE(struct TunedCar360_20, 0x9);
+
+struct TunedCar360 { /*9 members, size 29h*/ 
+/*0*/	int field_0;
+/*4*/	int field_4;
+/*8*/	int field_8;
+/*C*/	int field_C;
+/*10*/	int field_10;
+/*14*/	short field_14;
+/*16*/	char field_16;
+/*17*/	struct TunedCar360_17 field_17;
+/*20*/	struct TunedCar360_20 field_20;
+};
+EXPECT_SIZE(struct TunedCar360, 0x29);
+
+struct TunedCar18 { /*6 members, size 418h*/ 
+/*0*/	int field_0;
+/*4*/	char _pad4[0x4];
+/**cs hash of struct Car.name0*/
+/*8*/	unsigned int carNameHash;
+/*C*/	char field_C[680];
+/**copied from struct MenuCarInstance at TunedCar18::503950*/
+/*2B4*/	struct MenuCarInstance_10_2E0 field_2B4;
+/*348*/	struct TunedCar360 field_348[5];
+/*415*/	char _pad415[0x2];
+/**probably just padding*/
+/*417*/	char __end ;
+};
+EXPECT_SIZE(struct TunedCar18, 0x418);
+
+struct TunedCar { /*3 members, size 434h*/ 
+/*0*/	struct InventoryCar __parent;
+/*18*/	struct TunedCar18 field_18;
+/*430*/	int field_430;
+};
+EXPECT_SIZE(struct TunedCar, 0x434);
+
+struct OnlineCareerCar { /*1 members, size 434h*/ 
+/*0*/	struct TunedCar __parent;
+};
+EXPECT_SIZE(struct OnlineCareerCar, 0x434);
+
+struct CareerCar434_15C { /*4 members, size 10h*/
+/*0*/	int field_0;
+/*4*/	int field_4;
+/*8*/	int field_8;
+/*C*/	int field_C;
+};
+EXPECT_SIZE(struct CareerCar434_15C, 0x10);
+
+struct CareerCar434_26C { /*4 members, size 10h*/
+/*0*/	int field_0;
+/*4*/	int field_4;
+/*8*/	int field_8;
+/*C*/	int field_C;
+};
+EXPECT_SIZE(struct CareerCar434_26C, 0x10);
+
+struct CareerCar434_27C { /*4 members, size 10h*/
+/*0*/	int field_0;
+/*4*/	int field_4;
+/*8*/	int field_8;
+/*C*/	int field_C;
+};
+EXPECT_SIZE(struct CareerCar434_27C, 0x10);
+
+struct CareerCar434_28C { /*2 members, size 8h*/
+/*0*/	int field_0;
+/*4*/	int field_4;
+};
+EXPECT_SIZE(struct CareerCar434_28C, 0x8);
+
+struct CareerCar434_294 { /*2 members, size 8h*/
+/*0*/	int field_0;
+/*4*/	int field_4;
+};
+EXPECT_SIZE(struct CareerCar434_294, 0x8);
+
+struct CareerCar434_29C { /*4 members, size 10h*/
+/*0*/	int field_0;
+/*4*/	int field_4;
+/*8*/	int field_8;
+/*C*/	int field_C;
+};
+EXPECT_SIZE(struct CareerCar434_29C, 0x10);
+
+struct CareerCar434 { /*10 members, size 3C0h*/ 
+/**87 entries see 503E8B*/
+/*0*/	char field_0[348];
+/*15C*/	struct CareerCar434_15C field_15C;
+/**64 entries see 503E9A*/
+/*16C*/	char field_16C[256];
+/*26C*/	struct CareerCar434_26C field_26C;
+/*27C*/	struct CareerCar434_27C field_27C;
+/*28C*/	struct CareerCar434_28C field_28C;
+/*294*/	struct CareerCar434_294 field_294;
+/*29C*/	struct CareerCar434_29C field_29C;
+/**68 entries see 503EDF*/
+/*2AC*/	char field_2AC[272];
+/*3BC*/	int moneySpentOnCar ;
+};
+EXPECT_SIZE(struct CareerCar434, 0x3C0);
+
+struct CareerCar { /*5 members, size 7F8h*/ 
+/*0*/	struct OnlineCareerCar __parent;
+/*434*/	struct CareerCar434 field_434;
+/**all slots except first are locked and sequentially unlocked when signing sponsors, see Career::SignSponsor and Career::UnlockNextLockedCarSlot*/
+/*7F4*/	char isLocked ;
+/*7F5*/	char hasCarBought ;
+/*7F6*/	char _pad7F6[0x1];
+/*7F7*/	char __end ;
+};
+EXPECT_SIZE(struct CareerCar, 0x7F8);
+
+struct OnlineCar { /*2 members, size 438h*/
+/*0*/	struct OnlineCareerCar __parent;
+/**0 circuit, 1 sprint, 2 drag, 3 drift, 4 url, 5-9 ?, 10 street cross*/
+/*434*/	int onlineCarType ;
+};
+EXPECT_SIZE(struct OnlineCar, 0x438);
+
+struct SponsorCar { /*2 members, size 1Ch*/ 
+/*0*/	struct InventoryCar __parent;
+/**set to hash of SNOOP_DOGG etc, matches name*/
+/*18*/	unsigned int carPresetHash;
+};
+EXPECT_SIZE(struct SponsorCar, 0x1C);
+
+struct CarCollection { /*14 members, size 9D44h*/ 
+/*0*/	struct StockCar stockCars[48];
+/*540*/	int numStockCars;
+/*544*/	struct TunedCar tunedCars[20];
+/*5954*/struct CareerCar careerCars[5];
+/**always 5*/
+/*812C*/int numCareerCarSlots;
+/*8130*/struct OnlineCar onlineCars[6];
+/**always 6*/
+/*9A80*/int numOnlineCarSlots;
+/*9A84*/struct SponsorCar sponsorCars[12];
+/*9BD4*/int numSponsorCars;
+/**initialized to &this->stockCars + i*/
+/*9BD8*/struct StockCar *ptrStockCars[48];
+/**initialized to &this->tunedCars + i*/
+/*9C98*/struct TunedCar *ptrTunedCars[20];
+/**initialized to &this->careerCars + i*/
+/*9CE8*/struct CareerCar *ptrCareerCars[5];
+/**initialized to &this->SponsorCars + i*/
+/*9CFC*/struct SponsorCar *ptrSponsorCars[12];
+/**initialized to &this->onlineCars + i*/
+/*9D2C*/struct OnlineCar *ptrOnlineCars[6];
+};
+EXPECT_SIZE(struct CarCollection, 0x9D44);
+
+struct Player { /*14 members, size AB4Ch*/ 
+/*0*/	char name[32];
+/*20*/	char field_20;
+/*21*/	char _pad21[0x3];
+/*24*/	struct Player24 p24;
+/*D4*/	struct PlayerD4 d4;
+/*250*/	int field_250;
+/*254*/	int field_254;
+/*258*/	char field_258[128];
+/*2D8*/	struct TraxConfig traxConfig[27];
+/*3B0*/	struct CarCollection carCollection;
+/*A0F4*/int field_A0F4;
+/*A0F8*/char field_A0F8;
+/*A0F9*/char field_A0F9;
+/*A0FA*/char field_A0FA;
+/*A0FB*/char _padA0FB[0x1];
+/*A0FC*/char field_A0FC[2640];
+};
+EXPECT_SIZE(struct Player, 0xAB4C);
+
+struct ProfileData { /*84 members, size 29DD8h*/ 
+/*0*/	int field_0;
+/*4*/	char field_4;
+/*5*/	char field_5;
+/*6*/	char _pad6[0x2];
+/*8*/	int field_8;
+/*C*/	int field_C;
+/*10*/	struct Player players[2];
+/*156A8*/enum MENU_STATE menuState;
+/*156AC*/char _pad156AC[0x4];
+/*156B0*/char field_156B0[0xBC];
+/*1576C*/char _pad1576C[0x14];
+/*15780*/int field_15780;
+/*15784*/int field_15784;
+/*15788*/int field_15788;
+/*1578C*/int field_1578C;
+/*15790*/int field_15790;
+/*15794*/char field_15794;
+/*15795*/char _pad15795[0xFF];
+/*15894*/int field_15894;
+/*15898*/char _pad15898[0xFC];
+/*15994*/int field_15994;
+/*15998*/int field_15998;
+/*1599C*/char field_1599C[0xCF4];
+/*16690*/char field_16690;
+/*16691*/char _pad16691[0x10];
+/*166A1*/char field_166A1;
+/*166A2*/char _pad166A2[0x10];
+/*166B2*/char field_166B2;
+/*166B3*/char _pad166B3[0x10];
+/*166C3*/char field_166C3;
+/*166C4*/char _pad166C4[0x32];
+/*166F6*/char field_166F6;
+/*166F7*/char _pad166F7[0x65];
+/*1675C*/char field_1675C;
+/*1675D*/char field_1675D;
+/*1675E*/char _pad1675E[0x2];
+/*16760*/int field_16760;
+/*16764*/int field_16764;
+/*16768*/int field_16768;
+/*1676C*/char field_1676C;
+/*1676D*/char _pad1676D[0x3];
+/*16770*/int field_16770;
+/*16774*/char _pad16774[0x4];
+/*16778*/void *memForWritingSaveData;
+/*1677C*/int field_1677C;
+/*16780*/char _pad16780[0x9BD8];
+/**0 or 1*/
+/*20358*/int currentPlayerIndex;
 };

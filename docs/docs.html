@@ -3461,7 +3461,7 @@ that flag <code>2</code> means it should be visible, so I tried adding that.
 <p class='imgholder'><img src="img/SCREENPRINTF_1.JPG" alt="default string"><br>Cool.</p>
 <p>Then the text can be changed easily by one of the many funcs, for example:
 <pre>
-<a href=funcs.html#537B80>SetUILabelByHashFormattedStringAndMakeVisible</a>("ScreenPrintf.fng", 0xB9D457DE, "0xB9D457DE", "");
+<a href=funcs.html#537B80>SetUILabelByHashFormattedString</a>("ScreenPrintf.fng", 0xB9D457DE, "0xB9D457DE", "");
 </pre>
 <p class='imgholder'><img src="img/SCREENPRINTF_2.JPG" alt="custom strings"><br>Nice.</p>
 <p>A quick search of all the label hashes did not give any result, so it seems like there is no code left in the program
@@ -3536,8 +3536,8 @@ masks. The lowest matching mask gets placed on button1, and so on.
 <li><a href=funcs.html#50B460>RenderCursor</a></li>
 <li><a href=funcs.html#50C900>SetUILabelLanguageString</a></li>
 <li><a href=funcs.html#50C990>SetUIElementTexture</a></li>
-<li><a href=funcs.html#50CA00>HideUIElementAndChildren</a></li>
-<li><a href=funcs.html#50CA50>ShowUIElementAndChildren</a></li>
+<li><a href=funcs.html#50CA00>HideNullableUIElementAndChildren</a></li>
+<li><a href=funcs.html#50CA50>ShowNullableUIElementAndChildren</a></li>
 <li><a href=funcs.html#50CD00>IsPointInRect</a></li>
 <li><a href=funcs.html#517F80>FNGInfo::FindUIElementByHash</a></li>
 <li><a href=funcs.html#517FE0>FNGInfo::FindElementByFieldC</a></li>
@@ -3556,8 +3556,8 @@ masks. The lowest matching mask gets placed on button1, and so on.
 <li><a href=funcs.html#5379C0>FindUIElementByHash</a></li>
 <li><a href=funcs.html#537A10>FindUILabelByHash</a></li>
 <li><a href=funcs.html#537A60>FindUIElementType1ByHash</a></li>
-<li><a href=funcs.html#537B30>SetUILabelFormattedStringAndMakeVisible</a></li>
-<li><a href=funcs.html#537B80>SetUILabelByHashFormattedStringAndMakeVisible</a></li>
+<li><a href=funcs.html#537B30>SetUILabelFormattedString</a></li>
+<li><a href=funcs.html#537B80>SetUILabelByHashFormattedString</a></li>
 <li><a href=funcs.html#542600>SetUILabelByNameFormattedStringAndMakeVisible</a></li>
 <li><a href=funcs.html#537690>UIData::IsPointInUIElement</a></li>
 <li><a href=funcs.html#537BE0>SetNullableUILabelFormattedStringAndMakeVisible</a></li>
@@ -3995,7 +3995,6 @@ which is in file <code>GLOBAL/GLOBALB.BUN</code>).
 <li><a href=vars.html#8A1CCC>ptrCarData</a></li>
 <li><a href=vars.html#835BB8>wcharLoadedProfileName</a></li>
 <li><a href=vars.html#83A9D0>profileData</a>.<a href=structs.html#struc_ProfileData10>player1</a></li>
-<li><a href=vars.html#83A9D0>profileData</a>.<a href=structs.html#struc_ProfileData156A8>someOLState</a></li>
 <li><a href=vars.html#8654A4>_??gameStateSomething</a></li>
 <li><a href=vars.html#89E7E6>isInPerformanceTuning</a></li>
 <li><a href=funcs.html#4035D0>LoadAIStuff</a></li>

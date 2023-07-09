@@ -324,7 +324,6 @@ pre.ida span.hi {
 <li><a href=#enu_INVENTORY_CAR_FLAGS>INVENTORY_CAR_FLAGS</a>
 <li><a href=#enu_CAR_CUSTOMIZE_MODE>CAR_CUSTOMIZE_MODE</a>
 <li><a href=#enu_CAREER_CUSTOMIZE_SHOP_TYPE>CAREER_CUSTOMIZE_SHOP_TYPE</a>
-<li><a href=#enu_GAME_STATE>GAME_STATE</a>
 <li><a href=#enu_MACRO_IPPROTO>MACRO_IPPROTO</a>
 <li><a href=#enu_MACRO_IP>MACRO_IP</a>
 <li><a href=#enu_MACRO_AF>MACRO_AF</a>
@@ -334,6 +333,7 @@ pre.ida span.hi {
 <li><a href=#enu_JOYID>JOYID</a>
 <li><a href=#enu_CHEATTYPE>CHEATTYPE</a>
 <li><a href=#enu_COMMON_HASHES>COMMON_HASHES</a>
+<li><a href=#enu_MENU_STATE>MENU_STATE</a>
 </ul></div><div class='enum sym'>
 <a id=enu_MACRO_WA></a>
 <div>enum <h3>MACRO_WA</h3> { <i>/*199 members*/</i>
@@ -5281,13 +5281,12 @@ Maybe this is used as the "discover" hitmarker (ie the map icon will show from t
 	UIELEMENTFLAGS_10000000 = 0x10000000,
 };</div>
 <a id=enu_INVENTORY_CAR_FLAGS></a>
+<div class=mm><p>used in many places (<a href=structs.html#struc_InventoryCar>struct InventoryCar</a>), but see also <a href=vars.html#7F444C>carSelectCategory</a></div>
 <div>enum <h3>INVENTORY_CAR_FLAGS</h3> { <i>/*5 members*/</i>
 <i id=enu_INVENTORY_CAR_FLAGS1></i>	IS_STOCK_CAR = 0x1,
-<span class='mm'>/**seen for online &amp; tuned cars*/</span>
-	INVENTORY_CAR_FLAG_2 = 0x2,
+<i id=enu_INVENTORY_CAR_FLAGS2></i>	IS_TUNED_CAR = 0x2,
 <i id=enu_INVENTORY_CAR_FLAGS4></i>	IS_CAREER_CAR = 0x4,
 	IS_SPONSOR_CAR = 0x8,
-<span class='mm'>/**seen for online cars*/</span>
 	IS_ONLINE_CAR = 0x10,
 };</div>
 <a id=enu_CAR_CUSTOMIZE_MODE></a>
@@ -5305,10 +5304,6 @@ Maybe this is used as the "discover" hitmarker (ie the map icon will show from t
 	CAREER_CUSTOMIZE_SHOP_TYPE_PAINT = 0x2,
 	CAREER_CUSTOMIZE_SHOP_TYPE_ICE = 0x3,
 	CAREER_CUSTOMIZE_SHOP_TYPE_UNIQUES = 0x6,
-};</div>
-<a id=enu_GAME_STATE></a>
-<div>enum <h3>GAME_STATE</h3> { <i>/*1 members*/</i>
-	GAME_STATE_CUSTOMIZE_CAR = 0x20,
 };</div>
 <a id=enu_MACRO_IPPROTO></a>
 <div>enum <h3>MACRO_IPPROTO</h3> { <i>/*1 members*/</i>
@@ -5659,5 +5654,18 @@ Maybe this is used as the "discover" hitmarker (ie the map icon will show from t
 <a id=enu_COMMON_HASHES></a>
 <div>enum <h3>COMMON_HASHES</h3> { <i>/*1 members*/</i>
 	DDAY_EVENT_A = 0xDD60E402,
+};</div>
+<a id=enu_MENU_STATE></a>
+<div class=mm><p>seems to be used mostly to determine what actions are available and what menu to return to when exiting specific screens</div>
+<div>enum <h3>MENU_STATE</h3> { <i>/*8 members*/</i>
+	MENU_STATE_CAREER_MENU = 0x1,
+	MENU_STATE_MAIN_MENU = 0x2,
+<span class='mm'>/**used at 4EED32*/</span>
+	MENU_STATE_4 = 0x4,
+<i id=enu_MENU_STATE8></i>	MENU_STATE_ONLINE_MAIN_MENU = 0x8,
+	MENU_STATE_OPTIONS = 0x10,
+	MENU_STATE_CAR_CUSTOMIZE = 0x20,
+<i id=enu_MENU_STATE100></i>	MENU_STATE_CUSTOMIZE_FROM_ONLINE_MAIN_MENU = 0x100,
+<i id=enu_MENU_STATE200></i>	MENU_STATE_LAN_MAIN_MENU = 0x200,
 };</div>
 </div></body></html>

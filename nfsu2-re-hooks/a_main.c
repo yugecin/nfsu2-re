@@ -58,6 +58,7 @@ static void stub() {}
 //#include "hook-realcore-filesystem.c"
 //#include "replace-440BB0-Pool__Extend.c"
 //#include "replace-440DF0-CreatePool.c"
+#include "replace-4EED10-CarSelectFNGObject__ChangeCategory.c"
 //#include "replace-50B790-ShowFNG.c"
 //#include "replace-50CD00-IsPointInRect.c"
 //#include "replace-50CDB0-DidCursorPressInRect.c"

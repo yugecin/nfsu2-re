@@ -21,3 +21,5 @@ char *canUseQToExit = (char*) 0x836494;
 struct PCHelpBarFNGObject **pcHelpbar = (void*) 0x8384D8;
 struct PathsData *pathsData = (void*) 0x88F298;
 char **careerStringPool838428 = (char**) 0x838428;
+struct ProfileData *profileData = (void*) 0x83A9D0;
+enum INVENTORY_CAR_FLAGS *carSelectCategory = (void*) 0x7F444C;

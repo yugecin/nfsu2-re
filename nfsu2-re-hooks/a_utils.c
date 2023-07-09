@@ -31,6 +31,28 @@ int isprocstaticmem(int loc)
 }
 
 static
+__declspec(naked)
+void*
+__stdcall
+ThisCallNoArgs(int addr, void *this)
+{
+	_asm { pop eax } // ret addr
+	_asm { pop ecx } // target addr
+	_asm { pop ecx } // this
+	_asm { push eax } // ret addr
+	_asm { jmp dword ptr [esp-4] }
+}
+
+static
+__declspec(naked)
+void*
+__stdcall
+ThisCallOneArg(int addr, void *this, void *arg0)
+{
+	_asm { jmp ThisCallNoArgs }
+}
+
+static
 __declspec(naked) int nfsu2_stricmp(char *a, char *b)
 {
 	_asm {

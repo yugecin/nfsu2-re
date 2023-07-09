@@ -731,6 +731,18 @@
 			</FileConfiguration>
 		</File>
 		<File
+			RelativePath=".\replace-4EED10-CarSelectFNGObject__ChangeCategory.c"
+			>
+			<FileConfiguration
+				Name="Debug|Win32"
+				ExcludedFromBuild="true"
+				>
+				<Tool
+					Name="VCCLCompilerTool"
+				/>
+			</FileConfiguration>
+		</File>
+		<File
 			RelativePath=".\replace-50B790-CreateFNGObject.c"
 			>
 			<FileConfiguration

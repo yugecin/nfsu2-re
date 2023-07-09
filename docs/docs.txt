@@ -3930,7 +3930,6 @@ which is in file {GLOBAL/GLOBALB.BUN}).                                         
 - 8A1CCC
 - 835BB8
 - 83A9D0.10
-- 83A9D0.156A8
 - 8654A4
 - 89E7E6
 - 4035D0

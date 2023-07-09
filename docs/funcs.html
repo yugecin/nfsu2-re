@@ -284,7 +284,7 @@ pre.ida span.hi {
 <a href='cheatsheet.html'>cheatsheet</a></nav>
 </header>
 <div class='func'>
-<h2>Functions (1619)</h2>
+<h2>Functions (1623)</h2>
 <ul>
 <li><a href=#4012B0>
 ??SomeUpdatePosition</a>
@@ -577,9 +577,11 @@ EngageMessageDialogFNGObject::MessageHandler</a>
 <li><a href=#497BF0>
 CarSelectFNGObject::InitializeProgressBars</a>
 <li><a href=#497DA0>
-GetUnlockTypeToCheckBasedOnOnlineState</a>
+GetUnlockTypeToCheckBasedOnMenuState</a>
+<li><a href=#497EE0>
+CarSelectFNGObject::CountAvailableCars</a>
 <li><a href=#497F20>
-SetRaceDataUIElementTextForRaceTypeBasedOnOnlineCarTypeAndMakeVisible</a>
+CarSelectFNGObject::UpdateRankedModeLabel</a>
 <li><a href=#498070>
 TwoPPressStartFNGObject::MessageHandler</a>
 <li><a href=#498F00>
@@ -757,7 +759,7 @@ StatusMasterFNGObject::MessageHandler</a>
 <li><a href=#4B2240>
 FNGINIT_UI_EngageMessageDialog.fng</a>
 <li><a href=#4B2310>
-CarSelectFNGObject::UpdateUIForSelectedCar</a>
+CarSelectFNGObject::UpdateUI</a>
 <li><a href=#4B2860>
 CarSelectFNGObject::DeleteAllEntries</a>
 <li><a href=#4B2890>
@@ -989,7 +991,7 @@ ReplayControlFNGObject::MessageHandler</a>
 <li><a href=#4D8030>
 GarageMainFNGObject_234::4D8030</a>
 <li><a href=#4D8C70>
-GarageMainFNGObject::4D8C70</a>
+GarageMainFNGObject::ShowCar?</a>
 <li><a href=#4D8D20>
 GarageMainFNGObject::MessageHandler</a>
 <li><a href=#4D8F20>
@@ -1052,6 +1054,8 @@ FNGINIT_UI_Status_Master.fng</a>
 SMSMailboxFNGObject::ctor</a>
 <li><a href=#4E2050>
 FNGINIT_UI_SMS_Mailbox.fng</a>
+<li><a href=#4E22E0>
+CarSelectFNGObject::InitializeBrowsableCars</a>
 <li><a href=#4E2A50>
 QRModeSelectFNGObject::ctor</a>
 <li><a href=#4E2F30>
@@ -1180,6 +1184,10 @@ StatusCareerFNGObject::ctor</a>
 FNGINIT_UI_Status_Career.fng</a>
 <li><a href=#4EEB90>
 CarSelectFNGObject::InitializeBrowsableCarsAndSelectFirst</a>
+<li><a href=#4EEC90>
+CarSelectFNGObject::ResetBrowableCars</a>
+<li><a href=#4EED10>
+CarSelectFNGObject::ChangeCategory</a>
 <li><a href=#4EF280>
 FNGINIT_UI_QRModeSelect.fng</a>
 <li><a href=#4EF3F0>
@@ -1625,9 +1633,9 @@ FormatWithSinglePlaceholderValueTimed_1</a>
 <li><a href=#50C990>
 SetUIElementTexture</a>
 <li><a href=#50CA00>
-HideUIElementAndChildren</a>
+HideNullableUIElementAndChildren</a>
 <li><a href=#50CA50>
-ShowUIElementAndChildren</a>
+ShowNullableUIElementAndChildren</a>
 <li><a href=#50CD00>
 IsPointInRect</a>
 <li><a href=#50CD70>
@@ -2297,9 +2305,9 @@ SetNullableUILabelWcharString</a>
 <li><a href=#537AD0>
 SetUILabelByFngByHashWcharText</a>
 <li><a href=#537B30>
-SetUILabelFormattedStringAndMakeVisible</a>
+SetUILabelFormattedString</a>
 <li><a href=#537B80>
-SetUILabelByHashFormattedStringAndMakeVisible</a>
+SetUILabelByHashFormattedString</a>
 <li><a href=#537BE0>
 SetNullableUILabelFormattedStringAndMakeVisible</a>
 <li><a href=#537C00>
@@ -3938,10 +3946,12 @@ See <code><a class='ext' href='https://github.com/yugecin/nfsu2-re/blob/master/n
 <div><i>497BF0</i> void __thiscall <h3><a href=structs.html#struc_CarSelectFNGObject>CarSelectFNGObject</a>::InitializeProgressBars</h3>(<a href=structs.html#struc_CarSelectFNGObject>struct CarSelectFNGObject</a> *this);</div>
 <a id=497DA0></a>
 <div class=mm><p>to use for <a href=funcs.html#534850>CarCollection::CountAvailableCars</a> and/or <a href=funcs.html#534180>IsCarUnlocked</a></div>
-<div><i>497DA0</i> int __cdecl <h3>GetUnlockTypeToCheckBasedOnOnlineState</h3>();</div>
+<div><i>497DA0</i> int __cdecl <h3>GetUnlockTypeToCheckBasedOnMenuState</h3>();</div>
+<a id=497EE0></a>
+<div><i>497EE0</i> int __thiscall <h3><a href=structs.html#struc_CarSelectFNGObject>CarSelectFNGObject</a>::CountAvailableCars</h3>(<a href=structs.html#struc_CarSelectFNGObject>struct CarSelectFNGObject</a> *this, <a href=enums.html#enu_INVENTORY_CAR_FLAGS>enum INVENTORY_CAR_FLAGS</a> flagsToCheck);</div>
 <a id=497F20></a>
-<div class=mm><p>ui element "RaceMode_data"</div>
-<div><i>497F20</i> void __cdecl <h3>SetRaceDataUIElementTextForRaceTypeBasedOnOnlineCarTypeAndMakeVisible</h3>(<a href=structs.html#struc_OnlineCar>struct OnlineCar</a> *onlineCar);</div>
+<div class=mm><p>ui element "RaceMode_data", sets "ranked mode" label to "circuit" etc based on selected online car</div>
+<div><i>497F20</i> void __thiscall <h3><a href=structs.html#struc_CarSelectFNGObject>CarSelectFNGObject</a>::UpdateRankedModeLabel</h3>(<a href=structs.html#struc_CarSelectFNGObject>struct CarSelectFNGObject</a> *this, <a href=structs.html#struc_OnlineCar>struct OnlineCar</a> *onlineCar);</div>
 <a id=498070></a>
 <div><i>498070</i> <h3><a href=structs.html#struc_TwoPPressStartFNGObject>TwoPPressStartFNGObject</a>::MessageHandler</h3></div>
 <a id=498F00></a>
@@ -4133,7 +4143,8 @@ message should only be <a href=enums.html#enu_UIMESSAGES9120409E>UIMSG_GO_LEFT</
 <a id=4B2240></a>
 <div><i>4B2240</i> int __cdecl <h3>FNGINIT_UI_EngageMessageDialog.fng</h3>(<a href=structs.html#struc_FNGShowData>struct FNGShowData</a> *fngShowData);</div>
 <a id=4B2310></a>
-<div><i>4B2310</i> <h3><a href=structs.html#struc_CarSelectFNGObject>CarSelectFNGObject</a>::UpdateUIForSelectedCar</h3></div>
+<div class=mm><p>called when selected car changes, when filter changes, ..</div>
+<div><i>4B2310</i> void __thiscall <h3><a href=structs.html#struc_CarSelectFNGObject>CarSelectFNGObject</a>::UpdateUI</h3>(<a href=structs.html#struc_CarSelectFNGObject>struct CarSelectFNGObject</a> *this);</div>
 <a id=4B2860></a>
 <div><i>4B2860</i> void __thiscall <h3><a href=structs.html#struc_CarSelectFNGObject>CarSelectFNGObject</a>::DeleteAllEntries</h3>(<a href=structs.html#struc_CarSelectFNGObject>struct CarSelectFNGObject</a> *this);</div>
 <a id=4B2890></a>
@@ -4374,7 +4385,7 @@ If it's found in the primary controls link: return its index, if it's found in t
 <a id=4D8030></a>
 <div><i>4D8030</i> int __thiscall <h3><a href=structs.html#struc_GarageMainFNGObject_234>GarageMainFNGObject_234</a>::4D8030</h3>(<a href=structs.html#struc_GarageMainFNGObject_234>struct GarageMainFNGObject_234</a> *this, <a href=structs.html#struc_MenuCarInstance>struct MenuCarInstance</a> *arg4);</div>
 <a id=4D8C70></a>
-<div><i>4D8C70</i> int __thiscall <h3><a href=structs.html#struc_GarageMainFNGObject>GarageMainFNGObject</a>::4D8C70</h3>(<a href=structs.html#struc_GarageMainFNGObject>struct GarageMainFNGObject</a> *this, <a href=structs.html#struc_MenuCarInstance>struct MenuCarInstance</a> *carInstance, int);</div>
+<div><i>4D8C70</i> int __thiscall <h3><a href=structs.html#struc_GarageMainFNGObject>GarageMainFNGObject</a>::ShowCar?</h3>(<a href=structs.html#struc_GarageMainFNGObject>struct GarageMainFNGObject</a> *this, <a href=structs.html#struc_MenuCarInstance>struct MenuCarInstance</a> *carInstance, int);</div>
 <a id=4D8D20></a>
 <div><i>4D8D20</i> <h3><a href=structs.html#struc_GarageMainFNGObject>GarageMainFNGObject</a>::MessageHandler</h3></div>
 <a id=4D8F20></a>
@@ -4439,6 +4450,8 @@ If it's found in the primary controls link: return its index, if it's found in t
 <div><i>4E1BF0</i> void __thiscall <h3><a href=structs.html#struc_SMSMailboxFNGObject>SMSMailboxFNGObject</a>::ctor</h3>(<a href=structs.html#struc_SMSMailboxFNGObject>struct SMSMailboxFNGObject</a> *this, <a href=structs.html#struc_FNGShowData>struct FNGShowData</a> *fngShowData);</div>
 <a id=4E2050></a>
 <div><i>4E2050</i> <h3>FNGINIT_UI_SMS_Mailbox.fng</h3></div>
+<a id=4E22E0></a>
+<div><i>4E22E0</i> void __thiscall <h3><a href=structs.html#struc_CarSelectFNGObject>CarSelectFNGObject</a>::InitializeBrowsableCars</h3>(<a href=structs.html#struc_CarSelectFNGObject>struct CarSelectFNGObject</a> *this, <a href=enums.html#enu_INVENTORY_CAR_FLAGS>enum INVENTORY_CAR_FLAGS</a> flags);</div>
 <a id=4E2A50></a>
 <div><i>4E2A50</i> <a href=structs.html#struc_QRModeSelectFNGObject>struct QRModeSelectFNGObject</a> *__thiscall <h3><a href=structs.html#struc_QRModeSelectFNGObject>QRModeSelectFNGObject</a>::ctor</h3>(<a href=structs.html#struc_QRModeSelectFNGObject>struct QRModeSelectFNGObject</a> *this, <a href=structs.html#struc_FNGShowData>struct FNGShowData</a> *fngShowData);</div>
 <a id=4E2F30></a>
@@ -4566,7 +4579,13 @@ If it's found in the primary controls link: return its index, if it's found in t
 <a id=4EEB10></a>
 <div><i>4EEB10</i> <h3>FNGINIT_UI_Status_Career.fng</h3></div>
 <a id=4EEB90></a>
-<div><i>4EEB90</i> <h3><a href=structs.html#struc_CarSelectFNGObject>CarSelectFNGObject</a>::InitializeBrowsableCarsAndSelectFirst</h3></div>
+<div><i>4EEB90</i> void __thiscall <h3><a href=structs.html#struc_CarSelectFNGObject>CarSelectFNGObject</a>::InitializeBrowsableCarsAndSelectFirst</h3>(<a href=structs.html#struc_CarSelectFNGObject>struct CarSelectFNGObject</a> *this);</div>
+<a id=4EEC90></a>
+<div class=mm><p>relies on <a href=vars.html#7F444C>carSelectCategory</a> to know what cars to display, resets it to <code><a href=enums.html#enu_INVENTORY_CAR_FLAGS1>IS_STOCK_CAR</a> | <a href=enums.html#enu_INVENTORY_CAR_FLAGS2>IS_TUNED_CAR</a></code> if the result would be empty</div>
+<div><i>4EEC90</i> void __thiscall <h3><a href=structs.html#struc_CarSelectFNGObject>CarSelectFNGObject</a>::ResetBrowableCars</h3>(<a href=structs.html#struc_CarSelectFNGObject>struct CarSelectFNGObject</a> *this);</div>
+<a id=4EED10></a>
+<div class=mm><p>message: 5073EF13 prev, D9FEEC59 next</div>
+<div><i>4EED10</i> void __thiscall <h3><a href=structs.html#struc_CarSelectFNGObject>CarSelectFNGObject</a>::ChangeCategory</h3>(<a href=structs.html#struc_CarSelectFNGObject>struct CarSelectFNGObject</a> *this, unsigned int message);</div>
 <a id=4EF280></a>
 <div><i>4EF280</i> <h3>FNGINIT_UI_QRModeSelect.fng</h3></div>
 <a id=4EF3F0></a>
@@ -5142,9 +5161,9 @@ using a visitor that has <a href=funcs.html#5374F0>UIElementVisitor_ClearFNGCach
 <div class=mm><p>only if it's not already that value; then also add <a href=enums.html#enu_UIELEMENTFLAGS400000>NEED_UPDATE_0</a> to its <a href=structs.html#struc_UIElement1C>flags</a></div>
 <div><i>50C990</i> void __cdecl <h3>SetUIElementTexture</h3>(<a href=structs.html#struc_UIElement>struct UIElement</a> *element, unsigned int textureHash);</div>
 <a id=50CA00></a>
-<div><i>50CA00</i> void __cdecl <h3>HideUIElementAndChildren</h3>(<a href=structs.html#struc_UIElement>struct UIElement</a> *uielement);</div>
+<div><i>50CA00</i> void __cdecl <h3>HideNullableUIElementAndChildren</h3>(<a href=structs.html#struc_UIElement>struct UIElement</a> *uielement);</div>
 <a id=50CA50></a>
-<div><i>50CA50</i> void __cdecl <h3>ShowUIElementAndChildren</h3>(<a href=structs.html#struc_UIElement>struct UIElement</a> *uielement);</div>
+<div><i>50CA50</i> void __cdecl <h3>ShowNullableUIElementAndChildren</h3>(<a href=structs.html#struc_UIElement>struct UIElement</a> *uielement);</div>
 <a id=50CD00></a>
 <div class=mm><p>Only seen this being called when there's a list on screen so far.</div>
 <div><i>50CD00</i> int __cdecl <h3>IsPointInRect</h3>(float x, float y, <a href=structs.html#struc__POS>struct _POS</a> *pos, <a href=structs.html#struc__SIZE>struct _SIZE</a> *size);</div>
@@ -5466,7 +5485,7 @@ TODO check other xref, probably for displaying icon ingame</div>
 <div><i>515BF0</i> <h3><a href=structs.html#struc_ProfileData156B0>ProfileData156B0</a>::WriteToSaveData</h3></div>
 <a id=5162D0></a>
 <div class=mm><p>searches all cars (stock/tuned/career/online/sponsor)</div>
-<div><i>5162D0</i> <a href=structs.html#struc_InventoryCar>struct InventoryCar</a> *__thiscall <h3><a href=structs.html#struc_CarCollection>CarCollection</a>::FindCarWithFlagAfterGivenCar</h3>(<a href=structs.html#struc_CarCollection>struct CarCollection</a> *this, int flag14ToCheck, <a href=structs.html#struc_InventoryCar>struct InventoryCar</a> *givenCar);</div>
+<div><i>5162D0</i> <a href=structs.html#struc_InventoryCar>struct InventoryCar</a> *__thiscall <h3><a href=structs.html#struc_CarCollection>CarCollection</a>::FindCarWithFlagAfterGivenCar</h3>(<a href=structs.html#struc_CarCollection>struct CarCollection</a> *this, <a href=enums.html#enu_INVENTORY_CAR_FLAGS>enum INVENTORY_CAR_FLAGS</a> flag, <a href=structs.html#struc_InventoryCar>struct InventoryCar</a> *givenCar);</div>
 <a id=516340></a>
 <div><i>516340</i> int __thiscall <h3><a href=structs.html#struc_CarCollection>CarCollection</a>::IsCareerSlot</h3>(<a href=structs.html#struc_CarCollection>struct CarCollection</a> *this, unsigned int slotNameHash);</div>
 <a id=516360></a>
@@ -6045,11 +6064,11 @@ TODO</div>
 <a id=537B30></a>
 <div class=mm><p>paramsPtr points to array of parameters
 Delegates to <a href=funcs.html#535FE0>UILabel::SetString</a>.</div>
-<div><i>537B30</i> int __cdecl <h3>SetUILabelFormattedStringAndMakeVisible</h3>(<a href=structs.html#struc_UILabel>struct UILabel</a> *label, char *format, void *paramsPtr);</div>
+<div><i>537B30</i> int __cdecl <h3>SetUILabelFormattedString</h3>(<a href=structs.html#struc_UILabel>struct UILabel</a> *label, char *format, void *paramsPtr);</div>
 <a id=537B80></a>
 <div class=mm><p>Only used for a few things, such as: sms 'from', sms 'subject', part name in customize.
-Delegates to <a href=funcs.html#537B30>SetUILabelFormattedStringAndMakeVisible</a></div>
-<div><i>537B80</i> int __cdecl <h3>SetUILabelByHashFormattedStringAndMakeVisible</h3>(char *fngName, unsigned int hash, char *format, int parameter);</div>
+Delegates to <a href=funcs.html#537B30>SetUILabelFormattedString</a></div>
+<div><i>537B80</i> int __cdecl <h3>SetUILabelByHashFormattedString</h3>(char *fngName, unsigned int hash, char *format, int parameter);</div>
 <a id=537BE0></a>
 <div class=mm><p>varargs</div>
 <div><i>537BE0</i> int <h3>SetNullableUILabelFormattedStringAndMakeVisible</h3>(<a href=structs.html#struc_UILabel>struct UILabel</a> *label, char *format, int params, ...);</div>
@@ -6117,7 +6136,7 @@ also sets <code>this-&gt;<a href=structs.html#struc_Career873D>field_873D</a> = 
 <div class=mm><p>Unloads FNG packages?</div>
 <div><i>5425A0</i> int __cdecl <h3>UnloadBinSection30203_30210</h3>(<a href=structs.html#struc_BinSection>struct BinSection</a> *bindata);</div>
 <a id=542600></a>
-<div class=mm><p>Uses <a href=funcs.html#4953C0>FindUILabelByName</a>, then <a href=funcs.html#537B30>SetUILabelFormattedStringAndMakeVisible</a>.</div>
+<div class=mm><p>Uses <a href=funcs.html#4953C0>FindUILabelByName</a>, then <a href=funcs.html#537B30>SetUILabelFormattedString</a>.</div>
 <div><i>542600</i> int __cdecl <h3>SetUILabelByNameFormattedStringAndMakeVisible</h3>(char *fngName, char *uiElementName, char *format, int parameter);</div>
 <a id=5426C0></a>
 <div class=mm><p>send command to UI element?</div>
@@ -6199,12 +6218,12 @@ basename will be used to get ui elements with hash %s_Backing, %s_Handle, ...</d
 <a id=54E6E0></a>
 <div class=mm><p>Sets buttons and background of the help bar, updates profile name display.
 See <a href=enums.html#enu_PCHELPBARFLAGS>enum PCHELPBARFLAGS</a>
-Mask gets adjusted based on <a href=vars.html#83A9D0>profileData</a>.<a href=structs.html#struc_ProfileData156A8>someOLState</a> and <a href=vars.html#8654A4>_??gameStateSomething</a>:
+Mask gets adjusted based on <a href=vars.html#83A9D0>profileData</a>.<a href=structs.html#struc_ProfileData156A8>menuState</a> and <a href=vars.html#8654A4>_??gameStateSomething</a>:
 <pre>
-if ((<a href=vars.html#83A9D0>profileData</a>.<a href=structs.html#struc_ProfileData156A8>someOLState</a> == 8 || <a href=vars.html#83A9D0>profileData</a>.<a href=structs.html#struc_ProfileData156A8>someOLState</a> == 0x100) &amp;&amp; <a href=vars.html#8654A4>_??gameStateSomething</a> == 3 &amp;&amp; (mask &amp; BUTTON_PC_NAV_QUIT)) {
+if ((<a href=vars.html#83A9D0>profileData</a>.<a href=structs.html#struc_ProfileData156A8>menuState</a> == <a href=enums.html#enu_MENU_STATE8>MENU_STATE_ONLINE_MAIN_MENU</a> || <a href=vars.html#83A9D0>profileData</a>.<a href=structs.html#struc_ProfileData156A8>menuState</a> == <a href=enums.html#enu_MENU_STATE100>MENU_STATE_CUSTOMIZE_FROM_ONLINE_MAIN_MENU</a>) &amp;&amp; <a href=vars.html#8654A4>_??gameStateSomething</a> == 3 &amp;&amp; (mask &amp; BUTTON_PC_NAV_QUIT)) {
         mask = (mask &amp; ~PC_NAV_QUIT) | BUTTON_PC_NAV_LOGOFF;
 }
-if (<a href=vars.html#83A9D0>profileData</a>.<a href=structs.html#struc_ProfileData156A8>someOLState</a> == 0x200 &amp;&amp; (mask &amp; BUTTON_PC_NAV_EA_MESSENGER)) {
+if (<a href=vars.html#83A9D0>profileData</a>.<a href=structs.html#struc_ProfileData156A8>menuState</a> == <a href=enums.html#enu_MENU_STATE200>MENU_STATE_LAN_MAIN_MENU</a> &amp;&amp; (mask &amp; BUTTON_PC_NAV_EA_MESSENGER)) {
         mask &amp;= ~BUTTON_PC_NAV_EA_MESSENGER;
 }
 </pre>
@@ -6212,7 +6231,7 @@ if (<a href=vars.html#83A9D0>profileData</a>.<a href=structs.html#struc_ProfileD
 <div><i>54E6E0</i> void __thiscall <h3><a href=structs.html#struc_PCHelpBarFNGObject>PCHelpBarFNGObject</a>::SyncByMask</h3>(<a href=structs.html#struc_PCHelpBarFNGObject>struct PCHelpBarFNGObject</a> *this, int someMask, char *fngName);</div>
 <a id=54F980></a>
 <div class=mm><p>this smells like a memory leak
-elaborate way to get the current parts browser UI to show</div>
+elaborate way to determine which parts browser UI to show</div>
 <div><i>54F980</i> <a href=structs.html#struc_s54F980>struct s54F980</a> *__cdecl <h3>AllocateAndInitializes54F980</h3>();</div>
 <a id=551070></a>
 <div><i>551070</i> int __thiscall <h3><a href=structs.html#struc_Career887C>Career887C</a>::551070</h3>(<a href=structs.html#struc_Career887C>struct Career887C</a> *this, int);</div>
@@ -6434,7 +6453,7 @@ Uses <code>0</code> for <a href=structs.html#struc_DialogInfo318>escMessage</a> 
 <div><i>55B520</i> <h3>FNGINIT_UI_MagazineSelect.fng</h3></div>
 <a id=55B5C0></a>
 <div class=mm><p>also called <code>MenuScreen::BaseNotify</code></div>
-<div><i>55B5C0</i> int __thiscall <h3><a href=structs.html#struc_FNGObject>FNGObject</a>::BaseNotify</h3>(<a href=structs.html#struc_FNGObject>struct FNGObject</a> *this, unsigned int message, int, int, int);</div>
+<div><i>55B5C0</i> int __thiscall <h3><a href=structs.html#struc_FNGObject>FNGObject</a>::BaseNotify</h3>(<a href=structs.html#struc_FNGObject>struct FNGObject</a> *this, unsigned int message, int, int, <a href=structs.html#struc_FNGInfo>struct FNGInfo</a> *fngInfo);</div>
 <a id=55C010></a>
 <div><i>55C010</i> <a href=structs.html#struc_ICEMAINFNGObject>struct ICEMAINFNGObject</a> *__thiscall <h3><a href=structs.html#struc_ICEMAINFNGObject>ICEMAINFNGObject</a>::ctor</h3>(<a href=structs.html#struc_ICEMAINFNGObject>struct ICEMAINFNGObject</a> *this, <a href=structs.html#struc_FNGShowData>struct FNGShowData</a> *fngShowData);</div>
 <a id=55C520></a>

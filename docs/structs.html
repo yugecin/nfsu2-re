@@ -2750,7 +2750,7 @@ return amount of bytes actually read*/</span>
 <div>struct <h3>FNGObject$vtable</h3> { <i>/*4 members, size 10h*/</i>
 <i>/*0*/	</i>int dtor <u></u>;
 <i>/*4*/	int field_4;</i>
-<i>/*8*/	</i>int (__thiscall *procMessageHandler)(<a href=structs.html#struc_FNGObject>struct FNGObject</a> *this, unsigned int message, int, int, int);
+<i>/*8*/	</i>int (__thiscall *procMessageHandler)(<a href=structs.html#struc_FNGObject>struct FNGObject</a> *this, unsigned int message, int, int, <a href=structs.html#struc_FNGInfo>struct FNGInfo</a> *fngInfo);
 <i>/*C*/	int field_C;</i>
 };
 <i>EXPECT_SIZE(struct FNGObject$vtable, 0x10);</i></div>
@@ -2794,7 +2794,7 @@ return amount of bytes actually read*/</span>
 <li><!--551DE0-->
 <pre><i>551DE0</i> <a href=funcs.html#551DE0 title='int __thiscall FNGObject__ctor(struct FNGObject *this, struct FNGShowData *fngShowData);'>FNGObject::ctor</a></pre>
 <li><!--55B5C0-->
-<pre><i>55B5C0</i> <a href=funcs.html#55B5C0 title='int __thiscall FNGObject__BaseNotify(struct FNGObject *this, unsigned int message, int, int, int);'>FNGObject::BaseNotify</a></pre>
+<pre><i>55B5C0</i> <a href=funcs.html#55B5C0 title='int __thiscall FNGObject__BaseNotify(struct FNGObject *this, unsigned int message, int, int, struct FNGInfo *fngInfo);'>FNGObject::BaseNotify</a></pre>
 </ul>
 <a id=struc_OptionsPCControllerFNGObject></a>
 <div>struct <h3>OptionsPCControllerFNGObject</h3> { <i>/*42 members, size 15Ch*/</i> <em></em>
@@ -2939,8 +2939,8 @@ return amount of bytes actually read*/</span>
 <i>/*84*/	int field_84;</i>
 <i>/*88*/	</i><a href=#struc_ScrollingThing>struct ScrollingThing</a> scrollingThing;
 <i>/*E0*/	int field_E0;</i>
-<i>/*E4*/	</i>int manufacturerLogoUIElement <u></u>;
-<i>/*E8*/	</i>int carBadgeUIElement <u></u>;
+<i>/*E4*/	</i><a href=structs.html#struc_UIElementType1>struct UIElementType1</a> *manufacturerLogoUIElement;
+<i>/*E8*/	</i><a href=structs.html#struc_UIElementType1>struct UIElementType1</a> *carBadgeUIElement;
 <span class='mm'>/**1 or 2*/</span>
 <i>/*EC*/	</i>int browsingPlayer <u></u>;
 <i>/*F0*/	</i><a href=#struc_UIProgressBar>struct UIProgressBar</a> accelerationIndicator;
@@ -2990,7 +2990,7 @@ return amount of bytes actually read*/</span>
 <i id=struc_CareerCarLotFNGObject_5010></i><i>/*10*/	</i><a href=#struc_ObjectLink>struct ObjectLink</a> link;
 <i>/*18*/	int field_18;</i>
 <i>/*1C*/	int field_1C;</i>
-<i>/*20*/	<a href=#struc_MenuCarInstance>struct MenuCarInstance</a> field_20;</i>
+<i>/*20*/	</i><a href=#struc_MenuCarInstance>struct MenuCarInstance</a> carInstance;
 <span class='mm'>/**1 or 2*/</span>
 <i>/*910*/	</i>unsigned int playerId;
 <span class='mm'>/**just a guess*/</span>
@@ -2999,7 +2999,7 @@ return amount of bytes actually read*/</span>
 <i>/*918*/	</i><a href=structs.html#struc_Car>struct Car</a> *car;
 <i>/*91C*/	int field_91C;</i>
 <span class='mm'>/**gets its value from <a href=structs.html#struc_InventoryCar>struct InventoryCar</a>.<a href=structs.html#struc_InventoryCar8>slotHash</a>*/</span>
-<i>/*920*/	</i>int slotHash <u></u>;
+<i>/*920*/	</i>unsigned int slotHash;
 <i>/*924*/	int field_924;</i>
 <i>/*928*/	int field_928;</i>
 <i>/*92C*/	char _pad92C[0x3];</i>
@@ -3060,7 +3060,7 @@ return amount of bytes actually read*/</span>
 </ul>
 <a id=struc_MenuCarInstance></a>
 <div>struct <h3>MenuCarInstance</h3> { <i>/*16 members, size 8F0h*/</i> <em></em>
-<i>/*0*/	</i>int carIndex <u></u>;
+<i>/*0*/	</i>int carIndex;
 <i>/*4*/	char field_4;</i>
 <i>/*5*/	char field_5;</i>
 <i>/*6*/	char field_6;</i>
@@ -3778,7 +3778,7 @@ return amount of bytes actually read*/</span>
 <i>EXPECT_SIZE(struct GarageMainFNGObject, 0x280);</i></div>
 <ul>
 <li><!--4D8C70-->
-<pre><i>4D8C70</i> <a href=funcs.html#4D8C70 title='int __thiscall GarageMainFNGObject__4D8C70(struct GarageMainFNGObject *this, struct MenuCarInstance *carInstance, int);'>GarageMainFNGObject::4D8C70</a></pre>
+<pre><i>4D8C70</i> <a href=funcs.html#4D8C70 title='int __thiscall GarageMainFNGObject__ShowCar_(struct GarageMainFNGObject *this, struct MenuCarInstance *carInstance, int);'>GarageMainFNGObject::ShowCar?</a></pre>
 <li><!--4D8D20-->
 <pre><i>4D8D20</i> <a href=funcs.html#4D8D20 title='GarageMainFNGObject::MessageHandler'>GarageMainFNGObject::MessageHandler</a></pre>
 <li><!--4EA900-->
@@ -5004,8 +5004,8 @@ return amount of bytes actually read*/</span>
 <i>/*68*/	int field_68;</i>
 <i>/*6C*/	</i><a href=#struc_ScrollingThing>struct ScrollingThing</a> scrollingThing;
 <i>/*C4*/	int field_C4;</i>
-<i>/*C8*/	int field_C8;</i>
-<i>/*CC*/	int field_CC;</i>
+<i>/*C8*/	</i><a href=structs.html#struc_UIElementType1>struct UIElementType1</a> *manufacturerLogoUIElement;
+<i>/*CC*/	</i><a href=structs.html#struc_UIElementType1>struct UIElementType1</a> *carBadgeUIElement;
 <i>/*D0*/	</i><a href=structs.html#struc_UIElement>struct UIElement</a> *prevCategoryButton;
 <i>/*D4*/	</i><a href=structs.html#struc_UIElement>struct UIElement</a> *nextCategoryButton;
 <i>/*D8*/	</i><a href=#struc_UIProgressBar>struct UIProgressBar</a> accelerationIndicator;
@@ -5027,12 +5027,22 @@ return amount of bytes actually read*/</span>
 <ul>
 <li><!--497BF0-->
 <pre><i>497BF0</i> <a href=funcs.html#497BF0 title='void __thiscall CarSelectFNGObject__InitializeProgressBars(struct CarSelectFNGObject *this);'>CarSelectFNGObject::InitializeProgressBars</a></pre>
+<li><!--497EE0-->
+<pre><i>497EE0</i> <a href=funcs.html#497EE0 title='int __thiscall CarSelectFNGObject__CountAvailableCars(struct CarSelectFNGObject *this, enum INVENTORY_CAR_FLAGS flagsToCheck);'>CarSelectFNGObject::CountAvailableCars</a></pre>
+<li><!--497F20-->
+<pre><i>497F20</i> <a href=funcs.html#497F20 title='void __thiscall CarSelectFNGObject__UpdateRankedModeLabel(struct CarSelectFNGObject *this, struct OnlineCar *onlineCar);'>CarSelectFNGObject::UpdateRankedModeLabel</a></pre>
 <li><!--4B2310-->
-<pre><i>4B2310</i> <a href=funcs.html#4B2310 title='CarSelectFNGObject::UpdateUIForSelectedCar'>CarSelectFNGObject::UpdateUIForSelectedCar</a></pre>
+<pre><i>4B2310</i> <a href=funcs.html#4B2310 title='void __thiscall CarSelectFNGObject__UpdateUI(struct CarSelectFNGObject *this);'>CarSelectFNGObject::UpdateUI</a></pre>
 <li><!--4B2860-->
 <pre><i>4B2860</i> <a href=funcs.html#4B2860 title='void __thiscall CarSelectFNGObject__DeleteAllEntries(struct CarSelectFNGObject *this);'>CarSelectFNGObject::DeleteAllEntries</a></pre>
+<li><!--4E22E0-->
+<pre><i>4E22E0</i> <a href=funcs.html#4E22E0 title='void __thiscall CarSelectFNGObject__InitializeBrowsableCars(struct CarSelectFNGObject *this, enum INVENTORY_CAR_FLAGS flags);'>CarSelectFNGObject::InitializeBrowsableCars</a></pre>
 <li><!--4EEB90-->
-<pre><i>4EEB90</i> <a href=funcs.html#4EEB90 title='CarSelectFNGObject::InitializeBrowsableCarsAndSelectFirst'>CarSelectFNGObject::InitializeBrowsableCarsAndSelectFirst</a></pre>
+<pre><i>4EEB90</i> <a href=funcs.html#4EEB90 title='void __thiscall CarSelectFNGObject__InitializeBrowsableCarsAndSelectFirst(struct CarSelectFNGObject *this);'>CarSelectFNGObject::InitializeBrowsableCarsAndSelectFirst</a></pre>
+<li><!--4EEC90-->
+<pre><i>4EEC90</i> <a href=funcs.html#4EEC90 title='void __thiscall CarSelectFNGObject__ResetBrowableCars(struct CarSelectFNGObject *this);'>CarSelectFNGObject::ResetBrowableCars</a></pre>
+<li><!--4EED10-->
+<pre><i>4EED10</i> <a href=funcs.html#4EED10 title='void __thiscall CarSelectFNGObject__ChangeCategory(struct CarSelectFNGObject *this, unsigned int message);'>CarSelectFNGObject::ChangeCategory</a></pre>
 <li><!--4F9D90-->
 <pre><i>4F9D90</i> <a href=funcs.html#4F9D90 title='struct CarSelectFNGObject *__thiscall CarSelectFNGObject__ctor(struct CarSelectFNGObject *this, int);'>CarSelectFNGObject::ctor</a></pre>
 <li><!--4FC1F0-->
@@ -7147,7 +7157,7 @@ unknown length, but max 16?*/</span>
 <li><!--511820-->
 <pre><i>511820</i> <a href=funcs.html#511820 title='void __thiscall CarCollection__dtor(struct CarCollection *this);'>CarCollection::dtor</a></pre>
 <li><!--5162D0-->
-<pre><i>5162D0</i> <a href=funcs.html#5162D0 title='struct InventoryCar *__thiscall CarCollection__FindCarWithFlagAfterGivenCar(struct CarCollection *this, int flag14ToCheck, struct InventoryCar *givenCar);'>CarCollection::FindCarWithFlagAfterGivenCar</a></pre>
+<pre><i>5162D0</i> <a href=funcs.html#5162D0 title='struct InventoryCar *__thiscall CarCollection__FindCarWithFlagAfterGivenCar(struct CarCollection *this, enum INVENTORY_CAR_FLAGS flag, struct InventoryCar *givenCar);'>CarCollection::FindCarWithFlagAfterGivenCar</a></pre>
 <li><!--516340-->
 <pre><i>516340</i> <a href=funcs.html#516340 title='int __thiscall CarCollection__IsCareerSlot(struct CarCollection *this, unsigned int slotNameHash);'>CarCollection::IsCareerSlot</a></pre>
 <li><!--516360-->
@@ -7191,7 +7201,7 @@ sometimes this is also just hash of the car name? I wanna cry*/</span>
 <i>/*C*/	int floatField_C;</i>
 <span class='mm'>/**sponsorcar: 1 after hash is assigned, career: inited to 1 | slotHasCar or something?, tunedcar: 1 after car is assigned?*/</span>
 <i>/*10*/	int field_10;</i>
-<i>/*14*/	</i><a href=enums.html#enu_INVENTORY_CAR_FLAGS>enum INVENTORY_CAR_FLAGS</a> flags14;
+<i>/*14*/	</i><a href=enums.html#enu_INVENTORY_CAR_FLAGS>enum INVENTORY_CAR_FLAGS</a> flags;
 };
 <i>EXPECT_SIZE(struct InventoryCar, 0x18);</i></div>
 <ul>
@@ -7647,7 +7657,7 @@ could just be char[9]</div>
 
 usually a stock car, often STOCK_RX8. some kind of "default car to pick"*/</span>
 <i>/*4*/	</i>unsigned int currentCarSelectionSlotHash?[2];
-<i>/*C*/	</i><a href=enums.html#enu_INVENTORY_CAR_FLAGS>enum INVENTORY_CAR_FLAGS</a> currentCarSelectionFlags?;
+<i>/*C*/	</i><a href=enums.html#enu_INVENTORY_CAR_FLAGS>enum INVENTORY_CAR_FLAGS</a> currentCarSelectionCategory;
 <i>/*10*/	<a href=#struc_PlayerD4_10>struct PlayerD4_10</a> field_10[12];</i>
 <i>/*100*/	<a href=#struc_PlayerD4_100>struct PlayerD4_100</a> field_100;</i>
 };
@@ -7695,7 +7705,7 @@ usually a stock car, often STOCK_RX8. some kind of "default car to pick"*/</span
 <a id=struc_TraxConfig></a>
 <div>struct <h3>TraxConfig</h3> { <i>/*3 members, size 8h*/</i>
 <span class='mm'>/**index in <a href=vars.html#7ECD80>traxEntries</a>*/</span>
-<i>/*0*/	</i>int traxIndex <u></u>;
+<i>/*0*/	</i>int traxIndex;
 <span class='mm'>/**0x0 = off, 0x1 = menus, 0x2 = race, 0x3 = all*/</span>
 <i>/*4*/	</i>char playWhen;
 <i>/*5*/	char _pad5[0x2];</i>
@@ -7805,7 +7815,8 @@ usually a stock car, often STOCK_RX8. some kind of "default car to pick"*/</span
 };
 <i>EXPECT_SIZE(struct ProfileData29C70, 0x20);</i></div>
 <a id=struc_ProfileData></a>
-<div class=mm><p>unsure size (0x29DD8), but might be complete</div>
+<div class=mm><p>instance at <a href=vars.html#83A9D0>profileData</a>
+<p>unsure size (0x29DD8), but might be complete</div>
 <div>struct <h3>ProfileData</h3> { <i>/*84 members, size 29DD8h*/</i> <em></em>
 <i>/*0*/	int field_0;</i>
 <i>/*4*/	char field_4;</i>
@@ -7815,8 +7826,7 @@ usually a stock car, often STOCK_RX8. some kind of "default car to pick"*/</span
 <i>/*C*/	int field_C;</i>
 <i id=struc_ProfileData10></i><i>/*10*/	</i><a href=#struc_Player>struct Player</a> player1;
 <i>/*AB5C*/</i><a href=#struc_Player>struct Player</a> player2;
-<i id=struc_ProfileData156A8></i><span class='mm'>/**0x200 when connecting to OL, 8 when connecting LAN(?), 8 when opening online menu, 2 in menus, 1 ingame, 0x100 = online?*/</span>
-<i>/*156A8*/</i>int someOLState <u></u>;
+<i id=struc_ProfileData156A8></i><i>/*156A8*/</i><a href=enums.html#enu_MENU_STATE>enum MENU_STATE</a> menuState;
 <i>/*156AC*/char _pad156AC[0x4];</i>
 <i id=struc_ProfileData156B0></i><i>/*156B0*/<a href=#struc_ProfileData156B0>struct ProfileData156B0</a> field_156B0;</i>
 <i>/*1576C*/char _pad1576C[0x14];</i>
@@ -7856,7 +7866,7 @@ usually a stock car, often STOCK_RX8. some kind of "default car to pick"*/</span
 <i>/*1677C*/int field_1677C;</i>
 <i>/*16780*/char _pad16780[0x9BD8];</i>
 <span class='mm'>/**0 or 1*/</span>
-<i>/*20358*/</i>int currentPlayerIndex? <u></u>;
+<i>/*20358*/</i>int currentPlayerIndex?;
 <i>/*2035C*/int field_2035C;</i>
 <i>/*20360*/char _pad20360[0xC];</i>
 <i>/*2036C*/int field_2036C;</i>

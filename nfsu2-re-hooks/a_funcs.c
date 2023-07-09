@@ -183,6 +183,42 @@ void UILabel__setString(struct UILabel *this, char *str)
 
 static
 __declspec(naked)
+struct UIElement*
+FindUIElementByHash(char *fngName, unsigned int hash)
+{
+	_asm { mov eax, 0x5379C0 }
+	_asm { jmp eax }
+}
+
+static
+__declspec(naked)
+void
+HideNullableUIElementAndChildren(struct UIElement *element)
+{
+	_asm { mov eax, 0x50CA00 }
+	_asm { jmp eax }
+}
+
+static
+__declspec(naked)
+void
+ShowNullableUIElementAndChildren(struct UIElement *element)
+{
+	_asm { mov eax, 0x50CA50 }
+	_asm { jmp eax }
+}
+
+static
+__declspec(naked)
+void
+SetUIElementAnimationByName(struct UIElement *uielement, char *animationStr, char resetAnimationWhenThisAnimationAlreadyActive)
+{
+	_asm { mov eax, 0x51CF70 }
+	_asm { jmp eax }
+}
+
+static
+__declspec(naked)
 struct UIElement* __stdcall GetUIElementByHashInFngName(unsigned int hash, char *fngname)
 {
 	_asm { mov ecx, 0x8384C4 }

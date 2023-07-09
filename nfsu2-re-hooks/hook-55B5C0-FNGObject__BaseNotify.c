@@ -1,13 +1,13 @@
 static
-void doBaseNotifyHook(void *ignore, unsigned int message, int arg4, int arg8, int argC)
+void doBaseNotifyHook(void *ignore, unsigned int message, int arg4, int arg8, struct FNGInfo *fngInfo)
 {
 	_asm { pushad }
 	if (message != 0xC98356BA /*frame update/tick*/ &&
-		message != 0x9803F6E2 /*?*/ &&
+		message != 0x9803F6E2 /*cursor activity*/ &&
 		message != 0x32C72D8F /*?*/ &&
 		message != 0xFC946BFA /*?*/)
 	{
-		log(buf, sprintf(buf, "message %08X args %x %x %x", message, arg4, arg8, argC));
+		log(buf, sprintf(buf, "message %08X args %x %x %s", message, arg4, arg8, fngInfo->fngName));
 	}
 	_asm { popad }
 }
