@@ -98,9 +98,21 @@ nav a[href^="funcs.html"],
 	background: #fef;
 	border-color: #f6f;
 }
+/*struc methods*/
 .struc > ul > li > pre {
 	white-space: pre-wrap;
-	margin: .5em 0;
+	margin: -1px 0 0 0;
+}
+.struc > ul {
+	margin: 0 0 1em 0;
+	list-style: none;
+	padding: 0;
+}
+.sym.struc > div {
+	margin-bottom: 0;
+}
+.struc > div + a + div, .struc > ul + a + div {
+	margin-top: 1em;
 }
 nav a[href^="structs.html"],
 .mm a[href^="structs.html"],
@@ -121,6 +133,7 @@ nav a[href^="vars.html"],
 	border-color: #5a5;
 }
 .sym > div:not(.mm),
+/*struc methods*/
 .struc > ul > li > pre {
 	border-width: 1px;
 	border-style: solid;
@@ -204,6 +217,7 @@ AgMAAAArG7R0AAAABGdBTUEAALGPC/xhBQAAAAFzUkdCAK7OHOkAAAAJcEhZcwAADsMAAA7DAcdvqGQ\
 AAAAJUExURUdwTAD/AAAA//ENIZIAAAABdFJOUwBA5thmAAAAL0lEQVQI12NggAFRBwaG0AQGptAVDF\
 wzsxi4Zq1k4JqaCcZMU1cwMCxbwMCg1QAArE8JoyhJwYoAAAAASUVORK5CYII=') no-repeat;
 }
+/*symbol comments*/
 .sym div.mm {
 	background: #efefef;
 	border: 1px dashed #000;
@@ -214,6 +228,7 @@ wzsxi4Zq1k4JqaCcZMU1cwMCxbwMCg1QAArE8JoyhJwYoAAAAASUVORK5CYII=') no-repeat;
 .sym div.mm + div {
 	margin-top: 0;
 }
+/*mm stuff mostly used in docs*/
 div.mm div {
 	margin: 2em 0;
 	padding-left: 1em;

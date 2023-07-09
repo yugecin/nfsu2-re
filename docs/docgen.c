@@ -1057,7 +1057,7 @@ void docgen_print_struct(FILE *f, struct docgen *dg, struct docgen_structinfo *s
 	}
 	fwrite("};</div>", 8, 1, f);
 	if (structinfo->is_class) {
-		fwrite("\n<p><strong>Methods:</strong>\n<ul>\n", 35, 1, f);
+		fwrite("\n<ul>\n", 6, 1, f);
 		for (i = 0, funcinfo = dg->funcinfos; i < dg->num_funcinfos; i++, funcinfo++) {
 			if (funcinfo->methodof == structinfo) {
 				func = funcinfo->func;
@@ -1073,7 +1073,7 @@ void docgen_print_struct(FILE *f, struct docgen *dg, struct docgen_structinfo *s
 		fprintf(f, "</ul>");
 	}
 }
-/*jeanine:p:i:22;p:88;a:r;x:24.58;y:90.97;*/
+/*jeanine:p:i:22;p:88;a:r;x:24.00;y:93.00;*/
 static
 void docgen_print_enum(FILE *f, struct docgen *dg, struct docgen_enuminfo *enuminfo, struct idcp_enum *enu)
 {
@@ -1096,7 +1096,7 @@ void docgen_print_enum(FILE *f, struct docgen *dg, struct docgen_enuminfo *enumi
 	}
 	fwrite("};</div>", 8, 1, f);
 }
-/*jeanine:p:i:23;p:88;a:r;x:20.58;y:32.39;*/
+/*jeanine:p:i:23;p:88;a:r;x:24.00;y:37.00;*/
 static
 void docgen_print_data(FILE *f, struct docgen *dg, struct docgen_datainfo *datainfo, struct idcp_stuff *data)
 {

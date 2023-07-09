@@ -98,9 +98,21 @@ nav a[href^="funcs.html"],
 	background: #fef;
 	border-color: #f6f;
 }
+/*struc methods*/
 .struc > ul > li > pre {
 	white-space: pre-wrap;
-	margin: .5em 0;
+	margin: -1px 0 0 0;
+}
+.struc > ul {
+	margin: 0 0 1em 0;
+	list-style: none;
+	padding: 0;
+}
+.sym.struc > div {
+	margin-bottom: 0;
+}
+.struc > div + a + div, .struc > ul + a + div {
+	margin-top: 1em;
 }
 nav a[href^="structs.html"],
 .mm a[href^="structs.html"],
@@ -121,6 +133,7 @@ nav a[href^="vars.html"],
 	border-color: #5a5;
 }
 .sym > div:not(.mm),
+/*struc methods*/
 .struc > ul > li > pre {
 	border-width: 1px;
 	border-style: solid;
@@ -204,6 +217,7 @@ AgMAAAArG7R0AAAABGdBTUEAALGPC/xhBQAAAAFzUkdCAK7OHOkAAAAJcEhZcwAADsMAAA7DAcdvqGQ\
 AAAAJUExURUdwTAD/AAAA//ENIZIAAAABdFJOUwBA5thmAAAAL0lEQVQI12NggAFRBwaG0AQGptAVDF\
 wzsxi4Zq1k4JqaCcZMU1cwMCxbwMCg1QAArE8JoyhJwYoAAAAASUVORK5CYII=') no-repeat;
 }
+/*symbol comments*/
 .sym div.mm {
 	background: #efefef;
 	border: 1px dashed #000;
@@ -214,6 +228,7 @@ wzsxi4Zq1k4JqaCcZMU1cwMCxbwMCg1QAArE8JoyhJwYoAAAAASUVORK5CYII=') no-repeat;
 .sym div.mm + div {
 	margin-top: 0;
 }
+/*mm stuff mostly used in docs*/
 div.mm div {
 	margin: 2em 0;
 	padding-left: 1em;
@@ -1413,7 +1428,6 @@ pre.ida span.hi {
 <span class='mm'>/**size unknown*/</span>
 <i>/*4*/	</i>char table[512] <u></u>;
 };</div>
-<p><strong>Methods:</strong>
 <ul>
 <li><!--50D3C0-->
 <pre><i>50D3C0</i> <a href=funcs.html#50D3C0 title='int __thiscall LanguageConversionTable__StrcpyCharToWchar(struct LanguageConversionTable *this, wchar_t *dest, int maxlen, char *src);'>LanguageConversionTable::StrcpyCharToWchar</a></pre>
@@ -1447,7 +1461,6 @@ pre.ida span.hi {
 <i id=struc_PoolControl0></i><i>/*0*/	</i>int inited;
 <i id=struc_PoolControl4></i><i>/*4*/	</i><a href=#struc_PoolLink>struct PoolLink</a> link;
 };</div>
-<p><strong>Methods:</strong>
 <ul>
 <li><!--4407B0-->
 <pre><i>4407B0</i> <a href=funcs.html#4407B0 title='void __thiscall PoolControl__Init(struct PoolControl *this);'>PoolControl::Init</a></pre>
@@ -1471,7 +1484,6 @@ pre.ida span.hi {
 <i id=struc_Pool28></i><i>/*28*/	</i>int elementSize;
 <i>/*2C*/	</i>int elementAmountOverAllLinkedPools;
 };</div>
-<p><strong>Methods:</strong>
 <ul>
 <li><!--43CD40-->
 <pre><i>43CD40</i> <a href=funcs.html#43CD40 title='void __thiscall Pool__Init(struct Pool *this);'>Pool::Init</a></pre>
@@ -1494,7 +1506,6 @@ pre.ida span.hi {
 <i id=struc_PoolEntry0></i><i>/*0*/	</i><a href=structs.html#struc_PoolEntry>struct PoolEntry</a> *nextEntry;
 <i>/*4*/	</i><a href=structs.html#struc_PoolEntry>struct PoolEntry</a> *prevEntry;
 };</div>
-<p><strong>Methods:</strong>
 <ul>
 <li><!--43E650-->
 <pre><i>43E650</i> <a href=funcs.html#43E650 title='int __thiscall PoolEntry__SortAllPreviousEntries_(struct PoolEntry *this, int (__cdecl *func)(struct PoolEntry *a, struct PoolEntry *b));'>PoolEntry::SortAllPreviousEntries?</a></pre>
@@ -1568,7 +1579,6 @@ pre.ida span.hi {
 <i>/*E8*/	int field_E8;</i>
 <i>/*EC*/	int field_EC;</i>
 };</div>
-<p><strong>Methods:</strong>
 <ul>
 <li><!--570FA0-->
 <pre><i>570FA0</i> <a href=funcs.html#570FA0 title='void __thiscall ResourceFileSlotPoolEntry__strcpyIntoEntryFilenameAgainAndSetFieldC4(struct ResourceFileSlotPoolEntry *this, int arg0, char *filename);'>ResourceFileSlotPoolEntry::strcpyIntoEntryFilenameAgainAndSetFieldC4</a></pre>
@@ -1599,7 +1609,6 @@ pre.ida span.hi {
 <i>/*74*/	int field_74;</i>
 <i>/*78*/	</i>int flt_field_78 <u></u>;
 };</div>
-<p><strong>Methods:</strong>
 <ul>
 <li><!--57B410-->
 <pre><i>57B410</i> <a href=funcs.html#57B410 title='int __thiscall QueuedFileSlotPoolEntry__Init(struct QueuedFileSlotPoolEntry *this, char *ptrData, char *filename, int, int size, void (__cdecl *ptrsomefunc)(void *), struct ResourceFileSlotPoolEntry *resourceFileSlotPoolEntry);'>QueuedFileSlotPoolEntry::Init</a></pre>
@@ -1695,7 +1704,6 @@ TODO: explore maybe?*/</span>
 <i>/*330*/	</i>unsigned int messageToSendToParentFNGWhenThisDialogIsDismissed;
 <i id=struc_DialogInfo334></i><i>/*334*/	</i>int dialogId;
 };</div>
-<p><strong>Methods:</strong>
 <ul>
 <li><!--4FF250-->
 <pre><i>4FF250</i> <a href=funcs.html#4FF250 title='int __thiscall DialogInfo__ctor(struct DialogInfo *this);'>DialogInfo::ctor</a></pre>
@@ -1770,7 +1778,6 @@ TODO please reconfirm*/</span>
 <i>/*90*/	int field_90;</i>
 <i>/*94*/	int field_94;</i>
 };</div>
-<p><strong>Methods:</strong>
 <ul>
 <li><!--504830-->
 <pre><i>504830</i> <a href=funcs.html#504830 title='int __thiscall FNGInfo__VisitContainerRecursively(struct FNGInfo *this, struct UIContainer *container, struct UIElementVisitor *data);'>FNGInfo::VisitContainerRecursively</a></pre>
@@ -1802,7 +1809,6 @@ TODO please reconfirm*/</span>
 <i id=struc_CheatScreenData34></i><i>/*34*/	</i>int typedCheatLength;
 <i id=struc_CheatScreenData38></i><i>/*38*/	int field_38;</i>
 };</div>
-<p><strong>Methods:</strong>
 <ul>
 <li><!--575770-->
 <pre><i>575770</i> <a href=funcs.html#575770 title='void __thiscall CheatScreenData__InitCheats_(struct CheatScreenData *this);'>CheatScreenData::InitCheats?</a></pre>
@@ -1864,7 +1870,6 @@ TODO please reconfirm*/</span>
 <i id=struc_CRealCoreDrive4></i><span class='mm'>/**like 'null:'. actual size is unknown, but this struct size is probably 0x14*/</span>
 <i>/*4*/	</i>char driveNameLetterPathThing[16] <u></u>;
 };</div>
-<p><strong>Methods:</strong>
 <ul>
 <li><!--570AA0-->
 <pre><i>570AA0</i> <a href=funcs.html#570AA0 title='int __thiscall CRealCoreDrive__GetDriveNamePath(struct CRealCoreDrive *this);'>CRealCoreDrive::GetDriveNamePath</a></pre>
@@ -1917,7 +1922,6 @@ TODO please reconfirm*/</span>
 <i>/*28*/	</i>char button2JustPressed;
 <i>/*29*/	</i>char button2JustReleased;
 };</div>
-<p><strong>Methods:</strong>
 <ul>
 <li><!--5BF6E0-->
 <pre><i>5BF6E0</i> <a href=funcs.html#5BF6E0 title='int __thiscall MouseData__CreateDinputDevice(struct MouseData *this);'>MouseData::CreateDinputDevice</a></pre>
@@ -2301,7 +2305,6 @@ return amount of bytes actually read*/</span>
 <i>/*4*/	</i>int last <u></u>;
 <i>/*8*/	</i>int count <u></u>;
 };</div>
-<p><strong>Methods:</strong>
 <ul>
 <li><!--6F6B35-->
 <pre><i>6F6B35</i> <a href=funcs.html#6F6B35 title='void __thiscall LinkedList__Clear(struct LinkedList *this);'>LinkedList::Clear</a></pre>
@@ -2315,7 +2318,6 @@ return amount of bytes actually read*/</span>
 <i>/*0*/	int field_0;</i>
 <i>/*4*/	</i>CRITICAL_SECTION *lpCriticalSection;
 };</div>
-<p><strong>Methods:</strong>
 <ul>
 <li><!--6F55C7-->
 <pre><i>6F55C7</i> <a href=funcs.html#6F55C7 title='int __thiscall CriticalSectionWrapper__InitializeCriticalSection(struct CriticalSectionWrapper *this);'>CriticalSectionWrapper::InitializeCriticalSection</a></pre>
@@ -2359,7 +2361,6 @@ return amount of bytes actually read*/</span>
 <i id=struc_BinSectionMagicMapEntry0></i><i>/*0*/	</i><a href=structs.html#struc_BinSectionHandler>struct BinSectionHandler</a> *nextEntry;
 <i id=struc_BinSectionMagicMapEntry4></i><i>/*4*/	</i><a href=#struc_BinSectionHandler>struct BinSectionHandler</a> value;
 };</div>
-<p><strong>Methods:</strong>
 <ul>
 <li><!--43C0B0-->
 <pre><i>43C0B0</i> <a href=funcs.html#43C0B0 title='void __thiscall BinSectionMagicMapEntry__RegisterBinSectionHandler(struct BinSectionMagicMapEntry *this, struct BinSectionHandler handler);'>BinSectionMagicMapEntry::RegisterBinSectionHandler</a></pre>
@@ -2408,7 +2409,6 @@ return amount of bytes actually read*/</span>
 <i>/*20*/	char _pad20[0x4F8];</i>
 <i>/*518*/	int field_518;</i>
 };</div>
-<p><strong>Methods:</strong>
 <ul>
 <li><!--58D6B0-->
 <pre><i>58D6B0</i> <a href=funcs.html#58D6B0 title='int __thiscall OL86A858__OL_JoinGameFromBuddyInvite_(struct OL86A858 *this, int, int, int, int);'>OL86A858::OL_JoinGameFromBuddyInvite?</a></pre>
@@ -2434,7 +2434,6 @@ return amount of bytes actually read*/</span>
 <i>/*14*/	int field_14;</i>
 <i>/*18*/	int field_18;</i>
 };</div>
-<p><strong>Methods:</strong>
 <ul>
 <li><!--4B8EE0-->
 <pre><i>4B8EE0</i> <a href=funcs.html#4B8EE0 title='void __thiscall OLMainStruct__ShowLANOLConnectingMessage(struct OLMainStruct *this, char *textOrNull);'>OLMainStruct::ShowLANOLConnectingMessage</a></pre>
@@ -2459,7 +2458,6 @@ return amount of bytes actually read*/</span>
 <i>/*152*/	char field_152;</i>
 <i>/*153*/	char field_153;</i>
 };</div>
-<p><strong>Methods:</strong>
 <ul>
 <li><!--4B9650-->
 <pre><i>4B9650</i> <a href=funcs.html#4B9650 title='struct OL138 *__thiscall OL836370__GetOL138ForFngName(struct OL836370 *this, char *str);'>OL836370::GetOL138ForFngName</a></pre>
@@ -2492,7 +2490,6 @@ return amount of bytes actually read*/</span>
 <i>/*213*/	char field_213;</i>
 <i>/*214*/	</i>int focusedTextbox <u></u>;
 };</div>
-<p><strong>Methods:</strong>
 <ul>
 <li><!--4FF310-->
 <pre><i>4FF310</i> <a href=funcs.html#4FF310 title='int __thiscall TextboxData__CanAppendChar(struct TextboxData *this, char character);'>TextboxData::CanAppendChar</a></pre>
@@ -2508,7 +2505,6 @@ return amount of bytes actually read*/</span>
 <span class='mm'>/**goes to 90, display | when less than 45*/</span>
 <i>/*8*/	</i>int timerForCaretAnimation <u></u>;
 };</div>
-<p><strong>Methods:</strong>
 <ul>
 <li><!--540AB0-->
 <pre><i>540AB0</i> <a href=funcs.html#540AB0 title='void __thiscall FocusedTextbox__UpdateDisplayedText(struct FocusedTextbox *this, char showCaret);'>FocusedTextbox::UpdateDisplayedText</a></pre>
@@ -2653,7 +2649,6 @@ return amount of bytes actually read*/</span>
 <span class='mm'>/**maybe an ui element?*/</span>
 <i>/*48*/	int field_48;</i>
 };</div>
-<p><strong>Methods:</strong>
 <ul>
 <li><!--54E5B0-->
 <pre><i>54E5B0</i> <a href=funcs.html#54E5B0 title='int __thiscall FNGObject__HandleMessageForTextbox(struct FNGObject *this, unsigned int message);'>FNGObject::HandleMessageForTextbox</a></pre>
@@ -2722,7 +2717,6 @@ return amount of bytes actually read*/</span>
 <i>/*154*/	</i>int numControllerConfigurations3 <u></u>;
 <i>/*158*/	</i>int numControllerConfigurations <u></u>;
 };</div>
-<p><strong>Methods:</strong>
 <ul>
 <li><!--4ACAA0-->
 <pre><i>4ACAA0</i> <a href=funcs.html#4ACAA0 title='void __thiscall OptionsPCControllerFNGObject__HandleMessageChangeActiveConfiguration(struct OptionsPCControllerFNGObject *this, unsigned int message);'>OptionsPCControllerFNGObject::HandleMessageChangeActiveConfiguration</a></pre>
@@ -2777,7 +2771,6 @@ return amount of bytes actually read*/</span>
 <i>/*4C*/	char _pad4C[0x19B];</i>
 <i>/*1E7*/	</i>char __end <u></u>;
 };</div>
-<p><strong>Methods:</strong>
 <ul>
 <li><!--569CC0-->
 <pre><i>569CC0</i> <a href=funcs.html#569CC0 title='struct BuyPerformancePartsFNGObject *__thiscall BuyPerformancePartsFNGObject__ctor(struct BuyPerformancePartsFNGObject *this, int);'>BuyPerformancePartsFNGObject::ctor</a></pre>
@@ -2817,7 +2810,6 @@ return amount of bytes actually read*/</span>
 <i>/*1BE*/	char field_1BE;</i>
 <i>/*1BF*/	</i>char __end <u></u>;
 };</div>
-<p><strong>Methods:</strong>
 <ul>
 <li><!--495F00-->
 <pre><i>495F00</i> <a href=funcs.html#495F00 title='int __thiscall CareerCarLotFNGObject__495F00(struct CareerCarLotFNGObject *this, int);'>CareerCarLotFNGObject::495F00</a></pre>
@@ -2871,7 +2863,6 @@ return amount of bytes actually read*/</span>
 <i>/*92C*/	char _pad92C[0x3];</i>
 <i>/*92F*/	</i>char __end <u></u>;
 };</div>
-<p><strong>Methods:</strong>
 <ul>
 <li><!--511DB0-->
 <pre><i>511DB0</i> <a href=funcs.html#511DB0 title='int __thiscall CareerCarLotFNGObject_50__ctor(struct CareerCarLotFNGObject_50 *this, struct Car *car, int, unsigned int slotHash, int playerId, char);'>CareerCarLotFNGObject_50::ctor</a></pre>
@@ -2896,7 +2887,6 @@ return amount of bytes actually read*/</span>
 <i>/*C0*/	char field_C0[36];</i>
 <i>/*E4*/	int field_E4;</i>
 };</div>
-<p><strong>Methods:</strong>
 <ul>
 <li><!--59B060-->
 <pre><i>59B060</i> <a href=funcs.html#59B060 title='s734::59B060'>s734::59B060</a></pre>
@@ -2918,7 +2908,6 @@ return amount of bytes actually read*/</span>
 <i>/*FC*/	float floatField_FC;</i>
 <i>/*100*/	<a href=#struc_s735_100>struct s735_100</a> field_100;</i>
 };</div>
-<p><strong>Methods:</strong>
 <ul>
 <li><!--4133D0-->
 <pre><i>4133D0</i> <a href=funcs.html#4133D0 title='void __thiscall s735__CopyFrom(struct s735 *this, struct s735 *from);'>s735::CopyFrom</a></pre>
@@ -2949,7 +2938,6 @@ return amount of bytes actually read*/</span>
 <i>/*8E8*/	int field_8E8;</i>
 <i>/*8EC*/	int field_8EC;</i>
 };</div>
-<p><strong>Methods:</strong>
 <ul>
 <li><!--40C910-->
 <pre><i>40C910</i> <a href=funcs.html#40C910 title='void __thiscall MenuCarInstance__ctor(struct MenuCarInstance *this);'>MenuCarInstance::ctor</a></pre>
@@ -2992,7 +2980,6 @@ return amount of bytes actually read*/</span>
 <i>/*374*/	<a href=#struc_s734>struct s734</a> field_374;</i>
 <i>/*45C*/	<a href=#struc_s735>struct s735</a> field_45C;</i>
 };</div>
-<p><strong>Methods:</strong>
 <ul>
 <li><!--5A7890-->
 <pre><i>5A7890</i> <a href=funcs.html#5A7890 title='void __thiscall MenuCarInstance_10__Clear(struct MenuCarInstance_10 *this, int);'>MenuCarInstance_10::Clear</a></pre>
@@ -3005,7 +2992,6 @@ return amount of bytes actually read*/</span>
 <i>/*28*/	char field_28[40];</i>
 <i>/*50*/	char field_50[68];</i>
 };</div>
-<p><strong>Methods:</strong>
 <ul>
 <li><!--599680-->
 <pre><i>599680</i> <a href=funcs.html#599680 title='int __thiscall MenuCarInstance_10_2E0__599680(struct MenuCarInstance_10_2E0 *this, int index, int, int);'>MenuCarInstance_10_2E0::599680</a></pre>
@@ -3086,7 +3072,6 @@ return amount of bytes actually read*/</span>
 <span class='mm'>/**initialized to 46.0*/</span>
 <i>/*40*/	int floatField_40;</i>
 };</div>
-<p><strong>Methods:</strong>
 <ul>
 <li><!--4FF430-->
 <pre><i>4FF430</i> <a href=funcs.html#4FF430 title='void __thiscall UIProgressBar__ctor(struct UIProgressBar *this);'>UIProgressBar::ctor</a></pre>
@@ -3103,7 +3088,6 @@ return amount of bytes actually read*/</span>
 <i>/*4C*/	char _pad4C[0x163];</i>
 <i>/*1AF*/	</i>char __end <u></u>;
 };</div>
-<p><strong>Methods:</strong>
 <ul>
 <li><!--4DFC50-->
 <pre><i>4DFC50</i> <a href=funcs.html#4DFC50 title='CareerCarSelectFNGObject::MessageHandler'>CareerCarSelectFNGObject::MessageHandler</a></pre>
@@ -3116,7 +3100,6 @@ return amount of bytes actually read*/</span>
 <i>/*4C*/	char _pad4C[0x103];</i>
 <i>/*14F*/	</i>char __end <u></u>;
 };</div>
-<p><strong>Methods:</strong>
 <ul>
 <li><!--4AF3A0-->
 <pre><i>4AF3A0</i> <a href=funcs.html#4AF3A0 title='CareerCribFNGObject::MessageHandler'>CareerCribFNGObject::MessageHandler</a></pre>
@@ -3129,7 +3112,6 @@ return amount of bytes actually read*/</span>
 <i>/*4C*/	char _pad4C[0x1E3];</i>
 <i>/*22F*/	</i>char __end <u></u>;
 };</div>
-<p><strong>Methods:</strong>
 <ul>
 <li><!--4E0F60-->
 <pre><i>4E0F60</i> <a href=funcs.html#4E0F60 title='CareerWorldMapFNGObject::MessageHandler'>CareerWorldMapFNGObject::MessageHandler</a></pre>
@@ -3142,7 +3124,6 @@ return amount of bytes actually read*/</span>
 <i>/*4C*/	char _pad4C[0x67];</i>
 <i>/*B3*/	</i>char __end <u></u>;
 };</div>
-<p><strong>Methods:</strong>
 <ul>
 <li><!--553770-->
 <pre><i>553770</i> <a href=funcs.html#553770 title='ChooseCustomHUDFNGObject::ctor'>ChooseCustomHUDFNGObject::ctor</a></pre>
@@ -3155,7 +3136,6 @@ return amount of bytes actually read*/</span>
 <i>/*4C*/	char _pad4C[0x123];</i>
 <i>/*16F*/	</i>char __end <u></u>;
 };</div>
-<p><strong>Methods:</strong>
 <ul>
 <li><!--556640-->
 <pre><i>556640</i> <a href=funcs.html#556640 title='ChooseCustomizeCategoryFNGObject::ctor'>ChooseCustomizeCategoryFNGObject::ctor</a></pre>
@@ -3168,7 +3148,6 @@ return amount of bytes actually read*/</span>
 <i>/*4C*/	char _pad4C[0x103];</i>
 <i>/*14F*/	</i>char __end <u></u>;
 };</div>
-<p><strong>Methods:</strong>
 <ul>
 <li><!--5571B0-->
 <pre><i>5571B0</i> <a href=funcs.html#5571B0 title='ChoosePaintCategoryFNGObject::ctor'>ChoosePaintCategoryFNGObject::ctor</a></pre>
@@ -3181,7 +3160,6 @@ return amount of bytes actually read*/</span>
 <i>/*4C*/	char _pad4C[0x107];</i>
 <i>/*153*/	</i>char __end <u></u>;
 };</div>
-<p><strong>Methods:</strong>
 <ul>
 <li><!--556C80-->
 <pre><i>556C80</i> <a href=funcs.html#556C80 title='ChoosePerformanceCategoryFNGObject::ctor'>ChoosePerformanceCategoryFNGObject::ctor</a></pre>
@@ -3194,7 +3172,6 @@ return amount of bytes actually read*/</span>
 <i>/*4C*/	char _pad4C[0x103];</i>
 <i>/*14F*/	</i>char __end <u></u>;
 };</div>
-<p><strong>Methods:</strong>
 <ul>
 <li><!--553070-->
 <pre><i>553070</i> <a href=funcs.html#553070 title='ChooseRimBrandFNGObject::ctor'>ChooseRimBrandFNGObject::ctor</a></pre>
@@ -3207,7 +3184,6 @@ return amount of bytes actually read*/</span>
 <i>/*4C*/	char _pad4C[0x1CB];</i>
 <i>/*217*/	</i>char __end <u></u>;
 };</div>
-<p><strong>Methods:</strong>
 <ul>
 <li><!--569500-->
 <pre><i>569500</i> <a href=funcs.html#569500 title='ChooseSpinnerFNGObject::ctor'>ChooseSpinnerFNGObject::ctor</a></pre>
@@ -3219,7 +3195,6 @@ return amount of bytes actually read*/</span>
 <div>struct <h3>ChooseUniquePartFNGObject</h3> { <i>/*1 members, size 4Ch*/</i> <em></em>
 <i>/*0*/	</i><a href=#struc_FNGObject>struct FNGObject</a> __parent;
 };</div>
-<p><strong>Methods:</strong>
 <ul>
 <li><!--553200-->
 <pre><i>553200</i> <a href=funcs.html#553200 title='ChooseUniquePartFNGObject::ctor'>ChooseUniquePartFNGObject::ctor</a></pre>
@@ -3232,7 +3207,6 @@ return amount of bytes actually read*/</span>
 <i>/*4C*/	char _pad4C[0x103];</i>
 <i>/*14F*/	</i>char __end <u></u>;
 };</div>
-<p><strong>Methods:</strong>
 <ul>
 <li><!--554CA0-->
 <pre><i>554CA0</i> <a href=funcs.html#554CA0 title='ChooseVinylLayerFNGObject::ctor'>ChooseVinylLayerFNGObject::ctor</a></pre>
@@ -3245,7 +3219,6 @@ return amount of bytes actually read*/</span>
 <i>/*4C*/	char _pad4C[0x1B];</i>
 <i>/*67*/	</i>char __end <u></u>;
 };</div>
-<p><strong>Methods:</strong>
 <ul>
 <li><!--49C9F0-->
 <pre><i>49C9F0</i> <a href=funcs.html#49C9F0 title='CreditsFNGObject::ctor'>CreditsFNGObject::ctor</a></pre>
@@ -3258,7 +3231,6 @@ return amount of bytes actually read*/</span>
 <i>/*4C*/	char _pad4C[0x103];</i>
 <i>/*14F*/	</i>char __end <u></u>;
 };</div>
-<p><strong>Methods:</strong>
 <ul>
 <li><!--495B10-->
 <pre><i>495B10</i> <a href=funcs.html#495B10 title='CribRewardOptionsMainFNGObject::MessageHandler'>CribRewardOptionsMainFNGObject::MessageHandler</a></pre>
@@ -3271,7 +3243,6 @@ return amount of bytes actually read*/</span>
 <i>/*4C*/	char _pad4C[0xDF];</i>
 <i>/*12B*/	</i>char __end <u></u>;
 };</div>
-<p><strong>Methods:</strong>
 <ul>
 <li><!--56C210-->
 <pre><i>56C210</i> <a href=funcs.html#56C210 title='struct CustomHUDOverlayFNGObject *__thiscall CustomHUDOverlayFNGObject__ctor(struct CustomHUDOverlayFNGObject *this, int);'>CustomHUDOverlayFNGObject::ctor</a></pre>
@@ -3282,7 +3253,6 @@ return amount of bytes actually read*/</span>
 <i>/*4C*/	char _pad4C[0x117];</i>
 <i>/*163*/	</i>char __end <u></u>;
 };</div>
-<p><strong>Methods:</strong>
 <ul>
 <li><!--5534F0-->
 <pre><i>5534F0</i> <a href=funcs.html#5534F0 title='struct CustomNeonMainFNGObject *__thiscall CustomNeonMainFNGObject__ctor(struct CustomNeonMainFNGObject *this, struct FNGShowData *fngShowData);'>CustomNeonMainFNGObject::ctor</a></pre>
@@ -3295,7 +3265,6 @@ return amount of bytes actually read*/</span>
 <i>/*4C*/	char _pad4C[0x43];</i>
 <i>/*8F*/	</i>char __end <u></u>;
 };</div>
-<p><strong>Methods:</strong>
 <ul>
 <li><!--552410-->
 <pre><i>552410</i> <a href=funcs.html#552410 title='struct DateEntryFNGObject *__thiscall DateEntryFNGObject__ctor(struct DateEntryFNGObject *this, int);'>DateEntryFNGObject::ctor</a></pre>
@@ -3308,7 +3277,6 @@ return amount of bytes actually read*/</span>
 <i>/*4C*/	char _pad4C[0x3B];</i>
 <i>/*87*/	</i>char __end <u></u>;
 };</div>
-<p><strong>Methods:</strong>
 <ul>
 <li><!--552EB0-->
 <pre><i>552EB0</i> <a href=funcs.html#552EB0 title='struct DebugCarCustomizeFNGObject *__thiscall DebugCarCustomizeFNGObject__ctor(struct DebugCarCustomizeFNGObject *this, int);'>DebugCarCustomizeFNGObject::ctor</a></pre>
@@ -3321,7 +3289,6 @@ return amount of bytes actually read*/</span>
 <i>/*4C*/	char _pad4C[0x12B];</i>
 <i>/*177*/	</i>char __end <u></u>;
 };</div>
-<p><strong>Methods:</strong>
 <ul>
 <li><!--5530F0-->
 <pre><i>5530F0</i> <a href=funcs.html#5530F0 title='struct DecalMainFNGObject *__thiscall DecalMainFNGObject__ctor(struct DecalMainFNGObject *this, struct FNGShowData *fngShowData);'>DecalMainFNGObject::ctor</a></pre>
@@ -3334,7 +3301,6 @@ return amount of bytes actually read*/</span>
 <i>/*4C*/	char _pad4C[0xCF];</i>
 <i>/*11B*/	</i>char __end <u></u>;
 };</div>
-<p><strong>Methods:</strong>
 <ul>
 <li><!--568450-->
 <pre><i>568450</i> <a href=funcs.html#568450 title='struct DecalsOverlayFNGObject *__thiscall DecalsOverlayFNGObject__ctor(struct DecalsOverlayFNGObject *this, int);'>DecalsOverlayFNGObject::ctor</a></pre>
@@ -3347,7 +3313,6 @@ return amount of bytes actually read*/</span>
 <i>/*4C*/	char _pad4C[0x103];</i>
 <i>/*14F*/	</i>char __end <u></u>;
 };</div>
-<p><strong>Methods:</strong>
 <ul>
 <li><!--4A93E0-->
 <pre><i>4A93E0</i> <a href=funcs.html#4A93E0 title='DeleteprofileFNGObject::MessageHandler'>DeleteprofileFNGObject::MessageHandler</a></pre>
@@ -3360,7 +3325,6 @@ return amount of bytes actually read*/</span>
 <i>/*4C*/	char _pad4C[0x7];</i>
 <i>/*53*/	</i>char __end <u></u>;
 };</div>
-<p><strong>Methods:</strong>
 <ul>
 <li><!--4A8650-->
 <pre><i>4A8650</i> <a href=funcs.html#4A8650 title='struct DemoLegalFNGObject *__thiscall DemoLegalFNGObject__ctor(struct DemoLegalFNGObject *this, int);'>DemoLegalFNGObject::ctor</a></pre>
@@ -3373,7 +3337,6 @@ return amount of bytes actually read*/</span>
 <i>/*4C*/	char _pad4C[0x3];</i>
 <i>/*4F*/	</i>char __end <u></u>;
 };</div>
-<p><strong>Methods:</strong>
 <ul>
 <li><!--4A8DF0-->
 <pre><i>4A8DF0</i> <a href=funcs.html#4A8DF0 title='struct DemoPSAFNGObject *__thiscall DemoPSAFNGObject__ctor(struct DemoPSAFNGObject *this, int);'>DemoPSAFNGObject::ctor</a></pre>
@@ -3386,7 +3349,6 @@ return amount of bytes actually read*/</span>
 <i>/*4C*/	char _pad4C[0x3];</i>
 <i>/*4F*/	</i>char __end <u></u>;
 };</div>
-<p><strong>Methods:</strong>
 <ul>
 <li><!--4C56C0-->
 <pre><i>4C56C0</i> <a href=funcs.html#4C56C0 title='struct DiscErrorPCFngObject *__thiscall DiscErrorPCFngObject__ctor(struct DiscErrorPCFngObject *this, int);'>DiscErrorPCFngObject::ctor</a></pre>
@@ -3399,7 +3361,6 @@ return amount of bytes actually read*/</span>
 <i>/*4C*/	char _pad4C[0xDB];</i>
 <i>/*127*/	</i>char __end <u></u>;
 };</div>
-<p><strong>Methods:</strong>
 <ul>
 <li><!--553C70-->
 <pre><i>553C70</i> <a href=funcs.html#553C70 title='struct EATraxJukeboxFNGObject *__thiscall EATraxJukeboxFNGObject__ctor(struct EATraxJukeboxFNGObject *this, int);'>EATraxJukeboxFNGObject::ctor</a></pre>
@@ -3412,7 +3373,6 @@ return amount of bytes actually read*/</span>
 <i>/*4C*/	char _pad4C[0xB];</i>
 <i>/*57*/	</i>char __end <u></u>;
 };</div>
-<p><strong>Methods:</strong>
 <ul>
 <li><!--498F00-->
 <pre><i>498F00</i> <a href=funcs.html#498F00 title='EngageEventDialogFNGObject::MessageHandler'>EngageEventDialogFNGObject::MessageHandler</a></pre>
@@ -3425,7 +3385,6 @@ return amount of bytes actually read*/</span>
 <i>/*4C*/	char _pad4C[0xF];</i>
 <i>/*5B*/	</i>char __end <u></u>;
 };</div>
-<p><strong>Methods:</strong>
 <ul>
 <li><!--499C00-->
 <pre><i>499C00</i> <a href=funcs.html#499C00 title='EngageRaceDialogFNGObject::MessageHandler'>EngageRaceDialogFNGObject::MessageHandler</a></pre>
@@ -3438,7 +3397,6 @@ return amount of bytes actually read*/</span>
 <i>/*4C*/	char _pad4C[0x197];</i>
 <i>/*1E3*/	</i>char __end <u></u>;
 };</div>
-<p><strong>Methods:</strong>
 <ul>
 <li><!--55E820-->
 <pre><i>55E820</i> <a href=funcs.html#55E820 title='struct GenericPartsBrowserFNGObject *__thiscall GenericPartsBrowserFNGObject__ctor(struct GenericPartsBrowserFNGObject *this, int);'>GenericPartsBrowserFNGObject::ctor</a></pre>
@@ -3451,7 +3409,6 @@ return amount of bytes actually read*/</span>
 <i>/*4C*/	char _pad4C[0x11F];</i>
 <i>/*16B*/	</i>char __end <u></u>;
 };</div>
-<p><strong>Methods:</strong>
 <ul>
 <li><!--55C010-->
 <pre><i>55C010</i> <a href=funcs.html#55C010 title='struct ICEMAINFNGObject *__thiscall ICEMAINFNGObject__ctor(struct ICEMAINFNGObject *this, struct FNGShowData *fngShowData);'>ICEMAINFNGObject::ctor</a></pre>
@@ -3464,7 +3421,6 @@ return amount of bytes actually read*/</span>
 <i>/*4C*/	char _pad4C[0x1B];</i>
 <i>/*67*/	</i>char __end <u></u>;
 };</div>
-<p><strong>Methods:</strong>
 <ul>
 <li><!--553940-->
 <pre><i>553940</i> <a href=funcs.html#553940 title='struct IGPlayMovieFNGObject *__thiscall IGPlayMovieFNGObject__ctor(struct IGPlayMovieFNGObject *this, int);'>IGPlayMovieFNGObject::ctor</a></pre>
@@ -3477,7 +3433,6 @@ return amount of bytes actually read*/</span>
 <i>/*4C*/	char _pad4C[0x17];</i>
 <i>/*63*/	</i>char __end <u></u>;
 };</div>
-<p><strong>Methods:</strong>
 <ul>
 <li><!--4E08E0-->
 <pre><i>4E08E0</i> <a href=funcs.html#4E08E0 title='InGameWorldMapFNGObject::MessageHandler'>InGameWorldMapFNGObject::MessageHandler</a></pre>
@@ -3490,7 +3445,6 @@ return amount of bytes actually read*/</span>
 <i>/*4C*/	char _pad4C[0xB];</i>
 <i>/*57*/	</i>char __end <u></u>;
 };</div>
-<p><strong>Methods:</strong>
 <ul>
 <li><!--499690-->
 <pre><i>499690</i> <a href=funcs.html#499690 title='EngageShopDialogFNGObject::MessageHandler'>EngageShopDialogFNGObject::MessageHandler</a></pre>
@@ -3637,7 +3591,6 @@ return amount of bytes actually read*/</span>
 <i>/*27C*/	char _pad27C[0x3];</i>
 <i>/*27F*/	</i>char __end <u></u>;
 };</div>
-<p><strong>Methods:</strong>
 <ul>
 <li><!--4D8C70-->
 <pre><i>4D8C70</i> <a href=funcs.html#4D8C70 title='int __thiscall GarageMainFNGObject__4D8C70(struct GarageMainFNGObject *this, struct MenuCarInstance *carInstance, int);'>GarageMainFNGObject::4D8C70</a></pre>
@@ -3668,7 +3621,6 @@ return amount of bytes actually read*/</span>
 <i>/*2CE4*/char _pad2CE4[0xB];</i>
 <i>/*2CEF*/</i>char __end <u></u>;
 };</div>
-<p><strong>Methods:</strong>
 <ul>
 <li><!--4C1730-->
 <pre><i>4C1730</i> <a href=funcs.html#4C1730 title='GarageMainFNGObject_234::ctor'>GarageMainFNGObject_234::ctor</a></pre>
@@ -3685,7 +3637,6 @@ return amount of bytes actually read*/</span>
 <i>/*10*/	</i>float uiElement1width;
 <i>/*14*/	int field_14;</i>
 };</div>
-<p><strong>Methods:</strong>
 <ul>
 <li><!--4A58C0-->
 <pre><i>4A58C0</i> <a href=funcs.html#4A58C0 title='void __thiscall GarageMainFNGObject_1D8__4A58C0(struct GarageMainFNGObject_1D8 *this, struct UIElement *uiElement1, struct UIElement *uiElement2);'>GarageMainFNGObject_1D8::4A58C0</a></pre>
@@ -3696,7 +3647,6 @@ return amount of bytes actually read*/</span>
 <i>/*4C*/	char _pad4C[0xF];</i>
 <i>/*5B*/	</i>char __end <u></u>;
 };</div>
-<p><strong>Methods:</strong>
 <ul>
 <li><!--4C4C90-->
 <pre><i>4C4C90</i> <a href=funcs.html#4C4C90 title='struct LoadingTipsFNGObject *__thiscall LoadingTipsFNGObject__ctor(struct LoadingTipsFNGObject *this, int);'>LoadingTipsFNGObject::ctor</a></pre>
@@ -3709,7 +3659,6 @@ return amount of bytes actually read*/</span>
 <i>/*4C*/	char _pad4C[0x3];</i>
 <i>/*4F*/	</i>char __end <u></u>;
 };</div>
-<p><strong>Methods:</strong>
 <ul>
 <li><!--4A8FD0-->
 <pre><i>4A8FD0</i> <a href=funcs.html#4A8FD0 title='struct LSDemoWarningFNGObject *__thiscall LSDemoWarningFNGObject__ctor(struct LSDemoWarningFNGObject *this, int);'>LSDemoWarningFNGObject::ctor</a></pre>
@@ -3720,7 +3669,6 @@ return amount of bytes actually read*/</span>
 <i>/*4C*/	char _pad4C[0x3];</i>
 <i>/*4F*/	</i>char __end <u></u>;
 };</div>
-<p><strong>Methods:</strong>
 <ul>
 <li><!--4A8930-->
 <pre><i>4A8930</i> <a href=funcs.html#4A8930 title='struct LSEALogoFNGObject *__thiscall LSEALogoFNGObject__ctor(struct LSEALogoFNGObject *this, int);'>LSEALogoFNGObject::ctor</a></pre>
@@ -3729,7 +3677,6 @@ return amount of bytes actually read*/</span>
 <div>struct <h3>LSIntroFMVFNGObject</h3> { <i>/*1 members, size 4Ch*/</i> <em></em>
 <i>/*0*/	</i><a href=#struc_FNGObject>struct FNGObject</a> __parent;
 };</div>
-<p><strong>Methods:</strong>
 <ul>
 <li><!--4A8860-->
 <pre><i>4A8860</i> <a href=funcs.html#4A8860 title='struct LSIntroFMVFNGObject *__thiscall LSIntroFMVFNGObject__ctor(struct LSIntroFMVFNGObject *this, int);'>LSIntroFMVFNGObject::ctor</a></pre>
@@ -3742,7 +3689,6 @@ return amount of bytes actually read*/</span>
 <i>/*4C*/	char _pad4C[0x13];</i>
 <i>/*5F*/	</i>char __end <u></u>;
 };</div>
-<p><strong>Methods:</strong>
 <ul>
 <li><!--4A8B30-->
 <pre><i>4A8B30</i> <a href=funcs.html#4A8B30 title='struct LSPSAMovieFNGObject *__thiscall LSPSAMovieFNGObject__ctor(struct LSPSAMovieFNGObject *this, int);'>LSPSAMovieFNGObject::ctor</a></pre>
@@ -3755,7 +3701,6 @@ return amount of bytes actually read*/</span>
 <i>/*4C*/	char _pad4C[0x7];</i>
 <i>/*53*/	</i>char __end <u></u>;
 };</div>
-<p><strong>Methods:</strong>
 <ul>
 <li><!--4A90F0-->
 <pre><i>4A90F0</i> <a href=funcs.html#4A90F0 title='struct LSSplashFNGObject *__thiscall LSSplashFNGObject__ctor(struct LSSplashFNGObject *this, int);'>LSSplashFNGObject::ctor</a></pre>
@@ -3766,7 +3711,6 @@ return amount of bytes actually read*/</span>
 <div>struct <h3>LSTHXMovieFNGObject</h3> { <i>/*1 members, size 4Ch*/</i> <em></em>
 <i>/*0*/	</i><a href=#struc_FNGObject>struct FNGObject</a> __parent;
 };</div>
-<p><strong>Methods:</strong>
 <ul>
 <li><!--4A8CC0-->
 <pre><i>4A8CC0</i> <a href=funcs.html#4A8CC0 title='struct LSTHXMovieFNGObject *__thiscall LSTHXMovieFNGObject__ctor(struct LSTHXMovieFNGObject *this, int);'>LSTHXMovieFNGObject::ctor</a></pre>
@@ -3775,7 +3719,6 @@ return amount of bytes actually read*/</span>
 <div>struct <h3>MagazineBackFNGObject</h3> { <i>/*1 members, size 4Ch*/</i> <em></em>
 <i>/*0*/	</i><a href=#struc_FNGObject>struct FNGObject</a> __parent;
 };</div>
-<p><strong>Methods:</strong>
 <ul>
 <li><!--54B0E0-->
 <pre><i>54B0E0</i> <a href=funcs.html#54B0E0 title='MagazineBackFNGObject::MessageHandler'>MagazineBackFNGObject::MessageHandler</a></pre>
@@ -3788,7 +3731,6 @@ return amount of bytes actually read*/</span>
 <i>/*4C*/	char _pad4C[0x5F];</i>
 <i>/*AB*/	</i>char __end <u></u>;
 };</div>
-<p><strong>Methods:</strong>
 <ul>
 <li><!--55B260-->
 <pre><i>55B260</i> <a href=funcs.html#55B260 title='MagazineRewardFNGObject::MessageHandler'>MagazineRewardFNGObject::MessageHandler</a></pre>
@@ -3801,7 +3743,6 @@ return amount of bytes actually read*/</span>
 <i>/*4C*/	char _pad4C[0x10B];</i>
 <i>/*157*/	</i>char __end <u></u>;
 };</div>
-<p><strong>Methods:</strong>
 <ul>
 <li><!--510E40-->
 <pre><i>510E40</i> <a href=funcs.html#510E40 title='int __thiscall MagazineSelectFNGObject__SelectedIconChanged(struct MagazineSelectFNGObject *this);'>MagazineSelectFNGObject::SelectedIconChanged</a></pre>
@@ -3816,7 +3757,6 @@ return amount of bytes actually read*/</span>
 <i>/*4C*/	char _pad4C[0x7];</i>
 <i>/*53*/	</i>char __end <u></u>;
 };</div>
-<p><strong>Methods:</strong>
 <ul>
 <li><!--553BE0-->
 <pre><i>553BE0</i> <a href=funcs.html#553BE0 title='struct MagazineViewFNGObject *__thiscall MagazineViewFNGObject__ctor(struct MagazineViewFNGObject *this, int);'>MagazineViewFNGObject::ctor</a></pre>
@@ -3829,7 +3769,6 @@ return amount of bytes actually read*/</span>
 <i>/*4C*/	char _pad4C[0xBB];</i>
 <i>/*107*/	</i>char __end <u></u>;
 };</div>
-<p><strong>Methods:</strong>
 <ul>
 <li><!--4D6D50-->
 <pre><i>4D6D50</i> <a href=funcs.html#4D6D50 title='struct MCListFNGObject *__thiscall MCListFNGObject__ctor(struct MCListFNGObject *this, int);'>MCListFNGObject::ctor</a></pre>
@@ -3842,7 +3781,6 @@ return amount of bytes actually read*/</span>
 <i>/*4C*/	char _pad4C[0xD3];</i>
 <i>/*11F*/	</i>char __end <u></u>;
 };</div>
-<p><strong>Methods:</strong>
 <ul>
 <li><!--553310-->
 <pre><i>553310</i> <a href=funcs.html#553310 title='struct NeonPartsOverlayFNGObject *__thiscall NeonPartsOverlayFNGObject__ctor(struct NeonPartsOverlayFNGObject *this, int);'>NeonPartsOverlayFNGObject::ctor</a></pre>
@@ -3855,7 +3793,6 @@ return amount of bytes actually read*/</span>
 <i>/*4C*/	char _pad4C[0x16F];</i>
 <i>/*1BB*/	</i>char __end <u></u>;
 };</div>
-<p><strong>Methods:</strong>
 <ul>
 <li><!--4F2CA0-->
 <pre><i>4F2CA0</i> <a href=funcs.html#4F2CA0 title='OLCarLotFNGObject::MessageHandler'>OLCarLotFNGObject::MessageHandler</a></pre>
@@ -3868,7 +3805,6 @@ return amount of bytes actually read*/</span>
 <i>/*4C*/	char _pad4C[0x11B];</i>
 <i>/*167*/	</i>char __end <u></u>;
 };</div>
-<p><strong>Methods:</strong>
 <ul>
 <li><!--4BE2C0-->
 <pre><i>4BE2C0</i> <a href=funcs.html#4BE2C0 title='struct OLChallengeFNGObject *__thiscall OLChallengeFNGObject__ctor(struct OLChallengeFNGObject *this, int);'>OLChallengeFNGObject::ctor</a></pre>
@@ -3881,7 +3817,6 @@ return amount of bytes actually read*/</span>
 <i>/*4C*/	char _pad4C[0x157];</i>
 <i>/*1A3*/	</i>char __end <u></u>;
 };</div>
-<p><strong>Methods:</strong>
 <ul>
 <li><!--4D09A0-->
 <pre><i>4D09A0</i> <a href=funcs.html#4D09A0 title='struct OLCreateUserFNGObject *__thiscall OLCreateUserFNGObject__ctor(struct OLCreateUserFNGObject *this, int);'>OLCreateUserFNGObject::ctor</a></pre>
@@ -3894,7 +3829,6 @@ return amount of bytes actually read*/</span>
 <i>/*4C*/	char _pad4C[0x23];</i>
 <i>/*6F*/	</i>char __end <u></u>;
 };</div>
-<p><strong>Methods:</strong>
 <ul>
 <li><!--4B9290-->
 <pre><i>4B9290</i> <a href=funcs.html#4B9290 title='struct OLDisconnectBGFNGObject *__thiscall OLDisconnectBGFNGObject__ctor(struct OLDisconnectBGFNGObject *this, int);'>OLDisconnectBGFNGObject::ctor</a></pre>
@@ -3907,7 +3841,6 @@ return amount of bytes actually read*/</span>
 <i>/*4C*/	char _pad4C[0xF];</i>
 <i>/*5B*/	</i>char __end <u></u>;
 };</div>
-<p><strong>Methods:</strong>
 <ul>
 <li><!--4B9430-->
 <pre><i>4B9430</i> <a href=funcs.html#4B9430 title='struct OLDisconnectFNGObject *__thiscall OLDisconnectFNGObject__ctor(struct OLDisconnectFNGObject *this, int);'>OLDisconnectFNGObject::ctor</a></pre>
@@ -3920,7 +3853,6 @@ return amount of bytes actually read*/</span>
 <i>/*4C*/	char _pad4C[0x123];</i>
 <i>/*16F*/	</i>char __end <u></u>;
 };</div>
-<p><strong>Methods:</strong>
 <ul>
 <li><!--4D0690-->
 <pre><i>4D0690</i> <a href=funcs.html#4D0690 title='struct OLEALoginFNGObject *__thiscall OLEALoginFNGObject__Init(struct OLEALoginFNGObject *this, int);'>OLEALoginFNGObject::Init</a></pre>
@@ -3933,7 +3865,6 @@ return amount of bytes actually read*/</span>
 <i>/*4C*/	char _pad4C[0x107];</i>
 <i>/*153*/	</i>char __end <u></u>;
 };</div>
-<p><strong>Methods:</strong>
 <ul>
 <li><!--49CBB0-->
 <pre><i>49CBB0</i> <a href=funcs.html#49CBB0 title='WheelOptionsFNGObject::MessageHandler'>WheelOptionsFNGObject::MessageHandler</a></pre>
@@ -3946,7 +3877,6 @@ return amount of bytes actually read*/</span>
 <i>/*4C*/	char _pad4C[0x1CF];</i>
 <i>/*21B*/	</i>char __end <u></u>;
 };</div>
-<p><strong>Methods:</strong>
 <ul>
 <li><!--4E3300-->
 <pre><i>4E3300</i> <a href=funcs.html#4E3300 title='struct VirtualKeyboardFNGObject *__thiscall VirtualKeyboardFNGObject__ctor(struct VirtualKeyboardFNGObject *this, int);'>VirtualKeyboardFNGObject::ctor</a></pre>
@@ -3961,7 +3891,6 @@ return amount of bytes actually read*/</span>
 <i>/*4E*/	char _pad4E[0x1];</i>
 <i>/*4F*/	</i>char __end <u></u>;
 };</div>
-<p><strong>Methods:</strong>
 <ul>
 <li><!--498070-->
 <pre><i>498070</i> <a href=funcs.html#498070 title='TwoPPressStartFNGObject::MessageHandler'>TwoPPressStartFNGObject::MessageHandler</a></pre>
@@ -3972,7 +3901,6 @@ return amount of bytes actually read*/</span>
 <div>struct <h3>TrailersFNGObject</h3> { <i>/*1 members, size 4Ch*/</i> <em></em>
 <i>/*0*/	</i><a href=#struc_FNGObject>struct FNGObject</a> __parent;
 };</div>
-<p><strong>Methods:</strong>
 <ul>
 <li><!--49C9C0-->
 <pre><i>49C9C0</i> <a href=funcs.html#49C9C0 title='TrailersFNGObject::MessageHandler'>TrailersFNGObject::MessageHandler</a></pre>
@@ -3983,7 +3911,6 @@ return amount of bytes actually read*/</span>
 <div>struct <h3>ShowcaseDPADFNGObject</h3> { <i>/*1 members, size 4Ch*/</i> <em></em>
 <i>/*0*/	</i><a href=#struc_FNGObject>struct FNGObject</a> __parent;
 };</div>
-<p><strong>Methods:</strong>
 <ul>
 <li><!--4B5ED0-->
 <pre><i>4B5ED0</i> <a href=funcs.html#4B5ED0 title='struct ShowcaseDPADFNGObject *__thiscall ShowcaseDPADFNGObject__ctor(struct ShowcaseDPADFNGObject *this, int);'>ShowcaseDPADFNGObject::ctor</a></pre>
@@ -4062,7 +3989,6 @@ return amount of bytes actually read*/</span>
 <i>/*24D*/	char _pad24D[0x2];</i>
 <i>/*24F*/	</i>char __end <u></u>;
 };</div>
-<p><strong>Methods:</strong>
 <ul>
 <li><!--559C90-->
 <pre><i>559C90</i> <a href=funcs.html#559C90 title='struct ChoosePerformancePackageFNGObject *__thiscall ChoosePerformancePackageFNGObject__ctor(struct ChoosePerformancePackageFNGObject *this, int);'>ChoosePerformancePackageFNGObject::ctor</a></pre>
@@ -4073,7 +3999,6 @@ return amount of bytes actually read*/</span>
 <div>struct <h3>DebugTestFNGObject</h3> { <i>/*1 members, size 4Ch*/</i> <em></em>
 <i>/*0*/	</i><a href=#struc_FNGObject>struct FNGObject</a> __parent;
 };</div>
-<p><strong>Methods:</strong>
 <ul>
 <li><!--49CB90-->
 <pre><i>49CB90</i> <a href=funcs.html#49CB90 title='DebugTestFNGObject::MessageHandler'>DebugTestFNGObject::MessageHandler</a></pre>
@@ -4084,7 +4009,6 @@ return amount of bytes actually read*/</span>
 <i>/*4C*/	char _pad4C[0x3];</i>
 <i>/*4F*/	</i>char __end <u></u>;
 };</div>
-<p><strong>Methods:</strong>
 <ul>
 <li><!--4C54B0-->
 <pre><i>4C54B0</i> <a href=funcs.html#4C54B0 title='DemoESRBFNGObject::MessageHandler'>DemoESRBFNGObject::MessageHandler</a></pre>
@@ -4095,7 +4019,6 @@ return amount of bytes actually read*/</span>
 <i>/*4C*/	char _pad4C[0x4B];</i>
 <i>/*97*/	</i>char __end <u></u>;
 };</div>
-<p><strong>Methods:</strong>
 <ul>
 <li><!--4FD510-->
 <pre><i>4FD510</i> <a href=funcs.html#4FD510 title='MCBootupFNGObject::MessageHandler'>MCBootupFNGObject::MessageHandler</a></pre>
@@ -4106,7 +4029,6 @@ return amount of bytes actually read*/</span>
 <i>/*4C*/	char _pad4C[0x3];</i>
 <i>/*4F*/	</i>char __end <u></u>;
 };</div>
-<p><strong>Methods:</strong>
 <ul>
 <li><!--4C51F0-->
 <pre><i>4C51F0</i> <a href=funcs.html#4C51F0 title='MCBackgroundFNGObject::MessageHandler'>MCBackgroundFNGObject::MessageHandler</a></pre>
@@ -4117,7 +4039,6 @@ return amount of bytes actually read*/</span>
 <i>/*4C*/	char _pad4C[0x4F];</i>
 <i>/*9B*/	</i>char __end <u></u>;
 };</div>
-<p><strong>Methods:</strong>
 <ul>
 <li><!--4FD570-->
 <pre><i>4FD570</i> <a href=funcs.html#4FD570 title='MCMainFNGObject::MessageHandler'>MCMainFNGObject::MessageHandler</a></pre>
@@ -4128,7 +4049,6 @@ return amount of bytes actually read*/</span>
 <i>/*4C*/	char _pad4C[0x103];</i>
 <i>/*14F*/	</i>char __end <u></u>;
 };</div>
-<p><strong>Methods:</strong>
 <ul>
 <li><!--49E650-->
 <pre><i>49E650</i> <a href=funcs.html#49E650 title='OLAgeVerifFNGObject::MessageHandler'>OLAgeVerifFNGObject::MessageHandler</a></pre>
@@ -4139,7 +4059,6 @@ return amount of bytes actually read*/</span>
 <div>struct <h3>OLCreateUser2FNGObject</h3> { <i>/*1 members, size 4Ch*/</i> <em></em>
 <i>/*0*/	</i><a href=#struc_FNGObject>struct FNGObject</a> __parent;
 };</div>
-<p><strong>Methods:</strong>
 <ul>
 <li><!--4BAAC0-->
 <pre><i>4BAAC0</i> <a href=funcs.html#4BAAC0 title='OLCreateUser2FNGObject::MessageHandler'>OLCreateUser2FNGObject::MessageHandler</a></pre>
@@ -4150,7 +4069,6 @@ return amount of bytes actually read*/</span>
 <i>/*4C*/	char _pad4C[0x17F];</i>
 <i>/*1CB*/	</i>char __end <u></u>;
 };</div>
-<p><strong>Methods:</strong>
 <ul>
 <li><!--4E65B0-->
 <pre><i>4E65B0</i> <a href=funcs.html#4E65B0 title='struct OLEAMessengerFNGObject *__thiscall OLEAMessengerFNGObject__ctor(struct OLEAMessengerFNGObject *this, int);'>OLEAMessengerFNGObject::ctor</a></pre>
@@ -4163,7 +4081,6 @@ return amount of bytes actually read*/</span>
 <i>/*4C*/	char _pad4C[0xBB];</i>
 <i>/*107*/	</i>char __end <u></u>;
 };</div>
-<p><strong>Methods:</strong>
 <ul>
 <li><!--4D6290-->
 <pre><i>4D6290</i> <a href=funcs.html#4D6290 title='OLFeedbackFNGObject::MessageHandler'>OLFeedbackFNGObject::MessageHandler</a></pre>
@@ -4176,7 +4093,6 @@ return amount of bytes actually read*/</span>
 <i>/*4C*/	char _pad4C[0x10B];</i>
 <i>/*157*/	</i>char __end <u></u>;
 };</div>
-<p><strong>Methods:</strong>
 <ul>
 <li><!--4A0C30-->
 <pre><i>4A0C30</i> <a href=funcs.html#4A0C30 title='OLFiltersFNGObject::MessageHandler'>OLFiltersFNGObject::MessageHandler</a></pre>
@@ -4189,7 +4105,6 @@ return amount of bytes actually read*/</span>
 <i>/*4C*/	char _pad4C[0x143];</i>
 <i>/*18F*/	</i>char __end <u></u>;
 };</div>
-<p><strong>Methods:</strong>
 <ul>
 <li><!--4B9A20-->
 <pre><i>4B9A20</i> <a href=funcs.html#4B9A20 title='OLForgotAccountNameFNGObject::MessageHandler'>OLForgotAccountNameFNGObject::MessageHandler</a></pre>
@@ -4202,7 +4117,6 @@ return amount of bytes actually read*/</span>
 <i>/*4C*/	char _pad4C[0xCB];</i>
 <i>/*117*/	</i>char __end <u></u>;
 };</div>
-<p><strong>Methods:</strong>
 <ul>
 <li><!--4E6C30-->
 <pre><i>4E6C30</i> <a href=funcs.html#4E6C30 title='OLFriendDialogueFNGObject::MessageHandler'>OLFriendDialogueFNGObject::MessageHandler</a></pre>
@@ -4215,7 +4129,6 @@ return amount of bytes actually read*/</span>
 <i>/*4C*/	char _pad4C[0x103];</i>
 <i>/*14F*/	</i>char __end <u></u>;
 };</div>
-<p><strong>Methods:</strong>
 <ul>
 <li><!--49FD20-->
 <pre><i>49FD20</i> <a href=funcs.html#49FD20 title='OLGameRoomclientFNGObject::MessageHandler'>OLGameRoomclientFNGObject::MessageHandler</a></pre>
@@ -4228,7 +4141,6 @@ return amount of bytes actually read*/</span>
 <i>/*4C*/	char _pad4C[0x103];</i>
 <i>/*14F*/	</i>char __end <u></u>;
 };</div>
-<p><strong>Methods:</strong>
 <ul>
 <li><!--49FAA0-->
 <pre><i>49FAA0</i> <a href=funcs.html#49FAA0 title='OLGameRoomhostFNGObject::MessageHandler'>OLGameRoomhostFNGObject::MessageHandler</a></pre>
@@ -4241,7 +4153,6 @@ return amount of bytes actually read*/</span>
 <i>/*4C*/	char _pad4C[0xB];</i>
 <i>/*57*/	</i>char __end <u></u>;
 };</div>
-<p><strong>Methods:</strong>
 <ul>
 <li><!--49DE10-->
 <pre><i>49DE10</i> <a href=funcs.html#49DE10 title='struct OLISPConnectFNGObject *__thiscall OLISPConnectFNGObject__ctor(struct OLISPConnectFNGObject *this, int);'>OLISPConnectFNGObject::ctor</a></pre>
@@ -4254,7 +4165,6 @@ return amount of bytes actually read*/</span>
 <i>/*4C*/	char _pad4C[0x123];</i>
 <i>/*16F*/	</i>char __end <u></u>;
 };</div>
-<p><strong>Methods:</strong>
 <ul>
 <li><!--4E5F80-->
 <pre><i>4E5F80</i> <a href=funcs.html#4E5F80 title='struct OLMAINFNGObject *__thiscall OLMAINFNGObject__ctor(struct OLMAINFNGObject *this, int);'>OLMAINFNGObject::ctor</a></pre>
@@ -4267,7 +4177,6 @@ return amount of bytes actually read*/</span>
 <i>/*4C*/	char _pad4C[0xCB];</i>
 <i>/*117*/	</i>char __end <u></u>;
 };</div>
-<p><strong>Methods:</strong>
 <ul>
 <li><!--49D1D0-->
 <pre><i>49D1D0</i> <a href=funcs.html#49D1D0 title='struct OLNewsFNGObject *__thiscall OLNewsFNGObject__ctor(struct OLNewsFNGObject *this, int);'>OLNewsFNGObject::ctor</a></pre>
@@ -4280,7 +4189,6 @@ return amount of bytes actually read*/</span>
 <i>/*4C*/	char _pad4C[0x117];</i>
 <i>/*163*/	</i>char __end <u></u>;
 };</div>
-<p><strong>Methods:</strong>
 <ul>
 <li><!--4BB4E0-->
 <pre><i>4BB4E0</i> <a href=funcs.html#4BB4E0 title='OLPassworFNGObject::MessageHandler'>OLPassworFNGObject::MessageHandler</a></pre>
@@ -4293,7 +4201,6 @@ return amount of bytes actually read*/</span>
 <i>/*4C*/	char _pad4C[0xB];</i>
 <i>/*57*/	</i>char __end <u></u>;
 };</div>
-<p><strong>Methods:</strong>
 <ul>
 <li><!--4BC300-->
 <pre><i>4BC300</i> <a href=funcs.html#4BC300 title='struct OLPreRaceStartFNGObject *__thiscall OLPreRaceStartFNGObject__ctor(struct OLPreRaceStartFNGObject *this, int);'>OLPreRaceStartFNGObject::ctor</a></pre>
@@ -4306,7 +4213,6 @@ return amount of bytes actually read*/</span>
 <i>/*4C*/	char _pad4C[0x103];</i>
 <i>/*14F*/	</i>char __end <u></u>;
 };</div>
-<p><strong>Methods:</strong>
 <ul>
 <li><!--4A2090-->
 <pre><i>4A2090</i> <a href=funcs.html#4A2090 title='OLRankingsFNGObject::MessageHandler'>OLRankingsFNGObject::MessageHandler</a></pre>
@@ -4319,7 +4225,6 @@ return amount of bytes actually read*/</span>
 <i>/*4C*/	char _pad4C[0x47];</i>
 <i>/*93*/	</i>char __end <u></u>;
 };</div>
-<p><strong>Methods:</strong>
 <ul>
 <li><!--4D4240-->
 <pre><i>4D4240</i> <a href=funcs.html#4D4240 title='struct OLRankingsMonthlyFNGObject *__thiscall OLRankingsMonthlyFNGObject__ctor(struct OLRankingsMonthlyFNGObject *this, struct FNGShowData *fngShowData);'>OLRankingsMonthlyFNGObject::ctor</a></pre>
@@ -4332,7 +4237,6 @@ return amount of bytes actually read*/</span>
 <i>/*4C*/	char _pad4C[0x377];</i>
 <i>/*3C3*/	</i>char __end <u></u>;
 };</div>
-<p><strong>Methods:</strong>
 <ul>
 <li><!--4F1C20-->
 <pre><i>4F1C20</i> <a href=funcs.html#4F1C20 title='struct OLRankingsOverallFNGObject *__thiscall OLRankingsOverallFNGObject__ctor(struct OLRankingsOverallFNGObject *this, int);'>OLRankingsOverallFNGObject::ctor</a></pre>
@@ -4345,7 +4249,6 @@ return amount of bytes actually read*/</span>
 <i>/*4C*/	char _pad4C[0x4B];</i>
 <i>/*97*/	</i>char __end <u></u>;
 };</div>
-<p><strong>Methods:</strong>
 <ul>
 <li><!--4A0470-->
 <pre><i>4A0470</i> <a href=funcs.html#4A0470 title='OLRankingsPersonalFNGObject::MessageHandler'>OLRankingsPersonalFNGObject::MessageHandler</a></pre>
@@ -4358,7 +4261,6 @@ return amount of bytes actually read*/</span>
 <i>/*4C*/	char _pad4C[0x123];</i>
 <i>/*16F*/	</i>char __end <u></u>;
 };</div>
-<p><strong>Methods:</strong>
 <ul>
 <li><!--4D0860-->
 <pre><i>4D0860</i> <a href=funcs.html#4D0860 title='struct OLSelectPersonaFNGObject *__thiscall OLSelectPersonaFNGObject__ctor(struct OLSelectPersonaFNGObject *this, int);'>OLSelectPersonaFNGObject::ctor</a></pre>
@@ -4371,7 +4273,6 @@ return amount of bytes actually read*/</span>
 <i>/*4C*/	char _pad4C[0x153];</i>
 <i>/*19F*/	</i>char __end <u></u>;
 };</div>
-<p><strong>Methods:</strong>
 <ul>
 <li><!--4D1100-->
 <pre><i>4D1100</i> <a href=funcs.html#4D1100 title='struct OLUseExistingFNGObject *__thiscall OLUseExistingFNGObject__ctor(struct OLUseExistingFNGObject *this, int);'>OLUseExistingFNGObject::ctor</a></pre>
@@ -4384,7 +4285,6 @@ return amount of bytes actually read*/</span>
 <i>/*4C*/	char _pad4C[0x19B];</i>
 <i>/*1E7*/	</i>char __end <u></u>;
 };</div>
-<p><strong>Methods:</strong>
 <ul>
 <li><!--4A2C50-->
 <pre><i>4A2C50</i> <a href=funcs.html#4A2C50 title='OLViewCareerFNGObject::MessageHandler'>OLViewCareerFNGObject::MessageHandler</a></pre>
@@ -4397,7 +4297,6 @@ return amount of bytes actually read*/</span>
 <i>/*4C*/	char _pad4C[0xDF];</i>
 <i>/*12B*/	</i>char __end <u></u>;
 };</div>
-<p><strong>Methods:</strong>
 <ul>
 <li><!--4A21E0-->
 <pre><i>4A21E0</i> <a href=funcs.html#4A21E0 title='OLViewCarFNGObject::MessageHandler'>OLViewCarFNGObject::MessageHandler</a></pre>
@@ -4410,7 +4309,6 @@ return amount of bytes actually read*/</span>
 <i>/*4C*/	char _pad4C[0x117];</i>
 <i>/*163*/	</i>char __end <u></u>;
 };</div>
-<p><strong>Methods:</strong>
 <ul>
 <li><!--4D60C0-->
 <pre><i>4D60C0</i> <a href=funcs.html#4D60C0 title='OLViewTrackFNGObject::MessageHandler'>OLViewTrackFNGObject::MessageHandler</a></pre>
@@ -4423,7 +4321,6 @@ return amount of bytes actually read*/</span>
 <i>/*4C*/	char _pad4C[0x4E3];</i>
 <i>/*52F*/	</i>char __end <u></u>;
 };</div>
-<p><strong>Methods:</strong>
 <ul>
 <li><!--49CCB0-->
 <pre><i>49CCB0</i> <a href=funcs.html#49CCB0 title='struct OLWebOfferFNGObject *__thiscall OLWebOfferFNGObject__ctor(struct OLWebOfferFNGObject *this, int);'>OLWebOfferFNGObject::ctor</a></pre>
@@ -4434,7 +4331,6 @@ return amount of bytes actually read*/</span>
 <div>struct <h3>OLWebOffer2FNGObject</h3> { <i>/*1 members, size 530h*/</i> <em></em>
 <i>/*0*/	</i><a href=#struc_OLWebOfferFNGObject>struct OLWebOfferFNGObject</a> __parent;
 };</div>
-<p><strong>Methods:</strong>
 <ul>
 <li><!--4B9EE0-->
 <pre><i>4B9EE0</i> <a href=funcs.html#4B9EE0 title='OLWebOffer2FNGObject::MessageHandler'>OLWebOffer2FNGObject::MessageHandler</a></pre>
@@ -4445,7 +4341,6 @@ return amount of bytes actually read*/</span>
 <i>/*4C*/	char _pad4C[0x12B];</i>
 <i>/*177*/	</i>char __end <u></u>;
 };</div>
-<p><strong>Methods:</strong>
 <ul>
 <li><!--4BDF80-->
 <pre><i>4BDF80</i> <a href=funcs.html#4BDF80 title='OLXFindResultsFNGObject::MessageHandler'>OLXFindResultsFNGObject::MessageHandler</a></pre>
@@ -4458,7 +4353,6 @@ return amount of bytes actually read*/</span>
 <i>/*4C*/	char _pad4C[0x1337];</i>
 <i>/*1383*/</i>char __end <u></u>;
 };</div>
-<p><strong>Methods:</strong>
 <ul>
 <li><!--4E7540-->
 <pre><i>4E7540</i> <a href=funcs.html#4E7540 title='struct OLXMessageFNGObject *__thiscall OLXMessageFNGObject__ctor(struct OLXMessageFNGObject *this, int);'>OLXMessageFNGObject::ctor</a></pre>
@@ -4471,7 +4365,6 @@ return amount of bytes actually read*/</span>
 <i>/*4C*/	char _pad4C[0x117];</i>
 <i>/*163*/	</i>char __end <u></u>;
 };</div>
-<p><strong>Methods:</strong>
 <ul>
 <li><!--49C690-->
 <pre><i>49C690</i> <a href=funcs.html#49C690 title='OptionsFNGObject::MessageHandler'>OptionsFNGObject::MessageHandler</a></pre>
@@ -4484,7 +4377,6 @@ return amount of bytes actually read*/</span>
 <i>/*4C*/	char _pad4C[0x103];</i>
 <i>/*14F*/	</i>char __end <u></u>;
 };</div>
-<p><strong>Methods:</strong>
 <ul>
 <li><!--4B6080-->
 <pre><i>4B6080</i> <a href=funcs.html#4B6080 title='OptionsMainFNGObject::MessageHandler'>OptionsMainFNGObject::MessageHandler</a></pre>
@@ -4497,7 +4389,6 @@ return amount of bytes actually read*/</span>
 <i>/*4C*/	char _pad4C[0x143];</i>
 <i>/*18F*/	</i>char __end <u></u>;
 };</div>
-<p><strong>Methods:</strong>
 <ul>
 <li><!--563410-->
 <pre><i>563410</i> <a href=funcs.html#563410 title='PaintFNGObject::MessageHandler'>PaintFNGObject::MessageHandler</a></pre>
@@ -4510,7 +4401,6 @@ return amount of bytes actually read*/</span>
 <i>/*4C*/	char _pad4C[0x10B];</i>
 <i>/*157*/	</i>char __end <u></u>;
 };</div>
-<p><strong>Methods:</strong>
 <ul>
 <li><!--4C2170-->
 <pre><i>4C2170</i> <a href=funcs.html#4C2170 title='PauseFNGObject::MessageHandler'>PauseFNGObject::MessageHandler</a></pre>
@@ -4523,7 +4413,6 @@ return amount of bytes actually read*/</span>
 <i>/*4C*/	char _pad4C[0x10F];</i>
 <i>/*15B*/	</i>char __end <u></u>;
 };</div>
-<p><strong>Methods:</strong>
 <ul>
 <li><!--4A8010-->
 <pre><i>4A8010</i> <a href=funcs.html#4A8010 title='PauseOptionsFNGObject::MessageHandler'>PauseOptionsFNGObject::MessageHandler</a></pre>
@@ -4536,7 +4425,6 @@ return amount of bytes actually read*/</span>
 <i>/*4C*/	char _pad4C[0x107];</i>
 <i>/*153*/	</i>char __end <u></u>;
 };</div>
-<p><strong>Methods:</strong>
 <ul>
 <li><!--4A7D60-->
 <pre><i>4A7D60</i> <a href=funcs.html#4A7D60 title='PauseOptionsMainFNGObject::MessageHandler'>PauseOptionsMainFNGObject::MessageHandler</a></pre>
@@ -4549,7 +4437,6 @@ return amount of bytes actually read*/</span>
 <i>/*4C*/	char _pad4C[0xFF];</i>
 <i>/*14B*/	</i>char __end <u></u>;
 };</div>
-<p><strong>Methods:</strong>
 <ul>
 <li><!--49C540-->
 <pre><i>49C540</i> <a href=funcs.html#49C540 title='PCCustomizeOptionFNGObject::MessageHandler'>PCCustomizeOptionFNGObject::MessageHandler</a></pre>
@@ -4562,7 +4449,6 @@ return amount of bytes actually read*/</span>
 <i>/*4C*/	char _pad4C[0xB];</i>
 <i>/*57*/	</i>char __end <u></u>;
 };</div>
-<p><strong>Methods:</strong>
 <ul>
 <li><!--4A2E20-->
 <pre><i>4A2E20</i> <a href=funcs.html#4A2E20 title='PCLANFNGObject::MessageHandler'>PCLANFNGObject::MessageHandler</a></pre>
@@ -4575,7 +4461,6 @@ return amount of bytes actually read*/</span>
 <i>/*4C*/	char _pad4C[0x8DB];</i>
 <i>/*927*/	</i>char __end <u></u>;
 };</div>
-<p><strong>Methods:</strong>
 <ul>
 <li><!--4FB4C0-->
 <pre><i>4FB4C0</i> <a href=funcs.html#4FB4C0 title='struct PCLANServerSelectFNGObject *__thiscall PCLANServerSelectFNGObject__ctor(struct PCLANServerSelectFNGObject *this, int);'>PCLANServerSelectFNGObject::ctor</a></pre>
@@ -4588,7 +4473,6 @@ return amount of bytes actually read*/</span>
 <i>/*4C*/	char _pad4C[0x1177];</i>
 <i>/*11C3*/</i>char __end <u></u>;
 };</div>
-<p><strong>Methods:</strong>
 <ul>
 <li><!--4E4320-->
 <pre><i>4E4320</i> <a href=funcs.html#4E4320 title='struct PCOLGameRoomFNGObject *__thiscall PCOLGameRoomFNGObject__ctor(struct PCOLGameRoomFNGObject *this, int);'>PCOLGameRoomFNGObject::ctor</a></pre>
@@ -4601,7 +4485,6 @@ return amount of bytes actually read*/</span>
 <i>/*4C*/	char _pad4C[0x183];</i>
 <i>/*1CF*/	</i>char __end <u></u>;
 };</div>
-<p><strong>Methods:</strong>
 <ul>
 <li><!--4F1150-->
 <pre><i>4F1150</i> <a href=funcs.html#4F1150 title='struct PCOLLobbyFNGObject *__thiscall PCOLLobbyFNGObject__ctor(struct PCOLLobbyFNGObject *this, int);'>PCOLLobbyFNGObject::ctor</a></pre>
@@ -4614,7 +4497,6 @@ return amount of bytes actually read*/</span>
 <i>/*4C*/	char _pad4C[0xB];</i>
 <i>/*57*/	</i>char __end <u></u>;
 };</div>
-<p><strong>Methods:</strong>
 <ul>
 <li><!--4A1690-->
 <pre><i>4A1690</i> <a href=funcs.html#4A1690 title='PCOLSEARCHFNGObject::MessageHandler'>PCOLSEARCHFNGObject::MessageHandler</a></pre>
@@ -4627,7 +4509,6 @@ return amount of bytes actually read*/</span>
 <i>/*4C*/	char _pad4C[0xFF];</i>
 <i>/*14B*/	</i>char __end <u></u>;
 };</div>
-<p><strong>Methods:</strong>
 <ul>
 <li><!--5532B0-->
 <pre><i>5532B0</i> <a href=funcs.html#5532B0 title='struct PerformanceBrandSelectFNGObject *__thiscall PerformanceBrandSelectFNGObject__ctor(struct PerformanceBrandSelectFNGObject *this, int);'>PerformanceBrandSelectFNGObject::ctor</a></pre>
@@ -4640,7 +4521,6 @@ return amount of bytes actually read*/</span>
 <i>/*4C*/	char _pad4C[0x7];</i>
 <i>/*53*/	</i>char __end <u></u>;
 };</div>
-<p><strong>Methods:</strong>
 <ul>
 <li><!--54A800-->
 <pre><i>54A800</i> <a href=funcs.html#54A800 title='PerformanceDynoChartFNGObject::MessageHandler'>PerformanceDynoChartFNGObject::MessageHandler</a></pre>
@@ -4653,7 +4533,6 @@ return amount of bytes actually read*/</span>
 <i>/*4C*/	char _pad4C[0x10B];</i>
 <i>/*157*/	</i>char __end <u></u>;
 };</div>
-<p><strong>Methods:</strong>
 <ul>
 <li><!--55A460-->
 <pre><i>55A460</i> <a href=funcs.html#55A460 title='struct PerformanceDynoMAINFNGObject *__thiscall PerformanceDynoMAINFNGObject__ctor(struct PerformanceDynoMAINFNGObject *this, struct FNGShowData *fngShowData);'>PerformanceDynoMAINFNGObject::ctor</a></pre>
@@ -4666,7 +4545,6 @@ return amount of bytes actually read*/</span>
 <i>/*4C*/	char _pad4C[0xD3];</i>
 <i>/*11F*/	</i>char __end <u></u>;
 };</div>
-<p><strong>Methods:</strong>
 <ul>
 <li><!--53D510-->
 <pre><i>53D510</i> <a href=funcs.html#53D510 title='PerformanceDynoResultsFNGObject::MessageHandler'>PerformanceDynoResultsFNGObject::MessageHandler</a></pre>
@@ -4679,7 +4557,6 @@ return amount of bytes actually read*/</span>
 <i>/*4C*/	char _pad4C[0xB];</i>
 <i>/*57*/	</i>char __end <u></u>;
 };</div>
-<p><strong>Methods:</strong>
 <ul>
 <li><!--55AD70-->
 <pre><i>55AD70</i> <a href=funcs.html#55AD70 title='struct PerformanceTuningGraph *__thiscall PerformanceTuningGraph__ctor(struct PerformanceTuningGraph *this, int);'>PerformanceTuningGraph::ctor</a></pre>
@@ -4692,7 +4569,6 @@ return amount of bytes actually read*/</span>
 <i>/*4C*/	char _pad4C[0x10B];</i>
 <i>/*157*/	</i>char __end <u></u>;
 };</div>
-<p><strong>Methods:</strong>
 <ul>
 <li><!--55AA40-->
 <pre><i>55AA40</i> <a href=funcs.html#55AA40 title='struct PerformanceTuningMaster *__thiscall PerformanceTuningMaster__ctor(struct PerformanceTuningMaster *this, struct FNGShowData *fngShowData);'>PerformanceTuningMaster::ctor</a></pre>
@@ -4705,7 +4581,6 @@ return amount of bytes actually read*/</span>
 <i>/*4C*/	char _pad4C[0x10B];</i>
 <i>/*157*/	</i>char __end <u></u>;
 };</div>
-<p><strong>Methods:</strong>
 <ul>
 <li><!--55A620-->
 <pre><i>55A620</i> <a href=funcs.html#55A620 title='struct PerformanceTuningSetting *__thiscall PerformanceTuningSetting__ctor(struct PerformanceTuningSetting *this, struct FNGShowData *fngShowData);'>PerformanceTuningSetting::ctor</a></pre>
@@ -4718,7 +4593,6 @@ return amount of bytes actually read*/</span>
 <i>/*4C*/	char _pad4C[0x107];</i>
 <i>/*153*/	</i>char __end <u></u>;
 };</div>
-<p><strong>Methods:</strong>
 <ul>
 <li><!--55AC10-->
 <pre><i>55AC10</i> <a href=funcs.html#55AC10 title='struct PerformanceTuningSlidersFNGObject *__thiscall PerformanceTuningSlidersFNGObject__ctor(struct PerformanceTuningSlidersFNGObject *this, int);'>PerformanceTuningSlidersFNGObject::ctor</a></pre>
@@ -4731,7 +4605,6 @@ return amount of bytes actually read*/</span>
 <i>/*4C*/	char _pad4C[0x107];</i>
 <i>/*153*/	</i>char __end <u></u>;
 };</div>
-<p><strong>Methods:</strong>
 <ul>
 <li><!--4A3E30-->
 <pre><i>4A3E30</i> <a href=funcs.html#4A3E30 title='void __thiscall PostRaceFNGObject__PlayMovieIfNeeded(struct PostRaceFNGObject *this);'>PostRaceFNGObject::PlayMovieIfNeeded</a></pre>
@@ -4746,7 +4619,6 @@ return amount of bytes actually read*/</span>
 <i>/*4C*/	char _pad4C[0x2B];</i>
 <i>/*77*/	</i>char __end <u></u>;
 };</div>
-<p><strong>Methods:</strong>
 <ul>
 <li><!--4E9A20-->
 <pre><i>4E9A20</i> <a href=funcs.html#4E9A20 title='PostRaceResultsFNGObject::MessageHandler'>PostRaceResultsFNGObject::MessageHandler</a></pre>
@@ -4759,7 +4631,6 @@ return amount of bytes actually read*/</span>
 <i>/*4C*/	char _pad4C[0x3];</i>
 <i>/*4F*/	</i>char __end <u></u>;
 };</div>
-<p><strong>Methods:</strong>
 <ul>
 <li><!--4A4240-->
 <pre><i>4A4240</i> <a href=funcs.html#4A4240 title='PostRaceRewardFNGObject::InitUI'>PostRaceRewardFNGObject::InitUI</a></pre>
@@ -4774,7 +4645,6 @@ return amount of bytes actually read*/</span>
 <i>/*4C*/	char _pad4C[0x143];</i>
 <i>/*18F*/	</i>char __end <u></u>;
 };</div>
-<p><strong>Methods:</strong>
 <ul>
 <li><!--4FBBC0-->
 <pre><i>4FBBC0</i> <a href=funcs.html#4FBBC0 title='struct PostRaceStatsFNGObject *__thiscall PostRaceStatsFNGObject__ctor(struct PostRaceStatsFNGObject *this, int);'>PostRaceStatsFNGObject::ctor</a></pre>
@@ -4787,7 +4657,6 @@ return amount of bytes actually read*/</span>
 <i>/*4C*/	char _pad4C[0x3F];</i>
 <i>/*8B*/	</i>char __end <u></u>;
 };</div>
-<p><strong>Methods:</strong>
 <ul>
 <li><!--4F41F0-->
 <pre><i>4F41F0</i> <a href=funcs.html#4F41F0 title='struct PostRaceTournResultsFNGObject *__thiscall PostRaceTournResultsFNGObject__ctor(struct PostRaceTournResultsFNGObject *this, int);'>PostRaceTournResultsFNGObject::ctor</a></pre>
@@ -4800,7 +4669,6 @@ return amount of bytes actually read*/</span>
 <i>/*4C*/	char _pad4C[0x47];</i>
 <i>/*93*/	</i>char __end <u></u>;
 };</div>
-<p><strong>Methods:</strong>
 <ul>
 <li><!--4EA6A0-->
 <pre><i>4EA6A0</i> <a href=funcs.html#4EA6A0 title='PostRaceTournStandingsFNGObject::MessageHandler'>PostRaceTournStandingsFNGObject::MessageHandler</a></pre>
@@ -4813,7 +4681,6 @@ return amount of bytes actually read*/</span>
 <i>/*4C*/	char _pad4C[0x107];</i>
 <i>/*153*/	</i>char __end <u></u>;
 };</div>
-<p><strong>Methods:</strong>
 <ul>
 <li><!--4D9800-->
 <pre><i>4D9800</i> <a href=funcs.html#4D9800 title='ProfileManagerFNGObject::MessageHandler'>ProfileManagerFNGObject::MessageHandler</a></pre>
@@ -4826,7 +4693,6 @@ return amount of bytes actually read*/</span>
 <i>/*4C*/	char _pad4C[0x117];</i>
 <i>/*163*/	</i>char __end <u></u>;
 };</div>
-<p><strong>Methods:</strong>
 <ul>
 <li><!--4EF3F0-->
 <pre><i>4EF3F0</i> <a href=funcs.html#4EF3F0 title='struct QRModeOptionsFNGObject *__thiscall QRModeOptionsFNGObject__ctor(struct QRModeOptionsFNGObject *this, int);'>QRModeOptionsFNGObject::ctor</a></pre>
@@ -4839,7 +4705,6 @@ return amount of bytes actually read*/</span>
 <i>/*4C*/	char _pad4C[0x103];</i>
 <i>/*14F*/	</i>char __end <u></u>;
 };</div>
-<p><strong>Methods:</strong>
 <ul>
 <li><!--4B2B30-->
 <pre><i>4B2B30</i> <a href=funcs.html#4B2B30 title='QRModeSelectFNGObject::MessageHandler'>QRModeSelectFNGObject::MessageHandler</a></pre>
@@ -4885,7 +4750,6 @@ return amount of bytes actually read*/</span>
 <i>/*1B5*/	char _pad1B5[0x2];</i>
 <i>/*1B7*/	</i>char __end <u></u>;
 };</div>
-<p><strong>Methods:</strong>
 <ul>
 <li><!--497BF0-->
 <pre><i>497BF0</i> <a href=funcs.html#497BF0 title='void __thiscall CarSelectFNGObject__InitializeProgressBars(struct CarSelectFNGObject *this);'>CarSelectFNGObject::InitializeProgressBars</a></pre>
@@ -4906,7 +4770,6 @@ return amount of bytes actually read*/</span>
 <i>/*4C*/	char _pad4C[0x113];</i>
 <i>/*15F*/	</i>char __end <u></u>;
 };</div>
-<p><strong>Methods:</strong>
 <ul>
 <li><!--4E2F30-->
 <pre><i>4E2F30</i> <a href=funcs.html#4E2F30 title='struct QRTrackSelectFNGObject *__thiscall QRTrackSelectFNGObject__ctor(struct QRTrackSelectFNGObject *this, int);'>QRTrackSelectFNGObject::ctor</a></pre>
@@ -4919,7 +4782,6 @@ return amount of bytes actually read*/</span>
 <i>/*4C*/	char _pad4C[0x97];</i>
 <i>/*E3*/	</i>char __end <u></u>;
 };</div>
-<p><strong>Methods:</strong>
 <ul>
 <li><!--4D8F20-->
 <pre><i>4D8F20</i> <a href=funcs.html#4D8F20 title='struct QuickRaceCarSelectFNGObject *__thiscall QuickRaceCarSelectFNGObject__ctor(struct QuickRaceCarSelectFNGObject *this, int);'>QuickRaceCarSelectFNGObject::ctor</a></pre>
@@ -4932,7 +4794,6 @@ return amount of bytes actually read*/</span>
 <i>/*4C*/	char _pad4C[0xBB];</i>
 <i>/*107*/	</i>char __end <u></u>;
 };</div>
-<p><strong>Methods:</strong>
 <ul>
 <li><!--4C0AA0-->
 <pre><i>4C0AA0</i> <a href=funcs.html#4C0AA0 title='struct ReplayControlFNGObject *__thiscall ReplayControlFNGObject__ctor(struct ReplayControlFNGObject *this, int);'>ReplayControlFNGObject::ctor</a></pre>
@@ -4945,7 +4806,6 @@ return amount of bytes actually read*/</span>
 <i>/*4C*/	char _pad4C[0x1B7];</i>
 <i>/*203*/	</i>char __end <u></u>;
 };</div>
-<p><strong>Methods:</strong>
 <ul>
 <li><!--495C40-->
 <pre><i>495C40</i> <a href=funcs.html#495C40 title='RewardsSponsorFNGObject::MessageHandler'>RewardsSponsorFNGObject::MessageHandler</a></pre>
@@ -4958,7 +4818,6 @@ return amount of bytes actually read*/</span>
 <i>/*4C*/	char _pad4C[0x1CB];</i>
 <i>/*217*/	</i>char __end <u></u>;
 };</div>
-<p><strong>Methods:</strong>
 <ul>
 <li><!--5678E0-->
 <pre><i>5678E0</i> <a href=funcs.html#5678E0 title='struct RimsBrowserFNGObject *__thiscall RimsBrowserFNGObject__ctor(struct RimsBrowserFNGObject *this, struct FNGShowData *fngShowData);'>RimsBrowserFNGObject::ctor</a></pre>
@@ -4971,7 +4830,6 @@ return amount of bytes actually read*/</span>
 <i>/*4C*/	char _pad4C[0x9F];</i>
 <i>/*EB*/	</i>char __end <u></u>;
 };</div>
-<p><strong>Methods:</strong>
 <ul>
 <li><!--4CE770-->
 <pre><i>4CE770</i> <a href=funcs.html#4CE770 title='struct ShowcasePreviewFNGObject *__thiscall ShowcasePreviewFNGObject__ctor(struct ShowcasePreviewFNGObject *this, int);'>ShowcasePreviewFNGObject::ctor</a></pre>
@@ -4982,7 +4840,6 @@ return amount of bytes actually read*/</span>
 <div>struct <h3>SponsorPopupFNGObject</h3> { <i>/*1 members, size 4Ch*/</i> <em></em>
 <i>/*0*/	</i><a href=#struc_FNGObject>struct FNGObject</a> __parent;
 };</div>
-<p><strong>Methods:</strong>
 <ul>
 <li><!--4A5250-->
 <pre><i>4A5250</i> <a href=funcs.html#4A5250 title='struct SponsorPopupFNGObject *__thiscall SponsorPopupFNGObject__ctor(struct SponsorPopupFNGObject *this, int);'>SponsorPopupFNGObject::ctor</a></pre>
@@ -5018,7 +4875,6 @@ return amount of bytes actually read*/</span>
 <i>/*46*/	char _pad46[0x1];</i>
 <i>/*47*/	</i>char __end <u></u>;
 };</div>
-<p><strong>Methods:</strong>
 <ul>
 <li><!--51F670-->
 <pre><i>51F670</i> <a href=funcs.html#51F670 title='struct IconScrollerIcon *__thiscall IconScrollerIcon__ctor(struct IconScrollerIcon *this, int, int, int);'>IconScrollerIcon::ctor</a></pre>
@@ -5029,7 +4885,6 @@ return amount of bytes actually read*/</span>
 <i>/*0*/	</i><a href=#struc_IconScrollerIcon>struct IconScrollerIcon</a> __parent;
 <i>/*48*/	</i><a href=structs.html#struc_CareerSponsor>struct CareerSponsor</a> *sponsor;
 };</div>
-<p><strong>Methods:</strong>
 <ul>
 <li><!--4C14C0-->
 <pre><i>4C14C0</i> <a href=funcs.html#4C14C0 title='int __thiscall SponsorIconScrollerIcon__IconSelected(struct SponsorIconScrollerIcon *this, char *dialogParentFNGName, int, int, int, int);'>SponsorIconScrollerIcon::IconSelected</a></pre>
@@ -5051,7 +4906,6 @@ return amount of bytes actually read*/</span>
 <span class='mm'>/**points to the same element as <a href=structs.html#struc_SponsorshipnewFNGObject0>__parent</a>.<a href=structs.html#struc_IconScrollerFNGObject4C>iconScroller</a>.<a href=structs.html#struc_IconScroller0>__parent</a>.<a href=structs.html#struc_IconScrollerBase10>uiElementOPTION_MASTER</a> at time of debugging*/</span>
 <i>/*210*/	</i><a href=structs.html#struc_UIElementType1>struct UIElementType1</a> *sponsorLogoUIElementAgainAgain;
 };</div>
-<p><strong>Methods:</strong>
 <ul>
 <li><!--4A5300-->
 <pre><i>4A5300</i> <a href=funcs.html#4A5300 title='void __thiscall SponsorshipnewFNGObject__SelectedIconChanged(struct SponsorshipnewFNGObject *this);'>SponsorshipnewFNGObject::SelectedIconChanged</a></pre>
@@ -5068,7 +4922,6 @@ return amount of bytes actually read*/</span>
 <i>/*4C*/	char _pad4C[0x107];</i>
 <i>/*153*/	</i>char __end <u></u>;
 };</div>
-<p><strong>Methods:</strong>
 <ul>
 <li><!--4AF2C0-->
 <pre><i>4AF2C0</i> <a href=funcs.html#4AF2C0 title='StartCareerFNGObject::MessageHandler'>StartCareerFNGObject::MessageHandler</a></pre>
@@ -5080,7 +4933,6 @@ return amount of bytes actually read*/</span>
 <i>/*50*/	char _pad50[0xB7];</i>
 <i>/*107*/	</i>char __end <u></u>;
 };</div>
-<p><strong>Methods:</strong>
 <ul>
 <li><!--4B1B60-->
 <pre><i>4B1B60</i> <a href=funcs.html#4B1B60 title='StatusCareerFNGObject::MessageHandler'>StatusCareerFNGObject::MessageHandler</a></pre>
@@ -5103,7 +4955,6 @@ return amount of bytes actually read*/</span>
 <div>struct <h3>StatusDVDFNGObject</h3> { <i>/*1 members, size 4Ch*/</i> <em></em>
 <i>/*0*/	</i><a href=#struc_FNGObject>struct FNGObject</a> __parent;
 };</div>
-<p><strong>Methods:</strong>
 <ul>
 <li><!--4B1CF0-->
 <pre><i>4B1CF0</i> <a href=funcs.html#4B1CF0 title='struct StatusDVDFNGObject *__thiscall StatusDVDFNGObject__ctor(struct StatusDVDFNGObject *this, int);'>StatusDVDFNGObject::ctor</a></pre>
@@ -5114,7 +4965,6 @@ return amount of bytes actually read*/</span>
 <i>/*4C*/	char _pad4C[0xBB];</i>
 <i>/*107*/	</i>char __end <u></u>;
 };</div>
-<p><strong>Methods:</strong>
 <ul>
 <li><!--4B1F20-->
 <pre><i>4B1F20</i> <a href=funcs.html#4B1F20 title='StatusMasterFNGObject::MessageHandler'>StatusMasterFNGObject::MessageHandler</a></pre>
@@ -5127,7 +4977,6 @@ return amount of bytes actually read*/</span>
 <i>/*4C*/	char _pad4C[0x3];</i>
 <i>/*4F*/	</i>char __end <u></u>;
 };</div>
-<p><strong>Methods:</strong>
 <ul>
 <li><!--497040-->
 <pre><i>497040</i> <a href=funcs.html#497040 title='int __thiscall StatusRegionFNGObject__497040(struct StatusRegionFNGObject *this);'>StatusRegionFNGObject::497040</a></pre>
@@ -5140,7 +4989,6 @@ return amount of bytes actually read*/</span>
 <i>/*4C*/	char _pad4C[0x3];</i>
 <i>/*4F*/	</i>char __end <u></u>;
 };</div>
-<p><strong>Methods:</strong>
 <ul>
 <li><!--4C5280-->
 <pre><i>4C5280</i> <a href=funcs.html#4C5280 title='LSChineseHealthFNGObject::MessageHandler'>LSChineseHealthFNGObject::MessageHandler</a></pre>
@@ -5149,7 +4997,6 @@ return amount of bytes actually read*/</span>
 <div>struct <h3>LSBlankMovieFNGObject</h3> { <i>/*1 members, size 4Ch*/</i> <em></em>
 <i>/*0*/	</i><a href=#struc_FNGObject>struct FNGObject</a> __parent;
 };</div>
-<p><strong>Methods:</strong>
 <ul>
 <li><!--4A8A30-->
 <pre><i>4A8A30</i> <a href=funcs.html#4A8A30 title='struct LSBlankMovieFNGObject *__thiscall LSBlankMovieFNGObject__ctor(struct LSBlankMovieFNGObject *this);'>LSBlankMovieFNGObject::ctor</a></pre>
@@ -5161,7 +5008,6 @@ return amount of bytes actually read*/</span>
 <div>struct <h3>LSLangSelectFNGObject</h3> { <i>/*1 members, size 150h*/</i> <em></em>
 <i>/*0*/	</i><a href=#struc_IconScrollerFNGObject>struct IconScrollerFNGObject</a> __parent;
 };</div>
-<p><strong>Methods:</strong>
 <ul>
 <li><!--4A90E0-->
 <pre><i>4A90E0</i> <a href=funcs.html#4A90E0 title='int __thiscall LSLangSelectFNGObject__MessageHandler(struct LSLangSelectFNGObject *this, int message, int, int, int);'>LSLangSelectFNGObject::MessageHandler</a></pre>
@@ -5194,7 +5040,6 @@ return amount of bytes actually read*/</span>
 <i>/*14E*/	char field_14E;</i>
 <i>/*14F*/	char field_14F;</i>
 };</div>
-<p><strong>Methods:</strong>
 <ul>
 <li><!--4DF010-->
 <pre><i>4DF010</i> <a href=funcs.html#4DF010 title='int __thiscall IconScrollerFNGObject__dtor(struct IconScrollerFNGObject *this, char);'>IconScrollerFNGObject::dtor</a></pre>
@@ -5263,7 +5108,6 @@ return amount of bytes actually read*/</span>
 <span class='mm'>/**inited to -9*/</span>
 <i>/*34*/	int field_34;</i>
 };</div>
-<p><strong>Methods:</strong>
 <ul>
 <li><!--543840-->
 <pre><i>543840</i> <a href=funcs.html#543840 title='struct IconScrollerBase *__thiscall IconScrollerBase__ctor(struct IconScrollerBase *this, char *fngName, char *str_OPTION_MASTER, char *str_LOCK_MASTER, char *str_BUTTON_MASTER, char *str_OptionPrefix, char someChar);'>IconScrollerBase::ctor</a></pre>
@@ -5302,7 +5146,6 @@ return amount of bytes actually read*/</span>
 <i>/*E0*/	float floatField_E0;</i>
 <i>/*E4*/	char field_E4;</i>
 };</div>
-<p><strong>Methods:</strong>
 <ul>
 <li><!--50D980-->
 <pre><i>50D980</i> <a href=funcs.html#50D980 title='int __thiscall IconScroller__50D980(struct IconScroller *this, int, int, int, int);'>IconScroller::50D980</a></pre>
@@ -5325,7 +5168,6 @@ return amount of bytes actually read*/</span>
 <div>struct <h3>MainFNGObject</h3> { <i>/*1 members, size 150h*/</i> <em></em>
 <i>/*0*/	</i><a href=#struc_IconScrollerFNGObject>struct IconScrollerFNGObject</a> __parent;
 };</div>
-<p><strong>Methods:</strong>
 <ul>
 <li><!--4DF140-->
 <pre><i>4DF140</i> <a href=funcs.html#4DF140 title='MainFNGObject::ctor'>MainFNGObject::ctor</a></pre>
@@ -5350,7 +5192,6 @@ return amount of bytes actually read*/</span>
 <i>/*6E*/	char field_6E;</i>
 <i>/*6F*/	char field_6F;</i>
 };</div>
-<p><strong>Methods:</strong>
 <ul>
 <li><!--50CF10-->
 <pre><i>50CF10</i> <a href=funcs.html#50CF10 title='int __thiscall PCHelpBarFNGObject__IsSomethingStillAnimating(struct PCHelpBarFNGObject *this);'>PCHelpBarFNGObject::IsSomethingStillAnimating</a></pre>
@@ -5391,7 +5232,6 @@ return amount of bytes actually read*/</span>
 <i>/*54*/	int field_54;</i>
 <i>/*58*/	</i><a href=#struc_DialogInfo>struct DialogInfo</a> dialogInfo;
 };</div>
-<p><strong>Methods:</strong>
 <ul>
 <li><!--54C050-->
 <pre><i>54C050</i> <a href=funcs.html#54C050 title='int __thiscall DialogFNGObject__MessageHandler(struct DialogFNGObject *this, int, int, int, int);'>DialogFNGObject::MessageHandler</a></pre>
@@ -5416,7 +5256,6 @@ return amount of bytes actually read*/</span>
 <i>/*58*/	int field_58;</i>
 <i>/*5C*/	int field_5C;</i>
 };</div>
-<p><strong>Methods:</strong>
 <ul>
 <li><!--4AC730-->
 <pre><i>4AC730</i> <a href=funcs.html#4AC730 title='ChyronIGFNGObject::ctor'>ChyronIGFNGObject::ctor</a></pre>
@@ -5429,7 +5268,6 @@ return amount of bytes actually read*/</span>
 <i>/*4C*/	char _pad4C[0xC4];</i>
 <i>/*110*/	</i>int ptrField_110 <u></u>;
 };</div>
-<p><strong>Methods:</strong>
 <ul>
 <li><!--568D30-->
 <pre><i>568D30</i> <a href=funcs.html#568D30 title='IcePartsOverlayFNGObject::MessageHandler'>IcePartsOverlayFNGObject::MessageHandler</a></pre>
@@ -5455,7 +5293,6 @@ return amount of bytes actually read*/</span>
 <span class='mm'>/**ui element "DOWN_ARROW"*/</span>
 <i>/*1B4*/	</i><a href=structs.html#struc_UIElement>struct UIElement</a> *uiElementDownArrow;
 };</div>
-<p><strong>Methods:</strong>
 <ul>
 <li><!--4CC900-->
 <pre><i>4CC900</i> <a href=funcs.html#4CC900 title='void __thiscall SMSMailboxFNGObject__ShowSmsList(struct SMSMailboxFNGObject *this);'>SMSMailboxFNGObject::ShowSmsList</a></pre>
@@ -5487,7 +5324,6 @@ return amount of bytes actually read*/</span>
 <i>/*2C*/	</i>char *animationString1;
 <i>/*30*/	</i>char *animationString2;
 };</div>
-<p><strong>Methods:</strong>
 <ul>
 <li><!--51EFD0-->
 <pre><i>51EFD0</i> <a href=funcs.html#51EFD0 title='void __thiscall MailBoxRelated1__RecalculateUIElementRectOrSomething(struct MailBoxRelated1 *this);'>MailBoxRelated1::RecalculateUIElementRectOrSomething</a></pre>
@@ -5545,7 +5381,6 @@ return amount of bytes actually read*/</span>
 <i>/*0*/	</i><a href=structs.html#struc_ObjectLink>struct ObjectLink</a> *next;
 <i>/*4*/	</i><a href=structs.html#struc_ObjectLink>struct ObjectLink</a> *prev;
 };</div>
-<p><strong>Methods:</strong>
 <ul>
 <li><!--43BE60-->
 <pre><i>43BE60</i> <a href=funcs.html#43BE60 title='struct ObjectLink *__thiscall ObjectLink__GetObjectAtIndex(struct ObjectLink *this, int index);'>ObjectLink::GetObjectAtIndex</a></pre>
@@ -5566,7 +5401,6 @@ return amount of bytes actually read*/</span>
 <i id=struc_SmsDataC></i><i>/*C*/	</i>int moneyReward;
 <i id=struc_SmsData10></i><i>/*10*/	</i>unsigned int senderLanguageLabel;
 };</div>
-<p><strong>Methods:</strong>
 <ul>
 <li><!--501370-->
 <pre><i>501370</i> <a href=funcs.html#501370 title='int __thiscall SmsData__CanSendUnlockMessage_(struct SmsData *this, struct Bin34A11 *ptrMaybeGameState);'>SmsData::CanSendUnlockMessage?</a></pre>
@@ -5599,7 +5433,6 @@ return amount of bytes actually read*/</span>
 <i>/*C*/	</i>unsigned int subjectParameterLanguageLabel;
 <i>/*10*/	</i>unsigned int subjectFormatLanguageLabel;
 };</div>
-<p><strong>Methods:</strong>
 <ul>
 <li><!--501470-->
 <pre><i>501470</i> <a href=funcs.html#501470 title='unsigned int __thiscall SmsMessage__GetSenderLanguageHash(struct SmsMessage *this);'>SmsMessage::GetSenderLanguageHash</a></pre>
@@ -5620,7 +5453,6 @@ return amount of bytes actually read*/</span>
 <i>/*140F*/char field_140F;</i>
 <i>/*1410*/int field_1410;</i>
 };</div>
-<p><strong>Methods:</strong>
 <ul>
 <li><!--501480-->
 <pre><i>501480</i> <a href=funcs.html#501480 title='int __thiscall SmsMessageList__501480(struct SmsMessageList *this, int);'>SmsMessageList::501480</a></pre>
@@ -5683,7 +5515,6 @@ return amount of bytes actually read*/</span>
 <i>/*17*/	char field_17;</i>
 <i>/*18*/	</i><a href=structs.html#struc_SmsMessage>struct SmsMessage</a> *sms;
 };</div>
-<p><strong>Methods:</strong>
 <ul>
 <li><!--4CC7C0-->
 <pre><i>4CC7C0</i> <a href=funcs.html#4CC7C0 title='struct SmsListEntry *__thiscall SmsListEntry__ctor(struct SmsListEntry *this, struct SmsMessage *sms);'>SmsListEntry::ctor</a></pre>
@@ -5697,7 +5528,6 @@ return amount of bytes actually read*/</span>
 <i>/*FC*/	</i><a href=structs.html#struc_SmsMessage>struct SmsMessage</a> *sms;
 <i>/*100*/	int field_100;</i>
 };</div>
-<p><strong>Methods:</strong>
 <ul>
 <li><!--497850-->
 <pre><i>497850</i> <a href=funcs.html#497850 title='int __thiscall EngageMessageDialogFNGObject__ctor(struct EngageMessageDialogFNGObject *this, struct FNGShowData *fngShowData);'>EngageMessageDialogFNGObject::ctor</a></pre>
@@ -5743,7 +5573,6 @@ return amount of bytes actually read*/</span>
 <span class='mm'>/**%s_Backing_End_2 (scrollbar body end right)*/</span>
 <i>/*54*/	</i><a href=structs.html#struc_UIElementType1>struct UIElementType1</a> *uiElementBackingEnd2;
 };</div>
-<p><strong>Methods:</strong>
 <ul>
 <li><!--495810-->
 <pre><i>495810</i> <a href=funcs.html#495810 title='void __thiscall ScrollingThing__ApplyBlinkAnimationToLeftArrowIfNotAlready(struct ScrollingThing *this);'>ScrollingThing::ApplyBlinkAnimationToLeftArrowIfNotAlready</a></pre>
@@ -5802,7 +5631,6 @@ size may be bigger, unknown</div>
 <i>/*A4*/	int field_A4;</i>
 <i>/*A8*/	char field_A8;</i>
 };</div>
-<p><strong>Methods:</strong>
 <ul>
 <li><!--51F4E0-->
 <pre><i>51F4E0</i> <a href=funcs.html#51F4E0 title='void __thiscall SubScrollingThing__51F4E0(struct SubScrollingThing *this);'>SubScrollingThing::51F4E0</a></pre>
@@ -5837,7 +5665,6 @@ size may be bigger, unknown</div>
 <i>/*4C*/	int field_4C;</i>
 <i>/*50*/	int field_50;</i>
 };</div>
-<p><strong>Methods:</strong>
 <ul>
 <li><!--50DB40-->
 <pre><i>50DB40</i> <a href=funcs.html#50DB40 title='void __thiscall CommonFNGObjectStructA__ctor(struct CommonFNGObjectStructA *this);'>CommonFNGObjectStructA::ctor</a></pre>
@@ -5862,7 +5689,6 @@ size may be bigger, unknown</div>
 <i id=struc_WideCharString4></i><span class='mm'>/**amount of wchars that can fit, excluding zero term*/</span>
 <i>/*4*/	</i>int allocatedWcharLength;
 };</div>
-<p><strong>Methods:</strong>
 <ul>
 <li><!--51DE90-->
 <pre><i>51DE90</i> <a href=funcs.html#51DE90 title='int __thiscall WideCharString__EnsureAllocatedSize(struct WideCharString *this, int length);'>WideCharString::EnsureAllocatedSize</a></pre>
@@ -5888,7 +5714,6 @@ size may be bigger, unknown</div>
 <i>/*2C*/	</i><a href=structs.html#struc_UILabel>struct UILabel</a> *uilabel;
 <i>/*30*/	</i><a href=#struc_vec2>struct vec2</a> sizeCopy;
 };</div>
-<p><strong>Methods:</strong>
 <ul>
 <li><!--51DFC0-->
 <pre><i>51DFC0</i> <a href=funcs.html#51DFC0 title='void __thiscall ControllerOptionsRelated__ctor_data(struct ControllerOptionsRelated *this, int *, float *, char);'>ControllerOptionsRelated::ctor_data</a></pre>
@@ -6019,7 +5844,6 @@ size may be bigger, unknown</div>
 <i>/*369*/	char _pad369[0x3];</i>
 <i>/*36C*/	int field_36C;</i>
 };</div>
-<p><strong>Methods:</strong>
 <ul>
 <li><!--5B8000-->
 <pre><i>5B8000</i> <a href=funcs.html#5B8000 title='void __thiscall ControllerStruct874C40__dtor(void *this);'>ControllerStruct874C40::dtor</a></pre>
@@ -6071,7 +5895,6 @@ size may be bigger, unknown</div>
 <i>/*8*/	</i>float right;
 <i>/*C*/	</i>float bottom;
 };</div>
-<p><strong>Methods:</strong>
 <ul>
 <li><!--4FDAD0-->
 <pre><i>4FDAD0</i> <a href=funcs.html#4FDAD0 title='void __thiscall U2RECT__Add(struct U2RECT *this, struct U2RECT *rect);'>U2RECT::Add</a></pre>
@@ -6152,7 +5975,6 @@ although if this element is a label, the measured text height (which is also a g
 <i id=struc_UIElement54></i><i>/*54*/	</i><a href=structs.html#struc_UIElement_Animation>struct UIElement_Animation</a> *currentAnimation?;
 <i id=struc_UIElement58></i><i>/*58*/	</i><a href=structs.html#struc_FERenderObject>struct FERenderObject</a> *FERenderObject;
 };</div>
-<p><strong>Methods:</strong>
 <ul>
 <li><!--517720-->
 <pre><i>517720</i> <a href=funcs.html#517720 title='int __thiscall UIElement__AnimationChanged(struct UIElement *this);'>UIElement::AnimationChanged</a></pre>
@@ -6175,7 +5997,6 @@ although if this element is a label, the measured text height (which is also a g
 <i>/*70*/	int field_70;</i>
 <i>/*74*/	int field_74;</i>
 };</div>
-<p><strong>Methods:</strong>
 <ul>
 <li><!--52C2F0-->
 <pre><i>52C2F0</i> <a href=funcs.html#52C2F0 title='int __thiscall UILabel__SetStringToDialogText(struct UILabel *this, struct DialogInfo *dialogInfo);'>UILabel::SetStringToDialogText</a></pre>
@@ -6205,7 +6026,6 @@ although if this element is a label, the measured text height (which is also a g
 <i id=struc_UIData10></i><span class='mm'>/**sentinel node*/</span>
 <i>/*10*/	</i><a href=#struc_PoolEntry>struct PoolEntry</a> levelSorterPoolEntry;
 };</div>
-<p><strong>Methods:</strong>
 <ul>
 <li><!--50C680-->
 <pre><i>50C680</i> <a href=funcs.html#50C680 title='int __thiscall UIData__50C680(struct UIData *this);'>UIData::50C680</a></pre>
@@ -6261,7 +6081,6 @@ although if this element is a label, the measured text height (which is also a g
 <i>/*18*/	char _pad18[0x8];</i>
 <i>/*20*/	char field_20[13312];</i>
 };</div>
-<p><strong>Methods:</strong>
 <ul>
 <li><!--536050-->
 <pre><i>536050</i> <a href=funcs.html#536050 title='void __thiscall UIDataC__ctor(struct UIDataC *this);'>UIDataC::ctor</a></pre>
@@ -6363,7 +6182,6 @@ although if this element is a label, the measured text height (which is also a g
 <i>/*5252*/char field_5252;</i>
 <i>/*5253*/char field_5253;</i>
 };</div>
-<p><strong>Methods:</strong>
 <ul>
 <li><!--51A740-->
 <pre><i>51A740</i> <a href=funcs.html#51A740 title='int __thiscall UIData_field8__CreateField8Instances(struct UIData_field8 *this, int);'>UIData_field8::CreateField8Instances</a></pre>
@@ -6400,7 +6218,6 @@ although if this element is a label, the measured text height (which is also a g
 <i>/*4*/	int field_4;</i>
 <i>/*8*/	char field_8[128];</i>
 };</div>
-<p><strong>Methods:</strong>
 <ul>
 <li><!--519AE0-->
 <pre><i>519AE0</i> <a href=funcs.html#519AE0 title='void __thiscall UIData_field8_8__ctor(struct UIData_field8_8 *this);'>UIData_field8_8::ctor</a></pre>
@@ -6422,7 +6239,6 @@ although if this element is a label, the measured text height (which is also a g
 <i>/*C*/	</i>char *name;
 <i id=struc_NamedLinkNode10></i><i>/*10*/	</i>unsigned int cihashOfName;
 };</div>
-<p><strong>Methods:</strong>
 <ul>
 <li><!--519DE0-->
 <pre><i>519DE0</i> <a href=funcs.html#519DE0 title='void __thiscall NamedLinkNode__CopyNameIntoCAndHashInto10(struct NamedLinkNode *this, char *name);'>NamedLinkNode::CopyNameIntoCAndHashInto10</a></pre>
@@ -6435,7 +6251,6 @@ although if this element is a label, the measured text height (which is also a g
 <i>/*C*/	</i><a href=structs.html#struc_UIDLA>struct UIDLA</a> *lastUIDLA;
 <i>/*10*/	char field_10;</i>
 };</div>
-<p><strong>Methods:</strong>
 <ul>
 <li><!--5359D0-->
 <pre><i>5359D0</i> <a href=funcs.html#5359D0 title='int __thiscall UIData_field8_4134__ctor(struct UIData_field8_4134 *this);'>UIData_field8_4134::ctor</a></pre>
@@ -6452,7 +6267,6 @@ although if this element is a label, the measured text height (which is also a g
 <i>/*20*/	</i><a href=structs.html#struc_UIDLA_ENTRY>struct UIDLA_ENTRY</a> *lastEntry;
 <i>/*24*/	</i>int uiElementType <u></u>;
 };</div>
-<p><strong>Methods:</strong>
 <ul>
 <li><!--514780-->
 <pre><i>514780</i> <a href=funcs.html#514780 title='void __thiscall UIDLA__AddEntry(struct UIDLA *this, struct UIDLA_ENTRY *entry);'>UIDLA::AddEntry</a></pre>
@@ -6480,7 +6294,6 @@ although if this element is a label, the measured text height (which is also a g
 <i>/*8*/	</i><a href=structs.html#struc_FNGInfo>struct FNGInfo</a> *topPackage;
 <i>/*C*/	</i><a href=structs.html#struc_FNGInfo>struct FNGInfo</a> *bottomPackage;
 };</div>
-<p><strong>Methods:</strong>
 <ul>
 <li><!--518280-->
 <pre><i>518280</i> <a href=funcs.html#518280 title='int __thiscall FNGInfoList__AddEntry(struct FNGInfoList *this, struct FNGInfo *fngInfo);'>FNGInfoList::AddEntry</a></pre>
@@ -6500,7 +6313,6 @@ although if this element is a label, the measured text height (which is also a g
 <i>/*8*/	</i>void *first;
 <i>/*C*/	</i>void *last;
 };</div>
-<p><strong>Methods:</strong>
 <ul>
 <li><!--505400-->
 <pre><i>505400</i> <a href=funcs.html#505400 title='void __thiscall List__RemoveEntry(struct List *this, void *entry);'>List::RemoveEntry</a></pre>
@@ -6513,7 +6325,6 @@ although if this element is a label, the measured text height (which is also a g
 <i id=struc_SomethingUI4></i><span class='mm'>/**elements are <a href=structs.html#struc_SomethingUIImpl>struct SomethingUIImpl</a>*/</span>
 <i>/*4*/	</i><a href=#struc_ObjectLink>struct ObjectLink</a> link;
 };</div>
-<p><strong>Methods:</strong>
 <ul>
 <li><!--51BAD0-->
 <pre><i>51BAD0</i> <a href=funcs.html#51BAD0 title='unsigned int __thiscall SomethingUI__SumCSHashOfFNGNamesInEntries(struct SomethingUI *this);'>SomethingUI::SumCSHashOfFNGNamesInEntries</a></pre>
@@ -6568,7 +6379,6 @@ although if this element is a label, the measured text height (which is also a g
 <i>/*4C*/	</i>int controlMask <u></u>;
 <i>/*50*/	int field_50;</i>
 };</div>
-<p><strong>Methods:</strong>
 <ul>
 <li><!--50B920-->
 <pre><i>50B920</i> <a href=funcs.html#50B920 title='unsigned int __thiscall SomethingUIImpl__GetPackageHash_(struct SomethingUIImpl *this);'>SomethingUIImpl::GetPackageHash?</a></pre>
@@ -6605,7 +6415,6 @@ although if this element is a label, the measured text height (which is also a g
 <div>struct <h3>UIElementVisitor</h3> { <i>/*1 members, size 4h*/</i> <em></em>
 <i id=struc_UIElementVisitor0></i><i>/*0*/	</i>UIElementVisitor$vtable *vtable;
 };</div>
-<p><strong>Methods:</strong>
 <ul>
 <li><!--517EE0-->
 <pre><i>517EE0</i> <a href=funcs.html#517EE0 title='int __thiscall UIElementVisitor__acceptElement__setElementsCurrentAnimationToInit(struct UIElementVisitor *this, struct UIElement *element);'>UIElementVisitor::acceptElement__setElementsCurrentAnimationToInit</a></pre>
@@ -6628,7 +6437,6 @@ although if this element is a label, the measured text height (which is also a g
 <i id=struc_UIElementVisitor_FindByHash4></i><i>/*4*/	</i>unsigned int searchingHash;
 <i id=struc_UIElementVisitor_FindByHash8></i><i>/*8*/	</i><a href=structs.html#struc_UIElement>struct UIElement</a> *foundUIElement;
 };</div>
-<p><strong>Methods:</strong>
 <ul>
 <li><!--5048D0-->
 <pre><i>5048D0</i> <a href=funcs.html#5048D0 title='int __thiscall UIElementVisitor_FindByHash__acceptElement(struct UIElementVisitor_FindByHash *this, struct UIElement *element);'>UIElementVisitor_FindByHash::acceptElement</a></pre>
@@ -6641,7 +6449,6 @@ although if this element is a label, the measured text height (which is also a g
 <i>/*C*/	int field_C;</i>
 <i>/*10*/	int field_10;</i>
 };</div>
-<p><strong>Methods:</strong>
 <ul>
 <li><!--5374F0-->
 <pre><i>5374F0</i> <a href=funcs.html#5374F0 title='int __thiscall UIElementVisitor_ClearFNGCache__acceptElement(struct UIElementVisitor_ClearFNGCache *this, struct UIElement *element);'>UIElementVisitor_ClearFNGCache::acceptElement</a></pre>
@@ -6652,7 +6459,6 @@ although if this element is a label, the measured text height (which is also a g
 <i>/*4*/	</i>int searchingUIElementFieldC <u></u>;
 <i>/*8*/	</i>int foundUIElement <u></u>;
 };</div>
-<p><strong>Methods:</strong>
 <ul>
 <li><!--5048F0-->
 <pre><i>5048F0</i> <a href=funcs.html#5048F0 title='int __thiscall UIElementVisitor_FindByFieldC__acceptElement(struct UIElementVisitor_FindByFieldC *this, struct UIElement *element);'>UIElementVisitor_FindByFieldC::acceptElement</a></pre>
@@ -6671,7 +6477,6 @@ although if this element is a label, the measured text height (which is also a g
 <i>/*20*/	char _pad20[0x7F];</i>
 <i>/*9F*/	</i>char __end <u></u>;
 };</div>
-<p><strong>Methods:</strong>
 <ul>
 <li><!--52C390-->
 <pre><i>52C390</i> <a href=funcs.html#52C390 title='void __thiscall FERenderObject__FreeAllRenderEPolys(struct FERenderObject *this);'>FERenderObject::FreeAllRenderEPolys</a></pre>
@@ -6714,7 +6519,6 @@ although if this element is a label, the measured text height (which is also a g
 <span class='mm'>/**struct of size 8*/</span>
 <i>/*48*/	int field_48;</i>
 };</div>
-<p><strong>Methods:</strong>
 <ul>
 <li><!--4385B0-->
 <pre><i>4385B0</i> <a href=funcs.html#4385B0 title='void __thiscall WorldAnimStuff__CreatePools_(struct WorldAnimStuff *this);'>WorldAnimStuff::CreatePools?</a></pre>
@@ -6778,7 +6582,6 @@ although if this element is a label, the measured text height (which is also a g
 <i>/*4*/	</i><a href=#struc_ObjectLink>struct ObjectLink</a> link;
 <i>/*C*/	</i><a href=structs.html#struc_BootflowEntry>struct BootflowEntry</a> *firstEntry;
 };</div>
-<p><strong>Methods:</strong>
 <ul>
 <li><!--4C4EF0-->
 <pre><i>4C4EF0</i> <a href=funcs.html#4C4EF0 title='struct BootflowEntry *__thiscall Bootflow__GetEntryByFNGName(struct Bootflow *this, char *fngName);'>Bootflow::GetEntryByFNGName</a></pre>
@@ -6796,7 +6599,6 @@ although if this element is a label, the measured text height (which is also a g
 <a id=struc_FontData></a>
 <div>struct <h3>FontData</h3> { <i>/*0 members, size 0h*/</i> <em></em>
 };</div>
-<p><strong>Methods:</strong>
 <ul>
 <li><!--50BEC0-->
 <pre><i>50BEC0</i> <a href=funcs.html#50BEC0 title='void __thiscall FontData__MeasureWidth_(struct FontData *this, wchar_t *wcharString, int);'>FontData::MeasureWidth?</a></pre>
@@ -6806,7 +6608,6 @@ although if this element is a label, the measured text height (which is also a g
 <a id=struc_SoundEffectSystem></a>
 <div>struct <h3>SoundEffectSystem</h3> { <i>/*0 members, size 0h*/</i> <em></em>
 };</div>
-<p><strong>Methods:</strong>
 <ul>
 <li><!--458520-->
 <pre><i>458520</i> <a href=funcs.html#458520 title='void __thiscall SoundEffectSystem__PlaySound_(struct SoundEffectSystem *this, int soundId);'>SoundEffectSystem::PlaySound?</a></pre>
@@ -6907,7 +6708,6 @@ unknown length, but max 16?*/</span>
 <i id=struc_Car88C></i><span class='mm'>/**has something to do with DUMMY_SKIN%d*/</span>
 <i>/*88C*/	int field_88C;</i>
 };</div>
-<p><strong>Methods:</strong>
 <ul>
 <li><!--610170-->
 <pre><i>610170</i> <a href=funcs.html#610170 title='char *__thiscall Car__GetManufacturerName(struct Car *this);'>Car::GetManufacturerName</a></pre>
@@ -6927,7 +6727,6 @@ unknown length, but max 16?*/</span>
 <i>/*9A84*/</i><a href=#struc_SponsorCar>struct SponsorCar</a> sponsorCars[12];
 <i>/*9BD4*/</i>int numSponsorCars <u></u>;
 };</div>
-<p><strong>Methods:</strong>
 <ul>
 <li><!--531D20-->
 <pre><i>531D20</i> <a href=funcs.html#531D20 title='int __thiscall CarCollectionNoPointers__ctor(struct CarCollectionNoPointers *this);'>CarCollectionNoPointers::ctor</a></pre>
@@ -6956,7 +6755,6 @@ unknown length, but max 16?*/</span>
 <span class='mm'>/**initialized to <code>&amp;this-&gt;onlineCars + i</code>*/</span>
 <i>/*9D2C*/</i><a href=structs.html#struc_OnlineCar>struct OnlineCar</a> *ptrOnlineCars[6];
 };</div>
-<p><strong>Methods:</strong>
 <ul>
 <li><!--503510-->
 <pre><i>503510</i> <a href=funcs.html#503510 title='struct InventoryCar *__thiscall CarCollection__GetCarForSlot(struct CarCollection *this, unsigned int slotHash);'>CarCollection::GetCarForSlot</a></pre>
@@ -7023,7 +6821,6 @@ sometimes this is also just hash of the car name? I wanna cry*/</span>
 <i>/*10*/	int field_10;</i>
 <i>/*14*/	</i><a href=enums.html#enu_INVENTORY_CAR_FLAGS>enum INVENTORY_CAR_FLAGS</a> flags14;
 };</div>
-<p><strong>Methods:</strong>
 <ul>
 <li><!--4FE140-->
 <pre><i>4FE140</i> <a href=funcs.html#4FE140 title='void __thiscall InventoryCar__dtor(struct InventoryCar *this);'>InventoryCar::dtor</a></pre>
@@ -7070,7 +6867,6 @@ sometimes this is also just hash of the car name? I wanna cry*/</span>
 <span class='mm'>/**index in <a href=vars.html#8A1CCC>ptrCarData</a>*/</span>
 <i>/*18*/	</i>int indexInCarData <u></u>;
 };</div>
-<p><strong>Methods:</strong>
 <ul>
 <li><!--503A00-->
 <pre><i>503A00</i> <a href=funcs.html#503A00 title='void __thiscall StockCar__ctor(struct StockCar *this);'>StockCar::ctor</a></pre>
@@ -7099,7 +6895,6 @@ sometimes this is also just hash of the car name? I wanna cry*/</span>
 <i>/*4*/	</i><a href=#struc_ObjectLink>struct ObjectLink</a> link;
 <i>/*C*/	<a href=structs.html#struc_bPNodeSlotPoolEntry>struct bPNodeSlotPoolEntry</a> *field_C;</i>
 };</div>
-<p><strong>Methods:</strong>
 <ul>
 <li><!--544F80-->
 <pre><i>544F80</i> <a href=funcs.html#544F80 title='struct s54F980 *__thiscall s54F980__ctor(struct s54F980 *this);'>s54F980::ctor</a></pre>
@@ -7110,7 +6905,6 @@ sometimes this is also just hash of the car name? I wanna cry*/</span>
 <span class='mm'>/**set to hash of SNOOP_DOGG etc, matches <a href=structs.html#struc_CarPreset28>name</a>*/</span>
 <i>/*18*/	</i>unsigned int carPresetHash;
 };</div>
-<p><strong>Methods:</strong>
 <ul>
 <li><!--503460-->
 <pre><i>503460</i> <a href=funcs.html#503460 title='int __thiscall SponsorCar__GetCarIndex(struct SponsorCar *this);'>SponsorCar::GetCarIndex</a></pre>
@@ -7142,7 +6936,6 @@ sometimes this is also just hash of the car name? I wanna cry*/</span>
 <span class='mm'>/**probably just padding*/</span>
 <i>/*417*/	</i>char __end <u></u>;
 };</div>
-<p><strong>Methods:</strong>
 <ul>
 <li><!--503950-->
 <pre><i>503950</i> <a href=funcs.html#503950 title='int __thiscall TunedCar18__503950(struct TunedCar18 *this, struct MenuCarInstance *menuCarInstance);'>TunedCar18::503950</a></pre>
@@ -7177,7 +6970,6 @@ could just be char[9]</div>
 <i>/*17*/	<a href=#struc_TunedCar360_17>struct TunedCar360_17</a> field_17;</i>
 <i>/*20*/	<a href=#struc_TunedCar360_20>struct TunedCar360_20</a> field_20;</i>
 };</div>
-<p><strong>Methods:</strong>
 <ul>
 <li><!--59AFE0-->
 <pre><i>59AFE0</i> <a href=funcs.html#59AFE0 title='TunedCar360::59AFE0'>TunedCar360::59AFE0</a></pre>
@@ -7190,7 +6982,6 @@ could just be char[9]</div>
 <i>/*18*/	<a href=#struc_TunedCar18>struct TunedCar18</a> field_18;</i>
 <i>/*430*/	int field_430;</i>
 };</div>
-<p><strong>Methods:</strong>
 <ul>
 <li><!--503AE0-->
 <pre><i>503AE0</i> <a href=funcs.html#503AE0 title='int __thiscall TunedCar__GetCarIndex(struct TunedCar *this);'>TunedCar::GetCarIndex</a></pre>
@@ -7210,7 +7001,6 @@ could just be char[9]</div>
 <div>struct <h3>OnlineCareerCar</h3> { <i>/*1 members, size 434h*/</i> <em></em>
 <i>/*0*/	</i><a href=#struc_TunedCar>struct TunedCar</a> __parent;
 };</div>
-<p><strong>Methods:</strong>
 <ul>
 <li><!--525CF0-->
 <pre><i>525CF0</i> <a href=funcs.html#525CF0 title='void __thiscall OnlineCareerCar__ctor(struct OnlineCareerCar *this);'>OnlineCareerCar::ctor</a></pre>
@@ -7225,7 +7015,6 @@ could just be char[9]</div>
 <i>/*7F6*/	char _pad7F6[0x1];</i>
 <i>/*7F7*/	</i>char __end <u></u>;
 };</div>
-<p><strong>Methods:</strong>
 <ul>
 <li><!--5037F0-->
 <pre><i>5037F0</i> <a href=funcs.html#5037F0 title='int __thiscall CareerCar__5037F0(struct CareerCar *this);'>CareerCar::5037F0</a></pre>
@@ -7305,7 +7094,6 @@ could just be char[9]</div>
 <i>/*2AC*/	char field_2AC[272];</i>
 <i id=struc_CareerCar4343BC></i><i>/*3BC*/	</i>int moneySpentOnCar <u></u>;
 };</div>
-<p><strong>Methods:</strong>
 <ul>
 <li><!--503B10-->
 <pre><i>503B10</i> <a href=funcs.html#503B10 title='int __thiscall CareerCar434__503B10(struct CareerCar434 *this, int, int, int);'>CareerCar434::503B10</a></pre>
@@ -7390,7 +7178,6 @@ could just be char[9]</div>
 <i>/*5C*/	int field_5C;</i>
 <i>/*60*/	<a href=#struc_Player24_60>struct Player24_60</a> field_60[2];</i>
 };</div>
-<p><strong>Methods:</strong>
 <ul>
 <li><!--5025B0-->
 <pre><i>5025B0</i> <a href=funcs.html#5025B0 title='void __thiscall Player24__Init(struct Player24 *this);'>Player24::Init</a></pre>
@@ -7446,7 +7233,6 @@ could just be char[9]</div>
 <i>/*1B*/	char _pad1B[0x1];</i>
 <i>/*1C*/	<a href=#struc_PlayerD4_100_1C>struct PlayerD4_100_1C</a> field_1C[8];</i>
 };</div>
-<p><strong>Methods:</strong>
 <ul>
 <li><!--515750-->
 <pre><i>515750</i> <a href=funcs.html#515750 title='PlayerD4_100::Init'>PlayerD4_100::Init</a></pre>
@@ -7464,7 +7250,6 @@ usually a stock car, often STOCK_RX8. some kind of "default car to pick"*/</span
 <i>/*10*/	<a href=#struc_PlayerD4_10>struct PlayerD4_10</a> field_10[12];</i>
 <i>/*100*/	<a href=#struc_PlayerD4_100>struct PlayerD4_100</a> field_100;</i>
 };</div>
-<p><strong>Methods:</strong>
 <ul>
 <li><!--5026F0-->
 <pre><i>5026F0</i> <a href=funcs.html#5026F0 title='void __thiscall PlayerD4__5026F0(struct PlayerD4 *this);'>PlayerD4::5026F0</a></pre>
@@ -7494,7 +7279,6 @@ usually a stock car, often STOCK_RX8. some kind of "default car to pick"*/</span
 <i>/*A0FB*/char _padA0FB[0x1];</i>
 <i>/*A0FC*/char field_A0FC[2640];</i>
 };</div>
-<p><strong>Methods:</strong>
 <ul>
 <li><!--515AA0-->
 <pre><i>515AA0</i> <a href=funcs.html#515AA0 title='void __thiscall Player__Clear(struct Player *this, int playerIndex, int);'>Player::Clear</a></pre>
@@ -7578,7 +7362,6 @@ usually a stock car, often STOCK_RX8. some kind of "default car to pick"*/</span
 <i>/*94*/	<a href=#struc_ProfileData156B0_SubB>struct ProfileData156B0_SubB</a> field_94;</i>
 <i>/*A8*/	<a href=#struc_ProfileData156B0_SubB>struct ProfileData156B0_SubB</a> field_A8;</i>
 };</div>
-<p><strong>Methods:</strong>
 <ul>
 <li><!--5030E0-->
 <pre><i>5030E0</i> <a href=funcs.html#5030E0 title='void __thiscall ProfileData156B0__ctor(struct ProfileData156B0 *this);'>ProfileData156B0::ctor</a></pre>
@@ -7596,7 +7379,6 @@ usually a stock car, often STOCK_RX8. some kind of "default car to pick"*/</span
 <i>/*18*/	int field_18;</i>
 <i>/*1C*/	int field_1C;</i>
 };</div>
-<p><strong>Methods:</strong>
 <ul>
 <li><!--510A70-->
 <pre><i>510A70</i> <a href=funcs.html#510A70 title='int __thiscall ProfileData28DB0__510A70(struct ProfileData28DB0 *this);'>ProfileData28DB0::510A70</a></pre>
@@ -7736,7 +7518,6 @@ usually a stock car, often STOCK_RX8. some kind of "default car to pick"*/</span
 <i>/*29DD1*/char _pad29DD1[0x6];</i>
 <i>/*29DD7*/</i>char __end <u></u>;
 };</div>
-<p><strong>Methods:</strong>
 <ul>
 <li><!--495240-->
 <pre><i>495240</i> <a href=funcs.html#495240 title='struct CarCollection *__thiscall ProfileData__GetCarCollection(struct ProfileData *this, int playerIndex);'>ProfileData::GetCarCollection</a></pre>
@@ -7763,7 +7544,6 @@ usually a stock car, often STOCK_RX8. some kind of "default car to pick"*/</span
 <i>/*CD8*/	void *field_CD8[6];</i>
 <i>/*CF0*/	</i>int numUsedField0;
 };</div>
-<p><strong>Methods:</strong>
 <ul>
 <li><!--5117C0-->
 <pre><i>5117C0</i> <a href=funcs.html#5117C0 title='struct CareerD24_54_30 *__thiscall CareerD24_54_30__ctor(struct CareerD24_54_30 *this);'>CareerD24_54_30::ctor</a></pre>
@@ -7786,7 +7566,6 @@ usually a stock car, often STOCK_RX8. some kind of "default car to pick"*/</span
 <i>/*2C*/	float floatField_2C;</i>
 <i>/*30*/	int field_30;</i>
 };</div>
-<p><strong>Methods:</strong>
 <ul>
 <li><!--5F73D0-->
 <pre><i>5F73D0</i> <a href=funcs.html#5F73D0 title='struct CareerD24_54_30_0_10C *__cdecl CareerD24_54_30_0_10C__ctor(struct CareerD24_54_30_0_10C *this);'>CareerD24_54_30_0_10C::ctor</a></pre>
@@ -7841,7 +7620,6 @@ usually a stock car, often STOCK_RX8. some kind of "default car to pick"*/</span
 <i>/*21C*/	int field_21C;</i>
 <i>/*220*/	int field_220;</i>
 };</div>
-<p><strong>Methods:</strong>
 <ul>
 <li><!--511900-->
 <pre><i>511900</i> <a href=funcs.html#511900 title='void __thiscall CareerD24_54_30_0__CopyFrom(struct CareerD24_54_30_0 *this, struct CareerD24_54_30_0 *from);'>CareerD24_54_30_0::CopyFrom</a></pre>
@@ -7872,7 +7650,6 @@ usually a stock car, often STOCK_RX8. some kind of "default car to pick"*/</span
 <i>/*4*/	int field_4;</i>
 <i>/*8*/	int field_8;</i>
 };</div>
-<p><strong>Methods:</strong>
 <ul>
 <li><!--4FE260-->
 <pre><i>4FE260</i> <a href=funcs.html#4FE260 title='void __thiscall CareerD24_8__ctor(struct CareerD24_8 *this);'>CareerD24_8::ctor</a></pre>
@@ -7896,7 +7673,6 @@ usually a stock car, often STOCK_RX8. some kind of "default car to pick"*/</span
 <span class='mm'>/**sometimes used as index for <a href=structs.html#struc_CareerD2454>field_54</a>*/</span>
 <i>/*34E8*/int field_34E8;</i>
 };</div>
-<p><strong>Methods:</strong>
 <ul>
 <li><!--513EB0-->
 <pre><i>513EB0</i> <a href=funcs.html#513EB0 title='int __thiscall CareerD24__513EB0(struct CareerD24 *this, int field8index);'>CareerD24::513EB0</a></pre>
@@ -7937,7 +7713,6 @@ extra refs: 500FBC 51441E*/</span>
 <i>/*FD*/	char _padFD[0x3];</i>
 <i>/*100*/	</i><a href=structs.html#struc_CareerStageSettings>struct CareerStageSettings</a> *settings;
 };</div>
-<p><strong>Methods:</strong>
 <ul>
 <li><!--5004D0-->
 <pre><i>5004D0</i> <a href=funcs.html#5004D0 title='int __thiscall CareerStage__CountNumField0Set(struct CareerStage *this);'>CareerStage::CountNumField0Set</a></pre>
@@ -8019,7 +7794,6 @@ but in reality these are all zero, and that is an empty string :D*/</span>
 <i>/*80*/	char _pad80[0x7];</i>
 <i>/*87*/	</i>char __end <u></u>;
 };</div>
-<p><strong>Methods:</strong>
 <ul>
 <li><!--4AE8B0-->
 <pre><i>4AE8B0</i> <a href=funcs.html#4AE8B0 title='int __thiscall Bin34A11__Is_34_3_And_D_1(struct Bin34A11 *this);'>Bin34A11::Is_34_3_And_D_1</a></pre>
@@ -8125,7 +7899,6 @@ but in reality these are all zero, and that is an empty string :D*/</span>
 <i>/*11A*/	char _pad11A[0x2];</i>
 <i>/*11C*/	int field_11C;</i>
 };</div>
-<p><strong>Methods:</strong>
 <ul>
 <li><!--5016A0-->
 <pre><i>5016A0</i> <a href=funcs.html#5016A0 title='int __thiscall CareerC00__5016A0(struct CareerC00 *this);'>CareerC00::5016A0</a></pre>
@@ -8203,7 +7976,6 @@ but in reality these are all zero, and that is an empty string :D*/</span>
 <i>/*11C*/	int field_11C;</i>
 <i>/*120*/	char field_120[112];</i>
 };</div>
-<p><strong>Methods:</strong>
 <ul>
 <li><!--511000-->
 <pre><i>511000</i> <a href=funcs.html#511000 title='void __thiscall Career887C__511000(struct Career887C *this);'>Career887C::511000</a></pre>
@@ -8255,7 +8027,6 @@ but in reality these are all zero, and that is an empty string :D*/</span>
 <i>/*9C*/	char field_9C;</i>
 <i>/*9D*/	</i>char stage;
 };</div>
-<p><strong>Methods:</strong>
 <ul>
 <li><!--512870-->
 <pre><i>512870</i> <a href=funcs.html#512870 title='int __thiscall Career8724__512870(struct Career8724 *this);'>Career8724::512870</a></pre>
@@ -8276,7 +8047,6 @@ but in reality these are all zero, and that is an empty string :D*/</span>
 <i>/*80*/	<a href=structs.html#struc_Bin34A11>struct Bin34A11</a> *field_80[64];</i>
 <i>/*180*/	<a href=#struc_Career7148_180>struct Career7148_180</a> field_180;</i>
 };</div>
-<p><strong>Methods:</strong>
 <ul>
 <li><!--5007A0-->
 <pre><i>5007A0</i> <a href=funcs.html#5007A0 title='void __thiscall Career7148__5007A0(struct Career7148 *this, struct Bin34A11 *);'>Career7148::5007A0</a></pre>
@@ -8319,7 +8089,6 @@ but in reality these are all zero, and that is an empty string :D*/</span>
 <i>/*8*/	char field_8;</i>
 <i>/*9*/	char field_9;</i>
 };</div>
-<p><strong>Methods:</strong>
 <ul>
 <li><!--502420-->
 <pre><i>502420</i> <a href=funcs.html#502420 title='int __thiscall Career713C__502420(struct Career713C *this);'>Career713C::502420</a></pre>
@@ -8334,7 +8103,6 @@ but in reality these are all zero, and that is an empty string :D*/</span>
 <i id=struc_Career42301AE4></i><i>/*1AE4*/float floatField_1AE4;</i>
 <i id=struc_Career42301AE8></i><i>/*1AE8*/int field_1AE8;</i>
 };</div>
-<p><strong>Methods:</strong>
 <ul>
 <li><!--500CA0-->
 <pre><i>500CA0</i> <a href=funcs.html#500CA0 title='void __thiscall Career4230__500CA0(struct Career4230 *this);'>Career4230::500CA0</a></pre>
@@ -8372,7 +8140,6 @@ but in reality these are all zero, and that is an empty string :D*/</span>
 <i>/*14*/	float floatField_14;</i>
 <i>/*18*/	float floatField_18;</i>
 };</div>
-<p><strong>Methods:</strong>
 <ul>
 <li><!--501150-->
 <pre><i>501150</i> <a href=funcs.html#501150 title='int __thiscall Career4210__501150(struct Career4210 *this, int);'>Career4210::501150</a></pre>
@@ -8385,7 +8152,6 @@ but in reality these are all zero, and that is an empty string :D*/</span>
 <div>struct <h3>CareerBank</h3> { <i>/*1 members, size 4h*/</i> <em></em>
 <i>/*0*/	</i>int money;
 };</div>
-<p><strong>Methods:</strong>
 <ul>
 <li><!--500F80-->
 <pre><i>500F80</i> <a href=funcs.html#500F80 title='void __thiscall CareerBank__AddMoney(struct CareerBank *this, int amount);'>CareerBank::AddMoney</a></pre>
@@ -8482,7 +8248,6 @@ When canceling at that point, it's set back to 1
 <i>/*887A*/char _pad887A[0x2];</i>
 <i>/*887C*/<a href=#struc_Career887C>struct Career887C</a> field_887C;</i>
 };</div>
-<p><strong>Methods:</strong>
 <ul>
 <li><!--430560-->
 <pre><i>430560</i> <a href=funcs.html#430560 title='int __thiscall Career__430560(struct Career *this);'>Career::430560</a></pre>
@@ -8692,7 +8457,6 @@ When canceling at that point, it's set back to 1
 <span class='mm'>/**this sponsor will only be available when player's average reputation per race in the previous stage was equal or higher than this*/</span>
 <i>/*E*/	</i>__int16 requiredAverageReputation;
 };</div>
-<p><strong>Methods:</strong>
 <ul>
 <li><!--500180-->
 <pre><i>500180</i> <a href=funcs.html#500180 title='char *__thiscall CareerSponsor__GetInternalSponsorName(struct CareerSponsor *this);'>CareerSponsor::GetInternalSponsorName</a></pre>
@@ -8834,7 +8598,6 @@ for money: hash of sound effect to play!?*/</span>
 <i>/*4C*/	char _pad4C[0x4];</i>
 <i>/*50*/	char field_50;</i>
 };</div>
-<p><strong>Methods:</strong>
 <ul>
 <li><!--4ABFE0-->
 <pre><i>4ABFE0</i> <a href=funcs.html#4ABFE0 title='int __thiscall Marker__4ABFE0(struct Marker *this);'>Marker::4ABFE0</a></pre>
@@ -8878,7 +8641,6 @@ array of ptrs to markers with the arrayindex as marker type (ie <code><a href=st
 <i>/*498*/	int field_498;</i>
 <i>/*49C*/	int field_49C;</i>
 };</div>
-<p><strong>Methods:</strong>
 <ul>
 <li><!--5D5630-->
 <pre><i>5D5630</i> <a href=funcs.html#5D5630 title='void __thiscall PathsData__InitAfterReadFromBinData(struct PathsData *this);'>PathsData::InitAfterReadFromBinData</a></pre>
@@ -8933,7 +8695,6 @@ array of ptrs to markers with the arrayindex as marker type (ie <code><a href=st
 <i>/*1C*/	int field_1C;</i>
 <i>/*20*/	int field_20;</i>
 };</div>
-<p><strong>Methods:</strong>
 <ul>
 <li><!--579360-->
 <pre><i>579360</i> <a href=funcs.html#579360 title='struct JoystickEventNode *__thiscall JoystickEventNode__ctor(struct JoystickEventNode *this, int, int, int);'>JoystickEventNode::ctor</a></pre>
@@ -9001,7 +8762,6 @@ array of ptrs to markers with the arrayindex as marker type (ie <code><a href=st
 <i>/*C0*/	int field_C0;</i>
 <i>/*C4*/	int field_C4;</i>
 };</div>
-<p><strong>Methods:</strong>
 <ul>
 <li><!--582360-->
 <pre><i>582360</i> <a href=funcs.html#582360 title='int __thiscall Network86A388__something(struct Network86A388 *this, int, void (__cdecl *func)(int, int));'>Network86A388::something</a></pre>
@@ -9344,7 +9104,6 @@ array of ptrs to markers with the arrayindex as marker type (ie <code><a href=st
 <i>/*16FD*/char _pad16FD[0x3];</i>
 <i>/*1700*/</i><a href=#struc_Quantizer141>struct Quantizer141</a> gearQuantizer;
 };</div>
-<p><strong>Methods:</strong>
 <ul>
 <li><!--5EFAC0-->
 <pre><i>5EFAC0</i> <a href=funcs.html#5EFAC0 title='void __thiscall Network89CF48__InitQuantizers(struct Network89CF48 *this);'>Network89CF48::InitQuantizers</a></pre>
@@ -9363,7 +9122,6 @@ array of ptrs to markers with the arrayindex as marker type (ie <code><a href=st
 <i>/*13C*/	int floatField_13C;</i>
 <i>/*140*/	char field_140;</i>
 };</div>
-<p><strong>Methods:</strong>
 <ul>
 <li><!--581F50-->
 <pre><i>581F50</i> <a href=funcs.html#581F50 title='Quantizer141::InitFloat?'>Quantizer141::InitFloat?</a></pre>
@@ -9379,7 +9137,6 @@ array of ptrs to markers with the arrayindex as marker type (ie <code><a href=st
 <i>/*144*/	int field_144;</i>
 <i>/*148*/	char field_148;</i>
 };</div>
-<p><strong>Methods:</strong>
 <ul>
 <li><!--581E40-->
 <pre><i>581E40</i> <a href=funcs.html#581E40 title='Quantizer149::ctor'>Quantizer149::ctor</a></pre>
