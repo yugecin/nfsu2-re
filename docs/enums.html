@@ -269,7 +269,7 @@ pre.ida span.hi {
 <a href='cheatsheet.html'>cheatsheet</a></nav>
 </header>
 <div class='enum'>
-<h2>Enums (46)</h2>
+<h2>Enums (48)</h2>
 <ul>
 <li><a href=#enu_MACRO_WA>MACRO_WA</a>
 <li><a href=#enu_DINPUT_GUIDS>DINPUT_GUIDS</a>
@@ -307,6 +307,8 @@ pre.ida span.hi {
 <li><a href=#enu_MARKER_TYPE>MARKER_TYPE</a>
 <li><a href=#enu_UIELEMENTFLAGS>UIELEMENTFLAGS</a>
 <li><a href=#enu_INVENTORY_CAR_FLAGS>INVENTORY_CAR_FLAGS</a>
+<li><a href=#enu_CAR_CUSTOMIZE_MODE>CAR_CUSTOMIZE_MODE</a>
+<li><a href=#enu_CAREER_CUSTOMIZE_SHOP_TYPE>CAREER_CUSTOMIZE_SHOP_TYPE</a>
 <li><a href=#enu_GAME_STATE>GAME_STATE</a>
 <li><a href=#enu_MACRO_IPPROTO>MACRO_IPPROTO</a>
 <li><a href=#enu_MACRO_IP>MACRO_IP</a>
@@ -5272,6 +5274,22 @@ Maybe this is used as the "discover" hitmarker (ie the map icon will show from t
 	IS_SPONSOR_CAR = 0x8,
 <span class='mm'>/**seen for online cars*/</span>
 	IS_ONLINE_CAR = 0x10,
+};</div>
+<a id=enu_CAR_CUSTOMIZE_MODE></a>
+<div>enum <h3>CAR_CUSTOMIZE_MODE</h3> { <i>/*4 members*/</i>
+<span class='mm'>/**<a href=vars.html#838990>currentCareerCustomizeShopType</a> defines which kind of shop you're entering*/</span>
+	CAR_CUSTOMIZE_MODE_FREEROAM = 0x0,
+	CAR_CUSTOMIZE_MODE_CAREER_SWAP_PARTS = 0x1,
+	CAR_CUSTOMIZE_MODE_RACE_CUSTOMIZE = 0x2,
+	CAR_CUSTOMIZE_MODE_MAIN_MENU_CUSTOMIZE = 0x3,
+};</div>
+<a id=enu_CAREER_CUSTOMIZE_SHOP_TYPE></a>
+<div>enum <h3>CAREER_CUSTOMIZE_SHOP_TYPE</h3> { <i>/*5 members*/</i>
+	CAREER_CUSTOMIZE_SHOP_TYPE_GENERIC = 0x0,
+	CAREER_CUSTOMIZE_SHOP_TYPE_PERFORMANCE = 0x1,
+	CAREER_CUSTOMIZE_SHOP_TYPE_PAINT = 0x2,
+	CAREER_CUSTOMIZE_SHOP_TYPE_ICE = 0x3,
+	CAREER_CUSTOMIZE_SHOP_TYPE_UNIQUES = 0x6,
 };</div>
 <a id=enu_GAME_STATE></a>
 <div>enum <h3>GAME_STATE</h3> { <i>/*1 members*/</i>

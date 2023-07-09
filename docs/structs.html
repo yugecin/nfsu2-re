@@ -269,7 +269,7 @@ pre.ida span.hi {
 <a href='cheatsheet.html'>cheatsheet</a></nav>
 </header>
 <div class='struc'>
-<h2>Structs (487)</h2>
+<h2>Structs (489)</h2>
 <ul>
 <li><a href=#struc_FuncInfo_V1>FuncInfo_V1</a>
 <li><a href=#struc_UnwindMapEntry>UnwindMapEntry</a>
@@ -340,6 +340,7 @@ pre.ida span.hi {
 <li><a href=#struc_PoolLink>PoolLink</a>
 <li><a href=#struc_PoolControl>PoolControl</a> <em></em>
 <li><a href=#struc_Pool>Pool</a> <em></em>
+<li><a href=#struc_bPNodeSlotPoolEntry>bPNodeSlotPoolEntry</a>
 <li><a href=#struc_PoolEntry>PoolEntry</a> <em></em>
 <li><a href=#struc_LevelSorterPoolEntry>LevelSorterPoolEntry</a>
 <li><a href=#struc_bFileSystemPoolEntry>bFileSystemPoolEntry</a>
@@ -649,6 +650,7 @@ pre.ida span.hi {
 <li><a href=#struc_OnlineCar>OnlineCar</a>
 <li><a href=#struc_StockCar>StockCar</a> <em></em>
 <li><a href=#struc_InventoryCar$vtable>InventoryCar$vtable</a>
+<li><a href=#struc_s54F980>s54F980</a> <em></em>
 <li><a href=#struc_SponsorCar>SponsorCar</a> <em></em>
 <li><a href=#struc_CarCollection9BD8>CarCollection9BD8</a>
 <li><a href=#struc_TunedCar18>TunedCar18</a> <em></em>
@@ -1482,6 +1484,11 @@ pre.ida span.hi {
 <li><!--440D40-->
 <pre><i>440D40</i> <a href=funcs.html#440D40 title='struct PoolEntry *__thiscall Pool__GetNextFreeItem(struct Pool *this);'>Pool::GetNextFreeItem</a></pre>
 </ul>
+<a id=struc_bPNodeSlotPoolEntry></a>
+<div>struct <h3>bPNodeSlotPoolEntry</h3> { <i>/*2 members, size Ch*/</i>
+<i>/*0*/	</i><a href=#struc_PoolEntry>struct PoolEntry</a> __parent;
+<i>/*8*/	</i>char *fngName;
+};</div>
 <a id=struc_PoolEntry></a>
 <div>struct <h3>PoolEntry</h3> { <i>/*2 members, size 8h*/</i> <em></em>
 <i id=struc_PoolEntry0></i><i>/*0*/	</i><a href=structs.html#struc_PoolEntry>struct PoolEntry</a> *nextEntry;
@@ -2928,10 +2935,14 @@ return amount of bytes actually read*/</span>
 <i>/*580*/	char field_580;</i>
 <i>/*581*/	char field_581;</i>
 <i>/*582*/	char _pad582[0x2];</i>
-<i>/*584*/	int field_584;</i>
-<i>/*588*/	int field_588;</i>
-<i>/*58C*/	int field_58C;</i>
-<i>/*590*/	char field_590[680];</i>
+<span class='mm'>/**if <a href=structs.html#struc_Car>struct Car</a>.<a href=structs.html#struc_Car88C>field_88C</a> was not 0, this is set to hash of DUMMY_SKIN%d where %d is something*/</span>
+<i>/*584*/	</i>unsigned int someDummySkinHash;
+<span class='mm'>/**set to hash of DUMMY_WHEEL%d at some point*/</span>
+<i>/*588*/	</i>unsigned int someWheelHash;
+<span class='mm'>/**set to hash of DUMMY_SPINNER%d at some point*/</span>
+<i>/*58C*/	</i>unsigned int someSpinnerHash;
+<i>/*590*/	void *field_590[170];</i>
+<span class='mm'>/**all initialized to 1*/</span>
 <i>/*838*/	char field_838[170];</i>
 <i>/*8E2*/	char _pad8E2[0x2];</i>
 <i>/*8E4*/	int field_8E4;</i>
@@ -2945,9 +2956,13 @@ return amount of bytes actually read*/</span>
 <li><!--413440-->
 <pre><i>413440</i> <a href=funcs.html#413440 title='int __thiscall MenuCarInstance__CopyFrom(struct MenuCarInstance *this, struct MenuCarInstance *from);'>MenuCarInstance::CopyFrom</a></pre>
 <li><!--610270-->
-<pre><i>610270</i> <a href=funcs.html#610270 title='int __thiscall MenuCarInstance__610270(struct MenuCarInstance *this, int, int, char, char);'>MenuCarInstance::610270</a></pre>
+<pre><i>610270</i> <a href=funcs.html#610270 title='void __thiscall MenuCarInstance__Clear(struct MenuCarInstance *this, int carIndex, int unused, char field5, char field6);'>MenuCarInstance::Clear</a></pre>
+<li><!--6102F0-->
+<pre><i>6102F0</i> <a href=funcs.html#6102F0 title='void *__thiscall MenuCarInstance__GetField590AtIndex(struct MenuCarInstance *this, int index);'>MenuCarInstance::GetField590AtIndex</a></pre>
+<li><!--61C280-->
+<pre><i>61C280</i> <a href=funcs.html#61C280 title='void __thiscall MenuCarInstance__CalculateSomeHashes(struct MenuCarInstance *this, int playerId);'>MenuCarInstance::CalculateSomeHashes</a></pre>
 <li><!--637040-->
-<pre><i>637040</i> <a href=funcs.html#637040 title='int __thiscall MenuCarInstance__637040(struct MenuCarInstance *this, int);'>MenuCarInstance::637040</a></pre>
+<pre><i>637040</i> <a href=funcs.html#637040 title='int __thiscall MenuCarInstance__637040(struct MenuCarInstance *this, int playerIndex);'>MenuCarInstance::637040</a></pre>
 <li><!--637190-->
 <pre><i>637190</i> <a href=funcs.html#637190 title='int __thiscall MenuCarInstance__637190(struct MenuCarInstance *this);'>MenuCarInstance::637190</a></pre>
 </ul>
@@ -2980,7 +2995,7 @@ return amount of bytes actually read*/</span>
 <p><strong>Methods:</strong>
 <ul>
 <li><!--5A7890-->
-<pre><i>5A7890</i> <a href=funcs.html#5A7890 title='int __thiscall MenuCarInstance_10__5A7890(struct MenuCarInstance_10 *this, int);'>MenuCarInstance_10::5A7890</a></pre>
+<pre><i>5A7890</i> <a href=funcs.html#5A7890 title='void __thiscall MenuCarInstance_10__Clear(struct MenuCarInstance_10 *this, int);'>MenuCarInstance_10::Clear</a></pre>
 <li><!--5AC6E0-->
 <pre><i>5AC6E0</i> <a href=funcs.html#5AC6E0 title='int __thiscall MenuCarInstance_10__ctor(struct MenuCarInstance_10 *this);'>MenuCarInstance_10::ctor</a></pre>
 </ul>
@@ -6229,7 +6244,7 @@ although if this element is a label, the measured text height (which is also a g
 <li><!--537750-->
 <pre><i>537750</i> <a href=funcs.html#537750 title='void __thiscall UIData__ClosePackage(struct UIData *this, char *fngName);'>UIData::ClosePackage</a></pre>
 <li><!--5377A0-->
-<pre><i>5377A0</i> <a href=funcs.html#5377A0 title='int __thiscall UIData__5377A0(struct UIData *this, char *currentFNGName, char *fngName, int);'>UIData::5377A0</a></pre>
+<pre><i>5377A0</i> <a href=funcs.html#5377A0 title='void __thiscall UIData__ShowFNG(struct UIData *this, char *currentFNGName, char *fngName, int);'>UIData::ShowFNG</a></pre>
 <li><!--54E4A0-->
 <pre><i>54E4A0</i> <a href=funcs.html#54E4A0 title='int __thiscall UIData__InitFNGPackage(struct UIData *this, struct FNGInfo *fngInfo);'>UIData::InitFNGPackage</a></pre>
 <li><!--555D00-->
@@ -6882,12 +6897,15 @@ unknown length, but max 16?*/</span>
 <span class='mm'>/**0 = customizable, 2 = traffic/ambu/firetruck/...*/</span>
 <i>/*844*/	</i>int carType <u></u>;
 <i>/*848*/	char _pad848[0x4];</i>
+<span class='mm'>/**player1 something*/</span>
 <i>/*84C*/	int field_84C;</i>
+<span class='mm'>/**player2 something*/</span>
 <i>/*850*/	int field_850;</i>
 <i>/*854*/	char _pad854[0x36];</i>
 <i>/*88A*/	char field_88A;</i>
-<i>/*88B*/	char _pad88B[0x4];</i>
-<i>/*88F*/	</i>char __end <u></u>;
+<i>/*88B*/	char _pad88B[0x1];</i>
+<i id=struc_Car88C></i><span class='mm'>/**has something to do with DUMMY_SKIN%d*/</span>
+<i>/*88C*/	int field_88C;</i>
 };</div>
 <p><strong>Methods:</strong>
 <ul>
@@ -6948,6 +6966,8 @@ unknown length, but max 16?*/</span>
 <pre><i>503590</i> <a href=funcs.html#503590 title='int __thiscall CarCollection__IsSponsorCar(struct CarCollection *this, unsigned int slotNameHash);'>CarCollection::IsSponsorCar</a></pre>
 <li><!--5035C0-->
 <pre><i>5035C0</i> <a href=funcs.html#5035C0 title='struct TunedCar *__thiscall CarCollection__GetCareerOrTunedCarForSlotHash(struct CarCollection *this, unsigned int slotNameHash);'>CarCollection::GetCareerOrTunedCarForSlotHash</a></pre>
+<li><!--503640-->
+<pre><i>503640</i> <a href=funcs.html#503640 title='struct OnlineCar *__thiscall CarCollection__GetOnlineCarForSlotHash(struct CarCollection *this, unsigned int slotHash);'>CarCollection::GetOnlineCarForSlotHash</a></pre>
 <li><!--503680-->
 <pre><i>503680</i> <a href=funcs.html#503680 title='struct CareerCar *__thiscall CarCollection__GetCareerCarForSlotHash(struct CarCollection *this, unsigned int slotHash);'>CarCollection::GetCareerCarForSlotHash</a></pre>
 <li><!--5036C0-->
@@ -7059,7 +7079,7 @@ sometimes this is also just hash of the car name? I wanna cry*/</span>
 <li><!--503A60-->
 <pre><i>503A60</i> <a href=funcs.html#503A60 title='unsigned int __thiscall StockCar__GetCarNameHash(struct StockCar *this);'>StockCar::GetCarNameHash</a></pre>
 <li><!--503A80-->
-<pre><i>503A80</i> <a href=funcs.html#503A80 title='int __thiscall StockCar__vtableProcC(struct StockCar *this, int, struct MenuCarInstance *, int);'>StockCar::vtableProcC</a></pre>
+<pre><i>503A80</i> <a href=funcs.html#503A80 title='void *__thiscall StockCar__vtableProcC(struct StockCar *this, int playerIndex, struct MenuCarInstance *, int);'>StockCar::vtableProcC</a></pre>
 </ul>
 <a id=struc_InventoryCar$vtable></a>
 <div>struct <h3>InventoryCar$vtable</h3> { <i>/*4 members, size 10h*/</i>
@@ -7071,6 +7091,19 @@ sometimes this is also just hash of the car name? I wanna cry*/</span>
 <span class='mm'>/**stock: <a href=funcs.html#503A80>StockCar::vtableProcC</a> sponsor: <a href=funcs.html#5039D0>SponsorCar::vtableProcC</a> else: <a href=funcs.html#516CA0>TunedCar::vtableProcC</a>*/</span>
 <i>/*C*/	int field_C;</i>
 };</div>
+<a id=struc_s54F980></a>
+<div>struct <h3>s54F980</h3> { <i>/*3 members, size 10h*/</i> <em></em>
+<span class='mm'>/**just a dtor*/</span>
+<i>/*0*/	</i>void *vtable;
+<span class='mm'>/**links <a href=structs.html#struc_bPNodeSlotPoolEntry>struct bPNodeSlotPoolEntry</a>*/</span>
+<i>/*4*/	</i><a href=#struc_ObjectLink>struct ObjectLink</a> link;
+<i>/*C*/	<a href=structs.html#struc_bPNodeSlotPoolEntry>struct bPNodeSlotPoolEntry</a> *field_C;</i>
+};</div>
+<p><strong>Methods:</strong>
+<ul>
+<li><!--544F80-->
+<pre><i>544F80</i> <a href=funcs.html#544F80 title='struct s54F980 *__thiscall s54F980__ctor(struct s54F980 *this);'>s54F980::ctor</a></pre>
+</ul>
 <a id=struc_SponsorCar></a>
 <div>struct <h3>SponsorCar</h3> { <i>/*2 members, size 1Ch*/</i> <em></em>
 <i>/*0*/	</i><a href=#struc_InventoryCar>struct InventoryCar</a> __parent;
@@ -7096,15 +7129,14 @@ sometimes this is also just hash of the car name? I wanna cry*/</span>
 <i>/*8*/	int field_8;</i>
 };</div>
 <a id=struc_TunedCar18></a>
-<div>struct <h3>TunedCar18</h3> { <i>/*8 members, size 418h*/</i> <em></em>
+<div>struct <h3>TunedCar18</h3> { <i>/*6 members, size 418h*/</i> <em></em>
 <i>/*0*/	int field_0;</i>
 <i>/*4*/	char _pad4[0x4];</i>
 <span class='mm'>/**cs hash of <a href=structs.html#struc_Car>struct Car</a>.<a href=structs.html#struc_Car0>name0</a>*/</span>
 <i>/*8*/	</i>unsigned int carNameHash;
 <i>/*C*/	char field_C[680];</i>
-<i>/*2B4*/	char field_2B4[40];</i>
-<i>/*2DC*/	char field_2DC[40];</i>
-<i>/*304*/	char field_304[68];</i>
+<span class='mm'>/**copied from <a href=structs.html#struc_MenuCarInstance>struct MenuCarInstance</a> at <a href=funcs.html#503950>TunedCar18::503950</a>*/</span>
+<i>/*2B4*/	<a href=#struc_MenuCarInstance_10_2E0>struct MenuCarInstance_10_2E0</a> field_2B4;</i>
 <i>/*348*/	<a href=#struc_TunedCar360>struct TunedCar360</a> field_348[5];</i>
 <i>/*415*/	char _pad415[0x2];</i>
 <span class='mm'>/**probably just padding*/</span>
@@ -7113,7 +7145,7 @@ sometimes this is also just hash of the car name? I wanna cry*/</span>
 <p><strong>Methods:</strong>
 <ul>
 <li><!--503950-->
-<pre><i>503950</i> <a href=funcs.html#503950 title='int __thiscall TunedCar18__503950(struct TunedCar18 *this, int);'>TunedCar18::503950</a></pre>
+<pre><i>503950</i> <a href=funcs.html#503950 title='int __thiscall TunedCar18__503950(struct TunedCar18 *this, struct MenuCarInstance *menuCarInstance);'>TunedCar18::503950</a></pre>
 <li><!--516A60-->
 <pre><i>516A60</i> <a href=funcs.html#516A60 title='void __thiscall TunedCar18__ctor(struct TunedCar18 *this);'>TunedCar18::ctor</a></pre>
 </ul>
