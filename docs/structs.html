@@ -682,18 +682,18 @@ pre.ida span.hi {
 <li><a href=#struc_CareerCar434_294>CareerCar434_294</a>
 <li><a href=#struc_CareerCar434_29C>CareerCar434_29C</a>
 <li><a href=#struc_CareerCar434>CareerCar434</a> <em></em>
-<li><a href=#struc_Player24_60>Player24_60</a>
-<li><a href=#struc_Player24>Player24</a> <em></em>
-<li><a href=#struc_PlayerD4_10>PlayerD4_10</a>
-<li><a href=#struc_PlayerD4_100_1C>PlayerD4_100_1C</a>
-<li><a href=#struc_PlayerD4_100>PlayerD4_100</a> <em></em>
-<li><a href=#struc_PlayerD4>PlayerD4</a> <em></em>
+<li><a href=#struc_Player_24_60>Player_24_60</a>
+<li><a href=#struc_Player_24>Player_24</a> <em></em>
+<li><a href=#struc_Player_D4_10>Player_D4_10</a>
+<li><a href=#struc_Player_D4_100_1C>Player_D4_100_1C</a>
+<li><a href=#struc_Player_D4_100>Player_D4_100</a> <em></em>
+<li><a href=#struc_Player_D4>Player_D4</a> <em></em>
 <li><a href=#struc_Player>Player</a> <em></em>
 <li><a href=#struc_TraxConfig>TraxConfig</a>
 <li><a href=#struc_TraxEntry>TraxEntry</a>
-<li><a href=#struc_ProfileData156B0_SubB>ProfileData156B0_SubB</a>
-<li><a href=#struc_ProfileData156B0_SubA>ProfileData156B0_SubA</a>
-<li><a href=#struc_ProfileData156B0>ProfileData156B0</a> <em></em>
+<li><a href=#struc_ProfileData_156B0_SubB>ProfileData_156B0_SubB</a>
+<li><a href=#struc_ProfileData_156B0_SubA>ProfileData_156B0_SubA</a>
+<li><a href=#struc_ProfileData_156B0>ProfileData_156B0</a> <em></em>
 <li><a href=#struc_ProfileData28DB0>ProfileData28DB0</a> <em></em>
 <li><a href=#struc_ProfileData28FD0>ProfileData28FD0</a>
 <li><a href=#struc_ProfileData29C70>ProfileData29C70</a>
@@ -719,10 +719,10 @@ pre.ida span.hi {
 <li><a href=#struc_Career887C_D>Career887C_D</a>
 <li><a href=#struc_Career887C>Career887C</a> <em></em>
 <li><a href=#struc_Career887C_A8>Career887C_A8</a>
-<li><a href=#struc_Career8724>Career8724</a> <em></em>
+<li><a href=#struc_Career_8724>Career_8724</a> <em></em>
 <li><a href=#struc_Career7148_180>Career7148_180</a>
 <li><a href=#struc_Career7148>Career7148</a> <em></em>
-<li><a href=#struc_Career0>Career0</a>
+<li><a href=#struc_Career_0>Career_0</a>
 <li><a href=#struc_Career713C>Career713C</a> <em></em>
 <li><a href=#struc_Career4230>Career4230</a> <em></em>
 <li><a href=#struc_Career4210>Career4210</a> <em></em>
@@ -5015,7 +5015,7 @@ return amount of bytes actually read*/</span>
 <i>/*1A5*/	char field_1A5;</i>
 <i>/*1A6*/	char field_1A6;</i>
 <i>/*1A7*/	char field_1A7;</i>
-<span class='mm'>/**initialized to <a href=vars.html#83A9D0>profileData</a>.<a href=structs.html#struc_ProfileData10>player1</a>.<a href=structs.html#struc_PlayerD4>d4</a>.<a href=structs.html#struc_PlayerD44>currentCarSelectionSlotHash?</a>*/</span>
+<span class='mm'>/**initialized to <a href=vars.html#83A9D0>profileData</a>.<a href=structs.html#struc_ProfileData10>player1</a>.<a href=structs.html#struc_PlayerD4>d4</a>.<a href=structs.html#struc_Player_D44>currentCarSelectionSlotHash?</a>*/</span>
 <i>/*1A8*/	</i>unsigned int slotHash;
 <i>/*1AC*/	int field_1AC;</i>
 <i>/*1B0*/	int field_1B0;</i>
@@ -7177,7 +7177,7 @@ unknown length, but max 16?*/</span>
 <li><!--52A5D0-->
 <pre><i>52A5D0</i> <a href=funcs.html#52A5D0 title='void __thiscall CarCollection__ctor(struct CarCollection *this);'>CarCollection::ctor</a></pre>
 <li><!--52A710-->
-<pre><i>52A710</i> <a href=funcs.html#52A710 title='int __thiscall CarCollection__CreateNewTunedCarFromFromDataAtSlot(struct CarCollection *this, unsigned int slotNamehash);'>CarCollection::CreateNewTunedCarFromFromDataAtSlot</a></pre>
+<pre><i>52A710</i> <a href=funcs.html#52A710 title='struct TunedCar *__thiscall CarCollection__CreateNewTunedCarFromFromDataAtSlot(struct CarCollection *this, unsigned int slotNamehash);'>CarCollection::CreateNewTunedCarFromFromDataAtSlot</a></pre>
 <li><!--52A7F0-->
 <pre><i>52A7F0</i> <a href=funcs.html#52A7F0 title='void __thiscall CarCollection__ClearOnlineCarData(struct CarCollection *this);'>CarCollection::ClearOnlineCarData</a></pre>
 <li><!--52A8A0-->
@@ -7510,8 +7510,8 @@ could just be char[9]</div>
 <li><!--503E70-->
 <pre><i>503E70</i> <a href=funcs.html#503E70 title='void __thiscall CareerCar434__Init(struct CareerCar434 *this);'>CareerCar434::Init</a></pre>
 </ul>
-<a id=struc_Player24_60></a>
-<div>struct <h3>Player24_60</h3> { <i>/*19 members, size 28h*/</i>
+<a id=struc_Player_24_60></a>
+<div>struct <h3>Player_24_60</h3> { <i>/*19 members, size 28h*/</i>
 <i>/*0*/	char field_0;</i>
 <i>/*1*/	char field_1;</i>
 <i>/*2*/	char field_2;</i>
@@ -7539,9 +7539,9 @@ could just be char[9]</div>
 <span class='mm'>/**initialized to 1.0*/</span>
 <i>/*24*/	float floatField_24;</i>
 };
-<i>EXPECT_SIZE(struct Player24_60, 0x28);</i></div>
-<a id=struc_Player24></a>
-<div>struct <h3>Player24</h3> { <i>/*28 members, size B0h*/</i> <em></em>
+<i>EXPECT_SIZE(struct Player_24_60, 0x28);</i></div>
+<a id=struc_Player_24></a>
+<div>struct <h3>Player_24</h3> { <i>/*28 members, size B0h*/</i> <em></em>
 <i>/*0*/	int field_0;</i>
 <span class='mm'>/**initialized to .5*/</span>
 <i>/*4*/	float floatField_4;</i>
@@ -7551,7 +7551,7 @@ could just be char[9]</div>
 <i>/*11*/	char _pad11[0x3];</i>
 <i>/*14*/	char field_14;</i>
 <i>/*15*/	char field_15;</i>
-<i id=struc_Player2416></i><span class='mm'>/**initialized to 1 if <a href=vars.html#7F70D0>_currentLoadedLanguage</a> is not 0*/</span>
+<i id=struc_Player_2416></i><span class='mm'>/**initialized to 1 if <a href=vars.html#7F70D0>_currentLoadedLanguage</a> is not 0*/</span>
 <i>/*16*/	</i>char useMetricSystem <u></u>;
 <i>/*17*/	char field_17;</i>
 <i>/*18*/	char field_18;</i>
@@ -7583,17 +7583,17 @@ could just be char[9]</div>
 <i>/*54*/	int field_54;</i>
 <i>/*58*/	int field_58;</i>
 <i>/*5C*/	int field_5C;</i>
-<i>/*60*/	<a href=#struc_Player24_60>struct Player24_60</a> field_60[2];</i>
+<i>/*60*/	<a href=#struc_Player_24_60>struct Player_24_60</a> field_60[2];</i>
 };
-<i>EXPECT_SIZE(struct Player24, 0xB0);</i></div>
+<i>EXPECT_SIZE(struct Player_24, 0xB0);</i></div>
 <ul>
 <li><!--5025B0-->
-<pre><i>5025B0</i> <a href=funcs.html#5025B0 title='void __thiscall Player24__Init(struct Player24 *this);'>Player24::Init</a></pre>
+<pre><i>5025B0</i> <a href=funcs.html#5025B0 title='void __thiscall Player_24__Init(struct Player_24 *this);'>Player_24::Init</a></pre>
 <li><!--5116E0-->
-<pre><i>5116E0</i> <a href=funcs.html#5116E0 title='void __thiscall Player24__ctor(struct Player24 *this);'>Player24::ctor</a></pre>
+<pre><i>5116E0</i> <a href=funcs.html#5116E0 title='void __thiscall Player_24__ctor(struct Player_24 *this);'>Player_24::ctor</a></pre>
 </ul>
-<a id=struc_PlayerD4_10></a>
-<div>struct <h3>PlayerD4_10</h3> { <i>/*14 members, size 14h*/</i>
+<a id=struc_Player_D4_10></a>
+<div>struct <h3>Player_D4_10</h3> { <i>/*14 members, size 14h*/</i>
 <i>/*0*/	char field_0;</i>
 <i>/*1*/	char field_1;</i>
 <i>/*2*/	char field_2;</i>
@@ -7610,9 +7610,9 @@ could just be char[9]</div>
 <i>/*12*/	char _pad12[0x1];</i>
 <i>/*13*/	</i>char __end <u></u>;
 };
-<i>EXPECT_SIZE(struct PlayerD4_10, 0x14);</i></div>
-<a id=struc_PlayerD4_100_1C></a>
-<div>struct <h3>PlayerD4_100_1C</h3> { <i>/*6 members, size Ch*/</i>
+<i>EXPECT_SIZE(struct Player_D4_10, 0x14);</i></div>
+<a id=struc_Player_D4_100_1C></a>
+<div>struct <h3>Player_D4_100_1C</h3> { <i>/*6 members, size Ch*/</i>
 <i>/*0*/	short field_0;</i>
 <i>/*2*/	short field_2;</i>
 <i>/*4*/	int field_4;</i>
@@ -7621,9 +7621,9 @@ could just be char[9]</div>
 <i>/*A*/	char _padA[0x1];</i>
 <i>/*B*/	</i>char __end <u></u>;
 };
-<i>EXPECT_SIZE(struct PlayerD4_100_1C, 0xC);</i></div>
-<a id=struc_PlayerD4_100></a>
-<div>struct <h3>PlayerD4_100</h3> { <i>/*15 members, size 7Ch*/</i> <em></em>
+<i>EXPECT_SIZE(struct Player_D4_100_1C, 0xC);</i></div>
+<a id=struc_Player_D4_100></a>
+<div>struct <h3>Player_D4_100</h3> { <i>/*15 members, size 7Ch*/</i> <em></em>
 <i>/*0*/	char field_0;</i>
 <i>/*1*/	char field_1;</i>
 <i>/*2*/	char field_2;</i>
@@ -7641,44 +7641,44 @@ could just be char[9]</div>
 <i>/*19*/	char field_19;</i>
 <i>/*1A*/	char field_1A;</i>
 <i>/*1B*/	char _pad1B[0x1];</i>
-<i>/*1C*/	<a href=#struc_PlayerD4_100_1C>struct PlayerD4_100_1C</a> field_1C[8];</i>
+<i>/*1C*/	<a href=#struc_Player_D4_100_1C>struct Player_D4_100_1C</a> field_1C[8];</i>
 };
-<i>EXPECT_SIZE(struct PlayerD4_100, 0x7C);</i></div>
+<i>EXPECT_SIZE(struct Player_D4_100, 0x7C);</i></div>
 <ul>
 <li><!--515750-->
-<pre><i>515750</i> <a href=funcs.html#515750 title='PlayerD4_100::Init'>PlayerD4_100::Init</a></pre>
+<pre><i>515750</i> <a href=funcs.html#515750 title='Player_D4_100::Init'>Player_D4_100::Init</a></pre>
 <li><!--525CA0-->
-<pre><i>525CA0</i> <a href=funcs.html#525CA0 title='void __thiscall PlayerD4_100__ctor(struct PlayerD4_100 *this);'>PlayerD4_100::ctor</a></pre>
+<pre><i>525CA0</i> <a href=funcs.html#525CA0 title='void __thiscall Player_D4_100__ctor(struct Player_D4_100 *this);'>Player_D4_100::ctor</a></pre>
 </ul>
-<a id=struc_PlayerD4></a>
-<div>struct <h3>PlayerD4</h3> { <i>/*5 members, size 17Ch*/</i> <em></em>
+<a id=struc_Player_D4></a>
+<div>struct <h3>Player_D4</h3> { <i>/*5 members, size 17Ch*/</i> <em></em>
 <i>/*0*/	int field_0;</i>
-<i id=struc_PlayerD44></i><span class='mm'>/**see 515985
+<i id=struc_Player_D44></i><span class='mm'>/**see 515985
 
 usually a stock car, often STOCK_RX8. some kind of "default car to pick"*/</span>
 <i>/*4*/	</i>unsigned int currentCarSelectionSlotHash?[2];
 <i>/*C*/	</i><a href=enums.html#enu_INVENTORY_CAR_FLAGS>enum INVENTORY_CAR_FLAGS</a> currentCarSelectionCategory;
-<i>/*10*/	<a href=#struc_PlayerD4_10>struct PlayerD4_10</a> field_10[12];</i>
-<i>/*100*/	<a href=#struc_PlayerD4_100>struct PlayerD4_100</a> field_100;</i>
+<i>/*10*/	<a href=#struc_Player_D4_10>struct Player_D4_10</a> field_10[12];</i>
+<i>/*100*/	<a href=#struc_Player_D4_100>struct Player_D4_100</a> field_100;</i>
 };
-<i>EXPECT_SIZE(struct PlayerD4, 0x17C);</i></div>
+<i>EXPECT_SIZE(struct Player_D4, 0x17C);</i></div>
 <ul>
 <li><!--5026F0-->
-<pre><i>5026F0</i> <a href=funcs.html#5026F0 title='void __thiscall PlayerD4__5026F0(struct PlayerD4 *this);'>PlayerD4::5026F0</a></pre>
+<pre><i>5026F0</i> <a href=funcs.html#5026F0 title='void __thiscall Player_D4__5026F0(struct Player_D4 *this);'>Player_D4::5026F0</a></pre>
 <li><!--502A40-->
-<pre><i>502A40</i> <a href=funcs.html#502A40 title='void __thiscall PlayerD4__SetCurrentCarSelectionSlotHash(struct PlayerD4 *this, unsigned int slotNameHash, int playerIndex);'>PlayerD4::SetCurrentCarSelectionSlotHash</a></pre>
+<pre><i>502A40</i> <a href=funcs.html#502A40 title='void __thiscall Player_D4__SetCurrentCarSelectionSlotHash(struct Player_D4 *this, unsigned int slotNameHash, int playerIndex);'>Player_D4::SetCurrentCarSelectionSlotHash</a></pre>
 <li><!--515800-->
-<pre><i>515800</i> <a href=funcs.html#515800 title='void __thiscall PlayerD4__Clear(struct PlayerD4 *this);'>PlayerD4::Clear</a></pre>
+<pre><i>515800</i> <a href=funcs.html#515800 title='void __thiscall Player_D4__Clear(struct Player_D4 *this);'>Player_D4::Clear</a></pre>
 <li><!--52A220-->
-<pre><i>52A220</i> <a href=funcs.html#52A220 title='void __thiscall PlayerD4__ctor(struct PlayerD4 *this);'>PlayerD4::ctor</a></pre>
+<pre><i>52A220</i> <a href=funcs.html#52A220 title='void __thiscall Player_D4__ctor(struct Player_D4 *this);'>Player_D4::ctor</a></pre>
 </ul>
 <a id=struc_Player></a>
 <div>struct <h3>Player</h3> { <i>/*14 members, size AB4Ch*/</i> <em></em>
 <i>/*0*/	</i>char name[32];
 <i>/*20*/	char field_20;</i>
 <i>/*21*/	char _pad21[0x3];</i>
-<i id=struc_Player24></i><i>/*24*/	</i><a href=#struc_Player24>struct Player24</a> p24;
-<i id=struc_PlayerD4></i><i>/*D4*/	</i><a href=#struc_PlayerD4>struct PlayerD4</a> d4;
+<i id=struc_Player24></i><i>/*24*/	</i><a href=#struc_Player_24>struct Player_24</a> p24;
+<i id=struc_PlayerD4></i><i>/*D4*/	</i><a href=#struc_Player_D4>struct Player_D4</a> d4;
 <i>/*250*/	int field_250;</i>
 <i>/*254*/	int field_254;</i>
 <i>/*258*/	char field_258[128];</i>
@@ -7721,25 +7721,25 @@ usually a stock car, often STOCK_RX8. some kind of "default car to pick"*/</span
 <i>/*C*/	</i>char *playWhen;
 };
 <i>EXPECT_SIZE(struct TraxEntry, 0x10);</i></div>
-<a id=struc_ProfileData156B0_SubB></a>
-<div>struct <h3>ProfileData156B0_SubB</h3> { <i>/*5 members, size 14h*/</i>
+<a id=struc_ProfileData_156B0_SubB></a>
+<div>struct <h3>ProfileData_156B0_SubB</h3> { <i>/*5 members, size 14h*/</i>
 <i>/*0*/	int field_0;</i>
 <i>/*4*/	int field_4;</i>
 <i>/*8*/	int field_8;</i>
 <i>/*C*/	int field_C;</i>
 <i>/*10*/	int field_10;</i>
 };
-<i>EXPECT_SIZE(struct ProfileData156B0_SubB, 0x14);</i></div>
-<a id=struc_ProfileData156B0_SubA></a>
-<div>struct <h3>ProfileData156B0_SubA</h3> { <i>/*4 members, size Dh*/</i>
+<i>EXPECT_SIZE(struct ProfileData_156B0_SubB, 0x14);</i></div>
+<a id=struc_ProfileData_156B0_SubA></a>
+<div>struct <h3>ProfileData_156B0_SubA</h3> { <i>/*4 members, size Dh*/</i>
 <i>/*0*/	int field_0;</i>
 <i>/*4*/	int field_4;</i>
 <i>/*8*/	int field_8;</i>
 <i>/*C*/	char field_C;</i>
 };
-<i>EXPECT_SIZE(struct ProfileData156B0_SubA, 0xD);</i></div>
-<a id=struc_ProfileData156B0></a>
-<div>struct <h3>ProfileData156B0</h3> { <i>/*34 members, size BCh*/</i> <em></em>
+<i>EXPECT_SIZE(struct ProfileData_156B0_SubA, 0xD);</i></div>
+<a id=struc_ProfileData_156B0></a>
+<div>struct <h3>ProfileData_156B0</h3> { <i>/*34 members, size BCh*/</i> <em></em>
 <i>/*0*/	char field_0;</i>
 <i>/*1*/	char field_1;</i>
 <i>/*2*/	char _pad2[0x2];</i>
@@ -7752,8 +7752,8 @@ usually a stock car, often STOCK_RX8. some kind of "default car to pick"*/</span
 <i>/*19*/	char field_19;</i>
 <i>/*1A*/	char field_1A;</i>
 <i>/*1B*/	char field_1B;</i>
-<i>/*1C*/	<a href=#struc_ProfileData156B0_SubA>struct ProfileData156B0_SubA</a> field_1C;</i>
-<i>/*29*/	<a href=#struc_ProfileData156B0_SubA>struct ProfileData156B0_SubA</a> field_29;</i>
+<i>/*1C*/	<a href=#struc_ProfileData_156B0_SubA>struct ProfileData_156B0_SubA</a> field_1C;</i>
+<i>/*29*/	<a href=#struc_ProfileData_156B0_SubA>struct ProfileData_156B0_SubA</a> field_29;</i>
 <i>/*36*/	char _pad36[0x2];</i>
 <i>/*38*/	short field_38;</i>
 <i>/*3A*/	short field_3A;</i>
@@ -7773,18 +7773,18 @@ usually a stock car, often STOCK_RX8. some kind of "default car to pick"*/</span
 <i>/*4D*/	char _pad4D[0x3];</i>
 <i>/*50*/	int field_50;</i>
 <i>/*54*/	int field_54;</i>
-<i>/*58*/	<a href=#struc_ProfileData156B0_SubB>struct ProfileData156B0_SubB</a> field_58;</i>
-<i>/*6C*/	<a href=#struc_ProfileData156B0_SubB>struct ProfileData156B0_SubB</a> field_6C;</i>
-<i>/*80*/	<a href=#struc_ProfileData156B0_SubB>struct ProfileData156B0_SubB</a> field_80;</i>
-<i>/*94*/	<a href=#struc_ProfileData156B0_SubB>struct ProfileData156B0_SubB</a> field_94;</i>
-<i>/*A8*/	<a href=#struc_ProfileData156B0_SubB>struct ProfileData156B0_SubB</a> field_A8;</i>
+<i>/*58*/	<a href=#struc_ProfileData_156B0_SubB>struct ProfileData_156B0_SubB</a> field_58;</i>
+<i>/*6C*/	<a href=#struc_ProfileData_156B0_SubB>struct ProfileData_156B0_SubB</a> field_6C;</i>
+<i>/*80*/	<a href=#struc_ProfileData_156B0_SubB>struct ProfileData_156B0_SubB</a> field_80;</i>
+<i>/*94*/	<a href=#struc_ProfileData_156B0_SubB>struct ProfileData_156B0_SubB</a> field_94;</i>
+<i>/*A8*/	<a href=#struc_ProfileData_156B0_SubB>struct ProfileData_156B0_SubB</a> field_A8;</i>
 };
-<i>EXPECT_SIZE(struct ProfileData156B0, 0xBC);</i></div>
+<i>EXPECT_SIZE(struct ProfileData_156B0, 0xBC);</i></div>
 <ul>
 <li><!--5030E0-->
-<pre><i>5030E0</i> <a href=funcs.html#5030E0 title='void __thiscall ProfileData156B0__ctor(struct ProfileData156B0 *this);'>ProfileData156B0::ctor</a></pre>
+<pre><i>5030E0</i> <a href=funcs.html#5030E0 title='void __thiscall ProfileData_156B0__ctor(struct ProfileData_156B0 *this);'>ProfileData_156B0::ctor</a></pre>
 <li><!--515BF0-->
-<pre><i>515BF0</i> <a href=funcs.html#515BF0 title='ProfileData156B0::WriteToSaveData'>ProfileData156B0::WriteToSaveData</a></pre>
+<pre><i>515BF0</i> <a href=funcs.html#515BF0 title='ProfileData_156B0::WriteToSaveData'>ProfileData_156B0::WriteToSaveData</a></pre>
 </ul>
 <a id=struc_ProfileData28DB0></a>
 <div>struct <h3>ProfileData28DB0</h3> { <i>/*8 members, size 20h*/</i> <em></em>
@@ -7828,7 +7828,7 @@ usually a stock car, often STOCK_RX8. some kind of "default car to pick"*/</span
 <i>/*AB5C*/</i><a href=#struc_Player>struct Player</a> player2;
 <i id=struc_ProfileData156A8></i><i>/*156A8*/</i><a href=enums.html#enu_MENU_STATE>enum MENU_STATE</a> menuState;
 <i>/*156AC*/char _pad156AC[0x4];</i>
-<i id=struc_ProfileData156B0></i><i>/*156B0*/<a href=#struc_ProfileData156B0>struct ProfileData156B0</a> field_156B0;</i>
+<i id=struc_ProfileData156B0></i><i>/*156B0*/<a href=#struc_ProfileData_156B0>struct ProfileData_156B0</a> field_156B0;</i>
 <i>/*1576C*/char _pad1576C[0x14];</i>
 <i>/*15780*/int field_15780;</i>
 <i>/*15784*/int field_15784;</i>
@@ -8341,9 +8341,9 @@ but in reality these are all zero, and that is an empty string :D*/</span>
 <li><!--5016A0-->
 <pre><i>5016A0</i> <a href=funcs.html#5016A0 title='int __thiscall CareerC00__5016A0(struct CareerC00 *this);'>CareerC00::5016A0</a></pre>
 <li><!--514FD0-->
-<pre><i>514FD0</i> <a href=funcs.html#514FD0 title='int __thiscall CareerC00__514FD0(struct CareerC00 *this, struct Career8724 *);'>CareerC00::514FD0</a></pre>
+<pre><i>514FD0</i> <a href=funcs.html#514FD0 title='int __thiscall CareerC00__514FD0(struct CareerC00 *this, struct Career_8724 *);'>CareerC00::514FD0</a></pre>
 <li><!--515060-->
-<pre><i>515060</i> <a href=funcs.html#515060 title='int __thiscall CareerC00__515060(struct CareerC00 *this, struct Career0 *into);'>CareerC00::515060</a></pre>
+<pre><i>515060</i> <a href=funcs.html#515060 title='int __thiscall CareerC00__515060(struct CareerC00 *this, struct Career_0 *into);'>CareerC00::515060</a></pre>
 <li><!--533A90-->
 <pre><i>533A90</i> <a href=funcs.html#533A90 title='int __thiscall CareerC00__OnOutrunFinish(struct CareerC00 *this, int didWin);'>CareerC00::OnOutrunFinish</a></pre>
 <li><!--533B40-->
@@ -8456,9 +8456,9 @@ but in reality these are all zero, and that is an empty string :D*/</span>
 <i>/*8*/	int field_8;</i>
 };
 <i>EXPECT_SIZE(struct Career887C_A8, 0xC);</i></div>
-<a id=struc_Career8724></a>
+<a id=struc_Career_8724></a>
 <div class=mm><p>size unknown</div>
-<div>struct <h3>Career8724</h3> { <i>/*6 members, size 9Eh*/</i> <em></em>
+<div>struct <h3>Career_8724</h3> { <i>/*6 members, size 9Eh*/</i> <em></em>
 <i>/*0*/	char _pad0[0x38];</i>
 <i>/*38*/	</i>unsigned int hash38;
 <i>/*3C*/	</i>unsigned int markerHash3C;
@@ -8470,10 +8470,10 @@ but in reality these are all zero, and that is an empty string :D*/</span>
 <i>/*9C*/	char field_9C;</i>
 <i>/*9D*/	</i>char stage;
 };
-<i>EXPECT_SIZE(struct Career8724, 0x9E);</i></div>
+<i>EXPECT_SIZE(struct Career_8724, 0x9E);</i></div>
 <ul>
 <li><!--512870-->
-<pre><i>512870</i> <a href=funcs.html#512870 title='int __thiscall Career8724__512870(struct Career8724 *this);'>Career8724::512870</a></pre>
+<pre><i>512870</i> <a href=funcs.html#512870 title='int __thiscall Career_8724__512870(struct Career_8724 *this);'>Career_8724::512870</a></pre>
 </ul>
 <a id=struc_Career7148_180></a>
 <div>struct <h3>Career7148_180</h3> { <i>/*3 members, size 10h*/</i>
@@ -8517,17 +8517,17 @@ but in reality these are all zero, and that is an empty string :D*/</span>
 <li><!--527BB0-->
 <pre><i>527BB0</i> <a href=funcs.html#527BB0 title='struct Bin34A11 *__thiscall Career7148__527BB0(struct Career7148 *this, int);'>Career7148::527BB0</a></pre>
 </ul>
-<a id=struc_Career0></a>
+<a id=struc_Career_0></a>
 <div class=mm><p>size 18</div>
-<div>struct <h3>Career0</h3> { <i>/*6 members, size 18h*/</i>
+<div>struct <h3>Career_0</h3> { <i>/*6 members, size 18h*/</i>
 <i>/*0*/	int field_0;</i>
 <i>/*4*/	int field_4;</i>
-<i>/*8*/	</i><a href=structs.html#struc_Career8724>struct Career8724</a> *ptrField_8;
+<i>/*8*/	</i><a href=structs.html#struc_Career_8724>struct Career_8724</a> *ptrField_8;
 <i>/*C*/	void *field_C;</i>
 <i>/*10*/	int field_10;</i>
 <i>/*14*/	int field_14;</i>
 };
-<i>EXPECT_SIZE(struct Career0, 0x18);</i></div>
+<i>EXPECT_SIZE(struct Career_0, 0x18);</i></div>
 <a id=struc_Career713C></a>
 <div class=mm><p>size A (maybe C)</div>
 <div>struct <h3>Career713C</h3> { <i>/*4 members, size Ah*/</i> <em></em>
@@ -8614,7 +8614,7 @@ but in reality these are all zero, and that is an empty string :D*/</span>
 <p>size unknown</div>
 <div class=mm><p>probably incomplete</div>
 <div>struct <h3>Career</h3> { <i>/*56 members, size 8A0Ch*/</i> <em></em>
-<i id=struc_Career0></i><i>/*0*/	<a href=#struc_Career0>struct Career0</a> field_0[64];</i>
+<i id=struc_Career0></i><i>/*0*/	<a href=#struc_Career_0>struct Career_0</a> field_0[64];</i>
 <i id=struc_Career600></i><span class='mm'>/**see <a href=funcs.html#528980>Career::RecalculateCollectedEngageMarkers</a>
 extra ref: 605880*/</span>
 <i>/*600*/	</i><a href=structs.html#struc_Marker>struct Marker</a> *collectedEngageMarkers[128];
@@ -8657,13 +8657,13 @@ nulling entries removes discovered shops from the map*/</span>
 <i id=struc_Career8700></i><i>/*8700*/int field_8700;</i>
 <i id=struc_Career8704></i><i>/*8704*/void *field_8704;</i>
 <i id=struc_Career8708></i><i>/*8708*/int field_8708;</i>
-<i id=struc_Career870C></i><i>/*870C*/<a href=structs.html#struc_Career8724>struct Career8724</a> *field_870C;</i>
+<i id=struc_Career870C></i><i>/*870C*/<a href=structs.html#struc_Career_8724>struct Career_8724</a> *field_870C;</i>
 <i id=struc_Career8710></i><i>/*8710*/int field_8710;</i>
 <i id=struc_Career8714></i><i>/*8714*/int field_8714;</i>
 <i>/*8718*/char _pad8718[0x4];</i>
 <i id=struc_Career871C></i><i>/*871C*/int field_871C;</i>
 <i id=struc_Career8720></i><i>/*8720*/int field_8720;</i>
-<i id=struc_Career8724></i><i>/*8724*/<a href=structs.html#struc_Career8724>struct Career8724</a> *field_8724;</i>
+<i id=struc_Career8724></i><i>/*8724*/<a href=structs.html#struc_Career_8724>struct Career_8724</a> *field_8724;</i>
 <i id=struc_Career8728></i><i>/*8728*/int field_8728;</i>
 <span class='mm'>/**counter*/</span>
 <i>/*872C*/int field_872C;</i>
@@ -8704,7 +8704,7 @@ When canceling at that point, it's set back to 1
 <li><!--430560-->
 <pre><i>430560</i> <a href=funcs.html#430560 title='int __thiscall Career__430560(struct Career *this);'>Career::430560</a></pre>
 <li><!--458340-->
-<pre><i>458340</i> <a href=funcs.html#458340 title='struct Career8724 *__thiscall Career__458340(struct Career *this);'>Career::458340</a></pre>
+<pre><i>458340</i> <a href=funcs.html#458340 title='struct Career_8724 *__thiscall Career__458340(struct Career *this);'>Career::458340</a></pre>
 <li><!--495270-->
 <pre><i>495270</i> <a href=funcs.html#495270 title='int __thiscall Career__495270(struct Career *this);'>Career::495270</a></pre>
 <li><!--495290-->
@@ -8746,7 +8746,7 @@ When canceling at that point, it's set back to 1
 <li><!--500C60-->
 <pre><i>500C60</i> <a href=funcs.html#500C60 title='int __thiscall Career__GetOutrunStakesForStageIndex(struct Career *this, int stageIndex);'>Career::GetOutrunStakesForStageIndex</a></pre>
 <li><!--500EA0-->
-<pre><i>500EA0</i> <a href=funcs.html#500EA0 title='void __thiscall Career__CopyIntoFirstAvailableField0(struct Career *this, struct Career0 *from);'>Career::CopyIntoFirstAvailableField0</a></pre>
+<pre><i>500EA0</i> <a href=funcs.html#500EA0 title='void __thiscall Career__CopyIntoFirstAvailableField0(struct Career *this, struct Career_0 *from);'>Career::CopyIntoFirstAvailableField0</a></pre>
 <li><!--500EE0-->
 <pre><i>500EE0</i> <a href=funcs.html#500EE0 title='int __thiscall Career__500EE0(struct Career *this, int);'>Career::500EE0</a></pre>
 <li><!--500F30-->
@@ -8762,7 +8762,7 @@ When canceling at that point, it's set back to 1
 <li><!--5130A0-->
 <pre><i>5130A0</i> <a href=funcs.html#5130A0 title='int __thiscall Career__5130A0(struct Career *this, int);'>Career::5130A0</a></pre>
 <li><!--513110-->
-<pre><i>513110</i> <a href=funcs.html#513110 title='int __thiscall Career__513110(struct Career *this, struct Career8724 *);'>Career::513110</a></pre>
+<pre><i>513110</i> <a href=funcs.html#513110 title='int __thiscall Career__513110(struct Career *this, struct Career_8724 *);'>Career::513110</a></pre>
 <li><!--513160-->
 <pre><i>513160</i> <a href=funcs.html#513160 title='int __thiscall Career__513160(struct Career *this, int, int, int);'>Career::513160</a></pre>
 <li><!--5137C0-->
@@ -8836,7 +8836,7 @@ When canceling at that point, it's set back to 1
 <li><!--532830-->
 <pre><i>532830</i> <a href=funcs.html#532830 title='void __thiscall Career__InitOnProfileLoad(struct Career *this, char);'>Career::InitOnProfileLoad</a></pre>
 <li><!--532A50-->
-<pre><i>532A50</i> <a href=funcs.html#532A50 title='int __thiscall Career__532A50(struct Career *this, struct Career8724 *);'>Career::532A50</a></pre>
+<pre><i>532A50</i> <a href=funcs.html#532A50 title='int __thiscall Career__532A50(struct Career *this, struct Career_8724 *);'>Career::532A50</a></pre>
 <li><!--532B10-->
 <pre><i>532B10</i> <a href=funcs.html#532B10 title='int __thiscall Career__532B10(struct Career *this, int);'>Career::532B10</a></pre>
 <li><!--532C20-->
