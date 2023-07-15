@@ -176,6 +176,12 @@ fun_car_customize_sponsor_apply_sponsor_tuning()
 		mov eax, 0x5039D0 // vtable func C for sponsor cars
 		call eax
 
+		// copy tuning back from the car instance to the tuned car entry
+		push 0x8389D0 // car instance
+		lea ecx, [esi+0x18]
+		mov eax, 0x503950
+		call eax
+
 		// reset state (so we don't do this again when another car is selected) and rt
 		mov dword ptr [fun_car_customize_sponsor_stored_sponsorcar], 0
 		mov eax, 0x552DF2

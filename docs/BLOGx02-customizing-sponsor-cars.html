@@ -285,9 +285,6 @@ pre.ida span.hi {
 </header>
 <div class='mm'>
 <p><a href='blog.html'>blog</a> &gt; Customizing sponsor cars (2023 July 15)</p><div><h2 id="customizingsponsorcars">Customizing sponsor cars <a href='#customizingsponsorcars'>#</a></h2>
-<p><strong style="background:red">TODO</strong>:
-<p><em>This blogpost was written when the repository was at revision
-<a class="ext" href="https://github.com/yugecin/nfsu2-re/tree/06ca59c362c490a384367511b9378517efe0f39b">06ca59c362c490a384367511b9378517efe0f39b</a>.</em>
 <ul>
 <li><a href='#customizingsponsorcars'>Customizing sponsor cars</a></li>
 <li><a href='#whataresponsorcars'>Sponsor cars?</a></li>
@@ -298,6 +295,7 @@ pre.ida span.hi {
 <li><a href='#selectingsponsorcars'>Allow sponsor cars in customization</a></li>
 <li><a href='#crashfix'>Making the game not crash</a></li>
 <li><a href='#applysponsorcartuning'>Applying sponsor car tuning</a></li>
+<li><a href='#finalfix'>Fixing ghost stock car bug</a></li>
 </ul>
 </li>
 </ul>
@@ -544,12 +542,18 @@ the stock car. Interesting behavior. Once changing and saving a component though
 it will always correctly show the tuning and the car will be saved to the tuned
 cars collection.
 <p class="center"><video controls="" style="max-width:100%"><source src="img/BLOGx02-WEIRD.MP4" type="video/mp4"></source></video></p>
-</div><p>I can't find how to fix that last issue at this moment, but it kinda works...
-<p>Note: if <code>fun_car_customize_sponsor_GetSponsorCar</code> is changed so it returns the
-<a href=structs.html#struc_SponsorCar>struct SponsorCar</a> instance instead of creating a <a href=structs.html#struc_TunedCar>struct TunedCar</a>, then that
-stock car showing issue disappears. But then the game crashes after changing a
-customized item and going back a menu. Is there another car instance that needs
-the tuning applied?
-<p>... to be continued?
-</div>
+</div><div><h3 id="finalfix">Fixing ghost stock car bug <a href='#finalfix'>#</a></h3>
+<p>Thanks to more findings, I managed to fix the 'bug' from previous section.
+Function <a href=funcs.html#503950>TunedCar18::CopyTuningFromMenuCarInstance</a> seems to apply tuning done to a <a href=structs.html#struc_MenuCarInstance>struct MenuCarInstance</a> back
+to a <a href=structs.html#struc_TunedCar>struct TunedCar</a>. So we just have to call that function before returning
+after applying the stock car tuning:
+<pre>
+	// copy tuning back from the car instance to the tuned car entry
+	push offset <a href=vars.html#8389D0>customizingCarInstanceB</a>
+	lea ecx, [esi+<a href=structs.html#struc_TunedCar18>field_18</a>]
+	mov eax, offset <a href=funcs.html#503950>TunedCar18::CopyTuningFromMenuCarInstance</a>
+	call eax
+</pre>
+<p>sweet!
+</div></div>
 </div></body></html>

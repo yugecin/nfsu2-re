@@ -4,11 +4,6 @@
 
 {Customizing sponsor cars} ||| h id=customizingsponsorcars
 
-{TODO}: ||| strong style=background:red
-
-{This blogpost was written when the repository was at revision                  ||| em
-{06ca59c362c490a384367511b9378517efe0f39b}.}                                    ||| a class=ext href=https://github.com/yugecin/nfsu2-re/tree/06ca59c362c490a384367511b9378517efe0f39b
-
 {} ||| index
 
 .popmode section
@@ -308,15 +303,24 @@ cars collection.
 {{{}}}   ||| p class=center,video controls style=max-width:100%, source src=img/BLOGx02-WEIRD.MP4 type=video/mp4
 
 .popmode section
+.pushmode section
 
-I can't find how to fix that last issue at this moment, but it kinda works...
+{Fixing ghost stock car bug} ||| h id=finalfix
 
-Note: if {fun_car_customize_sponsor_GetSponsorCar} is changed so it returns the  ||| code
-{struct SponsorCar} instance instead of creating a {struct TunedCar}, then that  ||| ref,ref
-stock car showing issue disappears. But then the game crashes after changing a
-customized item and going back a menu. Is there another car instance that needs
-the tuning applied?
+Thanks to more findings, I managed to fix the 'bug' from previous section.
+Function {503950} seems to apply tuning done to a {struct MenuCarInstance} back   ||| ref,ref
+to a {struct TunedCar}. So we just have to call that function before returning    ||| ref
+after applying the stock car tuning:
 
-... to be continued?
+.pushmode pre
+	// copy tuning back from the car instance to the tuned car entry
+	push offset {8389D0}                                                      ||| ref
+	lea ecx, [esi+{struct TunedCar+18}]                                       ||| ref
+	mov eax, offset {503950}                                                  ||| ref
+	call eax
+.popmode pre
 
+sweet!
+
+.popmode section
 .popmode section
