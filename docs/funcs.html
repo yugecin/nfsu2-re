@@ -284,12 +284,14 @@ pre.ida span.hi {
 <a href='cheatsheet.html'>cheatsheet</a></nav>
 </header>
 <div class='func'>
-<h2>Functions (1624)</h2>
+<h2>Functions (1629)</h2>
 <ul>
 <li><a href=#4012B0>
 ??SomeUpdatePosition</a>
 <li><a href=#401650>
 ThiscallProcForInstances</a>
+<li><a href=#4017E0>
+MenuCarInstance::Get_10_2E0</a>
 <li><a href=#4022C0>
 nullsub_1_maybe_console_check_enabled?</a>
 <li><a href=#4031C0>
@@ -1561,7 +1563,7 @@ CarCollection::ClearSlotPointers</a>
 <li><a href=#5037F0>
 CareerCar::5037F0</a>
 <li><a href=#503950>
-TunedCar18::503950</a>
+TunedCar18::CopyTuningFromMenuCarInstance</a>
 <li><a href=#5039D0>
 SponsorCar::ApplyTuningToInstance</a>
 <li><a href=#503A00>
@@ -2920,6 +2922,8 @@ MenuCarInstance_10_2E0::5A6320</a>
 MenuCarInstance_10_2E0::5A6400</a>
 <li><a href=#5A6450>
 MenuCarInstance_10_2E0::5A6450</a>
+<li><a href=#5A64A0>
+MenuCarInstance_10_2E0::5A64A0</a>
 <li><a href=#5A7890>
 MenuCarInstance_10::Clear</a>
 <li><a href=#5A7930>
@@ -2932,6 +2936,8 @@ UnloadBinSection34026_34027</a>
 MenuCarInstance_10::ctor</a>
 <li><a href=#5B0E30>
 LoadBinSection34026_34027</a>
+<li><a href=#5B4FC0>
+MenuCarInstance_10::5B4FC0</a>
 <li><a href=#5B6990>
 MenuCarInstance_10::5B6990</a>
 <li><a href=#5B76F0>
@@ -3152,6 +3158,8 @@ MenuCarInstance::GetField590AtIndex</a>
 RenderLights</a>
 <li><a href=#61B460>
 UnloadBinSection34600_34601_80034602</a>
+<li><a href=#61BCD0>
+MenuCarInstance::61BCD0</a>
 <li><a href=#61C280>
 MenuCarInstance::CalculateSomeHashes</a>
 <li><a href=#61C3C0>
@@ -3170,6 +3178,8 @@ LoadBinSection34600_34601_34608_34609_34607_80034602</a>
 MenuCarInstance::637040</a>
 <li><a href=#637190>
 MenuCarInstance::637190</a>
+<li><a href=#637270>
+MenuCarInstance::ApplyCarPresetTuning</a>
 <li><a href=#63BD30>
 Direct3DCreate9</a>
 <li><a href=#6D7100>
@@ -3539,6 +3549,8 @@ atexit_destroy_carPresets</a>
 <div><i>4012B0</i> <h3>??SomeUpdatePosition</h3></div>
 <a id=401650></a>
 <div><i>401650</i> int __stdcall <h3>ThiscallProcForInstances</h3>(void *instances, int instanceSize, int num, void (__thiscall *proc)(void *));</div>
+<a id=4017E0></a>
+<div><i>4017E0</i> <a href=structs.html#struc_MenuCarInstance_10_2E0>struct MenuCarInstance_10_2E0</a> *__thiscall <h3><a href=structs.html#struc_MenuCarInstance>MenuCarInstance</a>::Get_10_2E0</h3>(<a href=structs.html#struc_MenuCarInstance>struct MenuCarInstance</a> *this);</div>
 <a id=4022C0></a>
 <div class=mm><p>maybe for console enable check? see xref to <a href=funcs.html#5CCD60>MainWndProc</a>
 sometimes also string passed: 600976</div>
@@ -5054,7 +5066,7 @@ sms-&gt;<a href=structs.html#struc_SmsMessage4>read</a> = 1;
 <a id=5037F0></a>
 <div><i>5037F0</i> int __thiscall <h3><a href=structs.html#struc_CareerCar>CareerCar</a>::5037F0</h3>(<a href=structs.html#struc_CareerCar>struct CareerCar</a> *this);</div>
 <a id=503950></a>
-<div><i>503950</i> int __thiscall <h3><a href=structs.html#struc_TunedCar18>TunedCar18</a>::503950</h3>(<a href=structs.html#struc_TunedCar18>struct TunedCar18</a> *this, <a href=structs.html#struc_MenuCarInstance>struct MenuCarInstance</a> *menuCarInstance);</div>
+<div><i>503950</i> int __thiscall <h3><a href=structs.html#struc_TunedCar18>TunedCar18</a>::CopyTuningFromMenuCarInstance</h3>(<a href=structs.html#struc_TunedCar18>struct TunedCar18</a> *this, <a href=structs.html#struc_MenuCarInstance>struct MenuCarInstance</a> *menuCarInstance);</div>
 <a id=5039D0></a>
 <div><i>5039D0</i> void __thiscall <h3><a href=structs.html#struc_SponsorCar>SponsorCar</a>::ApplyTuningToInstance</h3>(<a href=structs.html#struc_SponsorCar>struct SponsorCar</a> *this, int playerIndex, <a href=structs.html#struc_MenuCarInstance>struct MenuCarInstance</a> *menuCarInstance, int);</div>
 <a id=503A00></a>
@@ -6839,6 +6851,8 @@ although that is done by <a href=funcs.html#57CA10>AllocateFileSystemPoolEntryFo
 <div><i>5A6400</i> int __thiscall <h3><a href=structs.html#struc_MenuCarInstance_10_2E0>MenuCarInstance_10_2E0</a>::5A6400</h3>(<a href=structs.html#struc_MenuCarInstance_10_2E0>struct MenuCarInstance_10_2E0</a> *this, <a href=structs.html#struc_Bin34A15>struct Bin34A15</a> *bin34A15, int);</div>
 <a id=5A6450></a>
 <div><i>5A6450</i> int __thiscall <h3><a href=structs.html#struc_MenuCarInstance_10_2E0>MenuCarInstance_10_2E0</a>::5A6450</h3>(<a href=structs.html#struc_MenuCarInstance_10_2E0>struct MenuCarInstance_10_2E0</a> *this, int);</div>
+<a id=5A64A0></a>
+<div><i>5A64A0</i> void __thiscall <h3><a href=structs.html#struc_MenuCarInstance_10_2E0>MenuCarInstance_10_2E0</a>::5A64A0</h3>(<a href=structs.html#struc_MenuCarInstance_10_2E0>struct MenuCarInstance_10_2E0</a> *this, int, int);</div>
 <a id=5A7890></a>
 <div><i>5A7890</i> void __thiscall <h3><a href=structs.html#struc_MenuCarInstance_10>MenuCarInstance_10</a>::Clear</h3>(<a href=structs.html#struc_MenuCarInstance_10>struct MenuCarInstance_10</a> *this, int);</div>
 <a id=5A7930></a>
@@ -6851,6 +6865,8 @@ although that is done by <a href=funcs.html#57CA10>AllocateFileSystemPoolEntryFo
 <div><i>5AC6E0</i> int __thiscall <h3><a href=structs.html#struc_MenuCarInstance_10>MenuCarInstance_10</a>::ctor</h3>(<a href=structs.html#struc_MenuCarInstance_10>struct MenuCarInstance_10</a> *this);</div>
 <a id=5B0E30></a>
 <div><i>5B0E30</i> int __cdecl <h3>LoadBinSection34026_34027</h3>(<a href=structs.html#struc_BinSection>struct BinSection</a> *binsection);</div>
+<a id=5B4FC0></a>
+<div><i>5B4FC0</i> void __thiscall <h3><a href=structs.html#struc_MenuCarInstance_10>MenuCarInstance_10</a>::5B4FC0</h3>(<a href=structs.html#struc_MenuCarInstance_10>struct MenuCarInstance_10</a> *this, int, int, char);</div>
 <a id=5B6990></a>
 <div><i>5B6990</i> float __thiscall <h3><a href=structs.html#struc_MenuCarInstance_10>MenuCarInstance_10</a>::5B6990</h3>(<a href=structs.html#struc_MenuCarInstance_10>struct MenuCarInstance_10</a> *this, char, float);</div>
 <a id=5B76F0></a>
@@ -7177,6 +7193,8 @@ if after is set, only markers of that type or higher will be checked</div>
 <div><i>61AE90</i> <h3>RenderLights</h3></div>
 <a id=61B460></a>
 <div><i>61B460</i> int __cdecl <h3>UnloadBinSection34600_34601_80034602</h3>(<a href=structs.html#struc_BinSection>struct BinSection</a> *bindata);</div>
+<a id=61BCD0></a>
+<div><i>61BCD0</i> void __thiscall <h3><a href=structs.html#struc_MenuCarInstance>MenuCarInstance</a>::61BCD0</h3>(<a href=structs.html#struc_MenuCarInstance>struct MenuCarInstance</a> *this);</div>
 <a id=61C280></a>
 <div class=mm><p>playerId 1/2</div>
 <div><i>61C280</i> void __thiscall <h3><a href=structs.html#struc_MenuCarInstance>MenuCarInstance</a>::CalculateSomeHashes</h3>(<a href=structs.html#struc_MenuCarInstance>struct MenuCarInstance</a> *this, int playerId);</div>
@@ -7233,6 +7251,9 @@ THE_DOORS model: GTO
 <div><i>637040</i> int __thiscall <h3><a href=structs.html#struc_MenuCarInstance>MenuCarInstance</a>::637040</h3>(<a href=structs.html#struc_MenuCarInstance>struct MenuCarInstance</a> *this, int playerIndex);</div>
 <a id=637190></a>
 <div><i>637190</i> int __thiscall <h3><a href=structs.html#struc_MenuCarInstance>MenuCarInstance</a>::637190</h3>(<a href=structs.html#struc_MenuCarInstance>struct MenuCarInstance</a> *this);</div>
+<a id=637270></a>
+<div class=mm><p>carPresetHash: <a href=structs.html#struc_CarPreset>struct CarPreset</a>.<a href=structs.html#struc_CarPreset28>name</a></div>
+<div><i>637270</i> void __thiscall <h3><a href=structs.html#struc_MenuCarInstance>MenuCarInstance</a>::ApplyCarPresetTuning</h3>(<a href=structs.html#struc_MenuCarInstance>struct MenuCarInstance</a> *this, unsigned int carPresetHash);</div>
 <a id=63BD30></a>
 <div><i>63BD30</i> IDirect3D9 *__stdcall <h3>Direct3DCreate9</h3>(UINT SDKVersion);</div>
 <a id=6D7100></a>
