@@ -1,0 +1,555 @@
+<!DOCTYPE html><html lang='en'><head><meta charset=utf-8>
+<title>nfsu2-re/BLOGx02: Customizing sponsor cars</title>
+<style>
+body {
+	font-family: Tahoma,Arial,sans-serif;
+	background: #888;
+	color: #000;
+}
+header,
+body > div {
+	background: #fff;
+	box-shadow: 0px 0px 4px #000;
+	border: 1px solid #efefef;
+	padding: 0 1em;
+	margin: 1em auto;
+	max-width: 60em;
+}
+h1 {
+	margin: .3em;
+}
+header {
+	background: #eee;
+	text-align: center;
+}
+nav {
+	line-height: 2em;
+	margin: 1em 0;
+}
+nav a {
+	padding: .2em .5em;
+	background: #ddd;
+	border-color: #555;
+	border-style: ridge;
+	border-width: 2px;
+}
+pre,
+.sym > div:not(.mm) {
+	margin: 1em 0;
+	padding: .2em .5em;
+	font-family: monospace;
+	white-space: pre;
+	overflow-x: auto;
+}
+pre {
+	border: 2px solid #cdcdcd;
+	background: #f7f7f7;
+}
+blockquote {
+	background: #eee;
+	border-left: 5px solid #aaa;
+	padding: 1em;
+	margin: 1em;
+}
+table {
+        border-collapse: collapse;
+}
+td,th {
+	padding: .1em .4em;
+	border: 1px solid #000;
+}
+th {
+        background: #f5f5f5;
+}
+details {
+        padding: .2em .4em 0 .4em;
+        margin: .5em 0;
+        border: 1px solid #ccc;
+        background: #eee;
+}
+summary {
+        user-select: none;
+        cursor: pointer;
+}
+.mm a[href^="funcs.html"],
+.mm a[href^="vars.html"],
+.mm a[href^="structs.html"],
+.mm a[href^="enums.html"] {
+	border-radius: 5px;
+	padding: 0 .15em;
+	font-family: monospace;
+}
+.mm a[href^="funcs.html"]:hover {
+	background: #fdf;
+}
+.mm a[href^="vars.html"]:hover {
+	background: #dfd;
+}
+.mm a[href^="structs.html"]:hover {
+	background: #ddf;
+}
+.mm a[href^="enums.html"]:hover {
+	background: #fdd;
+}
+nav a[href^="funcs.html"],
+.mm a[href^="funcs.html"],
+.func > div:not(.mm),
+.struc > ul > li > pre {
+	background: #fef;
+	border-color: #f6f;
+}
+/*struc methods*/
+.struc > ul > li > pre {
+	white-space: pre-wrap;
+	margin: -1px 0 0 0;
+}
+.struc > ul {
+	margin: 0 0 1em 0;
+	list-style: none;
+	padding: 0;
+}
+.sym.struc > div {
+	margin-bottom: 0;
+}
+.struc > div + a + div, .struc > ul + a + div {
+	margin-top: 1em;
+}
+nav a[href^="structs.html"],
+.mm a[href^="structs.html"],
+.struc > div:not(.mm) {
+	background: #eef;
+	border-color: #66f;
+}
+nav a[href^="enums.html"],
+.mm a[href^="enums.html"],
+.enum > div:not(.mm) {
+	background: #fee;
+	border-color: #f66;
+}
+nav a[href^="vars.html"],
+.mm a[href^="vars.html"],
+.var > div:not(.mm) {
+	background: #efe;
+	border-color: #5a5;
+}
+.sym > div:not(.mm),
+/*struc methods*/
+.struc > ul > li > pre {
+	border-width: 1px;
+	border-style: solid;
+}
+div h3 {
+	display: inline;
+	font-size: 1em;
+	font-weight: bold;
+}
+body > div > ul i,
+body > div > div i {
+	font-style: normal;
+	font-size: 80%;
+	color: #777;
+}
+/*class label*/
+.struc h2 + ul em::after,
+.struc h3 + i + em::after {
+	content: "/*class*/";
+	font-style: normal;
+	background: #d4aaff;
+	border: 1px solid #94f;
+	font-size: 80%;
+	border-radius: 3px;
+}
+.struc h2 + ul em::after {
+	content: "class";
+	padding: 0 .2em;
+}
+/*union emphasis/label*/
+.struc h2 + ul b::after,
+body > div > div b {
+	font-weight: normal;
+	background: #aadfff;
+	border: 1px solid #44b9ff;
+	font-size: 90%;
+	border-radius: 3px;
+}
+.struc h2 + ul b::after {
+	content: "union";
+	padding: 0 .2em;
+	font-size: 80%;
+}
+.struc h2 + ul b {
+	font-weight: normal;
+}
+/*unknown type*/
+body > div > div u {
+	text-decoration: none;
+}
+span.uctype,
+body > div > div u::after {
+	content: "/*unconfirmed type*/";
+	background: #fca;
+	border: 1px solid #f94;
+	font-size: 80%;
+	border-radius: 6px;
+	color: #000;
+}
+/*reference to unknown struct/enum*/
+.mm .error,
+body > div.sym > div strong {
+	background: #f00;
+	color: #fff;
+}
+/*doccomment*/
+body > div > div > span {
+	color: #080;
+	display: inline-block;
+	margin-left: 5em; /*why 5 and not 8?*/
+	/*so doccomments on their own don't cause scrollbars*/
+	white-space: pre-wrap;
+}
+a.ext::after {
+	display: inline-block;
+	content: '';
+	width: 12px;
+	height: 12px;
+	background: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAAM\
+AgMAAAArG7R0AAAABGdBTUEAALGPC/xhBQAAAAFzUkdCAK7OHOkAAAAJcEhZcwAADsMAAA7DAcdvqGQ\
+AAAAJUExURUdwTAD/AAAA//ENIZIAAAABdFJOUwBA5thmAAAAL0lEQVQI12NggAFRBwaG0AQGptAVDF\
+wzsxi4Zq1k4JqaCcZMU1cwMCxbwMCg1QAArE8JoyhJwYoAAAAASUVORK5CYII=') no-repeat;
+}
+/*symbol comments*/
+.sym div.mm {
+	background: #efefef;
+	border: 1px dashed #000;
+	border-bottom: 0;
+	margin-bottom: 0;
+	padding: .2em .5em;
+}
+.sym div.mm + div {
+	margin-top: 0;
+}
+/*mm stuff mostly used in docs*/
+div.mm div {
+	margin: 2em 0;
+	padding-left: 1em;
+	border-left: 3px ridge #666;
+}
+div.mm p.center {
+	text-align: center;
+}
+div.mm p.imgholder {
+	text-align: center;
+	margin: 3em 0;
+}
+code {
+	background: #dfdfdf;
+	padding: 0 .2em;
+	border-radius: 3px;
+}
+div.mm h2 a, div.mm h3 a, div.mm h4 a, div.mm h5 a, div.mm h6 a {
+	color: #A0A0A0;
+}
+pre.ida {
+	color: #000080;
+	font-weight: bold;
+}
+pre.ida span.text,
+pre.ida span.mt {
+	color: #000;
+}
+pre.ida span.comment,
+pre.ida span.mc {
+	color: #808080;
+}
+pre.ida span.ident {
+	color: #0000ff;
+}
+pre.ida span.num, pre.ida span.str {
+	color: #008000;
+}
+pre.ida span.hi {
+	background: #ff0;
+}
+</style></head><body>
+<header>
+<h1>nfsu2-re</h1>
+<p><a href='https://github.com/yugecin/nfsu2-re'>https://github.com/yugecin/nfsu2-re</a></p>
+<nav><a href='index.html'>home</a>
+<a href='blog.html'>blog</a>
+<a href='docs.html'>docs</a>
+<a href='funcs.html' class='func'>functions</a>
+<a href='structs.html' class='struc'>structs</a>
+<a href='enums.html' class='enum'>enums</a>
+<a href='vars.html' class='var'>variables</a>
+<a href='cheatsheet.html'>cheatsheet</a></nav>
+</header>
+<div class='mm'>
+<p><a href='blog.html'>blog</a> &gt; Customizing sponsor cars (2023 July 15)</p><div><h2 id="customizingsponsorcars">Customizing sponsor cars <a href='#customizingsponsorcars'>#</a></h2>
+<p><strong style="background:red">TODO</strong>:
+<p><em>This blogpost was written when the repository was at revision
+<a class="ext" href="https://github.com/yugecin/nfsu2-re/tree/06ca59c362c490a384367511b9378517efe0f39b">06ca59c362c490a384367511b9378517efe0f39b</a>.</em>
+<ul>
+<li><a href='#customizingsponsorcars'>Customizing sponsor cars</a></li>
+<li><a href='#whataresponsorcars'>Sponsor cars?</a></li>
+<li><a href='#theidea'>The idea</a></li>
+<li><a href='#execution'>Execution</a>
+<ul>
+<li><a href='#skippingcheats'>Skipping the cheats</a></li>
+<li><a href='#selectingsponsorcars'>Allow sponsor cars in customization</a></li>
+<li><a href='#crashfix'>Making the game not crash</a></li>
+<li><a href='#applysponsorcartuning'>Applying sponsor car tuning</a></li>
+</ul>
+</li>
+</ul>
+</div><div><h2 id="whataresponsorcars">Sponsor cars? <a href='#whataresponsorcars'>#</a></h2>
+<p>There are a few cheats that, when triggered, will unlock a sponsor car that you
+can select when choosing a car for quick races. These are cars with a preset
+tuning (though it seems like none of them has some performance tuning done).
+For example, typing the cheat "yodogg" during boot (when you get on the
+"press enter" screen at start), will unlock Snoop Dogg's sponsor car. For all
+cheats, see: <a href='docs.html#cheatsconfigdata'>Cheat configuration data</a>
+<p>After at least one of the sponsor car cheats has been triggered, one can select
+the "SPONSOR CARS" category of cars in quick race. I never noticed this
+category filter when I was younger, so I never manager to actually see these
+sponsor cars, since it only shows stock &amp; customized cars by default. None of
+the guides and cheats pages that I've found has mentioned this, they always
+just describe the cheat as "sponsor car" and some mention that it is in "quick
+race", but none mention this category filter thing you have to operate to
+actually get the cars.
+<p class='imgholder'><img src="img/BLOGx02-YODOGG.JPG" alt="Snoop Dogg's sponsor car shown in quick race car selection"><br>Snoop Dogg's sponsor car</p>
+</div><div><h2 id="theidea">The idea <a href='#theidea'>#</a></h2>
+<p>Since one can only access these cars during quick race, it's not possible to
+check their configuration. Body parts can be guessed, but normally it's not
+possible to see things like the trunk area, with trunk layout and components
+configuration. They also of course feature vinyls that are not available for
+the player to use.
+<p>So the idea is to be able to select sponsor cars when using the
+"customization" menu, so one can create a tuned car based off a sponsor car.
+Then it's possible to see and browse - and even change - the whole
+configuration.
+</div><div><h2 id="execution">Execution <a href='#execution'>#</a></h2>
+<p>See <code><a class='ext' href='https://github.com/yugecin/nfsu2-re/blob/master/nfsu2-re-hooks/fun-car-customize-sponsor.c'>nfsu2-re-hooks/fun-car-customize-sponsor.c</a></code> for all the code together.
+<div><h3 id="skippingcheats">Skipping the cheats <a href='#skippingcheats'>#</a></h3>
+<p>It's annoying to have to type the cheats every time you want to select sponsor
+cars. Especially since I changed the boot process so that the "press enter"
+screen is skipped (see <a href='docs.html#speedyboot'>Speedy boot</a>).
+<p>This can be easily fixed by replacing <a href=funcs.html#579D70>CheatScreenData::IsSponsorCarCheatTriggered</a> with a function that always
+returns 1.
+<pre>
+static
+int 
+__stdcall
+fun_car_customize_sponsor_replace_CheatScreenData__IsSponsorCarCheatTriggered(unsigned int *sponsorCarHash)
+{
+	return 1;
+}
+
+mkjmp(0x579D70, fun_car_customize_sponsor_replace_CheatScreenData__IsSponsorCarCheatTriggered);
+</pre>
+</div><div><h3 id="selectingsponsorcars">Allow sponsor cars in customization <a href='#selectingsponsorcars'>#</a></h3>
+<p>Then it must be possible to choose sponsor cars from the car select
+menu when customizing. This can be done by hooking into function <a href=funcs.html#4EED10>CarSelectFNGObject::ChangeCategory</a>,
+which is used to determine what category of cars to show when the prev/next
+arrow buttons are pressed.
+<p>This car selection screen is used for a few different reasons: selecting quick
+race car, selecting car to customize, selecting car in online mode (not career
+car select, that one has a dedicated screen). So we're gonna add the sponsor
+category in the category rotation, but only if car selection is being done for
+choosing a car to customize:
+<pre>
+static
+int fun_car_customize_sponsor_CarSelectFNGObject__ChangeCategory(<a href=structs.html#struc_CarSelectFNGObject>struct CarSelectFNGObject</a> *this, void *_, unsigned int message)
+{
+#define MSG_PREV 0x5073EF13
+#define MSG_NEXT 0xD9FEEC59
+
+	if (<a href=vars.html#83A9D0>profileData</a>-&gt;<a href=structs.html#struc_ProfileData156A8>menuState</a> == <a href=enums.html#enu_MENU_STATE20>MENU_STATE_CAR_CUSTOMIZE</a>) {
+		if (message == MSG_PREV) {
+			switch (<a href=vars.html#7F444C>carSelectCategory</a>) {
+			case <a href=enums.html#enu_INVENTORY_CAR_FLAGS1>IS_STOCK_CAR</a> | <a href=enums.html#enu_INVENTORY_CAR_FLAGS2>IS_TUNED_CAR</a>:
+				if (<a href=funcs.html#497EE0>CarSelectFNGObject::CountAvailableCars</a>(this, <a href=enums.html#enu_INVENTORY_CAR_FLAGS8>IS_SPONSOR_CAR</a>)) {
+					<a href=vars.html#7F444C>carSelectCategory</a> = <a href=enums.html#enu_INVENTORY_CAR_FLAGS8>IS_SPONSOR_CAR</a>; break;
+				}
+			case <a href=enums.html#enu_INVENTORY_CAR_FLAGS8>IS_SPONSOR_CAR</a>:
+				if (<a href=funcs.html#497EE0>CarSelectFNGObject::CountAvailableCars</a>(this, <a href=enums.html#enu_INVENTORY_CAR_FLAGS2>IS_TUNED_CAR</a>))) {
+					<a href=vars.html#7F444C>carSelectCategory</a> = <a href=enums.html#enu_INVENTORY_CAR_FLAGS2>IS_TUNED_CAR</a>; break;
+				}
+			case <a href=enums.html#enu_INVENTORY_CAR_FLAGS2>IS_TUNED_CAR</a>: <a href=vars.html#7F444C>carSelectCategory</a> = <a href=enums.html#enu_INVENTORY_CAR_FLAGS1>IS_STOCK_CAR</a>; break;
+			case <a href=enums.html#enu_INVENTORY_CAR_FLAGS1>IS_STOCK_CAR</a>: <a href=vars.html#7F444C>carSelectCategory</a> = <a href=enums.html#enu_INVENTORY_CAR_FLAGS1>IS_STOCK_CAR</a> | <a href=enums.html#enu_INVENTORY_CAR_FLAGS2>IS_TUNED_CAR</a>; break;
+			}
+		} else if (message == MSG_NEXT) {
+			switch (<a href=vars.html#7F444C>carSelectCategory</a>) {
+			case <a href=enums.html#enu_INVENTORY_CAR_FLAGS1>IS_STOCK_CAR</a> | <a href=enums.html#enu_INVENTORY_CAR_FLAGS2>IS_TUNED_CAR</a>: <a href=vars.html#7F444C>carSelectCategory</a> = <a href=enums.html#enu_INVENTORY_CAR_FLAGS1>IS_STOCK_CAR</a>; break;
+			case <a href=enums.html#enu_INVENTORY_CAR_FLAGS1>IS_STOCK_CAR</a>:
+				if (<a href=funcs.html#497EE0>CarSelectFNGObject::CountAvailableCars</a>(this, <a href=enums.html#enu_INVENTORY_CAR_FLAGS2>IS_TUNED_CAR</a>))) {
+					<a href=vars.html#7F444C>carSelectCategory</a> = <a href=enums.html#enu_INVENTORY_CAR_FLAGS2>IS_TUNED_CAR</a>; break;
+				}
+			case <a href=enums.html#enu_INVENTORY_CAR_FLAGS2>IS_TUNED_CAR</a>:
+				if (<a href=funcs.html#497EE0>CarSelectFNGObject::CountAvailableCars</a>(this, <a href=enums.html#enu_INVENTORY_CAR_FLAGS8>IS_SPONSOR_CAR</a>))) {
+					<a href=vars.html#7F444C>carSelectCategory</a> = <a href=enums.html#enu_INVENTORY_CAR_FLAGS8>IS_SPONSOR_CAR</a>; break;
+				}
+			case <a href=enums.html#enu_INVENTORY_CAR_FLAGS8>IS_SPONSOR_CAR</a>: <a href=vars.html#7F444C>carSelectCategory</a> = <a href=enums.html#enu_INVENTORY_CAR_FLAGS1>IS_STOCK_CAR</a> | <a href=enums.html#enu_INVENTORY_CAR_FLAGS2>IS_TUNED_CAR</a>; break;
+			}
+		}
+		<a href=vars.html#83A9D0>profileData</a>-&gt;<a href=structs.html#struc_ProfileData10>player1</a>[<a href=vars.html#83A9D0>profileData</a>-&gt;<a href=structs.html#struc_ProfileData20358>currentPlayerIndex?</a>].<a href=structs.html#struc_PlayerD4>d4</a>.<a href=structs.html#struc_Player_D4C>currentCarSelectionCategory</a> = <a href=vars.html#7F444C>carSelectCategory</a>;
+		<a href=funcs.html#4EEC90>CarSelectFNGObject::ResetBrowableCars</a>(this);
+		<a href=funcs.html#4B2310>CarSelectFNGObject::UpdateUI</a>(this);
+		return 1;
+	}
+	return 0;
+}
+
+static
+__declspec(naked)
+void fun_car_customize_sponsor_CarSelectFNGObject__ChangeCategory_hook(unsigned int message)
+{
+	_asm {
+		push ecx
+		call fun_car_customize_sponsor_CarSelectFNGObject__ChangeCategory
+		test eax, eax
+		jnz ok
+		// we were not in customize menu, call the normal function
+		// but first do the thing that we overwrote in order to jmp to this proc
+		pop ecx
+		mov eax, 0x7F444C // carSelectCategory
+		mov eax, [eax]
+		mov edx, 0x4EED15 // edx can be used because it's overridden later in that proc anyways
+		jmp edx
+ok:
+		add esp, 4
+		retn 0x4
+	}
+}
+
+mkjmp(0x4EED10, fun_car_customize_sponsor_CarSelectFNGObject__ChangeCategory_hook);
+
+</pre>
+<p>This will crash the game when continuing when a sponsor car is selected :D
+</div><div><h3 id="crashfix">Making the game not crash <a href='#crashfix'>#</a></h3>
+<p>The game crashes now when continuing when a sponsor car is selected, inside <a href=funcs.html#552CC0>CustomizeCar</a>.
+It will be called with a hash that denotes what car to customize. This could be a stock car
+slot hash (like hash of <code>STOCK_PEUGEOT</code>) or a tuned car slot hash (like hash of <code>TUNED_CAR_2</code>)
+or a career car slot hash (like hash of <code>CAREER_SLOT_1</code>) or an online car slot (like hash of
+<code>ONLINE_CAREER_CIRCUIT</code>), see comment of <a href=structs.html#struc_InventoryCar>struct InventoryCar</a>.<a href=structs.html#struc_InventoryCar8>slotHash</a>.
+<p>When selecting a sponsor car, it will use its hash (like hash of {SPONSOR_SNOOP_DOGG}). The
+function tried to find a car in the list of stock cars, tuned cars, career cars or online
+cars. It won't find the sponsor car, and there is no fallback or null checking, so a segfault
+follows.
+<p>To fix that, we can hook at the last place right before the car is used, try to find a
+sponsor car for that hash, and continue with that one. We need an instance of
+<a href=structs.html#struc_TunedCar>struct TunedCar</a>, so we can't just return the <a href=structs.html#struc_SponsorCar>struct SponsorCar</a> instance, so we're gonna
+call <a href=funcs.html#52A710>CarCollection::CreateNewTunedCarFromFromDataAtSlot</a> (this function is used when selecting a stock car to tune) with the stock name
+hash that the sponsor car is based on.
+<pre>
+static
+<a href=structs.html#struc_TunedCar>struct TunedCar</a>*
+__stdcall
+fun_car_customize_sponsor_GetSponsorCar(<a href=structs.html#struc_CarCollection>struct CarCollection</a> *this, unsigned int slotNameHash)
+{
+	char buf[32];
+	int i;
+
+	i = this-&gt;<a href=structs.html#struc_CarCollection9BD4>numSponsorCars</a>;
+	while (i-- &gt; 0) {
+		if (this-&gt;<a href=structs.html#struc_CarCollection9A84>sponsorCars</a>[i].<a href=structs.html#struc_SponsorCar0>__parent</a>.<a href=structs.html#struc_InventoryCar8>slotHash</a> == slotNameHash) {
+			sprintf(buf, "STOCK_%s", <a href=funcs.html#61C460>FindCarPreset</a>(this-&gt;<a href=structs.html#struc_CarCollection9A84>sponsorCars</a>[i].<a href=structs.html#struc_SponsorCar18>carPresetHash</a>)-&gt;<a href=structs.html#struc_CarPreset8>modelName</a>);
+			return <a href=funcs.html#52A710>CarCollection::CreateNewTunedCarFromFromDataAtSlot</a>(this, <a href=funcs.html#43DB50>SomeHashCS43DB50</a>(buf));
+		}
+	}
+	return NULL;
+}
+
+static
+__declspec(naked)
+void
+fun_car_customize_sponsor_set_car_instance_if_missing()
+{
+	_asm {
+		test esi, esi
+		jnz allgood
+		// oh yey, no car instance, we're probably trying to customize a sponsor car. LEHDOTHIS
+		// only need to retain esi here (value in ebx is not used from the hooked point)
+		push ebx // slotNameHash
+		push ecx // this
+		call fun_car_customize_sponsor_GetSponsorCar
+		mov esi, eax
+		mov byte ptr [ebp+8+3], 1 // this happens when a new tuned car is created from stock car, so lets do that
+allgood:
+		mov cl, byte ptr [ebp+8+3] // overwrote this
+		push 0 // overwrote this
+		mov eax, 0x552DC0
+		jmp eax
+	}
+}
+
+mkjmp(0x552DBB, fun_car_customize_sponsor_set_car_instance_if_missing);
+</pre>
+<p>Crash fixed, but now we just get a stock car when we choose to customize a sponsor car.
+</div><div><h3 id="applysponsorcartuning">Applying sponsor car tuning <a href='#applysponsorcartuning'>#</a></h3>
+<p>In <a href=funcs.html#52A710>CarCollection::CreateNewTunedCarFromFromDataAtSlot</a>, right after the function we hooked in the previous section to fix the crash,
+the <a href=structs.html#struc_TunedCar>struct TunedCar</a> instance is used to call its function <code><a href=structs.html#struc_InventoryCar$vtable>struct InventoryCar$vtable</a>.<a href=structs.html#struc_InventoryCar$vtableC>procApplyTuningToInstance</a></code>,
+which I believe is a function that applies tuning of this car to a car instance.
+<p>With that in mind, it means that that (alleged) ApplyTuning function is called on the newly
+created <a href=structs.html#struc_TunedCar>struct TunedCar</a> instance, which - if you remember from previous section - is
+created from a stock car. So then it makes sense that we just get a fresh stock car.
+<p>To fix, let's change the code from the previous section to store the sponsor car that was
+selected, so that we have that reference to apply tuning.
+<pre>
+// assign the sponsorcar to this when returning from fun_car_customize_sponsor_GetSponsorCar
+<a href=structs.html#struc_SponsorCar>struct SponsorCar</a> *fun_car_customize_sponsor_stored_sponsorcar;
+</pre>
+<p>Then hook once more, and call the correct functions (for sponsor cars) with the sponsor
+car instances if we have one. Otherwise just execute the code that it normally would.
+<pre>
+static
+__declspec(naked)
+void
+fun_car_customize_sponsor_apply_sponsor_tuning()
+{
+	_asm {
+		mov eax, [fun_car_customize_sponsor_stored_sponsorcar]
+		test eax, eax
+		jz wasnotsponsorcar
+		//push 0 // already pushed
+		//push offset <a href=vars.html#8392C0>customizingCarInstanceA</a> // already pushed
+		push edi // playerIndex
+		mov ecx, [fun_car_customize_sponsor_stored_sponsorcar]
+		mov eax, offset <a href=funcs.html#5039D0>SponsorCar::ApplyTuningToInstance</a> // vtable func C for sponsor cars
+		call eax
+		// 2nd car instance
+		push 0
+		push offset <a href=vars.html#8389D0>customizingCarInstanceB</a>
+		push edi
+		mov ecx, [fun_car_customize_sponsor_stored_sponsorcar]
+		mov eax, offset <a href=funcs.html#5039D0>SponsorCar::ApplyTuningToInstance</a> // vtable func C for sponsor cars
+		call eax
+		// reset state (so we don't do this again when another car is selected) and rt
+		mov dword ptr [fun_car_customize_sponsor_stored_sponsorcar], 0
+		mov eax, 0x552DF2
+		jmp eax
+wasnotsponsorcar:
+		// do what we overwrote and jmp back
+		mov edx, [esi]
+		push edi
+		mov ecx, esi
+		mov eax, 0x552DDC
+		jmp eax
+	}
+}
+
+mkjmp(0x552DD7, fun_car_customize_sponsor_apply_sponsor_tuning);
+</pre>
+<p>So that... kind of worked. But as long as no component is changed, it still shows
+the stock car. Interesting behavior. Once changing and saving a component though,
+it will always correctly show the tuning and the car will be saved to the tuned
+cars collection.
+<p class="center"><video controls="" style="max-width:100%"><source src="img/BLOGx02-WEIRD.MP4" type="video/mp4"></source></video></p>
+</div><p>I can't find how to fix that last issue at this moment, but it kinda works...
+<p>Note: if <code>fun_car_customize_sponsor_GetSponsorCar</code> is changed so it returns the
+<a href=structs.html#struc_SponsorCar>struct SponsorCar</a> instance instead of creating a <a href=structs.html#struc_TunedCar>struct TunedCar</a>, then that
+stock car showing issue disappears. But then the game crashes after changing a
+customized item and going back a menu. Is there another car instance that needs
+the tuning applied?
+<p>... to be continued?
+</div>
+</div></body></html>

@@ -32,6 +32,7 @@ static void stub() {}
 #define PRESENT_HOOK_FUNC stub
 
 /*will only work when runwindowed.c is included*/
+/*remember to enable/disable the widescreenfix asi script*/
 //#define WINDOWED_RESOLUTION_X 960 /*4:3*/
 #define WINDOWED_RESOLUTION_X 1280 /*16:9*/
 #define WINDOWED_RESOLUTION_Y 720
@@ -58,7 +59,7 @@ static void stub() {}
 //#include "hook-realcore-filesystem.c"
 //#include "replace-440BB0-Pool__Extend.c"
 //#include "replace-440DF0-CreatePool.c"
-#include "replace-4EED10-CarSelectFNGObject__ChangeCategory.c"
+//#include "replace-4EED10-CarSelectFNGObject__ChangeCategory.c"
 //#include "replace-50B790-ShowFNG.c"
 //#include "replace-50CD00-IsPointInRect.c"
 //#include "replace-50CDB0-DidCursorPressInRect.c"
@@ -80,6 +81,7 @@ static void stub() {}
 #include "ignorefocuslossintextboxandlist.c"
 //#include "switch-joyids-in-career.c"
 
+//#include "fun-car-customize-sponsor.c"
 //#include "fun-destroy-garage-backdrop.c"
 
 #include "dbgw_a_main.c"

@@ -284,7 +284,7 @@ pre.ida span.hi {
 <a href='cheatsheet.html'>cheatsheet</a></nav>
 </header>
 <div class='func'>
-<h2>Functions (1623)</h2>
+<h2>Functions (1624)</h2>
 <ul>
 <li><a href=#4012B0>
 ??SomeUpdatePosition</a>
@@ -1563,7 +1563,7 @@ CareerCar::5037F0</a>
 <li><a href=#503950>
 TunedCar18::503950</a>
 <li><a href=#5039D0>
-SponsorCar::vtableProcC</a>
+SponsorCar::ApplyTuningToInstance</a>
 <li><a href=#503A00>
 StockCar::ctor</a>
 <li><a href=#503A30>
@@ -1571,7 +1571,7 @@ StockCar::GetCarIndex</a>
 <li><a href=#503A60>
 StockCar::GetCarNameHash</a>
 <li><a href=#503A80>
-StockCar::vtableProcC</a>
+StockCar::ApplyTuningToInstance</a>
 <li><a href=#503AE0>
 TunedCar::GetCarIndex</a>
 <li><a href=#503B00>
@@ -1891,7 +1891,7 @@ TunedCar::ctor</a>
 <li><a href=#516B90>
 TunedCar::InitializeFromStockCar</a>
 <li><a href=#516CA0>
-TunedCar::vtableProcC</a>
+TunedCar::ApplyTuningToInstance</a>
 <li><a href=#517520>
 List::517520</a>
 <li><a href=#517720>
@@ -2932,6 +2932,8 @@ UnloadBinSection34026_34027</a>
 MenuCarInstance_10::ctor</a>
 <li><a href=#5B0E30>
 LoadBinSection34026_34027</a>
+<li><a href=#5B6990>
+MenuCarInstance_10::5B6990</a>
 <li><a href=#5B76F0>
 LoadOtherRegistrySettings</a>
 <li><a href=#5B7A70>
@@ -3157,7 +3159,7 @@ LoadBinSection30220</a>
 <li><a href=#61C420>
 UnloadBinSection30220</a>
 <li><a href=#61C460>
-FindPresetCar</a>
+FindCarPreset</a>
 <li><a href=#61CB50>
 LoadBinSection34030</a>
 <li><a href=#61CB90>
@@ -5054,7 +5056,7 @@ sms-&gt;<a href=structs.html#struc_SmsMessage4>read</a> = 1;
 <a id=503950></a>
 <div><i>503950</i> int __thiscall <h3><a href=structs.html#struc_TunedCar18>TunedCar18</a>::503950</h3>(<a href=structs.html#struc_TunedCar18>struct TunedCar18</a> *this, <a href=structs.html#struc_MenuCarInstance>struct MenuCarInstance</a> *menuCarInstance);</div>
 <a id=5039D0></a>
-<div><i>5039D0</i> int __thiscall <h3><a href=structs.html#struc_SponsorCar>SponsorCar</a>::vtableProcC</h3>(<a href=structs.html#struc_SponsorCar>struct SponsorCar</a> *this, int, int, int);</div>
+<div><i>5039D0</i> void __thiscall <h3><a href=structs.html#struc_SponsorCar>SponsorCar</a>::ApplyTuningToInstance</h3>(<a href=structs.html#struc_SponsorCar>struct SponsorCar</a> *this, int playerIndex, <a href=structs.html#struc_MenuCarInstance>struct MenuCarInstance</a> *menuCarInstance, int);</div>
 <a id=503A00></a>
 <div><i>503A00</i> void __thiscall <h3><a href=structs.html#struc_StockCar>StockCar</a>::ctor</h3>(<a href=structs.html#struc_StockCar>struct StockCar</a> *this);</div>
 <a id=503A30></a>
@@ -5062,7 +5064,7 @@ sms-&gt;<a href=structs.html#struc_SmsMessage4>read</a> = 1;
 <a id=503A60></a>
 <div><i>503A60</i> unsigned int __thiscall <h3><a href=structs.html#struc_StockCar>StockCar</a>::GetCarNameHash</h3>(<a href=structs.html#struc_StockCar>struct StockCar</a> *this);</div>
 <a id=503A80></a>
-<div><i>503A80</i> void *__thiscall <h3><a href=structs.html#struc_StockCar>StockCar</a>::vtableProcC</h3>(<a href=structs.html#struc_StockCar>struct StockCar</a> *this, int playerIndex, <a href=structs.html#struc_MenuCarInstance>struct MenuCarInstance</a> *, int);</div>
+<div><i>503A80</i> void *__thiscall <h3><a href=structs.html#struc_StockCar>StockCar</a>::ApplyTuningToInstance</h3>(<a href=structs.html#struc_StockCar>struct StockCar</a> *this, int playerIndex, <a href=structs.html#struc_MenuCarInstance>struct MenuCarInstance</a> *menuCarInstance, int);</div>
 <a id=503AE0></a>
 <div class=mm><p>NOTE: THIS IS SHARED FOR <a href=structs.html#struc_TunedCar>struct TunedCar</a> <a href=structs.html#struc_CareerCar>struct CareerCar</a> <a href=structs.html#struc_OnlineCar>struct OnlineCar</a></div>
 <div><i>503AE0</i> int __thiscall <h3><a href=structs.html#struc_TunedCar>TunedCar</a>::GetCarIndex</h3>(<a href=structs.html#struc_TunedCar>struct TunedCar</a> *this);</div>
@@ -5515,11 +5517,13 @@ TODO check other xref, probably for displaying icon ingame</div>
 <a id=516B30></a>
 <div><i>516B30</i> void __thiscall <h3><a href=structs.html#struc_TunedCar>TunedCar</a>::ctor</h3>(<a href=structs.html#struc_TunedCar>struct TunedCar</a> *this);</div>
 <a id=516B90></a>
-<div class=mm><p>"FromStockCar" is an assumption, is this always true?</div>
+<div class=mm><p>"FromStockCar" is an assumption, is this always true?
+<p>slotHash is like TUNED_CAR_%d
+car is only used to invoke <a href=structs.html#struc_InventoryCar$vtable>struct InventoryCar$vtable</a>.<a href=structs.html#struc_InventoryCar$vtable4>procGetCarIndex</a></div>
 <div><i>516B90</i> int __thiscall <h3><a href=structs.html#struc_TunedCar>TunedCar</a>::InitializeFromStockCar</h3>(<a href=structs.html#struc_TunedCar>struct TunedCar</a> *this, unsigned int slotHash, <a href=structs.html#struc_InventoryCar>struct InventoryCar</a> *car);</div>
 <a id=516CA0></a>
 <div class=mm><p>NOTE: THIS IS SHARED FOR <a href=structs.html#struc_TunedCar>struct TunedCar</a> <a href=structs.html#struc_CareerCar>struct CareerCar</a> <a href=structs.html#struc_OnlineCar>struct OnlineCar</a></div>
-<div><i>516CA0</i> int __thiscall <h3><a href=structs.html#struc_TunedCar>TunedCar</a>::vtableProcC</h3>(<a href=structs.html#struc_TunedCar>struct TunedCar</a> *this, int, int, int);</div>
+<div><i>516CA0</i> void __thiscall <h3><a href=structs.html#struc_TunedCar>TunedCar</a>::ApplyTuningToInstance</h3>(<a href=structs.html#struc_TunedCar>struct TunedCar</a> *this, int playerIndex, <a href=structs.html#struc_MenuCarInstance>struct MenuCarInstance</a> *menuCarInstance, int);</div>
 <a id=517520></a>
 <div><i>517520</i> int __thiscall <h3><a href=structs.html#struc_List>List</a>::517520</h3>(<a href=structs.html#struc_List>struct List</a> *this, int);</div>
 <a id=517720></a>
@@ -6847,6 +6851,8 @@ although that is done by <a href=funcs.html#57CA10>AllocateFileSystemPoolEntryFo
 <div><i>5AC6E0</i> int __thiscall <h3><a href=structs.html#struc_MenuCarInstance_10>MenuCarInstance_10</a>::ctor</h3>(<a href=structs.html#struc_MenuCarInstance_10>struct MenuCarInstance_10</a> *this);</div>
 <a id=5B0E30></a>
 <div><i>5B0E30</i> int __cdecl <h3>LoadBinSection34026_34027</h3>(<a href=structs.html#struc_BinSection>struct BinSection</a> *binsection);</div>
+<a id=5B6990></a>
+<div><i>5B6990</i> float __thiscall <h3><a href=structs.html#struc_MenuCarInstance_10>MenuCarInstance_10</a>::5B6990</h3>(<a href=structs.html#struc_MenuCarInstance_10>struct MenuCarInstance_10</a> *this, char, float);</div>
 <a id=5B76F0></a>
 <div class=mm><p>Called once during boot, from <a href=funcs.html#5B7A70>LoadPaths?</a></div>
 <div><i>5B76F0</i> void __cdecl <h3>LoadOtherRegistrySettings</h3>();</div>

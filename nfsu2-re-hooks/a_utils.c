@@ -53,6 +53,15 @@ ThisCallOneArg(int addr, void *this, void *arg0)
 }
 
 static
+__declspec(naked)
+void*
+__stdcall
+ThisCallThreeArgs(int addr, void *this, void *arg0, void *arg1, void *arg2)
+{
+	_asm { jmp ThisCallNoArgs }
+}
+
+static
 __declspec(naked) int nfsu2_stricmp(char *a, char *b)
 {
 	_asm {

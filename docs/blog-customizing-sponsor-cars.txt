@@ -1,0 +1,322 @@
+{Customizing sponsor cars} ||| blog date="2023 July 15"
+
+.pushmode section
+
+{Customizing sponsor cars} ||| h id=customizingsponsorcars
+
+{TODO}: ||| strong style=background:red
+
+{This blogpost was written when the repository was at revision                  ||| em
+{06ca59c362c490a384367511b9378517efe0f39b}.}                                    ||| a class=ext href=https://github.com/yugecin/nfsu2-re/tree/06ca59c362c490a384367511b9378517efe0f39b
+
+{} ||| index
+
+.popmode section
+.pushmode section
+
+{Sponsor cars?} ||| h id=whataresponsorcars
+
+There are a few cheats that, when triggered, will unlock a sponsor car that you
+can select when choosing a car for quick races. These are cars with a preset
+tuning (though it seems like none of them has some performance tuning done).
+For example, typing the cheat "yodogg" during boot (when you get on the
+"press enter" screen at start), will unlock Snoop Dogg's sponsor car. For all
+cheats, see: {docs.html#cheatsconfigdata}                                       ||| href
+
+After at least one of the sponsor car cheats has been triggered, one can select
+the "SPONSOR CARS" category of cars in quick race. I never noticed this
+category filter when I was younger, so I never manager to actually see these
+sponsor cars, since it only shows stock & customized cars by default. None of
+the guides and cheats pages that I've found has mentioned this, they always
+just describe the cheat as "sponsor car" and some mention that it is in "quick
+race", but none mention this category filter thing you have to operate to
+actually get the cars.
+
+{Snoop Dogg's sponsor car}                                                      ||| imgcaptioned src=BLOGx02-YODOGG.JPG alt="Snoop Dogg's sponsor car shown in quick race car selection"
+
+.popmode section
+.pushmode section
+
+{The idea} ||| h id=theidea
+
+Since one can only access these cars during quick race, it's not possible to
+check their configuration. Body parts can be guessed, but normally it's not
+possible to see things like the trunk area, with trunk layout and components
+configuration. They also of course feature vinyls that are not available for
+the player to use.
+
+So the idea is to be able to select sponsor cars when using the
+"customization" menu, so one can create a tuned car based off a sponsor car.
+Then it's possible to see and browse - and even change - the whole
+configuration.
+
+.popmode section
+.pushmode section
+
+{Execution} ||| h id=execution
+
+See {nfsu2-re-hooks/fun-car-customize-sponsor.c} for all the code together.     ||| hookfileref
+
+.pushmode section
+
+{Skipping the cheats} ||| h id=skippingcheats
+
+It's annoying to have to type the cheats every time you want to select sponsor
+cars. Especially since I changed the boot process so that the "press enter"
+screen is skipped (see {docs.html#speedyboot}).                                 ||| href
+
+This can be easily fixed by replacing {579D70} with a function that always      ||| ref
+returns 1.
+
+.pushmode pre
+static
+int 
+__stdcall
+fun_car_customize_sponsor_replace_CheatScreenData__IsSponsorCarCheatTriggered(unsigned int *sponsorCarHash)
+{
+	return 1;
+}
+
+mkjmp(0x579D70, fun_car_customize_sponsor_replace_CheatScreenData__IsSponsorCarCheatTriggered);
+.popmode pre
+
+.popmode section
+.pushmode section
+
+{Allow sponsor cars in customization} ||| h id=selectingsponsorcars
+
+Then it must be possible to choose sponsor cars from the car select
+menu when customizing. This can be done by hooking into function {4EED10},      ||| ref
+which is used to determine what category of cars to show when the prev/next
+arrow buttons are pressed.
+
+This car selection screen is used for a few different reasons: selecting quick
+race car, selecting car to customize, selecting car in online mode (not career
+car select, that one has a dedicated screen). So we're gonna add the sponsor
+category in the category rotation, but only if car selection is being done for
+choosing a car to customize:
+
+.controlchars [] .pushmode pre
+static
+int fun_car_customize_sponsor_CarSelectFNGObject__ChangeCategory([struct CarSelectFNGObject] *this, void *_, unsigned int message)                     ||| ref
+{
+#define MSG_PREV 0x5073EF13
+#define MSG_NEXT 0xD9FEEC59
+
+	if ([83A9D0]->[struct ProfileData+156A8] == [enum MENU_STATE/0x20]) {                                                                          ||| ref,ref,ref
+		if (message == MSG_PREV) {
+			switch ([7F444C]) {                                                                                                            ||| ref
+			case [enum INVENTORY_CAR_FLAGS/1] | [enum INVENTORY_CAR_FLAGS/2]:                                                              ||| ref,ref
+				if ([497EE0](this, [enum INVENTORY_CAR_FLAGS/8])) {                                                                    ||| ref,ref
+					[7F444C] = [enum INVENTORY_CAR_FLAGS/8]; break;                                                                ||| ref,ref
+				}
+			case [enum INVENTORY_CAR_FLAGS/8]:                                                                                             ||| ref
+				if ([497EE0](this, [enum INVENTORY_CAR_FLAGS/2]))) {                                                                   ||| ref,ref
+					[7F444C] = [enum INVENTORY_CAR_FLAGS/2]; break;                                                                ||| ref,ref
+				}
+			case [enum INVENTORY_CAR_FLAGS/2]: [7F444C] = [enum INVENTORY_CAR_FLAGS/1]; break;                                             ||| ref,ref,ref
+			case [enum INVENTORY_CAR_FLAGS/1]: [7F444C] = [enum INVENTORY_CAR_FLAGS/1] | [enum INVENTORY_CAR_FLAGS/2]; break;              ||| ref,ref,ref,ref
+			}
+		} else if (message == MSG_NEXT) {
+			switch ([7F444C]) {                                                                                                            ||| ref
+			case [enum INVENTORY_CAR_FLAGS/1] | [enum INVENTORY_CAR_FLAGS/2]: [7F444C] = [enum INVENTORY_CAR_FLAGS/1]; break;              ||| ref,ref,ref,ref
+			case [enum INVENTORY_CAR_FLAGS/1]:                                                                                             ||| ref
+				if ([497EE0](this, [enum INVENTORY_CAR_FLAGS/2]))) {                                                                   ||| ref,ref
+					[7F444C] = [enum INVENTORY_CAR_FLAGS/2]; break;                                                                ||| ref,ref
+				}
+			case [enum INVENTORY_CAR_FLAGS/2]:                                                                                             ||| ref
+				if ([497EE0](this, [enum INVENTORY_CAR_FLAGS/8]))) {                                                                   ||| ref,ref
+					[7F444C] = [enum INVENTORY_CAR_FLAGS/8]; break;                                                                ||| ref,ref
+				}
+			case [enum INVENTORY_CAR_FLAGS/8]: [7F444C] = [enum INVENTORY_CAR_FLAGS/1] | [enum INVENTORY_CAR_FLAGS/2]; break;              ||| ref,ref,ref,ref
+			}
+		}
+		[83A9D0]->[struct ProfileData+10]\[[83A9D0]->[struct ProfileData+20358]\].[struct Player+D4].[struct Player_D4+C] = [7F444C];          ||| ref,ref,ref,ref,ref,ref,ref
+		[4EEC90](this);                                                                                                                        ||| ref
+		[4B2310](this);                                                                                                                        ||| ref
+		return 1;
+	}
+	return 0;
+}
+
+static
+__declspec(naked)
+void fun_car_customize_sponsor_CarSelectFNGObject__ChangeCategory_hook(unsigned int message)
+{
+	_asm {
+		push ecx
+		call fun_car_customize_sponsor_CarSelectFNGObject__ChangeCategory
+		test eax, eax
+		jnz ok
+		// we were not in customize menu, call the normal function
+		// but first do the thing that we overwrote in order to jmp to this proc
+		pop ecx
+		mov eax, 0x7F444C // carSelectCategory
+		mov eax, [eax]
+		mov edx, 0x4EED15 // edx can be used because it's overridden later in that proc anyways
+		jmp edx
+ok:
+		add esp, 4
+		retn 0x4
+	}
+}
+
+mkjmp(0x4EED10, fun_car_customize_sponsor_CarSelectFNGObject__ChangeCategory_hook);
+
+.controlchars {} .popmode pre
+
+This will crash the game when continuing when a sponsor car is selected :D
+
+.popmode section
+.pushmode section
+
+{Making the game not crash} ||| h id=crashfix
+
+The game crashes now when continuing when a sponsor car is selected, inside {552CC0}.          ||| ref
+It will be called with a hash that denotes what car to customize. This could be a stock car
+slot hash (like hash of {STOCK_PEUGEOT}) or a tuned car slot hash (like hash of {TUNED_CAR_2}) ||| code,code
+or a career car slot hash (like hash of {CAREER_SLOT_1}) or an online car slot (like hash of   ||| code
+{ONLINE_CAREER_CIRCUIT}), see comment of {struct InventoryCar.8}.                              ||| code,ref
+
+When selecting a sponsor car, it will use its hash (like hash of {SPONSOR_SNOOP_DOGG}). The
+function tried to find a car in the list of stock cars, tuned cars, career cars or online
+cars. It won't find the sponsor car, and there is no fallback or null checking, so a segfault
+follows.
+
+To fix that, we can hook at the last place right before the car is used, try to find a
+sponsor car for that hash, and continue with that one. We need an instance of
+{struct TunedCar}, so we can't just return the {struct SponsorCar} instance, so we're gonna    ||| ref,ref
+call {52A710} (this function is used when selecting a stock car to tune) with the stock name   ||| ref
+hash that the sponsor car is based on.
+
+.controlchars [] .pushmode pre
+static
+[struct TunedCar]*                                                                                                      ||| ref
+__stdcall
+fun_car_customize_sponsor_GetSponsorCar([struct CarCollection] *this, unsigned int slotNameHash)                        ||| ref
+{
+	char buf[32];
+	int i;
+
+	i = this->[struct CarCollection+9BD4];                                                                                                    ||| ref
+	while (i-- > 0) {
+		if (this->[struct CarCollection+9A84]\[i\].[struct SponsorCar+8] == slotNameHash) {                                               ||| ref,ref
+			sprintf(buf, "STOCK_%s", [61C460](this->[struct CarCollection+9A84]\[i\].[struct SponsorCar+18])->[struct CarPreset+8]);  ||| ref,ref,ref,ref
+			return [52A710](this, [43DB50](buf));                                                                                     ||| ref,ref
+		}
+	}
+	return NULL;
+}
+
+static
+__declspec(naked)
+void
+fun_car_customize_sponsor_set_car_instance_if_missing()
+{
+	_asm {
+		test esi, esi
+		jnz allgood
+		// oh yey, no car instance, we're probably trying to customize a sponsor car. LEHDOTHIS
+		// only need to retain esi here (value in ebx is not used from the hooked point)
+		push ebx // slotNameHash
+		push ecx // this
+		call fun_car_customize_sponsor_GetSponsorCar
+		mov esi, eax
+		mov byte ptr [ebp+8+3], 1 // this happens when a new tuned car is created from stock car, so lets do that
+allgood:
+		mov cl, byte ptr [ebp+8+3] // overwrote this
+		push 0 // overwrote this
+		mov eax, 0x552DC0
+		jmp eax
+	}
+}
+
+mkjmp(0x552DBB, fun_car_customize_sponsor_set_car_instance_if_missing);
+.controlchars {} .popmode pre
+
+Crash fixed, but now we just get a stock car when we choose to customize a sponsor car.
+
+.popmode section
+.pushmode section
+
+{Applying sponsor car tuning} ||| h id=applysponsorcartuning
+
+In {52A710}, right after the function we hooked in the previous section to fix the crash,    ||| ref
+the {struct TunedCar} instance is used to call its function {{struct InventoryCar$vtable.C}},||| ref,code,ref
+which I believe is a function that applies tuning of this car to a car instance.
+
+With that in mind, it means that that (alleged) ApplyTuning function is called on the newly
+created {struct TunedCar} instance, which - if you remember from previous section - is       ||| ref
+created from a stock car. So then it makes sense that we just get a fresh stock car.
+
+To fix, let's change the code from the previous section to store the sponsor car that was
+selected, so that we have that reference to apply tuning.
+
+.pushmode pre
+// assign the sponsorcar to this when returning from fun_car_customize_sponsor_GetSponsorCar
+{struct SponsorCar} *fun_car_customize_sponsor_stored_sponsorcar;                            ||| ref
+.popmode pre
+
+Then hook once more, and call the correct functions (for sponsor cars) with the sponsor
+car instances if we have one. Otherwise just execute the code that it normally would.
+
+.pushmode pre
+static
+__declspec(naked)
+void
+fun_car_customize_sponsor_apply_sponsor_tuning()
+{
+	_asm {
+		mov eax, [fun_car_customize_sponsor_stored_sponsorcar]
+		test eax, eax
+		jz wasnotsponsorcar
+		//push 0 // already pushed
+		//push offset {8392C0} // already pushed                              ||| ref
+		push edi // playerIndex
+		mov ecx, [fun_car_customize_sponsor_stored_sponsorcar]
+		mov eax, offset {5039D0} // vtable func C for sponsor cars            ||| ref
+		call eax
+		// 2nd car instance
+		push 0
+		push offset {8389D0}                                                  ||| ref
+		push edi
+		mov ecx, [fun_car_customize_sponsor_stored_sponsorcar]
+		mov eax, offset {5039D0} // vtable func C for sponsor cars            ||| ref
+		call eax
+		// reset state (so we don't do this again when another car is selected) and rt
+		mov dword ptr [fun_car_customize_sponsor_stored_sponsorcar], 0
+		mov eax, 0x552DF2
+		jmp eax
+wasnotsponsorcar:
+		// do what we overwrote and jmp back
+		mov edx, [esi]
+		push edi
+		mov ecx, esi
+		mov eax, 0x552DDC
+		jmp eax
+	}
+}
+
+mkjmp(0x552DD7, fun_car_customize_sponsor_apply_sponsor_tuning);
+.popmode pre
+
+So that... kind of worked. But as long as no component is changed, it still shows
+the stock car. Interesting behavior. Once changing and saving a component though,
+it will always correctly show the tuning and the car will be saved to the tuned
+cars collection.
+
+{{{}}}   ||| p class=center,video controls style=max-width:100%, source src=img/BLOGx02-WEIRD.MP4 type=video/mp4
+
+.popmode section
+
+I can't find how to fix that last issue at this moment, but it kinda works...
+
+Note: if {fun_car_customize_sponsor_GetSponsorCar} is changed so it returns the  ||| code
+{struct SponsorCar} instance instead of creating a {struct TunedCar}, then that  ||| ref,ref
+stock car showing issue disappears. But then the game crashes after changing a
+customized item and going back a menu. Is there another car instance that needs
+the tuning applied?
+
+... to be continued?
+
+.popmode section

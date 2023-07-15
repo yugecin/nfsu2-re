@@ -200,7 +200,7 @@ void Replace_CarSelectFNGObject__ChangeCategory(struct CarSelectFNGObject *this,
 			// checking online menu states, because one can also select career cars from the quick race menu?
 			// Either way this seems redundant, as some other place ensures that the customize button (both
 			// on pc help bar and this console bar) is hidden when selecting a career or sponsor car.
-			// 0xA936C3A2 is label "$JOY_EVENT_FENG_BUTTON1$"
+			// 0xA936C3A2 is label "$JOY_EVENT_FENG_BUTTON1$" (which prints nothing on pc)
 			// 0x89782734 is label "Edit Customized Car" (or "Customize in QR) (but is also used for "Delete Tuned Car")
 			if (newCarSelectCategory == IS_CAREER_CAR) {
 				HideNullableUIElementAndChildren(FindUIElementByHash(this->__parent.fngName, 0xA936C3A2));

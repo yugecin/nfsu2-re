@@ -345,7 +345,11 @@ pre.ida span.hi {
 <li><a href='#joyinput'>Key (Joy) input</a></li>
 </ul>
 </li>
-<li><a href='#cheats'>Cheats</a></li>
+<li><a href='#cheats'>Cheats</a>
+<ul>
+<li><a href='#cheatsconfigdata'>Cheat configuration data</a></li>
+</ul>
+</li>
 <li><a href='#carmodeldata'>Car model data</a></li>
 <li><a href='#sound'>Sound</a></li>
 <li><a href='#career'>Career</a>
@@ -3625,14 +3629,18 @@ if (!<a href=vars.html#83A9D0>profileData</a>.<a href=structs.html#struc_Profile
 	}
 }
 </pre>
+<div><p id='cheatsconfigdata'><small><a href='#cheats'>Cheats</a></small></p>
+<h3>Cheat configuration data <a href='#cheatsconfigdata'>#</a></h3>
+<p>Only 4 of the 20 cheats have their data already filled in, for some reason.
+It looks like this at boot:
 <pre>
 <a href=structs.html#struc_CheatScreenData>struct CheatScreenData</a> <a href=vars.html#865930>cheatScreenData</a>; // partially initialized by <a href=funcs.html#575770>CheatScreenData::InitCheats?</a>
 <a href=structs.html#struc_CheatData>struct CheatData</a> <a href=vars.html#7FB960>cheatData</a>[20] = {
-	{ "needperformance1",	2, 1, 0, 0, 0, 1, 1, 0 }, // 0
-	{ "needperformance2",	2, 2, 0, 0, 0, 1, 1, 0 }, // 1
-	{ "gimmevisual1",	1, 2, 0, 0, 0, 1, 1, 0 }, // 2
-	{ "gimmevisual2"	1, 2, 0, 0, 0, 1, 1, 0 }, // 3
-	{ "gimmechingy"		6, 0, 0, 0, 0, 0, 0, 0 }, // 4
+	{ "needperformance1",	<a href=enums.html#enu_CHEATTYPE2>CHEAT_TYPE_PERFORMANCE</a>, 1, 0, 0, 0, 1, 1, 0 }, // 0
+	{ "needperformance2",	<a href=enums.html#enu_CHEATTYPE2>CHEAT_TYPE_PERFORMANCE</a>, 2, 0, 0, 0, 1, 1, 0 }, // 1
+	{ "gimmevisual1",	<a href=enums.html#enu_CHEATTYPE1>CHEAT_TYPE_VISUALS</a>, 2, 0, 0, 0, 1, 1, 0 }, // 2
+	{ "gimmevisual2"	<a href=enums.html#enu_CHEATTYPE1>CHEAT_TYPE_VISUALS</a>, 2, 0, 0, 0, 1, 1, 0 }, // 3
+	{ "gimmechingy"		<a href=enums.html#enu_CHEATTYPE6>CHEAT_TYPE_SPONSOR_CAR</a>, 0, 0, 0, 0, 0, 0, 0 }, // 4
 	{ ""			0, 0, 0, 0, 0, 0, 0, 0 }, // 5
 	{ ""			0, 0, 0, 0, 0, 0, 0, 0 }, // 6
 	{ ""			0, 0, 0, 0, 0, 0, 0, 0 }, // 7
@@ -3649,34 +3657,41 @@ if (!<a href=vars.html#83A9D0>profileData</a>.<a href=structs.html#struc_Profile
 	{ ""			0, 0, 0, 0, 0, 0, 0, 0 }, // 18
 	{ ""			0, 0, 0, 0, 0, 0, 0, 0 }, // 19
 };
-// after <a href=funcs.html#575770>CheatScreenData::InitCheats?</a> was called, it looks like this:
-// hashes are done with case sensitive hash
+</pre>
+<p>Then during boot, <a href=funcs.html#575770>CheatScreenData::InitCheats?</a> gets called, which fills in all the rest.
+Hashes are done with case sensitive hash
+<pre>
 <a href=structs.html#struc_CheatData>struct CheatData</a> <a href=vars.html#7FB960>cheatData</a>[20] = {
-	{ "needperformance1",	2, 0x00000001, 0, 0, 0, 1, 1, 0 }, //
-	{ "needperformance2",	2, 0x00000002, 0, 0, 0, 1, 1, 0 }, //
-	{ "gimmevisual1",	1, 0x00000002, 0, 0, 0, 1, 1, 0 }, //
-	{ "gimmevisual2"	1, 0x00000002, 0, 0, 0, 1, 1, 0 }, //
-	{ "gimmechingy"		6, 0x3EE7D094, 0, 0, 0, 1, 1, 0 }, // "SPONSOR_CHINGY"
-	{ "wannacapone"		6, 0x3E6D00C8, 0, 0, 0, 1, 1, 0 }, // "SPONSOR_CAPONE"
-	{ "wantmyd3"		6, 0x54E32D29, 0, 0, 0, 1, 1, 0 }, // "SPONSOR_D3"
-	{ "shinestreetbright"	6, 0xE57B6400, 0, 0, 0, 1, 1, 0 }, // "SPONSOR_SHINESTREET"
-	{ "davidchoeart"	6, 0x7760C479, 0, 0, 0, 1, 1, 0 }, // "SPONSOR_DAVIDCHOE"
-	{ "tunejapantuning"	6, 0x002F98F1, 0, 0, 0, 1, 1, 0 }, // "SPONSOR_JAPANTUNING"
-	{ "yodogg"		6, 0x007090A1, 0, 0, 0, 1, 1, 0 }, // "SPONSOR_SNOOP_DOGG"
-	{ "opendoors"		6, 0x4BAECE79, 0, 0, 0, 1, 1, 0 }, // "SPONSOR_THE_DOORS"
-	{ "needmybestbuy"	7, 0x9E52EAC1, 0, 0, 0, 1, 1, 0 }, // "AD_BESTBUY"
-	{ "goforoldspice"	7, 0x5FD7B956, 0, 0, 0, 1, 1, 0 }, // "AD_OLDSPICE"
-	{ "gottaedge"		7, 0x44C47B98, 0, 0, 0, 1, 1, 0 }, // "AD_EDGE"
-	{ "gottahavebk"		7, 0xCF5F6873, 0, 0, 0, 1, 1, 0 }, // "AD_BURGERKING"
-	{ "gotmycingular"	7, 0x7C504338, 0, 0, 0, 1, 1, 0 }, // "AD_CINGULAR"
-	{ "regmybank"		5, 0x00000002, 0, 0, 0, 1, 1, 0 }, //
-	{ "regmebaby"		5, 0x00000003, 0, 0, 0, 1, 1, 0 }, //
-	{ "ordermebaby"		5, 0x00000004, 0, 0, 0, 1, 1, 0 }, //
+	{ "needperformance1",	<a href=enums.html#enu_CHEATTYPE2>CHEAT_TYPE_PERFORMANCE</a>, 0x00000001, 0, 0, 0, 1, 1, 0 }, //
+	{ "needperformance2",	<a href=enums.html#enu_CHEATTYPE2>CHEAT_TYPE_PERFORMANCE</a>, 0x00000002, 0, 0, 0, 1, 1, 0 }, //
+	{ "gimmevisual1",	<a href=enums.html#enu_CHEATTYPE1>CHEAT_TYPE_VISUALS</a>, 0x00000002, 0, 0, 0, 1, 1, 0 }, //
+	{ "gimmevisual2"	<a href=enums.html#enu_CHEATTYPE1>CHEAT_TYPE_VISUALS</a>, 0x00000002, 0, 0, 0, 1, 1, 0 }, //
+	{ "gimmechingy"		<a href=enums.html#enu_CHEATTYPE6>CHEAT_TYPE_SPONSOR_CAR</a>, 0x3EE7D094, 0, 0, 0, 1, 1, 0 }, // "SPONSOR_CHINGY"
+	{ "wannacapone"		<a href=enums.html#enu_CHEATTYPE6>CHEAT_TYPE_SPONSOR_CAR</a>, 0x3E6D00C8, 0, 0, 0, 1, 1, 0 }, // "SPONSOR_CAPONE"
+	{ "wantmyd3"		<a href=enums.html#enu_CHEATTYPE6>CHEAT_TYPE_SPONSOR_CAR</a>, 0x54E32D29, 0, 0, 0, 1, 1, 0 }, // "SPONSOR_D3"
+	{ "shinestreetbright"	<a href=enums.html#enu_CHEATTYPE6>CHEAT_TYPE_SPONSOR_CAR</a>, 0xE57B6400, 0, 0, 0, 1, 1, 0 }, // "SPONSOR_SHINESTREET"
+	{ "davidchoeart"	<a href=enums.html#enu_CHEATTYPE6>CHEAT_TYPE_SPONSOR_CAR</a>, 0x7760C479, 0, 0, 0, 1, 1, 0 }, // "SPONSOR_DAVIDCHOE"
+	{ "tunejapantuning"	<a href=enums.html#enu_CHEATTYPE6>CHEAT_TYPE_SPONSOR_CAR</a>, 0x002F98F1, 0, 0, 0, 1, 1, 0 }, // "SPONSOR_JAPANTUNING"
+	{ "yodogg"		<a href=enums.html#enu_CHEATTYPE6>CHEAT_TYPE_SPONSOR_CAR</a>, 0x007090A1, 0, 0, 0, 1, 1, 0 }, // "SPONSOR_SNOOP_DOGG"
+	{ "opendoors"		<a href=enums.html#enu_CHEATTYPE6>CHEAT_TYPE_SPONSOR_CAR</a>, 0x4BAECE79, 0, 0, 0, 1, 1, 0 }, // "SPONSOR_THE_DOORS"
+	{ "needmybestbuy"	<a href=enums.html#enu_CHEATTYPE7>CHEAT_TYPE_SPONSOR_VINYL</a>, 0x9E52EAC1, 0, 0, 0, 1, 1, 0 }, // "AD_BESTBUY"
+	{ "goforoldspice"	<a href=enums.html#enu_CHEATTYPE7>CHEAT_TYPE_SPONSOR_VINYL</a>, 0x5FD7B956, 0, 0, 0, 1, 1, 0 }, // "AD_OLDSPICE"
+	{ "gottaedge"		<a href=enums.html#enu_CHEATTYPE7>CHEAT_TYPE_SPONSOR_VINYL</a>, 0x44C47B98, 0, 0, 0, 1, 1, 0 }, // "AD_EDGE"
+	{ "gottahavebk"		<a href=enums.html#enu_CHEATTYPE7>CHEAT_TYPE_SPONSOR_VINYL</a>, 0xCF5F6873, 0, 0, 0, 1, 1, 0 }, // "AD_BURGERKING"
+	{ "gotmycingular"	<a href=enums.html#enu_CHEATTYPE7>CHEAT_TYPE_SPONSOR_VINYL</a>, 0x7C504338, 0, 0, 0, 1, 1, 0 }, // "AD_CINGULAR"
+	{ "regmybank"		<a href=enums.html#enu_CHEATTYPE5>CHEAT_TYPE_CAREER</a>, 0x00000002, 0, 0, 0, 1, 1, 0 }, //
+	{ "regmebaby"		<a href=enums.html#enu_CHEATTYPE5>CHEAT_TYPE_CAREER</a>, 0x00000003, 0, 0, 0, 1, 1, 0 }, //
+	{ "ordermebaby"		<a href=enums.html#enu_CHEATTYPE5>CHEAT_TYPE_CAREER</a>, 0x00000004, 0, 0, 0, 1, 1, 0 }, //
 };
-
+</pre>
+<p>And part of that init function is disabling the <code>AD_BESTBUY</code> cheat (which is a sponsor vinyl)
+if the game region is not US:
+<pre>
 void __thiscall <a href=funcs.html#575770>CheatScreenData::InitCheats?</a>(<a href=structs.html#struc_CheatScreenData>struct CheatScreenData</a> *this)
 {
 	int i;
+
+	// much more init code here
 
 	// TODO reimplement this instead of putting this code in docs...
 	this-&gt;<a href=structs.html#struc_CheatScreenData0>ppFunction</a> = (void*) <a href=vars.html#7A0604>unnamed_7A0604</a>; // TODO!!
@@ -3696,6 +3711,9 @@ void __thiscall <a href=funcs.html#575770>CheatScreenData::InitCheats?</a>(<a hr
 	}
 }
 </pre>
+<p style='text-align:right'><small><a href='#index'>Index</a></small></p>
+</div>
+<p><small><a href='#cheats'>Cheats</a> (continuation)</small></p>
 <p><strong>Symbols:</strong></p>
 <ul>
 <li><a href=enums.html#enu_CHEATTYPE>enum CHEATTYPE</a></li>

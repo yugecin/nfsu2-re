@@ -1890,6 +1890,7 @@ static char *blogposts[] = {
 	/*each must start with 'blog-'*/
 	"blog-docs-rework",
 	"blog-exploring-UI",
+	"blog-customizing-sponsor-cars",
 	NULL
 };
 static
@@ -1996,7 +1997,6 @@ int main(int argc, char **argv)
 	assert(dg->idcp = malloc(sizeof(struct idcparse)));
 	docgen_readidc(dg);/*jeanine:r:i:90;*/
 	docgen_mmparse(dg, &mm_index, &mm_docs, &mm_blogs, &num_blogs);/*jeanine:r:i:75;*/
-
 	docgen_readfile("style.css", &css, &css_len);
 
 	html_skel0 = "<!DOCTYPE html><html lang='en'><head><meta charset=utf-8>\n<title>";

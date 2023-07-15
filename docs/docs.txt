@@ -3529,14 +3529,21 @@ if (![83A9D0.20370.873C])  {                                                    
 }
 .controlchars {} .popmode pre
 
-.pushmode pre
-{struct CheatScreenData} {865930}; // partially initialized by {575770}                         ||| ref,ref,ref
-{struct CheatData} {7FB960}[20] = \{                                                            ||| ref,ref
-	{ "needperformance1",	2, 1, 0, 0, 0, 1, 1, 0 }, // 0
-	{ "needperformance2",	2, 2, 0, 0, 0, 1, 1, 0 }, // 1
-	{ "gimmevisual1",	1, 2, 0, 0, 0, 1, 1, 0 }, // 2
-	{ "gimmevisual2"	1, 2, 0, 0, 0, 1, 1, 0 }, // 3
-	{ "gimmechingy"		6, 0, 0, 0, 0, 0, 0, 0 }, // 4
+.pushmode section
+
+{Cheat configuration data}                                                                      ||| h id=cheatsconfigdata
+
+Only 4 of the 20 cheats have their data already filled in, for some reason.
+It looks like this at boot:
+
+.controlchars `' .pushmode pre
+`struct CheatScreenData' `865930'; // partially initialized by `575770'                         ||| ref,ref,ref
+`struct CheatData' `7FB960'[20] = {                                                             ||| ref,ref
+	{ "needperformance1",	`enum CHEATTYPE/2', 1, 0, 0, 0, 1, 1, 0 }, // 0                 ||| ref
+	{ "needperformance2",	`enum CHEATTYPE/2', 2, 0, 0, 0, 1, 1, 0 }, // 1                 ||| ref
+	{ "gimmevisual1",	`enum CHEATTYPE/1', 2, 0, 0, 0, 1, 1, 0 }, // 2                 ||| ref
+	{ "gimmevisual2"	`enum CHEATTYPE/1', 2, 0, 0, 0, 1, 1, 0 }, // 3                 ||| ref
+	{ "gimmechingy"		`enum CHEATTYPE/6', 0, 0, 0, 0, 0, 0, 0 }, // 4                 ||| ref
 	{ ""			0, 0, 0, 0, 0, 0, 0, 0 }, // 5
 	{ ""			0, 0, 0, 0, 0, 0, 0, 0 }, // 6
 	{ ""			0, 0, 0, 0, 0, 0, 0, 0 }, // 7
@@ -3553,34 +3560,45 @@ if (![83A9D0.20370.873C])  {                                                    
 	{ ""			0, 0, 0, 0, 0, 0, 0, 0 }, // 18
 	{ ""			0, 0, 0, 0, 0, 0, 0, 0 }, // 19
 };
-// after {575770} was called, it looks like this:                                               ||| ref
-// hashes are done with case sensitive hash
-{struct CheatData} {7FB960}[20] = \{                                                            ||| ref,ref
-	{ "needperformance1",	2, 0x00000001, 0, 0, 0, 1, 1, 0 }, //
-	{ "needperformance2",	2, 0x00000002, 0, 0, 0, 1, 1, 0 }, //
-	{ "gimmevisual1",	1, 0x00000002, 0, 0, 0, 1, 1, 0 }, //
-	{ "gimmevisual2"	1, 0x00000002, 0, 0, 0, 1, 1, 0 }, //
-	{ "gimmechingy"		6, 0x3EE7D094, 0, 0, 0, 1, 1, 0 }, // "SPONSOR_CHINGY"
-	{ "wannacapone"		6, 0x3E6D00C8, 0, 0, 0, 1, 1, 0 }, // "SPONSOR_CAPONE"
-	{ "wantmyd3"		6, 0x54E32D29, 0, 0, 0, 1, 1, 0 }, // "SPONSOR_D3"
-	{ "shinestreetbright"	6, 0xE57B6400, 0, 0, 0, 1, 1, 0 }, // "SPONSOR_SHINESTREET"
-	{ "davidchoeart"	6, 0x7760C479, 0, 0, 0, 1, 1, 0 }, // "SPONSOR_DAVIDCHOE"
-	{ "tunejapantuning"	6, 0x002F98F1, 0, 0, 0, 1, 1, 0 }, // "SPONSOR_JAPANTUNING"
-	{ "yodogg"		6, 0x007090A1, 0, 0, 0, 1, 1, 0 }, // "SPONSOR_SNOOP_DOGG"
-	{ "opendoors"		6, 0x4BAECE79, 0, 0, 0, 1, 1, 0 }, // "SPONSOR_THE_DOORS"
-	{ "needmybestbuy"	7, 0x9E52EAC1, 0, 0, 0, 1, 1, 0 }, // "AD_BESTBUY"
-	{ "goforoldspice"	7, 0x5FD7B956, 0, 0, 0, 1, 1, 0 }, // "AD_OLDSPICE"
-	{ "gottaedge"		7, 0x44C47B98, 0, 0, 0, 1, 1, 0 }, // "AD_EDGE"
-	{ "gottahavebk"		7, 0xCF5F6873, 0, 0, 0, 1, 1, 0 }, // "AD_BURGERKING"
-	{ "gotmycingular"	7, 0x7C504338, 0, 0, 0, 1, 1, 0 }, // "AD_CINGULAR"
-	{ "regmybank"		5, 0x00000002, 0, 0, 0, 1, 1, 0 }, //
-	{ "regmebaby"		5, 0x00000003, 0, 0, 0, 1, 1, 0 }, //
-	{ "ordermebaby"		5, 0x00000004, 0, 0, 0, 1, 1, 0 }, //
-};
+.controlchars {} .popmode pre
 
+Then during boot, {575770} gets called, which fills in all the rest.                                        ||| ref
+Hashes are done with case sensitive hash
+
+.controlchars `' .pushmode pre
+`struct CheatData' `7FB960'[20] = {                                                                         ||| ref,ref
+	{ "needperformance1",	`enum CHEATTYPE/2', 0x00000001, 0, 0, 0, 1, 1, 0 }, //                      ||| ref
+	{ "needperformance2",	`enum CHEATTYPE/2', 0x00000002, 0, 0, 0, 1, 1, 0 }, //                      ||| ref
+	{ "gimmevisual1",	`enum CHEATTYPE/1', 0x00000002, 0, 0, 0, 1, 1, 0 }, //                      ||| ref
+	{ "gimmevisual2"	`enum CHEATTYPE/1', 0x00000002, 0, 0, 0, 1, 1, 0 }, //                      ||| ref
+	{ "gimmechingy"		`enum CHEATTYPE/6', 0x3EE7D094, 0, 0, 0, 1, 1, 0 }, // "SPONSOR_CHINGY"     ||| ref
+	{ "wannacapone"		`enum CHEATTYPE/6', 0x3E6D00C8, 0, 0, 0, 1, 1, 0 }, // "SPONSOR_CAPONE"     ||| ref
+	{ "wantmyd3"		`enum CHEATTYPE/6', 0x54E32D29, 0, 0, 0, 1, 1, 0 }, // "SPONSOR_D3"         ||| ref
+	{ "shinestreetbright"	`enum CHEATTYPE/6', 0xE57B6400, 0, 0, 0, 1, 1, 0 }, // "SPONSOR_SHINESTREET"||| ref
+	{ "davidchoeart"	`enum CHEATTYPE/6', 0x7760C479, 0, 0, 0, 1, 1, 0 }, // "SPONSOR_DAVIDCHOE"  ||| ref
+	{ "tunejapantuning"	`enum CHEATTYPE/6', 0x002F98F1, 0, 0, 0, 1, 1, 0 }, // "SPONSOR_JAPANTUNING"||| ref
+	{ "yodogg"		`enum CHEATTYPE/6', 0x007090A1, 0, 0, 0, 1, 1, 0 }, // "SPONSOR_SNOOP_DOGG" ||| ref
+	{ "opendoors"		`enum CHEATTYPE/6', 0x4BAECE79, 0, 0, 0, 1, 1, 0 }, // "SPONSOR_THE_DOORS"  ||| ref
+	{ "needmybestbuy"	`enum CHEATTYPE/7', 0x9E52EAC1, 0, 0, 0, 1, 1, 0 }, // "AD_BESTBUY"         ||| ref
+	{ "goforoldspice"	`enum CHEATTYPE/7', 0x5FD7B956, 0, 0, 0, 1, 1, 0 }, // "AD_OLDSPICE"        ||| ref
+	{ "gottaedge"		`enum CHEATTYPE/7', 0x44C47B98, 0, 0, 0, 1, 1, 0 }, // "AD_EDGE"            ||| ref
+	{ "gottahavebk"		`enum CHEATTYPE/7', 0xCF5F6873, 0, 0, 0, 1, 1, 0 }, // "AD_BURGERKING"      ||| ref
+	{ "gotmycingular"	`enum CHEATTYPE/7', 0x7C504338, 0, 0, 0, 1, 1, 0 }, // "AD_CINGULAR"        ||| ref
+	{ "regmybank"		`enum CHEATTYPE/5', 0x00000002, 0, 0, 0, 1, 1, 0 }, //                      ||| ref
+	{ "regmebaby"		`enum CHEATTYPE/5', 0x00000003, 0, 0, 0, 1, 1, 0 }, //                      ||| ref
+	{ "ordermebaby"		`enum CHEATTYPE/5', 0x00000004, 0, 0, 0, 1, 1, 0 }, //                      ||| ref
+};
+.controlchars {} .popmode pre
+
+And part of that init function is disabling the {AD_BESTBUY} cheat (which is a sponsor vinyl)   ||| code
+if the game region is not US:
+
+.pushmode pre
 void __thiscall {575770}({struct CheatScreenData} *this)                                        ||| ref,ref
 {
 	int i;
+
+	// much more init code here
 
 	// TODO reimplement this instead of putting this code in docs...
 	this->{struct CheatScreenData+0} = (void*) {7A0604}; // TODO!!                          ||| ref,ref
@@ -3600,6 +3618,8 @@ void __thiscall {575770}({struct CheatScreenData} *this)                        
 	}
 }
 .popmode pre
+
+.popmode section
 
 .pushmode symbols
 - enum CHEATTYPE
