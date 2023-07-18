@@ -1887,7 +1887,7 @@ CarCollection::WriteToSaveData</a>
 <li><a href=#516A60>
 TunedCar18::ctor</a>
 <li><a href=#516AC0>
-TunedCar::516AC0</a>
+TunedCar18::ApplyTuningToInstance</a>
 <li><a href=#516B30>
 TunedCar::ctor</a>
 <li><a href=#516B90>
@@ -5066,7 +5066,7 @@ sms-&gt;<a href=structs.html#struc_SmsMessage4>read</a> = 1;
 <a id=5037F0></a>
 <div><i>5037F0</i> int __thiscall <h3><a href=structs.html#struc_CareerCar>CareerCar</a>::5037F0</h3>(<a href=structs.html#struc_CareerCar>struct CareerCar</a> *this);</div>
 <a id=503950></a>
-<div><i>503950</i> int __thiscall <h3><a href=structs.html#struc_TunedCar18>TunedCar18</a>::CopyTuningFromMenuCarInstance</h3>(<a href=structs.html#struc_TunedCar18>struct TunedCar18</a> *this, <a href=structs.html#struc_MenuCarInstance>struct MenuCarInstance</a> *menuCarInstance);</div>
+<div><i>503950</i> void __thiscall <h3><a href=structs.html#struc_TunedCar18>TunedCar18</a>::CopyTuningFromMenuCarInstance</h3>(<a href=structs.html#struc_TunedCar18>struct TunedCar18</a> *this, <a href=structs.html#struc_MenuCarInstance>struct MenuCarInstance</a> *menuCarInstance);</div>
 <a id=5039D0></a>
 <div><i>5039D0</i> void __thiscall <h3><a href=structs.html#struc_SponsorCar>SponsorCar</a>::ApplyTuningToInstance</h3>(<a href=structs.html#struc_SponsorCar>struct SponsorCar</a> *this, int playerIndex, <a href=structs.html#struc_MenuCarInstance>struct MenuCarInstance</a> *menuCarInstance, int);</div>
 <a id=503A00></a>
@@ -5525,7 +5525,7 @@ TODO check other xref, probably for displaying icon ingame</div>
 <a id=516A60></a>
 <div><i>516A60</i> void __thiscall <h3><a href=structs.html#struc_TunedCar18>TunedCar18</a>::ctor</h3>(<a href=structs.html#struc_TunedCar18>struct TunedCar18</a> *this);</div>
 <a id=516AC0></a>
-<div><i>516AC0</i> int __thiscall <h3><a href=structs.html#struc_TunedCar>TunedCar</a>::516AC0</h3>(<a href=structs.html#struc_TunedCar>struct TunedCar</a> *this, int, int, int);</div>
+<div><i>516AC0</i> void __thiscall <h3><a href=structs.html#struc_TunedCar18>TunedCar18</a>::ApplyTuningToInstance</h3>(<a href=structs.html#struc_TunedCar18>struct TunedCar18</a> *this, int playerIndex, <a href=structs.html#struc_MenuCarInstance>struct MenuCarInstance</a> *menuCarInstance, int);</div>
 <a id=516B30></a>
 <div><i>516B30</i> void __thiscall <h3><a href=structs.html#struc_TunedCar>TunedCar</a>::ctor</h3>(<a href=structs.html#struc_TunedCar>struct TunedCar</a> *this);</div>
 <a id=516B90></a>
@@ -5534,7 +5534,8 @@ TODO check other xref, probably for displaying icon ingame</div>
 car is only used to invoke <a href=structs.html#struc_InventoryCar$vtable>struct InventoryCar$vtable</a>.<a href=structs.html#struc_InventoryCar$vtable4>procGetCarIndex</a></div>
 <div><i>516B90</i> int __thiscall <h3><a href=structs.html#struc_TunedCar>TunedCar</a>::InitializeFromStockCar</h3>(<a href=structs.html#struc_TunedCar>struct TunedCar</a> *this, unsigned int slotHash, <a href=structs.html#struc_InventoryCar>struct InventoryCar</a> *car);</div>
 <a id=516CA0></a>
-<div class=mm><p>NOTE: THIS IS SHARED FOR <a href=structs.html#struc_TunedCar>struct TunedCar</a> <a href=structs.html#struc_CareerCar>struct CareerCar</a> <a href=structs.html#struc_OnlineCar>struct OnlineCar</a></div>
+<div class=mm><p>NOTE: THIS IS SHARED FOR <a href=structs.html#struc_TunedCar>struct TunedCar</a> <a href=structs.html#struc_CareerCar>struct CareerCar</a> <a href=structs.html#struc_OnlineCar>struct OnlineCar</a>
+just calls <a href=funcs.html#516AC0>TunedCar18::ApplyTuningToInstance</a></div>
 <div><i>516CA0</i> void __thiscall <h3><a href=structs.html#struc_TunedCar>TunedCar</a>::ApplyTuningToInstance</h3>(<a href=structs.html#struc_TunedCar>struct TunedCar</a> *this, int playerIndex, <a href=structs.html#struc_MenuCarInstance>struct MenuCarInstance</a> *menuCarInstance, int);</div>
 <a id=517520></a>
 <div><i>517520</i> int __thiscall <h3><a href=structs.html#struc_List>List</a>::517520</h3>(<a href=structs.html#struc_List>struct List</a> *this, int);</div>

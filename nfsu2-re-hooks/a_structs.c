@@ -1060,8 +1060,9 @@ struct InventoryCar$vtable { /*4 members, size 10h*/
 /*4*/	int (*procGetCarIndex)(struct InventoryCar *this);
 /**stock: StockCar::GetCarNameHash sponsor: SponsorCar::GetCarNameHash else: TunedCar::GetCarNameHash*/
 /*8*/	unsigned int (*procGetCarNameHash)(struct InventoryCar *this);
-/**stock: StockCar::vtableProcC sponsor: SponsorCar::vtableProcC else: TunedCar::vtableProcC*/
-/*C*/	int field_C;
+/**stock: StockCar::ApplyTuningToInstance sponsor: SponsorCar::ApplyTuningToInstance else: TunedCar::ApplyTuningToInstance
+last arg is only used for TunedCar instances*/
+/*C*/	void (*procApplyTuningToInstance)(struct InventoryCar *this, int playerIndex, struct MenuCarInstance *menuCarInstance, int);
 };
 EXPECT_SIZE(struct InventoryCar$vtable, 0x10);
 

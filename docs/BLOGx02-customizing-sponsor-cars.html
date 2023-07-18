@@ -298,6 +298,11 @@ pre.ida span.hi {
 <li><a href='#finalfix'>Fixing ghost stock car bug</a></li>
 </ul>
 </li>
+<li><a href='#updates'>Updates</a>
+<ul>
+<li><a href='#makingsimpler'>Making things simpler</a></li>
+</ul>
+</li>
 </ul>
 </div><div><h2 id="whataresponsorcars">Sponsor cars? <a href='#whataresponsorcars'>#</a></h2>
 <p>There are a few cheats that, when triggered, will unlock a sponsor car that you
@@ -424,6 +429,8 @@ mkjmp(0x4EED10, fun_car_customize_sponsor_CarSelectFNGObject__ChangeCategory_hoo
 </pre>
 <p>This will crash the game when continuing when a sponsor car is selected :D
 </div><div><h3 id="crashfix">Making the game not crash <a href='#crashfix'>#</a></h3>
+<p><em>Note: following code can be seen in revision <a class="ext" href="https://github.com/yugecin/nfsu2-re/tree/c6786b6a7a59e3b31f20a41bcff108d4f2ec9982">c6786b6a7a59e3b31f20a41bcff108d4f2ec9982</a> but
+was changed afterwards, this is explained in the last section.</em>
 <p>The game crashes now when continuing when a sponsor car is selected, inside <a href=funcs.html#552CC0>CustomizeCar</a>.
 It will be called with a hash that denotes what car to customize. This could be a stock car
 slot hash (like hash of <code>STOCK_PEUGEOT</code>) or a tuned car slot hash (like hash of <code>TUNED_CAR_2</code>)
@@ -484,6 +491,8 @@ mkjmp(0x552DBB, fun_car_customize_sponsor_set_car_instance_if_missing);
 </pre>
 <p>Crash fixed, but now we just get a stock car when we choose to customize a sponsor car.
 </div><div><h3 id="applysponsorcartuning">Applying sponsor car tuning <a href='#applysponsorcartuning'>#</a></h3>
+<p><em>Note: following code can be seen in revision <a class="ext" href="https://github.com/yugecin/nfsu2-re/tree/c6786b6a7a59e3b31f20a41bcff108d4f2ec9982">c6786b6a7a59e3b31f20a41bcff108d4f2ec9982</a> but
+was changed afterwards, this is explained in the last section.</em>
 <p>In <a href=funcs.html#52A710>CarCollection::CreateNewTunedCarFromFromDataAtSlot</a>, right after the function we hooked in the previous section to fix the crash,
 the <a href=structs.html#struc_TunedCar>struct TunedCar</a> instance is used to call its function <code><a href=structs.html#struc_InventoryCar$vtable>struct InventoryCar$vtable</a>.<a href=structs.html#struc_InventoryCar$vtableC>procApplyTuningToInstance</a></code>,
 which I believe is a function that applies tuning of this car to a car instance.
@@ -543,6 +552,8 @@ it will always correctly show the tuning and the car will be saved to the tuned
 cars collection.
 <p class="center"><video controls="" style="max-width:100%"><source src="img/BLOGx02-WEIRD.MP4" type="video/mp4"></source></video></p>
 </div><div><h3 id="finalfix">Fixing ghost stock car bug <a href='#finalfix'>#</a></h3>
+<p><em>Note: following code can be seen in revision <a class="ext" href="https://github.com/yugecin/nfsu2-re/tree/c6786b6a7a59e3b31f20a41bcff108d4f2ec9982">c6786b6a7a59e3b31f20a41bcff108d4f2ec9982</a> but
+was changed afterwards, this is explained in the last section.</em>
 <p>Thanks to more findings, I managed to fix the 'bug' from previous section.
 Function <a href=funcs.html#503950>TunedCar18::CopyTuningFromMenuCarInstance</a> seems to apply tuning done to a <a href=structs.html#struc_MenuCarInstance>struct MenuCarInstance</a> back
 to a <a href=structs.html#struc_TunedCar>struct TunedCar</a>. So we just have to call that function before returning
@@ -555,5 +566,44 @@ after applying the stock car tuning:
 	call eax
 </pre>
 <p>sweet!
+</div></div><div><h2 id="updates">Updates <a href='#updates'>#</a></h2>
+<div><h3 id="makingsimpler">Making things simpler <a href='#makingsimpler'>#</a></h3>
+<p>Thanks to more findings when I managed to fix the ghost stock car bug, I also
+found <a href=funcs.html#503950>TunedCar18::CopyTuningFromMenuCarInstance</a>, so then the idea came up to use that to apply sponsor car
+tuning immediately when creating the tuned car instance. And that worked!
+<p>This makes the code in the last two sections unnecessary. The
+<code>fun_car_customize_sponsor_GetSponsorCar</code> function also gets a more appropriate
+name of <code>fun_car_customize_sponsor_CreateTunedCarFromSponsorCar</code>.
+<pre>
+static
+<a href=structs.html#struc_TunedCar>struct TunedCar</a>*
+__stdcall
+fun_car_customize_sponsor_CreateTunedCarFromSponsorCar(<a href=structs.html#struc_CarCollection>struct CarCollection</a> *this, unsigned int slotNameHash)
+{
+	<a href=structs.html#struc_MenuCarInstance>struct MenuCarInstance</a> *menuCarInstance;
+	<a href=structs.html#struc_SponsorCar>struct SponsorCar</a> *sponsorCar;
+	<a href=structs.html#struc_TunedCar>struct TunedCar</a>* tunedCar;
+	char buf[32];
+	int i;
+
+	i = this-&gt;<a href=structs.html#struc_CarCollection9BD4>numSponsorCars</a>;
+	while (i-- &gt; 0) {
+		if (this-&gt;<a href=structs.html#struc_CarCollection9A84>sponsorCars</a>[i].<a href=structs.html#struc_SponsorCar0>__parent</a>.<a href=structs.html#struc_InventoryCar8>slotHash</a> == slotNameHash) {
+			sprintf(buf, "STOCK_%s", <a href=funcs.html#61C460>FindCarPreset</a>(this-&gt;<a href=structs.html#struc_CarCollection9A84>sponsorCars</a>[i].<a href=structs.html#struc_SponsorCar18>carPresetHash</a>)-&gt;<a href=structs.html#struc_CarPreset8>modelName</a>);
+			tunedCar = this-&gt;<a href=funcs.html#52A710>CarCollection::CreateNewTunedCarFromFromDataAtSlot</a>(<a href=funcs.html#43DB50>SomeHashCS43DB50</a>(buf));
+			menuCarInstance = &amp;<a href=vars.html#8389D0>customizingCarInstanceB</a>;
+			// (3rd param is MenuCarInstance, using an instance in the data section that
+			//  gets overridden later in the Customize process anyways)
+			// (4th param is unknown, but unused in SponsorCar's ApplyTuning
+			sponsorCar-&gt;<a href=funcs.html#5039D0>SponsorCar::ApplyTuningToInstance</a>(<a href=vars.html#83A9D0>profileData</a>-&gt;<a href=structs.html#struc_ProfileData20358>currentPlayerIndex?</a>, menuCarInstance, 0);
+			// copy tuning back from MenuCarInstance to tuned car instance
+			tunedCar-&gt;<a href=structs.html#struc_TunedCar18>field_18</a>-&gt;<a href=funcs.html#503950>TunedCar18::CopyTuningFromMenuCarInstance</a>(menuCarInstance);
+			return tunedCar;
+		}
+	}
+	return NULL;
+}
+</pre>
+<p>See <code><a class='ext' href='https://github.com/yugecin/nfsu2-re/blob/master/nfsu2-re-hooks/fun-car-customize-sponsor.c'>nfsu2-re-hooks/fun-car-customize-sponsor.c</a></code> for all the code together.
 </div></div>
 </div></body></html>

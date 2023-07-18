@@ -16,6 +16,8 @@ CarSelectFNGObject__CountAvailableCars(struct CarSelectFNGObject *this, enum INV
 #define CarSelectFNGObject__ResetBrowableCars 0x4EEC90 /*()*/
 #define CarSelectFNGObject__UpdateUI 0x4B2310 /*()*/
 #define CarCollection__CreateNewTunedCarFromFromDataAtSlot 0x52A710 /*(unsigned int slotNamehash)*/
+#define SponsorCar__ApplyTuningToInstance 0x5039D0 /*(int playerIndex, struct MenuCarInstance*, int)*/
+#define TunedCar18__CopyTuningFromMenuCarInstance 0x503950 /*(struct MenuCarInstance*)*/
 
 // copied from replace-4EED10-CarSelectFNGObject__ChangeCategory.c and stripped to just do what we need
 static
@@ -108,23 +110,32 @@ FindCarPreset(unsigned int nameHash)
 	_asm { jmp eax }
 }
 
-struct SponsorCar *fun_car_customize_sponsor_stored_sponsorcar;
-
 static
 struct TunedCar*
 __stdcall
-fun_car_customize_sponsor_GetSponsorCar(struct CarCollection *this, unsigned int slotNameHash)
+fun_car_customize_sponsor_CreateTunedCarFromSponsorCar(struct CarCollection *this, unsigned int slotNameHash)
 {
+	struct MenuCarInstance *menuCarInstance;
+	struct SponsorCar *sponsorCar;
+	struct TunedCar* tunedCar;
 	char buf[32];
 	int i;
 
 	i = this->numSponsorCars;
 	while (i-- > 0) {
 		if (this->sponsorCars[i].__parent.slotHash == slotNameHash) {
-			fun_car_customize_sponsor_stored_sponsorcar = this->sponsorCars + i;
+			sponsorCar = this->sponsorCars + i;
 			// skipping null check on the result of FindCarPreset
-			sprintf(buf, "STOCK_%s", FindCarPreset(this->sponsorCars[i].carPresetHash)->modelName);
-			return ThisCallOneArg(CarCollection__CreateNewTunedCarFromFromDataAtSlot, this, (void*) cshash(buf));
+			sprintf(buf, "STOCK_%s", FindCarPreset(sponsorCar->carPresetHash)->modelName);
+			tunedCar = ThisCallOneArg(CarCollection__CreateNewTunedCarFromFromDataAtSlot, this, (void*) cshash(buf));
+			menuCarInstance = (void*) 0x8389D0;
+			// (3rd param is MenuCarInstance, using an instance in the data section that
+			//  gets overridden later in the Customize process anyways)
+			// (4th param is unknown, but unused in SponsorCar's ApplyTuning
+			ThisCallThreeArgs(SponsorCar__ApplyTuningToInstance, sponsorCar, (void*) profileData->currentPlayerIndex, menuCarInstance, 0);
+			// copy tuning back from MenuCarInstance to tuned car instance
+			ThisCallOneArg(TunedCar18__CopyTuningFromMenuCarInstance, &tunedCar->field_18, menuCarInstance);
+			return tunedCar;
 		}
 	}
 	return NULL;
@@ -142,56 +153,13 @@ fun_car_customize_sponsor_set_car_instance_if_missing()
 		// only need to retain esi here (value in ebx is not used from the hooked point)
 		push ebx // slotNameHash
 		push ecx // this
-		call fun_car_customize_sponsor_GetSponsorCar
+		call fun_car_customize_sponsor_CreateTunedCarFromSponsorCar
 		mov esi, eax
 		mov byte ptr [ebp+8+3], 1 // this happens when a new tuned car is created from stock car, so lets do that
 allgood:
 		mov cl, byte ptr [ebp+8+3] // overwrote this
 		push 0 // overwrote this
 		mov eax, 0x552DC0
-		jmp eax
-	}
-}
-
-static
-__declspec(naked)
-void
-fun_car_customize_sponsor_apply_sponsor_tuning()
-{
-	_asm {
-		mov eax, [fun_car_customize_sponsor_stored_sponsorcar]
-		test eax, eax
-		jz wasnotsponsorcar
-		//push 0 // already pushed
-		//push 0x8392C0 // already pushed
-		push edi // playerIndex
-		mov ecx, [fun_car_customize_sponsor_stored_sponsorcar]
-		mov eax, 0x5039D0 // vtable func C for sponsor cars
-		call eax
-		// 2nd car instance
-		push 0
-		push 0x8389D0
-		push edi
-		mov ecx, [fun_car_customize_sponsor_stored_sponsorcar]
-		mov eax, 0x5039D0 // vtable func C for sponsor cars
-		call eax
-
-		// copy tuning back from the car instance to the tuned car entry
-		push 0x8389D0 // car instance
-		lea ecx, [esi+0x18]
-		mov eax, 0x503950
-		call eax
-
-		// reset state (so we don't do this again when another car is selected) and rt
-		mov dword ptr [fun_car_customize_sponsor_stored_sponsorcar], 0
-		mov eax, 0x552DF2
-		jmp eax
-wasnotsponsorcar:
-		// do what we overwrote and jmp back
-		mov edx, [esi]
-		push edi
-		mov ecx, esi
-		mov eax, 0x552DDC
 		jmp eax
 	}
 }
@@ -213,10 +181,8 @@ void fun_car_customize_sponsor()
 
 	// make all sponsor cars available by pretending to have triggered all of the sponsor cheats
 	mkjmp(0x579D70, fun_car_customize_sponsor_replace_CheatScreenData__IsSponsorCarCheatTriggered);
-	// codez so the game doesn't crash when continuing with a sponsor car, because it's not supported
+	// when a sponsor car is selected, create a tuned car instance and apply sponsor tuning to it
 	mkjmp(0x552DBB, fun_car_customize_sponsor_set_car_instance_if_missing);
-	// codez so the sponsor tuning is applied to the tuned car that is created from the stock car
-	mkjmp(0x552DD7, fun_car_customize_sponsor_apply_sponsor_tuning);
 
 	INIT_FUNC();
 #undef INIT_FUNC

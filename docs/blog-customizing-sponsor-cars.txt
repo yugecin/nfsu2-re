@@ -167,6 +167,9 @@ This will crash the game when continuing when a sponsor car is selected :D
 
 {Making the game not crash} ||| h id=crashfix
 
+{Note: following code can be seen in revision {c6786b6a7a59e3b31f20a41bcff108d4f2ec9982} but  ||| em,a class=ext href=https://github.com/yugecin/nfsu2-re/tree/c6786b6a7a59e3b31f20a41bcff108d4f2ec9982
+was changed afterwards, this is explained in the last section.}                               |||
+
 The game crashes now when continuing when a sponsor car is selected, inside {552CC0}.          ||| ref
 It will be called with a hash that denotes what car to customize. This could be a stock car
 slot hash (like hash of {STOCK_PEUGEOT}) or a tuned car slot hash (like hash of {TUNED_CAR_2}) ||| code,code
@@ -235,6 +238,9 @@ Crash fixed, but now we just get a stock car when we choose to customize a spons
 .pushmode section
 
 {Applying sponsor car tuning} ||| h id=applysponsorcartuning
+
+{Note: following code can be seen in revision {c6786b6a7a59e3b31f20a41bcff108d4f2ec9982} but  ||| em,a class=ext href=https://github.com/yugecin/nfsu2-re/tree/c6786b6a7a59e3b31f20a41bcff108d4f2ec9982
+was changed afterwards, this is explained in the last section.}                               |||
 
 In {52A710}, right after the function we hooked in the previous section to fix the crash,    ||| ref
 the {struct TunedCar} instance is used to call its function {{struct InventoryCar$vtable.C}},||| ref,code,ref
@@ -307,6 +313,9 @@ cars collection.
 
 {Fixing ghost stock car bug} ||| h id=finalfix
 
+{Note: following code can be seen in revision {c6786b6a7a59e3b31f20a41bcff108d4f2ec9982} but  ||| em,a class=ext href=https://github.com/yugecin/nfsu2-re/tree/c6786b6a7a59e3b31f20a41bcff108d4f2ec9982
+was changed afterwards, this is explained in the last section.}                               |||
+
 Thanks to more findings, I managed to fix the 'bug' from previous section.
 Function {503950} seems to apply tuning done to a {struct MenuCarInstance} back   ||| ref,ref
 to a {struct TunedCar}. So we just have to call that function before returning    ||| ref
@@ -321,6 +330,57 @@ after applying the stock car tuning:
 .popmode pre
 
 sweet!
+
+.popmode section
+.popmode section
+.pushmode section
+
+{Updates} ||| h id=updates
+
+.pushmode section
+
+{Making things simpler} ||| h id=makingsimpler
+
+Thanks to more findings when I managed to fix the ghost stock car bug, I also
+found {503950}, so then the idea came up to use that to apply sponsor car                                               ||| ref
+tuning immediately when creating the tuned car instance. And that worked!
+
+This makes the code in the last two sections unnecessary. The
+{fun_car_customize_sponsor_GetSponsorCar} function also gets a more appropriate ||| code
+name of {fun_car_customize_sponsor_CreateTunedCarFromSponsorCar}.                ||| code
+
+.controlchars [] .pushmode pre
+static
+[struct TunedCar]*                                                                                                      ||| ref
+__stdcall
+fun_car_customize_sponsor_CreateTunedCarFromSponsorCar([struct CarCollection] *this, unsigned int slotNameHash)                        ||| ref
+{
+	[struct MenuCarInstance] *menuCarInstance;                                                                      ||| ref
+	[struct SponsorCar] *sponsorCar;                                                                                ||| ref
+	[struct TunedCar]* tunedCar;                                                                                    ||| ref
+	char buf[32];
+	int i;
+
+	i = this->[struct CarCollection+9BD4];                                                                                                    ||| ref
+	while (i-- > 0) {
+		if (this->[struct CarCollection+9A84]\[i\].[struct SponsorCar+8] == slotNameHash) {                                               ||| ref,ref
+			sprintf(buf, "STOCK_%s", [61C460](this->[struct CarCollection+9A84]\[i\].[struct SponsorCar+18])->[struct CarPreset+8]);  ||| ref,ref,ref,ref
+			tunedCar = this->[52A710]([43DB50](buf));                                                                                 ||| ref,ref
+			menuCarInstance = &[8389D0];                                                                                              ||| ref
+			// (3rd param is MenuCarInstance, using an instance in the data section that
+			//  gets overridden later in the Customize process anyways)
+			// (4th param is unknown, but unused in SponsorCar's ApplyTuning
+			sponsorCar->[5039D0]([83A9D0]->[struct ProfileData+20358], menuCarInstance, 0);                                           ||| ref,ref,ref
+			// copy tuning back from MenuCarInstance to tuned car instance
+			tunedCar->[struct TunedCar+18]->[503950](menuCarInstance);                                                                ||| ref,ref
+			return tunedCar;
+		}
+	}
+	return NULL;
+}
+.controlchars {} .popmode pre
+
+See {nfsu2-re-hooks/fun-car-customize-sponsor.c} for all the code together.     ||| hookfileref
 
 .popmode section
 .popmode section
