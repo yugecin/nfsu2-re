@@ -365,11 +365,11 @@ int fun_car_customize_sponsor_CarSelectFNGObject__ChangeCategory(<a href=structs
 		if (message == MSG_PREV) {
 			switch (<a href=vars.html#7F444C>carSelectCategory</a>) {
 			case <a href=enums.html#enu_INVENTORY_CAR_FLAGS1>IS_STOCK_CAR</a> | <a href=enums.html#enu_INVENTORY_CAR_FLAGS2>IS_TUNED_CAR</a>:
-				if (<a href=funcs.html#497EE0>CarSelectFNGObject::CountAvailableCars</a>(this, <a href=enums.html#enu_INVENTORY_CAR_FLAGS8>IS_SPONSOR_CAR</a>)) {
+				if (this-&gt;<a href=funcs.html#497EE0>CarSelectFNGObject::CountAvailableCars</a>(<a href=enums.html#enu_INVENTORY_CAR_FLAGS8>IS_SPONSOR_CAR</a>)) {
 					<a href=vars.html#7F444C>carSelectCategory</a> = <a href=enums.html#enu_INVENTORY_CAR_FLAGS8>IS_SPONSOR_CAR</a>; break;
 				}
 			case <a href=enums.html#enu_INVENTORY_CAR_FLAGS8>IS_SPONSOR_CAR</a>:
-				if (<a href=funcs.html#497EE0>CarSelectFNGObject::CountAvailableCars</a>(this, <a href=enums.html#enu_INVENTORY_CAR_FLAGS2>IS_TUNED_CAR</a>))) {
+				if (this-&gt;<a href=funcs.html#497EE0>CarSelectFNGObject::CountAvailableCars</a>(<a href=enums.html#enu_INVENTORY_CAR_FLAGS2>IS_TUNED_CAR</a>))) {
 					<a href=vars.html#7F444C>carSelectCategory</a> = <a href=enums.html#enu_INVENTORY_CAR_FLAGS2>IS_TUNED_CAR</a>; break;
 				}
 			case <a href=enums.html#enu_INVENTORY_CAR_FLAGS2>IS_TUNED_CAR</a>: <a href=vars.html#7F444C>carSelectCategory</a> = <a href=enums.html#enu_INVENTORY_CAR_FLAGS1>IS_STOCK_CAR</a>; break;
@@ -379,19 +379,19 @@ int fun_car_customize_sponsor_CarSelectFNGObject__ChangeCategory(<a href=structs
 			switch (<a href=vars.html#7F444C>carSelectCategory</a>) {
 			case <a href=enums.html#enu_INVENTORY_CAR_FLAGS1>IS_STOCK_CAR</a> | <a href=enums.html#enu_INVENTORY_CAR_FLAGS2>IS_TUNED_CAR</a>: <a href=vars.html#7F444C>carSelectCategory</a> = <a href=enums.html#enu_INVENTORY_CAR_FLAGS1>IS_STOCK_CAR</a>; break;
 			case <a href=enums.html#enu_INVENTORY_CAR_FLAGS1>IS_STOCK_CAR</a>:
-				if (<a href=funcs.html#497EE0>CarSelectFNGObject::CountAvailableCars</a>(this, <a href=enums.html#enu_INVENTORY_CAR_FLAGS2>IS_TUNED_CAR</a>))) {
+				if (this-&gt;<a href=funcs.html#497EE0>CarSelectFNGObject::CountAvailableCars</a>(<a href=enums.html#enu_INVENTORY_CAR_FLAGS2>IS_TUNED_CAR</a>))) {
 					<a href=vars.html#7F444C>carSelectCategory</a> = <a href=enums.html#enu_INVENTORY_CAR_FLAGS2>IS_TUNED_CAR</a>; break;
 				}
 			case <a href=enums.html#enu_INVENTORY_CAR_FLAGS2>IS_TUNED_CAR</a>:
-				if (<a href=funcs.html#497EE0>CarSelectFNGObject::CountAvailableCars</a>(this, <a href=enums.html#enu_INVENTORY_CAR_FLAGS8>IS_SPONSOR_CAR</a>))) {
+				if (this-&gt;<a href=funcs.html#497EE0>CarSelectFNGObject::CountAvailableCars</a>(<a href=enums.html#enu_INVENTORY_CAR_FLAGS8>IS_SPONSOR_CAR</a>))) {
 					<a href=vars.html#7F444C>carSelectCategory</a> = <a href=enums.html#enu_INVENTORY_CAR_FLAGS8>IS_SPONSOR_CAR</a>; break;
 				}
 			case <a href=enums.html#enu_INVENTORY_CAR_FLAGS8>IS_SPONSOR_CAR</a>: <a href=vars.html#7F444C>carSelectCategory</a> = <a href=enums.html#enu_INVENTORY_CAR_FLAGS1>IS_STOCK_CAR</a> | <a href=enums.html#enu_INVENTORY_CAR_FLAGS2>IS_TUNED_CAR</a>; break;
 			}
 		}
 		<a href=vars.html#83A9D0>profileData</a>-&gt;<a href=structs.html#struc_ProfileData10>player1</a>[<a href=vars.html#83A9D0>profileData</a>-&gt;<a href=structs.html#struc_ProfileData20358>currentPlayerIndex?</a>].<a href=structs.html#struc_PlayerD4>d4</a>.<a href=structs.html#struc_Player_D4C>currentCarSelectionCategory</a> = <a href=vars.html#7F444C>carSelectCategory</a>;
-		<a href=funcs.html#4EEC90>CarSelectFNGObject::ResetBrowableCars</a>(this);
-		<a href=funcs.html#4B2310>CarSelectFNGObject::UpdateUI</a>(this);
+		this-&gt;<a href=funcs.html#4EEC90>CarSelectFNGObject::ResetBrowableCars</a>();
+		this-&gt;<a href=funcs.html#4B2310>CarSelectFNGObject::UpdateUI</a>();
 		return 1;
 	}
 	return 0;
@@ -451,7 +451,7 @@ fun_car_customize_sponsor_GetSponsorCar(<a href=structs.html#struc_CarCollection
 	while (i-- &gt; 0) {
 		if (this-&gt;<a href=structs.html#struc_CarCollection9A84>sponsorCars</a>[i].<a href=structs.html#struc_SponsorCar0>__parent</a>.<a href=structs.html#struc_InventoryCar8>slotHash</a> == slotNameHash) {
 			sprintf(buf, "STOCK_%s", <a href=funcs.html#61C460>FindCarPreset</a>(this-&gt;<a href=structs.html#struc_CarCollection9A84>sponsorCars</a>[i].<a href=structs.html#struc_SponsorCar18>carPresetHash</a>)-&gt;<a href=structs.html#struc_CarPreset8>modelName</a>);
-			return <a href=funcs.html#52A710>CarCollection::CreateNewTunedCarFromFromDataAtSlot</a>(this, <a href=funcs.html#43DB50>SomeHashCS43DB50</a>(buf));
+			return this-&gt;<a href=funcs.html#52A710>CarCollection::CreateNewTunedCarFromFromDataAtSlot</a>(<a href=funcs.html#43DB50>SomeHashCS43DB50</a>(buf));
 		}
 	}
 	return NULL;

@@ -102,11 +102,11 @@ int fun_car_customize_sponsor_CarSelectFNGObject__ChangeCategory([struct CarSele
 		if (message == MSG_PREV) {
 			switch ([7F444C]) {                                                                                                            ||| ref
 			case [enum INVENTORY_CAR_FLAGS/1] | [enum INVENTORY_CAR_FLAGS/2]:                                                              ||| ref,ref
-				if ([497EE0](this, [enum INVENTORY_CAR_FLAGS/8])) {                                                                    ||| ref,ref
+				if (this->[497EE0]([enum INVENTORY_CAR_FLAGS/8])) {                                                                    ||| ref,ref
 					[7F444C] = [enum INVENTORY_CAR_FLAGS/8]; break;                                                                ||| ref,ref
 				}
 			case [enum INVENTORY_CAR_FLAGS/8]:                                                                                             ||| ref
-				if ([497EE0](this, [enum INVENTORY_CAR_FLAGS/2]))) {                                                                   ||| ref,ref
+				if (this->[497EE0]([enum INVENTORY_CAR_FLAGS/2]))) {                                                                   ||| ref,ref
 					[7F444C] = [enum INVENTORY_CAR_FLAGS/2]; break;                                                                ||| ref,ref
 				}
 			case [enum INVENTORY_CAR_FLAGS/2]: [7F444C] = [enum INVENTORY_CAR_FLAGS/1]; break;                                             ||| ref,ref,ref
@@ -116,19 +116,19 @@ int fun_car_customize_sponsor_CarSelectFNGObject__ChangeCategory([struct CarSele
 			switch ([7F444C]) {                                                                                                            ||| ref
 			case [enum INVENTORY_CAR_FLAGS/1] | [enum INVENTORY_CAR_FLAGS/2]: [7F444C] = [enum INVENTORY_CAR_FLAGS/1]; break;              ||| ref,ref,ref,ref
 			case [enum INVENTORY_CAR_FLAGS/1]:                                                                                             ||| ref
-				if ([497EE0](this, [enum INVENTORY_CAR_FLAGS/2]))) {                                                                   ||| ref,ref
+				if (this->[497EE0]([enum INVENTORY_CAR_FLAGS/2]))) {                                                                   ||| ref,ref
 					[7F444C] = [enum INVENTORY_CAR_FLAGS/2]; break;                                                                ||| ref,ref
 				}
 			case [enum INVENTORY_CAR_FLAGS/2]:                                                                                             ||| ref
-				if ([497EE0](this, [enum INVENTORY_CAR_FLAGS/8]))) {                                                                   ||| ref,ref
+				if (this->[497EE0]([enum INVENTORY_CAR_FLAGS/8]))) {                                                                   ||| ref,ref
 					[7F444C] = [enum INVENTORY_CAR_FLAGS/8]; break;                                                                ||| ref,ref
 				}
 			case [enum INVENTORY_CAR_FLAGS/8]: [7F444C] = [enum INVENTORY_CAR_FLAGS/1] | [enum INVENTORY_CAR_FLAGS/2]; break;              ||| ref,ref,ref,ref
 			}
 		}
 		[83A9D0]->[struct ProfileData+10]\[[83A9D0]->[struct ProfileData+20358]\].[struct Player+D4].[struct Player_D4+C] = [7F444C];          ||| ref,ref,ref,ref,ref,ref,ref
-		[4EEC90](this);                                                                                                                        ||| ref
-		[4B2310](this);                                                                                                                        ||| ref
+		this->[4EEC90]();                                                                                                                      ||| ref
+		this->[4B2310]();                                                                                                                      ||| ref
 		return 1;
 	}
 	return 0;
@@ -197,7 +197,7 @@ fun_car_customize_sponsor_GetSponsorCar([struct CarCollection] *this, unsigned i
 	while (i-- > 0) {
 		if (this->[struct CarCollection+9A84]\[i\].[struct SponsorCar+8] == slotNameHash) {                                               ||| ref,ref
 			sprintf(buf, "STOCK_%s", [61C460](this->[struct CarCollection+9A84]\[i\].[struct SponsorCar+18])->[struct CarPreset+8]);  ||| ref,ref,ref,ref
-			return [52A710](this, [43DB50](buf));                                                                                     ||| ref,ref
+			return this->[52A710]([43DB50](buf));                                                                                     ||| ref,ref
 		}
 	}
 	return NULL;
