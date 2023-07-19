@@ -309,12 +309,12 @@ normal and debug.
 properties.
 <p>The UI treeview shows all FNG screens that are displayed, and all their child
 UI elements. The top FNG screen is read from
-<code><a href=vars.html#8384C4>pUIData</a>-><a href=structs.html#struc_UIData8>field_8</a>-><a href=structs.html#struc_UIData_field8DC>fngPackagesDC</a>.<a href=structs.html#struc_FNGInfoList8>topPackage</a></code> and
-its <a href=structs.html#struc_FNGInfo4>child</a> is followed until the next <a href=structs.html#struc_FNGInfo4>child</a> is unset.
-For each <a href=structs.html#struc_FNGInfo>struct FNGInfo</a>, its <a href=structs.html#struc_FNGInfo4C>rootUIElement</a> is read and its
-<a href=structs.html#struc_UIElement4>nextSibling</a> is followed until the next <a href=structs.html#struc_UIElement4>nextSibling</a> is unset.
-If any element's <a href=structs.html#struc_UIElement18>type</a> is 5, it's a <a href=structs.html#struc_UIContainer>struct UIContainer</a> so its
-<a href=structs.html#struc_UIContainer64>rootElement</a> is read and iterated as well.
+<code><a href=vars.html#8384C4>pUIData</a>-><a href=structs.html#struc_UIData@8>field_8</a>-><a href=structs.html#struc_UIData_field8@DC>fngPackagesDC</a>.<a href=structs.html#struc_FNGInfoList@8>topPackage</a></code> and
+its <a href=structs.html#struc_FNGInfo@4>child</a> is followed until the next <a href=structs.html#struc_FNGInfo@4>child</a> is unset.
+For each <a href=structs.html#struc_FNGInfo>struct FNGInfo</a>, its <a href=structs.html#struc_FNGInfo@4C>rootUIElement</a> is read and its
+<a href=structs.html#struc_UIElement@4>nextSibling</a> is followed until the next <a href=structs.html#struc_UIElement@4>nextSibling</a> is unset.
+If any element's <a href=structs.html#struc_UIElement@18>type</a> is 5, it's a <a href=structs.html#struc_UIContainer>struct UIContainer</a> so its
+<a href=structs.html#struc_UIContainer@64>rootElement</a> is read and iterated as well.
 <p>See function <code>dbgw_ui_tree_update_before_present</code> in
 <code><a class='ext' href='https://github.com/yugecin/nfsu2-re/blob/master/nfsu2-re-hooks/dbgw_a_main.c'>nfsu2-re-hooks/dbgw_a_main.c</a></code>.
 <p class='imgholder'><img src="img/BLOGx01-DBGW0.PNG" alt="A window with a treeview containing containers and labels"></p>
@@ -323,17 +323,17 @@ If any element's <a href=structs.html#struc_UIElement18>type</a> is 5, it's a <a
  
 </div><div><h3 id="labels">Labels <a href='#labels'>#</a></h3>
 <p>In the image of the previous section, the selected ui element was a label with
-a <a href=structs.html#struc_UILabel60>textLanguageString</a> of <code>AC148579</code>, which is the hash
+a <a href=structs.html#struc_UILabel@60>textLanguageString</a> of <code>AC148579</code>, which is the hash
 (see <a href='docs.html#hashfuncs'>Hash functions</a>) of <code>OPT_PLAYER_GAUGES</code>, which, for English, results
 in the text <code>Gauges</code>.
 <p>If I now check the checkbox for flag with value <code>2</code> (<a href=enums.html#enu_UIELEMENTFLAGS2>USE_CUSTOM_TEXT</a>),
-the <a href=structs.html#struc_UILabel64>customString</a> will be used (displayed as "Label string" in the img).
+the <a href=structs.html#struc_UILabel@64>customString</a> will be used (displayed as "Label string" in the img).
 I can also change this text to <code>custom text^and new line even</code>. The caret <code>^</code>
 symbol is interpreted by the game's text renderer as a linefeed.
 <p class='imgholder'><img src="img/BLOGx01-SETTINGS1.WEBP" alt="Same image as before but with custom text"></p>
 </div><div><h3 id="textureelements">Texture elements <a href='#textureelements'>#</a></h3>
 <p>Many of the UI elements seem to exist to draw textures that make the UI.
-Those elements are elements with <a href=structs.html#struc_UIElement18>type</a> 1, they're of type
+Those elements are elements with <a href=structs.html#struc_UIElement@18>type</a> 1, they're of type
 <a href=structs.html#struc_UIElementType1>struct UIElementType1</a>. A the time of writing, this struct is a dummy because
 I haven't really explored it yet.
 <p class='imgholder'><img src="img/BLOGx01-CONTAINER.PNG" alt="Window with a treeview, having a 'container' element selected"></p>
@@ -364,8 +364,8 @@ important. I also wonder why the element is positioned outside of the screen
 instead of having the <a href=enums.html#enu_UIELEMENTFLAGS1>HIDDEN</a> flag.
 </div><div><h3 id="animations">Animations <a href='#animations'>#</a></h3>
 <p>Elements can have animations, such as zooming or fading in/out and others.
-<code><a href=structs.html#struc_UIElement>struct UIElement</a>.<a href=structs.html#struc_UIElement4C>firstAnimation</a></code> stores all animation things per
-element. There is also <code><a href=structs.html#struc_UIElement>struct UIElement</a>.<a href=structs.html#struc_UIElement54>currentAnimation?</a></code>.
+<code><a href=structs.html#struc_UIElement>struct UIElement</a>.<a href=structs.html#struc_UIElement@4C>firstAnimation</a></code> stores all animation things per
+element. There is also <code><a href=structs.html#struc_UIElement>struct UIElement</a>.<a href=structs.html#struc_UIElement@54>currentAnimation?</a></code>.
 Here's a dump of all animations on the label element that shows your profile
 name in the bottom bar, the name label that gets swapped with your bank amount
 every few seconds:
@@ -378,7 +378,7 @@ animation@17D32E74 hash 54C20A66 (Fade_Out) CURRENT
 animation@17D32EA8 hash BCC00F05 (Fade_In)
 </pre>
 <p>Currently I haven't explored this much yet, so <a href=structs.html#struc_UIElement_Animation>struct UIElement_Animation</a>
-only has one known field right now: <a href=structs.html#struc_UIElement_Animation30>hash_30</a>
+only has one known field right now: <a href=structs.html#struc_UIElement_Animation@30>hash_30</a>
 From the list of hashes I'm collecting (see <a href='docs.html#hashfuncs'>Hash functions</a>), I can
 assign names to some of the hashes, but not all of them.
 <p>Here's a dump of all the animations on the <a href='#eventhandler'>Event Handler</a> element:

@@ -1423,7 +1423,7 @@ pre.ida span.hi {
 <a id=struc_LanguageData></a>
 <div>struct <h3>LanguageData</h3> { <i>/*3 members, size Ch*/</i>
 <i>/*0*/	</i>char *pName;
-<i id=struc_LanguageData4></i><i>/*4*/	int field_4;</i>
+<i id=struc_LanguageData@4></i><i>/*4*/	int field_4;</i>
 <i>/*8*/	</i>int region;
 };
 <i>EXPECT_SIZE(struct LanguageData, 0xC);</i></div>
@@ -1432,7 +1432,7 @@ pre.ida span.hi {
 <i>/*0*/	</i>int id;
 <i>/*4*/	</i>char *pFilecode;
 <i>/*8*/	</i>char *pBinfile;
-<i id=struc_LanguageFileDataC></i><i>/*C*/	</i><a href=structs.html#struc_LanguageFontData>struct LanguageFontData</a> *fontdata;
+<i id=struc_LanguageFileData@C></i><i>/*C*/	</i><a href=structs.html#struc_LanguageFontData>struct LanguageFontData</a> *fontdata;
 };
 <i>EXPECT_SIZE(struct LanguageFileData, 0x10);</i></div>
 <a id=struc_LanguageStruct7F6DE8></a>
@@ -1443,7 +1443,7 @@ pre.ida span.hi {
 <i>EXPECT_SIZE(struct LanguageStruct7F6DE8, 0x8);</i></div>
 <a id=struc_LanguageFontData></a>
 <div>struct <h3>LanguageFontData</h3> { <i>/*28 members, size 70h*/</i>
-<i id=struc_LanguageFontData0></i><i>/*0*/	int field_0;</i>
+<i id=struc_LanguageFontData@0></i><i>/*0*/	int field_0;</i>
 <i>/*4*/	int field_4;</i>
 <i>/*8*/	int field_8;</i>
 <i>/*C*/	int field_C;</i>
@@ -1475,16 +1475,16 @@ pre.ida span.hi {
 <i>EXPECT_SIZE(struct LanguageFontData, 0x70);</i></div>
 <a id=struc_LoadedLanguage></a>
 <div>struct <h3>LoadedLanguage</h3> { <i>/*4 members, size 10h*/</i>
-<i id=struc_LoadedLanguage0></i><i>/*0*/	</i>int numStrings;
-<i id=struc_LoadedLanguage4></i><i>/*4*/	</i>char **ptrStrings;
-<i id=struc_LoadedLanguage8></i><i>/*8*/	</i><a href=structs.html#struc_LanguageTableEntry>struct LanguageTableEntry</a> *ptrTable;
-<i id=struc_LoadedLanguageC></i><i>/*C*/	</i><a href=structs.html#struc_LanguageConversionTable>struct LanguageConversionTable</a> *ptrConversionTable;
+<i id=struc_LoadedLanguage@0></i><i>/*0*/	</i>int numStrings;
+<i id=struc_LoadedLanguage@4></i><i>/*4*/	</i>char **ptrStrings;
+<i id=struc_LoadedLanguage@8></i><i>/*8*/	</i><a href=structs.html#struc_LanguageTableEntry>struct LanguageTableEntry</a> *ptrTable;
+<i id=struc_LoadedLanguage@C></i><i>/*C*/	</i><a href=structs.html#struc_LanguageConversionTable>struct LanguageConversionTable</a> *ptrConversionTable;
 };
 <i>EXPECT_SIZE(struct LoadedLanguage, 0x10);</i></div>
 <a id=struc_LanguageTableEntry></a>
 <div>struct <h3>LanguageTableEntry</h3> { <i>/*2 members, size 8h*/</i>
 <i>/*0*/	</i>unsigned int key;
-<i id=struc_LanguageTableEntry4></i><i>/*4*/	</i>char *string;
+<i id=struc_LanguageTableEntry@4></i><i>/*4*/	</i>char *string;
 };
 <i>EXPECT_SIZE(struct LanguageTableEntry, 0x8);</i></div>
 <a id=struc_LanguageConversionTable></a>
@@ -1500,36 +1500,36 @@ pre.ida span.hi {
 </ul>
 <a id=struc_BinSectionHeader></a>
 <div>struct <h3>BinSectionHeader</h3> { <i>/*2 members, size 8h*/</i>
-<i id=struc_BinSectionHeader0></i><i>/*0*/	</i>unsigned int magic;
-<i id=struc_BinSectionHeader4></i><i>/*4*/	</i>int size;
+<i id=struc_BinSectionHeader@0></i><i>/*0*/	</i>unsigned int magic;
+<i id=struc_BinSectionHeader@4></i><i>/*4*/	</i>int size;
 };
 <i>EXPECT_SIZE(struct BinSectionHeader, 0x8);</i></div>
 <a id=struc_BinSection></a>
 <div>struct <h3>BinSection</h3> { <i>/*2 members, size 9h*/</i>
-<i id=struc_BinSection0></i><i>/*0*/	</i><a href=#struc_BinSectionHeader>struct BinSectionHeader</a> header;
-<i id=struc_BinSection8></i><span class='mm'>/**actual data size is determined by <a href=structs.html#struc_BinSectionHeader>struct BinSectionHeader</a>.<a href=structs.html#struc_BinSectionHeader4>size</a>*/</span>
+<i id=struc_BinSection@0></i><i>/*0*/	</i><a href=#struc_BinSectionHeader>struct BinSectionHeader</a> header;
+<i id=struc_BinSection@8></i><span class='mm'>/**actual data size is determined by <a href=structs.html#struc_BinSectionHeader>struct BinSectionHeader</a>.<a href=structs.html#struc_BinSectionHeader@4>size</a>*/</span>
 <i>/*8*/	</i>char data[1];
 };
 <i>EXPECT_SIZE(struct BinSection, 0x9);</i></div>
 <a id=struc_BinDataLanguage39000></a>
 <div>struct <h3>BinDataLanguage39000</h3> { <i>/*4 members, size 10h*/</i>
-<i id=struc_BinDataLanguage390000></i><i>/*0*/	int field_0;</i>
-<i id=struc_BinDataLanguage390004></i><i>/*4*/	</i>int numStrings;
-<i id=struc_BinDataLanguage390008></i><i>/*8*/	</i><strong>struct LanguageTable</strong> *tableOffset;
-<i id=struc_BinDataLanguage39000C></i><i>/*C*/	</i>char **stringsOffset;
+<i id=struc_BinDataLanguage39000@0></i><i>/*0*/	int field_0;</i>
+<i id=struc_BinDataLanguage39000@4></i><i>/*4*/	</i>int numStrings;
+<i id=struc_BinDataLanguage39000@8></i><i>/*8*/	</i><strong>struct LanguageTable</strong> *tableOffset;
+<i id=struc_BinDataLanguage39000@C></i><i>/*C*/	</i>char **stringsOffset;
 };
 <i>EXPECT_SIZE(struct BinDataLanguage39000, 0x10);</i></div>
 <a id=struc_PoolLink></a>
 <div class=mm><p>link is a circle (last entry's next is the first entry; first entry's prev is the last entry)</div>
 <div>struct <h3>PoolLink</h3> { <i>/*2 members, size 8h*/</i>
-<i id=struc_PoolLink0></i><i>/*0*/	</i><a href=structs.html#struc_PoolLink>struct PoolLink</a> *prev;
-<i id=struc_PoolLink4></i><i>/*4*/	</i><a href=structs.html#struc_PoolLink>struct PoolLink</a> *next;
+<i id=struc_PoolLink@0></i><i>/*0*/	</i><a href=structs.html#struc_PoolLink>struct PoolLink</a> *prev;
+<i id=struc_PoolLink@4></i><i>/*4*/	</i><a href=structs.html#struc_PoolLink>struct PoolLink</a> *next;
 };
 <i>EXPECT_SIZE(struct PoolLink, 0x8);</i></div>
 <a id=struc_PoolControl></a>
 <div>struct <h3>PoolControl</h3> { <i>/*2 members, size Ch*/</i> <em></em>
-<i id=struc_PoolControl0></i><i>/*0*/	</i>int inited;
-<i id=struc_PoolControl4></i><i>/*4*/	</i><a href=#struc_PoolLink>struct PoolLink</a> link;
+<i id=struc_PoolControl@0></i><i>/*0*/	</i>int inited;
+<i id=struc_PoolControl@4></i><i>/*4*/	</i><a href=#struc_PoolLink>struct PoolLink</a> link;
 };
 <i>EXPECT_SIZE(struct PoolControl, 0xC);</i></div>
 <ul>
@@ -1539,20 +1539,20 @@ pre.ida span.hi {
 <pre><i>440DA0</i> <a href=funcs.html#440DA0 title='void __thiscall PoolControl__DeletePool(struct PoolControl *this, struct Pool *pool);'>PoolControl::DeletePool</a></pre>
 </ul>
 <a id=struc_Pool></a>
-<div class=mm><p>The pool entries are located at the end of this struct; so variables of this struct type are of <code>sizeof(<a href=structs.html#struc_Pool>struct Pool</a>)+<a href=structs.html#struc_Pool24>elementAmount</a>*<a href=structs.html#struc_Pool28>elementSize</a></code>?</div>
+<div class=mm><p>The pool entries are located at the end of this struct; so variables of this struct type are of <code>sizeof(<a href=structs.html#struc_Pool>struct Pool</a>)+<a href=structs.html#struc_Pool@24>elementAmount</a>*<a href=structs.html#struc_Pool@28>elementSize</a></code>?</div>
 <div>struct <h3>Pool</h3> { <i>/*11 members, size 30h*/</i> <em></em>
 <i>/*0*/	</i><a href=#struc_PoolLink>struct PoolLink</a> __parent;
-<i id=struc_Pool8></i><i>/*8*/	</i><a href=structs.html#struc_Pool>struct Pool</a> *nextLinkedPool;
+<i id=struc_Pool@8></i><i>/*8*/	</i><a href=structs.html#struc_Pool>struct Pool</a> *nextLinkedPool;
 <i>/*C*/	</i>char *pName;
-<i id=struc_Pool10></i><i>/*10*/	</i><a href=structs.html#struc_PoolEntry>struct PoolEntry</a> *firstAvailableElement;
-<i id=struc_Pool14></i><span class='mm'>/**see <a href=enums.html#enu_POOLFLAGS>enum POOLFLAGS</a>*/</span>
+<i id=struc_Pool@10></i><i>/*10*/	</i><a href=structs.html#struc_PoolEntry>struct PoolEntry</a> *firstAvailableElement;
+<i id=struc_Pool@14></i><span class='mm'>/**see <a href=enums.html#enu_POOLFLAGS>enum POOLFLAGS</a>*/</span>
 <i>/*14*/	</i>int flags;
 <i>/*18*/	</i>int numUsedElements;
 <span class='mm'>/**the highest amount that was allocated at one point?*/</span>
 <i>/*1C*/	</i>int maxUsedElements?;
 <i>/*20*/	</i>int unknownArgGivenOnPoolCreation <u></u>;
-<i id=struc_Pool24></i><i>/*24*/	</i>int elementAmount;
-<i id=struc_Pool28></i><i>/*28*/	</i>int elementSize;
+<i id=struc_Pool@24></i><i>/*24*/	</i>int elementAmount;
+<i id=struc_Pool@28></i><i>/*28*/	</i>int elementSize;
 <i>/*2C*/	</i>int elementAmountOverAllLinkedPools;
 };
 <i>EXPECT_SIZE(struct Pool, 0x30);</i></div>
@@ -1576,7 +1576,7 @@ pre.ida span.hi {
 <i>EXPECT_SIZE(struct bPNodeSlotPoolEntry, 0xC);</i></div>
 <a id=struc_PoolEntry></a>
 <div>struct <h3>PoolEntry</h3> { <i>/*2 members, size 8h*/</i> <em></em>
-<i id=struc_PoolEntry0></i><i>/*0*/	</i><a href=structs.html#struc_PoolEntry>struct PoolEntry</a> *nextEntry;
+<i id=struc_PoolEntry@0></i><i>/*0*/	</i><a href=structs.html#struc_PoolEntry>struct PoolEntry</a> *nextEntry;
 <i>/*4*/	</i><a href=structs.html#struc_PoolEntry>struct PoolEntry</a> *prevEntry;
 };
 <i>EXPECT_SIZE(struct PoolEntry, 0x8);</i></div>
@@ -1592,7 +1592,7 @@ pre.ida span.hi {
 <div>struct <h3>LevelSorterPoolEntry</h3> { <i>/*6 members, size 1Ch*/</i>
 <i>/*0*/	</i><a href=#struc_PoolEntry>struct PoolEntry</a> __parent;
 <i>/*8*/	</i>int fngName <u></u>;
-<i id=struc_LevelSorterPoolEntryC></i><i>/*C*/	</i>int indexInLevelSorterLink <u></u>;
+<i id=struc_LevelSorterPoolEntry@C></i><i>/*C*/	</i>int indexInLevelSorterLink <u></u>;
 <i>/*10*/	</i>int someNumber <u></u>;
 <i>/*14*/	int field_14;</i>
 <i>/*18*/	int field_18;</i>
@@ -1640,8 +1640,8 @@ pre.ida span.hi {
 <i>/*88*/	int field_88;</i>
 <i>/*8C*/	int field_8C;</i>
 <i>/*90*/	int field_90;</i>
-<i id=struc_ResourceFileSlotPoolEntry94></i><i>/*94*/	</i>char filename_again[48] <u></u>;
-<i id=struc_ResourceFileSlotPoolEntryC4></i><i>/*C4*/	int field_C4;</i>
+<i id=struc_ResourceFileSlotPoolEntry@94></i><i>/*94*/	</i>char filename_again[48] <u></u>;
+<i id=struc_ResourceFileSlotPoolEntry@C4></i><i>/*C4*/	int field_C4;</i>
 <i>/*C8*/	int field_C8;</i>
 <span class='mm'>/**set to 1 after ptrAllocatedMemForData has been free'd*/</span>
 <i>/*CC*/	</i>int someNumber_CC <u></u>;
@@ -1674,13 +1674,13 @@ pre.ida span.hi {
 <i>/*4C*/	</i>int filesize <u></u>;
 <i>/*50*/	int field_50;</i>
 <i>/*54*/	int field_54;</i>
-<i id=struc_QueuedFileSlotPoolEntry58></i><i>/*58*/	int field_58;</i>
+<i id=struc_QueuedFileSlotPoolEntry@58></i><i>/*58*/	int field_58;</i>
 <span class='mm'>/**might be sub_571050*/</span>
 <i>/*5C*/	</i>void (__cdecl *ptrsomefunc)(void *);
 <i>/*60*/	</i><a href=structs.html#struc_ResourceFileSlotPoolEntry>struct ResourceFileSlotPoolEntry</a> *resourceFileSlotPoolEntry;
 <i>/*64*/	int field_64;</i>
 <i>/*68*/	int field_68;</i>
-<i id=struc_QueuedFileSlotPoolEntry6C></i><i>/*6C*/	</i>int handle <u></u>;
+<i id=struc_QueuedFileSlotPoolEntry@6C></i><i>/*6C*/	</i>int handle <u></u>;
 <span class='mm'>/**2 when filesize is 0?*/</span>
 <i>/*70*/	int field_70;</i>
 <i>/*74*/	int field_74;</i>
@@ -1774,23 +1774,23 @@ pre.ida span.hi {
 <i>/*304*/	</i>unsigned int leftButtonMessage;
 <i>/*308*/	</i>unsigned int rightButtonLanguageString;
 <i>/*30C*/	</i>unsigned int rightButtonMessage;
-<i id=struc_DialogInfo310></i><i>/*310*/	</i>unsigned int middleButtonLanguageString;
-<i id=struc_DialogInfo314></i><i>/*314*/	</i>unsigned int middleButtonMessage;
-<i id=struc_DialogInfo318></i><span class='mm'>/**Message to send when pressing esc. If 0, dialog is not escapable*/</span>
+<i id=struc_DialogInfo@310></i><i>/*310*/	</i>unsigned int middleButtonLanguageString;
+<i id=struc_DialogInfo@314></i><i>/*314*/	</i>unsigned int middleButtonMessage;
+<i id=struc_DialogInfo@318></i><span class='mm'>/**Message to send when pressing esc. If 0, dialog is not escapable*/</span>
 <i>/*318*/	</i>unsigned int escMessage;
-<i id=struc_DialogInfo31C></i><i>/*31C*/	int field_31C;</i>
-<i id=struc_DialogInfo320></i><i>/*320*/	</i>char *parentFNGName;
-<i id=struc_DialogInfo324></i><i>/*324*/	</i>char *myFNGName;
-<i id=struc_DialogInfo328></i><i>/*328*/	</i>int numButtons;
-<i id=struc_DialogInfo32C></i><i>/*32C*/	char field_32C;</i>
-<i id=struc_DialogInfo32D></i><i>/*32D*/	</i>char isHelpDialog;
+<i id=struc_DialogInfo@31C></i><i>/*31C*/	int field_31C;</i>
+<i id=struc_DialogInfo@320></i><i>/*320*/	</i>char *parentFNGName;
+<i id=struc_DialogInfo@324></i><i>/*324*/	</i>char *myFNGName;
+<i id=struc_DialogInfo@328></i><i>/*328*/	</i>int numButtons;
+<i id=struc_DialogInfo@32C></i><i>/*32C*/	char field_32C;</i>
+<i id=struc_DialogInfo@32D></i><i>/*32D*/	</i>char isHelpDialog;
 <i>/*32E*/	char field_32E;</i>
 <i>/*32F*/	</i>char textNeedsSomeWcharConversion;
-<span class='mm'>/**this is a message that will be sent (when non-zero) (with <a href=funcs.html#55DC20>SomethingUI::SendMessageToFNG</a>) to <a href=structs.html#struc_DialogInfo320>parentFNGName</a> when this dialog is dismissed due to <a href=funcs.html#558020>ShowDialog</a> being called to show another dialog
+<span class='mm'>/**this is a message that will be sent (when non-zero) (with <a href=funcs.html#55DC20>SomethingUI::SendMessageToFNG</a>) to <a href=structs.html#struc_DialogInfo@320>parentFNGName</a> when this dialog is dismissed due to <a href=funcs.html#558020>ShowDialog</a> being called to show another dialog
 initialized to 0 in <a href=funcs.html#558020>ShowDialog</a>, but some dialog set this later
 TODO: explore maybe?*/</span>
 <i>/*330*/	</i>unsigned int messageToSendToParentFNGWhenThisDialogIsDismissed;
-<i id=struc_DialogInfo334></i><i>/*334*/	</i>int dialogId;
+<i id=struc_DialogInfo@334></i><i>/*334*/	</i>int dialogId;
 };
 <i>EXPECT_SIZE(struct DialogInfo, 0x338);</i></div>
 <ul>
@@ -1801,8 +1801,8 @@ TODO: explore maybe?*/</span>
 <div>struct <h3>FNGData</h3> { <i>/*7 members, size 1Ch*/</i>
 <i>/*0*/	</i>char *name;
 <i>/*4*/	</i><a href=structs.html#struc_FNGObject>struct FNGObject</a> *(__cdecl *procCreateFNGObject)(<a href=structs.html#struc_FNGShowData>struct FNGShowData</a> *);
-<i id=struc_FNGData8></i><i>/*8*/	</i><a href=enums.html#enu_LANGUAGE_LABELS>enum LANGUAGE_LABELS</a> helpLanguageKey;
-<i id=struc_FNGDataC></i><i>/*C*/	</i><a href=enums.html#enu_PCHELPBARFLAGS>enum PCHELPBARFLAGS</a> helpBarMask;
+<i id=struc_FNGData@8></i><i>/*8*/	</i><a href=enums.html#enu_LANGUAGE_LABELS>enum LANGUAGE_LABELS</a> helpLanguageKey;
+<i id=struc_FNGData@C></i><i>/*C*/	</i><a href=enums.html#enu_PCHELPBARFLAGS>enum PCHELPBARFLAGS</a> helpBarMask;
 <i>/*10*/	int field_10;</i>
 <i>/*14*/	int field_14;</i>
 <i>/*18*/	int field_18;</i>
@@ -1812,10 +1812,10 @@ TODO: explore maybe?*/</span>
 <div>struct <h3>FNGShowData</h3> { <i>/*5 members, size 14h*/</i>
 <i>/*0*/	</i>char *fngName;
 <i>/*4*/	</i><a href=structs.html#struc_FNGInfo>struct FNGInfo</a> *fngInfo;
-<span class='mm'>/**set to <a href=structs.html#struc_FNGData>struct FNGData</a>.<a href=structs.html#struc_FNGData8>helpLanguageKey</a>
+<span class='mm'>/**set to <a href=structs.html#struc_FNGData>struct FNGData</a>.<a href=structs.html#struc_FNGData@8>helpLanguageKey</a>
 TODO please reconfirm*/</span>
 <i>/*8*/	</i><a href=enums.html#enu_LANGUAGE_LABELS>enum LANGUAGE_LABELS</a> helpTextLanguageString;
-<span class='mm'>/**set to <a href=structs.html#struc_FNGData>struct FNGData</a>.<a href=structs.html#struc_FNGDataC>helpBarMask</a>*/</span>
+<span class='mm'>/**set to <a href=structs.html#struc_FNGData>struct FNGData</a>.<a href=structs.html#struc_FNGData@C>helpBarMask</a>*/</span>
 <i>/*C*/	</i>unsigned int helpBarMask;
 <i>/*10*/	</i><a href=#struc_FNGShowData_Arg2>struct FNGShowData_Arg2</a> arg2;
 };
@@ -1831,16 +1831,16 @@ TODO please reconfirm*/</span>
 <div class=mm><p>size unknown</div>
 <div>struct <h3>FNGInfo</h3> { <i>/*29 members, size 98h*/</i> <em></em>
 <i>/*0*/	</i>int vtable <u></u>;
-<i id=struc_FNGInfo4></i><span class='mm'>/**could also just be an <a href=structs.html#struc_ObjectLink>struct ObjectLink</a> :')*/</span>
+<i id=struc_FNGInfo@4></i><span class='mm'>/**could also just be an <a href=structs.html#struc_ObjectLink>struct ObjectLink</a> :')*/</span>
 <i>/*4*/	</i><a href=structs.html#struc_FNGInfo>struct FNGInfo</a> *child;
 <i>/*8*/	</i><a href=structs.html#struc_FNGInfo>struct FNGInfo</a> *parent;
-<i id=struc_FNGInfoC></i><i>/*C*/	</i>char *fngName;
-<i id=struc_FNGInfo10></i><i>/*10*/	</i>unsigned int hash;
+<i id=struc_FNGInfo@C></i><i>/*C*/	</i>char *fngName;
+<i id=struc_FNGInfo@10></i><i>/*10*/	</i>unsigned int hash;
 <i>/*14*/	char field_14;</i>
 <i>/*15*/	char field_15;</i>
 <i>/*16*/	char field_16;</i>
 <i>/*17*/	char field_17;</i>
-<i id=struc_FNGInfo18></i><span class='mm'>/**index in <a href=structs.html#struc_UIData10>levelSorterPoolEntry</a>*/</span>
+<i id=struc_FNGInfo@18></i><span class='mm'>/**index in <a href=structs.html#struc_UIData@10>levelSorterPoolEntry</a>*/</span>
 <i>/*18*/	</i>int indexInLevelSorterLink <u></u>;
 <i>/*1C*/	</i>int controlMask;
 <span class='mm'>/**control mask related?*/</span>
@@ -1856,10 +1856,10 @@ TODO please reconfirm*/</span>
 <i>/*38*/	int field_38;</i>
 <span class='mm'>/**what is the relation between these? calling/parent fng?*/</span>
 <i>/*3C*/	</i><a href=structs.html#struc_FNGInfo>struct FNGInfo</a> *somefnginfo;
-<i id=struc_FNGInfo40></i><i>/*40*/	</i><a href=structs.html#struc_SomethingUIImpl>struct SomethingUIImpl</a> *somethingUIImpl;
+<i id=struc_FNGInfo@40></i><i>/*40*/	</i><a href=structs.html#struc_SomethingUIImpl>struct SomethingUIImpl</a> *somethingUIImpl;
 <i>/*44*/	int field_44;</i>
 <i>/*48*/	int field_48;</i>
-<i id=struc_FNGInfo4C></i><i>/*4C*/	</i><a href=structs.html#struc_UIElement>struct UIElement</a> *rootUIElement;
+<i id=struc_FNGInfo@4C></i><i>/*4C*/	</i><a href=structs.html#struc_UIElement>struct UIElement</a> *rootUIElement;
 <i>/*50*/	char _pad50[0x14];</i>
 <i>/*64*/	int field_64;</i>
 <i>/*68*/	int field_68;</i>
@@ -1887,20 +1887,20 @@ TODO please reconfirm*/</span>
 </ul>
 <a id=struc_CheatScreenData></a>
 <div>struct <h3>CheatScreenData</h3> { <i>/*11 members, size 3Ch*/</i> <em></em>
-<i id=struc_CheatScreenData0></i><i>/*0*/	</i>void **ppFunction;
-<i id=struc_CheatScreenData4></i><span class='mm'>/**only 1 when in the 'press enter key' screen*/</span>
+<i id=struc_CheatScreenData@0></i><i>/*0*/	</i>void **ppFunction;
+<i id=struc_CheatScreenData@4></i><span class='mm'>/**only 1 when in the 'press enter key' screen*/</span>
 <i>/*4*/	</i>char doCheatCheck;
 <i>/*5*/	</i>char cheatExecuted;
 <i>/*6*/	char field_6;</i>
 <i>/*7*/	char field_7;</i>
 <i>/*8*/	</i>int field2CofLastCheatActivated;
-<i id=struc_CheatScreenDataC></i><span class='mm'>/**0x7FB960 <a href=vars.html#7FB960>cheatData</a>*/</span>
+<i id=struc_CheatScreenData@C></i><span class='mm'>/**0x7FB960 <a href=vars.html#7FB960>cheatData</a>*/</span>
 <i>/*C*/	</i><a href=structs.html#struc_CheatData>struct CheatData</a> *cheats;
-<i id=struc_CheatScreenData10></i><span class='mm'>/**20*/</span>
+<i id=struc_CheatScreenData@10></i><span class='mm'>/**20*/</span>
 <i>/*10*/	</i>int numCheats;
 <i>/*14*/	</i>char typedCheat[32];
-<i id=struc_CheatScreenData34></i><i>/*34*/	</i>int typedCheatLength;
-<i id=struc_CheatScreenData38></i><i>/*38*/	int field_38;</i>
+<i id=struc_CheatScreenData@34></i><i>/*34*/	</i>int typedCheatLength;
+<i id=struc_CheatScreenData@38></i><i>/*38*/	int field_38;</i>
 };
 <i>EXPECT_SIZE(struct CheatScreenData, 0x3C);</i></div>
 <ul>
@@ -1941,14 +1941,14 @@ TODO please reconfirm*/</span>
 <i>/*14*/	</i>int name14 <u></u>;
 <i>/*18*/	</i>int name18 <u></u>;
 <i>/*1C*/	</i>int name1C <u></u>;
-<i id=struc_CheatData20></i><i>/*20*/	</i><a href=enums.html#enu_CHEATTYPE>enum CHEATTYPE</a> cheatType;
-<i id=struc_CheatData24></i><span class='mm'>/**hash (when cheatType is sponsor car or vinyl) or data (what is the other data?)*/</span>
+<i id=struc_CheatData@20></i><i>/*20*/	</i><a href=enums.html#enu_CHEATTYPE>enum CHEATTYPE</a> cheatType;
+<i id=struc_CheatData@24></i><span class='mm'>/**hash (when cheatType is sponsor car or vinyl) or data (what is the other data?)*/</span>
 <i>/*24*/	</i>unsigned int cheatData;
-<i id=struc_CheatData28></i><i>/*28*/	int field_28;</i>
+<i id=struc_CheatData@28></i><i>/*28*/	int field_28;</i>
 <i>/*2C*/	int field_2C;</i>
-<i id=struc_CheatData30></i><i>/*30*/	</i>char hasBeenTriggered;
+<i id=struc_CheatData@30></i><i>/*30*/	</i>char hasBeenTriggered;
 <i>/*31*/	char field_31;</i>
-<i id=struc_CheatData32></i><i>/*32*/	</i>char cheatEnabled;
+<i id=struc_CheatData@32></i><i>/*32*/	</i>char cheatEnabled;
 <i>/*33*/	char field_33;</i>
 };
 <i>EXPECT_SIZE(struct CheatData, 0x34);</i></div>
@@ -1963,7 +1963,7 @@ TODO please reconfirm*/</span>
 <div>struct <h3>CRealCoreDrive</h3> { <i>/*2 members, size 14h*/</i> <em></em>
 <span class='mm'>/**probably 7C30F8*/</span>
 <i>/*0*/	</i><a href=structs.html#struc_CRealCoreDrive_vtable>struct CRealCoreDrive_vtable</a> *vtable;
-<i id=struc_CRealCoreDrive4></i><span class='mm'>/**like 'null:'. actual size is unknown, but this struct size is probably 0x14*/</span>
+<i id=struc_CRealCoreDrive@4></i><span class='mm'>/**like 'null:'. actual size is unknown, but this struct size is probably 0x14*/</span>
 <i>/*4*/	</i>char driveNameLetterPathThing[16] <u></u>;
 };
 <i>EXPECT_SIZE(struct CRealCoreDrive, 0x14);</i></div>
@@ -1989,10 +1989,10 @@ TODO please reconfirm*/</span>
 </ul>
 <a id=struc_MouseData></a>
 <div>struct <h3>MouseData</h3> { <i>/*18 members, size 2Ah*/</i> <em></em>
-<i id=struc_MouseData0></i><i>/*0*/	</i><a href=structs.html#struc_IDirectInputDevice8>struct IDirectInputDevice8</a> *dinputdevice;
-<i id=struc_MouseData4></i><span class='mm'>/**on 640x480 canvas*/</span>
+<i id=struc_MouseData@0></i><i>/*0*/	</i><a href=structs.html#struc_IDirectInputDevice8>struct IDirectInputDevice8</a> *dinputdevice;
+<i id=struc_MouseData@4></i><span class='mm'>/**on 640x480 canvas*/</span>
 <i>/*4*/	</i>int cursorX;
-<i id=struc_MouseData8></i><span class='mm'>/**on 640x480 canvas*/</span>
+<i id=struc_MouseData@8></i><span class='mm'>/**on 640x480 canvas*/</span>
 <i>/*8*/	</i>int cursorY;
 <span class='mm'>/**on 640x480 canvas*/</span>
 <i>/*C*/	</i>int previousCursorX;
@@ -2002,15 +2002,15 @@ TODO please reconfirm*/</span>
 <i>/*14*/	</i>int deltaCursorX;
 <span class='mm'>/**on 640x480 canvas*/</span>
 <i>/*18*/	</i>int deltaCursorY;
-<i id=struc_MouseData1C></i><span class='mm'>/**scrollwheel data*/</span>
+<i id=struc_MouseData@1C></i><span class='mm'>/**scrollwheel data*/</span>
 <i>/*1C*/	</i>int mousestate.lZ;
 <span class='mm'>/**result of <code>GetSystemMetrics(SM_SWAPBUTTON)</code>*/</span>
 <i>/*20*/	</i>char areMouseButtonsSwapped;
-<i id=struc_MouseData21></i><span class='mm'>/**left mouse button*/</span>
+<i id=struc_MouseData@21></i><span class='mm'>/**left mouse button*/</span>
 <i>/*21*/	</i>char button0State;
 <i>/*22*/	</i>char button0JustPressed;
 <i>/*23*/	</i>char button0JustReleased;
-<i id=struc_MouseData24></i><span class='mm'>/**right mouse button*/</span>
+<i id=struc_MouseData@24></i><span class='mm'>/**right mouse button*/</span>
 <i>/*24*/	</i>char button1State;
 <i>/*25*/	</i>char button1JustPressed;
 <i>/*26*/	</i>char button1JustReleased;
@@ -2304,7 +2304,7 @@ return amount of bytes actually read*/</span>
 <i>/*1*/	char _pad1[0x3];</i>
 <i>/*4*/	</i>char someNumber <u></u>;
 <i>/*5*/	char _pad5[0x3];</i>
-<i id=struc_struct6F71958></i><span class='mm'>/**see 6F724E*/</span>
+<i id=struc_struct6F7195@8></i><span class='mm'>/**see 6F724E*/</span>
 <i>/*8*/	</i>int stopLoadingFileLoop? <u></u>;
 <i>/*C*/	int field_C;</i>
 <i>/*10*/	</i><a href=#struc_struct8AD610_base>struct struct8AD610_base</a> struct8AD610_base;
@@ -2312,7 +2312,7 @@ return amount of bytes actually read*/</span>
 <i>/*1D*/	char _pad1D[0xB];</i>
 <i>/*28*/	</i><a href=#struc_CriticalSectionWrapper>struct CriticalSectionWrapper</a> criticalSectionWrapper_28;
 <i>/*30*/	char _pad30[0x14];</i>
-<i id=struc_struct6F719544></i><span class='mm'>/**the (language) file is read while WaitForSingleObject on this one*/</span>
+<i id=struc_struct6F7195@44></i><span class='mm'>/**the (language) file is read while WaitForSingleObject on this one*/</span>
 <i>/*44*/	</i><a href=#struc_CriticalSectionWrapper>struct CriticalSectionWrapper</a> criticalSectionWrapper_fileReadLock;
 <i>/*4C*/	char _pad4C[0x2C];</i>
 <span class='mm'>/**could this be part of EventWrapper?*/</span>
@@ -2481,15 +2481,15 @@ return amount of bytes actually read*/</span>
 <i>EXPECT_SIZE(struct BinSectionUnloadFunc, 0x4);</i></div>
 <a id=struc_BinSectionHandler></a>
 <div>struct <h3>BinSectionHandler</h3> { <i>/*3 members, size Ch*/</i>
-<i id=struc_BinSectionHandler0></i><i>/*0*/	</i>unsigned int magic;
-<i id=struc_BinSectionHandler4></i><i>/*4*/	</i>int (__cdecl *loadfunc)(<a href=structs.html#struc_BinSection>struct BinSection</a> *);
-<i id=struc_BinSectionHandler8></i><i>/*8*/	</i>int (__cdecl *unloadfunc)(<a href=structs.html#struc_BinSection>struct BinSection</a> *);
+<i id=struc_BinSectionHandler@0></i><i>/*0*/	</i>unsigned int magic;
+<i id=struc_BinSectionHandler@4></i><i>/*4*/	</i>int (__cdecl *loadfunc)(<a href=structs.html#struc_BinSection>struct BinSection</a> *);
+<i id=struc_BinSectionHandler@8></i><i>/*8*/	</i>int (__cdecl *unloadfunc)(<a href=structs.html#struc_BinSection>struct BinSection</a> *);
 };
 <i>EXPECT_SIZE(struct BinSectionHandler, 0xC);</i></div>
 <a id=struc_BinSectionMagicMapEntry></a>
 <div>struct <h3>BinSectionMagicMapEntry</h3> { <i>/*2 members, size 10h*/</i> <em></em>
-<i id=struc_BinSectionMagicMapEntry0></i><i>/*0*/	</i><a href=structs.html#struc_BinSectionHandler>struct BinSectionHandler</a> *nextEntry;
-<i id=struc_BinSectionMagicMapEntry4></i><i>/*4*/	</i><a href=#struc_BinSectionHandler>struct BinSectionHandler</a> value;
+<i id=struc_BinSectionMagicMapEntry@0></i><i>/*0*/	</i><a href=structs.html#struc_BinSectionHandler>struct BinSectionHandler</a> *nextEntry;
+<i id=struc_BinSectionMagicMapEntry@4></i><i>/*4*/	</i><a href=#struc_BinSectionHandler>struct BinSectionHandler</a> value;
 };
 <i>EXPECT_SIZE(struct BinSectionMagicMapEntry, 0x10);</i></div>
 <ul>
@@ -2656,7 +2656,7 @@ return amount of bytes actually read*/</span>
 <span class='mm'>/**one func (destructor)*/</span>
 <i>/*0*/	</i>int vtable <u></u>;
 <i>/*4*/	</i><a href=#struc_ObjectLink>struct ObjectLink</a> link;
-<span class='mm'>/**ui element this message is meant to be sent to, matches an element's <a href=structs.html#struc_UIElement>struct UIElement</a>.<a href=structs.html#struc_UIElementC>field_C</a>*/</span>
+<span class='mm'>/**ui element this message is meant to be sent to, matches an element's <a href=structs.html#struc_UIElement>struct UIElement</a>.<a href=structs.html#struc_UIElement@C>field_C</a>*/</span>
 <i>/*C*/	</i>int targetUIElement <u></u>;
 <i>/*10*/	int field_10;</i>
 <span class='mm'>/**fng this message originates from*/</span>
@@ -2810,7 +2810,7 @@ return amount of bytes actually read*/</span>
 <i>/*5C*/	</i><a href=#struc_ObjectLink>struct ObjectLink</a> controllerOptionsRelatedLinkSecondary;
 <i>/*64*/	</i><a href=structs.html#struc_ControllerOptionsRelated>struct ControllerOptionsRelated</a> *focusedControl;
 <i>/*68*/	</i><a href=structs.html#struc_ControllerOptionsRelated>struct ControllerOptionsRelated</a> *controllerOptionsRelated68;
-<i id=struc_OptionsPCControllerFNGObject6C></i><i>/*6C*/	</i><a href=structs.html#struc_UIElement>struct UIElement</a> *uielement_TITLE_MASTER;
+<i id=struc_OptionsPCControllerFNGObject@6C></i><i>/*6C*/	</i><a href=structs.html#struc_UIElement>struct UIElement</a> *uielement_TITLE_MASTER;
 <i>/*70*/	</i><a href=structs.html#struc_UIElement>struct UIElement</a> *uielement_DATA_MASTER;
 <i>/*74*/	</i><a href=structs.html#struc_UIElement>struct UIElement</a> *uielement_DATA_MASTER2;
 <i>/*78*/	int field_78;</i>
@@ -2827,9 +2827,9 @@ return amount of bytes actually read*/</span>
 <i>/*EC*/	</i>char *strField_EC;
 <span class='mm'>/**OPTION_DATA2_*/</span>
 <i>/*F0*/	</i>char *strField_F0;
-<i id=struc_OptionsPCControllerFNGObjectF4></i><span class='mm'>/**position of <a href=structs.html#struc_OptionsPCControllerFNGObject6C>uielement_TITLE_MASTER</a>*/</span>
+<i id=struc_OptionsPCControllerFNGObject@F4></i><span class='mm'>/**position of <a href=structs.html#struc_OptionsPCControllerFNGObject@6C>uielement_TITLE_MASTER</a>*/</span>
 <i>/*F4*/	</i><a href=#struc_vec2>struct vec2</a> titleMasterPos;
-<span class='mm'>/**initialized to value of <a href=structs.html#struc_OptionsPCControllerFNGObjectF4>titleMasterPos</a>*/</span>
+<span class='mm'>/**initialized to value of <a href=structs.html#struc_OptionsPCControllerFNGObject@F4>titleMasterPos</a>*/</span>
 <i>/*FC*/	</i><a href=#struc_vec2>struct vec2</a> titleMasterPosCopy;
 <i>/*104*/	</i>int dataMasterSizeXCopy <u></u>;
 <i>/*108*/	</i>int titleMasterSizeYCopy <u></u>;
@@ -2840,7 +2840,7 @@ return amount of bytes actually read*/</span>
 <i>/*124*/	</i><a href=#struc_vec2>struct vec2</a> dataMaster2Pos;
 <i>/*12C*/	float floatField_12C;</i>
 <i>/*130*/	int floatField_130;</i>
-<i id=struc_OptionsPCControllerFNGObject134></i><span class='mm'>/**incremented every time <a href=funcs.html#4CB4B0>OptionsPCControllerFNGObject::AddOptionRow</a> is called*/</span>
+<i id=struc_OptionsPCControllerFNGObject@134></i><span class='mm'>/**incremented every time <a href=funcs.html#4CB4B0>OptionsPCControllerFNGObject::AddOptionRow</a> is called*/</span>
 <i>/*134*/	</i>int currentOptionIndex <u></u>;
 <i>/*138*/	int field_138;</i>
 <span class='mm'>/**7*/</span>
@@ -2927,7 +2927,7 @@ return amount of bytes actually read*/</span>
 <i>/*4C*/	int field_4C;</i>
 <span class='mm'>/**entries are <a href=structs.html#struc_CareerCarLotFNGObject_50>struct CareerCarLotFNGObject_50</a> (link offset 10h)*/</span>
 <i>/*50*/	</i><a href=#struc_ObjectLink>struct ObjectLink</a> selectableCars;
-<span class='mm'>/**this is an entry that is in <a href=structs.html#struc_CareerCarLotFNGObject_5010>link</a>*/</span>
+<span class='mm'>/**this is an entry that is in <a href=structs.html#struc_CareerCarLotFNGObject_50@10>link</a>*/</span>
 <i>/*58*/	</i><a href=structs.html#struc_CareerCarLotFNGObject_50>struct CareerCarLotFNGObject_50</a> *currentSelectedCar;
 <i>/*5C*/	int field_5C;</i>
 <i>/*60*/	</i>unsigned int currentActiveSlotHash?;
@@ -2935,8 +2935,8 @@ return amount of bytes actually read*/</span>
 <i>/*68*/	int field_68;</i>
 <i>/*6C*/	int field_6C;</i>
 <i>/*70*/	int field_70;</i>
-<i id=struc_CareerCarLotFNGObject74></i><i>/*74*/	</i>int numUnlockedAndFreeInventorySlots;
-<i id=struc_CareerCarLotFNGObject78></i><i>/*78*/	</i>int numUnlockedInventorySlots;
+<i id=struc_CareerCarLotFNGObject@74></i><i>/*74*/	</i>int numUnlockedAndFreeInventorySlots;
+<i id=struc_CareerCarLotFNGObject@78></i><i>/*78*/	</i>int numUnlockedInventorySlots;
 <i>/*7C*/	int field_7C;</i>
 <i>/*80*/	</i>int numSelectableCars;
 <i>/*84*/	int field_84;</i>
@@ -2990,7 +2990,7 @@ return amount of bytes actually read*/</span>
 <i>/*4*/	int field_4;</i>
 <i>/*8*/	int field_8;</i>
 <i>/*C*/	int field_C;</i>
-<i id=struc_CareerCarLotFNGObject_5010></i><i>/*10*/	</i><a href=#struc_ObjectLink>struct ObjectLink</a> link;
+<i id=struc_CareerCarLotFNGObject_50@10></i><i>/*10*/	</i><a href=#struc_ObjectLink>struct ObjectLink</a> link;
 <i>/*18*/	int field_18;</i>
 <i>/*1C*/	int field_1C;</i>
 <i>/*20*/	</i><a href=#struc_MenuCarInstance>struct MenuCarInstance</a> carInstance;
@@ -3001,7 +3001,7 @@ return amount of bytes actually read*/</span>
 <i>/*915*/	char _pad915[0x3];</i>
 <i>/*918*/	</i><a href=structs.html#struc_Car>struct Car</a> *car;
 <i>/*91C*/	int field_91C;</i>
-<span class='mm'>/**gets its value from <a href=structs.html#struc_InventoryCar>struct InventoryCar</a>.<a href=structs.html#struc_InventoryCar8>slotHash</a>*/</span>
+<span class='mm'>/**gets its value from <a href=structs.html#struc_InventoryCar>struct InventoryCar</a>.<a href=structs.html#struc_InventoryCar@8>slotHash</a>*/</span>
 <i>/*920*/	</i>unsigned int slotHash;
 <i>/*924*/	int field_924;</i>
 <i>/*928*/	int field_928;</i>
@@ -3022,7 +3022,7 @@ return amount of bytes actually read*/</span>
 <span class='mm'>/**initialized to 1*/</span>
 <i>/*4*/	int field_4;</i>
 <i>/*8*/	<a href=structs.html#struc_MenuCarInstance_10_2E0>struct MenuCarInstance_10_2E0</a> *field_8;</i>
-<span class='mm'>/**<code>&amp;<a href=structs.html#struc_MenuCarInstance_10>struct MenuCarInstance_10</a>.<a href=structs.html#struc_MenuCarInstance_1030>field_30</a></code>*/</span>
+<span class='mm'>/**<code>&amp;<a href=structs.html#struc_MenuCarInstance_10>struct MenuCarInstance_10</a>.<a href=structs.html#struc_MenuCarInstance_10@30>field_30</a></code>*/</span>
 <i>/*C*/	void *field_C;</i>
 <i>/*10*/	int field_10;</i>
 <span class='mm'>/**gonna take a leap and assume this is this struct. it looks the same &amp; is initialized the same.*/</span>
@@ -3043,16 +3043,16 @@ return amount of bytes actually read*/</span>
 <a id=struc_s735_100></a>
 <div>struct <h3>s735_100</h3> { <i>/*5 members, size 14h*/</i>
 <i>/*0*/	int field_0;</i>
-<i id=struc_s735_1004></i><i>/*4*/	float floatField_4;</i>
-<i id=struc_s735_1008></i><i>/*8*/	float floatField_8;</i>
-<span class='mm'>/**<a href=funcs.html#4133D0>s735::CopyFrom</a> sets this to <code>(<a href=structs.html#struc_s735_1008>floatField_8</a>-<a href=structs.html#struc_s735_1004>floatField_4</a>)/63</code> (63 is amount of elements in <a href=structs.html#struc_s735>struct s735</a>.<a href=structs.html#struc_s7350>floatField_0</a>*/</span>
+<i id=struc_s735_100@4></i><i>/*4*/	float floatField_4;</i>
+<i id=struc_s735_100@8></i><i>/*8*/	float floatField_8;</i>
+<span class='mm'>/**<a href=funcs.html#4133D0>s735::CopyFrom</a> sets this to <code>(<a href=structs.html#struc_s735_100@8>floatField_8</a>-<a href=structs.html#struc_s735_100@4>floatField_4</a>)/63</code> (63 is amount of elements in <a href=structs.html#struc_s735>struct s735</a>.<a href=structs.html#struc_s735@0>floatField_0</a>*/</span>
 <i>/*C*/	float floatField_C;</i>
 <i>/*10*/	</i><a href=structs.html#struc_s735>struct s735</a> *owner_s735;
 };
 <i>EXPECT_SIZE(struct s735_100, 0x14);</i></div>
 <a id=struc_s735></a>
 <div>struct <h3>s735</h3> { <i>/*3 members, size 114h*/</i> <em></em>
-<i id=struc_s7350></i><i>/*0*/	float floatField_0[63];</i>
+<i id=struc_s735@0></i><i>/*0*/	float floatField_0[63];</i>
 <i>/*FC*/	float floatField_FC;</i>
 <i>/*100*/	<a href=#struc_s735_100>struct s735_100</a> field_100;</i>
 };
@@ -3073,7 +3073,7 @@ return amount of bytes actually read*/</span>
 <i>/*580*/	char field_580;</i>
 <i>/*581*/	char field_581;</i>
 <i>/*582*/	char _pad582[0x2];</i>
-<span class='mm'>/**if <a href=structs.html#struc_Car>struct Car</a>.<a href=structs.html#struc_Car88C>field_88C</a> was not 0, this is set to hash of DUMMY_SKIN%d where %d is something*/</span>
+<span class='mm'>/**if <a href=structs.html#struc_Car>struct Car</a>.<a href=structs.html#struc_Car@88C>field_88C</a> was not 0, this is set to hash of DUMMY_SKIN%d where %d is something*/</span>
 <i>/*584*/	</i>unsigned int someDummySkinHash;
 <span class='mm'>/**set to hash of DUMMY_WHEEL%d at some point*/</span>
 <i>/*588*/	</i>unsigned int someWheelHash;
@@ -3131,7 +3131,7 @@ return amount of bytes actually read*/</span>
 <i>/*1C*/	int field_1C;</i>
 <i>/*20*/	int field_20;</i>
 <i>/*24*/	char _pad24[0xC];</i>
-<i id=struc_MenuCarInstance_1030></i><i>/*30*/	int field_30;</i>
+<i id=struc_MenuCarInstance_10@30></i><i>/*30*/	int field_30;</i>
 <i>/*34*/	char _pad34[0x10C];</i>
 <i>/*140*/	int field_140;</i>
 <i>/*144*/	int field_144;</i>
@@ -5038,7 +5038,7 @@ return amount of bytes actually read*/</span>
 <i>/*1A5*/	char field_1A5;</i>
 <i>/*1A6*/	char field_1A6;</i>
 <i>/*1A7*/	char field_1A7;</i>
-<span class='mm'>/**initialized to <a href=vars.html#83A9D0>profileData</a>.<a href=structs.html#struc_ProfileData10>player1</a>.<a href=structs.html#struc_PlayerD4>d4</a>.<a href=structs.html#struc_Player_D44>currentCarSelectionSlotHash?</a>*/</span>
+<span class='mm'>/**initialized to <a href=vars.html#83A9D0>profileData</a>.<a href=structs.html#struc_ProfileData@10>player1</a>.<a href=structs.html#struc_Player@D4>d4</a>.<a href=structs.html#struc_Player_D4@4>currentCarSelectionSlotHash?</a>*/</span>
 <i>/*1A8*/	</i>unsigned int slotHash;
 <i>/*1AC*/	int field_1AC;</i>
 <i>/*1B0*/	int field_1B0;</i>
@@ -5167,7 +5167,7 @@ return amount of bytes actually read*/</span>
 <span class='mm'>/**links itself (offset 4)*/</span>
 <i>/*4*/	</i><a href=#struc_ObjectLink>struct ObjectLink</a> link;
 <i>/*C*/	int field_C;</i>
-<i id=struc_IconScrollerIcon10></i><i>/*10*/	</i><a href=structs.html#struc_UIElementType1>struct UIElementType1</a> *uiElement10;
+<i id=struc_IconScrollerIcon@10></i><i>/*10*/	</i><a href=structs.html#struc_UIElementType1>struct UIElementType1</a> *uiElement10;
 <i>/*14*/	float floatField_14;</i>
 <i>/*18*/	int field_18;</i>
 <i>/*1C*/	int field_1C;</i>
@@ -5207,19 +5207,19 @@ return amount of bytes actually read*/</span>
 </ul>
 <a id=struc_SponsorshipnewFNGObject></a>
 <div>struct <h3>SponsorshipnewFNGObject</h3> { <i>/*8 members, size 214h*/</i> <em></em>
-<i id=struc_SponsorshipnewFNGObject0></i><span class='mm'>/**scroller to select sponsor*/</span>
+<i id=struc_SponsorshipnewFNGObject@0></i><span class='mm'>/**scroller to select sponsor*/</span>
 <i>/*0*/	</i><a href=#struc_IconScrollerFNGObject>struct IconScrollerFNGObject</a> __parent;
 <span class='mm'>/**element with hash 'MASTER_OPTION'*/</span>
 <i>/*150*/	</i><a href=structs.html#struc_UIElement>struct UIElement</a> *masterOptionUIElement;
 <i>/*154*/	char _pad154[0x4];</i>
-<span class='mm'>/**points to the same element as <a href=structs.html#struc_SponsorshipnewFNGObject0>__parent</a>.<a href=structs.html#struc_IconScrollerFNGObject4C>iconScroller</a>.<a href=structs.html#struc_IconScroller0>__parent</a>.<a href=structs.html#struc_IconScrollerBase10>uiElementOPTION_MASTER</a> at time of debugging*/</span>
+<span class='mm'>/**points to the same element as <a href=structs.html#struc_SponsorshipnewFNGObject@0>__parent</a>.<a href=structs.html#struc_IconScrollerFNGObject@4C>iconScroller</a>.<a href=structs.html#struc_IconScroller@0>__parent</a>.<a href=structs.html#struc_IconScrollerBase@10>uiElementOPTION_MASTER</a> at time of debugging*/</span>
 <i>/*158*/	</i><a href=structs.html#struc_UIElementType1>struct UIElementType1</a> *sponsorLogoUIElementAgain;
 <i>/*15C*/	int field_15C;</i>
 <span class='mm'>/**its {struct CommonFNGObjectStructA+C} will contain "TERMS_%D"*/</span>
 <i>/*160*/	<a href=#struc_CommonFNGObjectStructA>struct CommonFNGObjectStructA</a> field_160;</i>
 <i>/*1B4*/	</i><a href=#struc_ScrollingThing>struct ScrollingThing</a> contractTermsScroller;
 <i>/*20C*/	int field_20C;</i>
-<span class='mm'>/**points to the same element as <a href=structs.html#struc_SponsorshipnewFNGObject0>__parent</a>.<a href=structs.html#struc_IconScrollerFNGObject4C>iconScroller</a>.<a href=structs.html#struc_IconScroller0>__parent</a>.<a href=structs.html#struc_IconScrollerBase10>uiElementOPTION_MASTER</a> at time of debugging*/</span>
+<span class='mm'>/**points to the same element as <a href=structs.html#struc_SponsorshipnewFNGObject@0>__parent</a>.<a href=structs.html#struc_IconScrollerFNGObject@4C>iconScroller</a>.<a href=structs.html#struc_IconScroller@0>__parent</a>.<a href=structs.html#struc_IconScrollerBase@10>uiElementOPTION_MASTER</a> at time of debugging*/</span>
 <i>/*210*/	</i><a href=structs.html#struc_UIElementType1>struct UIElementType1</a> *sponsorLogoUIElementAgainAgain;
 };
 <i>EXPECT_SIZE(struct SponsorshipnewFNGObject, 0x214);</i></div>
@@ -5351,7 +5351,7 @@ return amount of bytes actually read*/</span>
 <div class=mm><p>vtable <a href=vars.html#7974D4>vtable_IconScrollerFNGObject</a></div>
 <div>struct <h3>IconScrollerFNGObject</h3> { <i>/*12 members, size 150h*/</i> <em></em>
 <i>/*0*/	</i><a href=#struc_FNGObject>struct FNGObject</a> __parent;
-<i id=struc_IconScrollerFNGObject4C></i><i>/*4C*/	</i><a href=#struc_IconScroller>struct IconScroller</a> iconScroller;
+<i id=struc_IconScrollerFNGObject@4C></i><i>/*4C*/	</i><a href=#struc_IconScroller>struct IconScroller</a> iconScroller;
 <i>/*131*/	char _pad131[0x3];</i>
 <span class='mm'>/**for ICON_TITLE, may be null*/</span>
 <i>/*134*/	</i><a href=structs.html#struc_UILabel>struct UILabel</a> *iconTitleUILabel;
@@ -5409,7 +5409,7 @@ return amount of bytes actually read*/</span>
 <span class='mm'>/**links <a href=structs.html#struc_IconScrollerIcon>struct IconScrollerIcon</a> (offset 4)*/</span>
 <i>/*4*/	</i><a href=#struc_ObjectLink>struct ObjectLink</a> icons;
 <i>/*C*/	</i><a href=structs.html#struc_IconScrollerIcon>struct IconScrollerIcon</a> *selectedIcon;
-<i id=struc_IconScrollerBase10></i><span class='mm'>/**identified by hash of "OPTION_MASTER"*/</span>
+<i id=struc_IconScrollerBase@10></i><span class='mm'>/**identified by hash of "OPTION_MASTER"*/</span>
 <i>/*10*/	</i>int uiElementOPTION_MASTER <u></u>;
 <span class='mm'>/**identified by hash of "LOCK_MASTER"*/</span>
 <i>/*14*/	</i>int uiElementLOCK_MASTER <u></u>;
@@ -5443,7 +5443,7 @@ return amount of bytes actually read*/</span>
 </ul>
 <a id=struc_IconScroller></a>
 <div>struct <h3>IconScroller</h3> { <i>/*25 members, size E5h*/</i> <em></em>
-<i id=struc_IconScroller0></i><i>/*0*/	</i><a href=#struc_IconScrollerBase>struct IconScrollerBase</a> __parent;
+<i id=struc_IconScroller@0></i><i>/*0*/	</i><a href=#struc_IconScrollerBase>struct IconScrollerBase</a> __parent;
 <i>/*38*/	</i><a href=#struc_ScrollingThing>struct ScrollingThing</a> scrollingThing;
 <i>/*90*/	int field_90;</i>
 <i>/*94*/	int field_94;</i>
@@ -5614,10 +5614,10 @@ return amount of bytes actually read*/</span>
 <i>/*0*/	</i><a href=#struc_FNGObject>struct FNGObject</a> __parent;
 <span class='mm'>/**possibly float*/</span>
 <i>/*4C*/	</i>int someTimingValue <u></u>;
-<span class='mm'>/**its <a href=structs.html#struc_SubScrollingThing8>link8</a> links <a href=structs.html#struc_MailBoxRelated1>struct MailBoxRelated1</a>*/</span>
+<span class='mm'>/**its <a href=structs.html#struc_SubScrollingThing@8>link8</a> links <a href=structs.html#struc_MailBoxRelated1>struct MailBoxRelated1</a>*/</span>
 <i>/*50*/	</i><a href=#struc_SubScrollingThing>struct SubScrollingThing</a> subScrollingThing1;
 <i>/*F9*/	char _padF9[0x3];</i>
-<span class='mm'>/**its <a href=structs.html#struc_SubScrollingThing8>link8</a> links <a href=structs.html#struc_MailBoxRelated3>struct MailBoxRelated3</a>*/</span>
+<span class='mm'>/**its <a href=structs.html#struc_SubScrollingThing@8>link8</a> links <a href=structs.html#struc_MailBoxRelated3>struct MailBoxRelated3</a>*/</span>
 <i>/*FC*/	</i><a href=#struc_SubScrollingThing>struct SubScrollingThing</a> subScrollingThing2;
 <i>/*1A5*/	char _pad1A5[0x3];</i>
 <i>/*1A8*/	int field_1A8;</i>
@@ -5733,15 +5733,15 @@ return amount of bytes actually read*/</span>
 </ul>
 <a id=struc_SmsData></a>
 <div>struct <h3>SmsData</h3> { <i>/*7 members, size 14h*/</i> <em></em>
-<i id=struc_SmsData0></i><span class='mm'>/**offset in language table <a href=vars.html#838428>careerStringPool</a>*/</span>
+<i id=struc_SmsData@0></i><span class='mm'>/**offset in language table <a href=vars.html#838428>careerStringPool</a>*/</span>
 <i>/*0*/	</i>__int16 careerTextLanguageTableOffset;
-<i id=struc_SmsData2></i><i>/*2*/	</i><a href=enums.html#enu_SMS_TYPE>enum SMS_TYPE</a> type;
+<i id=struc_SmsData@2></i><i>/*2*/	</i><a href=enums.html#enu_SMS_TYPE>enum SMS_TYPE</a> type;
 <i>/*3*/	</i><a href=enums.html#enu_MAILBOX>enum MAILBOX</a> mailboxId;
 <i>/*4*/	char field_4;</i>
 <i>/*5*/	char _pad5[0x3];</i>
-<i id=struc_SmsData8></i><i>/*8*/	</i><a href=#struc_SmsDataData>struct SmsDataData</a> data;
-<i id=struc_SmsDataC></i><i>/*C*/	</i>int moneyReward;
-<i id=struc_SmsData10></i><i>/*10*/	</i>unsigned int senderLanguageLabel;
+<i id=struc_SmsData@8></i><i>/*8*/	</i><a href=#struc_SmsDataData>struct SmsDataData</a> data;
+<i id=struc_SmsData@C></i><i>/*C*/	</i>int moneyReward;
+<i id=struc_SmsData@10></i><i>/*10*/	</i>unsigned int senderLanguageLabel;
 };
 <i>EXPECT_SIZE(struct SmsData, 0x14);</i></div>
 <ul>
@@ -5752,7 +5752,7 @@ return amount of bytes actually read*/</span>
 <div><b>union</b> <h3>SmsDataData</h3> { <i>/*10 members, size 4h*/</i>
 <span class='mm'>/**stage index in hi16*/</span>
 <i>/*0*/	</i>unsigned int typeAstageIndex;
-<span class='mm'>/**hash matching marker data <a href=structs.html#struc_Marker30>hash</a>*/</span>
+<span class='mm'>/**hash matching marker data <a href=structs.html#struc_Marker@30>hash</a>*/</span>
 <i>/*0*/	</i>int typeFmarkerHash <u></u>;
 <i>/*0*/	</i>int unk <u></u>;
 <span class='mm'>/**stage index in hi16*/</span>
@@ -5768,11 +5768,11 @@ return amount of bytes actually read*/</span>
 <i>EXPECT_SIZE(struct SmsDataData, 0x4);</i></div>
 <a id=struc_SmsMessage></a>
 <div>struct <h3>SmsMessage</h3> { <i>/*8 members, size 14h*/</i> <em></em>
-<i id=struc_SmsMessage0></i><i>/*0*/	</i><a href=structs.html#struc_SmsData>struct SmsData</a> *data;
-<i id=struc_SmsMessage4></i><i>/*4*/	</i>char read;
+<i id=struc_SmsMessage@0></i><i>/*0*/	</i><a href=structs.html#struc_SmsData>struct SmsData</a> *data;
+<i id=struc_SmsMessage@4></i><i>/*4*/	</i>char read;
 <i>/*5*/	char field_5;</i>
-<i id=struc_SmsMessage6></i><i>/*6*/	</i>char deleted;
-<i id=struc_SmsMessage7></i><i>/*7*/	</i>char movedToCorrectInbox;
+<i id=struc_SmsMessage@6></i><i>/*6*/	</i>char deleted;
+<i id=struc_SmsMessage@7></i><i>/*7*/	</i>char movedToCorrectInbox;
 <i>/*8*/	</i>unsigned int bodyFormatLanguageLabel;
 <i>/*C*/	</i>unsigned int subjectParameterLanguageLabel;
 <i>/*10*/	</i>unsigned int subjectFormatLanguageLabel;
@@ -5788,9 +5788,9 @@ return amount of bytes actually read*/</span>
 </ul>
 <a id=struc_SmsMessageList></a>
 <div>struct <h3>SmsMessageList</h3> { <i>/*9 members, size 1414h*/</i> <em></em>
-<i id=struc_SmsMessageList0></i><i>/*0*/	</i><a href=#struc_SmsMessage>struct SmsMessage</a> smsMessages[256];
+<i id=struc_SmsMessageList@0></i><i>/*0*/	</i><a href=#struc_SmsMessage>struct SmsMessage</a> smsMessages[256];
 <i>/*1400*/</i>int numMessages;
-<i id=struc_SmsMessageList1404></i><i>/*1404*/</i>int numUnreadMessages;
+<i id=struc_SmsMessageList@1404></i><i>/*1404*/</i>int numUnreadMessages;
 <i>/*1408*/int field_1408;</i>
 <i>/*140C*/char field_140C;</i>
 <i>/*140D*/char field_140D;</i>
@@ -5903,9 +5903,9 @@ return amount of bytes actually read*/</span>
 <i>/*2C*/	float floatField_2C;</i>
 <i>/*30*/	float floatField_30;</i>
 <i>/*34*/	float floatField_34;</i>
-<i id=struc_ScrollingThing38></i><span class='mm'>/**so next clicks will be ignored for small amount of time*/</span>
+<i id=struc_ScrollingThing@38></i><span class='mm'>/**so next clicks will be ignored for small amount of time*/</span>
 <i>/*38*/	</i>int frameTimeWhenArrowClicked <u></u>;
-<i id=struc_ScrollingThing3C></i><span class='mm'>/**set when (mouse) input event happens on arrow/body / mousewheel input...  value -10/-9/-1/1/10
+<i id=struc_ScrollingThing@3C></i><span class='mm'>/**set when (mouse) input event happens on arrow/body / mousewheel input...  value -10/-9/-1/1/10
 -9 might be magic for nop?*/</span>
 <i>/*3C*/	</i>int currentScrollAmountToPerform <u></u>;
 <span class='mm'>/**%s_Backing (scrollbar body)*/</span>
@@ -5953,24 +5953,24 @@ size may be bigger, unknown</div>
 <span class='mm'>/**probably <a href=vars.html#795CB4>unknown_795CB4</a>*/</span>
 <i>/*0*/	</i><a href=structs.html#struc_SubScrollingThing$vtable>struct SubScrollingThing$vtable</a> *vtable;
 <i>/*4*/	int field_4;</i>
-<i id=struc_SubScrollingThing8></i><span class='mm'>/**links <a href=structs.html#struc_MailBoxRelated1>struct MailBoxRelated1</a> or <a href=structs.html#struc_MailBoxRelated3>struct MailBoxRelated3</a> (see parent struct)*/</span>
+<i id=struc_SubScrollingThing@8></i><span class='mm'>/**links <a href=structs.html#struc_MailBoxRelated1>struct MailBoxRelated1</a> or <a href=structs.html#struc_MailBoxRelated3>struct MailBoxRelated3</a> (see parent struct)*/</span>
 <i>/*8*/	</i><a href=#struc_ObjectLink>struct ObjectLink</a> link8;
 <i>/*10*/	</i><a href=#struc_ObjectLink>struct ObjectLink</a> link10;
-<span class='mm'>/**inc'd when <a href=structs.html#struc_SubScrollingThing8>link8</a> gets a new entry*/</span>
+<span class='mm'>/**inc'd when <a href=structs.html#struc_SubScrollingThing@8>link8</a> gets a new entry*/</span>
 <i>/*18*/	</i>int numberField_18;
 <i>/*1C*/	int field_1C;</i>
 <i>/*20*/	int field_20;</i>
 <i>/*24*/	int field_24;</i>
 <i>/*28*/	int field_28;</i>
 <i>/*2C*/	int field_2C;</i>
-<i id=struc_SubScrollingThing30></i><i>/*30*/	</i>int uielement <u></u>;
+<i id=struc_SubScrollingThing@30></i><i>/*30*/	</i>int uielement <u></u>;
 <i>/*34*/	</i><a href=#struc_ScrollingThing>struct ScrollingThing</a> scrollingThing;
-<i id=struc_SubScrollingThing8C></i><span class='mm'>/**stores <a href=structs.html#struc_SubScrollingThing30>uielement</a> UI element coordinate x*/</span>
+<i id=struc_SubScrollingThing@8C></i><span class='mm'>/**stores <a href=structs.html#struc_SubScrollingThing@30>uielement</a> UI element coordinate x*/</span>
 <i>/*8C*/	float floatField_8C;</i>
-<i id=struc_SubScrollingThing90></i><span class='mm'>/**stores <a href=structs.html#struc_SubScrollingThing30>uielement</a> UI element coordinate y*/</span>
+<i id=struc_SubScrollingThing@90></i><span class='mm'>/**stores <a href=structs.html#struc_SubScrollingThing@30>uielement</a> UI element coordinate y*/</span>
 <i>/*90*/	float floatField_90;</i>
-<i id=struc_SubScrollingThing94></i><i>/*94*/	float floatField_94;</i>
-<i id=struc_SubScrollingThing98></i><i>/*98*/	float floatField_98;</i>
+<i id=struc_SubScrollingThing@94></i><i>/*94*/	float floatField_94;</i>
+<i id=struc_SubScrollingThing@98></i><i>/*98*/	float floatField_98;</i>
 <i>/*9C*/	char field_9C;</i>
 <i>/*9D*/	char field_9D;</i>
 <i>/*9E*/	char field_9E;</i>
@@ -6001,15 +6001,15 @@ size may be bigger, unknown</div>
 <div class=mm><p>size 54</div>
 <div>struct <h3>CommonFNGObjectStructA</h3> { <i>/*14 members, size 54h*/</i> <em></em>
 <i>/*0*/	</i><a href=structs.html#struc_FNGObject>struct FNGObject</a> *ownerFNGObject;
-<i id=struc_CommonFNGObjectStructA4></i><i>/*4*/	int field_4;</i>
+<i id=struc_CommonFNGObjectStructA@4></i><i>/*4*/	int field_4;</i>
 <i>/*8*/	</i><a href=structs.html#struc_ScrollingThing>struct ScrollingThing</a> *scrollingThing;
 <span class='mm'>/**"TERMS_%d" for sponsor select screen*/</span>
 <i>/*C*/	</i>char strField_C[32] <u></u>;
-<i id=struc_CommonFNGObjectStructA2C></i><i>/*2C*/	int field_2C;</i>
+<i id=struc_CommonFNGObjectStructA@2C></i><i>/*2C*/	int field_2C;</i>
 <i>/*30*/	int field_30;</i>
 <i>/*34*/	int field_34;</i>
 <i>/*38*/	int field_38;</i>
-<i id=struc_CommonFNGObjectStructA3C></i><i>/*3C*/	</i>int ptrAllocatedBytes50DB80 <u></u>;
+<i id=struc_CommonFNGObjectStructA@3C></i><i>/*3C*/	</i>int ptrAllocatedBytes50DB80 <u></u>;
 <i>/*40*/	int field_40;</i>
 <i>/*44*/	int field_44;</i>
 <i>/*48*/	int field_48;</i>
@@ -6038,7 +6038,7 @@ size may be bigger, unknown</div>
 <a id=struc_WideCharString></a>
 <div>struct <h3>WideCharString</h3> { <i>/*2 members, size 8h*/</i> <em></em>
 <i>/*0*/	</i>wchar_t *pStr;
-<i id=struc_WideCharString4></i><span class='mm'>/**amount of wchars that can fit, excluding zero term*/</span>
+<i id=struc_WideCharString@4></i><span class='mm'>/**amount of wchars that can fit, excluding zero term*/</span>
 <i>/*4*/	</i>int allocatedWcharLength;
 };
 <i>EXPECT_SIZE(struct WideCharString, 0x8);</i></div>
@@ -6181,7 +6181,7 @@ size may be bigger, unknown</div>
 <i>/*220*/	char _pad220[0x10];</i>
 <span class='mm'>/**an index or -1*/</span>
 <i>/*230*/	int field_230;</i>
-<i id=struc_ControllerStruct874C40234></i><span class='mm'>/**0x13 = keyboard (not a controller)*/</span>
+<i id=struc_ControllerStruct874C40@234></i><span class='mm'>/**0x13 = keyboard (not a controller)*/</span>
 <i>/*234*/	</i>int type <u></u>;
 <i>/*238*/	int field_238;</i>
 <i>/*23C*/	char _pad23C[0x100];</i>
@@ -6301,23 +6301,23 @@ size may be bigger, unknown</div>
 <i>/*24*/	int field_24;</i>
 <i>/*28*/	int field_28;</i>
 <i>/*2C*/	int field_2C;</i>
-<i id=struc_UIElement_Animation30></i><i>/*30*/	</i>unsigned int hash_30;
+<i id=struc_UIElement_Animation@30></i><i>/*30*/	</i>unsigned int hash_30;
 };
 <i>EXPECT_SIZE(struct UIElement_Animation, 0x34);</i></div>
 <a id=struc_UIElement></a>
 <div class=mm><p>How big is this base struct?? 0x5C or 0x60 (can't be more because see <a href=structs.html#struc_UILabel>struct UILabel</a></div>
 <div>struct <h3>UIElement</h3> { <i>/*23 members, size 5Ch*/</i> <em></em>
 <i>/*0*/	</i>int vtable <u></u>;
-<i id=struc_UIElement4></i><i>/*4*/	</i><a href=structs.html#struc_UIElement>struct UIElement</a> *nextSibling;
+<i id=struc_UIElement@4></i><i>/*4*/	</i><a href=structs.html#struc_UIElement>struct UIElement</a> *nextSibling;
 <i>/*8*/	int field_8;</i>
-<i id=struc_UIElementC></i><i>/*C*/	int field_C;</i>
-<i id=struc_UIElement10></i><i>/*10*/	</i>unsigned int hash;
+<i id=struc_UIElement@C></i><i>/*C*/	int field_C;</i>
+<i id=struc_UIElement@10></i><i>/*10*/	</i>unsigned int hash;
 <i>/*14*/	int field_14;</i>
-<i id=struc_UIElement18></i><span class='mm'>/**1-11? 2 = <a href=structs.html#struc_UILabel>struct UILabel</a> 5 = <a href=structs.html#struc_UIContainer>struct UIContainer</a>, 7 = movie*/</span>
+<i id=struc_UIElement@18></i><span class='mm'>/**1-11? 2 = <a href=structs.html#struc_UILabel>struct UILabel</a> 5 = <a href=structs.html#struc_UIContainer>struct UIContainer</a>, 7 = movie*/</span>
 <i>/*18*/	</i>int type;
-<i id=struc_UIElement1C></i><i>/*1C*/	</i><a href=enums.html#enu_UIELEMENTFLAGS>enum UIELEMENTFLAGS</a> flags;
+<i id=struc_UIElement@1C></i><i>/*1C*/	</i><a href=enums.html#enu_UIELEMENTFLAGS>enum UIELEMENTFLAGS</a> flags;
 <i>/*20*/	int field_20;</i>
-<i id=struc_UIElement24></i><span class='mm'>/**see 497414 (textureHash) and 566250 (movieName)*/</span>
+<i id=struc_UIElement@24></i><span class='mm'>/**see 497414 (textureHash) and 566250 (movieName)*/</span>
 <i>/*24*/	</i>unsigned int textureHashOrMovieName;
 <i>/*28*/	int field_28;</i>
 <span class='mm'>/**some positioning (and maybe size) thing?*/</span>
@@ -6333,11 +6333,11 @@ although if this element is a label, the measured text height (which is also a g
 <i>/*40*/	int field_40;</i>
 <i>/*44*/	int field_44;</i>
 <i>/*48*/	int field_48;</i>
-<i id=struc_UIElement4C></i><span class='mm'>/**not <a href=structs.html#struc_ObjectLink>struct ObjectLink</a>, it's non-doubly linked list*/</span>
+<i id=struc_UIElement@4C></i><span class='mm'>/**not <a href=structs.html#struc_ObjectLink>struct ObjectLink</a>, it's non-doubly linked list*/</span>
 <i>/*4C*/	</i><a href=structs.html#struc_UIElement_Animation>struct UIElement_Animation</a> *firstAnimation;
 <i>/*50*/	</i><a href=structs.html#struc_UIElement_Animation>struct UIElement_Animation</a> *lastAnimation;
-<i id=struc_UIElement54></i><i>/*54*/	</i><a href=structs.html#struc_UIElement_Animation>struct UIElement_Animation</a> *currentAnimation?;
-<i id=struc_UIElement58></i><i>/*58*/	</i><a href=structs.html#struc_FERenderObject>struct FERenderObject</a> *FERenderObject;
+<i id=struc_UIElement@54></i><i>/*54*/	</i><a href=structs.html#struc_UIElement_Animation>struct UIElement_Animation</a> *currentAnimation?;
+<i id=struc_UIElement@58></i><i>/*58*/	</i><a href=structs.html#struc_FERenderObject>struct FERenderObject</a> *FERenderObject;
 };
 <i>EXPECT_SIZE(struct UIElement, 0x5C);</i></div>
 <ul>
@@ -6355,9 +6355,9 @@ although if this element is a label, the measured text height (which is also a g
 <i>/*0*/	</i><a href=#struc_UIElement>struct UIElement</a> __parent;
 <span class='mm'>/**some string pointer?*/</span>
 <i>/*5C*/	int field_5C;</i>
-<i id=struc_UILabel60></i><span class='mm'>/**the text (of the language files entry that matches this key) this label will display if its <a href=structs.html#struc_UIElement1C>flags</a> does not include <a href=enums.html#enu_UIELEMENTFLAGS2>USE_CUSTOM_TEXT</a>*/</span>
+<i id=struc_UILabel@60></i><span class='mm'>/**the text (of the language files entry that matches this key) this label will display if its <a href=structs.html#struc_UIElement@1C>flags</a> does not include <a href=enums.html#enu_UIELEMENTFLAGS2>USE_CUSTOM_TEXT</a>*/</span>
 <i>/*60*/	</i><a href=enums.html#enu_LANGUAGE_LABELS>enum LANGUAGE_LABELS</a> textLanguageString;
-<i id=struc_UILabel64></i><span class='mm'>/**the text this label will display if its <a href=structs.html#struc_UIElement1C>flags</a> includes <a href=enums.html#enu_UIELEMENTFLAGS2>USE_CUSTOM_TEXT</a>*/</span>
+<i id=struc_UILabel@64></i><span class='mm'>/**the text this label will display if its <a href=structs.html#struc_UIElement@1C>flags</a> includes <a href=enums.html#enu_UIELEMENTFLAGS2>USE_CUSTOM_TEXT</a>*/</span>
 <i>/*64*/	</i><a href=#struc_WideCharString>struct WideCharString</a> customString;
 <i>/*6C*/	int field_6C;</i>
 <i>/*70*/	int field_70;</i>
@@ -6378,7 +6378,7 @@ although if this element is a label, the measured text height (which is also a g
 <i>/*0*/	</i><a href=#struc_UIElement>struct UIElement</a> __parent;
 <i>/*5C*/	char _pad5C[0x4];</i>
 <i>/*60*/	</i>int numChildren;
-<i id=struc_UIContainer64></i><i>/*64*/	</i><a href=structs.html#struc_UIElement>struct UIElement</a> *rootElement;
+<i id=struc_UIContainer@64></i><i>/*64*/	</i><a href=structs.html#struc_UIElement>struct UIElement</a> *rootElement;
 };
 <i>EXPECT_SIZE(struct UIContainer, 0x68);</i></div>
 <a id=struc_UIData></a>
@@ -6389,9 +6389,9 @@ although if this element is a label, the measured text height (which is also a g
 <i>/*5*/	</i>char isDrawingMagazineBack?? <u></u>;
 <i>/*6*/	char field_6;</i>
 <i>/*7*/	char field_7;</i>
-<i id=struc_UIData8></i><i>/*8*/	<a href=structs.html#struc_UIData_field8>struct UIData_field8</a> *field_8;</i>
+<i id=struc_UIData@8></i><i>/*8*/	<a href=structs.html#struc_UIData_field8>struct UIData_field8</a> *field_8;</i>
 <i>/*C*/	<a href=structs.html#struc_UIDataC>struct UIDataC</a> *field_C;</i>
-<i id=struc_UIData10></i><span class='mm'>/**sentinel node*/</span>
+<i id=struc_UIData@10></i><span class='mm'>/**sentinel node*/</span>
 <i>/*10*/	</i><a href=#struc_PoolEntry>struct PoolEntry</a> levelSorterPoolEntry;
 };
 <i>EXPECT_SIZE(struct UIData, 0x18);</i></div>
@@ -6523,13 +6523,13 @@ although if this element is a label, the measured text height (which is also a g
 <i>/*D4*/	</i>int numField8Instances? <u></u>;
 <i>/*D8*/	short field_D8;</i>
 <i>/*DA*/	char _padDA[0x2];</i>
-<i id=struc_UIData_field8DC></i><i>/*DC*/	</i><a href=#struc_FNGInfoList>struct FNGInfoList</a> fngPackagesDC;
-<i id=struc_UIData_field8EC></i><i>/*EC*/	</i><a href=#struc_FNGInfoList>struct FNGInfoList</a> fngPackagesEC;
+<i id=struc_UIData_field8@DC></i><i>/*DC*/	</i><a href=#struc_FNGInfoList>struct FNGInfoList</a> fngPackagesDC;
+<i id=struc_UIData_field8@EC></i><i>/*EC*/	</i><a href=#struc_FNGInfoList>struct FNGInfoList</a> fngPackagesEC;
 <i>/*FC*/	int field_FC;</i>
 <i>/*100*/	int field_100;</i>
 <i>/*104*/	int field_104;</i>
 <i>/*108*/	int field_108;</i>
-<span class='mm'>/**its <a href=structs.html#struc_UIData8>field_8</a> links to this struct*/</span>
+<span class='mm'>/**its <a href=structs.html#struc_UIData@8>field_8</a> links to this struct*/</span>
 <i>/*10C*/	</i><a href=structs.html#struc_UIData>struct UIData</a> *uiData;
 <i>/*110*/	int field_110;</i>
 <i>/*114*/	int field_114;</i>
@@ -6609,9 +6609,9 @@ although if this element is a label, the measured text height (which is also a g
 <i>/*0*/	</i>void *vtable;
 <i>/*4*/	</i>void *next;
 <i>/*8*/	</i>void *prev;
-<i id=struc_NamedLinkNodeC></i><span class='mm'>/**ptr to mem specially allocated to hold this, see <a href=funcs.html#519DE0>NamedLinkNode::CopyNameIntoCAndHashInto10</a>*/</span>
+<i id=struc_NamedLinkNode@C></i><span class='mm'>/**ptr to mem specially allocated to hold this, see <a href=funcs.html#519DE0>NamedLinkNode::CopyNameIntoCAndHashInto10</a>*/</span>
 <i>/*C*/	</i>char *name;
-<i id=struc_NamedLinkNode10></i><i>/*10*/	</i>unsigned int cihashOfName;
+<i id=struc_NamedLinkNode@10></i><i>/*10*/	</i>unsigned int cihashOfName;
 };
 <i>EXPECT_SIZE(struct NamedLinkNode, 0x14);</i></div>
 <ul>
@@ -6668,7 +6668,7 @@ although if this element is a label, the measured text height (which is also a g
 <span class='mm'>/**only a dtor*/</span>
 <i>/*0*/	</i>void *vtable;
 <i>/*4*/	</i>int numPackages <u></u>;
-<i id=struc_FNGInfoList8></i><span class='mm'>/**could also just be an <a href=structs.html#struc_ObjectLink>struct ObjectLink</a> :^)*/</span>
+<i id=struc_FNGInfoList@8></i><span class='mm'>/**could also just be an <a href=structs.html#struc_ObjectLink>struct ObjectLink</a> :^)*/</span>
 <i>/*8*/	</i><a href=structs.html#struc_FNGInfo>struct FNGInfo</a> *topPackage;
 <i>/*C*/	</i><a href=structs.html#struc_FNGInfo>struct FNGInfo</a> *bottomPackage;
 };
@@ -6703,7 +6703,7 @@ although if this element is a label, the measured text height (which is also a g
 <a id=struc_SomethingUI></a>
 <div>struct <h3>SomethingUI</h3> { <i>/*2 members, size Ch*/</i> <em></em>
 <i>/*0*/	</i><a href=structs.html#struc_SomethingUI$vtable>struct SomethingUI$vtable</a> *vtable;
-<i id=struc_SomethingUI4></i><span class='mm'>/**elements are <a href=structs.html#struc_SomethingUIImpl>struct SomethingUIImpl</a>*/</span>
+<i id=struc_SomethingUI@4></i><span class='mm'>/**elements are <a href=structs.html#struc_SomethingUIImpl>struct SomethingUIImpl</a>*/</span>
 <i>/*4*/	</i><a href=#struc_ObjectLink>struct ObjectLink</a> link;
 };
 <i>EXPECT_SIZE(struct SomethingUI, 0xC);</i></div>
@@ -6739,11 +6739,11 @@ although if this element is a label, the measured text height (which is also a g
 <span class='mm'>/**usually 79B15C*/</span>
 <i>/*0*/	</i>void *vtable;
 <i>/*4*/	</i><a href=#struc_ObjectLink>struct ObjectLink</a> link;
-<i id=struc_SomethingUIImplC></i><span class='mm'>/**set if this instance is from a 30203 binsection, else null*/</span>
+<i id=struc_SomethingUIImpl@C></i><span class='mm'>/**set if this instance is from a 30203 binsection, else null*/</span>
 <i>/*C*/	</i><a href=structs.html#struc_BinSection30203Data>struct BinSection30203Data</a> *data30203;
 <i>/*10*/	</i><a href=structs.html#struc_BinSection>struct BinSection</a> *binsection;
-<i id=struc_SomethingUIImpl14></i><i>/*14*/	</i><a href=structs.html#struc_FNGObject>struct FNGObject</a> *fngObject;
-<i id=struc_SomethingUIImpl18></i><i>/*18*/	</i><a href=structs.html#struc_FNGInfo>struct FNGInfo</a> *fngInfo;
+<i id=struc_SomethingUIImpl@14></i><i>/*14*/	</i><a href=structs.html#struc_FNGObject>struct FNGObject</a> *fngObject;
+<i id=struc_SomethingUIImpl@18></i><i>/*18*/	</i><a href=structs.html#struc_FNGInfo>struct FNGInfo</a> *fngInfo;
 <i>/*1C*/	short field_1C;</i>
 <i>/*1E*/	short field_1E;</i>
 <span class='mm'>/**ptr to the entry in <a href=vars.html#7F7DC8>fngdata</a> for the hash of this struct's fngname (which comes from its bindata), initialized in ctor*/</span>
@@ -6786,20 +6786,20 @@ although if this element is a label, the measured text height (which is also a g
 <i>/*C*/	char _padC[0x4];</i>
 <i>/*10*/	int field_10;</i>
 <i>/*14*/	char _pad14[0x14];</i>
-<i id=struc_BinSection30203Data28></i><span class='mm'>/**length unknown*/</span>
+<i id=struc_BinSection30203Data@28></i><span class='mm'>/**length unknown*/</span>
 <i>/*28*/	</i>char fngName[10] <u></u>;
 };
 <i>EXPECT_SIZE(struct BinSection30203Data, 0x32);</i></div>
 <a id=struc_BinSection30210></a>
 <div>struct <h3>BinSection30210</h3> { <i>/*2 members, size Ch*/</i>
 <i>/*0*/	</i><a href=#struc_BinSectionHeader>struct BinSectionHeader</a> header;
-<i id=struc_BinSection302108></i><span class='mm'>/**see 51B97B for proof*/</span>
+<i id=struc_BinSection30210@8></i><span class='mm'>/**see 51B97B for proof*/</span>
 <i>/*8*/	</i>unsigned int fngNameCSHash;
 };
 <i>EXPECT_SIZE(struct BinSection30210, 0xC);</i></div>
 <a id=struc_UIElementVisitor></a>
 <div>struct <h3>UIElementVisitor</h3> { <i>/*1 members, size 4h*/</i> <em></em>
-<i id=struc_UIElementVisitor0></i><i>/*0*/	</i>UIElementVisitor$vtable *vtable;
+<i id=struc_UIElementVisitor@0></i><i>/*0*/	</i>UIElementVisitor$vtable *vtable;
 };
 <i>EXPECT_SIZE(struct UIElementVisitor, 0x4);</i></div>
 <ul>
@@ -6814,16 +6814,16 @@ although if this element is a label, the measured text height (which is also a g
 </ul>
 <a id=struc_UIElementVisitor$vtable></a>
 <div>struct <h3>UIElementVisitor$vtable</h3> { <i>/*2 members, size 8h*/</i>
-<i id=struc_UIElementVisitor$vtable0></i><i>/*0*/	int field_0;</i>
-<i id=struc_UIElementVisitor$vtable4></i><span class='mm'>/**return 0 to stop visiting*/</span>
+<i id=struc_UIElementVisitor$vtable@0></i><i>/*0*/	int field_0;</i>
+<i id=struc_UIElementVisitor$vtable@4></i><span class='mm'>/**return 0 to stop visiting*/</span>
 <i>/*4*/	</i>int (__thiscall *acceptElement)(<a href=structs.html#struc_UIElementVisitor>struct UIElementVisitor</a> *this, <a href=structs.html#struc_UIElement>struct UIElement</a> *element);
 };
 <i>EXPECT_SIZE(struct UIElementVisitor$vtable, 0x8);</i></div>
 <a id=struc_UIElementVisitor_FindByHash></a>
 <div>struct <h3>UIElementVisitor_FindByHash</h3> { <i>/*3 members, size Ch*/</i> <em></em>
-<i id=struc_UIElementVisitor_FindByHash0></i><i>/*0*/	</i><a href=#struc_UIElementVisitor>struct UIElementVisitor</a> __parent;
-<i id=struc_UIElementVisitor_FindByHash4></i><i>/*4*/	</i>unsigned int searchingHash;
-<i id=struc_UIElementVisitor_FindByHash8></i><i>/*8*/	</i><a href=structs.html#struc_UIElement>struct UIElement</a> *foundUIElement;
+<i id=struc_UIElementVisitor_FindByHash@0></i><i>/*0*/	</i><a href=#struc_UIElementVisitor>struct UIElementVisitor</a> __parent;
+<i id=struc_UIElementVisitor_FindByHash@4></i><i>/*4*/	</i>unsigned int searchingHash;
+<i id=struc_UIElementVisitor_FindByHash@8></i><i>/*8*/	</i><a href=structs.html#struc_UIElement>struct UIElement</a> *foundUIElement;
 };
 <i>EXPECT_SIZE(struct UIElementVisitor_FindByHash, 0xC);</i></div>
 <ul>
@@ -6957,7 +6957,7 @@ although if this element is a label, the measured text height (which is also a g
 <i>/*34*/	int field_34;</i>
 <i>/*38*/	int field_38;</i>
 <i>/*3C*/	int field_3C;</i>
-<i id=struc_Struct83649840></i><i>/*40*/	</i><a href=structs.html#struc_ChyronIGFNGObject>struct ChyronIGFNGObject</a> *chyronIGFNGObject;
+<i id=struc_Struct836498@40></i><i>/*40*/	</i><a href=structs.html#struc_ChyronIGFNGObject>struct ChyronIGFNGObject</a> *chyronIGFNGObject;
 <i>/*44*/	int field_44;</i>
 <i>/*48*/	int field_48;</i>
 <i>/*4C*/	int field_4C;</i>
@@ -7076,9 +7076,9 @@ although if this element is a label, the measured text height (which is also a g
 <i>EXPECT_SIZE(struct SoundIdBank, 0x1B);</i></div>
 <a id=struc_Car></a>
 <div>struct <h3>Car</h3> { <i>/*13 members, size 890h*/</i> <em></em>
-<i id=struc_Car0></i><span class='mm'>/**like "240SX"*/</span>
+<i id=struc_Car@0></i><span class='mm'>/**like "240SX"*/</span>
 <i>/*0*/	</i>char name0[32];
-<i id=struc_Car20></i><span class='mm'>/**like "240SX"*/</span>
+<i id=struc_Car@20></i><span class='mm'>/**like "240SX"*/</span>
 <i>/*20*/	</i>char name1[32];
 <span class='mm'>/**like "CARS\240SX\GEOMETRY.BIN"*/</span>
 <i>/*40*/	</i>char geometrybinfilename[32];
@@ -7086,16 +7086,16 @@ although if this element is a label, the measured text height (which is also a g
 unknown size, may be larger*/</span>
 <i>/*60*/	</i>char geometrylzcfilename[32];
 <i>/*80*/	char _pad80[0x40];</i>
-<i id=struc_CarC0></i><span class='mm'>/**like "NISSAN"
+<i id=struc_Car@C0></i><span class='mm'>/**like "NISSAN"
 unknown length, but max 16?*/</span>
 <i>/*C0*/	</i>char manufacturerName[16];
-<i id=struc_CarD0></i><span class='mm'>/**cs hash of <a href=structs.html#struc_Car0>name0</a>*/</span>
+<i id=struc_Car@D0></i><span class='mm'>/**cs hash of <a href=structs.html#struc_Car@0>name0</a>*/</span>
 <i>/*D0*/	</i>unsigned int carNamehash;
 <i>/*D4*/	char _padD4[0x6];</i>
 <span class='mm'>/**car will only be available if <code>value &amp; 2</code>*/</span>
 <i>/*DA*/	</i>char maybeFlags <u></u>;
 <i>/*DB*/	char _padDB[0x765];</i>
-<i id=struc_Car840></i><span class='mm'>/**index of this struct in <a href=vars.html#8A1CCC>ptrCarData</a>*/</span>
+<i id=struc_Car@840></i><span class='mm'>/**index of this struct in <a href=vars.html#8A1CCC>ptrCarData</a>*/</span>
 <i>/*840*/	</i>int carIndex <u></u>;
 <span class='mm'>/**0 = customizable, 2 = traffic/ambu/firetruck/...*/</span>
 <i>/*844*/	</i>int carType <u></u>;
@@ -7107,7 +7107,7 @@ unknown length, but max 16?*/</span>
 <i>/*854*/	char _pad854[0x36];</i>
 <i>/*88A*/	char field_88A;</i>
 <i>/*88B*/	char _pad88B[0x1];</i>
-<i id=struc_Car88C></i><span class='mm'>/**has something to do with DUMMY_SKIN%d*/</span>
+<i id=struc_Car@88C></i><span class='mm'>/**has something to do with DUMMY_SKIN%d*/</span>
 <i>/*88C*/	int field_88C;</i>
 };
 <i>EXPECT_SIZE(struct Car, 0x890);</i></div>
@@ -7140,14 +7140,14 @@ unknown length, but max 16?*/</span>
 <i>/*0*/	</i><a href=#struc_StockCar>struct StockCar</a> stockCars[48];
 <i>/*540*/	</i>int numStockCars;
 <i>/*544*/	</i><a href=#struc_TunedCar>struct TunedCar</a> tunedCars[20];
-<i id=struc_CarCollection5954></i><i>/*5954*/</i><a href=#struc_CareerCar>struct CareerCar</a> careerCars[5];
+<i id=struc_CarCollection@5954></i><i>/*5954*/</i><a href=#struc_CareerCar>struct CareerCar</a> careerCars[5];
 <span class='mm'>/**always 5*/</span>
 <i>/*812C*/</i>int numCareerCarSlots;
 <i>/*8130*/</i><a href=#struc_OnlineCar>struct OnlineCar</a> onlineCars[6];
 <span class='mm'>/**always 6*/</span>
 <i>/*9A80*/</i>int numOnlineCarSlots;
-<i id=struc_CarCollection9A84></i><i>/*9A84*/</i><a href=#struc_SponsorCar>struct SponsorCar</a> sponsorCars[12];
-<i id=struc_CarCollection9BD4></i><i>/*9BD4*/</i>int numSponsorCars;
+<i id=struc_CarCollection@9A84></i><i>/*9A84*/</i><a href=#struc_SponsorCar>struct SponsorCar</a> sponsorCars[12];
+<i id=struc_CarCollection@9BD4></i><i>/*9BD4*/</i>int numSponsorCars;
 <span class='mm'>/**initialized to <code>&amp;this-&gt;stockCars + i</code>*/</span>
 <i>/*9BD8*/</i><a href=structs.html#struc_StockCar>struct StockCar</a> *ptrStockCars[48];
 <span class='mm'>/**initialized to <code>&amp;this-&gt;tunedCars + i</code>*/</span>
@@ -7214,7 +7214,7 @@ unknown length, but max 16?*/</span>
 <div>struct <h3>InventoryCar</h3> { <i>/*6 members, size 18h*/</i> <em></em>
 <i>/*0*/	</i><a href=structs.html#struc_InventoryCar$vtable>struct InventoryCar$vtable</a> *vtable;
 <i>/*4*/	int field_4;</i>
-<i id=struc_InventoryCar8></i><span class='mm'>/**STOCK_PEUGEOT when stock,
+<i id=struc_InventoryCar@8></i><span class='mm'>/**STOCK_PEUGEOT when stock,
 0 when unused tuned, TUNED_CAR_%d when used tuned,
 CAREER_SLOT_%d when career,
 ONLINE_CAREER_CIRCUIT when online/ranked (DRAG, DRIFT, SPRINT, STREET_CROSS, URL),
@@ -7235,9 +7235,9 @@ sometimes this is also just hash of the car name? I wanna cry*/</span>
 <div>struct <h3>CarPreset</h3> { <i>/*6 members, size 338h*/</i>
 <span class='mm'>/**sentinel node is <a href=vars.html#8A31E4>carPresets</a>*/</span>
 <i>/*0*/	</i><a href=#struc_ObjectLink>struct ObjectLink</a> link;
-<i id=struc_CarPreset8></i><span class='mm'>/**like <a href=structs.html#struc_Car>struct Car</a>.<a href=structs.html#struc_Car0>name0</a>*/</span>
+<i id=struc_CarPreset@8></i><span class='mm'>/**like <a href=structs.html#struc_Car>struct Car</a>.<a href=structs.html#struc_Car@0>name0</a>*/</span>
 <i>/*8*/	</i>char modelName[32];
-<i id=struc_CarPreset28></i><span class='mm'>/**DDAY_PLAYER_CAR, DEMO_AI_300GT_BLUE, sponsor cars, ...*/</span>
+<i id=struc_CarPreset@28></i><span class='mm'>/**DDAY_PLAYER_CAR, DEMO_AI_300GT_BLUE, sponsor cars, ...*/</span>
 <i>/*28*/	</i>char name[32];
 <i>/*48*/	int field_48;</i>
 <i>/*4C*/	char field_4C[680];</i>
@@ -7316,11 +7316,11 @@ sometimes this is also just hash of the car name? I wanna cry*/</span>
 <a id=struc_InventoryCar$vtable></a>
 <div>struct <h3>InventoryCar$vtable</h3> { <i>/*4 members, size 10h*/</i>
 <i>/*0*/	</i>void *dtor;
-<i id=struc_InventoryCar$vtable4></i><span class='mm'>/**index in <a href=vars.html#8A1CCC>ptrCarData</a>. stock: <a href=funcs.html#503A30>StockCar::GetCarIndex</a> sponsor: <a href=funcs.html#503460>SponsorCar::GetCarIndex</a> else: <a href=funcs.html#503AE0>TunedCar::GetCarIndex</a>*/</span>
+<i id=struc_InventoryCar$vtable@4></i><span class='mm'>/**index in <a href=vars.html#8A1CCC>ptrCarData</a>. stock: <a href=funcs.html#503A30>StockCar::GetCarIndex</a> sponsor: <a href=funcs.html#503460>SponsorCar::GetCarIndex</a> else: <a href=funcs.html#503AE0>TunedCar::GetCarIndex</a>*/</span>
 <i>/*4*/	</i>int (__thiscall *procGetCarIndex)(<a href=structs.html#struc_InventoryCar>struct InventoryCar</a> *this);
 <span class='mm'>/**stock: <a href=funcs.html#503A60>StockCar::GetCarNameHash</a> sponsor: <a href=funcs.html#503490>SponsorCar::GetCarNameHash</a> else: <a href=funcs.html#503B00>TunedCar::GetCarNameHash</a>*/</span>
 <i>/*8*/	</i>unsigned int (__thiscall *procGetCarNameHash)(<a href=structs.html#struc_InventoryCar>struct InventoryCar</a> *this);
-<i id=struc_InventoryCar$vtableC></i><span class='mm'>/**stock: <a href=funcs.html#503A80>StockCar::ApplyTuningToInstance</a> sponsor: <a href=funcs.html#5039D0>SponsorCar::ApplyTuningToInstance</a> else: <a href=funcs.html#516CA0>TunedCar::ApplyTuningToInstance</a>
+<i id=struc_InventoryCar$vtable@C></i><span class='mm'>/**stock: <a href=funcs.html#503A80>StockCar::ApplyTuningToInstance</a> sponsor: <a href=funcs.html#5039D0>SponsorCar::ApplyTuningToInstance</a> else: <a href=funcs.html#516CA0>TunedCar::ApplyTuningToInstance</a>
 last arg is only used for TunedCar instances*/</span>
 <i>/*C*/	</i>void (__thiscall *procApplyTuningToInstance)(<a href=structs.html#struc_InventoryCar>struct InventoryCar</a> *this, int playerIndex, <a href=structs.html#struc_MenuCarInstance>struct MenuCarInstance</a> *menuCarInstance, int);
 };
@@ -7340,8 +7340,8 @@ last arg is only used for TunedCar instances*/</span>
 </ul>
 <a id=struc_SponsorCar></a>
 <div>struct <h3>SponsorCar</h3> { <i>/*2 members, size 1Ch*/</i> <em></em>
-<i id=struc_SponsorCar0></i><i>/*0*/	</i><a href=#struc_InventoryCar>struct InventoryCar</a> __parent;
-<i id=struc_SponsorCar18></i><span class='mm'>/**set to hash of SNOOP_DOGG etc, matches <a href=structs.html#struc_CarPreset28>name</a>*/</span>
+<i id=struc_SponsorCar@0></i><i>/*0*/	</i><a href=#struc_InventoryCar>struct InventoryCar</a> __parent;
+<i id=struc_SponsorCar@18></i><span class='mm'>/**set to hash of SNOOP_DOGG etc, matches <a href=structs.html#struc_CarPreset@28>name</a>*/</span>
 <i>/*18*/	</i>unsigned int carPresetHash;
 };
 <i>EXPECT_SIZE(struct SponsorCar, 0x1C);</i></div>
@@ -7367,7 +7367,7 @@ last arg is only used for TunedCar instances*/</span>
 <div>struct <h3>TunedCar18</h3> { <i>/*6 members, size 418h*/</i> <em></em>
 <i>/*0*/	int field_0;</i>
 <i>/*4*/	char _pad4[0x4];</i>
-<span class='mm'>/**cs hash of <a href=structs.html#struc_Car>struct Car</a>.<a href=structs.html#struc_Car0>name0</a>*/</span>
+<span class='mm'>/**cs hash of <a href=structs.html#struc_Car>struct Car</a>.<a href=structs.html#struc_Car@0>name0</a>*/</span>
 <i>/*8*/	</i>unsigned int carNameHash;
 <i>/*C*/	char field_C[680];</i>
 <span class='mm'>/**copied from <a href=structs.html#struc_MenuCarInstance>struct MenuCarInstance</a> at <a href=funcs.html#503950>TunedCar18::CopyTuningFromMenuCarInstance</a>*/</span>
@@ -7426,7 +7426,7 @@ could just be char[9]</div>
 <a id=struc_TunedCar></a>
 <div>struct <h3>TunedCar</h3> { <i>/*3 members, size 434h*/</i> <em></em>
 <i>/*0*/	</i><a href=#struc_InventoryCar>struct InventoryCar</a> __parent;
-<i id=struc_TunedCar18></i><i>/*18*/	<a href=#struc_TunedCar18>struct TunedCar18</a> field_18;</i>
+<i id=struc_TunedCar@18></i><i>/*18*/	<a href=#struc_TunedCar18>struct TunedCar18</a> field_18;</i>
 <i>/*430*/	int field_430;</i>
 };
 <i>EXPECT_SIZE(struct TunedCar, 0x434);</i></div>
@@ -7456,7 +7456,7 @@ could just be char[9]</div>
 <div>struct <h3>CareerCar</h3> { <i>/*5 members, size 7F8h*/</i> <em></em>
 <i>/*0*/	</i><a href=#struc_OnlineCareerCar>struct OnlineCareerCar</a> __parent;
 <i>/*434*/	<a href=#struc_CareerCar434>struct CareerCar434</a> field_434;</i>
-<i id=struc_CareerCar7F4></i><span class='mm'>/**all slots except first are locked and sequentially unlocked when signing sponsors, see <a href=funcs.html#532CF0>Career::SignSponsor</a> and <a href=funcs.html#5284D0>Career::UnlockNextLockedCarSlot</a>*/</span>
+<i id=struc_CareerCar@7F4></i><span class='mm'>/**all slots except first are locked and sequentially unlocked when signing sponsors, see <a href=funcs.html#532CF0>Career::SignSponsor</a> and <a href=funcs.html#5284D0>Career::UnlockNextLockedCarSlot</a>*/</span>
 <i>/*7F4*/	</i>char isLocked <u></u>;
 <i>/*7F5*/	</i>char hasCarBought <u></u>;
 <i>/*7F6*/	char _pad7F6[0x1];</i>
@@ -7546,7 +7546,7 @@ could just be char[9]</div>
 <i>/*29C*/	<a href=#struc_CareerCar434_29C>struct CareerCar434_29C</a> field_29C;</i>
 <span class='mm'>/**68 entries see 503EDF*/</span>
 <i>/*2AC*/	char field_2AC[272];</i>
-<i id=struc_CareerCar4343BC></i><i>/*3BC*/	</i>int moneySpentOnCar <u></u>;
+<i id=struc_CareerCar434@3BC></i><i>/*3BC*/	</i>int moneySpentOnCar <u></u>;
 };
 <i>EXPECT_SIZE(struct CareerCar434, 0x3C0);</i></div>
 <ul>
@@ -7600,7 +7600,7 @@ could just be char[9]</div>
 <i>/*11*/	char _pad11[0x3];</i>
 <i>/*14*/	char field_14;</i>
 <i>/*15*/	char field_15;</i>
-<i id=struc_Player_2416></i><span class='mm'>/**initialized to 1 if <a href=vars.html#7F70D0>_currentLoadedLanguage</a> is not 0*/</span>
+<i id=struc_Player_24@16></i><span class='mm'>/**initialized to 1 if <a href=vars.html#7F70D0>_currentLoadedLanguage</a> is not 0*/</span>
 <i>/*16*/	</i>char useMetricSystem <u></u>;
 <i>/*17*/	char field_17;</i>
 <i>/*18*/	char field_18;</i>
@@ -7702,11 +7702,11 @@ could just be char[9]</div>
 <a id=struc_Player_D4></a>
 <div>struct <h3>Player_D4</h3> { <i>/*5 members, size 17Ch*/</i> <em></em>
 <i>/*0*/	int field_0;</i>
-<i id=struc_Player_D44></i><span class='mm'>/**see 515985
+<i id=struc_Player_D4@4></i><span class='mm'>/**see 515985
 
 usually a stock car, often STOCK_RX8. some kind of "default car to pick"*/</span>
 <i>/*4*/	</i>unsigned int currentCarSelectionSlotHash?[2];
-<i id=struc_Player_D4C></i><i>/*C*/	</i><a href=enums.html#enu_INVENTORY_CAR_FLAGS>enum INVENTORY_CAR_FLAGS</a> currentCarSelectionCategory;
+<i id=struc_Player_D4@C></i><i>/*C*/	</i><a href=enums.html#enu_INVENTORY_CAR_FLAGS>enum INVENTORY_CAR_FLAGS</a> currentCarSelectionCategory;
 <i>/*10*/	<a href=#struc_Player_D4_10>struct Player_D4_10</a> field_10[12];</i>
 <i>/*100*/	<a href=#struc_Player_D4_100>struct Player_D4_100</a> field_100;</i>
 };
@@ -7726,13 +7726,13 @@ usually a stock car, often STOCK_RX8. some kind of "default car to pick"*/</span
 <i>/*0*/	</i>char name[32];
 <i>/*20*/	char field_20;</i>
 <i>/*21*/	char _pad21[0x3];</i>
-<i id=struc_Player24></i><i>/*24*/	</i><a href=#struc_Player_24>struct Player_24</a> p24;
-<i id=struc_PlayerD4></i><i>/*D4*/	</i><a href=#struc_Player_D4>struct Player_D4</a> d4;
+<i id=struc_Player@24></i><i>/*24*/	</i><a href=#struc_Player_24>struct Player_24</a> p24;
+<i id=struc_Player@D4></i><i>/*D4*/	</i><a href=#struc_Player_D4>struct Player_D4</a> d4;
 <i>/*250*/	int field_250;</i>
 <i>/*254*/	int field_254;</i>
 <i>/*258*/	char field_258[128];</i>
 <i>/*2D8*/	</i><a href=#struc_TraxConfig>struct TraxConfig</a> traxConfig[27];
-<i id=struc_Player3B0></i><i>/*3B0*/	</i><a href=#struc_CarCollection>struct CarCollection</a> carCollection;
+<i id=struc_Player@3B0></i><i>/*3B0*/	</i><a href=#struc_CarCollection>struct CarCollection</a> carCollection;
 <i>/*A0F4*/int field_A0F4;</i>
 <i>/*A0F8*/char field_A0F8;</i>
 <i>/*A0F9*/char field_A0F9;</i>
@@ -7873,11 +7873,11 @@ usually a stock car, often STOCK_RX8. some kind of "default car to pick"*/</span
 <i>/*6*/	char _pad6[0x2];</i>
 <i>/*8*/	int field_8;</i>
 <i>/*C*/	int field_C;</i>
-<i id=struc_ProfileData10></i><i>/*10*/	</i><a href=#struc_Player>struct Player</a> player1;
+<i id=struc_ProfileData@10></i><i>/*10*/	</i><a href=#struc_Player>struct Player</a> player1;
 <i>/*AB5C*/</i><a href=#struc_Player>struct Player</a> player2;
-<i id=struc_ProfileData156A8></i><i>/*156A8*/</i><a href=enums.html#enu_MENU_STATE>enum MENU_STATE</a> menuState;
+<i id=struc_ProfileData@156A8></i><i>/*156A8*/</i><a href=enums.html#enu_MENU_STATE>enum MENU_STATE</a> menuState;
 <i>/*156AC*/char _pad156AC[0x4];</i>
-<i id=struc_ProfileData156B0></i><i>/*156B0*/<a href=#struc_ProfileData_156B0>struct ProfileData_156B0</a> field_156B0;</i>
+<i id=struc_ProfileData@156B0></i><i>/*156B0*/<a href=#struc_ProfileData_156B0>struct ProfileData_156B0</a> field_156B0;</i>
 <i>/*1576C*/char _pad1576C[0x14];</i>
 <i>/*15780*/int field_15780;</i>
 <i>/*15784*/int field_15784;</i>
@@ -7914,12 +7914,12 @@ usually a stock car, often STOCK_RX8. some kind of "default car to pick"*/</span
 <i>/*16778*/</i>void *memForWritingSaveData;
 <i>/*1677C*/int field_1677C;</i>
 <i>/*16780*/char _pad16780[0x9BD8];</i>
-<i id=struc_ProfileData20358></i><span class='mm'>/**0 or 1*/</span>
+<i id=struc_ProfileData@20358></i><span class='mm'>/**0 or 1*/</span>
 <i>/*20358*/</i>int currentPlayerIndex?;
 <i>/*2035C*/int field_2035C;</i>
 <i>/*20360*/char _pad20360[0xC];</i>
 <i>/*2036C*/int field_2036C;</i>
-<i id=struc_ProfileData20370></i><i>/*20370*/</i><a href=#struc_Career>struct Career</a> career;
+<i id=struc_ProfileData@20370></i><i>/*20370*/</i><a href=#struc_Career>struct Career</a> career;
 <i>/*28D7C*/char _pad28D7C[0x10];</i>
 <i>/*28D8C*/float floatField_28D8C;</i>
 <i>/*28D90*/int field_28D90;</i>
@@ -7929,7 +7929,7 @@ usually a stock car, often STOCK_RX8. some kind of "default car to pick"*/</span
 <i>/*28DA0*/</i><a href=#struc_List>struct List</a> list_28DA0;
 <i>/*28DB0*/<a href=#struc_ProfileData28DB0>struct ProfileData28DB0</a> field_28DB0;</i>
 <i>/*28DD0*/</i><a href=#struc_List>struct List</a> list_28DD0;
-<i id=struc_ProfileData28DE0></i><i>/*28DE0*/</i><a href=#struc_SomethingUI>struct SomethingUI</a> somethingUI;
+<i id=struc_ProfileData@28DE0></i><i>/*28DE0*/</i><a href=#struc_SomethingUI>struct SomethingUI</a> somethingUI;
 <i>/*28DEC*/int field_28DEC;</i>
 <i>/*28DF0*/char _pad28DF0[0x4];</i>
 <i>/*28DF4*/int field_28DF4;</i>
@@ -7941,7 +7941,7 @@ usually a stock car, often STOCK_RX8. some kind of "default car to pick"*/</span
 <i>/*297D0*/int field_297D0;</i>
 <i>/*297D4*/char _pad297D4[0x8];</i>
 <i>/*297DC*/</i><a href=#struc_OLCarSlotData>struct OLCarSlotData</a> olCarSlotData;
-<i id=struc_ProfileData29824></i><span class='mm'>/**Ensures this section only gets loaded once*/</span>
+<i id=struc_ProfileData@29824></i><span class='mm'>/**Ensures this section only gets loaded once*/</span>
 <i>/*29824*/</i>int binSection80034A10loaded <u></u>;
 <i>/*29828*/int field_29828;</i>
 <i>/*2982C*/int field_2982C;</i>
@@ -8144,10 +8144,10 @@ usually a stock car, often STOCK_RX8. some kind of "default car to pick"*/</span
 <i>/*5*/	char _pad5[0x3];</i>
 <i>/*8*/	<a href=#struc_CareerD24_8>struct CareerD24_8</a> field_8[6];</i>
 <i>/*50*/	int field_50;</i>
-<i id=struc_CareerD2454></i><i>/*54*/	<a href=#struc_CareerD24_54>struct CareerD24_54</a> field_54[4];</i>
-<span class='mm'>/**set to first <a href=structs.html#struc_CareerD2454>field_54</a> at 532FEE*/</span>
+<i id=struc_CareerD24@54></i><i>/*54*/	<a href=#struc_CareerD24_54>struct CareerD24_54</a> field_54[4];</i>
+<span class='mm'>/**set to first <a href=structs.html#struc_CareerD24@54>field_54</a> at 532FEE*/</span>
 <i>/*34E4*/</i><a href=structs.html#struc_CareerD24_54>struct CareerD24_54</a> *ptrCareerDataD24_54;
-<span class='mm'>/**sometimes used as index for <a href=structs.html#struc_CareerD2454>field_54</a>*/</span>
+<span class='mm'>/**sometimes used as index for <a href=structs.html#struc_CareerD24@54>field_54</a>*/</span>
 <i>/*34E8*/int field_34E8;</i>
 };
 <i>EXPECT_SIZE(struct CareerD24, 0x34EC);</i></div>
@@ -8182,12 +8182,12 @@ extra refs: 500FBC 51441E*/</span>
 <i>/*E0*/	</i>float totalReputation;
 <span class='mm'>/**used to calc averageReputationPerRace, so is this # finished or # raced?*/</span>
 <i>/*E4*/	</i>int racesFinished;
-<i id=struc_CareerStageE8></i><i>/*E8*/	</i><a href=structs.html#struc_CareerSponsor>struct CareerSponsor</a> *signedSponsor;
+<i id=struc_CareerStage@E8></i><i>/*E8*/	</i><a href=structs.html#struc_CareerSponsor>struct CareerSponsor</a> *signedSponsor;
 <i>/*EC*/	int field_EC;</i>
 <i>/*F0*/	int field_F0;</i>
 <i>/*F4*/	int field_F4;</i>
 <i>/*F8*/	int field_F8;</i>
-<i id=struc_CareerStageFC></i><i>/*FC*/	</i>char stageFinished?;
+<i id=struc_CareerStage@FC></i><i>/*FC*/	</i>char stageFinished?;
 <i>/*FD*/	char _padFD[0x3];</i>
 <i>/*100*/	</i><a href=structs.html#struc_CareerStageSettings>struct CareerStageSettings</a> *settings;
 };
@@ -8246,7 +8246,7 @@ but in reality these are all zero, and that is an empty string :D*/</span>
 <span class='mm'>/**this is at some point compared to field8 of sms data SMS_END_OF_GAME_MESSAGE*/</span>
 <i>/*8*/	</i>unsigned int hash8;
 <i>/*C*/	char field_C;</i>
-<i id=struc_Bin34A11D></i><i>/*D*/	char field_D;</i>
+<i id=struc_Bin34A11@D></i><i>/*D*/	char field_D;</i>
 <i>/*E*/	char _padE[0x1];</i>
 <i>/*F*/	char field_F;</i>
 <span class='mm'>/**hash*/</span>
@@ -8258,10 +8258,10 @@ but in reality these are all zero, and that is an empty string :D*/</span>
 <i>/*2C*/	int field_2C;</i>
 <span class='mm'>/**see 5414D7, -1 means no money? see 500A8F*/</span>
 <i>/*30*/	</i>int bankToWinFromRace <u></u>;
-<i id=struc_Bin34A1134></i><i>/*34*/	char field_34;</i>
+<i id=struc_Bin34A11@34></i><i>/*34*/	char field_34;</i>
 <i>/*35*/	</i>char numField38 <u></u>;
 <i>/*36*/	char _pad36[0x1];</i>
-<span class='mm'>/**index for <a href=structs.html#struc_Career72D8>stage0</a>*/</span>
+<span class='mm'>/**index for <a href=structs.html#struc_Career@72D8>stage0</a>*/</span>
 <i>/*37*/	</i>char stageIndex <u></u>;
 <span class='mm'>/**how big is this array? 8 is a guess*/</span>
 <i>/*38*/	<a href=#struc_Bin34A11_38>struct Bin34A11_38</a> field_38[8];</i>
@@ -8437,7 +8437,7 @@ but in reality these are all zero, and that is an empty string :D*/</span>
 <i>/*8*/	char field_8;</i>
 <i>/*9*/	char field_9;</i>
 <i>/*A*/	char field_A;</i>
-<i id=struc_Career887CB></i><i>/*B*/	char field_B;</i>
+<i id=struc_Career887C@B></i><i>/*B*/	char field_B;</i>
 <i>/*C*/	char field_C;</i>
 <i>/*D*/	<a href=#struc_Career887C_D>struct Career887C_D</a> field_D;</i>
 <i>/*18*/	char field_18;</i>
@@ -8596,9 +8596,9 @@ but in reality these are all zero, and that is an empty string :D*/</span>
 <div>struct <h3>Career4230</h3> { <i>/*4 members, size 1AECh*/</i> <em></em>
 <i>/*0*/	char _pad0[0x10];</i>
 <i>/*10*/	<a href=#struc_MenuCarInstance>struct MenuCarInstance</a> field_10[3];</i>
-<i id=struc_Career42301AE0></i><i>/*1AE0*/int field_1AE0;</i>
-<i id=struc_Career42301AE4></i><i>/*1AE4*/float floatField_1AE4;</i>
-<i id=struc_Career42301AE8></i><i>/*1AE8*/int field_1AE8;</i>
+<i id=struc_Career4230@1AE0></i><i>/*1AE0*/int field_1AE0;</i>
+<i id=struc_Career4230@1AE4></i><i>/*1AE4*/float floatField_1AE4;</i>
+<i id=struc_Career4230@1AE8></i><i>/*1AE8*/int field_1AE8;</i>
 };
 <i>EXPECT_SIZE(struct Career4230, 0x1AEC);</i></div>
 <ul>
@@ -8663,11 +8663,11 @@ but in reality these are all zero, and that is an empty string :D*/</span>
 <p>size unknown</div>
 <div class=mm><p>probably incomplete</div>
 <div>struct <h3>Career</h3> { <i>/*56 members, size 8A0Ch*/</i> <em></em>
-<i id=struc_Career0></i><i>/*0*/	<a href=#struc_Career_0>struct Career_0</a> field_0[64];</i>
-<i id=struc_Career600></i><span class='mm'>/**see <a href=funcs.html#528980>Career::RecalculateCollectedEngageMarkers</a>
+<i id=struc_Career@0></i><i>/*0*/	<a href=#struc_Career_0>struct Career_0</a> field_0[64];</i>
+<i id=struc_Career@600></i><span class='mm'>/**see <a href=funcs.html#528980>Career::RecalculateCollectedEngageMarkers</a>
 extra ref: 605880*/</span>
 <i>/*600*/	</i><a href=structs.html#struc_Marker>struct Marker</a> *collectedEngageMarkers[128];
-<i id=struc_Career800></i><span class='mm'>/**why is there 256 of these? there aren't that many money pickups in the world...
+<i id=struc_Career@800></i><span class='mm'>/**why is there 256 of these? there aren't that many money pickups in the world...
 see <a href=funcs.html#5141B0>Career::CheckMoneyMarkers</a>*/</span>
 <i>/*800*/	</i><a href=structs.html#struc_Marker>struct Marker</a> *collectedMoneyMarkers?[256];
 <span class='mm'>/**unknown struct size*/</span>
@@ -8680,14 +8680,14 @@ see <a href=funcs.html#5141B0>Career::CheckMoneyMarkers</a>*/</span>
 <i>/*422E*/char _pad422E[0x2];</i>
 <i>/*4230*/<a href=#struc_Career4230>struct Career4230</a> field_4230;</i>
 <i>/*5D1C*/char _pad5D1C[0x4];</i>
-<i id=struc_Career5D20></i><i>/*5D20*/</i><a href=#struc_SmsMessageList>struct SmsMessageList</a> smsMessageList;
-<i id=struc_Career7134></i><i>/*7134*/</i><a href=#struc_CareerBank>struct CareerBank</a> bank;
+<i id=struc_Career@5D20></i><i>/*5D20*/</i><a href=#struc_SmsMessageList>struct SmsMessageList</a> smsMessageList;
+<i id=struc_Career@7134></i><i>/*7134*/</i><a href=#struc_CareerBank>struct CareerBank</a> bank;
 <i>/*7138*/char field_7138;</i>
 <i>/*7139*/char _pad7139[0x3];</i>
 <i>/*713C*/<a href=#struc_Career713C>struct Career713C</a> field_713C;</i>
 <i>/*7146*/char _pad7146[0x2];</i>
 <i>/*7148*/<a href=#struc_Career7148>struct Career7148</a> field_7148;</i>
-<i id=struc_Career72D8></i><span class='mm'>/**array of 8 (but split in separate fields in this struct for IDA xrefs)*/</span>
+<i id=struc_Career@72D8></i><span class='mm'>/**array of 8 (but split in separate fields in this struct for IDA xrefs)*/</span>
 <i>/*72D8*/</i><a href=#struc_CareerStage>struct CareerStage</a> stage0;
 <i>/*73DC*/</i><a href=#struc_CareerStage>struct CareerStage</a> stage1;
 <i>/*74E0*/</i><a href=#struc_CareerStage>struct CareerStage</a> stage2;
@@ -8695,40 +8695,40 @@ see <a href=funcs.html#5141B0>Career::CheckMoneyMarkers</a>*/</span>
 <i>/*76E8*/</i><a href=#struc_CareerStage>struct CareerStage</a> stage4;
 <i>/*77EC*/</i><a href=#struc_CareerStage>struct CareerStage</a> stage5;
 <i>/*78F0*/</i><a href=#struc_CareerStage>struct CareerStage</a> stage6;
-<i id=struc_Career79F4></i><i>/*79F4*/</i><a href=#struc_CareerStage>struct CareerStage</a> stage7;
-<i id=struc_Career7AF8></i><span class='mm'>/**0-6 (but there's a stage 7? or is it dummy?)*/</span>
+<i id=struc_Career@79F4></i><i>/*79F4*/</i><a href=#struc_CareerStage>struct CareerStage</a> stage7;
+<i id=struc_Career@7AF8></i><span class='mm'>/**0-6 (but there's a stage 7? or is it dummy?)*/</span>
 <i>/*7AF8*/</i>int currentStage;
 <i>/*7AFC*/</i>int numUsed7B00;
 <span class='mm'>/**384 elements, see 53286B
 
 nulling entries removes discovered shops from the map*/</span>
 <i>/*7B00*/<a href=#struc_Career7B00>struct Career7B00</a> field_7B00[384];</i>
-<i id=struc_Career8700></i><i>/*8700*/int field_8700;</i>
-<i id=struc_Career8704></i><i>/*8704*/void *field_8704;</i>
-<i id=struc_Career8708></i><i>/*8708*/int field_8708;</i>
-<i id=struc_Career870C></i><i>/*870C*/<a href=structs.html#struc_Career_8724>struct Career_8724</a> *field_870C;</i>
-<i id=struc_Career8710></i><i>/*8710*/int field_8710;</i>
-<i id=struc_Career8714></i><i>/*8714*/int field_8714;</i>
+<i id=struc_Career@8700></i><i>/*8700*/int field_8700;</i>
+<i id=struc_Career@8704></i><i>/*8704*/void *field_8704;</i>
+<i id=struc_Career@8708></i><i>/*8708*/int field_8708;</i>
+<i id=struc_Career@870C></i><i>/*870C*/<a href=structs.html#struc_Career_8724>struct Career_8724</a> *field_870C;</i>
+<i id=struc_Career@8710></i><i>/*8710*/int field_8710;</i>
+<i id=struc_Career@8714></i><i>/*8714*/int field_8714;</i>
 <i>/*8718*/char _pad8718[0x4];</i>
-<i id=struc_Career871C></i><i>/*871C*/int field_871C;</i>
-<i id=struc_Career8720></i><i>/*8720*/int field_8720;</i>
-<i id=struc_Career8724></i><i>/*8724*/<a href=structs.html#struc_Career_8724>struct Career_8724</a> *field_8724;</i>
-<i id=struc_Career8728></i><i>/*8728*/int field_8728;</i>
+<i id=struc_Career@871C></i><i>/*871C*/int field_871C;</i>
+<i id=struc_Career@8720></i><i>/*8720*/int field_8720;</i>
+<i id=struc_Career@8724></i><i>/*8724*/<a href=structs.html#struc_Career_8724>struct Career_8724</a> *field_8724;</i>
+<i id=struc_Career@8728></i><i>/*8728*/int field_8728;</i>
 <span class='mm'>/**counter*/</span>
 <i>/*872C*/int field_872C;</i>
 <span class='mm'>/**set in <a href=funcs.html#541160>Career::541160</a>*/</span>
 <i>/*8730*/<a href=structs.html#struc_Bin34A11>struct Bin34A11</a> *field_8730;</i>
 <i>/*8734*/void *field_8734;</i>
 <i>/*8738*/<a href=structs.html#struc_Bin34A11>struct Bin34A11</a> *field_8738;</i>
-<i id=struc_Career873C></i><span class='mm'>/**Fun fact: when creating a new profile,
+<i id=struc_Career@873C></i><span class='mm'>/**Fun fact: when creating a new profile,
 this value is set to 0 when the textbox to enter a name appears.
 When canceling at that point, it's set back to 1
 (if the loaded profile already had career started).*/</span>
 <i>/*873C*/</i>char isCareerStarted <u></u>;
-<i id=struc_Career873D></i><i>/*873D*/char field_873D;</i>
+<i id=struc_Career@873D></i><i>/*873D*/char field_873D;</i>
 <i>/*873E*/char field_873E;</i>
 <i>/*873F*/char field_873F;</i>
-<i id=struc_Career8740></i><span class='mm'>/**eg: "CAREER_0"  (&lt;- shouldn't this be CAREER_SLOT_0?)*/</span>
+<i id=struc_Career@8740></i><span class='mm'>/**eg: "CAREER_0"  (&lt;- shouldn't this be CAREER_SLOT_0?)*/</span>
 <i>/*8740*/</i>unsigned int activeCarSlotHash;
 <i>/*8744*/char field_8744;</i>
 <i>/*8745*/char _pad8745[0xB];</i>
@@ -8742,7 +8742,7 @@ When canceling at that point, it's set back to 1
 <span class='mm'>/**size 64 see 532A1E*/</span>
 <i>/*8768*/char field_8768[256];</i>
 <i>/*8868*/char field_8868;</i>
-<i id=struc_Career8869></i><span class='mm'>/**all inited to 1*/</span>
+<i id=struc_Career@8869></i><span class='mm'>/**all inited to 1*/</span>
 <i>/*8869*/char field_8869[8][2];</i>
 <i>/*8879*/char field_8879;</i>
 <i>/*887A*/char _pad887A[0x2];</i>
@@ -9051,14 +9051,14 @@ only used for reading
 size 50 (see 512AC9)</div>
 <div>struct <h3>CareerStageSettings</h3> { <i>/*19 members, size 50h*/</i>
 <i>/*0*/	</i>char stageIndex;
-<span class='mm'>/**max 5, because <a href=structs.html#struc_CareerStageSettings8>sponsors</a>/<a href=structs.html#struc_CareerStageSettings1C>field_1C</a> is of size 5*/</span>
+<span class='mm'>/**max 5, because <a href=structs.html#struc_CareerStageSettings@8>sponsors</a>/<a href=structs.html#struc_CareerStageSettings@1C>field_1C</a> is of size 5*/</span>
 <i>/*1*/	</i>char numSponsors;
 <span class='mm'>/**money to win or lose for outruns*/</span>
 <i>/*2*/	</i>__int16 outrunStakes;
 <i>/*4*/	</i>__int16 showcaseRewardMultiplier;
 <i>/*6*/	char _pad6[0x2];</i>
-<i id=struc_CareerStageSettings8></i><i>/*8*/	</i><a href=#struc_CareerSponsorPtrOrHash>struct CareerSponsorPtrOrHash</a> sponsors[5];
-<i id=struc_CareerStageSettings1C></i><i>/*1C*/	char field_1C[10];</i>
+<i id=struc_CareerStageSettings@8></i><i>/*8*/	</i><a href=#struc_CareerSponsorPtrOrHash>struct CareerSponsorPtrOrHash</a> sponsors[5];
+<i id=struc_CareerStageSettings@1C></i><i>/*1C*/	char field_1C[10];</i>
 <i>/*26*/	char _pad26[0x2];</i>
 <span class='mm'>/**hash, sms hash? see usage at 524395*/</span>
 <i>/*28*/	int field_28;</i>
@@ -9096,16 +9096,16 @@ size 50 (see 512AC9)</div>
 <i>/*24*/	int field_24;</i>
 <i>/*28*/	int field_28;</i>
 <i>/*2C*/	int field_2C;</i>
-<i id=struc_Marker30></i><span class='mm'>/**for type neighbourhood: hash of name
+<i id=struc_Marker@30></i><span class='mm'>/**for type neighbourhood: hash of name
 for type engage tip: hash of sms name
 for money: hash of sound effect to play!?*/</span>
 <i>/*30*/	</i>unsigned int hash;
 <i>/*34*/	int field_34;</i>
 <i>/*38*/	int field_38;</i>
 <i>/*3C*/	int field_3C;</i>
-<i id=struc_Marker40></i><span class='mm'>/**usually 4-14*/</span>
+<i id=struc_Marker@40></i><span class='mm'>/**usually 4-14*/</span>
 <i>/*40*/	</i>__int16 radius;
-<i id=struc_Marker42></i><span class='mm'>/**seems like there are marker subtypes with different sizes*/</span>
+<i id=struc_Marker@42></i><span class='mm'>/**seems like there are marker subtypes with different sizes*/</span>
 <i>/*42*/	</i>__int16 markerStructSize;
 <i>/*44*/	</i>float pos_x;
 <i>/*48*/	</i>float pos_y;
@@ -9141,18 +9141,18 @@ Markers is just section <code>3414A</code> but this func loads more than that</d
 <i>/*23*/	char _pad23[0x1];</i>
 <i>/*24*/	int field_24;</i>
 <i>/*28*/	char _pad28[0x40C];</i>
-<i id=struc_PathsData434></i><span class='mm'>/**number of entries in <a href=structs.html#struc_PathsData43C>allMarkers</a>, note that each entry has a dynamic size of <a href=structs.html#struc_Marker42>markerStructSize</a>*/</span>
+<i id=struc_PathsData@434></i><span class='mm'>/**number of entries in <a href=structs.html#struc_PathsData@43C>allMarkers</a>, note that each entry has a dynamic size of <a href=structs.html#struc_Marker@42>markerStructSize</a>*/</span>
 <i>/*434*/	</i>int numMarkers;
-<span class='mm'>/**<a href=structs.html#struc_PathsData43C>allMarkers</a> is loaded from binsection <code>3414A</code> data, this field is the "size" field of that binsection
+<span class='mm'>/**<a href=structs.html#struc_PathsData@43C>allMarkers</a> is loaded from binsection <code>3414A</code> data, this field is the "size" field of that binsection
 
-size of <a href=structs.html#struc_PathsData43C>allMarkers</a>*/</span>
+size of <a href=structs.html#struc_PathsData@43C>allMarkers</a>*/</span>
 <i>/*438*/	</i>int allMarkersSize;
-<i id=struc_PathsData43C></i><i>/*43C*/	</i><a href=structs.html#struc_Marker>struct Marker</a> *allMarkers;
-<i id=struc_PathsData440></i><span class='mm'>/**note that, while this array is of size 22,
+<i id=struc_PathsData@43C></i><i>/*43C*/	</i><a href=structs.html#struc_Marker>struct Marker</a> *allMarkers;
+<i id=struc_PathsData@440></i><span class='mm'>/**note that, while this array is of size 22,
 entry 21 does not point to an array of markers,
 rather it points to where the end of the array on entry 20 is
 
-array of ptrs to markers with the arrayindex as marker type (ie <code><a href=structs.html#struc_PathsData440>markers</a>[3]</code> points to an array of markers with type 3*/</span>
+array of ptrs to markers with the arrayindex as marker type (ie <code><a href=structs.html#struc_PathsData@440>markers</a>[3]</code> points to an array of markers with type 3*/</span>
 <i>/*440*/	</i><a href=structs.html#struc_Marker>struct Marker</a> *markers[22];
 <i>/*498*/	int field_498;</i>
 <i>/*49C*/	int field_49C;</i>
@@ -9260,7 +9260,7 @@ array of ptrs to markers with the arrayindex as marker type (ie <code><a href=st
 <i>/*30*/	int field_30;</i>
 <i>/*34*/	</i><a href=#struc_ObjectLink>struct ObjectLink</a> linkField_34;
 <i>/*3C*/	</i><a href=#struc_ObjectLink>struct ObjectLink</a> linkField_3C;
-<i id=struc_Network86A38844></i><i>/*44*/	</i><a href=structs.html#struc_Network44>struct Network44</a> *network44;
+<i id=struc_Network86A388@44></i><i>/*44*/	</i><a href=structs.html#struc_Network44>struct Network44</a> *network44;
 <i>/*48*/	char field_48;</i>
 <i>/*49*/	char field_49;</i>
 <i>/*4A*/	char field_4A;</i>
@@ -9303,7 +9303,7 @@ array of ptrs to markers with the arrayindex as marker type (ie <code><a href=st
 </ul>
 <a id=struc_Network44></a>
 <div>struct <h3>Network44</h3> { <i>/*35 members, size 1988h*/</i>
-<i id=struc_Network440></i><i>/*0*/	</i><a href=structs.html#struc_Network0>struct Network0</a> *network0;
+<i id=struc_Network44@0></i><i>/*0*/	</i><a href=structs.html#struc_Network0>struct Network0</a> *network0;
 <i>/*4*/	</i><a href=structs.html#struc_Network8B7CAC>struct Network8B7CAC</a> *icmpSocketWrapper;
 <i>/*8*/	int field_8;</i>
 <i>/*C*/	int field_C;</i>
@@ -9325,7 +9325,7 @@ array of ptrs to markers with the arrayindex as marker type (ie <code><a href=st
 <span class='mm'>/**actual length unknown*/</span>
 <i>/*340*/	</i>char keyValueString70657264[256] <u></u>;
 <i>/*440*/	char _pad440[0x100];</i>
-<i id=struc_Network44540></i><span class='mm'>/**actual length unknown, KEY=VALUE string, this one should have TOSURL,GAMES_PER_UPDATE,NEWSURL,RESPONSE_GRAPH*/</span>
+<i id=struc_Network44@540></i><span class='mm'>/**actual length unknown, KEY=VALUE string, this one should have TOSURL,GAMES_PER_UPDATE,NEWSURL,RESPONSE_GRAPH*/</span>
 <i>/*540*/	</i>char keyValueString636F6E66[256] <u></u>;
 <i>/*640*/	char _pad640[0x704];</i>
 <span class='mm'>/**actual length unknown*/</span>
@@ -9682,7 +9682,7 @@ array of ptrs to markers with the arrayindex as marker type (ie <code><a href=st
 </ul>
 <a id=struc_SocketWrapper></a>
 <div>struct <h3>SocketWrapper</h3> { <i>/*23 members, size 50h*/</i>
-<i id=struc_SocketWrapper0></i><i>/*0*/	</i><a href=structs.html#struc_SocketWrapper>struct SocketWrapper</a> *previousSocketWrapper;
+<i id=struc_SocketWrapper@0></i><i>/*0*/	</i><a href=structs.html#struc_SocketWrapper>struct SocketWrapper</a> *previousSocketWrapper;
 <i>/*4*/	int field_4;</i>
 <i>/*8*/	</i>int socket_af;
 <i>/*C*/	</i>int socket_type;

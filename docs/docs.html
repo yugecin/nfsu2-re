@@ -613,7 +613,7 @@ for example the data of section with magic <code>80034147</code> contains more s
 <li><a href=vars.html#835784>binSectionHandlerMagicMapEntry135200</a></li>
 <li><a href=vars.html#835840>binSectionHandlerMagicMapEntry80134000</a></li>
 <li><a href=vars.html#8358D0>binSectionHandlerMagicMapEntryB3320000</a></li>
-<li><a href=vars.html#83A9D0>profileData</a>.<a href=structs.html#struc_ProfileData29824>binSection80034A10loaded</a></li>
+<li><a href=vars.html#83A9D0>profileData</a>.<a href=structs.html#struc_ProfileData@29824>binSection80034A10loaded</a></li>
 <li><a href=vars.html#8653A0>binSectionHandlerMagicMapEntry39101</a></li>
 <li><a href=vars.html#865470>binSectionHandlerMagicMapEntry39102</a></li>
 <li><a href=vars.html#86596C>binSectionHandlerMagicMapEntry39100</a></li>
@@ -789,7 +789,7 @@ when the game is installed?
 </pre>
 <p>The value stored in the registry for <code>Language</code> is checked against
 all language strings in the above data. The matching language's
-<a href=structs.html#struc_LanguageData4>field_4</a> gets stored in <a href=vars.html#7FCA00>languageIndex</a>, or 0 when the
+<a href=structs.html#struc_LanguageData@4>field_4</a> gets stored in <a href=vars.html#7FCA00>languageIndex</a>, or 0 when the
 name stored in the registry didn't match any names.
 <p>After chasing usages of a region related proc,
 I found more language data which is being used in <a href=funcs.html#4FF680>LoadLanguageSomething</a>.
@@ -883,8 +883,8 @@ When it's not found the game will segfault because of the code below:
 <span class='mt'>.text:004FF6A6</span> loc_4FF6A6:
 <span class='mt'>.text:004FF6A6</span>                 mov     ecx, [edx+<span class='num'>0Ch</span>]
 </pre>
-<p>Then <code><a href=structs.html#struc_LanguageFileData>struct LanguageFileData</a>.<a href=structs.html#struc_LanguageFileDataC>fontdata</a></code> is read.
-Its <code><a href=structs.html#struc_LanguageFontData0>field_0</a>[0]</code> value is read and then a
+<p>Then <code><a href=structs.html#struc_LanguageFileData>struct LanguageFileData</a>.<a href=structs.html#struc_LanguageFileData@C>fontdata</a></code> is read.
+Its <code><a href=structs.html#struc_LanguageFontData@0>field_0</a>[0]</code> value is read and then a
 matching entry in <a href=vars.html#7F6DE8>languageStuff7F6DE8</a> is searched.
 More stuff is read in a loop and reset and I lost track.
 Eventually something is called with string <code>LanguageMemoryPool</code>.
@@ -912,8 +912,8 @@ Eventually something is called with string <code>LanguageMemoryPool</code>.
 <p>The language strings are in a bin section with magic <code>0x39000</code>, and is structured like this:
 <pre>
 <a href=structs.html#struc_BinDataLanguage39000>struct BinDataLanguage39000</a> header;
-char unknown[header.<a href=structs.html#struc_BinDataLanguage390008>tableOffset</a> - sizeof(header)];
-<a href=structs.html#struc_LanguageTableEntry>struct LanguageTableEntry</a> tableEntries[header.<a href=structs.html#struc_BinDataLanguage390004>numStrings</a>];
+char unknown[header.<a href=structs.html#struc_BinDataLanguage39000@8>tableOffset</a> - sizeof(header)];
+<a href=structs.html#struc_LanguageTableEntry>struct LanguageTableEntry</a> tableEntries[header.<a href=structs.html#struc_BinDataLanguage39000@4>numStrings</a>];
 char *strings; /*all zero-terminated strings after each other*/
 </pre>
 <p>The <code>tableEntries</code> are sorted (low hash to high hash),
@@ -957,9 +957,9 @@ The original labels are also stored as a language file in <code>LANGUAGES/Labels
 This will probably help a lot when trying to figure out other things.
 Note that the first time the <code>AUD: NFS3DMixCtl Pool</code> is made, it has an element amount of zero.
 The dump is from just starting the game and starting a circuit race.
-<p>Pools can be enlarged by <a href=funcs.html#440BB0>Pool::Extend</a>, but only if its <code><a href=structs.html#struc_Pool14>flags</a></code> has the <a href=enums.html#enu_POOLFLAGS1>POOL_FLAG_EXTENDABLE</a>
+<p>Pools can be enlarged by <a href=funcs.html#440BB0>Pool::Extend</a>, but only if its <code><a href=structs.html#struc_Pool@14>flags</a></code> has the <a href=enums.html#enu_POOLFLAGS1>POOL_FLAG_EXTENDABLE</a>
 flag. When extending, the newly created pool gets added as last in the main pool's
-<code><a href=structs.html#struc_Pool8>nextLinkedPool</a></code>. The main pool's <code><a href=structs.html#struc_Pool10>firstAvailableElement</a></code> will point to the first allocated element of
+<code><a href=structs.html#struc_Pool@8>nextLinkedPool</a></code>. The main pool's <code><a href=structs.html#struc_Pool@10>firstAvailableElement</a></code> will point to the first allocated element of
 the next pool, and the last allocated element of the new pool will point to the first element
 of the main pool.
 <p><strong>Symbols:</strong></p>
@@ -985,7 +985,7 @@ of the main pool.
 <li><a href=vars.html#827B60>anim_CAnimSkeletonPoolCreated</a></li>
 <li><a href=vars.html#827B64>anim_CAnimPartPool</a></li>
 <li><a href=vars.html#827B68>anim_CAnimPartPoolCreated</a></li>
-<li><a href=vars.html#83A9D0>profileData</a>.<a href=structs.html#struc_ProfileData10>player1</a>.<a href=structs.html#struc_Player24>p24</a>.<a href=structs.html#struc_Player_2416>useMetricSystem</a></li>
+<li><a href=vars.html#83A9D0>profileData</a>.<a href=structs.html#struc_ProfileData@10>player1</a>.<a href=structs.html#struc_Player@24>p24</a>.<a href=structs.html#struc_Player_24@16>useMetricSystem</a></li>
 <li><a href=funcs.html#431380>CreateAnim_CNFSAnimBankPool</a></li>
 <li><a href=funcs.html#4314E0>CreateAnim_CAnimSkeletonPool</a></li>
 <li><a href=funcs.html#431580>CreateAnim_CAnimPartPool</a></li>
@@ -1452,7 +1452,7 @@ resources or some kind of UI widget descriptors.
 <p>UI things seem to work on a <code>640x480</code> canvas.
 Most things (especially when mouse is involved) seem to be positioned
 <code>([-320,+320],[-240,+240])</code>.
-<p>A UI element is described by <a href=structs.html#struc_UIElement>struct UIElement</a>. Its <a href=structs.html#struc_UIElement18>type</a> field tells which
+<p>A UI element is described by <a href=structs.html#struc_UIElement>struct UIElement</a>. Its <a href=structs.html#struc_UIElement@18>type</a> field tells which
 kind of element it is. Currently I have:
 <p>(later I found <a href=funcs.html#5359D0>UIData_field8_4134::ctor</a> which kinda seems like it has names for some types of elements?
 I put those names in the list below between square brackets)
@@ -1470,7 +1470,7 @@ I put those names in the list below between square brackets)
 </li><li>type 11: ? [Simple Image]
 </li></ul>
 <p>All UI elements are addressable by the hash (see <a href='#hashfuncs'>Hash functions</a>) of its name (stored in its field
-<a href=structs.html#struc_UIElement10>hash</a>). So then one can find UI elements by using <a href=funcs.html#4953C0>FindUILabelByName</a> or <a href=funcs.html#537A10>FindUILabelByHash</a> and
+<a href=structs.html#struc_UIElement@10>hash</a>). So then one can find UI elements by using <a href=funcs.html#4953C0>FindUILabelByName</a> or <a href=funcs.html#537A10>FindUILabelByHash</a> and
 the likes.
 <p>See also <a href='BLOGx01-exploring-UI.html'>blogpost: Exploring UI</a>
 <div><p id='ui_dialog'><small><a href='#ui'>UI</a></small></p>
@@ -1500,9 +1500,9 @@ to a string that says what FNG to display for the dialog that was passed.
 <p>The dialog info may already have the FNG set, this function will return that unless
 it's not set or it's not either <code>animating</code> or <code>3button</code>.
 <ul>
-<li><code>HelpDialog_SMALL.fng</code> when <code><a href=structs.html#struc_DialogInfo32D>isHelpDialog</a></code> and text has less than 5 linebreaks
-</li><li><code>HelpDialog_MED.fng</code> when <code><a href=structs.html#struc_DialogInfo32D>isHelpDialog</a></code> and text has more than 4 linebreaks
-</li><li><code>GenericDialog_ThreeButton.fng</code> when <code><a href=structs.html#struc_DialogInfo324>myFNGName</a></code> is <code>3button</code>
+<li><code>HelpDialog_SMALL.fng</code> when <code><a href=structs.html#struc_DialogInfo@32D>isHelpDialog</a></code> and text has less than 5 linebreaks
+</li><li><code>HelpDialog_MED.fng</code> when <code><a href=structs.html#struc_DialogInfo@32D>isHelpDialog</a></code> and text has more than 4 linebreaks
+</li><li><code>GenericDialog_ThreeButton.fng</code> when <code><a href=structs.html#struc_DialogInfo@324>myFNGName</a></code> is <code>3button</code>
 </li><li><code>GenericDialog_SMALL.fng</code> when text width is <code>&lt; 2561.0f</code>
 </li><li><code>GenericDialog_Animate_SMALL.fng</code> same as above, but when type is <code>animating</code>
 </li><li><code>GenericDialog_MED.fng</code> when text width is <code>&lt; 5122.0f</code>
@@ -2952,8 +2952,8 @@ FFD19C74: fngdata GarageMain.fng
 </pre>
 </details>
 <p>Lines with <code>fngdata</code> means they have a matching entry in <a href=vars.html#7F7DC8>fngdata</a>.
-Lines with <code>NAME</code> don't, but are from binsection <code>30203</code> so they show their <a href=structs.html#struc_BinSection30203Data>struct BinSection30203Data</a>.<a href=structs.html#struc_BinSection30203Data28>fngName</a>.
-Lines with <code>HASH</code> don't, and are from binsection <code>30210</code> so they show their <a href=structs.html#struc_BinSection30210>struct BinSection30210</a>.<a href=structs.html#struc_BinSection302108>fngNameCSHash</a>.
+Lines with <code>NAME</code> don't, but are from binsection <code>30203</code> so they show their <a href=structs.html#struc_BinSection30203Data>struct BinSection30203Data</a>.<a href=structs.html#struc_BinSection30203Data@28>fngName</a>.
+Lines with <code>HASH</code> don't, and are from binsection <code>30210</code> so they show their <a href=structs.html#struc_BinSection30210>struct BinSection30210</a>.<a href=structs.html#struc_BinSection30210@8>fngNameCSHash</a>.
 <p>One of those that don't have a name but do show a name from their binsection data is
 <code>Loading_Controller.fng</code>. Since this one isn't in <a href=vars.html#7F7DC8>fngdata</a> nor is the string present in the
 executable, this is the first time I've seen it.
@@ -3621,7 +3621,7 @@ career yet.
 <a href=vars.html#865130>cheatExtraCareerMoney1000</a> = 1000;
 // ^ used when starting a new career from a profile that
 // was loaded from the profile menu
-if (!<a href=vars.html#83A9D0>profileData</a>.<a href=structs.html#struc_ProfileData20370>career</a>.<a href=structs.html#struc_Career873C>isCareerStarted</a>)  {
+if (!<a href=vars.html#83A9D0>profileData</a>.<a href=structs.html#struc_ProfileData@20370>career</a>.<a href=structs.html#struc_Career@873C>isCareerStarted</a>)  {
 	if (<a href=funcs.html#500F90>CareerBank::GetMoney</a>() == 0)  {
 		<a href=funcs.html#500F80>CareerBank::AddMoney</a>(1000);
 		// ^ This only has an effect when the profile was
@@ -3694,19 +3694,19 @@ void __thiscall <a href=funcs.html#575770>CheatScreenData::InitCheats?</a>(<a hr
 	// much more init code here
 
 	// TODO reimplement this instead of putting this code in docs...
-	this-&gt;<a href=structs.html#struc_CheatScreenData0>ppFunction</a> = (void*) <a href=vars.html#7A0604>unnamed_7A0604</a>; // TODO!!
-	this-&gt;<a href=structs.html#struc_CheatScreenData4>doCheatCheck</a> = 0;
-	this-&gt;<a href=structs.html#struc_CheatScreenDataC>cheats</a> = <a href=vars.html#7FB960>cheatData</a>;
-	this-&gt;<a href=structs.html#struc_CheatScreenData10>numCheats</a> = 20;
-	this-&gt;<a href=structs.html#struc_CheatScreenData34>typedCheatLength</a> = 0;
-	this-&gt;<a href=structs.html#struc_CheatScreenData38>field_38</a> = 0;
+	this-&gt;<a href=structs.html#struc_CheatScreenData@0>ppFunction</a> = (void*) <a href=vars.html#7A0604>unnamed_7A0604</a>; // TODO!!
+	this-&gt;<a href=structs.html#struc_CheatScreenData@4>doCheatCheck</a> = 0;
+	this-&gt;<a href=structs.html#struc_CheatScreenData@C>cheats</a> = <a href=vars.html#7FB960>cheatData</a>;
+	this-&gt;<a href=structs.html#struc_CheatScreenData@10>numCheats</a> = 20;
+	this-&gt;<a href=structs.html#struc_CheatScreenData@34>typedCheatLength</a> = 0;
+	this-&gt;<a href=structs.html#struc_CheatScreenData@38>field_38</a> = 0;
 
 	for (i = 0; i &lt; 20; i++) {
-		if (this-&gt;<a href=structs.html#struc_CheatScreenDataC>cheats</a>[i].<a href=structs.html#struc_CheatData20>cheatType</a> == CHEAT_TYPE_VINYL &amp;&amp;
-			this-&gt;<a href=structs.html#struc_CheatScreenDataC>cheats</a>[i].<a href=structs.html#struc_CheatData24>cheatData</a> == hashCS43DB50("AD_BESTBUY") &amp;&amp;
+		if (this-&gt;<a href=structs.html#struc_CheatScreenData@C>cheats</a>[i].<a href=structs.html#struc_CheatData@20>cheatType</a> == CHEAT_TYPE_VINYL &amp;&amp;
+			this-&gt;<a href=structs.html#struc_CheatScreenData@C>cheats</a>[i].<a href=structs.html#struc_CheatData@24>cheatData</a> == hashCS43DB50("AD_BESTBUY") &amp;&amp;
 			<a href=vars.html#864F24>_gameRegion</a> != 0 /*REGION_US*/)
 		{
-			this-&gt;<a href=structs.html#struc_CheatScreenDataC>cheats</a>[i].<a href=structs.html#struc_CheatData32>cheatEnabled</a> = 0;
+			this-&gt;<a href=structs.html#struc_CheatScreenData@C>cheats</a>[i].<a href=structs.html#struc_CheatData@32>cheatEnabled</a> = 0;
 		}
 	}
 }
@@ -3762,7 +3762,7 @@ The function gave some nice information:
 <p>This became <a href=structs.html#struc_Car>struct Car</a>.
 <p>Looping through all the data and printing their names:
 <pre>
-car #: <a href=structs.html#struc_Car0>name0</a> <a href=structs.html#struc_Car20>name1</a> <a href=structs.html#struc_CarC0>manufacturerName</a>
+car #: <a href=structs.html#struc_Car@0>name0</a> <a href=structs.html#struc_Car@20>name1</a> <a href=structs.html#struc_Car@C0>manufacturerName</a>
 car 0: PEUGOT PEUGOT PEUGEOT
 car 1: FOCUS FOCUS FORD
 car 2: COROLLA COROLLA TOYOTA
@@ -3854,8 +3854,8 @@ going on), but they don't appear on the map.
 <p>The money pickup/info pickup(engage sms messages)/race/shop/garage/neighbourhood/and more? markers.
 They are in bin section <code>0x3414A</code>, which is in bin section <code>0x80034147</code>, in <code>TRACKS\ROUTESL4R%c\Paths%d.bin</code>.
 Bin section <code>3414A</code> is loaded as part of <a href=funcs.html#5D9A90>PathsData::ReadFromBinData</a> and inited in <a href=funcs.html#5D5630>PathsData::InitAfterReadFromBinData</a>.
-<p>After reading, they are in <code><a href=vars.html#88F298>pathsData</a>.<a href=structs.html#struc_PathsData43C>allMarkers</a></code>, which has <code><a href=vars.html#88F298>pathsData</a>.<a href=structs.html#struc_PathsData434>numMarkers</a></code> entries.
-They are also in <code><a href=vars.html#88F298>pathsData</a>.<a href=structs.html#struc_PathsData440>markers</a></code>, which is an array. Each entry points to an array of markers with
+<p>After reading, they are in <code><a href=vars.html#88F298>pathsData</a>.<a href=structs.html#struc_PathsData@43C>allMarkers</a></code>, which has <code><a href=vars.html#88F298>pathsData</a>.<a href=structs.html#struc_PathsData@434>numMarkers</a></code> entries.
+They are also in <code><a href=vars.html#88F298>pathsData</a>.<a href=structs.html#struc_PathsData@440>markers</a></code>, which is an array. Each entry points to an array of markers with
 their type matching the index of the array, except the last entry. The last entry at index 21 points to where the end
 of the array of index 20 is, it does not point to an array of markers itself.
 <p>This data is only loaded while in career/quickrace/freeroam.
@@ -3896,7 +3896,7 @@ which is in file <code>GLOBAL/GLOBALB.BUN</code>).
 <li><a href=vars.html#83632C>smsOpenType</a></li>
 <li><a href=vars.html#838450>numSmsDatas</a></li>
 <li><a href=vars.html#838454>smsDatas</a></li>
-<li><a href=vars.html#83A9D0>profileData</a>.<a href=structs.html#struc_ProfileData20370>career</a>.<a href=structs.html#struc_Career5D20>smsMessageList</a></li>
+<li><a href=vars.html#83A9D0>profileData</a>.<a href=structs.html#struc_ProfileData@20370>career</a>.<a href=structs.html#struc_Career@5D20>smsMessageList</a></li>
 <li><a href=funcs.html#4976B0>ShowMailboxOrSingleUnreadSms</a></li>
 <li><a href=funcs.html#497760>GetSmsMessageSubjectHeader</a></li>
 <li><a href=funcs.html#4977C0>HideSmsMailbox</a></li>
@@ -3942,7 +3942,7 @@ which is in file <code>GLOBAL/GLOBALB.BUN</code>).
 <li><a href=vars.html#83648C>loadIntoCareerImmediately?</a></li>
 <li><a href=vars.html#83840C>bin34A16</a></li>
 <li><a href=vars.html#838428>careerStringPool</a></li>
-<li><a href=vars.html#83A9D0>profileData</a>.<a href=structs.html#struc_ProfileData20370>career</a></li>
+<li><a href=vars.html#83A9D0>profileData</a>.<a href=structs.html#struc_ProfileData@20370>career</a></li>
 <li><a href=funcs.html#495D30>CareerShowSponsorSelectScreen?</a></li>
 <li><a href=funcs.html#500F90>CareerBank::GetMoney</a></li>
 <li><a href=funcs.html#500180>CareerSponsor::GetInternalSponsorName</a></li>
@@ -4012,7 +4012,7 @@ which is in file <code>GLOBAL/GLOBALB.BUN</code>).
 <li><a href=vars.html#8709D8>_isCTRLKeyDown</a></li>
 <li><a href=vars.html#8A1CCC>ptrCarData</a></li>
 <li><a href=vars.html#835BB8>wcharLoadedProfileName</a></li>
-<li><a href=vars.html#83A9D0>profileData</a>.<a href=structs.html#struc_ProfileData10>player1</a></li>
+<li><a href=vars.html#83A9D0>profileData</a>.<a href=structs.html#struc_ProfileData@10>player1</a></li>
 <li><a href=vars.html#8654A4>_??gameStateSomething</a></li>
 <li><a href=vars.html#89E7E6>isInPerformanceTuning</a></li>
 <li><a href=funcs.html#4035D0>LoadAIStuff</a></li>

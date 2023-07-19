@@ -329,11 +329,11 @@ chained from variable of type struct pointer {{8384C4.8.E4}}                  ||
 </pre>
 <p>Results in:
 <p>Here's a function <a href=funcs.html#529B50>SmsMessageList::SendOutrunInfoSms</a> and variable <a href=vars.html#838454>smsDatas</a> struct <a href=structs.html#struc_SmsData>struct SmsData</a> and
-enum <a href=enums.html#enu_SMS_TYPE>enum SMS_TYPE</a> with members <code><a href=structs.html#struc_SmsData2>type</a> == <a href=enums.html#enu_SMS_TYPE4>SMS_TYPE_OUTRUN_INFO</a></code>
-struct inner member and chained members <code><a href=structs.html#struc_Career>struct Career</a>.<a href=structs.html#struc_Career5D20>smsMessageList</a>.<a href=structs.html#struc_SmsMessageList1404>numUnreadMessages</a></code>
-with pointer <code><a href=structs.html#struc_SmsMessage>struct SmsMessage</a>.<a href=structs.html#struc_SmsMessage0>data</a>-><a href=structs.html#struc_SmsData2>type</a></code>
-chained from variable of type struct <code><a href=vars.html#838640>shownDialog</a>.<a href=structs.html#struc_DialogInfo328>numButtons</a></code>
-chained from variable of type struct pointer <code><a href=vars.html#8384C4>pUIData</a>-><a href=structs.html#struc_UIData8>field_8</a>-><a href=structs.html#struc_UIData_field8DC>fngPackagesDC</a>.<a href=structs.html#struc_FNGInfoList8>topPackage</a></code>
+enum <a href=enums.html#enu_SMS_TYPE>enum SMS_TYPE</a> with members <code><a href=structs.html#struc_SmsData@2>type</a> == <a href=enums.html#enu_SMS_TYPE4>SMS_TYPE_OUTRUN_INFO</a></code>
+struct inner member and chained members <code><a href=structs.html#struc_Career>struct Career</a>.<a href=structs.html#struc_Career@5D20>smsMessageList</a>.<a href=structs.html#struc_SmsMessageList@1404>numUnreadMessages</a></code>
+with pointer <code><a href=structs.html#struc_SmsMessage>struct SmsMessage</a>.<a href=structs.html#struc_SmsMessage@0>data</a>-><a href=structs.html#struc_SmsData@2>type</a></code>
+chained from variable of type struct <code><a href=vars.html#838640>shownDialog</a>.<a href=structs.html#struc_DialogInfo@328>numButtons</a></code>
+chained from variable of type struct pointer <code><a href=vars.html#8384C4>pUIData</a>-><a href=structs.html#struc_UIData@8>field_8</a>-><a href=structs.html#struc_UIData_field8@DC>fngPackagesDC</a>.<a href=structs.html#struc_FNGInfoList@8>topPackage</a></code>
 </div><p>When a struct or enum changes name now, I'll get an error while the docs are
 being generated. That way the docs can't be too desynchronized anymore from
 what I have in the IDA database. Function and variable name changes are free

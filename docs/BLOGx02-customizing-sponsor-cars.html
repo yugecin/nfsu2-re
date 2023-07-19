@@ -366,7 +366,7 @@ int fun_car_customize_sponsor_CarSelectFNGObject__ChangeCategory(<a href=structs
 #define MSG_PREV 0x5073EF13
 #define MSG_NEXT 0xD9FEEC59
 
-	if (<a href=vars.html#83A9D0>profileData</a>-&gt;<a href=structs.html#struc_ProfileData156A8>menuState</a> == <a href=enums.html#enu_MENU_STATE20>MENU_STATE_CAR_CUSTOMIZE</a>) {
+	if (<a href=vars.html#83A9D0>profileData</a>-&gt;<a href=structs.html#struc_ProfileData@156A8>menuState</a> == <a href=enums.html#enu_MENU_STATE20>MENU_STATE_CAR_CUSTOMIZE</a>) {
 		if (message == MSG_PREV) {
 			switch (<a href=vars.html#7F444C>carSelectCategory</a>) {
 			case <a href=enums.html#enu_INVENTORY_CAR_FLAGS1>IS_STOCK_CAR</a> | <a href=enums.html#enu_INVENTORY_CAR_FLAGS2>IS_TUNED_CAR</a>:
@@ -394,7 +394,7 @@ int fun_car_customize_sponsor_CarSelectFNGObject__ChangeCategory(<a href=structs
 			case <a href=enums.html#enu_INVENTORY_CAR_FLAGS8>IS_SPONSOR_CAR</a>: <a href=vars.html#7F444C>carSelectCategory</a> = <a href=enums.html#enu_INVENTORY_CAR_FLAGS1>IS_STOCK_CAR</a> | <a href=enums.html#enu_INVENTORY_CAR_FLAGS2>IS_TUNED_CAR</a>; break;
 			}
 		}
-		<a href=vars.html#83A9D0>profileData</a>-&gt;<a href=structs.html#struc_ProfileData10>player1</a>[<a href=vars.html#83A9D0>profileData</a>-&gt;<a href=structs.html#struc_ProfileData20358>currentPlayerIndex?</a>].<a href=structs.html#struc_PlayerD4>d4</a>.<a href=structs.html#struc_Player_D4C>currentCarSelectionCategory</a> = <a href=vars.html#7F444C>carSelectCategory</a>;
+		<a href=vars.html#83A9D0>profileData</a>-&gt;<a href=structs.html#struc_ProfileData@10>player1</a>[<a href=vars.html#83A9D0>profileData</a>-&gt;<a href=structs.html#struc_ProfileData@20358>currentPlayerIndex?</a>].<a href=structs.html#struc_Player@D4>d4</a>.<a href=structs.html#struc_Player_D4@C>currentCarSelectionCategory</a> = <a href=vars.html#7F444C>carSelectCategory</a>;
 		<a href=funcs.html#4EEC90>CarSelectFNGObject::ResetBrowableCars</a>(this);
 		<a href=funcs.html#4B2310>CarSelectFNGObject::UpdateUI</a>(this);
 		return 1;
@@ -435,7 +435,7 @@ was changed afterwards, this is explained in the last section.</em>
 It will be called with a hash that denotes what car to customize. This could be a stock car
 slot hash (like hash of <code>STOCK_PEUGEOT</code>) or a tuned car slot hash (like hash of <code>TUNED_CAR_2</code>)
 or a career car slot hash (like hash of <code>CAREER_SLOT_1</code>) or an online car slot (like hash of
-<code>ONLINE_CAREER_CIRCUIT</code>), see comment of <a href=structs.html#struc_InventoryCar>struct InventoryCar</a>.<a href=structs.html#struc_InventoryCar8>slotHash</a>.
+<code>ONLINE_CAREER_CIRCUIT</code>), see comment of <a href=structs.html#struc_InventoryCar>struct InventoryCar</a>.<a href=structs.html#struc_InventoryCar@8>slotHash</a>.
 <p>When selecting a sponsor car, it will use its hash (like hash of <code>SPONSOR_SNOOP_DOGG</code>). The
 function tried to find a car in the list of stock cars, tuned cars, career cars or online
 cars. It won't find the sponsor car, and there is no fallback or null checking, so a segfault
@@ -454,10 +454,10 @@ fun_car_customize_sponsor_GetSponsorCar(<a href=structs.html#struc_CarCollection
 	char buf[32];
 	int i;
 
-	i = this-&gt;<a href=structs.html#struc_CarCollection9BD4>numSponsorCars</a>;
+	i = this-&gt;<a href=structs.html#struc_CarCollection@9BD4>numSponsorCars</a>;
 	while (i-- &gt; 0) {
-		if (this-&gt;<a href=structs.html#struc_CarCollection9A84>sponsorCars</a>[i].<a href=structs.html#struc_SponsorCar0>__parent</a>.<a href=structs.html#struc_InventoryCar8>slotHash</a> == slotNameHash) {
-			sprintf(buf, "STOCK_%s", <a href=funcs.html#61C460>FindCarPreset</a>(this-&gt;<a href=structs.html#struc_CarCollection9A84>sponsorCars</a>[i].<a href=structs.html#struc_SponsorCar18>carPresetHash</a>)-&gt;<a href=structs.html#struc_CarPreset8>modelName</a>);
+		if (this-&gt;<a href=structs.html#struc_CarCollection@9A84>sponsorCars</a>[i].<a href=structs.html#struc_SponsorCar@0>__parent</a>.<a href=structs.html#struc_InventoryCar@8>slotHash</a> == slotNameHash) {
+			sprintf(buf, "STOCK_%s", <a href=funcs.html#61C460>FindCarPreset</a>(this-&gt;<a href=structs.html#struc_CarCollection@9A84>sponsorCars</a>[i].<a href=structs.html#struc_SponsorCar@18>carPresetHash</a>)-&gt;<a href=structs.html#struc_CarPreset@8>modelName</a>);
 			return <a href=funcs.html#52A710>CarCollection::CreateNewTunedCarFromFromDataAtSlot</a>(this, <a href=funcs.html#43DB50>SomeHashCS43DB50</a>(buf));
 		}
 	}
@@ -494,7 +494,7 @@ mkjmp(0x552DBB, fun_car_customize_sponsor_set_car_instance_if_missing);
 <p><em>Note: following code can be seen in revision <a class="ext" href="https://github.com/yugecin/nfsu2-re/tree/c6786b6a7a59e3b31f20a41bcff108d4f2ec9982">c6786b6a7a59e3b31f20a41bcff108d4f2ec9982</a> but
 was changed afterwards, this is explained in the last section.</em>
 <p>In <a href=funcs.html#52A710>CarCollection::CreateNewTunedCarFromFromDataAtSlot</a>, right after the function we hooked in the previous section to fix the crash,
-the <a href=structs.html#struc_TunedCar>struct TunedCar</a> instance is used to call its function <code><a href=structs.html#struc_InventoryCar$vtable>struct InventoryCar$vtable</a>.<a href=structs.html#struc_InventoryCar$vtableC>procApplyTuningToInstance</a></code>,
+the <a href=structs.html#struc_TunedCar>struct TunedCar</a> instance is used to call its function <code><a href=structs.html#struc_InventoryCar$vtable>struct InventoryCar$vtable</a>.<a href=structs.html#struc_InventoryCar$vtable@C>procApplyTuningToInstance</a></code>,
 which I believe is a function that applies tuning of this car to a car instance.
 <p>With that in mind, it means that that (alleged) ApplyTuning function is called on the newly
 created <a href=structs.html#struc_TunedCar>struct TunedCar</a> instance, which - if you remember from previous section - is
@@ -561,7 +561,7 @@ after applying the stock car tuning:
 <pre>
 	// copy tuning back from the car instance to the tuned car entry
 	push offset <a href=vars.html#8389D0>customizingCarInstanceB</a>
-	lea ecx, [esi+<a href=structs.html#struc_TunedCar18>field_18</a>]
+	lea ecx, [esi+<a href=structs.html#struc_TunedCar@18>field_18</a>]
 	mov eax, offset <a href=funcs.html#503950>TunedCar18::CopyTuningFromMenuCarInstance</a>
 	call eax
 </pre>
@@ -586,18 +586,18 @@ fun_car_customize_sponsor_CreateTunedCarFromSponsorCar(<a href=structs.html#stru
 	char buf[32];
 	int i;
 
-	i = this-&gt;<a href=structs.html#struc_CarCollection9BD4>numSponsorCars</a>;
+	i = this-&gt;<a href=structs.html#struc_CarCollection@9BD4>numSponsorCars</a>;
 	while (i-- &gt; 0) {
-		if (this-&gt;<a href=structs.html#struc_CarCollection9A84>sponsorCars</a>[i].<a href=structs.html#struc_SponsorCar0>__parent</a>.<a href=structs.html#struc_InventoryCar8>slotHash</a> == slotNameHash) {
-			sprintf(buf, "STOCK_%s", <a href=funcs.html#61C460>FindCarPreset</a>(this-&gt;<a href=structs.html#struc_CarCollection9A84>sponsorCars</a>[i].<a href=structs.html#struc_SponsorCar18>carPresetHash</a>)-&gt;<a href=structs.html#struc_CarPreset8>modelName</a>);
+		if (this-&gt;<a href=structs.html#struc_CarCollection@9A84>sponsorCars</a>[i].<a href=structs.html#struc_SponsorCar@0>__parent</a>.<a href=structs.html#struc_InventoryCar@8>slotHash</a> == slotNameHash) {
+			sprintf(buf, "STOCK_%s", <a href=funcs.html#61C460>FindCarPreset</a>(this-&gt;<a href=structs.html#struc_CarCollection@9A84>sponsorCars</a>[i].<a href=structs.html#struc_SponsorCar@18>carPresetHash</a>)-&gt;<a href=structs.html#struc_CarPreset@8>modelName</a>);
 			tunedCar = <a href=funcs.html#52A710>CarCollection::CreateNewTunedCarFromFromDataAtSlot</a>(this, <a href=funcs.html#43DB50>SomeHashCS43DB50</a>(buf));
 			// (need a temp instance of MenuCarInstance to use for code below, the <a href=vars.html#8389D0>customizingCarInstanceB</a> variable
 			//  is a simple instance to use because it gets overridden later in the Customize process
 			//  anyways so we can do as we please)
 			// (4th param is unknown, but unused in SponsorCar's ApplyTuning, so whatever is fine
-			<a href=funcs.html#5039D0>SponsorCar::ApplyTuningToInstance</a>(sponsorCar, <a href=vars.html#83A9D0>profileData</a>-&gt;<a href=structs.html#struc_ProfileData20358>currentPlayerIndex?</a>, &amp;<a href=vars.html#8389D0>customizingCarInstanceB</a>, 0);
+			<a href=funcs.html#5039D0>SponsorCar::ApplyTuningToInstance</a>(sponsorCar, <a href=vars.html#83A9D0>profileData</a>-&gt;<a href=structs.html#struc_ProfileData@20358>currentPlayerIndex?</a>, &amp;<a href=vars.html#8389D0>customizingCarInstanceB</a>, 0);
 			// copy tuning back from MenuCarInstance to tuned car instance
-			<a href=funcs.html#503950>TunedCar18::CopyTuningFromMenuCarInstance</a>(&amp;tunedCar-&gt;<a href=structs.html#struc_TunedCar18>field_18</a>, &amp;<a href=vars.html#8389D0>customizingCarInstanceB</a>);
+			<a href=funcs.html#503950>TunedCar18::CopyTuningFromMenuCarInstance</a>(&amp;tunedCar-&gt;<a href=structs.html#struc_TunedCar@18>field_18</a>, &amp;<a href=vars.html#8389D0>customizingCarInstanceB</a>);
 			return tunedCar;
 		}
 	}

@@ -979,7 +979,7 @@ void docgen_print_struct_member(FILE *f, struct docgen *dg, struct idcp_struct *
 	if (mem) {
 		idx = mem - dg->idcp->struct_members;
 		if (dg->struct_member_needs_anchor[idx]) {
-			fprintf(f, "<i id=struc_%s%X></i>", struc->name, mem->offset);
+			fprintf(f, "<i id=struc_%s@%X></i>", struc->name, mem->offset);
 		}
 		isplaceholder = !strncmp(mem->name, "field_", 6) || !strncmp(mem->name, "floatField_", 11);
 		if (IDC_is_enum(mem->flag)) {
@@ -1208,7 +1208,7 @@ void docgen_append_ref_text(struct mmparse *mm, void (*append_func)(struct mmpar
 			ud->dg->struct_member_needs_anchor[element->member.struc - ud->dg->idcp->struct_members] = 1;
 			append_func(mm, "<a href=structs.html#struc_", 27);
 			append_func(mm, element->el.struc->name, strlen(element->el.struc->name));
-			len = sprintf(addr, "%X", element->member.struc->offset);
+			len = sprintf(addr, "@%X", element->member.struc->offset);
 			append_func(mm, addr, len);
 			append_func(mm, ">", 1);
 			name = element->member.struc->name;

@@ -3647,16 +3647,16 @@ sometimes also string passed: 600976</div>
 <a id=43BE60></a>
 <div><i>43BE60</i> <a href=structs.html#struc_ObjectLink>struct ObjectLink</a> *__thiscall <h3><a href=structs.html#struc_ObjectLink>ObjectLink</a>::GetObjectAtIndex</h3>(<a href=structs.html#struc_ObjectLink>struct ObjectLink</a> *this, int index);</div>
 <a id=43C0A0></a>
-<div class=mm><p>Nop handler that returns <code>1</code> if <code>binsection-&gt;<a href=structs.html#struc_BinSection0>header</a></code> is <code>0</code>.</div>
+<div class=mm><p>Nop handler that returns <code>1</code> if <code>binsection-&gt;<a href=structs.html#struc_BinSection@0>header</a></code> is <code>0</code>.</div>
 <div><i>43C0A0</i> int __cdecl <h3>LoadUnloadBinSection0</h3>(<a href=structs.html#struc_BinSection>struct BinSection</a> *binsection);</div>
 <a id=43C0B0></a>
 <div class=mm><pre>
 int magic, index;
 
-magic = handler.<a href=structs.html#struc_BinSectionHandler0>magic</a>;
+magic = handler.<a href=structs.html#struc_BinSectionHandler@0>magic</a>;
 index = 0x3F &amp; ((magic &gt;&gt; 0x6) + (magic + (magic &gt;&gt; 0xC)));
-this-&gt;<a href=structs.html#struc_BinSectionMagicMapEntry4>value</a> = handler;
-this-&gt;<a href=structs.html#struc_BinSectionMagicMapEntry0>nextEntry</a> = <a href=vars.html#828050>binSectionMagicMap</a>[index];
+this-&gt;<a href=structs.html#struc_BinSectionMagicMapEntry@4>value</a> = handler;
+this-&gt;<a href=structs.html#struc_BinSectionMagicMapEntry@0>nextEntry</a> = <a href=vars.html#828050>binSectionMagicMap</a>[index];
 <a href=vars.html#828050>binSectionMagicMap</a>[index] = this;
 <a href=vars.html#827FE8>numBinSectionLoadFunctionsInMagicMapBucket</a>++;
 </pre>
@@ -3670,10 +3670,10 @@ int index;
 index = 0x3F &amp; ((magic &gt;&gt; 0x6) + (magic + (magic &gt;&gt; 0xC)));
 entry = <a href=vars.html#828050>binSectionMagicMap</a>[index];
 while (entry) {
-        if (entry-&gt;<a href=structs.html#struc_BinSectionMagicMapEntry4>value</a>.<a href=structs.html#struc_BinSectionHandler0>magic</a> == magic) {
+        if (entry-&gt;<a href=structs.html#struc_BinSectionMagicMapEntry@4>value</a>.<a href=structs.html#struc_BinSectionHandler@0>magic</a> == magic) {
                 return entry;
         }
-        entry = entry-&gt;<a href=structs.html#struc_BinSectionMagicMapEntry0>nextEntry</a>;
+        entry = entry-&gt;<a href=structs.html#struc_BinSectionMagicMapEntry@0>nextEntry</a>;
 }
 return NULL;
 </pre>
@@ -3691,18 +3691,18 @@ int idx;
 
 pool = this;
 do {
-        pool-&gt;<a href=structs.html#struc_Pool10>firstAvailableElement</a> = NULL;
-        if (pool-&gt;<a href=structs.html#struc_Pool24>elementAmount</a>) {
+        pool-&gt;<a href=structs.html#struc_Pool@10>firstAvailableElement</a> = NULL;
+        if (pool-&gt;<a href=structs.html#struc_Pool@24>elementAmount</a>) {
                 next = (void*) ((char*) pool + sizeof(<a href=structs.html#struc_Pool>struct Pool</a>));
-                pool-&gt;<a href=structs.html#struc_Pool10>firstAvailableElement</a> = (void*) next;
-                for (idx = pool-&gt;<a href=structs.html#struc_Pool24>elementAmount</a> - 1; idx &gt;= 0; idx--) {
+                pool-&gt;<a href=structs.html#struc_Pool@10>firstAvailableElement</a> = (void*) next;
+                for (idx = pool-&gt;<a href=structs.html#struc_Pool@24>elementAmount</a> - 1; idx &gt;= 0; idx--) {
                         entry = next;
-                        next += pool-&gt;<a href=structs.html#struc_Pool28>elementSize</a>;
-                        entry-&gt;<a href=structs.html#struc_PoolEntry0>nextEntry</a> = next;
+                        next += pool-&gt;<a href=structs.html#struc_Pool@28>elementSize</a>;
+                        entry-&gt;<a href=structs.html#struc_PoolEntry@0>nextEntry</a> = next;
                 }
-                next-&gt;<a href=structs.html#struc_PoolEntry0>nextEntry</a> = 0;
+                next-&gt;<a href=structs.html#struc_PoolEntry@0>nextEntry</a> = 0;
         }
-        pool = pool-&gt;<a href=structs.html#struc_Pool8>nextLinkedPool</a>;
+        pool = pool-&gt;<a href=structs.html#struc_Pool@8>nextLinkedPool</a>;
 } while (pool);
 </pre>
 </div>
@@ -3716,7 +3716,7 @@ Same as <a href=funcs.html#43F920>UngetPoolEntry</a>, but a thiscall.</div>
 <div><i>43CDF0</i> int __thiscall <h3><a href=structs.html#struc_Pool>Pool</a>::UngetEntry</h3>(<a href=structs.html#struc_Pool>struct Pool</a> *this, <a href=structs.html#struc_PoolEntry>struct PoolEntry</a> *entry);</div>
 <a id=43D890></a>
 <div class=mm><p>generic IsPointInRangeOfPoint, but this function is only used by marker func <a href=funcs.html#5D9BF0>PathsData::FindMarkerAtPosWithTypeAfterIndex</a>, hence its name
-radius is always a <a href=structs.html#struc_Marker40>radius</a>, so it's usually <code>4-14</code></div>
+radius is always a <a href=structs.html#struc_Marker@40>radius</a>, so it's usually <code>4-14</code></div>
 <div><i>43D890</i> int __cdecl <h3>IsMarkerInRange</h3>(<a href=structs.html#struc_vec2>struct vec2</a> *position, <a href=structs.html#struc_vec2>struct vec2</a> *markerPosition, int radius);</div>
 <a id=43DB50></a>
 <div class=mm><p>Case sensitive hash function.</div>
@@ -3775,9 +3775,9 @@ every time this func is called.</div>
 <a id=4407B0></a>
 <div class=mm><p>Called by <a href=funcs.html#77B670>init_function_77B670</a>.
 <pre>
-this-&gt;<a href=structs.html#struc_PoolControl4>link</a>.<a href=structs.html#struc_PoolLink0>prev</a> = &amp;this-&gt;<a href=structs.html#struc_PoolControl4>link</a>;
-this-&gt;<a href=structs.html#struc_PoolControl4>link</a>.<a href=structs.html#struc_PoolLink4>next</a> = &amp;this-&gt;<a href=structs.html#struc_PoolControl4>link</a>;
-this-&gt;<a href=structs.html#struc_PoolControl0>inited</a> = 1;
+this-&gt;<a href=structs.html#struc_PoolControl@4>link</a>.<a href=structs.html#struc_PoolLink@0>prev</a> = &amp;this-&gt;<a href=structs.html#struc_PoolControl@4>link</a>;
+this-&gt;<a href=structs.html#struc_PoolControl@4>link</a>.<a href=structs.html#struc_PoolLink@4>next</a> = &amp;this-&gt;<a href=structs.html#struc_PoolControl@4>link</a>;
+this-&gt;<a href=structs.html#struc_PoolControl@0>inited</a> = 1;
 </pre>
 </div>
 <div><i>4407B0</i> void __thiscall <h3><a href=structs.html#struc_PoolControl>PoolControl</a>::Init</h3>(<a href=structs.html#struc_PoolControl>struct PoolControl</a> *this);</div>
@@ -3867,7 +3867,7 @@ Implementation <code><a class='ext' href='https://github.com/yugecin/nfsu2-re/bl
 <a id=48F7A0></a>
 <div><i>48F7A0</i> <h3>Render3DLODPoles??</h3></div>
 <a id=4901D0></a>
-<div class=mm><p>loads a texture maybe or checks if a texture is loaded somewhere maybe, return hash to use for <a href=structs.html#struc_UIElement>struct UIElement</a>.<a href=structs.html#struc_UIElement24>textureHashOrMovieName</a></div>
+<div class=mm><p>loads a texture maybe or checks if a texture is loaded somewhere maybe, return hash to use for <a href=structs.html#struc_UIElement>struct UIElement</a>.<a href=structs.html#struc_UIElement@24>textureHashOrMovieName</a></div>
 <div><i>4901D0</i> unsigned int __cdecl <h3>GetOrLoadTextureMaybe</h3>(unsigned int hash, int, int);</div>
 <a id=491860></a>
 <div><i>491860</i> <h3>RenderLightReflectionsOnRoad</h3></div>
@@ -3886,10 +3886,10 @@ Implementation <code><a class='ext' href='https://github.com/yugecin/nfsu2-re/bl
 <a id=495240></a>
 <div><i>495240</i> <a href=structs.html#struc_CarCollection>struct CarCollection</a> *__thiscall <h3><a href=structs.html#struc_ProfileData>ProfileData</a>::GetCarCollection</h3>(<a href=structs.html#struc_ProfileData>struct ProfileData</a> *this, int playerIndex);</div>
 <a id=495270></a>
-<div class=mm><p><code>return this-&gt;<a href=structs.html#struc_Career8704>field_8704</a> ? this-&gt;<a href=structs.html#struc_Career8710>field_8710</a> : 0;</code></div>
+<div class=mm><p><code>return this-&gt;<a href=structs.html#struc_Career@8704>field_8704</a> ? this-&gt;<a href=structs.html#struc_Career@8710>field_8710</a> : 0;</code></div>
 <div><i>495270</i> int __thiscall <h3><a href=structs.html#struc_Career>Career</a>::495270</h3>(<a href=structs.html#struc_Career>struct Career</a> *this);</div>
 <a id=495290></a>
-<div class=mm><p><code>return this-&gt;<a href=structs.html#struc_Career8704>field_8704</a> ? this-&gt;<a href=structs.html#struc_Career8714>field_8714</a> : 0;</code></div>
+<div class=mm><p><code>return this-&gt;<a href=structs.html#struc_Career@8704>field_8704</a> ? this-&gt;<a href=structs.html#struc_Career@8714>field_8714</a> : 0;</code></div>
 <div><i>495290</i> int __thiscall <h3><a href=structs.html#struc_Career>Career</a>::495290</h3>(<a href=structs.html#struc_Career>struct Career</a> *this);</div>
 <a id=4953C0></a>
 <div class=mm><p>Hashes <code>str</code> and delegates to <a href=funcs.html#537A10>FindUILabelByHash</a>.</div>
@@ -3924,7 +3924,7 @@ Implementation <code><a class='ext' href='https://github.com/yugecin/nfsu2-re/bl
 <a id=495F00></a>
 <div><i>495F00</i> int __thiscall <h3><a href=structs.html#struc_CareerCarLotFNGObject>CareerCarLotFNGObject</a>::495F00</h3>(<a href=structs.html#struc_CareerCarLotFNGObject>struct CareerCarLotFNGObject</a> *this, int);</div>
 <a id=495F70></a>
-<div class=mm><p>sets <a href=structs.html#struc_CareerCarLotFNGObject74>numUnlockedAndFreeInventorySlots</a> and <a href=structs.html#struc_CareerCarLotFNGObject78>numUnlockedInventorySlots</a></div>
+<div class=mm><p>sets <a href=structs.html#struc_CareerCarLotFNGObject@74>numUnlockedAndFreeInventorySlots</a> and <a href=structs.html#struc_CareerCarLotFNGObject@78>numUnlockedInventorySlots</a></div>
 <div><i>495F70</i> void __thiscall <h3><a href=structs.html#struc_CareerCarLotFNGObject>CareerCarLotFNGObject</a>::CountAvailableInventorySlots</h3>(<a href=structs.html#struc_CareerCarLotFNGObject>struct CareerCarLotFNGObject</a> *this);</div>
 <a id=495FD0></a>
 <div class=mm><p>0 if not found but 0 is also a possible slot!</div>
@@ -4108,7 +4108,7 @@ See <code><a class='ext' href='https://github.com/yugecin/nfsu2-re/blob/master/n
 <a id=4AC730></a>
 <div><i>4AC730</i> <h3><a href=structs.html#struc_ChyronIGFNGObject>ChyronIGFNGObject</a>::ctor</h3></div>
 <a id=4AC920></a>
-<div class=mm><p>and put it in <a href=vars.html#836498>struct836498</a>.<a href=structs.html#struc_Struct83649840>chyronIGFNGObject</a></div>
+<div class=mm><p>and put it in <a href=vars.html#836498>struct836498</a>.<a href=structs.html#struc_Struct836498@40>chyronIGFNGObject</a></div>
 <div><i>4AC920</i> void __cdecl <h3>CreateChyronIGFNGObject</h3>();</div>
 <a id=4ACAA0></a>
 <div class=mm><p>ie go left or go right (switch between keyboard/gamepad/...)
@@ -4118,7 +4118,7 @@ message should only be <a href=enums.html#enu_UIMESSAGES9120409E>UIMSG_GO_LEFT</
 <div><i>4ACBF0</i> void __thiscall <h3><a href=structs.html#struc_OptionsPCControllerFNGObject>OptionsPCControllerFNGObject</a>::UpdateScrollbarArrowAnimations</h3>(<a href=structs.html#struc_OptionsPCControllerFNGObject>struct OptionsPCControllerFNGObject</a> *this);</div>
 <a id=4ACCA0></a>
 <div class=mm><p>columnName should be <code>OPTION_NAME_</code> or <code>OPTION_DATA_</code> or <code>OPTION_DATA2_</code>
-<p>rowidx is read from <code>this-&gt;<a href=structs.html#struc_OptionsPCControllerFNGObject134>currentOptionIndex</a></code></div>
+<p>rowidx is read from <code>this-&gt;<a href=structs.html#struc_OptionsPCControllerFNGObject@134>currentOptionIndex</a></code></div>
 <div><i>4ACCA0</i> <a href=structs.html#struc_UILabel>struct UILabel</a> *__thiscall <h3><a href=structs.html#struc_OptionsPCControllerFNGObject>OptionsPCControllerFNGObject</a>::FindLabelAtCurrentRowForColumnName</h3>(<a href=structs.html#struc_OptionsPCControllerFNGObject>struct OptionsPCControllerFNGObject</a> *this, char *columnName);</div>
 <a id=4ACCF0></a>
 <div><i>4ACCF0</i> void __thiscall <h3><a href=structs.html#struc_OptionsPCControllerFNGObject>OptionsPCControllerFNGObject</a>::SaveMasterElementPositions</h3>(<a href=structs.html#struc_OptionsPCControllerFNGObject>struct OptionsPCControllerFNGObject</a> *this);</div>
@@ -4130,7 +4130,7 @@ message should only be <a href=enums.html#enu_UIMESSAGES9120409E>UIMSG_GO_LEFT</
 <div class=mm><p>related to <a href=structs.html#struc_OptionsPCControllerFNGObject>struct OptionsPCControllerFNGObject</a>, updates the text of a row in the controls list</div>
 <div><i>4ACF40</i> void __cdecl <h3>UpdateControllerLabelText</h3>(<a href=structs.html#struc_UIElement>struct UIElement</a> *uielement, int keyIndex, int isSecondary, int controllerIndex);</div>
 <a id=4AE8B0></a>
-<div class=mm><p><code>return this-&gt;<a href=structs.html#struc_Bin34A1134>field_34</a> == 3 &amp;&amp; this-&gt;<a href=structs.html#struc_Bin34A11D>field_D</a> == 1;</code></div>
+<div class=mm><p><code>return this-&gt;<a href=structs.html#struc_Bin34A11@34>field_34</a> == 3 &amp;&amp; this-&gt;<a href=structs.html#struc_Bin34A11@D>field_D</a> == 1;</code></div>
 <div><i>4AE8B0</i> int __thiscall <h3><a href=structs.html#struc_Bin34A11>Bin34A11</a>::Is_34_3_And_D_1</h3>(<a href=structs.html#struc_Bin34A11>struct Bin34A11</a> *this);</div>
 <a id=4AF2C0></a>
 <div><i>4AF2C0</i> <h3><a href=structs.html#struc_StartCareerFNGObject>StartCareerFNGObject</a>::MessageHandler</h3></div>
@@ -4796,7 +4796,7 @@ If it's found in the primary controls link: return its index, if it's found in t
 <div><i>4FF970</i> <h3>GetCurrentLoadedLanguage</h3></div>
 <a id=4FF9D0></a>
 <div class=mm><p>Returns a string ptr or <code>NULL</code> for given hash (which is passed through <code>edx</code>).
-Does a binary search over the hashes in <code><a href=vars.html#8383D0>loadedLanguage</a>.<a href=structs.html#struc_LoadedLanguage8>ptrTable</a></code></div>
+Does a binary search over the hashes in <code><a href=vars.html#8383D0>loadedLanguage</a>.<a href=structs.html#struc_LoadedLanguage@8>ptrTable</a></code></div>
 <div class=mm><p>key is passed thru edx</div>
 <div><i>4FF9D0</i> char *__cdecl <h3>GetLanguageStringOrNull</h3>();</div>
 <a id=4FFA50></a>
@@ -4813,17 +4813,17 @@ TODO: xref this for fun and profit (only 2 usages?)</div>
 <div><i>4FFAA0</i> char *__cdecl <h3>GetNumberSuffix</h3>(int number);</div>
 <a id=4FFAE0></a>
 <div class=mm><pre>
-if (section-&gt;<a href=structs.html#struc_BinSection0>header</a>.<a href=structs.html#struc_BinSectionHeader0>magic</a> == 0x39000) {
-        <a href=vars.html#8383D0>loadedLanguage</a>.<a href=structs.html#struc_LoadedLanguageC>ptrConversionTable</a> = 0;
-        <a href=vars.html#8383D0>loadedLanguage</a>.<a href=structs.html#struc_LoadedLanguage0>numStrings</a> = 0;
-        <a href=vars.html#8383D0>loadedLanguage</a>.<a href=structs.html#struc_LoadedLanguage4>ptrStrings</a> = 0;
-        <a href=vars.html#8383D0>loadedLanguage</a>.<a href=structs.html#struc_LoadedLanguage8>ptrTable</a> = 0;
+if (section-&gt;<a href=structs.html#struc_BinSection@0>header</a>.<a href=structs.html#struc_BinSectionHeader@0>magic</a> == 0x39000) {
+        <a href=vars.html#8383D0>loadedLanguage</a>.<a href=structs.html#struc_LoadedLanguage@C>ptrConversionTable</a> = 0;
+        <a href=vars.html#8383D0>loadedLanguage</a>.<a href=structs.html#struc_LoadedLanguage@0>numStrings</a> = 0;
+        <a href=vars.html#8383D0>loadedLanguage</a>.<a href=structs.html#struc_LoadedLanguage@4>ptrStrings</a> = 0;
+        <a href=vars.html#8383D0>loadedLanguage</a>.<a href=structs.html#struc_LoadedLanguage@8>ptrTable</a> = 0;
 }
 </pre>
 </div>
 <div><i>4FFAE0</i> int __cdecl <h3>UnloadLanguageBinSection39000</h3>(<a href=structs.html#struc_BinSection>struct BinSection</a> *bindata);</div>
 <a id=4FFC50></a>
-<div class=mm><p>finds any marker of type <a href=enums.html#enu_MARKER_TYPED>MARKER_TYPE_D</a>/<a href=enums.html#enu_MARKER_TYPEE>MARKER_TYPE_E</a>/<a href=enums.html#enu_MARKER_TYPEF>MARKER_TYPE_F</a> with matching <a href=structs.html#struc_Marker30>hash</a></div>
+<div class=mm><p>finds any marker of type <a href=enums.html#enu_MARKER_TYPED>MARKER_TYPE_D</a>/<a href=enums.html#enu_MARKER_TYPEE>MARKER_TYPE_E</a>/<a href=enums.html#enu_MARKER_TYPEF>MARKER_TYPE_F</a> with matching <a href=structs.html#struc_Marker@30>hash</a></div>
 <div><i>4FFC50</i> <a href=structs.html#struc_Marker>struct Marker</a> *__cdecl <h3>FindMarkerTypeD_E_FWithHash</h3>(unsigned int hash);</div>
 <a id=4FFC90></a>
 <div><i>4FFC90</i> <a href=structs.html#struc_Bin34A11>struct Bin34A11</a> *__cdecl <h3>FindBin34A11WithHash8Value</h3>(unsigned int hash);</div>
@@ -4855,7 +4855,7 @@ if (section-&gt;<a href=structs.html#struc_BinSection0>header</a>.<a href=struct
 <div class=mm><p>basically __stdcall wrapper around <a href=funcs.html#4FFC90>FindBin34A11WithHash8Value</a> because 'this' is not used</div>
 <div><i>5003F0</i> <a href=structs.html#struc_Bin34A11>struct Bin34A11</a> *__thiscall <h3><a href=structs.html#struc_Career>Career</a>::5003F0</h3>(<a href=structs.html#struc_Career>struct Career</a> *this, int value);</div>
 <a id=500400></a>
-<div class=mm><p><a href=structs.html#struc_Career8869>field_8869</a> is <code>char[8][2]</code>, this counts how many of those 16 fields are set to 0</div>
+<div class=mm><p><a href=structs.html#struc_Career@8869>field_8869</a> is <code>char[8][2]</code>, this counts how many of those 16 fields are set to 0</div>
 <div><i>500400</i> int __thiscall <h3><a href=structs.html#struc_Career>Career</a>::CountEmptyEntriesAt8869</h3>(<a href=structs.html#struc_Career>struct Career</a> *this);</div>
 <a id=500460></a>
 <div><i>500460</i> int __thiscall <h3><a href=structs.html#struc_Career>Career</a>::500460</h3>(<a href=structs.html#struc_Career>struct Career</a> *this, void *);</div>
@@ -4874,7 +4874,7 @@ if (section-&gt;<a href=structs.html#struc_BinSection0>header</a>.<a href=struct
 <a id=500610></a>
 <div><i>500610</i> int __thiscall <h3><a href=structs.html#struc_CareerStage>CareerStage</a>::500610</h3>(<a href=structs.html#struc_CareerStage>struct CareerStage</a> *this);</div>
 <a id=500670></a>
-<div class=mm><p>sponsors' availability depends on average reputation per race in previous stage, and something else (<a href=structs.html#struc_CareerStageSettings>struct CareerStageSettings</a>.<a href=structs.html#struc_CareerStageSettings1C>field_1C</a>)</div>
+<div class=mm><p>sponsors' availability depends on average reputation per race in previous stage, and something else (<a href=structs.html#struc_CareerStageSettings>struct CareerStageSettings</a>.<a href=structs.html#struc_CareerStageSettings@1C>field_1C</a>)</div>
 <div><i>500670</i> int __thiscall <h3><a href=structs.html#struc_CareerStage>CareerStage</a>::GetNumAvailableSponsors</h3>(<a href=structs.html#struc_CareerStage>struct CareerStage</a> *this, float lastStageAverageReputationPerRace);</div>
 <a id=5006D0></a>
 <div><i>5006D0</i> <a href=structs.html#struc_CareerSponsor>struct CareerSponsor</a> *__thiscall <h3><a href=structs.html#struc_CareerStage>CareerStage</a>::GetCareerSponsorAtIndex</h3>(<a href=structs.html#struc_CareerStage>struct CareerStage</a> *this, int index);</div>
@@ -4892,10 +4892,10 @@ if (section-&gt;<a href=structs.html#struc_BinSection0>header</a>.<a href=struct
 <a id=500910></a>
 <div><i>500910</i> int __thiscall <h3><a href=structs.html#struc_Career7148>Career7148</a>::CountAmountOfField0AreUsed</h3>(<a href=structs.html#struc_Career7148>struct Career7148</a> *this);</div>
 <a id=5009E0></a>
-<div class=mm><p>from <a href=structs.html#struc_Career72D8>stage0</a> to <a href=structs.html#struc_Career79F4>stage7</a>, add 1 if their <a href=structs.html#struc_CareerStageE8>signedSponsor</a> is nonnull</div>
+<div class=mm><p>from <a href=structs.html#struc_Career@72D8>stage0</a> to <a href=structs.html#struc_Career@79F4>stage7</a>, add 1 if their <a href=structs.html#struc_CareerStage@E8>signedSponsor</a> is nonnull</div>
 <div><i>5009E0</i> int __thiscall <h3><a href=structs.html#struc_Career>Career</a>::CountNumberOfSponsorsSigned</h3>(<a href=structs.html#struc_Career>struct Career</a> *this);</div>
 <a id=500A40></a>
-<div class=mm><p><a href=vars.html#83A9D0>profileData</a>.<a href=structs.html#struc_ProfileData20370>career</a>.<a href=structs.html#struc_Career7AF8>currentStage</a> is usually passed as arg0</div>
+<div class=mm><p><a href=vars.html#83A9D0>profileData</a>.<a href=structs.html#struc_ProfileData@20370>career</a>.<a href=structs.html#struc_Career@7AF8>currentStage</a> is usually passed as arg0</div>
 <div><i>500A40</i> int __thiscall <h3><a href=structs.html#struc_Career>Career</a>::500A40</h3>(<a href=structs.html#struc_Career>struct Career</a> *this, int stage);</div>
 <a id=500AA0></a>
 <div><i>500AA0</i> int __thiscall <h3><a href=structs.html#struc_Career>Career</a>::500AA0</h3>(<a href=structs.html#struc_Career>struct Career</a> *this);</div>
@@ -4903,20 +4903,20 @@ if (section-&gt;<a href=structs.html#struc_BinSection0>header</a>.<a href=struct
 <div><i>500AB0</i> int __thiscall <h3><a href=structs.html#struc_Career>Career</a>::500AB0</h3>(<a href=structs.html#struc_Career>struct Career</a> *this, int);</div>
 <a id=500B00></a>
 <div class=mm><pre>
-this-&gt;<a href=structs.html#struc_Career8704>field_8704</a> = this-&gt;<a href=structs.html#struc_Career8700>field_8700</a>;
-this-&gt;<a href=structs.html#struc_Career8708>field_8708</a> = this-&gt;<a href=structs.html#struc_Career871C>field_871C</a>;
-this-&gt;<a href=structs.html#struc_Career870C>field_870C</a> = this-&gt;<a href=structs.html#struc_Career8724>field_8724</a>;
-this-&gt;<a href=structs.html#struc_Career8710>field_8710</a> = this-&gt;<a href=structs.html#struc_Career8728>field_8728</a>;
-this-&gt;<a href=structs.html#struc_Career8714>field_8714</a> = this-&gt;<a href=structs.html#struc_Career8720>field_8720</a>;
+this-&gt;<a href=structs.html#struc_Career@8704>field_8704</a> = this-&gt;<a href=structs.html#struc_Career@8700>field_8700</a>;
+this-&gt;<a href=structs.html#struc_Career@8708>field_8708</a> = this-&gt;<a href=structs.html#struc_Career@871C>field_871C</a>;
+this-&gt;<a href=structs.html#struc_Career@870C>field_870C</a> = this-&gt;<a href=structs.html#struc_Career@8724>field_8724</a>;
+this-&gt;<a href=structs.html#struc_Career@8710>field_8710</a> = this-&gt;<a href=structs.html#struc_Career@8728>field_8728</a>;
+this-&gt;<a href=structs.html#struc_Career@8714>field_8714</a> = this-&gt;<a href=structs.html#struc_Career@8720>field_8720</a>;
 </pre>
 </div>
 <div><i>500B00</i> void __thiscall <h3><a href=structs.html#struc_Career>Career</a>::500B00</h3>(<a href=structs.html#struc_Career>struct Career</a> *this);</div>
 <a id=500B40></a>
 <div class=mm><pre>
-this-&gt;<a href=structs.html#struc_Career8704>field_8704</a> = 0;
-this-&gt;<a href=structs.html#struc_Career8708>field_8708</a> = 0;
-this-&gt;<a href=structs.html#struc_Career870C>field_870C</a> = 0;
-this-&gt;<a href=structs.html#struc_Career8710>field_8710</a> = 0;
+this-&gt;<a href=structs.html#struc_Career@8704>field_8704</a> = 0;
+this-&gt;<a href=structs.html#struc_Career@8708>field_8708</a> = 0;
+this-&gt;<a href=structs.html#struc_Career@870C>field_870C</a> = 0;
+this-&gt;<a href=structs.html#struc_Career@8710>field_8710</a> = 0;
 </pre>
 </div>
 <div><i>500B40</i> void __thiscall <h3><a href=structs.html#struc_Career>Career</a>::500B40</h3>(<a href=structs.html#struc_Career>struct Career</a> *this);</div>
@@ -4928,12 +4928,12 @@ this-&gt;<a href=structs.html#struc_Career8710>field_8710</a> = 0;
 <div class=mm><p>checks if something is collected</div>
 <div><i>500B80</i> int __thiscall <h3><a href=structs.html#struc_Career>Career</a>::500B80</h3>(<a href=structs.html#struc_Career>struct Career</a> *this, unsigned int hash);</div>
 <a id=500BD0></a>
-<div class=mm><p>also sets <code>this-&gt;<a href=structs.html#struc_Career873D>field_873D</a> = 1</code></div>
+<div class=mm><p>also sets <code>this-&gt;<a href=structs.html#struc_Career@873D>field_873D</a> = 1</code></div>
 <div><i>500BD0</i> void __thiscall <h3><a href=structs.html#struc_Career>Career</a>::SetActiveCarBySlotHash</h3>(<a href=structs.html#struc_Career>struct Career</a> *this, unsigned int hash);</div>
 <a id=500BF0></a>
 <div><i>500BF0</i> int __thiscall <h3>[Return_1_Pop_2</h3>(void *this, int, int);</div>
 <a id=500C00></a>
-<div class=mm><p><code>return this-&gt;<a href=structs.html#struc_Career72D8>stage0</a>[arg0].<a href=structs.html#struc_CareerStageFC>stageFinished?</a></code>
+<div class=mm><p><code>return this-&gt;<a href=structs.html#struc_Career@72D8>stage0</a>[arg0].<a href=structs.html#struc_CareerStage@FC>stageFinished?</a></code>
 <p>crash if arg0 &lt; 0 or &gt; 7</div>
 <div><i>500C00</i> int __thiscall <h3><a href=structs.html#struc_Career>Career</a>::IsStageFinished?</h3>(<a href=structs.html#struc_Career>struct Career</a> *this, int stageIndex);</div>
 <a id=500C30></a>
@@ -4943,12 +4943,12 @@ this-&gt;<a href=structs.html#struc_Career8710>field_8710</a> = 0;
 stageIndex 0-7</div>
 <div><i>500C60</i> int __thiscall <h3><a href=structs.html#struc_Career>Career</a>::GetOutrunStakesForStageIndex</h3>(<a href=structs.html#struc_Career>struct Career</a> *this, int stageIndex);</div>
 <a id=500CA0></a>
-<div class=mm><p><code>this-&gt;<a href=structs.html#struc_Career42301AE4>floatField_1AE4</a> = 0; this-&gt;<a href=structs.html#struc_Career42301AE8>field_1AE8</a> = 0;</code></div>
+<div class=mm><p><code>this-&gt;<a href=structs.html#struc_Career4230@1AE4>floatField_1AE4</a> = 0; this-&gt;<a href=structs.html#struc_Career4230@1AE8>field_1AE8</a> = 0;</code></div>
 <div><i>500CA0</i> void __thiscall <h3><a href=structs.html#struc_Career4230>Career4230</a>::500CA0</h3>(<a href=structs.html#struc_Career4230>struct Career4230</a> *this);</div>
 <a id=500CB0></a>
 <div><i>500CB0</i> int __thiscall <h3><a href=structs.html#struc_Career4230>Career4230</a>::500CB0</h3>(<a href=structs.html#struc_Career4230>struct Career4230</a> *this);</div>
 <a id=500CF0></a>
-<div class=mm><p><code>return this-&gt;<a href=structs.html#struc_Career42301AE0>field_1AE0</a></code></div>
+<div class=mm><p><code>return this-&gt;<a href=structs.html#struc_Career4230@1AE0>field_1AE0</a></code></div>
 <div><i>500CF0</i> int __thiscall <h3><a href=structs.html#struc_Career4230>Career4230</a>::500CF0</h3>(<a href=structs.html#struc_Career4230>struct Career4230</a> *this);</div>
 <a id=500D00></a>
 <div class=mm><p>index 0-2</div>
@@ -4958,14 +4958,14 @@ stageIndex 0-7</div>
 <a id=500D70></a>
 <div><i>500D70</i> void __thiscall <h3><a href=structs.html#struc_Career4230>Career4230</a>::500D70</h3>(<a href=structs.html#struc_Career4230>struct Career4230</a> *this);</div>
 <a id=500D80></a>
-<div class=mm><p><code>return this-&gt;<a href=structs.html#struc_Career42301AE8>field_1AE8</a> == 2</code></div>
+<div class=mm><p><code>return this-&gt;<a href=structs.html#struc_Career4230@1AE8>field_1AE8</a> == 2</code></div>
 <div><i>500D80</i> int __thiscall <h3><a href=structs.html#struc_Career4230>Career4230</a>::500D80</h3>(<a href=structs.html#struc_Career4230>struct Career4230</a> *this);</div>
 <a id=500EA0></a>
 <div><i>500EA0</i> void __thiscall <h3><a href=structs.html#struc_Career>Career</a>::CopyIntoFirstAvailableField0</h3>(<a href=structs.html#struc_Career>struct Career</a> *this, <a href=structs.html#struc_Career_0>struct Career_0</a> *from);</div>
 <a id=500EE0></a>
 <div><i>500EE0</i> int __thiscall <h3><a href=structs.html#struc_Career>Career</a>::500EE0</h3>(<a href=structs.html#struc_Career>struct Career</a> *this, int);</div>
 <a id=500F30></a>
-<div class=mm><p>nulls <a href=structs.html#struc_Career0>field_0</a>, <a href=structs.html#struc_Career600>collectedEngageMarkers</a>, <a href=structs.html#struc_Career800>collectedMoneyMarkers?</a></div>
+<div class=mm><p>nulls <a href=structs.html#struc_Career@0>field_0</a>, <a href=structs.html#struc_Career@600>collectedEngageMarkers</a>, <a href=structs.html#struc_Career@800>collectedMoneyMarkers?</a></div>
 <div><i>500F30</i> int __thiscall <h3><a href=structs.html#struc_Career>Career</a>::500F30</h3>(<a href=structs.html#struc_Career>struct Career</a> *this);</div>
 <a id=500F80></a>
 <div class=mm><p>Only used in the career money cheats.</div>
@@ -4990,7 +4990,7 @@ stageIndex 0-7</div>
 <div><i>5012F0</i> void __cdecl <h3>StoreSmsDatas</h3>(char *data, int size);</div>
 <a id=501310></a>
 <div class=mm><p>Goes through all <a href=vars.html#838454>smsDatas</a> and returns the one that has a matching
-<code>cshash(<a href=vars.html#838428>careerStringPool</a> + <a href=structs.html#struc_SmsData0>careerTextLanguageTableOffset</a>)</code>.</div>
+<code>cshash(<a href=vars.html#838428>careerStringPool</a> + <a href=structs.html#struc_SmsData@0>careerTextLanguageTableOffset</a>)</code>.</div>
 <div><i>501310</i> <a href=structs.html#struc_SmsData>struct SmsData</a> *__cdecl <h3>GetSmsDataForHash</h3>(unsigned int hash);</div>
 <a id=501370></a>
 <div class=mm><p>TODO may be able to find out some gameprogress things here</div>
@@ -4999,7 +4999,7 @@ stageIndex 0-7</div>
 <div class=mm><p>Returns the hash for the language string that is the sms sender.
 Used once in <a href=funcs.html#497850>EngageMessageDialogFNGObject::ctor</a>.
 <pre>
-return this-&gt;<a href=structs.html#struc_SmsMessage0>data</a>.<a href=structs.html#struc_SmsData10>senderLanguageLabel</a>;
+return this-&gt;<a href=structs.html#struc_SmsMessage@0>data</a>.<a href=structs.html#struc_SmsData@10>senderLanguageLabel</a>;
 </pre>
 </div>
 <div><i>501470</i> unsigned int __thiscall <h3><a href=structs.html#struc_SmsMessage>SmsMessage</a>::GetSenderLanguageHash</h3>(<a href=structs.html#struc_SmsMessage>struct SmsMessage</a> *this);</div>
@@ -5010,11 +5010,11 @@ return this-&gt;<a href=structs.html#struc_SmsMessage0>data</a>.<a href=structs.
 <div><i>5014A0</i> <a href=structs.html#struc_SmsMessage>struct SmsMessage</a> *__thiscall <h3><a href=structs.html#struc_SmsMessageList>SmsMessageList</a>::GetAtIndex</h3>(<a href=structs.html#struc_SmsMessageList>struct SmsMessageList</a> *this, int index);</div>
 <a id=5014C0></a>
 <div class=mm><pre>
-if (!sms-&gt;<a href=structs.html#struc_SmsMessage6>deleted</a> &amp;&amp; !sms-&gt;<a href=structs.html#struc_SmsMessage4>read</a>) {
-      this-&gt;<a href=structs.html#struc_SmsMessageList1404>numUnreadMessages</a>--;
+if (!sms-&gt;<a href=structs.html#struc_SmsMessage@6>deleted</a> &amp;&amp; !sms-&gt;<a href=structs.html#struc_SmsMessage@4>read</a>) {
+      this-&gt;<a href=structs.html#struc_SmsMessageList@1404>numUnreadMessages</a>--;
 }
-sms-&gt;<a href=structs.html#struc_SmsMessage6>deleted</a> = 1;
-sms-&gt;<a href=structs.html#struc_SmsMessage4>read</a> = 1;
+sms-&gt;<a href=structs.html#struc_SmsMessage@6>deleted</a> = 1;
+sms-&gt;<a href=structs.html#struc_SmsMessage@4>read</a> = 1;
 </pre>
 </div>
 <div><i>5014C0</i> void __thiscall <h3><a href=structs.html#struc_SmsMessageList>SmsMessageList</a>::MarkMessageDeletedAndRead</h3>(<a href=structs.html#struc_SmsMessageList>struct SmsMessageList</a> *this, <a href=structs.html#struc_SmsMessage>struct SmsMessage</a> *sms);</div>
@@ -5025,7 +5025,7 @@ sms-&gt;<a href=structs.html#struc_SmsMessage4>read</a> = 1;
 <a id=501920></a>
 <div><i>501920</i> <h3>InitializeLotsOfVariables</h3></div>
 <a id=5022C0></a>
-<div class=mm><p>arg is <a href=structs.html#struc_Car>struct Car</a>.<a href=structs.html#struc_Car840>carIndex</a>, checks <a href=vars.html#7F7C48>carsToHideForRegionUS</a> and <a href=vars.html#7F7C50>carsToHideForRegionNotUS</a></div>
+<div class=mm><p>arg is <a href=structs.html#struc_Car>struct Car</a>.<a href=structs.html#struc_Car@840>carIndex</a>, checks <a href=vars.html#7F7C48>carsToHideForRegionUS</a> and <a href=vars.html#7F7C50>carsToHideForRegionNotUS</a></div>
 <div><i>5022C0</i> int __cdecl <h3>ShouldCarBeShownForCurrentRegion</h3>(int carIndex);</div>
 <a id=5023B0></a>
 <div><i>5023B0</i> <a href=structs.html#struc_Bin34A11>struct Bin34A11</a> *__cdecl <h3>FindBin34A11ForCar</h3>(unsigned int carNameHash);</div>
@@ -5095,23 +5095,23 @@ sms-&gt;<a href=structs.html#struc_SmsMessage4>read</a> = 1;
 <a id=5047C0></a>
 <div><i>5047C0</i> <h3>unnamed_5047C0</h3></div>
 <a id=504830></a>
-<div class=mm><p>Starts at <code>container-&gt;<a href=structs.html#struc_UIContainer64>rootElement</a></code>,
-iterates through all children by traversing <code><a href=structs.html#struc_UIElement4>nextSibling</a></code>,
-calls <code>visitor-&gt;<a href=structs.html#struc_UIElementVisitor0>vtable</a>-&gt;<a href=structs.html#struc_UIElementVisitor$vtable4>acceptElement</a></code> for every child,
+<div class=mm><p>Starts at <code>container-&gt;<a href=structs.html#struc_UIContainer@64>rootElement</a></code>,
+iterates through all children by traversing <code><a href=structs.html#struc_UIElement@4>nextSibling</a></code>,
+calls <code>visitor-&gt;<a href=structs.html#struc_UIElementVisitor@0>vtable</a>-&gt;<a href=structs.html#struc_UIElementVisitor$vtable@4>acceptElement</a></code> for every child,
 calls <a href=funcs.html#504830>FNGInfo::VisitContainerRecursively</a> (itself) for every child that is of type 5 (<code><a href=structs.html#struc_UIContainer>struct UIContainer</a></code>).
 returns <code>0</code> when either calls return 0.</div>
 <div class=mm><p>does nothing with this</div>
 <div><i>504830</i> int __thiscall <h3><a href=structs.html#struc_FNGInfo>FNGInfo</a>::VisitContainerRecursively</h3>(<a href=structs.html#struc_FNGInfo>struct FNGInfo</a> *this, <a href=structs.html#struc_UIContainer>struct UIContainer</a> *container, <a href=structs.html#struc_UIElementVisitor>struct UIElementVisitor</a> *data);</div>
 <a id=504880></a>
-<div class=mm><p>Starts at <code>this-&gt;<a href=structs.html#struc_FNGInfo4C>rootUIElement</a></code>,
-iterates through all children by traversing <code><a href=structs.html#struc_UIElement4>nextSibling</a></code>,
-calls <code>visitor-&gt;<a href=structs.html#struc_UIElementVisitor0>vtable</a>-&gt;<a href=structs.html#struc_UIElementVisitor$vtable4>acceptElement</a></code> for every child,
+<div class=mm><p>Starts at <code>this-&gt;<a href=structs.html#struc_FNGInfo@4C>rootUIElement</a></code>,
+iterates through all children by traversing <code><a href=structs.html#struc_UIElement@4>nextSibling</a></code>,
+calls <code>visitor-&gt;<a href=structs.html#struc_UIElementVisitor@0>vtable</a>-&gt;<a href=structs.html#struc_UIElementVisitor$vtable@4>acceptElement</a></code> for every child,
 calls <a href=funcs.html#504830>FNGInfo::VisitContainerRecursively</a> for every child that is of type 5 (<code><a href=structs.html#struc_UIContainer>struct UIContainer</a></code>),
 returns 0 when either calls return <code>0</code>.</div>
 <div><i>504880</i> int __thiscall <h3><a href=structs.html#struc_FNGInfo>FNGInfo</a>::VisitUIRecursively</h3>(<a href=structs.html#struc_FNGInfo>struct FNGInfo</a> *this, <a href=structs.html#struc_UIElementVisitor>struct UIElementVisitor</a> *visitor);</div>
 <a id=5048D0></a>
-<div class=mm><p>If <code>element-&gt;<a href=structs.html#struc_UIElement10>hash</a> == this-&gt;<a href=structs.html#struc_UIElementVisitor_FindByHash4>searchingHash</a></code>,
-set <code>this-&gt;<a href=structs.html#struc_UIElementVisitor_FindByHash8>foundUIElement</a></code> to <code>element</code> and return 0.</div>
+<div class=mm><p>If <code>element-&gt;<a href=structs.html#struc_UIElement@10>hash</a> == this-&gt;<a href=structs.html#struc_UIElementVisitor_FindByHash@4>searchingHash</a></code>,
+set <code>this-&gt;<a href=structs.html#struc_UIElementVisitor_FindByHash@8>foundUIElement</a></code> to <code>element</code> and return 0.</div>
 <div><i>5048D0</i> int __thiscall <h3><a href=structs.html#struc_UIElementVisitor_FindByHash>UIElementVisitor_FindByHash</a>::acceptElement</h3>(<a href=structs.html#struc_UIElementVisitor_FindByHash>struct UIElementVisitor_FindByHash</a> *this, <a href=structs.html#struc_UIElement>struct UIElement</a> *element);</div>
 <a id=5048F0></a>
 <div><i>5048F0</i> int __thiscall <h3><a href=structs.html#struc_UIElementVisitor_FindByFieldC>UIElementVisitor_FindByFieldC</a>::acceptElement</h3>(<a href=structs.html#struc_UIElementVisitor_FindByFieldC>struct UIElementVisitor_FindByFieldC</a> *this, <a href=structs.html#struc_UIElement>struct UIElement</a> *element);</div>
@@ -5151,17 +5151,17 @@ set <code>this-&gt;<a href=structs.html#struc_UIElementVisitor_FindByHash8>found
 <div class=mm><p>it's a guess</div>
 <div><i>50BF40</i> void __thiscall <h3><a href=structs.html#struc_FontData>FontData</a>::MeasureHeight?</h3>(<a href=structs.html#struc_FontData>struct FontData</a> *this, int, int);</div>
 <a id=50C550></a>
-<div class=mm><p>Frees all <code><a href=structs.html#struc_UIElement>struct UIElement</a>::<a href=structs.html#struc_UIElement58>FERenderObject</a></code> objects by calling <a href=funcs.html#504880>FNGInfo::VisitUIRecursively</a>
-using a visitor that has <a href=funcs.html#5374F0>UIElementVisitor_ClearFNGCache::acceptElement</a> as its <code><a href=structs.html#struc_UIElementVisitor$vtable4>acceptElement</a></code>.</div>
+<div class=mm><p>Frees all <code><a href=structs.html#struc_UIElement>struct UIElement</a>::<a href=structs.html#struc_UIElement@58>FERenderObject</a></code> objects by calling <a href=funcs.html#504880>FNGInfo::VisitUIRecursively</a>
+using a visitor that has <a href=funcs.html#5374F0>UIElementVisitor_ClearFNGCache::acceptElement</a> as its <code><a href=structs.html#struc_UIElementVisitor$vtable@4>acceptElement</a></code>.</div>
 <div><i>50C550</i> void __cdecl <h3>FreeFNGFeRenderObjects</h3>(<a href=structs.html#struc_FNGInfo>struct FNGInfo</a> *fng);</div>
 <a id=50C680></a>
 <div><i>50C680</i> int __thiscall <h3><a href=structs.html#struc_UIData>UIData</a>::50C680</h3>(<a href=structs.html#struc_UIData>struct UIData</a> *this);</div>
 <a id=50C860></a>
 <div class=mm><p>'this' is unused; can be called as an __stdcall
 <pre>
-*((short*) arg_0 + 0) = <a href=vars.html#8763D0>mouseData</a>.<a href=structs.html#struc_MouseData4>cursorX</a> - <a href=vars.html#797D50>canvasWidth2</a>;
-*((short*) arg_0 + 1) = <a href=vars.html#8763D0>mouseData</a>.<a href=structs.html#struc_MouseData8>cursorY</a> - <a href=vars.html#78DA30>canvasHeight2</a>;
-*((short*) arg_0 + 2) = <a href=vars.html#8763D0>mouseData</a>.<a href=structs.html#struc_MouseData21>button0State</a> &lt;&lt; 1 | <a href=vars.html#8763D0>mouseData</a>.<a href=structs.html#struc_MouseData24>button1State</a>; (or swapped)
+*((short*) arg_0 + 0) = <a href=vars.html#8763D0>mouseData</a>.<a href=structs.html#struc_MouseData@4>cursorX</a> - <a href=vars.html#797D50>canvasWidth2</a>;
+*((short*) arg_0 + 1) = <a href=vars.html#8763D0>mouseData</a>.<a href=structs.html#struc_MouseData@8>cursorY</a> - <a href=vars.html#78DA30>canvasHeight2</a>;
+*((short*) arg_0 + 2) = <a href=vars.html#8763D0>mouseData</a>.<a href=structs.html#struc_MouseData@21>button0State</a> &lt;&lt; 1 | <a href=vars.html#8763D0>mouseData</a>.<a href=structs.html#struc_MouseData@24>button1State</a>; (or swapped)
 </pre>
 </div>
 <div><i>50C860</i> int __thiscall <h3><a href=structs.html#struc_UIData>UIData</a>::StoreMousePosButtonsIntoArg</h3>(<a href=structs.html#struc_UIData>struct UIData</a> *this, int);</div>
@@ -5173,7 +5173,7 @@ using a visitor that has <a href=funcs.html#5374F0>UIElementVisitor_ClearFNGCach
 <div class=mm><p>may have more parameters</div>
 <div><i>50C960</i> void __cdecl <h3>FormatWithSinglePlaceholderValueTimed_1</h3>(char *dest, int maxLength_ignored, char *format, int parameter);</div>
 <a id=50C990></a>
-<div class=mm><p>only if it's not already that value; then also add <a href=enums.html#enu_UIELEMENTFLAGS400000>NEED_UPDATE_0</a> to its <a href=structs.html#struc_UIElement1C>flags</a></div>
+<div class=mm><p>only if it's not already that value; then also add <a href=enums.html#enu_UIELEMENTFLAGS400000>NEED_UPDATE_0</a> to its <a href=structs.html#struc_UIElement@1C>flags</a></div>
 <div><i>50C990</i> void __cdecl <h3>SetUIElementTexture</h3>(<a href=structs.html#struc_UIElement>struct UIElement</a> *element, unsigned int textureHash);</div>
 <a id=50CA00></a>
 <div><i>50CA00</i> void __cdecl <h3>HideNullableUIElementAndChildren</h3>(<a href=structs.html#struc_UIElement>struct UIElement</a> *uielement);</div>
@@ -5184,14 +5184,14 @@ using a visitor that has <a href=funcs.html#5374F0>UIElementVisitor_ClearFNGCach
 <div><i>50CD00</i> int __cdecl <h3>IsPointInRect</h3>(float x, float y, <a href=structs.html#struc__POS>struct _POS</a> *pos, <a href=structs.html#struc__SIZE>struct _SIZE</a> *size);</div>
 <a id=50CD70></a>
 <div class=mm><pre>
-*cursorX = <a href=vars.html#8763D0>mouseData</a>.<a href=structs.html#struc_MouseData4>cursorX</a> - <a href=vars.html#797D50>canvasWidth2</a>;
-*cursorY = <a href=vars.html#8763D0>mouseData</a>.<a href=structs.html#struc_MouseData8>cursorY</a> - <a href=vars.html#78DA30>canvasHeight2</a>;
+*cursorX = <a href=vars.html#8763D0>mouseData</a>.<a href=structs.html#struc_MouseData@4>cursorX</a> - <a href=vars.html#797D50>canvasWidth2</a>;
+*cursorY = <a href=vars.html#8763D0>mouseData</a>.<a href=structs.html#struc_MouseData@8>cursorY</a> - <a href=vars.html#78DA30>canvasHeight2</a>;
 </pre>
 </div>
 <div><i>50CD70</i> void __cdecl <h3>GetMousePositionFromMiddle</h3>(float *cursorX, float *cursorY);</div>
 <a id=50CDA0></a>
 <div class=mm><pre>
-*mouseWheelData = <a href=vars.html#8763D0>mouseData</a>.<a href=structs.html#struc_MouseData1C>mousestate.lZ</a>;
+*mouseWheelData = <a href=vars.html#8763D0>mouseData</a>.<a href=structs.html#struc_MouseData@1C>mousestate.lZ</a>;
 </pre>
 </div>
 <div><i>50CDA0</i> void __cdecl <h3>GetMouseWheel</h3>(float *mouseWheelData);</div>
@@ -5203,8 +5203,8 @@ Not in Main/Career/QR menus... TODO</div>
 <div><i>50CE20</i> <a href=structs.html#struc_UIDataC>struct UIDataC</a> *__cdecl <h3>GetUIDataFieldC</h3>();</div>
 <a id=50CE30></a>
 <div class=mm><p>Checks if any of the given hashes conform with
-<code><a href=vars.html#8384C4>pUIData</a>-><a href=structs.html#struc_UIData8>field_8</a>-><a href=structs.html#struc_UIData_field8DC>fngPackagesDC</a>.<a href=structs.html#struc_FNGInfoList8>topPackage</a>-><a href=structs.html#struc_FNGInfo10>hash</a></code>
-and return its <code><a href=structs.html#struc_FNGInfoC>fngName</a></code>.</div>
+<code><a href=vars.html#8384C4>pUIData</a>-><a href=structs.html#struc_UIData@8>field_8</a>-><a href=structs.html#struc_UIData_field8@DC>fngPackagesDC</a>.<a href=structs.html#struc_FNGInfoList@8>topPackage</a>-><a href=structs.html#struc_FNGInfo@10>hash</a></code>
+and return its <code><a href=structs.html#struc_FNGInfo@C>fngName</a></code>.</div>
 <div><i>50CE30</i> char *__cdecl <h3>FindTopPackage</h3>(unsigned int *hashes, int numHashes);</div>
 <a id=50CEA0></a>
 <div class=mm><p><code>return "UI_PC_Help_Bar.fng";</code></div>
@@ -5251,10 +5251,10 @@ Some of the calls are used as a debug print, see <a href='docs.html#debugprint'>
 <a id=50DB40></a>
 <div><i>50DB40</i> void __thiscall <h3><a href=structs.html#struc_CommonFNGObjectStructA>CommonFNGObjectStructA</a>::ctor</h3>(<a href=structs.html#struc_CommonFNGObjectStructA>struct CommonFNGObjectStructA</a> *this);</div>
 <a id=50DB80></a>
-<div class=mm><p>allocates memory into <a href=structs.html#struc_CommonFNGObjectStructA3C>ptrAllocatedBytes50DB80</a></div>
+<div class=mm><p>allocates memory into <a href=structs.html#struc_CommonFNGObjectStructA@3C>ptrAllocatedBytes50DB80</a></div>
 <div><i>50DB80</i> int __thiscall <h3><a href=structs.html#struc_CommonFNGObjectStructA>CommonFNGObjectStructA</a>::allocateMem</h3>(<a href=structs.html#struc_CommonFNGObjectStructA>struct CommonFNGObjectStructA</a> *this, int bytes);</div>
 <a id=50DBB0></a>
-<div class=mm><p>copy string and: <code>this-&gt;<a href=structs.html#struc_CommonFNGObjectStructA4>field_4</a> = arg10; this-&gt;<a href=structs.html#struc_CommonFNGObjectStructA2C>field_2C</a> = arg4;</code></div>
+<div class=mm><p>copy string and: <code>this-&gt;<a href=structs.html#struc_CommonFNGObjectStructA@4>field_4</a> = arg10; this-&gt;<a href=structs.html#struc_CommonFNGObjectStructA@2C>field_2C</a> = arg4;</code></div>
 <div><i>50DBB0</i> int __thiscall <h3><a href=structs.html#struc_CommonFNGObjectStructA>CommonFNGObjectStructA</a>::copySomeString</h3>(<a href=structs.html#struc_CommonFNGObjectStructA>struct CommonFNGObjectStructA</a> *this, <a href=structs.html#struc_FNGObject>struct FNGObject</a> *ownerFNGObject, int, int, char *src, int);</div>
 <a id=50DC70></a>
 <div class=mm><p>Doesn't actually use <code>this</code>, so can be treated as a <code>__stdcall</code>.
@@ -5283,7 +5283,7 @@ Returns a ptr to the zero terminator.</div>
 <a id=5111F0></a>
 <div><i>5111F0</i> int __thiscall <h3><a href=structs.html#struc_Career887C>Career887C</a>::5111F0</h3>(<a href=structs.html#struc_Career887C>struct Career887C</a> *this, int *, int, int);</div>
 <a id=5112A0></a>
-<div class=mm><p><code>this-&gt;<a href=structs.html#struc_Career887CB>field_B</a> = 0</code></div>
+<div class=mm><p><code>this-&gt;<a href=structs.html#struc_Career887C@B>field_B</a> = 0</code></div>
 <div><i>5112A0</i> <h3><a href=structs.html#struc_Career887C>Career887C</a>::SponsorSigned</h3></div>
 <a id=5112B0></a>
 <div><i>5112B0</i> int __thiscall <h3><a href=structs.html#struc_Career887C>Career887C</a>::5112B0</h3>(<a href=structs.html#struc_Career887C>struct Career887C</a> *this);</div>
@@ -5309,17 +5309,17 @@ but instead all fields are copied separately</div>
 <a id=511E60></a>
 <div><i>511E60</i> unsigned int __cdecl <h3>GetLogoHashForCarModel</h3>(int car_model_index, char get_manufacturer_logo);</div>
 <a id=512050></a>
-<div class=mm><p><code>return hashf("BRAND_NAME_%s", cars[car_index].<a href=structs.html#struc_CarC0>manufacturerName</a>);</code></div>
+<div class=mm><p><code>return hashf("BRAND_NAME_%s", cars[car_index].<a href=structs.html#struc_Car@C0>manufacturerName</a>);</code></div>
 <div><i>512050</i> unsigned int __cdecl <h3>GetCarBrandNameHash</h3>(int car_index);</div>
 <a id=512080></a>
-<div class=mm><p><code>return hashf("CAR_NAME_%s%s", cars[car_index].<a href=structs.html#struc_CarC0>manufacturerName</a>, "");</code></div>
+<div class=mm><p><code>return hashf("CAR_NAME_%s%s", cars[car_index].<a href=structs.html#struc_Car@C0>manufacturerName</a>, "");</code></div>
 <div><i>512080</i> unsigned int __cdecl <h3>GetCarNameHash</h3>(int car_index);</div>
 <a id=5120B0></a>
-<div class=mm><p><code>return <a href=funcs.html#4FF9D0>GetLanguageStringOrNull</a>(hashf("CAR_NAME_%s%s", cars[car_index].<a href=structs.html#struc_CarC0>manufacturerName</a>, ""));</code>
+<div class=mm><p><code>return <a href=funcs.html#4FF9D0>GetLanguageStringOrNull</a>(hashf("CAR_NAME_%s%s", cars[car_index].<a href=structs.html#struc_Car@C0>manufacturerName</a>, ""));</code>
 does the <code>DEFAULT_STRING_ERROR</code> dance if no such language string exists</div>
 <div><i>5120B0</i> char *__cdecl <h3>GetTranslatedCarName</h3>(int car_index);</div>
 <a id=5120F0></a>
-<div class=mm><p><code>return hashf("CS_CAR_LOGO_%s%s", cars[car_index].<a href=structs.html#struc_CarC0>manufacturerName</a>, "");</code>
+<div class=mm><p><code>return hashf("CS_CAR_LOGO_%s%s", cars[car_index].<a href=structs.html#struc_Car@C0>manufacturerName</a>, "");</code>
 <p>calls <a href=funcs.html#570A30>GetGameRegion</a> for no good reason? (result unused)</div>
 <div><i>5120F0</i> unsigned int __cdecl <h3>GetCarLogoHash</h3>(int car_index);</div>
 <a id=512240></a>
@@ -5330,7 +5330,7 @@ does the <code>DEFAULT_STRING_ERROR</code> dance if no such language string exis
 <div class=mm><p>TODO</div>
 <div><i>512520</i> <h3>LoadLanguageAtBoot</h3></div>
 <a id=512530></a>
-<div class=mm><p>Uses <a href=funcs.html#50D3C0>LanguageConversionTable::StrcpyCharToWchar</a> when <code><a href=vars.html#8383D0>loadedLanguage</a>.<a href=structs.html#struc_LoadedLanguageC>ptrConversionTable</a></code> is set, otherwise <a href=funcs.html#43E000>NaiveStrcpyCharToWchar</a>.</div>
+<div class=mm><p>Uses <a href=funcs.html#50D3C0>LanguageConversionTable::StrcpyCharToWchar</a> when <code><a href=vars.html#8383D0>loadedLanguage</a>.<a href=structs.html#struc_LoadedLanguage@C>ptrConversionTable</a></code> is set, otherwise <a href=funcs.html#43E000>NaiveStrcpyCharToWchar</a>.</div>
 <div><i>512530</i> void __cdecl <h3>LanguageAwareStrcpyCharToWchar</h3>(wchar_t *dest, int maxlen, char *src);</div>
 <a id=5125B0></a>
 <div class=mm><pre>
@@ -5338,15 +5338,15 @@ does the <code>DEFAULT_STRING_ERROR</code> dance if no such language string exis
 <a href=structs.html#struc_LanguageTableEntry>struct LanguageTableEntry</a> *tableEntry;
 int i;
 
-if (section-&gt;<a href=structs.html#struc_BinSection0>header</a>.<a href=structs.html#struc_BinSectionHeader0>magic</a> == 0x39000) {
-        data = (void*) section-&gt;<a href=structs.html#struc_BinSection8>data</a>;
-        <a href=vars.html#8383D0>loadedLanguage</a>.<a href=structs.html#struc_LoadedLanguageC>ptrConversionTable</a> = (void*) (data + (int) data-&gt;<a href=structs.html#struc_BinDataLanguage390000>field_0</a>);
-        <a href=vars.html#8383D0>loadedLanguage</a>.<a href=structs.html#struc_LoadedLanguage0>numStrings</a> = data-&gt;<a href=structs.html#struc_BinDataLanguage390004>numStrings</a>;
-        <a href=vars.html#8383D0>loadedLanguage</a>.<a href=structs.html#struc_LoadedLanguage4>ptrStrings</a> = (void*) (data + (int) data-&gt;<a href=structs.html#struc_BinDataLanguage39000C>stringsOffset</a>);
-        <a href=vars.html#8383D0>loadedLanguage</a>.<a href=structs.html#struc_LoadedLanguage8>ptrTable</a> = (void*) (data + (int) data-&gt;<a href=structs.html#struc_BinDataLanguage390008>tableOffset</a>);
-        tableEntry = <a href=vars.html#8383D0>loadedLanguage</a>.<a href=structs.html#struc_LoadedLanguage8>ptrTable</a>;
-        for (i = 0; i &lt; <a href=vars.html#8383D0>loadedLanguage</a>.<a href=structs.html#struc_LoadedLanguage0>numStrings</a>; i++) {
-                tableEntry-&gt;<a href=structs.html#struc_LanguageTableEntry4>string</a> += <a href=vars.html#8383D0>loadedLanguage</a>.<a href=structs.html#struc_LoadedLanguage8>ptrTable</a>;
+if (section-&gt;<a href=structs.html#struc_BinSection@0>header</a>.<a href=structs.html#struc_BinSectionHeader@0>magic</a> == 0x39000) {
+        data = (void*) section-&gt;<a href=structs.html#struc_BinSection@8>data</a>;
+        <a href=vars.html#8383D0>loadedLanguage</a>.<a href=structs.html#struc_LoadedLanguage@C>ptrConversionTable</a> = (void*) (data + (int) data-&gt;<a href=structs.html#struc_BinDataLanguage39000@0>field_0</a>);
+        <a href=vars.html#8383D0>loadedLanguage</a>.<a href=structs.html#struc_LoadedLanguage@0>numStrings</a> = data-&gt;<a href=structs.html#struc_BinDataLanguage39000@4>numStrings</a>;
+        <a href=vars.html#8383D0>loadedLanguage</a>.<a href=structs.html#struc_LoadedLanguage@4>ptrStrings</a> = (void*) (data + (int) data-&gt;<a href=structs.html#struc_BinDataLanguage39000@C>stringsOffset</a>);
+        <a href=vars.html#8383D0>loadedLanguage</a>.<a href=structs.html#struc_LoadedLanguage@8>ptrTable</a> = (void*) (data + (int) data-&gt;<a href=structs.html#struc_BinDataLanguage39000@8>tableOffset</a>);
+        tableEntry = <a href=vars.html#8383D0>loadedLanguage</a>.<a href=structs.html#struc_LoadedLanguage@8>ptrTable</a>;
+        for (i = 0; i &lt; <a href=vars.html#8383D0>loadedLanguage</a>.<a href=structs.html#struc_LoadedLanguage@0>numStrings</a>; i++) {
+                tableEntry-&gt;<a href=structs.html#struc_LanguageTableEntry@4>string</a> += <a href=vars.html#8383D0>loadedLanguage</a>.<a href=structs.html#struc_LoadedLanguage@8>ptrTable</a>;
                 tableEntry++;
         }
 }
@@ -5363,10 +5363,10 @@ if (section-&gt;<a href=structs.html#struc_BinSection0>header</a>.<a href=struct
 <div><i>5129F0</i> unsigned int __thiscall <h3><a href=structs.html#struc_CareerSponsor>CareerSponsor</a>::GetSponsorNameLanguageKey</h3>(<a href=structs.html#struc_CareerSponsor>struct CareerSponsor</a> *this);</div>
 <a id=512A70></a>
 <div class=mm><p>data comes from bin section 34A18 in GLOBALB.BUN
-also sets <a href=structs.html#struc_CareerStageSettings8>sponsors</a> to the ptr to sponsor instead of the name hash</div>
+also sets <a href=structs.html#struc_CareerStageSettings@8>sponsors</a> to the ptr to sponsor instead of the name hash</div>
 <div><i>512A70</i> void __cdecl <h3>StoreCareerStageSettings</h3>(<a href=structs.html#struc_CareerStageSettings>struct CareerStageSettings</a> *data, int size);</div>
 <a id=512C00></a>
-<div class=mm><p>This gets loaded once (enforced by <a href=vars.html#83A9D0>profileData</a>.<a href=structs.html#struc_ProfileData29824>binSection80034A10loaded</a>), data resides in <code>GLOBAL/GLOBALB.BUN</code>.
+<div class=mm><p>This gets loaded once (enforced by <a href=vars.html#83A9D0>profileData</a>.<a href=structs.html#struc_ProfileData@29824>binSection80034A10loaded</a>), data resides in <code>GLOBAL/GLOBALB.BUN</code>.
 Career/Sponsor/DVD/Magazines related.
 The data in this section is more sections, with magic <code>0x34A11-0x34A1F</code> (excluding <code>0x34A13</code>)</div>
 <div><i>512C00</i> int __cdecl <h3>LoadBinSection80034A10</h3>(<a href=structs.html#struc_BinSection>struct BinSection</a> *binsection);</div>
@@ -5423,7 +5423,7 @@ The data in this section is more sections, with magic <code>0x34A11-0x34A1F</cod
 <div><i>513BC0</i> int __thiscall <h3><a href=structs.html#struc_Career>Career</a>::513BC0</h3>(<a href=structs.html#struc_Career>struct Career</a> *this);</div>
 <a id=513C30></a>
 <div class=mm><pre>
-return <a href=funcs.html#503680>CarCollection::GetCareerCarForSlotHash</a>(this-&gt;<a href=structs.html#struc_Career8740>activeCarSlotHash</a>);
+return <a href=funcs.html#503680>CarCollection::GetCareerCarForSlotHash</a>(this-&gt;<a href=structs.html#struc_Career@8740>activeCarSlotHash</a>);
 </pre>
 </div>
 <div><i>513C30</i> <a href=structs.html#struc_CareerCar>struct CareerCar</a> *__thiscall <h3><a href=structs.html#struc_Career>Career</a>::GetCarForActiveCareerCarSlot</h3>(<a href=structs.html#struc_Career>struct Career</a> *this);</div>
@@ -5472,13 +5472,13 @@ See <code><a class='ext' href='https://github.com/yugecin/nfsu2-re/blob/master/n
 <a id=514CF0></a>
 <div><i>514CF0</i> <a href=structs.html#struc_SmsMessage>struct SmsMessage</a> *__thiscall <h3><a href=structs.html#struc_SmsMessageList>SmsMessageList</a>::GetFirstUnreadSmsMessage</h3>(<a href=structs.html#struc_SmsMessageList>struct SmsMessageList</a> *this);</div>
 <a id=514D30></a>
-<div class=mm><p>When <code>useCachedFlag</code>, just return <code><a href=vars.html#83A9D0>profileData</a>.<a href=structs.html#struc_ProfileData20370>career</a>.<a href=structs.html#struc_Career5D20>smsMessageList</a>.<a href=structs.html#struc_SmsMessageList1404>numUnreadMessages</a></code>, otherwise count all
-<code><a href=vars.html#83A9D0>profileData</a>.<a href=structs.html#struc_ProfileData20370>career</a>.<a href=structs.html#struc_Career5D20>smsMessageList</a>.<a href=structs.html#struc_SmsMessageList0>smsMessages</a></code> that have both <code><a href=structs.html#struc_SmsMessage4>read</a></code> and
-<code><a href=structs.html#struc_SmsMessage6>deleted</a></code> on <code>0</code>.
+<div class=mm><p>When <code>useCachedFlag</code>, just return <code><a href=vars.html#83A9D0>profileData</a>.<a href=structs.html#struc_ProfileData@20370>career</a>.<a href=structs.html#struc_Career@5D20>smsMessageList</a>.<a href=structs.html#struc_SmsMessageList@1404>numUnreadMessages</a></code>, otherwise count all
+<code><a href=vars.html#83A9D0>profileData</a>.<a href=structs.html#struc_ProfileData@20370>career</a>.<a href=structs.html#struc_Career@5D20>smsMessageList</a>.<a href=structs.html#struc_SmsMessageList@0>smsMessages</a></code> that have both <code><a href=structs.html#struc_SmsMessage@4>read</a></code> and
+<code><a href=structs.html#struc_SmsMessage@6>deleted</a></code> on <code>0</code>.
 TODO check other xref, probably for displaying icon ingame</div>
 <div><i>514D30</i> int __thiscall <h3><a href=structs.html#struc_SmsMessageList>SmsMessageList</a>::GetNumUnreadMessages</h3>(<a href=structs.html#struc_SmsMessageList>struct SmsMessageList</a> *this, int useCachedFlag);</div>
 <a id=514D80></a>
-<div class=mm><p>For every message, set flag <code><a href=structs.html#struc_SmsMessage7>movedToCorrectInbox</a></code> when flag <code><a href=structs.html#struc_SmsMessage4>read</a></code> is set.</div>
+<div class=mm><p>For every message, set flag <code><a href=structs.html#struc_SmsMessage@7>movedToCorrectInbox</a></code> when flag <code><a href=structs.html#struc_SmsMessage@4>read</a></code> is set.</div>
 <div><i>514D80</i> void __thiscall <h3><a href=structs.html#struc_SmsMessageList>SmsMessageList</a>::MarkReadMessagesMovedToCorrectInbox</h3>(<a href=structs.html#struc_SmsMessageList>struct SmsMessageList</a> *this);</div>
 <a id=514E10></a>
 <div class=mm><p>marker is of type <a href=enums.html#enu_MARKER_TYPE12>MARKER_TYPE_ENGAGE_TIP</a></div>
@@ -5531,7 +5531,7 @@ TODO check other xref, probably for displaying icon ingame</div>
 <a id=516B90></a>
 <div class=mm><p>"FromStockCar" is an assumption, is this always true?
 <p>slotHash is like TUNED_CAR_%d
-car is only used to invoke <a href=structs.html#struc_InventoryCar$vtable>struct InventoryCar$vtable</a>.<a href=structs.html#struc_InventoryCar$vtable4>procGetCarIndex</a></div>
+car is only used to invoke <a href=structs.html#struc_InventoryCar$vtable>struct InventoryCar$vtable</a>.<a href=structs.html#struc_InventoryCar$vtable@4>procGetCarIndex</a></div>
 <div><i>516B90</i> int __thiscall <h3><a href=structs.html#struc_TunedCar>TunedCar</a>::InitializeFromStockCar</h3>(<a href=structs.html#struc_TunedCar>struct TunedCar</a> *this, unsigned int slotHash, <a href=structs.html#struc_InventoryCar>struct InventoryCar</a> *car);</div>
 <a id=516CA0></a>
 <div class=mm><p>NOTE: THIS IS SHARED FOR <a href=structs.html#struc_TunedCar>struct TunedCar</a> <a href=structs.html#struc_CareerCar>struct CareerCar</a> <a href=structs.html#struc_OnlineCar>struct OnlineCar</a>
@@ -5547,11 +5547,11 @@ just calls <a href=funcs.html#516AC0>TunedCar18::ApplyTuningToInstance</a></div>
 <div class=mm><pre>
 <a href=structs.html#struc_UIElementVisitor_FindByHash>struct UIElementVisitor_FindByHash</a> visitor;
 
-visitor.<a href=structs.html#struc_UIElementVisitor_FindByHash0>__parent</a>.<a href=structs.html#struc_UIElementVisitor0>vtable</a> = &amp;<a href=vars.html#79AAF4>vtable_UIElementVisitor_FindByHash</a>;
-visitor.<a href=structs.html#struc_UIElementVisitor_FindByHash4>searchingHash</a> = hash;
-visitor.<a href=structs.html#struc_UIElementVisitor_FindByHash8>foundUIElement</a> = 0;
+visitor.<a href=structs.html#struc_UIElementVisitor_FindByHash@0>__parent</a>.<a href=structs.html#struc_UIElementVisitor@0>vtable</a> = &amp;<a href=vars.html#79AAF4>vtable_UIElementVisitor_FindByHash</a>;
+visitor.<a href=structs.html#struc_UIElementVisitor_FindByHash@4>searchingHash</a> = hash;
+visitor.<a href=structs.html#struc_UIElementVisitor_FindByHash@8>foundUIElement</a> = 0;
 <a href=funcs.html#504880>FNGInfo::VisitUIRecursively</a>(this, visitor);
-return visitor.<a href=structs.html#struc_UIElementVisitor_FindByHash8>foundUIElement</a>;
+return visitor.<a href=structs.html#struc_UIElementVisitor_FindByHash@8>foundUIElement</a>;
 </pre>
 </div>
 <div><i>517F80</i> <a href=structs.html#struc_UIElement>struct UIElement</a> *__thiscall <h3><a href=structs.html#struc_FNGInfo>FNGInfo</a>::FindUIElementByHash</h3>(<a href=structs.html#struc_FNGInfo>struct FNGInfo</a> *this, unsigned int hash);</div>
@@ -5562,11 +5562,11 @@ return visitor.<a href=structs.html#struc_UIElementVisitor_FindByHash8>foundUIEl
 <a id=519AE0></a>
 <div><i>519AE0</i> void __thiscall <h3><a href=structs.html#struc_UIData_field8_8>UIData_field8_8</a>::ctor</h3>(<a href=structs.html#struc_UIData_field8_8>struct UIData_field8_8</a> *this);</div>
 <a id=519DE0></a>
-<div class=mm><p>frees <a href=structs.html#struc_NamedLinkNode>struct NamedLinkNode</a>.<a href=structs.html#struc_NamedLinkNodeC>name</a> if not empty, then allocate just enough memory to fit name into it, copy it, cihash it and put it into <a href=structs.html#struc_NamedLinkNode>struct NamedLinkNode</a>.<a href=structs.html#struc_NamedLinkNode10>cihashOfName</a></div>
+<div class=mm><p>frees <a href=structs.html#struc_NamedLinkNode>struct NamedLinkNode</a>.<a href=structs.html#struc_NamedLinkNode@C>name</a> if not empty, then allocate just enough memory to fit name into it, copy it, cihash it and put it into <a href=structs.html#struc_NamedLinkNode>struct NamedLinkNode</a>.<a href=structs.html#struc_NamedLinkNode@10>cihashOfName</a></div>
 <div><i>519DE0</i> void __thiscall <h3><a href=structs.html#struc_NamedLinkNode>NamedLinkNode</a>::CopyNameIntoCAndHashInto10</h3>(<a href=structs.html#struc_NamedLinkNode>struct NamedLinkNode</a> *this, char *name);</div>
 <a id=519E50></a>
-<div class=mm><p>Goes through <code><a href=structs.html#struc_FNGInfo4>child</a></code> until the next one is null or its
-<code><a href=structs.html#struc_FNGInfoC>fngName</a></code> and <code><a href=structs.html#struc_FNGInfo10>hash</a></code> matches.
+<div class=mm><p>Goes through <code><a href=structs.html#struc_FNGInfo@4>child</a></code> until the next one is null or its
+<code><a href=structs.html#struc_FNGInfo@C>fngName</a></code> and <code><a href=structs.html#struc_FNGInfo@10>hash</a></code> matches.
 <code>this</code> is unused.</div>
 <div><i>519E50</i> <a href=structs.html#struc_FNGInfo>struct FNGInfo</a> *__thiscall <h3><a href=structs.html#struc_FNGInfoList>FNGInfoList</a>::GetFNGInfoByNameByHierarchy</h3>(<a href=structs.html#struc_FNGInfoList>struct FNGInfoList</a> *thisUnused, char *fngName, <a href=structs.html#struc_FNGInfo>struct FNGInfo</a> *fnginfo);</div>
 <a id=519EB0></a>
@@ -5599,25 +5599,25 @@ return visitor.<a href=structs.html#struc_UIElementVisitor_FindByHash8>foundUIEl
 <a id=51B9D0></a>
 <div><i>51B9D0</i> int __thiscall <h3><a href=structs.html#struc_SomethingUIImpl>SomethingUIImpl</a>::LinkWithFNGInfoAndCreateFNGObject</h3>(<a href=structs.html#struc_SomethingUIImpl>struct SomethingUIImpl</a> *this, <a href=structs.html#struc_FNGInfo>struct FNGInfo</a> *fngInfo, int);</div>
 <a id=51BA60></a>
-<div class=mm><p>calls dtor of <code>this-&gt;<a href=structs.html#struc_SomethingUIImpl14>fngObject</a></code> and nulls it (if set),
-nulls <code>this-&gt;<a href=structs.html#struc_SomethingUIImpl18>fngInfo</a>-><a href=structs.html#struc_FNGInfo40>somethingUIImpl</a></code> and then nulls it (if set),
-frees <code>this-&gt;<a href=structs.html#struc_SomethingUIImplC>data30203</a></code> and then nulls it (if set)
+<div class=mm><p>calls dtor of <code>this-&gt;<a href=structs.html#struc_SomethingUIImpl@14>fngObject</a></code> and nulls it (if set),
+nulls <code>this-&gt;<a href=structs.html#struc_SomethingUIImpl@18>fngInfo</a>-><a href=structs.html#struc_FNGInfo@40>somethingUIImpl</a></code> and then nulls it (if set),
+frees <code>this-&gt;<a href=structs.html#struc_SomethingUIImpl@C>data30203</a></code> and then nulls it (if set)
 <p><a href=funcs.html#542390>SomethingUI::NukeAllScreens</a> has this inlined</div>
 <div><i>51BA60</i> void __thiscall <h3><a href=structs.html#struc_SomethingUIImpl>SomethingUIImpl</a>::ReleaseFngAndFngInfoAndPtrFieldC</h3>(<a href=structs.html#struc_SomethingUIImpl>struct SomethingUIImpl</a> *this);</div>
 <a id=51BAD0></a>
 <div><i>51BAD0</i> unsigned int __thiscall <h3><a href=structs.html#struc_SomethingUI>SomethingUI</a>::SumCSHashOfFNGNamesInEntries</h3>(<a href=structs.html#struc_SomethingUI>struct SomethingUI</a> *this);</div>
 <a id=51BB20></a>
-<div class=mm><p>cdecl for <a href=funcs.html#51BAD0>SomethingUI::SumCSHashOfFNGNamesInEntries</a> with <a href=vars.html#83A9D0>profileData</a>.<a href=structs.html#struc_ProfileData28DE0>somethingUI</a></div>
+<div class=mm><p>cdecl for <a href=funcs.html#51BAD0>SomethingUI::SumCSHashOfFNGNamesInEntries</a> with <a href=vars.html#83A9D0>profileData</a>.<a href=structs.html#struc_ProfileData@28DE0>somethingUI</a></div>
 <div><i>51BB20</i> unsigned int __cdecl <h3>SomethingUISumCSHashOfFNGNamesInEntries</h3>();</div>
 <a id=51BB30></a>
 <div><i>51BB30</i> <a href=structs.html#struc_SomethingUIImpl>struct SomethingUIImpl</a> *__thiscall <h3><a href=structs.html#struc_SomethingUI>SomethingUI</a>::FindBinSectionInLink?</h3>(<a href=structs.html#struc_SomethingUI>struct SomethingUI</a> *this, <a href=structs.html#struc_BinSection>struct BinSection</a> *binsection);</div>
 <a id=51BB70></a>
-<div class=mm><p>in <a href=structs.html#struc_SomethingUI>struct SomethingUI</a>.<a href=structs.html#struc_SomethingUI4>link</a>, move the entry with matching (hash of) name to the front of the link and return it (or return null if not found)</div>
+<div class=mm><p>in <a href=structs.html#struc_SomethingUI>struct SomethingUI</a>.<a href=structs.html#struc_SomethingUI@4>link</a>, move the entry with matching (hash of) name to the front of the link and return it (or return null if not found)</div>
 <div><i>51BB70</i> <a href=structs.html#struc_SomethingUIImpl>struct SomethingUIImpl</a> *__thiscall <h3><a href=structs.html#struc_SomethingUI>SomethingUI</a>::MoveEntryForFNGToTopAndReturnIt</h3>(<a href=structs.html#struc_SomethingUI>struct SomethingUI</a> *this, char *fngName);</div>
 <a id=51BCA0></a>
 <div class=mm><p>just called from <a href=funcs.html#51BD30>LoadBinSection30203_30210</a>
 <p>param oneOrZero is <code>!!<a href=vars.html#864F7C>something_864F7C</a></code>
-<p>creates a new <a href=structs.html#struc_SomethingUIImpl>struct SomethingUIImpl</a> to hold the data and adds it as last in <a href=vars.html#83A9D0>profileData</a>.<a href=structs.html#struc_ProfileData28DE0>somethingUI</a>.<a href=structs.html#struc_SomethingUI4>link</a></div>
+<p>creates a new <a href=structs.html#struc_SomethingUIImpl>struct SomethingUIImpl</a> to hold the data and adds it as last in <a href=vars.html#83A9D0>profileData</a>.<a href=structs.html#struc_ProfileData@28DE0>somethingUI</a>.<a href=structs.html#struc_SomethingUI@4>link</a></div>
 <div><i>51BCA0</i> void __thiscall <h3><a href=structs.html#struc_SomethingUI>SomethingUI</a>::LoadFromBinSectionAndAddAsLast</h3>(<a href=structs.html#struc_SomethingUI>struct SomethingUI</a> *this, <a href=structs.html#struc_BinSection>struct BinSection</a> *data, int oneOrZero);</div>
 <a id=51BD10></a>
 <div class=mm><p>uses <a href=funcs.html#51BB70>SomethingUI::MoveEntryForFNGToTopAndReturnIt</a></div>
@@ -5648,7 +5648,7 @@ frees <code>this-&gt;<a href=structs.html#struc_SomethingUIImplC>data30203</a></
 <a id=51CC60></a>
 <div><i>51CC60</i> int __thiscall <h3><a href=structs.html#struc_UIData>UIData</a>::51CC60</h3>(<a href=structs.html#struc_UIData>struct UIData</a> *this, char *fngName, unsigned int hash, char);</div>
 <a id=51CCD0></a>
-<div class=mm><p>Searches through <a href=structs.html#struc_UIData8>field_8</a>.</div>
+<div class=mm><p>Searches through <a href=structs.html#struc_UIData@8>field_8</a>.</div>
 <div><i>51CCD0</i> <a href=structs.html#struc_LevelSorterPoolEntry>struct LevelSorterPoolEntry</a> *__thiscall <h3><a href=structs.html#struc_UIData>UIData</a>::GetLevelSorterPoolEntryForFngName</h3>(<a href=structs.html#struc_UIData>struct UIData</a> *this, char *fngName);</div>
 <a id=51CD40></a>
 <div><i>51CD40</i> void __cdecl <h3>AssignSomethingUIImplField1C</h3>(char *fngName, __int16 value);</div>
@@ -5687,7 +5687,7 @@ Returns <code>1</code> on success.</div>
 <a id=51DE90></a>
 <div class=mm><p>If it's already allocated and long enough, NOP.
 Otherwise allocate new memory, copy existing string, free previous memory.
-Does not actually check the <code><a href=structs.html#struc_WideCharString4>allocatedWcharLength</a></code> field, but does a strlen to check if
+Does not actually check the <code><a href=structs.html#struc_WideCharString@4>allocatedWcharLength</a></code> field, but does a strlen to check if
 the existing string length is less than required.</div>
 <div><i>51DE90</i> int __thiscall <h3><a href=structs.html#struc_WideCharString>WideCharString</a>::EnsureAllocatedSize</h3>(<a href=structs.html#struc_WideCharString>struct WideCharString</a> *this, int length);</div>
 <a id=51DFC0></a>
@@ -5701,8 +5701,8 @@ the existing string length is less than required.</div>
 <a id=51F4E0></a>
 <div><i>51F4E0</i> void __thiscall <h3><a href=structs.html#struc_SubScrollingThing>SubScrollingThing</a>::51F4E0</h3>(<a href=structs.html#struc_SubScrollingThing>struct SubScrollingThing</a> *this);</div>
 <a id=51F560></a>
-<div class=mm><p>nop if <a href=structs.html#struc_SubScrollingThing30>uielement</a> is not null
-otherwise writes <a href=structs.html#struc_SubScrollingThing8C>floatField_8C</a>, <a href=structs.html#struc_SubScrollingThing90>floatField_90</a>, <a href=structs.html#struc_SubScrollingThing94>floatField_94</a>, <a href=structs.html#struc_SubScrollingThing98>floatField_98</a></div>
+<div class=mm><p>nop if <a href=structs.html#struc_SubScrollingThing@30>uielement</a> is not null
+otherwise writes <a href=structs.html#struc_SubScrollingThing@8C>floatField_8C</a>, <a href=structs.html#struc_SubScrollingThing@90>floatField_90</a>, <a href=structs.html#struc_SubScrollingThing@94>floatField_94</a>, <a href=structs.html#struc_SubScrollingThing@98>floatField_98</a></div>
 <div><i>51F560</i> void __thiscall <h3><a href=structs.html#struc_SubScrollingThing>SubScrollingThing</a>::RecalculateSomeSizeProbably</h3>(<a href=structs.html#struc_SubScrollingThing>struct SubScrollingThing</a> *this);</div>
 <a id=51F670></a>
 <div><i>51F670</i> <a href=structs.html#struc_IconScrollerIcon>struct IconScrollerIcon</a> *__thiscall <h3><a href=structs.html#struc_IconScrollerIcon>IconScrollerIcon</a>::ctor</h3>(<a href=structs.html#struc_IconScrollerIcon>struct IconScrollerIcon</a> *this, int, int, int);</div>
@@ -5765,7 +5765,7 @@ See <code><a class='ext' href='https://github.com/yugecin/nfsu2-re/blob/master/n
 <div><i>528410</i> float __thiscall <h3><a href=structs.html#struc_Career>Career</a>::528410</h3>(<a href=structs.html#struc_Career>struct Career</a> *this);</div>
 <a id=5284D0></a>
 <div class=mm><p>'this' is unused; can be treated as a normal __stdcall (__cdecl even)
-<p>finds first career car in <a href=vars.html#83A9D0>profileData</a>.<a href=structs.html#struc_ProfileData10>player1</a>.<a href=structs.html#struc_Player3B0>carCollection</a>.<a href=structs.html#struc_CarCollection5954>careerCars</a> with nonzero <a href=structs.html#struc_CareerCar7F4>isLocked</a> and puts it on zero</div>
+<p>finds first career car in <a href=vars.html#83A9D0>profileData</a>.<a href=structs.html#struc_ProfileData@10>player1</a>.<a href=structs.html#struc_Player@3B0>carCollection</a>.<a href=structs.html#struc_CarCollection@5954>careerCars</a> with nonzero <a href=structs.html#struc_CareerCar@7F4>isLocked</a> and puts it on zero</div>
 <div><i>5284D0</i> void __thiscall <h3><a href=structs.html#struc_Career>Career</a>::UnlockNextLockedCarSlot</h3>(<a href=structs.html#struc_Career>struct Career</a> *this);</div>
 <a id=528500></a>
 <div><i>528500</i> int __thiscall <h3><a href=structs.html#struc_Career>Career</a>::528500</h3>(<a href=structs.html#struc_Career>struct Career</a> *this, unsigned int hash);</div>
@@ -5781,10 +5781,10 @@ See <code><a class='ext' href='https://github.com/yugecin/nfsu2-re/blob/master/n
 <a id=5287A0></a>
 <div><i>5287A0</i> int __thiscall <h3><a href=structs.html#struc_CareerD24>CareerD24</a>::5287A0</h3>(<a href=structs.html#struc_CareerD24>struct CareerD24</a> *this, int);</div>
 <a id=528980></a>
-<div class=mm><p>zeros <a href=structs.html#struc_Career600>collectedEngageMarkers</a>, finds all <a href=enums.html#enu_MARKER_TYPE12>MARKER_TYPE_ENGAGE_TIP</a> and put them in <a href=structs.html#struc_Career600>collectedEngageMarkers</a> if they're not collected (checked with <a href=funcs.html#514E10>SmsMessageList::IsEngageTipUncollected</a>)</div>
+<div class=mm><p>zeros <a href=structs.html#struc_Career@600>collectedEngageMarkers</a>, finds all <a href=enums.html#enu_MARKER_TYPE12>MARKER_TYPE_ENGAGE_TIP</a> and put them in <a href=structs.html#struc_Career@600>collectedEngageMarkers</a> if they're not collected (checked with <a href=funcs.html#514E10>SmsMessageList::IsEngageTipUncollected</a>)</div>
 <div><i>528980</i> void __thiscall <h3><a href=structs.html#struc_Career>Career</a>::RecalculateCollectedEngageMarkers</h3>(<a href=structs.html#struc_Career>struct Career</a> *this);</div>
 <a id=5289F0></a>
-<div class=mm><p>changes <code><a href=structs.html#struc_Career>struct Career</a>.<a href=structs.html#struc_Career7134>bank</a></code> and <code><a href=structs.html#struc_CareerCar434>struct CareerCar434</a>.<a href=structs.html#struc_CareerCar4343BC>moneySpentOnCar</a></code></div>
+<div class=mm><p>changes <code><a href=structs.html#struc_Career>struct Career</a>.<a href=structs.html#struc_Career@7134>bank</a></code> and <code><a href=structs.html#struc_CareerCar434>struct CareerCar434</a>.<a href=structs.html#struc_CareerCar434@3BC>moneySpentOnCar</a></code></div>
 <div><i>5289F0</i> int __thiscall <h3><a href=structs.html#struc_Career>Career</a>::HandleMoneyAfterPartBought</h3>(<a href=structs.html#struc_Career>struct Career</a> *this, int, int);</div>
 <a id=528A60></a>
 <div><i>528A60</i> int __thiscall <h3><a href=structs.html#struc_Career>Career</a>::UpdateCareerStatsObject</h3>(<a href=structs.html#struc_Career>struct Career</a> *this, <a href=structs.html#struc_CareerStats>struct CareerStats</a> *stats);</div>
@@ -5803,29 +5803,29 @@ See <code><a class='ext' href='https://github.com/yugecin/nfsu2-re/blob/master/n
 <a id=529750></a>
 <div><i>529750</i> void __thiscall <h3><a href=structs.html#struc_SmsMessageList>SmsMessageList</a>::529750</h3>(<a href=structs.html#struc_SmsMessageList>struct SmsMessageList</a> *this, float someFloat);</div>
 <a id=529860></a>
-<div class=mm><p>Goes through all <a href=vars.html#838454>smsDatas</a> and send all unreceived messages with <code><a href=structs.html#struc_SmsData2>type</a></code> 8 (My game files do not have any messages
+<div class=mm><p>Goes through all <a href=vars.html#838454>smsDatas</a> and send all unreceived messages with <code><a href=structs.html#struc_SmsData@2>type</a></code> 8 (My game files do not have any messages
 with that type)? Also checks for type <code><a href=enums.html#enu_SMS_TYPE4>SMS_TYPE_OUTRUN_INFO</a></code>, then does more checks with <code>arg0</code> before sending.
 <p>arg0 is also put in {struct Career+field_8734} before calling this</div>
 <div><i>529860</i> int __thiscall <h3><a href=structs.html#struc_SmsMessageList>SmsMessageList</a>::SendSomeCareerStartMsgs?</h3>(<a href=structs.html#struc_SmsMessageList>struct SmsMessageList</a> *this, void *);</div>
 <a id=529920></a>
 <div><i>529920</i> void __thiscall <h3><a href=structs.html#struc_SmsMessageList>SmsMessageList</a>::SendUnlockMessagesForCurrentGameProgress</h3>(<a href=structs.html#struc_SmsMessageList>struct SmsMessageList</a> *this, <a href=structs.html#struc_Bin34A11>struct Bin34A11</a> *ptrMaybeGameState);</div>
 <a id=5299B0></a>
-<div class=mm><p>Goes through all <a href=vars.html#838454>smsDatas</a> and send every one that hasn't been received yet and has <code><a href=structs.html#struc_SmsData2>type</a> ==
-<a href=enums.html#enu_SMS_TYPEE>SMS_TYPE_DVD_COVER</a></code> and <code><a href=structs.html#struc_SmsData8>data</a> == index</code> by using <a href=funcs.html#5295F0>SmsMessageList::SendMessage</a>
+<div class=mm><p>Goes through all <a href=vars.html#838454>smsDatas</a> and send every one that hasn't been received yet and has <code><a href=structs.html#struc_SmsData@2>type</a> ==
+<a href=enums.html#enu_SMS_TYPEE>SMS_TYPE_DVD_COVER</a></code> and <code><a href=structs.html#struc_SmsData@8>data</a> == index</code> by using <a href=funcs.html#5295F0>SmsMessageList::SendMessage</a>
 (which already has a check for if it was already received...).</div>
 <div><i>5299B0</i> void __thiscall <h3><a href=structs.html#struc_SmsMessageList>SmsMessageList</a>::SendDVDCoverSmsWithIndex</h3>(<a href=structs.html#struc_SmsMessageList>struct SmsMessageList</a> *this, int index);</div>
 <a id=529A40></a>
 <div><i>529A40</i> int __thiscall <h3><a href=structs.html#struc_SmsMessageList>SmsMessageList</a>::529A40</h3>(<a href=structs.html#struc_SmsMessageList>struct SmsMessageList</a> *this, int);</div>
 <a id=529B50></a>
-<div class=mm><p>Goes through all <a href=vars.html#838454>smsDatas</a> and send every one that hasn't been received yet and has <code><a href=structs.html#struc_SmsData2>type</a> ==
+<div class=mm><p>Goes through all <a href=vars.html#838454>smsDatas</a> and send every one that hasn't been received yet and has <code><a href=structs.html#struc_SmsData@2>type</a> ==
 <a href=enums.html#enu_SMS_TYPE4>SMS_TYPE_OUTRUN_INFO</a></code> by using <a href=funcs.html#5295F0>SmsMessageList::SendMessage</a> when it wasn't received yet.
 (which already has a check for if it was already received...).
 This only matches the single <code>SMS_OUTRUN_INTRO</code> SMS.
 TODO check xref to explore outrun code</div>
 <div><i>529B50</i> void __thiscall <h3><a href=structs.html#struc_SmsMessageList>SmsMessageList</a>::SendOutrunInfoSms</h3>(<a href=structs.html#struc_SmsMessageList>struct SmsMessageList</a> *this);</div>
 <a id=529BD0></a>
-<div class=mm><p>Goes through all <a href=vars.html#838454>smsDatas</a>. When <code>didWin</code> is 1, send all with <code><a href=structs.html#struc_SmsData2>type</a> == <a href=enums.html#enu_SMS_TYPE5>SMS_TYPE_OUTRUN_VICTORY</a></code>, else send
-all with <code><a href=structs.html#struc_SmsData2>type</a> == <a href=enums.html#enu_SMS_TYPE6>SMS_TYPE_OUTRUN_DEFEAT</a></code>. Uses <a href=funcs.html#5295F0>SmsMessageList::SendMessage</a>.
+<div class=mm><p>Goes through all <a href=vars.html#838454>smsDatas</a>. When <code>didWin</code> is 1, send all with <code><a href=structs.html#struc_SmsData@2>type</a> == <a href=enums.html#enu_SMS_TYPE5>SMS_TYPE_OUTRUN_VICTORY</a></code>, else send
+all with <code><a href=structs.html#struc_SmsData@2>type</a> == <a href=enums.html#enu_SMS_TYPE6>SMS_TYPE_OUTRUN_DEFEAT</a></code>. Uses <a href=funcs.html#5295F0>SmsMessageList::SendMessage</a>.
 TODO xref to explore outrun code</div>
 <div><i>529BD0</i> void __thiscall <h3><a href=structs.html#struc_SmsMessageList>SmsMessageList</a>::SendOutrunVictoryOrDefeatSms</h3>(<a href=structs.html#struc_SmsMessageList>struct SmsMessageList</a> *this, int didWin);</div>
 <a id=529C40></a>
@@ -5839,7 +5839,7 @@ TODO xref to explore outrun code</div>
 <a id=52A220></a>
 <div><i>52A220</i> void __thiscall <h3><a href=structs.html#struc_Player_D4>Player_D4</a>::ctor</h3>(<a href=structs.html#struc_Player_D4>struct Player_D4</a> *this);</div>
 <a id=52A280></a>
-<div class=mm><p>also does <a href=vars.html#83A9D0>profileData</a>.<a href=structs.html#struc_ProfileData156B0>field_156B0</a> and <a href=vars.html#874C40>controllerStruct874C40</a></div>
+<div class=mm><p>also does <a href=vars.html#83A9D0>profileData</a>.<a href=structs.html#struc_ProfileData@156B0>field_156B0</a> and <a href=vars.html#874C40>controllerStruct874C40</a></div>
 <div><i>52A280</i> <h3><a href=structs.html#struc_Player>Player</a>::WriteToSaveData</h3></div>
 <a id=52A5D0></a>
 <div><i>52A5D0</i> void __thiscall <h3><a href=structs.html#struc_CarCollection>CarCollection</a>::ctor</h3>(<a href=structs.html#struc_CarCollection>struct CarCollection</a> *this);</div>
@@ -5858,8 +5858,8 @@ it supports creating from existing tuned/career car, but that is never actually 
 <a id=52C3A0></a>
 <div><i>52C3A0</i> void __thiscall <h3><a href=structs.html#struc_FERenderObject>FERenderObject</a>::FreeAllRenderEPolys_0</h3>(<a href=structs.html#struc_FERenderObject>struct FERenderObject</a> *this, void *unused);</div>
 <a id=52C570></a>
-<div class=mm><p>When <code>fngName</code> is null, searches every FNG in <code>this-&gt;<a href=structs.html#struc_UIData_field8DC>fngPackagesDC</a>.<a href=structs.html#struc_FNGInfoList8>topPackage</a></code> for the given hash.
-Otherwise, limit the search to the FNG that is in the hierarchy of <code>this-&gt;<a href=structs.html#struc_UIData_field8DC>fngPackagesDC</a>.<a href=structs.html#struc_FNGInfoList8>topPackage</a></code>
+<div class=mm><p>When <code>fngName</code> is null, searches every FNG in <code>this-&gt;<a href=structs.html#struc_UIData_field8@DC>fngPackagesDC</a>.<a href=structs.html#struc_FNGInfoList@8>topPackage</a></code> for the given hash.
+Otherwise, limit the search to the FNG that is in the hierarchy of <code>this-&gt;<a href=structs.html#struc_UIData_field8@DC>fngPackagesDC</a>.<a href=structs.html#struc_FNGInfoList@8>topPackage</a></code>
 (by using <a href=funcs.html#519E50>FNGInfoList::GetFNGInfoByNameByHierarchy</a>).</div>
 <div class=mm><p>fngName is nullable</div>
 <div><i>52C570</i> <a href=structs.html#struc_UIElement>struct UIElement</a> *__thiscall <h3><a href=structs.html#struc_UIData_field8>UIData_field8</a>::GetUIElementByHashInFngName</h3>(<a href=structs.html#struc_UIData_field8>struct UIData_field8</a> *this, unsigned int hash, char *fngName);</div>
@@ -5875,7 +5875,7 @@ Otherwise, limit the search to the FNG that is in the hierarchy of <code>this-&g
 <a id=52CE40></a>
 <div><i>52CE40</i> void __thiscall <h3><a href=structs.html#struc_UIData>UIData</a>::52CE40</h3>(<a href=structs.html#struc_UIData>struct UIData</a> *this, char *fngName, unsigned int hash);</div>
 <a id=52CEF0></a>
-<div class=mm><p>searches either both hierarchies (<a href=structs.html#struc_UIData_field8>struct UIData_field8</a>.<a href=structs.html#struc_UIData_field8DC>fngPackagesDC</a> and <a href=structs.html#struc_UIData_field8>struct UIData_field8</a>.<a href=structs.html#struc_UIData_field8EC>fngPackagesEC</a>) or, if that's not initialized yet[citation needed], searches <a href=vars.html#83A9D0>profileData</a>.<a href=structs.html#struc_ProfileData28DE0>somethingUI</a></div>
+<div class=mm><p>searches either both hierarchies (<a href=structs.html#struc_UIData_field8>struct UIData_field8</a>.<a href=structs.html#struc_UIData_field8@DC>fngPackagesDC</a> and <a href=structs.html#struc_UIData_field8>struct UIData_field8</a>.<a href=structs.html#struc_UIData_field8@EC>fngPackagesEC</a>) or, if that's not initialized yet[citation needed], searches <a href=vars.html#83A9D0>profileData</a>.<a href=structs.html#struc_ProfileData@28DE0>somethingUI</a></div>
 <div><i>52CEF0</i> <a href=structs.html#struc_FNGInfo>struct FNGInfo</a> *__cdecl <h3>GetFNGInfoByName</h3>(char *fngName);</div>
 <a id=52CF60></a>
 <div><i>52CF60</i> int __cdecl <h3>IsFNGLoaded?</h3>(char *fngName);</div>
@@ -5904,7 +5904,7 @@ mask is just <code>(1 &lt;&lt; x)</code></div>
 <a id=52E320></a>
 <div><i>52E320</i> int __thiscall <h3><a href=structs.html#struc_ScrollingThing>ScrollingThing</a>::UpdateHandlePositionProbably2</h3>(<a href=structs.html#struc_ScrollingThing>struct ScrollingThing</a> *this, int, int numEntries, int);</div>
 <a id=52E470></a>
-<div class=mm><p>sets <a href=structs.html#struc_ScrollingThing38>frameTimeWhenArrowClicked</a> and <a href=structs.html#struc_ScrollingThing3C>currentScrollAmountToPerform</a> and plays sounds when indeed clicked</div>
+<div class=mm><p>sets <a href=structs.html#struc_ScrollingThing@38>frameTimeWhenArrowClicked</a> and <a href=structs.html#struc_ScrollingThing@3C>currentScrollAmountToPerform</a> and plays sounds when indeed clicked</div>
 <div><i>52E470</i> void __thiscall <h3><a href=structs.html#struc_ScrollingThing>ScrollingThing</a>::CheckMouseClickOnArrows</h3>(<a href=structs.html#struc_ScrollingThing>struct ScrollingThing</a> *this);</div>
 <a id=52E4E0></a>
 <div><i>52E4E0</i> void __thiscall <h3><a href=structs.html#struc_ScrollingThing>ScrollingThing</a>::52E4E0</h3>(<a href=structs.html#struc_ScrollingThing>struct ScrollingThing</a> *this);</div>
@@ -5949,9 +5949,9 @@ Returns itself.</div>
 <pre>
 <a href=structs.html#struc_SmsData>struct SmsData</a> *smsdata;
 
-smsdata = this-&gt;<a href=structs.html#struc_Career5D20>smsMessageList</a>-&gt;<a href=funcs.html#529C40>SmsMessageList::SendEngageTipSmsMessage</a>(engageMarker);
+smsdata = this-&gt;<a href=structs.html#struc_Career@5D20>smsMessageList</a>-&gt;<a href=funcs.html#529C40>SmsMessageList::SendEngageTipSmsMessage</a>(engageMarker);
 if (smsdata) {
-        this-&gt;<a href=structs.html#struc_Career7134>bank</a> += smsdata-&gt;<a href=structs.html#struc_SmsDataC>moneyReward</a>;
+        this-&gt;<a href=structs.html#struc_Career@7134>bank</a> += smsdata-&gt;<a href=structs.html#struc_SmsData@C>moneyReward</a>;
         this-&gt;<a href=funcs.html#528980>Career::RecalculateCollectedEngageMarkers</a>();
 }
 </pre>
@@ -6037,7 +6037,7 @@ TODO</div>
 <div class=mm><p>Called from <a href=funcs.html#57ED10>??SetupPools</a>.</div>
 <div><i>5372E0</i> <a href=structs.html#struc_UIData>struct UIData</a> *__thiscall <h3><a href=structs.html#struc_UIData>UIData</a>::ctor</h3>(<a href=structs.html#struc_UIData>struct UIData</a> *this);</div>
 <a id=5374F0></a>
-<div class=mm><p>Frees <code><a href=structs.html#struc_UIElement>struct UIElement</a>::<a href=structs.html#struc_UIElement58>FERenderObject</a></code> and its EPoly objects with <a href=funcs.html#52C3A0>FERenderObject::FreeAllRenderEPolys_0</a> and <a href=funcs.html#52C390>FERenderObject::FreeAllRenderEPolys</a>.</div>
+<div class=mm><p>Frees <code><a href=structs.html#struc_UIElement>struct UIElement</a>::<a href=structs.html#struc_UIElement@58>FERenderObject</a></code> and its EPoly objects with <a href=funcs.html#52C3A0>FERenderObject::FreeAllRenderEPolys_0</a> and <a href=funcs.html#52C390>FERenderObject::FreeAllRenderEPolys</a>.</div>
 <div><i>5374F0</i> int __thiscall <h3><a href=structs.html#struc_UIElementVisitor_ClearFNGCache>UIElementVisitor_ClearFNGCache</a>::acceptElement</h3>(<a href=structs.html#struc_UIElementVisitor_ClearFNGCache>struct UIElementVisitor_ClearFNGCache</a> *this, <a href=structs.html#struc_UIElement>struct UIElement</a> *element);</div>
 <a id=537540></a>
 <div><i>537540</i> void __thiscall <h3><a href=structs.html#struc_UIData>UIData</a>::DrawMagazineBackIfNeeded</h3>(<a href=structs.html#struc_UIData>struct UIData</a> *this);</div>
@@ -6048,7 +6048,7 @@ TODO</div>
 <p>it just passes args to <a href=funcs.html#52D020>IsPointInUIElement</a></div>
 <div><i>537690</i> int __thiscall <h3><a href=structs.html#struc_UIData>UIData</a>::IsPointInUIElement</h3>(<a href=structs.html#struc_UIData>struct UIData</a> *this, float xFromMid, float yFromMid, <a href=structs.html#struc_UIElement>struct UIElement</a> *uiElement);</div>
 <a id=5376B0></a>
-<div class=mm><p>goes through <a href=structs.html#struc_UIData10>levelSorterPoolEntry</a> and assigns <a href=structs.html#struc_LevelSorterPoolEntryC>indexInLevelSorterLink</a> and <a href=structs.html#struc_FNGInfo18>indexInLevelSorterLink</a></div>
+<div class=mm><p>goes through <a href=structs.html#struc_UIData@10>levelSorterPoolEntry</a> and assigns <a href=structs.html#struc_LevelSorterPoolEntry@C>indexInLevelSorterLink</a> and <a href=structs.html#struc_FNGInfo@18>indexInLevelSorterLink</a></div>
 <div><i>5376B0</i> int __thiscall <h3><a href=structs.html#struc_UIData>UIData</a>::ReassignLevelSorterIndices</h3>(<a href=structs.html#struc_UIData>struct UIData</a> *this);</div>
 <a id=5376F0></a>
 <div><i>5376F0</i> void __thiscall <h3><a href=structs.html#struc_UIData>UIData</a>::RemoveFNGFromUIObject</h3>(<a href=structs.html#struc_UIData>struct UIData</a> *this, char *fngName);</div>
@@ -6109,7 +6109,7 @@ Delegates to <a href=funcs.html#537B30>SetUILabelFormattedString</a></div>
 <a id=53ED20></a>
 <div><i>53ED20</i> void __thiscall <h3><a href=structs.html#struc_ProfileData>ProfileData</a>::ctor</h3>(<a href=structs.html#struc_ProfileData>struct ProfileData</a> *this);</div>
 <a id=540A60></a>
-<div class=mm><p>only dismisses when <code>idToDismiss==<a href=vars.html#838640>shownDialog</a>.<a href=structs.html#struc_DialogInfo334>dialogId</a></code>, nop otherwise</div>
+<div class=mm><p>only dismisses when <code>idToDismiss==<a href=vars.html#838640>shownDialog</a>.<a href=structs.html#struc_DialogInfo@334>dialogId</a></code>, nop otherwise</div>
 <div><i>540A60</i> int __cdecl <h3>DismissDialog</h3>(int idToDismiss);</div>
 <a id=540AB0></a>
 <div><i>540AB0</i> void __thiscall <h3><a href=structs.html#struc_FocusedTextbox>FocusedTextbox</a>::UpdateDisplayedText</h3>(<a href=structs.html#struc_FocusedTextbox>struct FocusedTextbox</a> *this, char showCaret);</div>
@@ -6134,8 +6134,8 @@ Delegates to <a href=funcs.html#537B30>SetUILabelFormattedString</a></div>
 <a id=541420></a>
 <div><i>541420</i> int __thiscall <h3><a href=structs.html#struc_Career>Career</a>::541420</h3>(<a href=structs.html#struc_Career>struct Career</a> *this, unsigned int hash);</div>
 <a id=541540></a>
-<div class=mm><p>changes <a href=structs.html#struc_Career8740>activeCarSlotHash</a>
-also sets <code>this-&gt;<a href=structs.html#struc_Career873D>field_873D</a> = 1</code></div>
+<div class=mm><p>changes <a href=structs.html#struc_Career@8740>activeCarSlotHash</a>
+also sets <code>this-&gt;<a href=structs.html#struc_Career@873D>field_873D</a> = 1</code></div>
 <div><i>541540</i> void __thiscall <h3><a href=structs.html#struc_Career>Career</a>::541540</h3>(<a href=structs.html#struc_Career>struct Career</a> *this, int slotIndex, unsigned int stockCarHash);</div>
 <a id=5415E0></a>
 <div><i>5415E0</i> int __thiscall <h3><a href=structs.html#struc_Career>Career</a>::5415E0</h3>(<a href=structs.html#struc_Career>struct Career</a> *this, int, int, int, int);</div>
@@ -6180,7 +6180,7 @@ basename will be used to get ui elements with hash %s_Backing, %s_Handle, ...</d
 <a id=543A90></a>
 <div><i>543A90</i> <a href=structs.html#struc_IconScroller>struct IconScroller</a> *__thiscall <h3><a href=structs.html#struc_IconScroller>IconScroller</a>::ctor</h3>(<a href=structs.html#struc_IconScroller>struct IconScroller</a> *this, char *ptrFngName, char *str_OPTION_MASTER, char *str_LOCK_MASTER, char *str_BUTTON_MASTER, char *str_OptionPrefix, float floatArg_14);</div>
 <a id=543C10></a>
-<div class=mm><p>returns <a href=structs.html#struc_IconScrollerIcon10>uiElement10</a></div>
+<div class=mm><p>returns <a href=structs.html#struc_IconScrollerIcon@10>uiElement10</a></div>
 <div><i>543C10</i> <a href=structs.html#struc_UIElementType1>struct UIElementType1</a> *__thiscall <h3><a href=structs.html#struc_IconScroller>IconScroller</a>::AddIconEntry</h3>(<a href=structs.html#struc_IconScroller>struct IconScroller</a> *this, <a href=structs.html#struc_IconScrollerIcon>struct IconScrollerIcon</a> *icon);</div>
 <a id=543D40></a>
 <div><i>543D40</i> <h3><a href=structs.html#struc_IconScrollerFNGObject>IconScrollerFNGObject</a>::MessageHandler</h3></div>
@@ -6236,12 +6236,12 @@ basename will be used to get ui elements with hash %s_Backing, %s_Handle, ...</d
 <a id=54E6E0></a>
 <div class=mm><p>Sets buttons and background of the help bar, updates profile name display.
 See <a href=enums.html#enu_PCHELPBARFLAGS>enum PCHELPBARFLAGS</a>
-Mask gets adjusted based on <a href=vars.html#83A9D0>profileData</a>.<a href=structs.html#struc_ProfileData156A8>menuState</a> and <a href=vars.html#8654A4>_??gameStateSomething</a>:
+Mask gets adjusted based on <a href=vars.html#83A9D0>profileData</a>.<a href=structs.html#struc_ProfileData@156A8>menuState</a> and <a href=vars.html#8654A4>_??gameStateSomething</a>:
 <pre>
-if ((<a href=vars.html#83A9D0>profileData</a>.<a href=structs.html#struc_ProfileData156A8>menuState</a> == <a href=enums.html#enu_MENU_STATE8>MENU_STATE_ONLINE_MAIN_MENU</a> || <a href=vars.html#83A9D0>profileData</a>.<a href=structs.html#struc_ProfileData156A8>menuState</a> == <a href=enums.html#enu_MENU_STATE100>MENU_STATE_CUSTOMIZE_FROM_ONLINE_MAIN_MENU</a>) &amp;&amp; <a href=vars.html#8654A4>_??gameStateSomething</a> == 3 &amp;&amp; (mask &amp; BUTTON_PC_NAV_QUIT)) {
+if ((<a href=vars.html#83A9D0>profileData</a>.<a href=structs.html#struc_ProfileData@156A8>menuState</a> == <a href=enums.html#enu_MENU_STATE8>MENU_STATE_ONLINE_MAIN_MENU</a> || <a href=vars.html#83A9D0>profileData</a>.<a href=structs.html#struc_ProfileData@156A8>menuState</a> == <a href=enums.html#enu_MENU_STATE100>MENU_STATE_CUSTOMIZE_FROM_ONLINE_MAIN_MENU</a>) &amp;&amp; <a href=vars.html#8654A4>_??gameStateSomething</a> == 3 &amp;&amp; (mask &amp; BUTTON_PC_NAV_QUIT)) {
         mask = (mask &amp; ~PC_NAV_QUIT) | BUTTON_PC_NAV_LOGOFF;
 }
-if (<a href=vars.html#83A9D0>profileData</a>.<a href=structs.html#struc_ProfileData156A8>menuState</a> == <a href=enums.html#enu_MENU_STATE200>MENU_STATE_LAN_MAIN_MENU</a> &amp;&amp; (mask &amp; BUTTON_PC_NAV_EA_MESSENGER)) {
+if (<a href=vars.html#83A9D0>profileData</a>.<a href=structs.html#struc_ProfileData@156A8>menuState</a> == <a href=enums.html#enu_MENU_STATE200>MENU_STATE_LAN_MAIN_MENU</a> &amp;&amp; (mask &amp; BUTTON_PC_NAV_EA_MESSENGER)) {
         mask &amp;= ~BUTTON_PC_NAV_EA_MESSENGER;
 }
 </pre>
@@ -6366,7 +6366,7 @@ will show fng for customizing the car</div>
 <a id=557F20></a>
 <div><i>557F20</i> <a href=structs.html#struc_MagazineSelectFNGObject>struct MagazineSelectFNGObject</a> *__thiscall <h3><a href=structs.html#struc_MagazineSelectFNGObject>MagazineSelectFNGObject</a>::ctor</h3>(<a href=structs.html#struc_MagazineSelectFNGObject>struct MagazineSelectFNGObject</a> *this, <a href=structs.html#struc_FNGShowData>struct FNGShowData</a> *fngShowData);</div>
 <a id=558020></a>
-<div class=mm><p>Returns the new dialog id for it (value in <a href=vars.html#838640>shownDialog</a>.<a href=structs.html#struc_DialogInfo334>dialogId</a>) or zero when
+<div class=mm><p>Returns the new dialog id for it (value in <a href=vars.html#838640>shownDialog</a>.<a href=structs.html#struc_DialogInfo@334>dialogId</a>) or zero when
 it didn't show because of some override.</div>
 <div><i>558020</i> int __cdecl <h3>ShowDialog</h3>(<a href=structs.html#struc_DialogInfo>struct DialogInfo</a> *dialog);</div>
 <a id=5582A0></a>
@@ -6380,50 +6380,50 @@ it didn't show because of some override.</div>
 <div><i>558330</i> int __cdecl <h3>ShowButtonlessFormattedLanguageDialog</h3>(char *dialogParentFNGName, char *dialogFNGName, unsigned int textLanguageString, int textParameter);</div>
 <a id=558390></a>
 <div class=mm><p>Calls <a href=funcs.html#558020>ShowDialog</a>.
-Uses <code>0x639(OK)</code> for <a href=structs.html#struc_DialogInfo310>middleButtonLanguageString</a>, <code>0x34DC1BEC</code> for <a href=structs.html#struc_DialogInfo314>middleButtonMessage</a>,
-<code>0xB4EDEB6D</code> for <a href=structs.html#struc_DialogInfo318>escMessage</a>, <code>0</code> for <a href=structs.html#struc_DialogInfo31C>field_31C</a>,
-<code>1</code> for <a href=structs.html#struc_DialogInfo328>numButtons</a> and <a href=structs.html#struc_DialogInfo32C>field_32C</a>.</div>
+Uses <code>0x639(OK)</code> for <a href=structs.html#struc_DialogInfo@310>middleButtonLanguageString</a>, <code>0x34DC1BEC</code> for <a href=structs.html#struc_DialogInfo@314>middleButtonMessage</a>,
+<code>0xB4EDEB6D</code> for <a href=structs.html#struc_DialogInfo@318>escMessage</a>, <code>0</code> for <a href=structs.html#struc_DialogInfo@31C>field_31C</a>,
+<code>1</code> for <a href=structs.html#struc_DialogInfo@328>numButtons</a> and <a href=structs.html#struc_DialogInfo@32C>field_32C</a>.</div>
 <div><i>558390</i> int __cdecl <h3>ShowStandardFormattedErrorDialog</h3>(char *dialogParentFNGName, char *dialogFNGName, char *textFormat, void *textParameterPtr);</div>
 <a id=558430></a>
 <div class=mm><p>Delegates to <a href=funcs.html#558390>ShowStandardFormattedErrorDialog</a>.</div>
 <div><i>558430</i> int __cdecl <h3>ShowStandardFormattedLanguageErrorDialog</h3>(char *dialogParentFNGName, char *dialogFNGName, unsigned int textFormatLanguageString, int textParameter);</div>
 <a id=558490></a>
 <div class=mm><p>Calls <a href=funcs.html#558020>ShowDialog</a>.
-Uses <code>0</code> for <a href=structs.html#struc_DialogInfo31C>field_31C</a> and <code>1</code> for <a href=structs.html#struc_DialogInfo328>numButtons</a>.</div>
+Uses <code>0</code> for <a href=structs.html#struc_DialogInfo@31C>field_31C</a> and <code>1</code> for <a href=structs.html#struc_DialogInfo@328>numButtons</a>.</div>
 <div><i>558490</i> int __cdecl <h3>ShowSingleButtonEscapableFormattedDialog32C</h3>(char *dialogParentFNGName, char *dialogFNGName, unsigned int middleButtonLanguageString, unsigned int middleButtonMessage, unsigned int escMessage, char byteDialogField32C, char *textFormat, void *textParameterPtr);</div>
 <a id=558540></a>
 <div class=mm><p>Delegates to <a href=funcs.html#558490>ShowSingleButtonEscapableFormattedDialog32C</a>.
-Uses <code>1</code> for <a href=structs.html#struc_DialogInfo32C>field_32C</a>.</div>
+Uses <code>1</code> for <a href=structs.html#struc_DialogInfo@32C>field_32C</a>.</div>
 <div><i>558540</i> int __cdecl <h3>ShowSingleButtonEscapableFormattedDialog</h3>(char *dialogParentFNGName, char *dialogFNGName, unsigned int middleButtonLanguageString, unsigned int middleButtonMessage, unsigned int escMessage, char *textFormat, int textParameter);</div>
 <a id=558570></a>
 <div class=mm><p>Delegates to <a href=funcs.html#558490>ShowSingleButtonEscapableFormattedDialog32C</a>.
-Uses <code>1</code> for <a href=structs.html#struc_DialogInfo32C>field_32C</a>.</div>
+Uses <code>1</code> for <a href=structs.html#struc_DialogInfo@32C>field_32C</a>.</div>
 <div><i>558570</i> int __cdecl <h3>ShowSingleButtonEscapableFormattedLanguageDialog</h3>(char *dialogParentFNGName, char *dialogFNGName, unsigned int middleButtonLanguageString, unsigned int middleButtonMessage, unsigned int escMessage, unsigned int textLanguageString, int textParameter);</div>
 <a id=5585E0></a>
 <div class=mm><p>Delegates to <a href=funcs.html#558490>ShowSingleButtonEscapableFormattedDialog32C</a>.
-Uses <code>0</code> for <a href=structs.html#struc_DialogInfo318>escMessage</a> and <a href=structs.html#struc_DialogInfo32C>field_32C</a>.</div>
+Uses <code>0</code> for <a href=structs.html#struc_DialogInfo@318>escMessage</a> and <a href=structs.html#struc_DialogInfo@32C>field_32C</a>.</div>
 <div><i>5585E0</i> int __cdecl <h3>ShowSingleButtonFormattedDialog</h3>(char *dialogParentFNGName, char *dialogFNGName, unsigned int middleButtonLanguageString, unsigned int middleButtonMessage, char *textFormat, int textParameter);</div>
 <a id=558610></a>
 <div class=mm><p>Delegates to <a href=funcs.html#558490>ShowSingleButtonEscapableFormattedDialog32C</a>.
-Uses <code>0</code> for <a href=structs.html#struc_DialogInfo318>escMessage</a> and <a href=structs.html#struc_DialogInfo32C>field_32C</a>.</div>
+Uses <code>0</code> for <a href=structs.html#struc_DialogInfo@318>escMessage</a> and <a href=structs.html#struc_DialogInfo@32C>field_32C</a>.</div>
 <div><i>558610</i> int __cdecl <h3>ShowSingleButtonFormattedLanguageDialog</h3>(char *dialogParentFNGName, char *dialogFNGName, unsigned int middleButtonLanguageString, unsigned int middleButtonMessage, unsigned int textLanguageString, int textParameter);</div>
 <a id=558680></a>
 <div class=mm><p>Calls <a href=funcs.html#558020>ShowDialog</a>.</div>
 <div><i>558680</i> int __cdecl <h3>ShowTwoButtonEscapableFormattedDialog31C_32C</h3>(char *dialogParentFNGName, char *dialogFNGName, unsigned int leftButtonLanguageString, unsigned int rightButtonLanguageString, unsigned int leftButtonMessage, unsigned int rightButtonMessage, unsigned int escMessage, char dialogField_32C, int dialogField_31C, char *textFormat, void *textParameterPtr);</div>
 <a id=558750></a>
-<div class=mm><p>Delegates to <a href=funcs.html#558680>ShowTwoButtonEscapableFormattedDialog31C_32C</a> with <code>1</code> for <a href=structs.html#struc_DialogInfo32C>field_32C</a>.</div>
+<div class=mm><p>Delegates to <a href=funcs.html#558680>ShowTwoButtonEscapableFormattedDialog31C_32C</a> with <code>1</code> for <a href=structs.html#struc_DialogInfo@32C>field_32C</a>.</div>
 <div><i>558750</i> int __cdecl <h3>ShowTwoButtonEscapableFormattedDialog31C</h3>(char *dialogParentFNGName, char *dialogFNGName, unsigned int leftButtonLanguageString, unsigned int rightButtonLanguageString, unsigned int leftButtonMessage, unsigned int rightButtonMessage, unsigned int escMessage, int dialogField31C, char *textFormat, int textParameter);</div>
 <a id=558790></a>
-<div class=mm><p>Delegates to <a href=funcs.html#558680>ShowTwoButtonEscapableFormattedDialog31C_32C</a> with <code>1</code> for <a href=structs.html#struc_DialogInfo32C>field_32C</a>.</div>
+<div class=mm><p>Delegates to <a href=funcs.html#558680>ShowTwoButtonEscapableFormattedDialog31C_32C</a> with <code>1</code> for <a href=structs.html#struc_DialogInfo@32C>field_32C</a>.</div>
 <div><i>558790</i> int __cdecl <h3>ShowTwoButtonEscapableFormattedLanguageDialog31C</h3>(char *dialogParentFNGName, char *dialogFNGName, unsigned int leftButtonLanguageString, unsigned int rightButtonLanguageString, unsigned int leftButtonMessage, unsigned int rightButtonMessage, unsigned int escMessage, int dialogField31C, unsigned int textFormatLanguageString, int textParameter);</div>
 <a id=558820></a>
-<div class=mm><p>Delegates to <a href=funcs.html#558680>ShowTwoButtonEscapableFormattedDialog31C_32C</a> with <code>0</code> for <a href=structs.html#struc_DialogInfo318>escMessage</a> and <a href=structs.html#struc_DialogInfo32C>field_32C</a>.</div>
+<div class=mm><p>Delegates to <a href=funcs.html#558680>ShowTwoButtonEscapableFormattedDialog31C_32C</a> with <code>0</code> for <a href=structs.html#struc_DialogInfo@318>escMessage</a> and <a href=structs.html#struc_DialogInfo@32C>field_32C</a>.</div>
 <div><i>558820</i> int __cdecl <h3>ShowTwoButtonFormattedDialog31C</h3>(int dialogParentFNGName, int dialogFNGName, unsigned int leftButtonLanguageString, unsigned int rightButtonLanguageString, unsigned int leftButtonMessage, unsigned int rightButtonMessage, int dialogField31C, char *textFormat, int textParameter);</div>
 <a id=558860></a>
-<div class=mm><p>Delegates to <a href=funcs.html#558680>ShowTwoButtonEscapableFormattedDialog31C_32C</a> with <code>0</code> for <a href=structs.html#struc_DialogInfo318>escMessage</a> and <a href=structs.html#struc_DialogInfo32C>field_32C</a>.</div>
+<div class=mm><p>Delegates to <a href=funcs.html#558680>ShowTwoButtonEscapableFormattedDialog31C_32C</a> with <code>0</code> for <a href=structs.html#struc_DialogInfo@318>escMessage</a> and <a href=structs.html#struc_DialogInfo@32C>field_32C</a>.</div>
 <div><i>558860</i> int __cdecl <h3>ShowTwoButtonFormattedLanguageDialog31C</h3>(char *dialogParentFNGName, char *dialogFNGName, unsigned int leftButtonLanguageString, unsigned int rightButtonLanguageString, unsigned int leftButtonMessage, unsigned int rightButtonMessage, int dialogField31C, char *textFormat, int textParameter);</div>
 <a id=5588F0></a>
-<div class=mm><p>Calls <a href=funcs.html#558020>ShowDialog</a> with <code>3</code> for <a href=structs.html#struc_DialogInfo328>numButtons</a>, <code>1</code> for <a href=structs.html#struc_DialogInfo32C>field_32C</a>.</div>
+<div class=mm><p>Calls <a href=funcs.html#558020>ShowDialog</a> with <code>3</code> for <a href=structs.html#struc_DialogInfo@328>numButtons</a>, <code>1</code> for <a href=structs.html#struc_DialogInfo@32C>field_32C</a>.</div>
 <div><i>5588F0</i> int __cdecl <h3>ShowThreeButtonEscapableFormattedDialogPtr31C</h3>(char *dialogParentFNGName, char *dialogFNGName, unsigned int leftButtonLanguageString, unsigned int rightButtonLanguageString, unsigned int middleButtonLanguageString, unsigned int leftButtonMessage, unsigned int rightButtonMessage, unsigned int middleButtonMessage, unsigned int escMessage, int dialogField31C, char *textFormat, void *textParameterPtr);</div>
 <a id=5589D0></a>
 <div class=mm><p>Delegates to <a href=funcs.html#5588F0>ShowThreeButtonEscapableFormattedDialogPtr31C</a>.</div>
@@ -6432,9 +6432,9 @@ Uses <code>0</code> for <a href=structs.html#struc_DialogInfo318>escMessage</a> 
 <div class=mm><p>Delegates to <a href=funcs.html#5588F0>ShowThreeButtonEscapableFormattedDialogPtr31C</a>.</div>
 <div><i>558A20</i> int __cdecl <h3>ShowThreeButtonEscapableFormattedLanguageDialog31C</h3>(char *dialogParentFNGName, char *dialogFNGName, unsigned int leftButtonLanguageString, unsigned int rightButtonLanguageString, unsigned int middleButtonLanguageString, unsigned int leftButtonMessage, unsigned int rightButtonMessage, unsigned int middleButtonMessage, unsigned int escMessage, int dialogField31C, unsigned int textFormatLanguageString, int textParameter);</div>
 <a id=558AC0></a>
-<div class=mm><p>  Calls <a href=funcs.html#558020>ShowDialog</a> with <code>1</code> for <a href=structs.html#struc_DialogInfo328>numButtons</a>, <a href=structs.html#struc_DialogInfo32C>field_32C</a>, <a href=structs.html#struc_DialogInfo32D>isHelpDialog</a>.
-  Uses <code>0x639(OK)</code> for <a href=structs.html#struc_DialogInfo310>middleButtonLanguageString</a>, <code>0x34DC1BEC</code> for <a href=structs.html#struc_DialogInfo314>middleButtonMessage</a>,
-  <code>0xB4EDEB6D</code> for <a href=structs.html#struc_DialogInfo318>escMessage</a>, <code>0</code> for <a href=structs.html#struc_DialogInfo31C>field_31C</a>.</div>
+<div class=mm><p>  Calls <a href=funcs.html#558020>ShowDialog</a> with <code>1</code> for <a href=structs.html#struc_DialogInfo@328>numButtons</a>, <a href=structs.html#struc_DialogInfo@32C>field_32C</a>, <a href=structs.html#struc_DialogInfo@32D>isHelpDialog</a>.
+  Uses <code>0x639(OK)</code> for <a href=structs.html#struc_DialogInfo@310>middleButtonLanguageString</a>, <code>0x34DC1BEC</code> for <a href=structs.html#struc_DialogInfo@314>middleButtonMessage</a>,
+  <code>0xB4EDEB6D</code> for <a href=structs.html#struc_DialogInfo@318>escMessage</a>, <code>0</code> for <a href=structs.html#struc_DialogInfo@31C>field_31C</a>.</div>
 <div><i>558AC0</i> int __cdecl <h3>ShowHelpDialog</h3>(char *dialogParentFNGName, char *dialogFNGName, unsigned int textLanguageString);</div>
 <a id=558B70></a>
 <div class=mm><p><code>this</code> is unused</div>
@@ -6632,7 +6632,7 @@ Unsure about this name.</div>
 <div class=mm><p>returns 0 64bit edx:eax</div>
 <div><i>570A90</i> int __cdecl <h3>Return0_64bit</h3>();</div>
 <a id=570AA0></a>
-<div class=mm><p>return <a href=structs.html#struc_CRealCoreDrive4>driveNameLetterPathThing</a>;</div>
+<div class=mm><p>return <a href=structs.html#struc_CRealCoreDrive@4>driveNameLetterPathThing</a>;</div>
 <div><i>570AA0</i> int __thiscall <h3><a href=structs.html#struc_CRealCoreDrive>CRealCoreDrive</a>::GetDriveNamePath</h3>(<a href=structs.html#struc_CRealCoreDrive>struct CRealCoreDrive</a> *this);</div>
 <a id=570D70></a>
 <div class=mm><p>Only called from <a href=funcs.html#577AB0>unnamed_577AB0</a>.
@@ -6640,9 +6640,9 @@ Unsure about this name.</div>
 <a href=structs.html#struc_BinSectionMagicMapEntry>struct BinSectionMagicMapEntry</a> *entry;
 int i;
 
-entry = <a href=funcs.html#43C100>FindBinSectionHandler</a>(binsection-&gt;<a href=structs.html#struc_BinSection0>header</a>.<a href=structs.html#struc_BinSectionHeader0>magic</a>);
+entry = <a href=funcs.html#43C100>FindBinSectionHandler</a>(binsection-&gt;<a href=structs.html#struc_BinSection@0>header</a>.<a href=structs.html#struc_BinSectionHeader@0>magic</a>);
 if (entry) {
-        return entry-&gt;<a href=structs.html#struc_BinSectionMagicMapEntry4>value</a>.<a href=structs.html#struc_BinSectionHandler4>loadfunc</a>(binsection);
+        return entry-&gt;<a href=structs.html#struc_BinSectionMagicMapEntry@4>value</a>.<a href=structs.html#struc_BinSectionHandler@4>loadfunc</a>(binsection);
 }
 for (i = 0; i &lt; 36; i++) {
         if (<a href=vars.html#7FA858>binSectionLoadFuncs</a>[i](binsection)) {
@@ -6660,9 +6660,9 @@ Some loaders that are in the map are also in the array.</div>
 <div><i>570F80</i> <h3>CreateResourceFileSlotPool</h3></div>
 <a id=570FA0></a>
 <div class=mm><pre>
-memset(this-&gt;<a href=structs.html#struc_ResourceFileSlotPoolEntry94>filename_again</a>, 0, 4*12);
-strncpy(this-&gt;<a href=structs.html#struc_ResourceFileSlotPoolEntry94>filename_again</a>, filename, 0x2F);
-this-&gt;<a href=structs.html#struc_ResourceFileSlotPoolEntryC4>field_C4</a> = arg0;
+memset(this-&gt;<a href=structs.html#struc_ResourceFileSlotPoolEntry@94>filename_again</a>, 0, 4*12);
+strncpy(this-&gt;<a href=structs.html#struc_ResourceFileSlotPoolEntry@94>filename_again</a>, filename, 0x2F);
+this-&gt;<a href=structs.html#struc_ResourceFileSlotPoolEntry@C4>field_C4</a> = arg0;
 </pre>
 </div>
 <div><i>570FA0</i> void __thiscall <h3><a href=structs.html#struc_ResourceFileSlotPoolEntry>ResourceFileSlotPoolEntry</a>::strcpyIntoEntryFilenameAgainAndSetFieldC4</h3>(<a href=structs.html#struc_ResourceFileSlotPoolEntry>struct ResourceFileSlotPoolEntry</a> *this, int arg0, char *filename);</div>
@@ -6675,7 +6675,7 @@ this-&gt;<a href=structs.html#struc_ResourceFileSlotPoolEntryC4>field_C4</a> = a
 <div class=mm><p>uses <a href=vars.html#7FABA8>joyKeyData</a></div>
 <div><i>571AD0</i> int __cdecl <h3>GetJoyIdFromName</h3>(char *joyname);</div>
 <a id=5735C0></a>
-<div class=mm><p><code>return a-&gt;<a href=structs.html#struc_QueuedFileSlotPoolEntry58>field_58</a> &lt; b-&gt;<a href=structs.html#struc_QueuedFileSlotPoolEntry58>field_58</a>;</code></div>
+<div class=mm><p><code>return a-&gt;<a href=structs.html#struc_QueuedFileSlotPoolEntry@58>field_58</a> &lt; b-&gt;<a href=structs.html#struc_QueuedFileSlotPoolEntry@58>field_58</a>;</code></div>
 <div><i>5735C0</i> int __cdecl <h3>CheckQueuedFileSlotPoolEntryField58LE</h3>(<a href=structs.html#struc_QueuedFileSlotPoolEntry>struct QueuedFileSlotPoolEntry</a> *a, <a href=structs.html#struc_QueuedFileSlotPoolEntry>struct QueuedFileSlotPoolEntry</a> *b);</div>
 <a id=5736D0></a>
 <div><i>5736D0</i> <h3>CreateQueuedFileSlotPool</h3></div>
@@ -6691,11 +6691,11 @@ this-&gt;<a href=structs.html#struc_ResourceFileSlotPoolEntryC4>field_C4</a> = a
 <div class=mm><p>Initializes <a href=vars.html#865930>cheatScreenData</a> and <a href=vars.html#7FB960>cheatData</a>.</div>
 <div><i>575770</i> void __thiscall <h3><a href=structs.html#struc_CheatScreenData>CheatScreenData</a>::InitCheats?</h3>(<a href=structs.html#struc_CheatScreenData>struct CheatScreenData</a> *this);</div>
 <a id=576000></a>
-<div class=mm><p>cheatType: <a href=structs.html#struc_CheatData20>cheatType</a>, cheatData: <a href=structs.html#struc_CheatData24>cheatData</a></div>
+<div class=mm><p>cheatType: <a href=structs.html#struc_CheatData@20>cheatType</a>, cheatData: <a href=structs.html#struc_CheatData@24>cheatData</a></div>
 <div><i>576000</i> int __thiscall <h3><a href=structs.html#struc_CheatScreenData>CheatScreenData</a>::HasCheatBeenTriggered</h3>(<a href=structs.html#struc_CheatScreenData>struct CheatScreenData</a> *this, <a href=enums.html#enu_CHEATTYPE>enum CHEATTYPE</a> cheatType, unsigned int cheatData);</div>
 <a id=576050></a>
 <div class=mm><p>Weird one, is called on each cheat entry and all cheats with a matching
-<code><a href=structs.html#struc_CheatData28>field_28</a></code> has zero written to its <code><a href=structs.html#struc_CheatData30>hasBeenTriggered</a></code> field.</div>
+<code><a href=structs.html#struc_CheatData@28>field_28</a></code> has zero written to its <code><a href=structs.html#struc_CheatData@30>hasBeenTriggered</a></code> field.</div>
 <div><i>576050</i> void __thiscall <h3><a href=structs.html#struc_CheatScreenData>CheatScreenData</a>::UndoCheat??</h3>(<a href=structs.html#struc_CheatScreenData>struct CheatScreenData</a> *this, int cheatdata_field28);</div>
 <a id=576090></a>
 <div class=mm><p>Basically <code>return <a href=vars.html#86512C>cheatExtraCareerMoney200</a> + <a href=vars.html#865130>cheatExtraCareerMoney1000</a>;</code></div>
@@ -6749,10 +6749,10 @@ does not apply to career car lot</div>
 <a id=57B410></a>
 <div><i>57B410</i> int __thiscall <h3><a href=structs.html#struc_QueuedFileSlotPoolEntry>QueuedFileSlotPoolEntry</a>::Init</h3>(<a href=structs.html#struc_QueuedFileSlotPoolEntry>struct QueuedFileSlotPoolEntry</a> *this, char *ptrData, char *filename, int, int size, void (__cdecl *ptrsomefunc)(void *), <a href=structs.html#struc_ResourceFileSlotPoolEntry>struct ResourceFileSlotPoolEntry</a> *resourceFileSlotPoolEntry);</div>
 <a id=57B4A0></a>
-<div class=mm><p>returns the <a href=structs.html#struc_QueuedFileSlotPoolEntry6C>handle</a> of the new <a href=structs.html#struc_QueuedFileSlotPoolEntry>struct QueuedFileSlotPoolEntry</a></div>
+<div class=mm><p>returns the <a href=structs.html#struc_QueuedFileSlotPoolEntry@6C>handle</a> of the new <a href=structs.html#struc_QueuedFileSlotPoolEntry>struct QueuedFileSlotPoolEntry</a></div>
 <div><i>57B4A0</i> int __cdecl <h3>AllocateAndInitQueuedFileSlotPoolEntry</h3>(char *ptrData, char *filename, int, int size, void (__cdecl *ptrsomefunc)(void *), <a href=structs.html#struc_ResourceFileSlotPoolEntry>struct ResourceFileSlotPoolEntry</a> *resourceFileSlotPoolEntry);</div>
 <a id=57B8B0></a>
-<div class=mm><p>Called from <a href=funcs.html#55DBD0>UIHandleKey</a> when <code><a href=vars.html#865930>cheatScreenData</a>.<a href=structs.html#struc_CheatScreenData4>doCheatCheck</a></code> is non-zero.</div>
+<div class=mm><p>Called from <a href=funcs.html#55DBD0>UIHandleKey</a> when <code><a href=vars.html#865930>cheatScreenData</a>.<a href=structs.html#struc_CheatScreenData@4>doCheatCheck</a></code> is non-zero.</div>
 <div><i>57B8B0</i> void __thiscall <h3><a href=structs.html#struc_CheatScreenData>CheatScreenData</a>::CheatCheck</h3>(<a href=structs.html#struc_CheatScreenData>struct CheatScreenData</a> *this, int keyCode);</div>
 <a id=57BCD0></a>
 <div class=mm><p>this MIGHT be a more generic constructor.. right</div>
@@ -6800,7 +6800,7 @@ although that is done by <a href=funcs.html#57CA10>AllocateFileSystemPoolEntryFo
 <a id=582360></a>
 <div><i>582360</i> int __thiscall <h3><a href=structs.html#struc_Network86A388>Network86A388</a>::something</h3>(<a href=structs.html#struc_Network86A388>struct Network86A388</a> *this, int, void (__cdecl *func)(int, int));</div>
 <a id=582380></a>
-<div class=mm><p><code>return &amp;this-&gt;<a href=structs.html#struc_Network86A38844>network44</a>-&gt;<a href=structs.html#struc_Network44540>keyValueString636F6E66</a>;</code></div>
+<div class=mm><p><code>return &amp;this-&gt;<a href=structs.html#struc_Network86A388@44>network44</a>-&gt;<a href=structs.html#struc_Network44@540>keyValueString636F6E66</a>;</code></div>
 <div><i>582380</i> char *__thiscall <h3><a href=structs.html#struc_Network86A388>Network86A388</a>::GetNetwork44KeyValueString636F6E66</h3>(<a href=structs.html#struc_Network86A388>struct Network86A388</a> *this);</div>
 <a id=5832F0></a>
 <div class=mm><p>calls a function ptr that may change, delegates to 440820 with extra param 8 or B</div>
@@ -7021,7 +7021,7 @@ return 0;
 <a id=5BF610></a>
 <div><i>5BF610</i> int __thiscall <h3>[GetActiveResolution</h3>(void *this, int *width, int *height);</div>
 <a id=5BF6E0></a>
-<div class=mm><p>Creates and sets <code><a href=vars.html#8763D0>mouseData</a>.<a href=structs.html#struc_MouseData0>dinputdevice</a></code></div>
+<div class=mm><p>Creates and sets <code><a href=vars.html#8763D0>mouseData</a>.<a href=structs.html#struc_MouseData@0>dinputdevice</a></code></div>
 <div><i>5BF6E0</i> int __thiscall <h3><a href=structs.html#struc_MouseData>MouseData</a>::CreateDinputDevice</h3>(<a href=structs.html#struc_MouseData>struct MouseData</a> *this);</div>
 <a id=5BF750></a>
 <div><i>5BF750</i> int __thiscall <h3><a href=structs.html#struc_MouseData>MouseData</a>::QueryAndUpdateCursorPosition</h3>(<a href=structs.html#struc_MouseData>struct MouseData</a> *this);</div>
@@ -7045,7 +7045,7 @@ somehow. The car showroom can still be rotated with mmb. Mouse still moves.</div
 <div><i>5C14F0</i> int __thiscall <h3><a href=structs.html#struc_ControllerStruct874C40>ControllerStruct874C40</a>::5C14F0</h3>(<a href=structs.html#struc_ControllerStruct874C40>struct ControllerStruct874C40</a> *this, int);</div>
 <a id=5C20E0></a>
 <div class=mm><p>returns multibyte string
-<p>delegates to <a href=funcs.html#5B8D90>ControllerStruct874C40::GetKeyboardKeyName</a> or <a href=funcs.html#5B8A90>ControllerStruct874C40::GetControllerKeyName</a> depending on <code>this-&gt;<a href=structs.html#struc_ControllerStruct874C40234>type</a></code></div>
+<p>delegates to <a href=funcs.html#5B8D90>ControllerStruct874C40::GetKeyboardKeyName</a> or <a href=funcs.html#5B8A90>ControllerStruct874C40::GetControllerKeyName</a> depending on <code>this-&gt;<a href=structs.html#struc_ControllerStruct874C40@234>type</a></code></div>
 <div><i>5C20E0</i> char *__thiscall <h3><a href=structs.html#struc_ControllerStruct874C40>ControllerStruct874C40</a>::GetKeyName</h3>(<a href=structs.html#struc_ControllerStruct874C40>struct ControllerStruct874C40</a> *this, int keyIndex, int isSecondary);</div>
 <a id=5C2100></a>
 <div><i>5C2100</i> int __thiscall <h3><a href=structs.html#struc_ControllerStruct874C40>ControllerStruct874C40</a>::5C2100</h3>(<a href=structs.html#struc_ControllerStruct874C40>struct ControllerStruct874C40</a> *this, int keyIndex, int isSecondary);</div>
@@ -7093,7 +7093,7 @@ See <code><a class='ext' href='https://github.com/yugecin/nfsu2-re/blob/master/n
 <div><i>5D3EF0</i> int __cdecl <h3>UnloadBinSection34201</h3>(<a href=structs.html#struc_BinSection>struct BinSection</a> *binsection);</div>
 <a id=5D5630></a>
 <div class=mm><p>called from <a href=funcs.html#5D9A90>PathsData::ReadFromBinData</a>
-<p>inits stuff and <a href=structs.html#struc_PathsData440>markers</a></div>
+<p>inits stuff and <a href=structs.html#struc_PathsData@440>markers</a></div>
 <div><i>5D5630</i> void __thiscall <h3><a href=structs.html#struc_PathsData>PathsData</a>::InitAfterReadFromBinData</h3>(<a href=structs.html#struc_PathsData>struct PathsData</a> *this);</div>
 <a id=5D6440></a>
 <div><i>5D6440</i> int __cdecl <h3>UnloadBinSection34108</h3>(<a href=structs.html#struc_BinSection>struct BinSection</a> *binsection);</div>
@@ -7152,7 +7152,7 @@ if after is set, only markers of that type or higher will be checked</div>
 <a id=5EA0F0></a>
 <div><i>5EA0F0</i> int __cdecl <h3>LoadBinSection80034150</h3>(<a href=structs.html#struc_BinSection>struct BinSection</a> *bindata);</div>
 <a id=5EA8B0></a>
-<div class=mm><p><code>return <a href=vars.html#83A9D0>profileData</a>.<a href=structs.html#struc_ProfileData10>player1</a>.<a href=structs.html#struc_Player24>p24</a>.<a href=structs.html#struc_Player_2416>useMetricSystem</a> == 1</code></div>
+<div class=mm><p><code>return <a href=vars.html#83A9D0>profileData</a>.<a href=structs.html#struc_ProfileData@10>player1</a>.<a href=structs.html#struc_Player@24>p24</a>.<a href=structs.html#struc_Player_24@16>useMetricSystem</a> == 1</code></div>
 <div><i>5EA8B0</i> int __cdecl <h3>isUseMetricSystem</h3>();</div>
 <a id=5EFAC0></a>
 <div><i>5EFAC0</i> void __thiscall <h3><a href=structs.html#struc_Network89CF48>Network89CF48</a>::InitQuantizers</h3>(<a href=structs.html#struc_Network89CF48>struct Network89CF48</a> *this);</div>
@@ -7180,7 +7180,7 @@ if after is set, only markers of that type or higher will be checked</div>
 <a id=60BAC0></a>
 <div><i>60BAC0</i> int __cdecl <h3>UnloadBinSection8003B600</h3>(<a href=structs.html#struc_BinSection>struct BinSection</a> *bindata);</div>
 <a id=610130></a>
-<div class=mm><p>find entry in <a href=vars.html#8A1CCC>ptrCarData</a> by <a href=structs.html#struc_Car>struct Car</a>.<a href=structs.html#struc_CarD0>carNamehash</a></div>
+<div class=mm><p>find entry in <a href=vars.html#8A1CCC>ptrCarData</a> by <a href=structs.html#struc_Car>struct Car</a>.<a href=structs.html#struc_Car@D0>carNamehash</a></div>
 <div><i>610130</i> <a href=structs.html#struc_Car>struct Car</a> *__cdecl <h3>FindCarByCarNameHash</h3>(unsigned int carNameHash);</div>
 <a id=610170></a>
 <div><i>610170</i> char *__thiscall <h3><a href=structs.html#struc_Car>Car</a>::GetManufacturerName</h3>(<a href=structs.html#struc_Car>struct Car</a> *this);</div>
@@ -7253,7 +7253,7 @@ THE_DOORS model: GTO
 <a id=637190></a>
 <div><i>637190</i> int __thiscall <h3><a href=structs.html#struc_MenuCarInstance>MenuCarInstance</a>::637190</h3>(<a href=structs.html#struc_MenuCarInstance>struct MenuCarInstance</a> *this);</div>
 <a id=637270></a>
-<div class=mm><p>carPresetHash: <a href=structs.html#struc_CarPreset>struct CarPreset</a>.<a href=structs.html#struc_CarPreset28>name</a></div>
+<div class=mm><p>carPresetHash: <a href=structs.html#struc_CarPreset>struct CarPreset</a>.<a href=structs.html#struc_CarPreset@28>name</a></div>
 <div><i>637270</i> void __thiscall <h3><a href=structs.html#struc_MenuCarInstance>MenuCarInstance</a>::ApplyCarPresetTuning</h3>(<a href=structs.html#struc_MenuCarInstance>struct MenuCarInstance</a> *this, unsigned int carPresetHash);</div>
 <a id=63BD30></a>
 <div><i>63BD30</i> IDirect3D9 *__stdcall <h3>Direct3DCreate9</h3>(UINT SDKVersion);</div>
@@ -7319,9 +7319,9 @@ THE_DOORS model: GTO
 <div class=mm><p>esi = struct struct8AD610LinkedListNode*</div>
 <div><i>6F717C</i> <h3>CloseFileHandleAndAddFileNodeBackToLinkedList</h3></div>
 <a id=6F7195></a>
-<div class=mm><p>file might get read in here, see <a href=structs.html#struc_struct6F719544>criticalSectionWrapper_fileReadLock</a> in passed struct
+<div class=mm><p>file might get read in here, see <a href=structs.html#struc_struct6F7195@44>criticalSectionWrapper_fileReadLock</a> in passed struct
 this function has been seen running on non-main thread (not seen on main thread)
-seems to loop forever until <a href=structs.html#struc_struct6F71958>stopLoadingFileLoop?</a> is not 0
+seems to loop forever until <a href=structs.html#struc_struct6F7195@8>stopLoadingFileLoop?</a> is not 0
 this might be resposible for reading files?</div>
 <div><i>6F7195</i> int __cdecl <h3>threadfuncfilerelated</h3>(<a href=structs.html#struc_struct6F7195>struct struct6F7195</a> *struct6F7195);</div>
 <a id=6F7388></a>
@@ -7401,7 +7401,7 @@ assumed __thiscall</div>
 <a id=74A220></a>
 <div class=mm><p>Calls Winsock's <code>socket</code>, set it nonblocking (with <code>ioctlsocket</code>).
 In case of <code>type == SOCK_RAW</code>, call <code>setsockopt(s, SOL_SOCKET, SO_BROADCAST, (ptr to 1), 4)</code>.
-Returned value is stored in <a href=vars.html#8B7C9C>socketWrapper</a> and the previous value is put in its <code><a href=structs.html#struc_SocketWrapper0>previousSocketWrapper</a></code>
+Returned value is stored in <a href=vars.html#8B7C9C>socketWrapper</a> and the previous value is put in its <code><a href=structs.html#struc_SocketWrapper@0>previousSocketWrapper</a></code>
 (this seems to be an atomic operation).</div>
 <div><i>74A220</i> <a href=structs.html#struc_SocketWrapper>struct SocketWrapper</a> *__cdecl <h3>CreateNonBlockingSocket</h3>(int af_, int type, int protocol);</div>
 <a id=74A2D0></a>
@@ -7458,7 +7458,7 @@ Some critical section stuff. Removes it from the socket wrapper links</div>
 <a id=750520></a>
 <div><i>750520</i> void __stdcall <h3>fnCallback</h3>(DWORD hDevice, DWORD dwMessage, DWORD dwInstance, DWORD dwParam1, DWORD dwParam2, DWORD dwParam3);</div>
 <a id=754230></a>
-<div class=mm><p>so it can be put in <a href=structs.html#struc_Network44>struct Network44</a>.<a href=structs.html#struc_Network440>network0</a></div>
+<div class=mm><p>so it can be put in <a href=structs.html#struc_Network44>struct Network44</a>.<a href=structs.html#struc_Network44@0>network0</a></div>
 <div><i>754230</i> <h3>CreateNetwork0</h3></div>
 <a id=7542C0></a>
 <div><i>7542C0</i> void __cdecl <h3>DestroyNetwork0</h3>(<a href=structs.html#struc_Network0>struct Network0</a> *network0);</div>
