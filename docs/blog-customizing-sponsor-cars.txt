@@ -102,11 +102,11 @@ int fun_car_customize_sponsor_CarSelectFNGObject__ChangeCategory([struct CarSele
 		if (message == MSG_PREV) {
 			switch ([7F444C]) {                                                                                                            ||| ref
 			case [enum INVENTORY_CAR_FLAGS/1] | [enum INVENTORY_CAR_FLAGS/2]:                                                              ||| ref,ref
-				if (this->[497EE0]([enum INVENTORY_CAR_FLAGS/8])) {                                                                    ||| ref,ref
+				if ([497EE0](this, [enum INVENTORY_CAR_FLAGS/8])) {                                                                    ||| ref,ref
 					[7F444C] = [enum INVENTORY_CAR_FLAGS/8]; break;                                                                ||| ref,ref
 				}
 			case [enum INVENTORY_CAR_FLAGS/8]:                                                                                             ||| ref
-				if (this->[497EE0]([enum INVENTORY_CAR_FLAGS/2]))) {                                                                   ||| ref,ref
+				if ([497EE0](this, [enum INVENTORY_CAR_FLAGS/2]))) {                                                                   ||| ref,ref
 					[7F444C] = [enum INVENTORY_CAR_FLAGS/2]; break;                                                                ||| ref,ref
 				}
 			case [enum INVENTORY_CAR_FLAGS/2]: [7F444C] = [enum INVENTORY_CAR_FLAGS/1]; break;                                             ||| ref,ref,ref
@@ -116,19 +116,19 @@ int fun_car_customize_sponsor_CarSelectFNGObject__ChangeCategory([struct CarSele
 			switch ([7F444C]) {                                                                                                            ||| ref
 			case [enum INVENTORY_CAR_FLAGS/1] | [enum INVENTORY_CAR_FLAGS/2]: [7F444C] = [enum INVENTORY_CAR_FLAGS/1]; break;              ||| ref,ref,ref,ref
 			case [enum INVENTORY_CAR_FLAGS/1]:                                                                                             ||| ref
-				if (this->[497EE0]([enum INVENTORY_CAR_FLAGS/2]))) {                                                                   ||| ref,ref
+				if ([497EE0](this, [enum INVENTORY_CAR_FLAGS/2]))) {                                                                   ||| ref,ref
 					[7F444C] = [enum INVENTORY_CAR_FLAGS/2]; break;                                                                ||| ref,ref
 				}
 			case [enum INVENTORY_CAR_FLAGS/2]:                                                                                             ||| ref
-				if (this->[497EE0]([enum INVENTORY_CAR_FLAGS/8]))) {                                                                   ||| ref,ref
+				if ([497EE0](this, [enum INVENTORY_CAR_FLAGS/8]))) {                                                                   ||| ref,ref
 					[7F444C] = [enum INVENTORY_CAR_FLAGS/8]; break;                                                                ||| ref,ref
 				}
 			case [enum INVENTORY_CAR_FLAGS/8]: [7F444C] = [enum INVENTORY_CAR_FLAGS/1] | [enum INVENTORY_CAR_FLAGS/2]; break;              ||| ref,ref,ref,ref
 			}
 		}
 		[83A9D0]->[struct ProfileData+10]\[[83A9D0]->[struct ProfileData+20358]\].[struct Player+D4].[struct Player_D4+C] = [7F444C];          ||| ref,ref,ref,ref,ref,ref,ref
-		this->[4EEC90]();                                                                                                                      ||| ref
-		this->[4B2310]();                                                                                                                      ||| ref
+		[4EEC90](this);                                                                                                                        ||| ref
+		[4B2310](this);                                                                                                                        ||| ref
 		return 1;
 	}
 	return 0;
@@ -176,7 +176,7 @@ slot hash (like hash of {STOCK_PEUGEOT}) or a tuned car slot hash (like hash of 
 or a career car slot hash (like hash of {CAREER_SLOT_1}) or an online car slot (like hash of   ||| code
 {ONLINE_CAREER_CIRCUIT}), see comment of {struct InventoryCar.8}.                              ||| code,ref
 
-When selecting a sponsor car, it will use its hash (like hash of {SPONSOR_SNOOP_DOGG}). The
+When selecting a sponsor car, it will use its hash (like hash of {SPONSOR_SNOOP_DOGG}). The    ||| code
 function tried to find a car in the list of stock cars, tuned cars, career cars or online
 cars. It won't find the sponsor car, and there is no fallback or null checking, so a segfault
 follows.
@@ -200,7 +200,7 @@ fun_car_customize_sponsor_GetSponsorCar([struct CarCollection] *this, unsigned i
 	while (i-- > 0) {
 		if (this->[struct CarCollection+9A84]\[i\].[struct SponsorCar+8] == slotNameHash) {                                               ||| ref,ref
 			sprintf(buf, "STOCK_%s", [61C460](this->[struct CarCollection+9A84]\[i\].[struct SponsorCar+18])->[struct CarPreset+8]);  ||| ref,ref,ref,ref
-			return this->[52A710]([43DB50](buf));                                                                                     ||| ref,ref
+			return [52A710](this, [43DB50](buf));                                                                                     ||| ref,ref
 		}
 	}
 	return NULL;
@@ -365,14 +365,14 @@ fun_car_customize_sponsor_CreateTunedCarFromSponsorCar([struct CarCollection] *t
 	while (i-- > 0) {
 		if (this->[struct CarCollection+9A84]\[i\].[struct SponsorCar+8] == slotNameHash) {                                               ||| ref,ref
 			sprintf(buf, "STOCK_%s", [61C460](this->[struct CarCollection+9A84]\[i\].[struct SponsorCar+18])->[struct CarPreset+8]);  ||| ref,ref,ref,ref
-			tunedCar = this->[52A710]([43DB50](buf));                                                                                 ||| ref,ref
-			menuCarInstance = &[8389D0];                                                                                              ||| ref
-			// (3rd param is MenuCarInstance, using an instance in the data section that
-			//  gets overridden later in the Customize process anyways)
-			// (4th param is unknown, but unused in SponsorCar's ApplyTuning
-			sponsorCar->[5039D0]([83A9D0]->[struct ProfileData+20358], menuCarInstance, 0);                                           ||| ref,ref,ref
+			tunedCar = [52A710](this, [43DB50](buf));                                                                                 ||| ref,ref
+			// (need a temp instance of MenuCarInstance to use for code below, the [8389D0] variable                                  ||| ref
+			//  is a simple instance to use because it gets overridden later in the Customize process
+			//  anyways so we can do as we please)
+			// (4th param is unknown, but unused in SponsorCar's ApplyTuning, so whatever is fine
+			[5039D0](sponsorCar, [83A9D0]->[struct ProfileData+20358], &[8389D0], 0);                                                 ||| ref,ref,ref,ref
 			// copy tuning back from MenuCarInstance to tuned car instance
-			tunedCar->[struct TunedCar+18]->[503950](menuCarInstance);                                                                ||| ref,ref
+			[503950](&tunedCar->[struct TunedCar+18], &[8389D0]);                                                                     ||| ref,ref,ref
 			return tunedCar;
 		}
 	}
