@@ -306,7 +306,9 @@ the stock car. Interesting behavior. Once changing and saving a component though
 it will always correctly show the tuning and the car will be saved to the tuned
 cars collection.
 
-{{{}}}   ||| p class=center,video controls style=max-width:100%, source src=img/BLOGx02-WEIRD.MP4 type=video/mp4
+.pushmode plain
+<p class=center><video controls style=max-width:100%><source src=img/BLOGx02-WEIRD.MP4 type=video/mp4></video>
+.popmode plain
 
 .popmode section
 .pushmode section
