@@ -7,6 +7,7 @@
 #undef PRINT_LANGUAGE_STRINGS
 #undef PRINT_30220_CARPRESETS
 #undef PRINT_34A19_CAREERSPONSORS
+#undef PRINT_34A1F_CARUNLOCKS
 
 #define LINE_INDENT "    "
 
@@ -180,6 +181,37 @@ void read_34A19_careersponsors(FILE *in, int size)
 #endif
 }
 
+static
+void read_34A1F_carunlocks(FILE *in, int size)
+{
+#if defined PRINT_34A1F_CARUNLOCKS
+	struct { /*3 members, size Ch*/
+		/*0*/	unsigned int carNameHash;
+		/**to be matched with struct Bin34A11.hash8 when game region is US*/
+		/*4*/	unsigned int hash4;
+		/**to be matched with struct Bin34A11.hash8 when game region is NOT US*/
+		/*8*/	unsigned int hash8;
+	} *unlock;
+
+	char *data;
+
+	data = malloc(size);
+	fread(data, size, 1, in);
+	unlock = (void*) data;
+	printf("car unlocks:\n");
+	printf("  car-----  eu------  us------\n");
+	while (size > 0) {
+		printf("  %08X  %08X  %08X\n", unlock->carNameHash, unlock->hash4, unlock->hash8);
+		unlock = (void*) ((int) unlock + 0xC);
+		size -= 0xC;
+	}
+	printf("34A1F size left is %d\n", size);
+	free(data);
+#else
+	fseek(in, size, SEEK_CUR);
+#endif
+}
+
 int read_sections(FILE *in, int max_offset, char *lineprefix)
 {
 	struct {
@@ -213,6 +245,9 @@ int read_sections(FILE *in, int max_offset, char *lineprefix)
 			break;
 		case 0x3414A:
 			read_3414A_stuff(in, section_header.size);
+			break;
+		case 0x34A1F:
+			read_34A1F_carunlocks(in, section_header.size);
 			break;
 		case 0x30220:
 			read_30220_carpresets(in, section_header.size);

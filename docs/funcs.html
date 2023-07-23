@@ -1799,7 +1799,7 @@ Career::513950</a>
 <li><a href=#5139C0>
 Career::5139C0</a>
 <li><a href=#513A50>
-Career::513A50</a>
+Career::GetMovieNameToPlay</a>
 <li><a href=#513B30>
 Career::513B30</a>
 <li><a href=#513BC0>
@@ -2351,7 +2351,7 @@ Career::5412D0</a>
 <li><a href=#541320>
 Career::OnOutrunFinish</a>
 <li><a href=#541420>
-Career::541420</a>
+Career::DoPostRaceThings</a>
 <li><a href=#541540>
 Career::541540</a>
 <li><a href=#5415E0>
@@ -5416,7 +5416,7 @@ The data in this section is more sections, with magic <code>0x34A11-0x34A1F</cod
 <a id=5139C0></a>
 <div><i>5139C0</i> int __thiscall <h3><a href=structs.html#struc_Career>Career</a>::5139C0</h3>(<a href=structs.html#struc_Career>struct Career</a> *this);</div>
 <a id=513A50></a>
-<div><i>513A50</i> int __thiscall <h3><a href=structs.html#struc_Career>Career</a>::513A50</h3>(<a href=structs.html#struc_Career>struct Career</a> *this, char, char *dst);</div>
+<div><i>513A50</i> bool __thiscall <h3><a href=structs.html#struc_Career>Career</a>::GetMovieNameToPlay</h3>(<a href=structs.html#struc_Career>struct Career</a> *this, char, char *movieNameBuffer);</div>
 <a id=513B30></a>
 <div><i>513B30</i> void __thiscall <h3><a href=structs.html#struc_Career>Career</a>::513B30</h3>(<a href=structs.html#struc_Career>struct Career</a> *this);</div>
 <a id=513BC0></a>
@@ -5965,6 +5965,8 @@ if (smsdata) {
 <div class=mm><p>calls <a href=funcs.html#529B50>SmsMessageList::SendOutrunInfoSms</a> and <a href=funcs.html#511000>Career887C::511000</a></div>
 <div><i>532E30</i> void __thiscall <h3><a href=structs.html#struc_Career>Career</a>::532E30</h3>(<a href=structs.html#struc_Career>struct Career</a> *this);</div>
 <a id=532E50></a>
+<div class=mm><p>calculates in possible sponsor bonus money
+TODO: this returns 0 on some conditions. what are they?</div>
 <div><i>532E50</i> int __thiscall <h3><a href=structs.html#struc_Career>Career</a>::GetBankWonFromRace</h3>(<a href=structs.html#struc_Career>struct Career</a> *this);</div>
 <a id=532EA0></a>
 <div><i>532EA0</i> int __thiscall <h3><a href=structs.html#struc_CareerD24>CareerD24</a>::532EA0</h3>(<a href=structs.html#struc_CareerD24>struct CareerD24</a> *this, <a href=structs.html#struc_Bin34A11>struct Bin34A11</a> *);</div>
@@ -6132,7 +6134,8 @@ Delegates to <a href=funcs.html#537B30>SetUILabelFormattedString</a></div>
 <a id=541320></a>
 <div><i>541320</i> int __thiscall <h3><a href=structs.html#struc_Career>Career</a>::OnOutrunFinish</h3>(<a href=structs.html#struc_Career>struct Career</a> *this, int didWin);</div>
 <a id=541420></a>
-<div><i>541420</i> int __thiscall <h3><a href=structs.html#struc_Career>Career</a>::541420</h3>(<a href=structs.html#struc_Career>struct Career</a> *this, unsigned int hash);</div>
+<div class=mm><p>gives race reward money, sends sms messages if needed, increases current stage idx if needed, more things...</div>
+<div><i>541420</i> int __thiscall <h3><a href=structs.html#struc_Career>Career</a>::DoPostRaceThings</h3>(<a href=structs.html#struc_Career>struct Career</a> *this, unsigned int hash);</div>
 <a id=541540></a>
 <div class=mm><p>changes <a href=structs.html#struc_Career@8740>activeCarSlotHash</a>
 also sets <code>this-&gt;<a href=structs.html#struc_Career@873D>field_873D</a> = 1</code></div>
@@ -6209,7 +6212,8 @@ basename will be used to get ui elements with hash %s_Backing, %s_Handle, ...</d
 <a id=54C940></a>
 <div><i>54C940</i> int __thiscall <h3><a href=structs.html#struc_Career>Career</a>::54C940</h3>(<a href=structs.html#struc_Career>struct Career</a> *this);</div>
 <a id=54C9D0></a>
-<div><i>54C9D0</i> int __thiscall <h3><a href=structs.html#struc_Career>Career</a>::54C9D0</h3>(<a href=structs.html#struc_Career>struct Career</a> *this, char *dst);</div>
+<div class=mm><p>returns 1 if there is a movie to play (which will be filled in in the given argument buffer)</div>
+<div><i>54C9D0</i> bool __thiscall <h3><a href=structs.html#struc_Career>Career</a>::54C9D0</h3>(<a href=structs.html#struc_Career>struct Career</a> *this, char *movieNameBuffer);</div>
 <a id=54CA30></a>
 <div><i>54CA30</i> int __thiscall <h3><a href=structs.html#struc_Career>Career</a>::j_54C940</h3>(<a href=structs.html#struc_Career>struct Career</a> *this);</div>
 <a id=54CA40></a>

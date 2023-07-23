@@ -3774,6 +3774,55 @@ My best guess is that this 'load into career' option is a cut/unfinished feature
 
 .pushmode section
 
+{Unlocks}  ||| h id=unlocks
+
+{529F70} checks by using {500B80} with an argument of the result of {5023B0} to see if a car    ||| ref,ref,ref
+should be available or not. {5023B0} will go through {838438} and find an entry with matching   ||| ref,ref
+{struct Bin34A1F+0}. Then, based on the game region, either the entry's {struct Bin34A1F+4} or  ||| ref,ref
+{struct Bin34A1F+8} will be returned, which will be used to call {4FFC90} to search through     ||| ref,ref
+{8383E4} and find a entry with matching {struct Bin34A11+8}, to then finally return that entry. ||| ref,ref
+(and then it takes {struct Bin34A1F+8} of that entry, so why even do the effort to call         ||| ref
+{4FFC90}, in the usage here it doesn't matter whether it exists or is valid or not...)          ||| ref
+
+That means {838438} dictates when what car will be unlocked. That data is in bin section        ||| ref
+{34A1F}, which is in bin section {80034A10}, which is in the file {GLOBAL/GLOBALB.BUN}.         ||| code,code,code
+
+Data of {34A1F} in my game files:                                                               ||| code
+
+{{                                                                                              ||| table,thead
+{{{struct Bin34A1F+0}}{{struct Bin34A1F+4} (US region)}{{struct Bin34A1F+8} (not US region)}}   ||| tr,th,ref,th,ref,th,ref
+}{                                                                                              ||| tbody
+{{{2D7C9B5D} (=3000GT)}    {{AB7A688B}}{{AB7A688B}}}                                            ||| tr,td,code,td,code,td,code
+{{{000AC6D1} (=350Z)}      {{AB7A6889}}{{AB7A6889}}}                                            ||| tr,td,code,td,code,td,code
+{{{00000453} (=A3)}        {{5E802BCD}}{{5E802BCD}}}                                            ||| tr,td,code,td,code,td,code
+{{{545AEC60} (=CELICA)}    {{1185EF08}}{{5E802BCA}}}                                            ||| tr,td,code,td,code,td,code
+{{{7502DA84} (=ECLIPSE)}   {{5E802BCE}}{{5E802BCE}}}                                            ||| tr,td,code,td,code,td,code
+{{{CF704771} (=ESCALADE)}  {{1185EF06}}{{1185EF06}}}                                            ||| tr,td,code,td,code,td,code
+{{{0000A86E} (=G35)}       {{AB7A688A}}{{AB7A688A}}}                                            ||| tr,td,code,td,code,td,code
+{{{00163087} (=GOLF)}      {{5E802BCC}}{{5E802BCD}}}                                            ||| tr,td,code,td,code,td,code
+{{{0000ACC9} (=GTO)}       {{AB7A688C}}{{AB7A688C}}}                                            ||| tr,td,code,td,code,td,code
+{{{6126DD4D} (=HUMMER)}    {{1185EF07}}{{1185EF07}}}                                            ||| tr,td,code,td,code,td,code
+{{{CF4458F8} (=IMPREZAWRX)}{{F874A54A}}{{F874A54A}}}                                            ||| tr,td,code,td,code,td,code
+{{{030236EE} (=IS300)}     {{5E802BCA}}{{5E802BCB}}}                                            ||| tr,td,code,td,code,td,code
+{{{09D2EFF6} (=LANCEREVO8)}{{AB7A688E}}{{AB7A688E}}}                                            ||| tr,td,code,td,code,td,code
+{{{03455D6B} (=MIATA)}     {{00000000}}{{1185EF07}}}                                            ||| tr,td,code,td,code,td,code
+{{{35165819} (=MUSTANGGT)} {{AB7A688D}}{{AB7A688D}}}                                            ||| tr,td,code,td,code,td,code
+{{{0219C94A} (=NAVIGATOR)} {{1185EF06}}{{1185EF06}}}                                            ||| tr,td,code,td,code,td,code
+{{{0000DB7C} (=RSX)}       {{5E802BCD}}{{00000000}}}                                            ||| tr,td,code,td,code,td,code
+{{{0000DC00} (=RX7)}       {{AB7A6889}}{{AB7A6889}}}                                            ||| tr,td,code,td,code,td,code
+{{{0000DC01} (=RX8)}       {{AB7A6888}}{{AB7A6888}}}                                            ||| tr,td,code,td,code,td,code
+{{{79AEBFEC} (=SENTRA)}    {{1185EF08}}{{1185EF08}}}                                            ||| tr,td,code,td,code,td,code
+{{{BE48375E} (=SKYLINE)}   {{F874A549}}{{F874A549}}}                                            ||| tr,td,code,td,code,td,code
+{{{03B8C48A} (=SUPRA)}     {{5E802BCB}}{{5E802BCC}}}                                            ||| tr,td,code,td,code,td,code
+{{{04FD0522} (=TIBURON)}   {{1185EF07}}{{1185EF08}}}                                            ||| tr,td,code,td,code,td,code
+{{{000006E7} (=TT)}        {{5E802BCE}}{{5E802BCE}}}                                            ||| tr,td,code,td,code,td,code
+}}                                                                                              |||
+
+Interesting that they are sorted alphabetically based on the underlying value that was hashed.
+
+.popmode section
+.pushmode section
+
 {Markers}  ||| h id=markers
 
 The money pickup/info pickup(engage sms messages)/race/shop/garage/neighbourhood/and more? markers.

@@ -8243,12 +8243,13 @@ extra refs: 500FBC 51441E*/</span>
 but in reality these are all zero, and that is an empty string :D*/</span>
 <i>/*4*/	</i>short offsetInCareerStringpool <u></u>;
 <i>/*6*/	char _pad6[0x2];</i>
-<span class='mm'>/**this is at some point compared to field8 of sms data SMS_END_OF_GAME_MESSAGE*/</span>
-<i>/*8*/	</i>unsigned int hash8;
+<i id=struc_Bin34A11@8></i><span class='mm'>/**some hash that identifies this race
+this is at some point compared to field8 of sms data SMS_END_OF_GAME_MESSAGE*/</span>
+<i>/*8*/	</i>unsigned int hash;
 <i>/*C*/	char field_C;</i>
 <i id=struc_Bin34A11@D></i><i>/*D*/	char field_D;</i>
 <i>/*E*/	char _padE[0x1];</i>
-<i>/*F*/	char field_F;</i>
+<i>/*F*/	</i><a href=enums.html#enu_RACE_TYPE>enum RACE_TYPE</a> raceType;
 <span class='mm'>/**hash*/</span>
 <i>/*10*/	unsigned int field_10;</i>
 <i>/*14*/	char _pad14[0x4];</i>
@@ -8258,7 +8259,10 @@ but in reality these are all zero, and that is an empty string :D*/</span>
 <i>/*2C*/	int field_2C;</i>
 <span class='mm'>/**see 5414D7, -1 means no money? see 500A8F*/</span>
 <i>/*30*/	</i>int bankToWinFromRace <u></u>;
-<i id=struc_Bin34A11@34></i><i>/*34*/	char field_34;</i>
+<i id=struc_Bin34A11@34></i><span class='mm'>/**see <a href=funcs.html#532E50>Career::GetBankWonFromRace</a>
+<a href=structs.html#struc_CareerSponsor@2>bankPerRaceWon</a> will be added to race bank reward if this is 1
+but this value is also compared to 2 and 3*/</span>
+<i>/*34*/	char field_34;</i>
 <i>/*35*/	</i>char numField38 <u></u>;
 <i>/*36*/	char _pad36[0x1];</i>
 <span class='mm'>/**index for <a href=structs.html#struc_Career@72D8>stage0</a>*/</span>
@@ -8320,7 +8324,7 @@ but in reality these are all zero, and that is an empty string :D*/</span>
 <span class='mm'>/**[0-1]*/</span>
 <i>/*C*/	</i>int winPercent;
 <i>/*10*/	</i>int circuitWins;
-<i>/*14*/	int field_14;</i>
+<i>/*14*/	</i>int sprintWins;
 <i>/*18*/	</i>int dragWins;
 <i>/*1C*/	</i>int driftWins;
 <i>/*20*/	</i>int streetxWins;
@@ -8717,7 +8721,7 @@ nulling entries removes discovered shops from the map*/</span>
 <span class='mm'>/**counter*/</span>
 <i>/*872C*/int field_872C;</i>
 <span class='mm'>/**set in <a href=funcs.html#541160>Career::541160</a>*/</span>
-<i>/*8730*/<a href=structs.html#struc_Bin34A11>struct Bin34A11</a> *field_8730;</i>
+<i>/*8730*/</i><a href=structs.html#struc_Bin34A11>struct Bin34A11</a> *currentRace?;
 <i>/*8734*/void *field_8734;</i>
 <i>/*8738*/<a href=structs.html#struc_Bin34A11>struct Bin34A11</a> *field_8738;</i>
 <i id=struc_Career@873C></i><span class='mm'>/**Fun fact: when creating a new profile,
@@ -8827,7 +8831,7 @@ When canceling at that point, it's set back to 1
 <li><!--5139C0-->
 <pre><i>5139C0</i> <a href=funcs.html#5139C0 title='int __thiscall Career__5139C0(struct Career *this);'>Career::5139C0</a></pre>
 <li><!--513A50-->
-<pre><i>513A50</i> <a href=funcs.html#513A50 title='int __thiscall Career__513A50(struct Career *this, char, char *dst);'>Career::513A50</a></pre>
+<pre><i>513A50</i> <a href=funcs.html#513A50 title='bool __thiscall Career__GetMovieNameToPlay(struct Career *this, char, char *movieNameBuffer);'>Career::GetMovieNameToPlay</a></pre>
 <li><!--513B30-->
 <pre><i>513B30</i> <a href=funcs.html#513B30 title='void __thiscall Career__513B30(struct Career *this);'>Career::513B30</a></pre>
 <li><!--513BC0-->
@@ -8919,7 +8923,7 @@ When canceling at that point, it's set back to 1
 <li><!--541320-->
 <pre><i>541320</i> <a href=funcs.html#541320 title='int __thiscall Career__OnOutrunFinish(struct Career *this, int didWin);'>Career::OnOutrunFinish</a></pre>
 <li><!--541420-->
-<pre><i>541420</i> <a href=funcs.html#541420 title='int __thiscall Career__541420(struct Career *this, unsigned int hash);'>Career::541420</a></pre>
+<pre><i>541420</i> <a href=funcs.html#541420 title='int __thiscall Career__DoPostRaceThings(struct Career *this, unsigned int hash);'>Career::DoPostRaceThings</a></pre>
 <li><!--541540-->
 <pre><i>541540</i> <a href=funcs.html#541540 title='void __thiscall Career__541540(struct Career *this, int slotIndex, unsigned int stockCarHash);'>Career::541540</a></pre>
 <li><!--5415E0-->
@@ -8929,7 +8933,7 @@ When canceling at that point, it's set back to 1
 <li><!--54C940-->
 <pre><i>54C940</i> <a href=funcs.html#54C940 title='int __thiscall Career__54C940(struct Career *this);'>Career::54C940</a></pre>
 <li><!--54C9D0-->
-<pre><i>54C9D0</i> <a href=funcs.html#54C9D0 title='int __thiscall Career__54C9D0(struct Career *this, char *dst);'>Career::54C9D0</a></pre>
+<pre><i>54C9D0</i> <a href=funcs.html#54C9D0 title='bool __thiscall Career__54C9D0(struct Career *this, char *movieNameBuffer);'>Career::54C9D0</a></pre>
 <li><!--54CA30-->
 <pre><i>54CA30</i> <a href=funcs.html#54CA30 title='int __thiscall Career__j_54C940(struct Career *this);'>Career::j_54C940</a></pre>
 <li><!--54CA40-->
@@ -8947,7 +8951,7 @@ When canceling at that point, it's set back to 1
 <div>struct <h3>CareerSponsor</h3> { <i>/*8 members, size 10h*/</i> <em></em>
 <span class='mm'>/**offset in string table <a href=vars.html#838428>careerStringPool</a>, which will point to something like <code>STREETGLOW</code>, which is then used to get name and info like <code>SPONSOR_%S</code> <code>SPONSOR_INFO_%S</code>*/</span>
 <i>/*0*/	</i>__int16 sponsorNameStrpoolOffset;
-<i>/*2*/	</i>__int16 bankPerRaceWon;
+<i id=struc_CareerSponsor@2></i><i>/*2*/	</i>__int16 bankPerRaceWon;
 <i>/*4*/	char field_4;</i>
 <i>/*5*/	char field_5;</i>
 <i>/*6*/	char field_6;</i>
@@ -8969,10 +8973,10 @@ When canceling at that point, it's set back to 1
 <div class=mm><p>seems to dictate when cars get unlocked.
 hashes may be event/sms hashes?</div>
 <div>struct <h3>Bin34A1F</h3> { <i>/*3 members, size Ch*/</i>
-<i>/*0*/	</i>unsigned int carNameHash;
-<span class='mm'>/**to be matched with {struct Bin34A11+8} when game region is US*/</span>
+<i id=struc_Bin34A1F@0></i><i>/*0*/	</i>unsigned int carNameHash;
+<i id=struc_Bin34A1F@4></i><span class='mm'>/**to be matched with <a href=structs.html#struc_Bin34A11>struct Bin34A11</a>.<a href=structs.html#struc_Bin34A11@8>hash</a> when game region is US*/</span>
 <i>/*4*/	</i>unsigned int hash4;
-<span class='mm'>/**to be matched with {struct Bin34A11+8} when game region is NOT US*/</span>
+<i id=struc_Bin34A1F@8></i><span class='mm'>/**to be matched with <a href=structs.html#struc_Bin34A11>struct Bin34A11</a>.<a href=structs.html#struc_Bin34A11@8>hash</a> when game region is NOT US*/</span>
 <i>/*8*/	</i>unsigned int hash8;
 };
 <i>EXPECT_SIZE(struct Bin34A1F, 0xC);</i></div>
