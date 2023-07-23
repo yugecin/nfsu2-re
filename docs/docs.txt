@@ -3776,21 +3776,17 @@ My best guess is that this 'load into career' option is a cut/unfinished feature
 
 {Unlocks}  ||| h id=unlocks
 
-{529F70} checks by using {500B80} with an argument of the result of {5023B0} to see if a car    ||| ref,ref,ref
-should be available or not. {5023B0} will go through {838438} and find an entry with matching   ||| ref,ref
-{struct Bin34A1F+0}. Then, based on the game region, either the entry's {struct Bin34A1F+4} or  ||| ref,ref
-{struct Bin34A1F+8} will be returned, which will be used to call {4FFC90} to search through     ||| ref,ref
-{8383E0} and find a entry with matching {struct CareerRace+8}, to then finally return that entry. ||| ref,ref
-(and then it takes {struct Bin34A1F+8} of that entry, so why even do the effort to call         ||| ref
-{4FFC90}, in the usage here it doesn't matter whether it exists or is valid or not...)          ||| ref
+Cars are unlocked by finishing specific races. For some cars this is different for US or non-US game
+versions.
 
-That means {838438} dictates when what car will be unlocked. That data is in bin section        ||| ref
+The data that list the required race per car is in bin section
 {34A1F}, which is in bin section {80034A10}, which is in the file {GLOBAL/GLOBALB.BUN}.         ||| code,code,code
+Entries in there are of type {struct CarUnlockEntry}.                                           ||| ref
 
 Data of {34A1F} in my game files:                                                               ||| code
 
 {{                                                                                              ||| table,thead
-{{{struct Bin34A1F+0}}{{struct Bin34A1F+4}}{{struct Bin34A1F+8}}}                               ||| tr,th,ref,th,ref,th,ref
+{{{struct CarUnlockEntry+0}}{{struct CarUnlockEntry+4}}{{struct CarUnlockEntry+8}}}             ||| tr,th,ref,th,ref,th,ref
 }{                                                                                              ||| tbody
 {{{2D7C9B5D} (=3000GT)}    {{AB7A688B}}{{AB7A688B}}}                                            ||| tr,td,code,td,code,td,code
 {{{000AC6D1} (=350Z)}      {{AB7A6889}}{{AB7A6889}}}                                            ||| tr,td,code,td,code,td,code
@@ -3819,6 +3815,17 @@ Data of {34A1F} in my game files:                                               
 }}                                                                                              |||
 
 Interesting that they are sorted alphabetically based on the underlying value that was hashed.
+
+.pushmode symbols
+- 4FFC90
+- 500B80
+- 5023B0
+- 529F70
+- 8383E0
+- 838438
+- struct CarUnlockEntry
+- struct CareerRace
+.popmode symbols
 
 .popmode section
 .pushmode section

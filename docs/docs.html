@@ -3852,18 +3852,14 @@ going on), but they don't appear on the map.
 <p>My best guess is that this 'load into career' option is a cut/unfinished feature.
 <div><p id='unlocks'><small><a href='#career'>Career</a></small></p>
 <h3>Unlocks <a href='#unlocks'>#</a></h3>
-<p><a href=funcs.html#529F70>IsCarUnlockedByCareerProgressOrSponsorCarUnlockedByCheat</a> checks by using <a href=funcs.html#500B80>Career::500B80</a> with an argument of the result of <a href=funcs.html#5023B0>FindCareerRaceThatUnlocksCar</a> to see if a car
-should be available or not. <a href=funcs.html#5023B0>FindCareerRaceThatUnlocksCar</a> will go through <a href=vars.html#838438>bin34A1F</a> and find an entry with matching
-<a href=structs.html#struc_Bin34A1F@0>carNameHash</a>. Then, based on the game region, either the entry's <a href=structs.html#struc_Bin34A1F@4>raceIfGameRegionIsUS</a> or
-<a href=structs.html#struc_Bin34A1F@8>raceIfGameRegionIsNotUs</a> will be returned, which will be used to call <a href=funcs.html#4FFC90>FindCareerRaceByHash</a> to search through
-<a href=vars.html#8383E0>careerRaces</a> and find a entry with matching <a href=structs.html#struc_CareerRace@8>hash</a>, to then finally return that entry.
-(and then it takes <a href=structs.html#struc_Bin34A1F@8>raceIfGameRegionIsNotUs</a> of that entry, so why even do the effort to call
-<a href=funcs.html#4FFC90>FindCareerRaceByHash</a>, in the usage here it doesn't matter whether it exists or is valid or not...)
-<p>That means <a href=vars.html#838438>bin34A1F</a> dictates when what car will be unlocked. That data is in bin section
+<p>Cars are unlocked by finishing specific races. For some cars this is different for US or non-US game
+versions.
+<p>The data that list the required race per car is in bin section
 <code>34A1F</code>, which is in bin section <code>80034A10</code>, which is in the file <code>GLOBAL/GLOBALB.BUN</code>.
+Entries in there are of type <a href=structs.html#struc_CarUnlockEntry>struct CarUnlockEntry</a>.
 <p>Data of <code>34A1F</code> in my game files:
 <table><thead>
-<tr><th><a href=structs.html#struc_Bin34A1F@0>carNameHash</a></th><th><a href=structs.html#struc_Bin34A1F@4>raceIfGameRegionIsUS</a></th><th><a href=structs.html#struc_Bin34A1F@8>raceIfGameRegionIsNotUs</a></th></tr>
+<tr><th><a href=structs.html#struc_CarUnlockEntry@0>carNameHash</a></th><th><a href=structs.html#struc_CarUnlockEntry@4>unlockingRaceIfGameRegionIsUS</a></th><th><a href=structs.html#struc_CarUnlockEntry@8>unlockingRaceIfGameRegionIsNotUs</a></th></tr>
 </thead><tbody>
 <tr><td><code>2D7C9B5D</code> (=3000GT)</td>    <td><code>AB7A688B</code></td><td><code>AB7A688B</code></td></tr>
 <tr><td><code>000AC6D1</code> (=350Z)</td>      <td><code>AB7A6889</code></td><td><code>AB7A6889</code></td></tr>
@@ -3891,6 +3887,17 @@ should be available or not. <a href=funcs.html#5023B0>FindCareerRaceThatUnlocksC
 <tr><td><code>000006E7</code> (=TT)</td>        <td><code>5E802BCE</code></td><td><code>5E802BCE</code></td></tr>
 </tbody></table>
 <p>Interesting that they are sorted alphabetically based on the underlying value that was hashed.
+<p><strong>Symbols:</strong></p>
+<ul>
+<li><a href=funcs.html#4FFC90>FindCareerRaceByHash</a></li>
+<li><a href=funcs.html#500B80>Career::500B80</a></li>
+<li><a href=funcs.html#5023B0>FindCareerRaceThatUnlocksCar</a></li>
+<li><a href=funcs.html#529F70>IsCarUnlockedByCareerProgressOrSponsorCarUnlockedByCheat</a></li>
+<li><a href=vars.html#8383E0>careerRaces</a></li>
+<li><a href=vars.html#838438>carUnlockEntries</a></li>
+<li><a href=structs.html#struc_CarUnlockEntry>struct CarUnlockEntry</a></li>
+<li><a href=structs.html#struc_CareerRace>struct CareerRace</a></li>
+</ul>
 <p style='text-align:right'><small><a href='#index'>Index</a></small></p>
 </div>
 <div><p id='markers'><small><a href='#career'>Career</a></small></p>

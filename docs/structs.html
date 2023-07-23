@@ -732,7 +732,7 @@ pre.ida span.hi {
 <li><a href=#struc_CareerBank>CareerBank</a> <em></em>
 <li><a href=#struc_Career>Career</a> <em></em>
 <li><a href=#struc_CareerSponsor>CareerSponsor</a> <em></em>
-<li><a href=#struc_Bin34A1F>Bin34A1F</a>
+<li><a href=#struc_CarUnlockEntry>CarUnlockEntry</a>
 <li><a href=#struc_Bin34A1E>Bin34A1E</a>
 <li><a href=#struc_Bin34A1C>Bin34A1C</a>
 <li><a href=#struc_Bin34A1A>Bin34A1A</a>
@@ -8970,16 +8970,15 @@ When canceling at that point, it's set back to 1
 <li><!--5129F0-->
 <pre><i>5129F0</i> <a href=funcs.html#5129F0 title='unsigned int __thiscall CareerSponsor__GetSponsorNameLanguageKey(struct CareerSponsor *this);'>CareerSponsor::GetSponsorNameLanguageKey</a></pre>
 </ul>
-<a id=struc_Bin34A1F></a>
-<div class=mm><p>seems to dictate when cars get unlocked.</div>
-<div>struct <h3>Bin34A1F</h3> { <i>/*3 members, size Ch*/</i>
-<i id=struc_Bin34A1F@0></i><i>/*0*/	</i>unsigned int carNameHash;
-<i id=struc_Bin34A1F@4></i><span class='mm'>/**to be matched with <a href=structs.html#struc_CareerRace>struct CareerRace</a>.<a href=structs.html#struc_CareerRace@8>hash</a> when game region is US*/</span>
-<i>/*4*/	</i>unsigned int raceIfGameRegionIsUS;
-<i id=struc_Bin34A1F@8></i><span class='mm'>/**to be matched with <a href=structs.html#struc_CareerRace>struct CareerRace</a>.<a href=structs.html#struc_CareerRace@8>hash</a> when game region is NOT US*/</span>
-<i>/*8*/	</i>unsigned int raceIfGameRegionIsNotUs;
+<a id=struc_CarUnlockEntry></a>
+<div>struct <h3>CarUnlockEntry</h3> { <i>/*3 members, size Ch*/</i>
+<i id=struc_CarUnlockEntry@0></i><i>/*0*/	</i>unsigned int carNameHash;
+<i id=struc_CarUnlockEntry@4></i><span class='mm'>/**to be matched with <a href=structs.html#struc_CareerRace>struct CareerRace</a>.<a href=structs.html#struc_CareerRace@8>hash</a> when game region is US*/</span>
+<i>/*4*/	</i>unsigned int unlockingRaceIfGameRegionIsUS;
+<i id=struc_CarUnlockEntry@8></i><span class='mm'>/**to be matched with <a href=structs.html#struc_CareerRace>struct CareerRace</a>.<a href=structs.html#struc_CareerRace@8>hash</a> when game region is NOT US*/</span>
+<i>/*8*/	</i>unsigned int unlockingRaceIfGameRegionIsNotUs;
 };
-<i>EXPECT_SIZE(struct Bin34A1F, 0xC);</i></div>
+<i>EXPECT_SIZE(struct CarUnlockEntry, 0xC);</i></div>
 <a id=struc_Bin34A1E></a>
 <div>struct <h3>Bin34A1E</h3> { <i>/*1 members, size Ch*/</i>
 <i>/*0*/	char _pad0[0xB];</i>
