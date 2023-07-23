@@ -284,7 +284,7 @@ pre.ida span.hi {
 <a href='cheatsheet.html'>cheatsheet</a></nav>
 </header>
 <div class='func'>
-<h2>Functions (1629)</h2>
+<h2>Functions (1632)</h2>
 <ul>
 <li><a href=#4012B0>
 ??SomeUpdatePosition</a>
@@ -737,7 +737,7 @@ OptionsPCControllerFNGObject::4ACE00</a>
 <li><a href=#4ACF40>
 UpdateControllerLabelText</a>
 <li><a href=#4AE8B0>
-Bin34A11::Is_34_3_And_D_1</a>
+CareerRace::Is_34_3_And_D_1</a>
 <li><a href=#4AF2C0>
 StartCareerFNGObject::MessageHandler</a>
 <li><a href=#4AF3A0>
@@ -1391,9 +1391,11 @@ UnloadLanguageBinSection39000</a>
 <li><a href=#4FFC50>
 FindMarkerTypeD_E_FWithHash</a>
 <li><a href=#4FFC90>
-FindBin34A11WithHash8Value</a>
+FindCareerRaceByHash</a>
+<li><a href=#4FFD90>
+GetCareerRaceByIndex</a>
 <li><a href=#4FFDE0>
-Bin34A11::4FFDE0</a>
+CareerRace::4FFDE0</a>
 <li><a href=#500000>
 StoreBin34A15</a>
 <li><a href=#500070>
@@ -1413,7 +1415,7 @@ UnloadBinSection80034A10</a>
 <li><a href=#5003B0>
 Career::FindCareer7B00WithHash0</a>
 <li><a href=#5003F0>
-Career::5003F0</a>
+Career::FindRaceByHash</a>
 <li><a href=#500400>
 Career::CountEmptyEntriesAt8869</a>
 <li><a href=#500460>
@@ -1527,7 +1529,7 @@ InitializeLotsOfVariables</a>
 <li><a href=#5022C0>
 ShouldCarBeShownForCurrentRegion</a>
 <li><a href=#5023B0>
-FindBin34A11ForCar</a>
+FindCareerRaceThatUnlocksCar</a>
 <li><a href=#502420>
 Career713C::502420</a>
 <li><a href=#5025B0>
@@ -1752,6 +1754,8 @@ FindCareerSponsorBySponsorNameHash</a>
 CareerSponsor::GetSponsorNameLanguageKey</a>
 <li><a href=#512A70>
 StoreCareerStageSettings</a>
+<li><a href=#512B50>
+CalculateReputationToAddFromWonRace</a>
 <li><a href=#512C00>
 LoadBinSection80034A10</a>
 <li><a href=#512EB0>
@@ -1775,7 +1779,7 @@ CareerStage::5132E0</a>
 <li><a href=#513390>
 CareerStage::513390</a>
 <li><a href=#513430>
-CareerStage::513430</a>
+CareerStage::IncreaseRacesFinishedAndAddReputation</a>
 <li><a href=#513490>
 CareerStage::513490</a>
 <li><a href=#513510>
@@ -2045,7 +2049,7 @@ GetFNGInfoForCurrentlyShownDialogIfDialogIdMatches</a>
 <li><a href=#526C40>
 GetFNGforDialog</a>
 <li><a href=#527780>
-Career::527780</a>
+Career::FindValidRaceForMarker</a>
 <li><a href=#527800>
 Career::527800</a>
 <li><a href=#527890>
@@ -2222,6 +2226,8 @@ CareerD24::GetReputationWonFromRace</a>
 Career::5331C0</a>
 <li><a href=#533310>
 Career::533310</a>
+<li><a href=#5337D0>
+Career4210::5337D0</a>
 <li><a href=#533890>
 SmsMessageList::SendMessageByHash</a>
 <li><a href=#5338C0>
@@ -4130,8 +4136,8 @@ message should only be <a href=enums.html#enu_UIMESSAGES9120409E>UIMSG_GO_LEFT</
 <div class=mm><p>related to <a href=structs.html#struc_OptionsPCControllerFNGObject>struct OptionsPCControllerFNGObject</a>, updates the text of a row in the controls list</div>
 <div><i>4ACF40</i> void __cdecl <h3>UpdateControllerLabelText</h3>(<a href=structs.html#struc_UIElement>struct UIElement</a> *uielement, int keyIndex, int isSecondary, int controllerIndex);</div>
 <a id=4AE8B0></a>
-<div class=mm><p><code>return this-&gt;<a href=structs.html#struc_Bin34A11@34>field_34</a> == 3 &amp;&amp; this-&gt;<a href=structs.html#struc_Bin34A11@D>field_D</a> == 1;</code></div>
-<div><i>4AE8B0</i> int __thiscall <h3><a href=structs.html#struc_Bin34A11>Bin34A11</a>::Is_34_3_And_D_1</h3>(<a href=structs.html#struc_Bin34A11>struct Bin34A11</a> *this);</div>
+<div class=mm><p><code>return this-&gt;<a href=structs.html#struc_CareerRace@34>field_34</a> == 3 &amp;&amp; this-&gt;<a href=structs.html#struc_CareerRace@D>field_D</a> == 1;</code></div>
+<div><i>4AE8B0</i> int __thiscall <h3><a href=structs.html#struc_CareerRace>CareerRace</a>::Is_34_3_And_D_1</h3>(<a href=structs.html#struc_CareerRace>struct CareerRace</a> *this);</div>
 <a id=4AF2C0></a>
 <div><i>4AF2C0</i> <h3><a href=structs.html#struc_StartCareerFNGObject>StartCareerFNGObject</a>::MessageHandler</h3></div>
 <a id=4AF3A0></a>
@@ -4826,9 +4832,11 @@ if (section-&gt;<a href=structs.html#struc_BinSection@0>header</a>.<a href=struc
 <div class=mm><p>finds any marker of type <a href=enums.html#enu_MARKER_TYPED>MARKER_TYPE_D</a>/<a href=enums.html#enu_MARKER_TYPEE>MARKER_TYPE_E</a>/<a href=enums.html#enu_MARKER_TYPEF>MARKER_TYPE_F</a> with matching <a href=structs.html#struc_Marker@30>hash</a></div>
 <div><i>4FFC50</i> <a href=structs.html#struc_Marker>struct Marker</a> *__cdecl <h3>FindMarkerTypeD_E_FWithHash</h3>(unsigned int hash);</div>
 <a id=4FFC90></a>
-<div><i>4FFC90</i> <a href=structs.html#struc_Bin34A11>struct Bin34A11</a> *__cdecl <h3>FindBin34A11WithHash8Value</h3>(unsigned int hash);</div>
+<div><i>4FFC90</i> <a href=structs.html#struc_CareerRace>struct CareerRace</a> *__cdecl <h3>FindCareerRaceByHash</h3>(unsigned int raceHash);</div>
+<a id=4FFD90></a>
+<div><i>4FFD90</i> <a href=structs.html#struc_CareerRace>struct CareerRace</a> *__cdecl <h3>GetCareerRaceByIndex</h3>(int index);</div>
 <a id=4FFDE0></a>
-<div><i>4FFDE0</i> int __thiscall <h3><a href=structs.html#struc_Bin34A11>Bin34A11</a>::4FFDE0</h3>(<a href=structs.html#struc_Bin34A11>struct Bin34A11</a> *this, void *);</div>
+<div><i>4FFDE0</i> int __thiscall <h3><a href=structs.html#struc_CareerRace>CareerRace</a>::4FFDE0</h3>(<a href=structs.html#struc_CareerRace>struct CareerRace</a> *this, void *);</div>
 <a id=500000></a>
 <div><i>500000</i> void __cdecl <h3>StoreBin34A15</h3>(<a href=structs.html#struc_Bin34A15>struct Bin34A15</a> *data, int totalSize);</div>
 <a id=500070></a>
@@ -4852,8 +4860,8 @@ if (section-&gt;<a href=structs.html#struc_BinSection@0>header</a>.<a href=struc
 <a id=5003B0></a>
 <div><i>5003B0</i> <a href=structs.html#struc_Career7B00>struct Career7B00</a> *__thiscall <h3><a href=structs.html#struc_Career>Career</a>::FindCareer7B00WithHash0</h3>(<a href=structs.html#struc_Career>struct Career</a> *this, unsigned int hash);</div>
 <a id=5003F0></a>
-<div class=mm><p>basically __stdcall wrapper around <a href=funcs.html#4FFC90>FindBin34A11WithHash8Value</a> because 'this' is not used</div>
-<div><i>5003F0</i> <a href=structs.html#struc_Bin34A11>struct Bin34A11</a> *__thiscall <h3><a href=structs.html#struc_Career>Career</a>::5003F0</h3>(<a href=structs.html#struc_Career>struct Career</a> *this, int value);</div>
+<div class=mm><p>basically __stdcall wrapper around <a href=funcs.html#4FFC90>FindCareerRaceByHash</a> because 'this' is not used</div>
+<div><i>5003F0</i> <a href=structs.html#struc_CareerRace>struct CareerRace</a> *__thiscall <h3><a href=structs.html#struc_Career>Career</a>::FindRaceByHash</h3>(<a href=structs.html#struc_Career>struct Career</a> *this, unsigned int raceHash);</div>
 <a id=500400></a>
 <div class=mm><p><a href=structs.html#struc_Career@8869>field_8869</a> is <code>char[8][2]</code>, this counts how many of those 16 fields are set to 0</div>
 <div><i>500400</i> int __thiscall <h3><a href=structs.html#struc_Career>Career</a>::CountEmptyEntriesAt8869</h3>(<a href=structs.html#struc_Career>struct Career</a> *this);</div>
@@ -4882,7 +4890,7 @@ if (section-&gt;<a href=structs.html#struc_BinSection@0>header</a>.<a href=struc
 <div class=mm><p>param stageIndex: 0-7</div>
 <div><i>500700</i> void __thiscall <h3><a href=structs.html#struc_CareerStage>CareerStage</a>::Init</h3>(<a href=structs.html#struc_CareerStage>struct CareerStage</a> *this, int stageIndex);</div>
 <a id=5007A0></a>
-<div><i>5007A0</i> void __thiscall <h3><a href=structs.html#struc_Career7148>Career7148</a>::5007A0</h3>(<a href=structs.html#struc_Career7148>struct Career7148</a> *this, <a href=structs.html#struc_Bin34A11>struct Bin34A11</a> *);</div>
+<div><i>5007A0</i> void __thiscall <h3><a href=structs.html#struc_Career7148>Career7148</a>::5007A0</h3>(<a href=structs.html#struc_Career7148>struct Career7148</a> *this, <a href=structs.html#struc_CareerRace>struct CareerRace</a> *race);</div>
 <a id=5007E0></a>
 <div><i>5007E0</i> int __thiscall <h3><a href=structs.html#struc_Career7148>Career7148</a>::HasSomething5007E0</h3>(<a href=structs.html#struc_Career7148>struct Career7148</a> *this, void *);</div>
 <a id=500820></a>
@@ -4994,7 +5002,7 @@ stageIndex 0-7</div>
 <div><i>501310</i> <a href=structs.html#struc_SmsData>struct SmsData</a> *__cdecl <h3>GetSmsDataForHash</h3>(unsigned int hash);</div>
 <a id=501370></a>
 <div class=mm><p>TODO may be able to find out some gameprogress things here</div>
-<div><i>501370</i> int __thiscall <h3><a href=structs.html#struc_SmsData>SmsData</a>::CanSendUnlockMessage?</h3>(<a href=structs.html#struc_SmsData>struct SmsData</a> *this, <a href=structs.html#struc_Bin34A11>struct Bin34A11</a> *ptrMaybeGameState);</div>
+<div><i>501370</i> int __thiscall <h3><a href=structs.html#struc_SmsData>SmsData</a>::CanSendUnlockMessage?</h3>(<a href=structs.html#struc_SmsData>struct SmsData</a> *this, <a href=structs.html#struc_CareerRace>struct CareerRace</a> *race);</div>
 <a id=501470></a>
 <div class=mm><p>Returns the hash for the language string that is the sms sender.
 Used once in <a href=funcs.html#497850>EngageMessageDialogFNGObject::ctor</a>.
@@ -5028,7 +5036,7 @@ sms-&gt;<a href=structs.html#struc_SmsMessage@4>read</a> = 1;
 <div class=mm><p>arg is <a href=structs.html#struc_Car>struct Car</a>.<a href=structs.html#struc_Car@840>carIndex</a>, checks <a href=vars.html#7F7C48>carsToHideForRegionUS</a> and <a href=vars.html#7F7C50>carsToHideForRegionNotUS</a></div>
 <div><i>5022C0</i> int __cdecl <h3>ShouldCarBeShownForCurrentRegion</h3>(int carIndex);</div>
 <a id=5023B0></a>
-<div><i>5023B0</i> <a href=structs.html#struc_Bin34A11>struct Bin34A11</a> *__cdecl <h3>FindBin34A11ForCar</h3>(unsigned int carNameHash);</div>
+<div><i>5023B0</i> <a href=structs.html#struc_CareerRace>struct CareerRace</a> *__cdecl <h3>FindCareerRaceThatUnlocksCar</h3>(unsigned int carNameHash);</div>
 <a id=502420></a>
 <div><i>502420</i> int __thiscall <h3><a href=structs.html#struc_Career713C>Career713C</a>::502420</h3>(<a href=structs.html#struc_Career713C>struct Career713C</a> *this);</div>
 <a id=5025B0></a>
@@ -5365,6 +5373,8 @@ if (section-&gt;<a href=structs.html#struc_BinSection@0>header</a>.<a href=struc
 <div class=mm><p>data comes from bin section 34A18 in GLOBALB.BUN
 also sets <a href=structs.html#struc_CareerStageSettings@8>sponsors</a> to the ptr to sponsor instead of the name hash</div>
 <div><i>512A70</i> void __cdecl <h3>StoreCareerStageSettings</h3>(<a href=structs.html#struc_CareerStageSettings>struct CareerStageSettings</a> *data, int size);</div>
+<a id=512B50></a>
+<div><i>512B50</i> int __cdecl <h3>CalculateReputationToAddFromWonRace</h3>(float, <a href=structs.html#struc_CareerRace>struct CareerRace</a> *race);</div>
 <a id=512C00></a>
 <div class=mm><p>This gets loaded once (enforced by <a href=vars.html#83A9D0>profileData</a>.<a href=structs.html#struc_ProfileData@29824>binSection80034A10loaded</a>), data resides in <code>GLOBAL/GLOBALB.BUN</code>.
 Career/Sponsor/DVD/Magazines related.
@@ -5389,17 +5399,18 @@ The data in this section is more sections, with magic <code>0x34A11-0x34A1F</cod
 <a id=5132E0></a>
 <div><i>5132E0</i> float __thiscall <h3><a href=structs.html#struc_CareerStage>CareerStage</a>::5132E0</h3>(<a href=structs.html#struc_CareerStage>struct CareerStage</a> *this);</div>
 <a id=513390></a>
-<div><i>513390</i> int __thiscall <h3><a href=structs.html#struc_CareerStage>CareerStage</a>::513390</h3>(<a href=structs.html#struc_CareerStage>struct CareerStage</a> *this, <a href=structs.html#struc_Bin34A11>struct Bin34A11</a> *);</div>
+<div><i>513390</i> int __thiscall <h3><a href=structs.html#struc_CareerStage>CareerStage</a>::513390</h3>(<a href=structs.html#struc_CareerStage>struct CareerStage</a> *this, <a href=structs.html#struc_CareerRace>struct CareerRace</a> *race);</div>
 <a id=513430></a>
-<div><i>513430</i> int __thiscall <h3><a href=structs.html#struc_CareerStage>CareerStage</a>::513430</h3>(<a href=structs.html#struc_CareerStage>struct CareerStage</a> *this, int, <a href=structs.html#struc_Bin34A11>struct Bin34A11</a> *);</div>
+<div class=mm><p>does nothing if the race is DDAY_EVENT_A or DDAY_EVENT_B</div>
+<div><i>513430</i> void __thiscall <h3><a href=structs.html#struc_CareerStage>CareerStage</a>::IncreaseRacesFinishedAndAddReputation</h3>(<a href=structs.html#struc_CareerStage>struct CareerStage</a> *this, int, <a href=structs.html#struc_CareerRace>struct CareerRace</a> *race);</div>
 <a id=513490></a>
 <div><i>513490</i> int __thiscall <h3><a href=structs.html#struc_CareerStage>CareerStage</a>::513490</h3>(<a href=structs.html#struc_CareerStage>struct CareerStage</a> *this);</div>
 <a id=513510></a>
-<div><i>513510</i> int __thiscall <h3><a href=structs.html#struc_CareerStage>CareerStage</a>::513510</h3>(<a href=structs.html#struc_CareerStage>struct CareerStage</a> *this, <a href=structs.html#struc_Bin34A11>struct Bin34A11</a> *);</div>
+<div><i>513510</i> int __thiscall <h3><a href=structs.html#struc_CareerStage>CareerStage</a>::513510</h3>(<a href=structs.html#struc_CareerStage>struct CareerStage</a> *this, <a href=structs.html#struc_CareerRace>struct CareerRace</a> *race);</div>
 <a id=5135A0></a>
 <div><i>5135A0</i> int __thiscall <h3><a href=structs.html#struc_Career7148>Career7148</a>::5135A0</h3>(<a href=structs.html#struc_Career7148>struct Career7148</a> *this, int);</div>
 <a id=513600></a>
-<div><i>513600</i> int __thiscall <h3><a href=structs.html#struc_Career7148>Career7148</a>::513600</h3>(<a href=structs.html#struc_Career7148>struct Career7148</a> *this, <a href=structs.html#struc_Bin34A11>struct Bin34A11</a> *, int);</div>
+<div><i>513600</i> int __thiscall <h3><a href=structs.html#struc_Career7148>Career7148</a>::513600</h3>(<a href=structs.html#struc_Career7148>struct Career7148</a> *this, <a href=structs.html#struc_CareerRace>struct CareerRace</a> *race, int);</div>
 <a id=513770></a>
 <div><i>513770</i> int __thiscall <h3><a href=structs.html#struc_Career7148>Career7148</a>::513770</h3>(<a href=structs.html#struc_Career7148>struct Career7148</a> *this, int);</div>
 <a id=5137C0></a>
@@ -5439,7 +5450,8 @@ return <a href=funcs.html#503680>CarCollection::GetCareerCarForSlotHash</a>(this
 <a id=513EB0></a>
 <div><i>513EB0</i> int __thiscall <h3><a href=structs.html#struc_CareerD24>CareerD24</a>::513EB0</h3>(<a href=structs.html#struc_CareerD24>struct CareerD24</a> *this, int field8index);</div>
 <a id=513FE0></a>
-<div><i>513FE0</i> int __thiscall <h3><a href=structs.html#struc_CareerD24>CareerD24</a>::513FE0</h3>(<a href=structs.html#struc_CareerD24>struct CareerD24</a> *this);</div>
+<div class=mm><p>could be a reputation thing</div>
+<div><i>513FE0</i> float __thiscall <h3><a href=structs.html#struc_CareerD24>CareerD24</a>::513FE0</h3>(<a href=structs.html#struc_CareerD24>struct CareerD24</a> *this);</div>
 <a id=5141B0></a>
 <div class=mm><p>TODO: what does this actually do (RecalculateUncollectedMoneyMarkers?)</div>
 <div><i>5141B0</i> void __thiscall <h3><a href=structs.html#struc_Career>Career</a>::CheckMoneyMarkers</h3>(<a href=structs.html#struc_Career>struct Career</a> *this);</div>
@@ -5713,9 +5725,9 @@ otherwise writes <a href=structs.html#struc_SubScrollingThing@8C>floatField_8C</
 <a id=5234C0></a>
 <div><i>5234C0</i> <h3>CalculateVisualRep</h3></div>
 <a id=524240></a>
-<div><i>524240</i> int __thiscall <h3><a href=structs.html#struc_Career887C>Career887C</a>::524240</h3>(<a href=structs.html#struc_Career887C>struct Career887C</a> *this, <a href=structs.html#struc_Bin34A11>struct Bin34A11</a> *);</div>
+<div><i>524240</i> int __thiscall <h3><a href=structs.html#struc_Career887C>Career887C</a>::524240</h3>(<a href=structs.html#struc_Career887C>struct Career887C</a> *this, <a href=structs.html#struc_CareerRace>struct CareerRace</a> *race);</div>
 <a id=5242C0></a>
-<div><i>5242C0</i> int __thiscall <h3><a href=structs.html#struc_Career887C>Career887C</a>::5242C0</h3>(<a href=structs.html#struc_Career887C>struct Career887C</a> *this, <a href=structs.html#struc_Bin34A11>struct Bin34A11</a> *, int);</div>
+<div><i>5242C0</i> int __thiscall <h3><a href=structs.html#struc_Career887C>Career887C</a>::5242C0</h3>(<a href=structs.html#struc_Career887C>struct Career887C</a> *this, <a href=structs.html#struc_CareerRace>struct CareerRace</a> *race, int);</div>
 <a id=5253F0></a>
 <div><i>5253F0</i> int __thiscall <h3><a href=structs.html#struc_Career887C>Career887C</a>::5253F0</h3>(<a href=structs.html#struc_Career887C>struct Career887C</a> *this, int);</div>
 <a id=525650></a>
@@ -5737,7 +5749,8 @@ but instead all fields are copied separately</div>
 See <code><a class='ext' href='https://github.com/yugecin/nfsu2-re/blob/master/nfsu2-re-hooks/replace-526C40-GetFNGForDialog.c'>nfsu2-re-hooks/replace-526C40-GetFNGForDialog.c</a></code></div>
 <div><i>526C40</i> char *__cdecl <h3>GetFNGforDialog</h3>(<a href=structs.html#struc_DialogInfo>struct DialogInfo</a> *dialog);</div>
 <a id=527780></a>
-<div><i>527780</i> <a href=structs.html#struc_Bin34A11>struct Bin34A11</a> *__thiscall <h3><a href=structs.html#struc_Career>Career</a>::527780</h3>(<a href=structs.html#struc_Career>struct Career</a> *this, <a href=structs.html#struc_Marker>struct Marker</a> *marker);</div>
+<div class=mm><p>"valid" because it checks if the race hash is also present in <a href=structs.html#struc_Career>struct Career</a>.<a href=structs.html#struc_Career@7148>field_7148</a>.<a href=structs.html#struc_Career7148@80>raceHash</a></div>
+<div><i>527780</i> <a href=structs.html#struc_CareerRace>struct CareerRace</a> *__thiscall <h3><a href=structs.html#struc_Career>Career</a>::FindValidRaceForMarker</h3>(<a href=structs.html#struc_Career>struct Career</a> *this, <a href=structs.html#struc_Marker>struct Marker</a> *marker);</div>
 <a id=527800></a>
 <div><i>527800</i> int __thiscall <h3><a href=structs.html#struc_Career>Career</a>::527800</h3>(<a href=structs.html#struc_Career>struct Career</a> *this, int, <a href=structs.html#struc_Marker>struct Marker</a> *);</div>
 <a id=527890></a>
@@ -5750,7 +5763,7 @@ See <code><a class='ext' href='https://github.com/yugecin/nfsu2-re/blob/master/n
 <a id=527AA0></a>
 <div><i>527AA0</i> int __thiscall <h3><a href=structs.html#struc_Career7148>Career7148</a>::527AA0</h3>(<a href=structs.html#struc_Career7148>struct Career7148</a> *this, int);</div>
 <a id=527BB0></a>
-<div><i>527BB0</i> <a href=structs.html#struc_Bin34A11>struct Bin34A11</a> *__thiscall <h3><a href=structs.html#struc_Career7148>Career7148</a>::527BB0</h3>(<a href=structs.html#struc_Career7148>struct Career7148</a> *this, int);</div>
+<div><i>527BB0</i> <a href=structs.html#struc_CareerRace>struct CareerRace</a> *__thiscall <h3><a href=structs.html#struc_Career7148>Career7148</a>::527BB0</h3>(<a href=structs.html#struc_Career7148>struct Career7148</a> *this, int);</div>
 <a id=527D30></a>
 <div><i>527D30</i> int __thiscall <h3><a href=structs.html#struc_Career>Career</a>::527D30</h3>(<a href=structs.html#struc_Career>struct Career</a> *this);</div>
 <a id=528320></a>
@@ -5808,7 +5821,7 @@ with that type)? Also checks for type <code><a href=enums.html#enu_SMS_TYPE4>SMS
 <p>arg0 is also put in {struct Career+field_8734} before calling this</div>
 <div><i>529860</i> int __thiscall <h3><a href=structs.html#struc_SmsMessageList>SmsMessageList</a>::SendSomeCareerStartMsgs?</h3>(<a href=structs.html#struc_SmsMessageList>struct SmsMessageList</a> *this, void *);</div>
 <a id=529920></a>
-<div><i>529920</i> void __thiscall <h3><a href=structs.html#struc_SmsMessageList>SmsMessageList</a>::SendUnlockMessagesForCurrentGameProgress</h3>(<a href=structs.html#struc_SmsMessageList>struct SmsMessageList</a> *this, <a href=structs.html#struc_Bin34A11>struct Bin34A11</a> *ptrMaybeGameState);</div>
+<div><i>529920</i> void __thiscall <h3><a href=structs.html#struc_SmsMessageList>SmsMessageList</a>::SendUnlockMessagesForCurrentGameProgress</h3>(<a href=structs.html#struc_SmsMessageList>struct SmsMessageList</a> *this, <a href=structs.html#struc_CareerRace>struct CareerRace</a> *race);</div>
 <a id=5299B0></a>
 <div class=mm><p>Goes through all <a href=vars.html#838454>smsDatas</a> and send every one that hasn't been received yet and has <code><a href=structs.html#struc_SmsData@2>type</a> ==
 <a href=enums.html#enu_SMS_TYPEE>SMS_TYPE_DVD_COVER</a></code> and <code><a href=structs.html#struc_SmsData@8>data</a> == index</code> by using <a href=funcs.html#5295F0>SmsMessageList::SendMessage</a>
@@ -5969,13 +5982,15 @@ if (smsdata) {
 TODO: this returns 0 on some conditions. what are they?</div>
 <div><i>532E50</i> int __thiscall <h3><a href=structs.html#struc_Career>Career</a>::GetBankWonFromRace</h3>(<a href=structs.html#struc_Career>struct Career</a> *this);</div>
 <a id=532EA0></a>
-<div><i>532EA0</i> int __thiscall <h3><a href=structs.html#struc_CareerD24>CareerD24</a>::532EA0</h3>(<a href=structs.html#struc_CareerD24>struct CareerD24</a> *this, <a href=structs.html#struc_Bin34A11>struct Bin34A11</a> *);</div>
+<div><i>532EA0</i> int __thiscall <h3><a href=structs.html#struc_CareerD24>CareerD24</a>::532EA0</h3>(<a href=structs.html#struc_CareerD24>struct CareerD24</a> *this, <a href=structs.html#struc_CareerRace>struct CareerRace</a> *race);</div>
 <a id=5330D0></a>
 <div><i>5330D0</i> <h3><a href=structs.html#struc_CareerD24>CareerD24</a>::GetReputationWonFromRace</h3></div>
 <a id=5331C0></a>
 <div><i>5331C0</i> int __thiscall <h3><a href=structs.html#struc_Career>Career</a>::5331C0</h3>(<a href=structs.html#struc_Career>struct Career</a> *this);</div>
 <a id=533310></a>
 <div><i>533310</i> int __thiscall <h3><a href=structs.html#struc_Career>Career</a>::533310</h3>(<a href=structs.html#struc_Career>struct Career</a> *this);</div>
+<a id=5337D0></a>
+<div><i>5337D0</i> int __thiscall <h3><a href=structs.html#struc_Career4210>Career4210</a>::5337D0</h3>(<a href=structs.html#struc_Career4210>struct Career4210</a> *this, <a href=structs.html#struc_CareerRace>struct CareerRace</a> *race);</div>
 <a id=533890></a>
 <div class=mm><p>Combines <a href=funcs.html#501310>GetSmsDataForHash</a>, <a href=funcs.html#514CB0>SmsMessageList::IsMessageAlreadyReceived</a> and <a href=funcs.html#5295F0>SmsMessageList::SendMessage</a>.</div>
 <div><i>533890</i> <a href=structs.html#struc_SmsMessage>struct SmsMessage</a> *__thiscall <h3><a href=structs.html#struc_SmsMessageList>SmsMessageList</a>::SendMessageByHash</h3>(<a href=structs.html#struc_SmsMessageList>struct SmsMessageList</a> *this, int hash);</div>
@@ -6121,11 +6136,11 @@ Delegates to <a href=funcs.html#537B30>SetUILabelFormattedString</a></div>
 <div class=mm><p>magazine/dvd showcase (picture) done</div>
 <div><i>541090</i> int __thiscall <h3><a href=structs.html#struc_CareerStage>CareerStage</a>::OnShowcaseDone</h3>(<a href=structs.html#struc_CareerStage>struct CareerStage</a> *this, void *);</div>
 <a id=5410E0></a>
-<div><i>5410E0</i> int __thiscall <h3><a href=structs.html#struc_Career>Career</a>::5410E0</h3>(<a href=structs.html#struc_Career>struct Career</a> *this, <a href=structs.html#struc_Bin34A11>struct Bin34A11</a> *);</div>
+<div><i>5410E0</i> int __thiscall <h3><a href=structs.html#struc_Career>Career</a>::5410E0</h3>(<a href=structs.html#struc_Career>struct Career</a> *this, <a href=structs.html#struc_CareerRace>struct CareerRace</a> *race);</div>
 <a id=541120></a>
 <div><i>541120</i> int __thiscall <h3><a href=structs.html#struc_Career>Career</a>::541120</h3>(<a href=structs.html#struc_Career>struct Career</a> *this, int);</div>
 <a id=541160></a>
-<div><i>541160</i> int __thiscall <h3><a href=structs.html#struc_Career>Career</a>::541160</h3>(<a href=structs.html#struc_Career>struct Career</a> *this, <a href=structs.html#struc_Bin34A11>struct Bin34A11</a> *);</div>
+<div><i>541160</i> int __thiscall <h3><a href=structs.html#struc_Career>Career</a>::541160</h3>(<a href=structs.html#struc_Career>struct Career</a> *this, <a href=structs.html#struc_CareerRace>struct CareerRace</a> *race);</div>
 <a id=541210></a>
 <div class=mm><p>magazine/dvd showcase (picture) done</div>
 <div><i>541210</i> int __thiscall <h3><a href=structs.html#struc_Career>Career</a>::OnShowcaseDone</h3>(<a href=structs.html#struc_Career>struct Career</a> *this, void *);</div>
@@ -6135,7 +6150,7 @@ Delegates to <a href=funcs.html#537B30>SetUILabelFormattedString</a></div>
 <div><i>541320</i> int __thiscall <h3><a href=structs.html#struc_Career>Career</a>::OnOutrunFinish</h3>(<a href=structs.html#struc_Career>struct Career</a> *this, int didWin);</div>
 <a id=541420></a>
 <div class=mm><p>gives race reward money, sends sms messages if needed, increases current stage idx if needed, more things...</div>
-<div><i>541420</i> int __thiscall <h3><a href=structs.html#struc_Career>Career</a>::DoPostRaceThings</h3>(<a href=structs.html#struc_Career>struct Career</a> *this, unsigned int hash);</div>
+<div><i>541420</i> int __thiscall <h3><a href=structs.html#struc_Career>Career</a>::DoPostRaceThings</h3>(<a href=structs.html#struc_Career>struct Career</a> *this, unsigned int raceHash);</div>
 <a id=541540></a>
 <div class=mm><p>changes <a href=structs.html#struc_Career@8740>activeCarSlotHash</a>
 also sets <code>this-&gt;<a href=structs.html#struc_Career@873D>field_873D</a> = 1</code></div>

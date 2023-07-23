@@ -3780,7 +3780,7 @@ My best guess is that this 'load into career' option is a cut/unfinished feature
 should be available or not. {5023B0} will go through {838438} and find an entry with matching   ||| ref,ref
 {struct Bin34A1F+0}. Then, based on the game region, either the entry's {struct Bin34A1F+4} or  ||| ref,ref
 {struct Bin34A1F+8} will be returned, which will be used to call {4FFC90} to search through     ||| ref,ref
-{8383E4} and find a entry with matching {struct Bin34A11+8}, to then finally return that entry. ||| ref,ref
+{8383E0} and find a entry with matching {struct CareerRace+8}, to then finally return that entry. ||| ref,ref
 (and then it takes {struct Bin34A1F+8} of that entry, so why even do the effort to call         ||| ref
 {4FFC90}, in the usage here it doesn't matter whether it exists or is valid or not...)          ||| ref
 
@@ -3790,7 +3790,7 @@ That means {838438} dictates when what car will be unlocked. That data is in bin
 Data of {34A1F} in my game files:                                                               ||| code
 
 {{                                                                                              ||| table,thead
-{{{struct Bin34A1F+0}}{{struct Bin34A1F+4} (US region)}{{struct Bin34A1F+8} (not US region)}}   ||| tr,th,ref,th,ref,th,ref
+{{{struct Bin34A1F+0}}{{struct Bin34A1F+4}}{{struct Bin34A1F+8}}}                               ||| tr,th,ref,th,ref,th,ref
 }{                                                                                              ||| tbody
 {{{2D7C9B5D} (=3000GT)}    {{AB7A688B}}{{AB7A688B}}}                                            ||| tr,td,code,td,code,td,code
 {{{000AC6D1} (=350Z)}      {{AB7A6889}}{{AB7A6889}}}                                            ||| tr,td,code,td,code,td,code

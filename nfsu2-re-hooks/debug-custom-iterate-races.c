@@ -1,5 +1,5 @@
 static
-void debug_custom_iterate_bin34A11(int wparam)
+void debug_custom_iterate_races(int wparam)
 {
 	int ptr, num;
 	short offset;
@@ -19,4 +19,4 @@ void debug_custom_iterate_bin34A11(int wparam)
 	DEBUG_WMCHAR_FUNC();
 }
 #undef DEBUG_WMCHAR_FUNC
-#define DEBUG_WMCHAR_FUNC debug_custom_iterate_bin34A11
+#define DEBUG_WMCHAR_FUNC debug_custom_iterate_races

@@ -299,7 +299,7 @@
 			</FileConfiguration>
 		</File>
 		<File
-			RelativePath=".\debug-custom-iterate-bin34A11.c"
+			RelativePath=".\debug-custom-iterate-carpresets.c"
 			>
 			<FileConfiguration
 				Name="Debug|Win32"
@@ -311,7 +311,7 @@
 			</FileConfiguration>
 		</File>
 		<File
-			RelativePath=".\debug-custom-iterate-carpresets.c"
+			RelativePath=".\debug-custom-iterate-races.c"
 			>
 			<FileConfiguration
 				Name="Debug|Win32"
