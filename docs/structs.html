@@ -8239,9 +8239,9 @@ extra refs: 500FBC 51441E*/</span>
 <div class=mm><p>I think this is a career race event thing</div>
 <div>struct <h3>Bin34A11</h3> { <i>/*18 members, size 88h*/</i> <em></em>
 <i>/*0*/	char _pad0[0x4];</i>
-<span class='mm'>/**see usage at 513A71, seems like it's meant to optionally point to an offset for a string like "Scene1" which is the name of the movie to play after this race event.
-but in reality these are all zero, and that is an empty string :D*/</span>
-<i>/*4*/	</i>short offsetInCareerStringpool <u></u>;
+<span class='mm'>/**if not 0, this if offset in <a href=vars.html#838428>careerStringPool</a> that will point to a movie name.
+values seen: INDUSTEAST, SUBURBAN, SCENE08, SCENE12,  INDUSTWEST*/</span>
+<i>/*4*/	</i>short postRaceMovieStrOffs <u></u>;
 <i>/*6*/	char _pad6[0x2];</i>
 <i id=struc_Bin34A11@8></i><span class='mm'>/**some hash that identifies this race
 this is at some point compared to field8 of sms data SMS_END_OF_GAME_MESSAGE*/</span>

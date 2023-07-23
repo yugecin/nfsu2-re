@@ -8,11 +8,10 @@ void debug_custom_iterate_bin34A11(int wparam)
 	if (wparam == 121) { // y
 		careerStringPool = *(char**) 0x838428;
 		num = *(int*) 0x8383E4;
+		ptr = *(int*) 0x8383E0;
 		while (num-- > 0) {
-			ptr = *(int*) 0x8383E0;
 			offset = *(short*)(ptr + 4);
-			// GODDAMN ALL OF THIS IS ZERO :D :D :D
-			printf("%s\n", careerStringPool + offset);
+			printf("%08X: %s\n", *(unsigned int*)(ptr + 0x8), careerStringPool + offset);
 			ptr += 0x88;
 		}
 	}
