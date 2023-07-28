@@ -503,7 +503,9 @@ void dbgw_ui_tree_update_before_present()
 			SendMessage(hUITree, TVM_DELETEITEM, 0, (LPARAM) uiListItems[i].itm);
 			numUiListItems--;
 			uiListItems[i] = uiListItems[numUiListItems];
+			uiListItemStillExists[i] = uiListItemStillExists[numUiListItems];
 			strcpy(uiListItemStrings[i], uiListItemStrings[numUiListItems]);
+			i--;
 		}
 	}
 
