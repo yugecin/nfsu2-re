@@ -13,6 +13,15 @@ CarSelectFNGObject__CountAvailableCars(struct CarSelectFNGObject *this, enum INV
 	_asm { jmp ThisCallOneArg }
 }
 
+static
+__declspec(naked)
+struct CarPreset*
+FindCarPreset(unsigned int nameHash)
+{
+	_asm { mov eax, 0x61C460 }
+	_asm { jmp eax }
+}
+
 #define CarSelectFNGObject__ResetBrowableCars 0x4EEC90 /*()*/
 #define CarSelectFNGObject__UpdateUI 0x4B2310 /*()*/
 #define CarCollection__CreateNewTunedCarFromFromDataAtSlot 0x52A710 /*(unsigned int slotNamehash)*/
@@ -73,18 +82,6 @@ int fun_car_customize_preset_CarSelectFNGObject__ChangeCategory(struct CarSelect
 		profileData->players[profileData->currentPlayerIndex].d4.currentCarSelectionCategory = newCarSelectCategory;
 		ThisCallNoArgs(CarSelectFNGObject__ResetBrowableCars, this);
 		ThisCallNoArgs(CarSelectFNGObject__UpdateUI, this);
-
-		olGroup = FindUIElementByHash(this->__parent.fngName, cihash("OL_CarMode_Group"));
-		HideNullableUIElementAndChildren(olGroup);
-
-		// checking the actual value instead of 'newCarSelectCategory', because if our hooks aren't
-		// good enough, something might've changed the actual value back to something else (because
-		// no cars are found with our custom filter)
-		if (*carSelectCategory == CUSTOM_IS_PRESET_CAR) {
-			ShowNullableUIElementAndChildren(olGroup);
-			SetUIElementAnimationByName(olGroup, "SHOW", 0);
-		}
-
 		return 1;
 	}
 	return 0;
@@ -205,11 +202,30 @@ its_preset:
 
 #define hashof_carselect_category_label 0x3E81DE59
 #define hashof_OL_CarMode_Group 0x2043ABA0
-#define FindUIElementByHash 0x5379C0 /*(char *fngName, unsigned int hash)*/
-#define HideNullableUIElementAndChildren 0x50CA00 /*(struct UIElement *uielement)*/
-#define ShowNullableUIElementAndChildren 0x50CA50 /*(struct UIElement *uielement)*/
-#define SetUIElementAnimationByName 0x51CF70 /*(struct UIElement *uielement, char *animationStr, char resetAnimationWhenThisAnimationAlreadyActive)*/
-static char *sUIQR_CarSelect = "UI_QRCarSelect.fng", *sPresetCars = "Preset cars", *sSHOW = "SHOW";
+#define hashof_racemode 0x6578FB3F
+#define hashof_racemodevalue 0xA9205BD8
+
+static
+void
+__stdcall
+fun_car_customize_preset_PostUpdateUI(struct CarSelectFNGObject *this)
+{
+	struct UIElement *el;
+	char *str;
+
+	if (*carSelectCategory == CUSTOM_IS_PRESET_CAR) {
+		SetUILabelByHashFormattedString("UI_QRCarSelect.fng", hashof_carselect_category_label, "Preset cars", NULL);
+		el = FindUIElementByHash("UI_QRCarSelect.fng", hashof_OL_CarMode_Group);
+		ShowNullableUIElementAndChildren(el);
+		SetUIElementAnimationByName(el, "SHOW", 0);
+		HideUIElementAndChildrenByHash("UI_QRCarSelect.fng", hashof_racemodevalue);
+		str = FindCarPreset((presetCarAsInventoryCar + this->currentSelectedCar->slotHash)->carPresetHash)->name;
+		SetUILabelByHashFormattedString("UI_QRCarSelect.fng", hashof_racemode, str, NULL);
+		FindUIElementByHash("UI_QRCarSelect.fng", hashof_racemode)->pos->leftOffset = 85.0f;
+	} else {
+		HideUIElementAndChildrenByHash("UI_QRCarSelect.fng", hashof_OL_CarMode_Group);
+	}
+}
 
 static
 __declspec(naked)
@@ -217,46 +233,9 @@ void
 fun_car_customize_preset_CarSelectFNGObject__UpdateUI_hook()
 {
 	_asm {
-		mov eax, 0x7F444C // carSelectCategory
-		test [eax], CUSTOM_IS_PRESET_CAR
-		jz not_preset
 		pushad
-		// change the text of the category label to "Preset cars"
-		push sPresetCars
-		push hashof_carselect_category_label
-		push sUIQR_CarSelect
-		mov eax, 0x537B80
-		call eax
-		// show ol_carmode_group
-		push hashof_OL_CarMode_Group
-		push sUIQR_CarSelect
-		mov eax, FindUIElementByHash
-		call eax
-		push eax
-		push eax
-		mov eax, ShowNullableUIElementAndChildren
-		call eax
-		// change the animation of ol_carmode_group to SHOW because usually it will still be HIDEµ
-		pop eax // olGroup
-		push 0 // resetAnimationWhenThisAnimationAlreadyActive
-		push sSHOW
-		push eax
-		mov eax, SetUIElementAnimationByName
-		call eax
-		// change label of ol_carmode_group to name of preset car
-		add esp, 0x24
-		popad
-not_preset:
-		// ensure the ol_carmode_group is hidden
-		pushad
-		push hashof_OL_CarMode_Group
-		push sUIQR_CarSelect
-		mov eax, FindUIElementByHash
-		call eax
-		push eax
-		mov eax, HideNullableUIElementAndChildren
-		call eax
-		add esp, 0xC
+		push ecx
+		call fun_car_customize_preset_PostUpdateUI
 		popad
 		// we overwrote a jmp so just execute that to get back
 		mov eax, 0x497CD0
@@ -284,15 +263,6 @@ its_preset:
 		add eax, offset presetCarAsInventoryCar
 		retn 4
 	}
-}
-
-static
-__declspec(naked)
-struct CarPreset*
-FindCarPreset(unsigned int nameHash)
-{
-	_asm { mov eax, 0x61C460 }
-	_asm { jmp eax }
 }
 
 static
@@ -369,6 +339,13 @@ void fun_car_customize_preset()
 
 	// when a preset car is selected, create a tuned car instance and apply preset tuning to it
 	mkjmp(0x552DBB, fun_car_customize_preset_CustomizeCar_set_car_instance_if_missing_hook);
+
+	// TODO: going to quick race after customizing will still have "preset cars" as selected category,
+	//       and it's not possible to change it
+	//       and it will crash the game if continuing with preset car (would be cool if it didn't... hmm
+
+	// TODO: customizing preset car and then escaping, goes back to preset car selection but to the first
+	//       car instead of where we were. is this a slotHash bug?
 
 	INIT_FUNC();
 #undef INIT_FUNC

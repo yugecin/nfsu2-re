@@ -211,6 +211,15 @@ ShowNullableUIElementAndChildren(struct UIElement *element)
 static
 __declspec(naked)
 void
+HideUIElementAndChildrenByHash(char *fngName, unsigned int hash)
+{
+	_asm { mov eax, 0x4954E0 }
+	_asm { jmp eax }
+}
+
+static
+__declspec(naked)
+void
 SetUIElementAnimationByName(struct UIElement *uielement, char *animationStr, char resetAnimationWhenThisAnimationAlreadyActive)
 {
 	_asm { mov eax, 0x51CF70 }
