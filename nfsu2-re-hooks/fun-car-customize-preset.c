@@ -123,6 +123,23 @@ void fun_car_customize_preset_CarCollection__CountAvailableCars_hook(enum INVENT
 		mov eax, 0x534858
 		jmp eax
 its_preset:
+
+		// Need to ensure that our custom "preset cars" category cannot be selected unless we're in the
+		// customize menu. Otherwise one can go to customize, select preset cars, escape, go to quick
+		// race, and preset cars will still be selected which is no good (we don't handle that so it will
+		// crash the game once chosen). And once we're in our custom category, there's no way out (in the
+		// non-customize menus), because they cycle between known values and our custom category is not a
+		// known value. This is a good place, because the car select will fall back to the "all cars" category
+		// if the CountAvailableCars function returns 0 with the initially applied car filter.
+		mov eax, 0x83A9D0 // profileData
+		test [eax+0x156A8 /*menuState*/], MENU_STATE_CAR_CUSTOMIZE
+		jnz ok
+		// uh-oh, we're not in customize menu. Return zero to trigger the fallback that will reset the
+		// category to "all cars".
+		xor eax, eax
+		retn 8
+ok:
+
 		// not sure if we really need to count or just return nonzero to make things happy, but lets do a real count
 		or eax, 0xFFFFFFFF
 		mov ecx, 0x8A31E4
@@ -339,13 +356,6 @@ void fun_car_customize_preset()
 
 	// when a preset car is selected, create a tuned car instance and apply preset tuning to it
 	mkjmp(0x552DBB, fun_car_customize_preset_CustomizeCar_set_car_instance_if_missing_hook);
-
-	// TODO: going to quick race after customizing will still have "preset cars" as selected category,
-	//       and it's not possible to change it
-	//       and it will crash the game if continuing with preset car (would be cool if it didn't... hmm
-
-	// TODO: customizing preset car and then escaping, goes back to preset car selection but to the first
-	//       car instead of where we were. is this a slotHash bug?
 
 	INIT_FUNC();
 #undef INIT_FUNC
