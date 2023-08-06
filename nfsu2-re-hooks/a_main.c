@@ -81,6 +81,7 @@ static void stub() {}
 #include "ignorefocuslossintextboxandlist.c"
 //#include "switch-joyids-in-career.c"
 
+//#include "fun-car-customize-preset.c"
 //#include "fun-car-customize-sponsor.c"
 //#include "fun-destroy-garage-backdrop.c"
 

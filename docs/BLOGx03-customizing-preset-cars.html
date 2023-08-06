@@ -1,0 +1,771 @@
+<!DOCTYPE html><html lang='en'><head><meta charset=utf-8>
+<title>nfsu2-re/BLOGx03: Customizing preset cars</title>
+<style>
+body {
+	font-family: Tahoma,Arial,sans-serif;
+	background: #888;
+	color: #000;
+}
+header,
+body > div {
+	background: #fff;
+	box-shadow: 0px 0px 4px #000;
+	border: 1px solid #efefef;
+	padding: 0 1em;
+	margin: 1em auto;
+	max-width: 60em;
+}
+h1 {
+	margin: .3em;
+}
+header {
+	background: #eee;
+	text-align: center;
+}
+nav {
+	line-height: 2em;
+	margin: 1em 0;
+}
+nav a {
+	padding: .2em .5em;
+	background: #ddd;
+	border-color: #555;
+	border-style: ridge;
+	border-width: 2px;
+}
+pre,
+.sym > div:not(.mm) {
+	margin: 1em 0;
+	padding: .2em .5em;
+	font-family: monospace;
+	white-space: pre;
+	overflow-x: auto;
+}
+pre {
+	border: 2px solid #cdcdcd;
+	background: #f7f7f7;
+}
+blockquote {
+	background: #eee;
+	border-left: 5px solid #aaa;
+	padding: 1em;
+	margin: 1em;
+}
+table {
+        border-collapse: collapse;
+}
+td,th {
+	padding: .1em .4em;
+	border: 1px solid #000;
+}
+th {
+        background: #f5f5f5;
+}
+details {
+        padding: .2em .4em 0 .4em;
+        margin: .5em 0;
+        border: 1px solid #ccc;
+        background: #eee;
+}
+summary {
+        user-select: none;
+        cursor: pointer;
+}
+.mm a[href^="funcs.html"],
+.mm a[href^="vars.html"],
+.mm a[href^="structs.html"],
+.mm a[href^="enums.html"] {
+	border-radius: 5px;
+	padding: 0 .15em;
+	font-family: monospace;
+}
+.mm a[href^="funcs.html"]:hover {
+	background: #fdf;
+}
+.mm a[href^="vars.html"]:hover {
+	background: #dfd;
+}
+.mm a[href^="structs.html"]:hover {
+	background: #ddf;
+}
+.mm a[href^="enums.html"]:hover {
+	background: #fdd;
+}
+nav a[href^="funcs.html"],
+.mm a[href^="funcs.html"],
+.func > div:not(.mm),
+.struc > ul > li > pre {
+	background: #fef;
+	border-color: #f6f;
+}
+/*struc methods*/
+.struc > ul > li > pre {
+	white-space: pre-wrap;
+	margin: -1px 0 0 0;
+}
+.struc > ul {
+	margin: 0 0 1em 0;
+	list-style: none;
+	padding: 0;
+}
+.sym.struc > div {
+	margin-bottom: 0;
+}
+.struc > div + a + div, .struc > ul + a + div {
+	margin-top: 1em;
+}
+nav a[href^="structs.html"],
+.mm a[href^="structs.html"],
+.struc > div:not(.mm) {
+	background: #eef;
+	border-color: #66f;
+}
+nav a[href^="enums.html"],
+.mm a[href^="enums.html"],
+.enum > div:not(.mm) {
+	background: #fee;
+	border-color: #f66;
+}
+nav a[href^="vars.html"],
+.mm a[href^="vars.html"],
+.var > div:not(.mm) {
+	background: #efe;
+	border-color: #5a5;
+}
+.sym > div:not(.mm),
+/*struc methods*/
+.struc > ul > li > pre {
+	border-width: 1px;
+	border-style: solid;
+}
+div h3 {
+	display: inline;
+	font-size: 1em;
+	font-weight: bold;
+}
+body > div > ul i,
+body > div > div i {
+	font-style: normal;
+	font-size: 80%;
+	color: #777;
+}
+/*class label*/
+.struc h2 + ul em::after,
+.struc h3 + i + em::after {
+	content: "/*class*/";
+	font-style: normal;
+	background: #d4aaff;
+	border: 1px solid #94f;
+	font-size: 80%;
+	border-radius: 3px;
+}
+.struc h2 + ul em::after {
+	content: "class";
+	padding: 0 .2em;
+}
+/*union emphasis/label*/
+.struc h2 + ul b::after,
+body > div > div b {
+	font-weight: normal;
+	background: #aadfff;
+	border: 1px solid #44b9ff;
+	font-size: 90%;
+	border-radius: 3px;
+}
+.struc h2 + ul b::after {
+	content: "union";
+	padding: 0 .2em;
+	font-size: 80%;
+}
+.struc h2 + ul b {
+	font-weight: normal;
+}
+/*unknown type*/
+body > div > div u {
+	text-decoration: none;
+}
+span.uctype,
+body > div > div u::after {
+	content: "/*unconfirmed type*/";
+	background: #fca;
+	border: 1px solid #f94;
+	font-size: 80%;
+	border-radius: 6px;
+	color: #000;
+}
+/*reference to unknown struct/enum*/
+.mm .error,
+body > div.sym > div strong {
+	background: #f00;
+	color: #fff;
+}
+/*doccomment*/
+body > div > div > span {
+	color: #080;
+	display: inline-block;
+	margin-left: 5em; /*why 5 and not 8?*/
+	/*so doccomments on their own don't cause scrollbars*/
+	white-space: pre-wrap;
+}
+a.ext::after {
+	display: inline-block;
+	content: '';
+	width: 12px;
+	height: 12px;
+	background: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAAM\
+AgMAAAArG7R0AAAABGdBTUEAALGPC/xhBQAAAAFzUkdCAK7OHOkAAAAJcEhZcwAADsMAAA7DAcdvqGQ\
+AAAAJUExURUdwTAD/AAAA//ENIZIAAAABdFJOUwBA5thmAAAAL0lEQVQI12NggAFRBwaG0AQGptAVDF\
+wzsxi4Zq1k4JqaCcZMU1cwMCxbwMCg1QAArE8JoyhJwYoAAAAASUVORK5CYII=') no-repeat;
+}
+/*symbol comments*/
+.sym div.mm {
+	background: #efefef;
+	border: 1px dashed #000;
+	border-bottom: 0;
+	margin-bottom: 0;
+	padding: .2em .5em;
+}
+.sym div.mm + div {
+	margin-top: 0;
+}
+/*mm stuff mostly used in docs*/
+div.mm div {
+	margin: 2em 0;
+	padding-left: 1em;
+	border-left: 3px ridge #666;
+}
+div.mm p.center {
+	text-align: center;
+}
+div.mm p.imgholder {
+	text-align: center;
+	margin: 3em 0;
+}
+code {
+	background: #dfdfdf;
+	padding: 0 .2em;
+	border-radius: 3px;
+}
+div.mm h2 a, div.mm h3 a, div.mm h4 a, div.mm h5 a, div.mm h6 a {
+	color: #A0A0A0;
+}
+pre.ida {
+	color: #000080;
+	font-weight: bold;
+}
+pre.ida span.text,
+pre.ida span.mt {
+	color: #000;
+}
+pre.ida span.comment,
+pre.ida span.mc {
+	color: #808080;
+}
+pre.ida span.ident {
+	color: #0000ff;
+}
+pre.ida span.num, pre.ida span.str {
+	color: #008000;
+}
+pre.ida span.hi {
+	background: #ff0;
+}
+</style></head><body>
+<header>
+<h1>nfsu2-re</h1>
+<p><a href='https://github.com/yugecin/nfsu2-re'>https://github.com/yugecin/nfsu2-re</a></p>
+<nav><a href='index.html'>home</a>
+<a href='blog.html'>blog</a>
+<a href='docs.html'>docs</a>
+<a href='funcs.html' class='func'>functions</a>
+<a href='structs.html' class='struc'>structs</a>
+<a href='enums.html' class='enum'>enums</a>
+<a href='vars.html' class='var'>variables</a>
+<a href='cheatsheet.html'>cheatsheet</a></nav>
+</header>
+<div class='mm'>
+<p><a href='blog.html'>blog</a> &gt; Customizing preset cars (2023 August 6)</p><div><h2 id="customizingpresetcars">Customizing preset cars <a href='#customizingpresetcars'>#</a></h2>
+<p class=center><video controls style=max-width:100%><source src=img/BLOGx03-CUSTOMIZING-PRESET-CARS.MP4 type=video/mp4></video>
+<ul>
+<li><a href='#customizingpresetcars'>Customizing preset cars</a></li>
+<li><a href='#whatarepresetcars'>Preset cars?</a></li>
+<li><a href='#theidea'>The idea</a></li>
+<li><a href='#execution'>Execution</a>
+<ul>
+<li><a href='#addingpresetcarcategory'>Adding the preset car category in the car browser</a></li>
+<li><a href='#fillingpresetcarcategory'>Filling the preset car category with car entries</a>
+<ul>
+<li><a href='#countingnumberofpresetcars'>Returning the correct amount of preset cars</a></li>
+<li><a href='#iteratingpresetcars'>Iterating preset cars</a></li>
+</ul>
+</li>
+<li><a href='#usepresetinsteadofstock'>Showing the preset cars instead of stock cars</a></li>
+<li><a href='#crashfix'>Making the game not crash when choosing a preset car</a></li>
+<li><a href='#fixingcategorylabeltext'>Fixing the category label text</a></li>
+<li><a href='#showingpresetcarname'>Showing the preset car name</a></li>
+</ul>
+</li>
+</ul>
+</div><div><h2 id="whatarepresetcars">Preset cars? <a href='#whatarepresetcars'>#</a></h2>
+<p>The game data files include some cars with predefined tuning. Examples of these
+are Rachel's car you start career mode with, Caleb's car, sponsor cars... Each
+preset also has a name (<a href=structs.html#struc_CarPreset@28>name</a>), here are all of them that are
+present in my game (I expect this to be the same in every game version):
+<ul>
+<li><code>DDAY_PLAYER_CAR</code>: Rachel's car that you start with in career mode
+</li><li><code>DDAY_PLAYER_CAR_OLD_RX8</code>: I guess an earlier version of Rachel's car
+</li><li><code>DDAY_PLAYER_CAR_OLD</code>: I guess an earlier version of Rachel's car. This one is a Lancer Evo 8
+</li><li><code>DEMO_AI_IMPREZAWRX_WHITE</code>: AI car preset from the demo release
+</li><li><code>DEMO_AI_IMPREZAWRX_BLUE</code>: AI car preset from the demo release
+</li><li><code>DEMO_AI_300GT_ORANGE</code>: AI car preset from the demo release
+</li><li><code>DEMO_AI_300GT_BLUE</code>: AI car preset from the demo release
+</li><li><code>DEMO_AI_350Z_SILVER</code>: AI car preset from the demo release
+</li><li><code>DEMO_AI_350Z_BROWN</code>: AI car preset from the demo release
+</li><li><code>TT_AI_PRESET_1</code>: is this used?
+</li><li><code>G35_AI_PRESET_1</code>: is this used?
+</li><li><code>LANCEREVO8_AI_PRESET_1</code>: is this used?
+</li><li><code>350Z_AI_PRESET_1</code>: is this used?
+</li><li><code>CALEB_GTO</code>: Caleb's car, the final boss
+</li><li><code>NIKKI_MUSTANGGT</code>: Caleb's crew car. Is this used?
+</li><li><code>NIGEL_3000GT</code>: Caleb's crew car. Is this used?
+</li><li><code>TOM_G35</code>: Caleb's crew car. Is this used?
+</li><li><code>AL_RX8</code>: Caleb's crew car. Is this used?
+</li><li><code>MARCUS_CELICA</code>: Caleb's crew car. Is this used?
+</li><li><code>SCOTT_TT</code>: Caleb's crew car. Is this used?
+</li><li><code>DEMO_PRESET_1</code>: Car that you could drive in the demo release
+</li><li><code>DEMO_PRESET_2</code>: Car that you could drive in the demo release
+</li><li><code>DEMO_PRESET_3</code>: Car that you could drive in the demo release
+</li><li><code>DEMO_PRESET_4</code>: Car that you could drive in the demo release
+</li><li><code>CHINGY</code>: sponsor car, cheat <code>gimmechingy</code>
+</li><li><code>CAPONE</code>: sponsor car, cheat <code>wannacapone</code>
+</li><li><code>D3</code>: sponsor car, cheat <code>wantmyd3</code>
+</li><li><code>SHINESTREET</code>: sponsor car, cheat <code>shinestreetbright</code>
+</li><li><code>DAVIDCHOE</code>: sponsor car, cheat <code>devidchoeart</code>
+</li><li><code>JAPANTUNING</code>: sponsor car, cheat <code>tunejapantuning</code>
+</li><li><code>SNOOP_DOGG</code>: sponsor car, cheat <code>yodogg</code>
+</li><li><code>THE_DOORS</code>: sponsor car, cheat <code>opendoors</code>
+</li></ul>
+<p>If you don't know, the sponsor cars can be unlocked by typing the cheat during boot,
+when the "press enter to continue" Rachel screen is shown. A sound effect will play
+after entering succesfully. Then the "SPONSOR CARS" category can be chosing in the
+quick race menu, where they will be available to use for a single race.
+</div><div><h2 id="theidea">The idea <a href='#theidea'>#</a></h2>
+<p>These preset cars are cool things one can never really access in the game (at least
+not the ones that are unused), so it would be cool to be able to add them to your
+car collection like I did with <a href='BLOGx02-customizing-sponsor-cars.html#customizingsponsorcars'>Customizing sponsor cars</a>.
+<p>Using them in quick race immediately without having to add them to your car collection
+would also be cool, but is for a future time.
+</div><div><h2 id="execution">Execution <a href='#execution'>#</a></h2>
+<p>See <code><a class='ext' href='https://github.com/yugecin/nfsu2-re/blob/master/nfsu2-re-hooks/fun-car-customize-preset.c'>nfsu2-re-hooks/fun-car-customize-preset.c</a></code> for all the code together.
+<div><h3 id="addingpresetcarcategory">Adding the preset car category in the car browser <a href='#addingpresetcarcategory'>#</a></h3>
+<p>To do this, we'll have to add entries for the preset cars when selecting
+a car to customize. The idea is to add a separate category which will contain
+all preset cars. This can be done by hooking into function <a href=funcs.html#4EED10>CarSelectFNGObject::ChangeCategory</a>,
+which is used to determine what category of cars to show when the prev/next
+arrow buttons are pressed.
+<p>This car selection screen is used for a few different reasons: selecting quick
+race car, selecting car to customize, selecting car in online mode (not career
+car select, that one has a dedicated screen). So we're gonna add the custom
+category in the category rotation, but only if car selection is being done for
+choosing a car to customize:
+<pre>
+// make up a new unique value that doesn't exist in <a href=enums.html#enu_INVENTORY_CAR_FLAGS>enum INVENTORY_CAR_FLAGS</a> for our category
+#define CUSTOM_IS_PRESET_CAR 0x20
+
+static
+int fun_car_customize_preset_CarSelectFNGObject__ChangeCategory(<a href=structs.html#struc_CarSelectFNGObject>struct CarSelectFNGObject</a> *this, void *_, unsigned int message)
+{
+#define MSG_PREV 0x5073EF13
+#define MSG_NEXT 0xD9FEEC59
+
+	if (<a href=vars.html#83A9D0>profileData</a>-&gt;<a href=structs.html#struc_ProfileData@156A8>menuState</a> == <a href=enums.html#enu_MENU_STATE20>MENU_STATE_CAR_CUSTOMIZE</a>) {
+		if (message == MSG_PREV) {
+			switch (<a href=vars.html#7F444C>carSelectCategory</a>) {
+			case <a href=enums.html#enu_INVENTORY_CAR_FLAGS1>IS_STOCK_CAR</a> | <a href=enums.html#enu_INVENTORY_CAR_FLAGS2>IS_TUNED_CAR</a>:
+				<a href=vars.html#7F444C>carSelectCategory</a> = CUSTOM_IS_PRESET_CAR; break;
+			case CUSTOM_IS_PRESET_CAR:
+				if (<a href=funcs.html#497EE0>CarSelectFNGObject::CountAvailableCars</a>(this, <a href=enums.html#enu_INVENTORY_CAR_FLAGS2>IS_TUNED_CAR</a>))) {
+					<a href=vars.html#7F444C>carSelectCategory</a> = <a href=enums.html#enu_INVENTORY_CAR_FLAGS2>IS_TUNED_CAR</a>; break;
+				}
+			case <a href=enums.html#enu_INVENTORY_CAR_FLAGS2>IS_TUNED_CAR</a>: <a href=vars.html#7F444C>carSelectCategory</a> = <a href=enums.html#enu_INVENTORY_CAR_FLAGS1>IS_STOCK_CAR</a>; break;
+			case <a href=enums.html#enu_INVENTORY_CAR_FLAGS1>IS_STOCK_CAR</a>: <a href=vars.html#7F444C>carSelectCategory</a> = <a href=enums.html#enu_INVENTORY_CAR_FLAGS1>IS_STOCK_CAR</a> | <a href=enums.html#enu_INVENTORY_CAR_FLAGS2>IS_TUNED_CAR</a>; break;
+			}
+		} else if (message == MSG_NEXT) {
+			switch (<a href=vars.html#7F444C>carSelectCategory</a>) {
+			case <a href=enums.html#enu_INVENTORY_CAR_FLAGS1>IS_STOCK_CAR</a> | <a href=enums.html#enu_INVENTORY_CAR_FLAGS2>IS_TUNED_CAR</a>: <a href=vars.html#7F444C>carSelectCategory</a> = <a href=enums.html#enu_INVENTORY_CAR_FLAGS1>IS_STOCK_CAR</a>; break;
+			case <a href=enums.html#enu_INVENTORY_CAR_FLAGS1>IS_STOCK_CAR</a>:
+				if (<a href=funcs.html#497EE0>CarSelectFNGObject::CountAvailableCars</a>(this, <a href=enums.html#enu_INVENTORY_CAR_FLAGS2>IS_TUNED_CAR</a>))) {
+					<a href=vars.html#7F444C>carSelectCategory</a> = <a href=enums.html#enu_INVENTORY_CAR_FLAGS2>IS_TUNED_CAR</a>; break;
+				}
+			case <a href=enums.html#enu_INVENTORY_CAR_FLAGS2>IS_TUNED_CAR</a>:
+				<a href=vars.html#7F444C>carSelectCategory</a> = CUSTOM_IS_PRESET_CAR; break;
+			case CUSTOM_IS_PRESET_CAR: <a href=vars.html#7F444C>carSelectCategory</a> = <a href=enums.html#enu_INVENTORY_CAR_FLAGS1>IS_STOCK_CAR</a> | <a href=enums.html#enu_INVENTORY_CAR_FLAGS2>IS_TUNED_CAR</a>; break;
+			}
+		}
+		<a href=vars.html#83A9D0>profileData</a>-&gt;<a href=structs.html#struc_ProfileData@10>player1</a>[<a href=vars.html#83A9D0>profileData</a>-&gt;<a href=structs.html#struc_ProfileData@20358>currentPlayerIndex?</a>].<a href=structs.html#struc_Player@D4>d4</a>.<a href=structs.html#struc_Player_D4@C>currentCarSelectionCategory</a> = <a href=vars.html#7F444C>carSelectCategory</a>;
+		<a href=funcs.html#4EEC90>CarSelectFNGObject::ResetBrowableCars</a>(this);
+		<a href=funcs.html#4B2310>CarSelectFNGObject::UpdateUI</a>(this);
+		return 1;
+	}
+	return 0;
+}
+
+static
+__declspec(naked)
+void fun_car_customize_preset_CarSelectFNGObject__ChangeCategory_hook(unsigned int message)
+{
+	_asm {
+		push ecx
+		call fun_car_customize_sponsor_CarSelectFNGObject__ChangeCategory
+		test eax, eax
+		jnz ok
+		// we were not in customize menu, call the normal function
+		// but first do the thing that we overwrote in order to jmp to this proc
+		pop ecx
+		mov eax, <a href=vars.html#7F444C>carSelectCategory</a>
+		mov edx, 0x4EED15 // edx can be used because it's overridden later in that proc anyways
+		jmp edx
+ok:
+		add esp, 4
+		retn 0x4
+	}
+}
+
+mkjmp(0x4EED10, fun_car_customize_preset_CarSelectFNGObject__ChangeCategory_hook);
+
+</pre>
+<p>This won't have much effect other than messing up the category changing rotation.
+Because we're using a car flag that doesn't exist, no cars will be matched so the category
+would have no cars. The <a href=funcs.html#4EEC90>CarSelectFNGObject::ResetBrowableCars</a> function takes care of such situations and makes the category
+fall back to "all cars" should this happen, because empty categories should not be possible to
+be selected (the game would crash if there's no car to show).
+</div><div><h3 id="fillingpresetcarcategory">Filling the preset car category with car entries <a href='#fillingpresetcarcategory'>#</a></h3>
+<p>Two things need to happen to do this:
+<ul>
+<li><a href=funcs.html#534850>CarCollection::CountAvailableCars</a> needs to return a non-zero number when invoked with our custom flag, or it will not be
+possible to select the category
+</li><li><a href=funcs.html#5162D0>CarCollection::FindCarWithFlagAfterGivenCar</a> needs to return at least one car for our custom flag or the game will crash when
+selecting the category (given we already took care of the previous point)
+</li></ul>
+<div><h4 id="countingnumberofpresetcars">Returning the correct amount of preset cars <a href='#countingnumberofpresetcars'>#</a></h4>
+<p><a href=funcs.html#534850>CarCollection::CountAvailableCars</a> counts the amount of available cars in the player's <a href=structs.html#struc_CarCollection>struct CarCollection</a>. Since preset cars
+are of course not part of this, we'll have to add some code here to make sure it works for preset cars.
+<pre>
+static
+__declspec(naked)
+void fun_car_customize_preset_CarCollection__CountAvailableCars_hook(<a href=enums.html#enu_INVENTORY_CAR_FLAGS>enum INVENTORY_CAR_FLAGS</a> flagsToCheck, int typeToCheck)
+{
+	_asm {
+		test [esp+4], CUSTOM_IS_PRESET_CAR
+		jnz its_preset
+		// not preset, return back where we hooked from (but do the things we overwrote first)
+		sub esp, 8
+		push ebx
+		mov ebx, [esp+0xC+8]
+		mov eax, 0x534858
+		jmp eax
+its_preset:
+		// not sure if we really need to count or just return nonzero to make things happy, but lets do a real count
+		or eax, 0xFFFFFFFF
+		mov ecx, offset <a href=vars.html#8A31E4>carPresets</a>
+next:
+		inc eax
+		mov ecx, [ecx] // <a href=structs.html#struc_CarPreset>struct CarPreset</a>.<a href=structs.html#struc_CarPreset@0>link</a>.<a href=structs.html#struc_ObjectLink@0>next</a>
+		cmp ecx, offset <a href=vars.html#8A31E4>carPresets</a>
+		jnz next
+		retn 8
+	}
+}
+
+mkjmp(<a href=funcs.html#534850>CarCollection::CountAvailableCars</a>, fun_car_customize_preset_CarCollection__CountAvailableCars_hook);
+</pre>
+</div><div><h4 id="iteratingpresetcars">Iterating preset cars <a href='#iteratingpresetcars'>#</a></h4>
+<p><a href=funcs.html#5162D0>CarCollection::FindCarWithFlagAfterGivenCar</a> is used to iterate cars. Only cars with the given flag should be considered, and it should return the first car if
+the <code>givenCar</code> argument is <code>NULL</code>, otherwise the car that comes after it or <code>NULL</code> if it was the last available car.
+<pre>
+// my game has 32, assuming all versions will have the same ones
+#define MAX_PRESET_CARS 32
+<a href=structs.html#struc_SponsorCar>struct SponsorCar</a> presetCarAsInventoryCar[MAX_PRESET_CARS];
+int numPresetCars;
+
+static
+<a href=structs.html#struc_InventoryCar>struct InventoryCar</a> *
+__stdcall
+FindPresetCarAfterGivenCar(<a href=enums.html#enu_INVENTORY_CAR_FLAGS>enum INVENTORY_CAR_FLAGS</a> flagsToCheck, <a href=structs.html#struc_InventoryCar>struct InventoryCar</a> *givenCar)
+{
+	<a href=structs.html#struc_SponsorCar>struct SponsorCar</a> *s;
+	<a href=structs.html#struc_CarPreset>struct CarPreset</a> *p;
+	int i;
+	char buf[32];
+
+	// initialize our SponsorCar instances with CarPreset data, this is only needed once
+	// so use the numPresetCars variables as a check to see if this was done already or not.
+	if (!numPresetCars) {
+		p = (void*) <a href=vars.html#8A31E4>carPresets</a>;
+		for (i = 0;
+			(p = (void*) p-&gt;<a href=structs.html#struc_CarPreset@0>link</a>.<a href=structs.html#struc_ObjectLink@0>next</a>) != (void*) <a href=vars.html#8A31E4>carPresets</a> &amp;&amp;
+			i &lt; MAX_PRESET_CARS;
+			i++)
+		{
+			sprintf(buf, "STOCK_%s", p-&gt;<a href=structs.html#struc_CarPreset@8>modelName</a>);
+			s = presetCarAsInventoryCar + numPresetCars++;
+			s-&gt;<a href=structs.html#struc_SponsorCar@0>__parent</a>.<a href=structs.html#struc_InventoryCar@0>vtable</a> = (void*) <a href=vars.html#79AD18>sponsorCar$vtable</a>;
+			s-&gt;<a href=structs.html#struc_SponsorCar@0>__parent</a>.<a href=structs.html#struc_InventoryCar@4>field_4</a> = 0;
+			s-&gt;<a href=structs.html#struc_SponsorCar@0>__parent</a>.<a href=structs.html#struc_InventoryCar@8>slotHash</a> = <a href=funcs.html#505450>SomeHashCI505450</a>(buf);
+			s-&gt;<a href=structs.html#struc_SponsorCar@0>__parent</a>.<a href=structs.html#struc_InventoryCar@C>floatField_C</a> = 0.0f;
+			s-&gt;<a href=structs.html#struc_SponsorCar@0>__parent</a>.<a href=structs.html#struc_InventoryCar@10>field_10</a> = 0;
+			s-&gt;<a href=structs.html#struc_SponsorCar@0>__parent</a>.<a href=structs.html#struc_InventoryCar@14>flags</a> = CUSTOM_IS_PRESET_CAR;
+			s-&gt;<a href=structs.html#struc_SponsorCar@18>carPresetHash</a> = <a href=funcs.html#505450>SomeHashCI505450</a>(p-&gt;<a href=structs.html#struc_CarPreset@28>name</a>);
+		}
+	}
+	if (!givenCar) {
+		return &amp;presetCarAsInventoryCar-&gt;<a href=structs.html#struc_SponsorCar@0>__parent</a>;
+	}
+	p = (void*) <a href=vars.html#8A31E4>carPresets</a>; // (CarPreset's link is at offset 0)
+	for (i = 0; i &lt; numPresetCars - 1; i++) {
+		if (presetCarAsInventoryCar + i == (void*) givenCar) {
+			return (void*) (presetCarAsInventoryCar + i + 1);
+		}
+	}
+	return NULL;
+}
+
+static
+__declspec(naked)
+<a href=structs.html#struc_InventoryCar>struct InventoryCar</a> *
+fun_car_customize_preset_CarCollection__FindCarWithFlagAfterGivenCar_hook(<a href=enums.html#enu_INVENTORY_CAR_FLAGS>enum INVENTORY_CAR_FLAGS</a> flagsToCheck, <a href=structs.html#struc_InventoryCar>struct InventoryCar</a> *givenCar)
+{
+	_asm {
+		test [esp+4], CUSTOM_IS_PRESET_CAR
+		jnz its_preset
+		// not preset, return back where we hooked from (but do the things we overwrote first)
+		push ebx
+		push esi
+		push edi
+		mov edi, [esp+0x14]
+		mov eax, 0x5162D7
+		jmp eax
+its_preset:
+		jmp FindPresetCarAfterGivenCar
+	}
+}
+
+mkjmp(<a href=funcs.html#5162D0>CarCollection::FindCarWithFlagAfterGivenCar</a>, fun_car_customize_preset_CarCollection__FindCarWithFlagAfterGivenCar_hook);
+</pre>
+<p>I'm making instances here of <a href=structs.html#struc_SponsorCar>struct SponsorCar</a> to return, because it seems like the best fit as sponsor cars
+are also created from preset cars.
+</div><p>Now preset cars can be selected but you'll see it will not have tuning applied and just give you a stock car instance.
+This is because <a href=structs.html#struc_SponsorCar>struct SponsorCar</a>.<a href=structs.html#struc_SponsorCar@0>__parent</a>.<a href=structs.html#struc_InventoryCar@8>slotHash</a> is being set to <code>STOCK_%s</code>. Sponsor cars would have this set to <code>SPONSOR_%s</code>,
+so <a href=funcs.html#503510>CarCollection::GetCarForSlot</a> will return the correct instance, but we need some more extra code to make this work for all preset cars.
+</div><div><h3 id="usepresetinsteadofstock">Showing the preset cars instead of stock cars <a href='#usepresetinsteadofstock'>#</a></h3>
+<p>In the previous code, instead of using the <code>STOCK_%s</code> hash,
+I'm gonna simply use the index of the preset car as 'hash':
+<pre>
+  static
+  <a href=structs.html#struc_InventoryCar>struct InventoryCar</a> *
+  __stdcall
+  FindPresetCarAfterGivenCar(<a href=enums.html#enu_INVENTORY_CAR_FLAGS>enum INVENTORY_CAR_FLAGS</a> flagsToCheck, <a href=structs.html#struc_InventoryCar>struct InventoryCar</a> *givenCar)
+  {
+  	<a href=structs.html#struc_SponsorCar>struct SponsorCar</a> *s;
+  	<a href=structs.html#struc_CarPreset>struct CarPreset</a> *p;
+  	int i;
+<span style="background:#c004">- 	char buf[32];</span>
+  
+  	// initialize our SponsorCar instances with CarPreset data, this is only needed once
+  	// so use the numPresetCars variables as a check to see if this was done already or not.
+  	if (!numPresetCars) {
+  		p = (void*) <a href=vars.html#8A31E4>carPresets</a>;
+  		for (i = 0;
+  			(p = (void*) p-&gt;<a href=structs.html#struc_CarPreset@0>link</a>.<a href=structs.html#struc_ObjectLink@0>next</a>) != (void*) <a href=vars.html#8A31E4>carPresets</a> &amp;&amp;
+  			i &lt; MAX_PRESET_CARS;
+  			i++)
+  		{
+<span style="background:#c004">- 			sprintf(buf, "STOCK_%s", p-&gt;<a href=structs.html#struc_CarPreset@8>modelName</a>);</span>
+  			s = presetCarAsInventoryCar + numPresetCars++;
+  			s-&gt;<a href=structs.html#struc_SponsorCar@0>__parent</a>.<a href=structs.html#struc_InventoryCar@0>vtable</a> = (void*) <a href=vars.html#79AD18>sponsorCar$vtable</a>;
+  			s-&gt;<a href=structs.html#struc_SponsorCar@0>__parent</a>.<a href=structs.html#struc_InventoryCar@4>field_4</a> = 0;
+<span style="background:#c004">-  			s-&gt;<a href=structs.html#struc_SponsorCar@0>__parent</a>.<a href=structs.html#struc_InventoryCar@8>slotHash</a> = <a href=funcs.html#505450>SomeHashCI505450</a>(buf);</span>
+<span style="background:#0804">+  			s-&gt;<a href=structs.html#struc_SponsorCar@0>__parent</a>.<a href=structs.html#struc_InventoryCar@8>slotHash</a> = i;</span>
+  			s-&gt;<a href=structs.html#struc_SponsorCar@0>__parent</a>.<a href=structs.html#struc_InventoryCar@C>floatField_C</a> = 0.0f;
+  			s-&gt;<a href=structs.html#struc_SponsorCar@0>__parent</a>.<a href=structs.html#struc_InventoryCar@10>field_10</a> = 0;
+  			s-&gt;<a href=structs.html#struc_SponsorCar@0>__parent</a>.<a href=structs.html#struc_InventoryCar@14>flags</a> = CUSTOM_IS_PRESET_CAR;
+  			s-&gt;<a href=structs.html#struc_SponsorCar@18>carPresetHash</a> = <a href=funcs.html#505450>SomeHashCI505450</a>(p-&gt;<a href=structs.html#struc_CarPreset@28>name</a>);
+  		}
+  	}
+  	if (!givenCar) {
+  		return &amp;presetCarAsInventoryCar-&gt;<a href=structs.html#struc_SponsorCar@0>__parent</a>;
+  	}
+  	p = (void*) <a href=vars.html#8A31E4>carPresets</a>; // (CarPreset's link is at offset 0)
+  	for (i = 0; i &lt; numPresetCars - 1; i++) {
+  		if (presetCarAsInventoryCar + i == (void*) givenCar) {
+  			return (void*) (presetCarAsInventoryCar + i + 1);
+  		}
+  	}
+  	return NULL;
+  }
+</pre>
+<p>This will make the game crash when browing preset cars because at some point <a href=funcs.html#503510>CarCollection::GetCarForSlot</a> will be called with that
+hash and it will return <code>NULL</code> which is not supposed to happen. So let's fix that.
+<pre>
+static
+__declspec(naked)
+<a href=structs.html#struc_SponsorCar>struct SponsorCar</a> *
+fun_car_customize_preset_CarCollection__GetCarForSlot_hook(unsigned int slotHash)
+{
+	_asm {
+		mov eax, [numPresetCars]
+		cmp [esp+4], eax
+		jb its_preset
+		push esi
+		push edi
+		mov edi, [esp+0xC]
+		mov eax, 0x503516
+		jmp eax
+its_preset:
+		mov eax, [esp+4]
+		imul eax, 0x1C // sizeof(<a href=structs.html#struc_SponsorCar>struct SponsorCar</a>)
+		add eax, offset presetCarAsInventoryCar
+		retn 4
+	}
+}
+
+mkjmp(<a href=funcs.html#503510>CarCollection::GetCarForSlot</a>, fun_car_customize_preset_CarCollection__GetCarForSlot_hook);
+</pre>
+<p>And we have correctly tuned cars, yay :D
+</div><div><h3 id="crashfix">Making the game not crash when choosing a preset car <a href='#crashfix'>#</a></h3>
+<p>Currently the game will crash when actually choosing a preset car to customize. Let's fix that.
+This code is basically almost exactly the same as what I did for customizing sponsor cars in
+<a href='BLOGx02-customizing-sponsor-cars.html#crashfix'>Making the game not crash</a> and updated in <a href='BLOGx02-customizing-sponsor-cars.html#makingsimpler'>Making things simpler</a>.
+<pre>
+static
+<a href=structs.html#struc_TunedCar>struct TunedCar</a>*
+__stdcall
+fun_car_customize_preset_CustomizeCar_set_car_instance_if_missing(<a href=structs.html#struc_CarCollection>struct CarCollection</a> *this, unsigned int slotNameHash)
+{
+	<a href=structs.html#struc_MenuCarInstance>struct MenuCarInstance</a> *menuCarInstance;
+	<a href=structs.html#struc_SponsorCar>struct SponsorCar</a> *sponsorCar;
+	<a href=structs.html#struc_TunedCar>struct TunedCar</a>* tunedCar;
+	char buf[32];
+	int i;
+
+	// if car instance is missing, just assume it's a preset car. Not checking if slotNameHash actually is
+	// our custom slotNameHash. Game will crash anyways if we can't create an instance here.
+	presetCar = presetCarAsInventoryCar + slotNameHash;
+
+	sprintf(buf, "STOCK_%s", <a href=funcs.html#61C460>FindCarPreset</a>(presetCar-&gt;<a href=structs.html#struc_SponsorCar@18>carPresetHash</a>)-&gt;<a href=structs.html#struc_CarPreset@8>modelName</a>);
+	tunedCar = <a href=funcs.html#52A710>CarCollection::CreateNewTunedCarFromFromDataAtSlot</a>(this, <a href=funcs.html#43DB50>SomeHashCS43DB50</a>(buf));
+	// (3rd param is MenuCarInstance, using an instance in the data section that
+	//  gets overridden later in the Customize process anyways)
+	// (4th param is unknown, but unused in SponsorCar's ApplyTuning
+	<a href=funcs.html#5039D0>SponsorCar::ApplyTuningToInstance</a>(sponsorCar, <a href=vars.html#83A9D0>profileData</a>-&gt;<a href=structs.html#struc_ProfileData@20358>currentPlayerIndex?</a>, &amp;<a href=vars.html#8389D0>customizingCarInstanceB</a>, 0);
+	// copy tuning back from MenuCarInstance to tuned car instance
+	<a href=funcs.html#503950>TunedCar18::CopyTuningFromMenuCarInstance</a>(&amp;tunedCar-&gt;<a href=structs.html#struc_TunedCar@18>field_18</a>, &amp;<a href=vars.html#8389D0>customizingCarInstanceB</a>);
+	return tunedCar;
+}
+
+static
+__declspec(naked)
+void
+fun_car_customize_preset_CustomizeCar_set_car_instance_if_missing_hook()
+{
+	_asm {
+		test esi, esi
+		jnz allgood
+		// oh yey, no car instance, we're probably trying to customize a sponsor car. LEHDOTHIS
+		// only need to retain esi here (value in ebx is not used from the hooked point)
+		push ebx // slotNameHash
+		push ecx // this
+		call fun_car_customize_preset_CustomizeCar_set_car_instance_if_missing
+		mov esi, eax
+		mov byte ptr [ebp+8+3], 1 // this happens when a new tuned car is created from stock car, so lets do that
+allgood:
+		mov cl, byte ptr [ebp+8+3] // overwrote this
+		push 0 // overwrote this
+		mov eax, 0x552DC0
+		jmp eax
+	}
+}
+
+mkjmp(0x552DBB, fun_car_customize_preset_CustomizeCar_set_car_instance_if_missing_hook);
+</pre>
+<p>Yay :D
+</div><div><h3 id="fixingcategorylabeltext">Fixing the category label text <a href='#fixingcategorylabeltext'>#</a></h3>
+<p>While everything works functionally now, there's still the issue that the category label shows
+"Stock cars" when the preset cars category is selected. That's because we added that category
+and the game only knows its predefined categories and the code happens to fall back to using
+"Stock cars" as text if the current category doesn't match any known values. Let's fix.
+<pre>
+#define hashof_carselect_category_label 0x3E81DE59
+
+static
+void
+__stdcall
+fun_car_customize_preset_PostUpdateUI(<a href=structs.html#struc_CarSelectFNGObject>struct CarSelectFNGObject</a> *this)
+{
+	struct UIElement *el;
+	char *str;
+
+	if (<a href=vars.html#7F444C>carSelectCategory</a> == CUSTOM_IS_PRESET_CAR) {
+		<a href=funcs.html#537B80>SetUILabelByHashFormattedString</a>("UI_QRCarSelect.fng", hashof_carselect_category_label, "Preset cars", NULL);
+	}
+}
+
+static
+__declspec(naked)
+void
+fun_car_customize_preset_CarSelectFNGObject__UpdateUI_hook()
+{
+	_asm {
+		pushad
+		push ecx
+		call fun_car_customize_preset_PostUpdateUI
+		popad
+		// we overwrote a jmp so just execute that to get back
+		mov eax, 0x497CD0
+		jmp eax
+	}
+}
+
+mkjmp(0x4B2855, fun_car_customize_preset_CarSelectFNGObject__UpdateUI_hook);
+</pre>
+</div><div><h3 id="showingpresetcarname">Showing the preset car name <a href='#showingpresetcarname'>#</a></h3>
+<p>And as cherry on top of the pie: let's show the name of the preset car while browsing.
+<p>For this I'll re-use the UI elements that exist to show what kind of race the currently selected
+ranked car is for. There are 6 ranked cars (for online play), and each car is only for a specific
+race mode (circuit, sprint, etc). When selecting a ranked car, this mode is shown in the UI. This
+UI is almost perfect to use for our usecase. Here are its UI Elements that will be used:
+<p class='imgholder'><img src="img/BLOGx03-OL_CarMode_Group.PNG" alt="UI Elements in 'OL_CarMode_Group' that we will use"></p>
+<p>Only one label is needed, so the 'Circuit' label will be hidden, and the 'Race Mode' label will
+be repositioned to the right (because its text is right aligned) and used to display the preset car name.
+<pre>
+#define hashof_carselect_category_label 0x3E81DE59
+#define hashof_OL_CarMode_Group 0x2043ABA0
+#define hashof_racemode 0x6578FB3F
+#define hashof_racemodevalue 0xA9205BD8
+
+static
+void
+__stdcall
+fun_car_customize_preset_PostUpdateUI(<a href=structs.html#struc_CarSelectFNGObject>struct CarSelectFNGObject</a> *this)
+{
+	<a href=structs.html#struc_UIElement>struct UIElement</a> *el;
+	char *str;
+
+	if (<a href=vars.html#7F444C>carSelectCategory</a> == CUSTOM_IS_PRESET_CAR) {
+		<a href=funcs.html#537B80>SetUILabelByHashFormattedString</a>("UI_QRCarSelect.fng", hashof_carselect_category_label, "Preset cars", NULL);
+		el = <a href=funcs.html#5379C0>FindUIElementByHash</a>("UI_QRCarSelect.fng", hashof_OL_CarMode_Group);
+		<a href=funcs.html#50CA50>ShowNullableUIElementAndChildren</a>(el);
+		// the function above removes the "hidden" flag from the UI elements, but this group can still be hidden
+		// because there's an "animation" active named "HIDE". Ensure the "SHOW" "animation" is active.
+		<a href=funcs.html#51CF70>SetUIElementAnimationByName</a>(el, "SHOW", 0);
+		<a href=funcs.html#4954E0>HideUIElementAndChildrenByHash</a>("UI_QRCarSelect.fng", hashof_racemodevalue);
+		str = <a href=funcs.html#61C460>FindCarPreset</a>((presetCarAsInventoryCar + this-&gt;<a href=structs.html#struc_CarSelectFNGObject@58>currentSelectedCar</a>-&gt;<a href=structs.html#struc_CareerCarLotFNGObject_50@920>slotHash</a>)-&gt;<a href=structs.html#struc_SponsorCar@18>carPresetHash</a>)-&gt;<a href=structs.html#struc_CarPreset@28>name</a>;
+		<a href=funcs.html#537B80>SetUILabelByHashFormattedString</a>("UI_QRCarSelect.fng", hashof_racemode, str, NULL);
+		<a href=funcs.html#5379C0>FindUIElementByHash</a>("UI_QRCarSelect.fng", hashof_racemode)-&gt;<a href=structs.html#struc_UIElement@2C>ptrField_2C</a>-&gt;<a href=structs.html#struc_UIElement_Field2C@1C>leftOffset</a> = 85.0f;
+	} else {
+		<a href=funcs.html#4954E0>HideUIElementAndChildrenByHash</a>("UI_QRCarSelect.fng", hashof_OL_CarMode_Group);
+	}
+}
+</pre>
+</div></div>
+</div></body></html>

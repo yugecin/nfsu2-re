@@ -1,0 +1,552 @@
+{Customizing preset cars} ||| blog date="2023 August 6"
+
+.pushmode section
+
+{Customizing preset cars} ||| h id=customizingpresetcars
+
+.pushmode plain
+<p class=center><video controls style=max-width:100%><source src=img/BLOGx03-CUSTOMIZING-PRESET-CARS.MP4 type=video/mp4></video>
+.popmode plain
+
+{} ||| index
+
+.popmode section
+.pushmode section
+
+{Preset cars?} ||| h id=whatarepresetcars
+
+The game data files include some cars with predefined tuning. Examples of these
+are Rachel's car you start career mode with, Caleb's car, sponsor cars... Each
+preset also has a name ({struct CarPreset+28}), here are all of them that are    ||| ref
+present in my game (I expect this to be the same in every game version):
+
+.pushmode ul
+- {DDAY_PLAYER_CAR}: Rachel's car that you start with in career mode ||| code
+- {DDAY_PLAYER_CAR_OLD_RX8}: I guess an earlier version of Rachel's car ||| code
+- {DDAY_PLAYER_CAR_OLD}: I guess an earlier version of Rachel's car. This one is a Lancer Evo 8 ||| code
+- {DEMO_AI_IMPREZAWRX_WHITE}: AI car preset from the demo release ||| code
+- {DEMO_AI_IMPREZAWRX_BLUE}: AI car preset from the demo release ||| code
+- {DEMO_AI_300GT_ORANGE}: AI car preset from the demo release ||| code
+- {DEMO_AI_300GT_BLUE}: AI car preset from the demo release ||| code
+- {DEMO_AI_350Z_SILVER}: AI car preset from the demo release ||| code
+- {DEMO_AI_350Z_BROWN}: AI car preset from the demo release ||| code
+- {TT_AI_PRESET_1}: is this used? ||| code
+- {G35_AI_PRESET_1}: is this used? ||| code
+- {LANCEREVO8_AI_PRESET_1}: is this used? ||| code
+- {350Z_AI_PRESET_1}: is this used? ||| code
+- {CALEB_GTO}: Caleb's car, the final boss ||| code
+- {NIKKI_MUSTANGGT}: Caleb's crew car. Is this used? ||| code
+- {NIGEL_3000GT}: Caleb's crew car. Is this used? ||| code
+- {TOM_G35}: Caleb's crew car. Is this used? ||| code
+- {AL_RX8}: Caleb's crew car. Is this used? ||| code
+- {MARCUS_CELICA}: Caleb's crew car. Is this used? ||| code
+- {SCOTT_TT}: Caleb's crew car. Is this used? ||| code
+- {DEMO_PRESET_1}: Car that you could drive in the demo release ||| code
+- {DEMO_PRESET_2}: Car that you could drive in the demo release  ||| code
+- {DEMO_PRESET_3}: Car that you could drive in the demo release ||| code
+- {DEMO_PRESET_4}: Car that you could drive in the demo release ||| code
+- {CHINGY}: sponsor car, cheat {gimmechingy} ||| code,code
+- {CAPONE}: sponsor car, cheat {wannacapone} ||| code,code
+- {D3}: sponsor car, cheat {wantmyd3} ||| code,code
+- {SHINESTREET}: sponsor car, cheat {shinestreetbright} ||| code,code
+- {DAVIDCHOE}: sponsor car, cheat {devidchoeart} ||| code,code
+- {JAPANTUNING}: sponsor car, cheat {tunejapantuning} ||| code,code
+- {SNOOP_DOGG}: sponsor car, cheat {yodogg} ||| code,code
+- {THE_DOORS}: sponsor car, cheat {opendoors} ||| code,code
+.popmode ul
+
+If you don't know, the sponsor cars can be unlocked by typing the cheat during boot,
+when the "press enter to continue" Rachel screen is shown. A sound effect will play
+after entering succesfully. Then the "SPONSOR CARS" category can be chosing in the
+quick race menu, where they will be available to use for a single race.
+
+.popmode section
+.pushmode section
+
+{The idea} ||| h id=theidea
+
+These preset cars are cool things one can never really access in the game (at least
+not the ones that are unused), so it would be cool to be able to add them to your
+car collection like I did with {BLOGx02-customizing-sponsor-cars.html#customizingsponsorcars}.  ||| href
+
+Using them in quick race immediately without having to add them to your car collection
+would also be cool, but is for a future time.
+
+.popmode section
+.pushmode section
+
+{Execution} ||| h id=execution
+
+See {nfsu2-re-hooks/fun-car-customize-preset.c} for all the code together.     ||| hookfileref
+
+.pushmode section
+
+{Adding the preset car category in the car browser} ||| h id=addingpresetcarcategory
+
+To do this, we'll have to add entries for the preset cars when selecting
+a car to customize. The idea is to add a separate category which will contain
+all preset cars. This can be done by hooking into function {4EED10},               ||| ref
+which is used to determine what category of cars to show when the prev/next
+arrow buttons are pressed.
+
+This car selection screen is used for a few different reasons: selecting quick
+race car, selecting car to customize, selecting car in online mode (not career
+car select, that one has a dedicated screen). So we're gonna add the custom
+category in the category rotation, but only if car selection is being done for
+choosing a car to customize:
+
+.controlchars [] .pushmode pre
+// make up a new unique value that doesn't exist in [enum INVENTORY_CAR_FLAGS] for our category                                                        ||| ref
+#define CUSTOM_IS_PRESET_CAR 0x20
+
+static
+int fun_car_customize_preset_CarSelectFNGObject__ChangeCategory([struct CarSelectFNGObject] *this, void *_, unsigned int message)                      ||| ref
+{
+#define MSG_PREV 0x5073EF13
+#define MSG_NEXT 0xD9FEEC59
+
+	if ([83A9D0]->[struct ProfileData+156A8] == [enum MENU_STATE/0x20]) {                                                                          ||| ref,ref,ref
+		if (message == MSG_PREV) {
+			switch ([7F444C]) {                                                                                                            ||| ref
+			case [enum INVENTORY_CAR_FLAGS/1] | [enum INVENTORY_CAR_FLAGS/2]:                                                              ||| ref,ref
+				[7F444C] = CUSTOM_IS_PRESET_CAR; break;                                                                                ||| ref
+			case CUSTOM_IS_PRESET_CAR:
+				if ([497EE0](this, [enum INVENTORY_CAR_FLAGS/2]))) {                                                                   ||| ref,ref
+					[7F444C] = [enum INVENTORY_CAR_FLAGS/2]; break;                                                                ||| ref,ref
+				}
+			case [enum INVENTORY_CAR_FLAGS/2]: [7F444C] = [enum INVENTORY_CAR_FLAGS/1]; break;                                             ||| ref,ref,ref
+			case [enum INVENTORY_CAR_FLAGS/1]: [7F444C] = [enum INVENTORY_CAR_FLAGS/1] | [enum INVENTORY_CAR_FLAGS/2]; break;              ||| ref,ref,ref,ref
+			}
+		} else if (message == MSG_NEXT) {
+			switch ([7F444C]) {                                                                                                            ||| ref
+			case [enum INVENTORY_CAR_FLAGS/1] | [enum INVENTORY_CAR_FLAGS/2]: [7F444C] = [enum INVENTORY_CAR_FLAGS/1]; break;              ||| ref,ref,ref,ref
+			case [enum INVENTORY_CAR_FLAGS/1]:                                                                                             ||| ref
+				if ([497EE0](this, [enum INVENTORY_CAR_FLAGS/2]))) {                                                                   ||| ref,ref
+					[7F444C] = [enum INVENTORY_CAR_FLAGS/2]; break;                                                                ||| ref,ref
+				}
+			case [enum INVENTORY_CAR_FLAGS/2]:                                                                                             ||| ref
+				[7F444C] = CUSTOM_IS_PRESET_CAR; break;                                                                                ||| ref
+			case CUSTOM_IS_PRESET_CAR: [7F444C] = [enum INVENTORY_CAR_FLAGS/1] | [enum INVENTORY_CAR_FLAGS/2]; break;                      ||| ref,ref,ref
+			}
+		}
+		[83A9D0]->[struct ProfileData+10]\[[83A9D0]->[struct ProfileData+20358]\].[struct Player+D4].[struct Player_D4+C] = [7F444C];          ||| ref,ref,ref,ref,ref,ref,ref
+		[4EEC90](this);                                                                                                                        ||| ref
+		[4B2310](this);                                                                                                                        ||| ref
+		return 1;
+	}
+	return 0;
+}
+
+static
+__declspec(naked)
+void fun_car_customize_preset_CarSelectFNGObject__ChangeCategory_hook(unsigned int message)
+{
+	_asm {
+		push ecx
+		call fun_car_customize_sponsor_CarSelectFNGObject__ChangeCategory
+		test eax, eax
+		jnz ok
+		// we were not in customize menu, call the normal function
+		// but first do the thing that we overwrote in order to jmp to this proc
+		pop ecx
+		mov eax, [7F444C]                                                                         ||| ref
+		mov edx, 0x4EED15 // edx can be used because it's overridden later in that proc anyways
+		jmp edx
+ok:
+		add esp, 4
+		retn 0x4
+	}
+}
+
+mkjmp(0x4EED10, fun_car_customize_preset_CarSelectFNGObject__ChangeCategory_hook);
+
+.controlchars {} .popmode pre
+
+This won't have much effect other than messing up the category changing rotation.
+Because we're using a car flag that doesn't exist, no cars will be matched so the category
+would have no cars. The {4EEC90} function takes care of such situations and makes the category        ||| ref
+fall back to "all cars" should this happen, because empty categories should not be possible to
+be selected (the game would crash if there's no car to show).
+
+.popmode section
+.pushmode section
+
+{Filling the preset car category with car entries} ||| h id=fillingpresetcarcategory
+
+Two things need to happen to do this:
+
+.pushmode ul
+- {534850} needs to return a non-zero number when invoked with our custom flag, or it will not be     ||| ref
+  possible to select the category
+- {5162D0} needs to return at least one car for our custom flag or the game will crash when           ||| ref
+  selecting the category (given we already took care of the previous point)
+.popmode ul
+
+.pushmode section
+
+{Returning the correct amount of preset cars} ||| h id=countingnumberofpresetcars
+
+{534850} counts the amount of available cars in the player's {struct CarCollection}. Since preset cars      ||| ref,ref
+are of course not part of this, we'll have to add some code here to make sure it works for preset cars.
+
+.controlchars ´` .pushmode pre
+static
+__declspec(naked)
+void fun_car_customize_preset_CarCollection__CountAvailableCars_hook(´enum INVENTORY_CAR_FLAGS` flagsToCheck, int typeToCheck)                 ||| ref
+{
+	_asm {
+		test [esp+4], CUSTOM_IS_PRESET_CAR
+		jnz its_preset
+		// not preset, return back where we hooked from (but do the things we overwrote first)
+		sub esp, 8
+		push ebx
+		mov ebx, [esp+0xC+8]
+		mov eax, 0x534858
+		jmp eax
+its_preset:
+		// not sure if we really need to count or just return nonzero to make things happy, but lets do a real count
+		or eax, 0xFFFFFFFF
+		mov ecx, offset ´8A31E4`                                                                                                       ||| ref
+next:
+		inc eax
+		mov ecx, [ecx] // ´struct CarPreset.0.0`                                                                                       ||| ref
+		cmp ecx, offset ´8A31E4`                                                                                                       ||| ref
+		jnz next
+		retn 8
+	}
+}
+
+mkjmp(´534850`, fun_car_customize_preset_CarCollection__CountAvailableCars_hook);                                                              ||| ref
+.controlchars {} .popmode pre
+
+.popmode section
+.pushmode section
+
+{Iterating preset cars} ||| h id=iteratingpresetcars
+
+{5162D0} is used to iterate cars. Only cars with the given flag should be considered, and it should return the first car if                   ||| ref
+the {givenCar} argument is {NULL}, otherwise the car that comes after it or {NULL} if it was the last available car.                          ||| code,code,code
+
+.controlchars ´` .pushmode pre
+// my game has 32, assuming all versions will have the same ones
+#define MAX_PRESET_CARS 32
+´struct SponsorCar` presetCarAsInventoryCar[MAX_PRESET_CARS];      ||| ref
+int numPresetCars;
+
+static
+´struct InventoryCar` *                                                                                             ||| ref
+__stdcall
+FindPresetCarAfterGivenCar(´enum INVENTORY_CAR_FLAGS` flagsToCheck, ´struct InventoryCar` *givenCar)                ||| ref,ref
+{
+	´struct SponsorCar` *s;                                                                                     ||| ref
+	´struct CarPreset` *p;                                                                                      ||| ref
+	int i;
+	char buf[32];
+
+	// initialize our SponsorCar instances with CarPreset data, this is only needed once
+	// so use the numPresetCars variables as a check to see if this was done already or not.
+	if (!numPresetCars) {
+		p = (void*) ´8A31E4`;                                                                               ||| ref
+		for (i = 0;
+			(p = (void*) p->´struct CarPreset+0.0`) != (void*) ´8A31E4` &&                              ||| ref,ref
+			i < MAX_PRESET_CARS;
+			i++)
+		{
+			sprintf(buf, "STOCK_%s", p->´struct CarPreset+8`);                                          ||| ref
+			s = presetCarAsInventoryCar + numPresetCars++;
+			s->´struct SponsorCar+0.0` = (void*) ´79AD18`;                                              ||| ref,ref
+			s->´struct SponsorCar+4` = 0;                                                               ||| ref
+			s->´struct SponsorCar+8` = ´505450`(buf);                                                   ||| ref,ref
+			s->´struct SponsorCar+C` = 0.0f;                                                            ||| ref
+			s->´struct SponsorCar+10` = 0;                                                              ||| ref
+			s->´struct SponsorCar+14` = CUSTOM_IS_PRESET_CAR;                                           ||| ref
+			s->´struct SponsorCar+18` = ´505450`(p->´struct CarPreset+28`);                             ||| ref,ref,ref
+		}
+	}
+	if (!givenCar) {
+		return &presetCarAsInventoryCar->´struct SponsorCar+0`;                                             ||| ref
+	}
+	p = (void*) ´8A31E4`; // (CarPreset's link is at offset 0)                                                  ||| ref
+	for (i = 0; i < numPresetCars - 1; i++) {
+		if (presetCarAsInventoryCar + i == (void*) givenCar) {
+			return (void*) (presetCarAsInventoryCar + i + 1);
+		}
+	}
+	return NULL;
+}
+
+static
+__declspec(naked)
+´struct InventoryCar` *                                                                                                                                ||| ref
+fun_car_customize_preset_CarCollection__FindCarWithFlagAfterGivenCar_hook(´enum INVENTORY_CAR_FLAGS` flagsToCheck, ´struct InventoryCar` *givenCar)    ||| ref,ref
+{
+	_asm {
+		test [esp+4], CUSTOM_IS_PRESET_CAR
+		jnz its_preset
+		// not preset, return back where we hooked from (but do the things we overwrote first)
+		push ebx
+		push esi
+		push edi
+		mov edi, [esp+0x14]
+		mov eax, 0x5162D7
+		jmp eax
+its_preset:
+		jmp FindPresetCarAfterGivenCar
+	}
+}
+
+mkjmp(´5162D0`, fun_car_customize_preset_CarCollection__FindCarWithFlagAfterGivenCar_hook);                                                   ||| ref
+.controlchars {} .popmode pre
+
+I'm making instances here of {struct SponsorCar} to return, because it seems like the best fit as sponsor cars                 ||| ref
+are also created from preset cars.
+
+.popmode section
+
+Now preset cars can be selected but you'll see it will not have tuning applied and just give you a stock car instance.
+This is because {struct SponsorCar.8} is being set to {STOCK_%s}. Sponsor cars would have this set to {SPONSOR_%s},            ||| ref,code,code
+so {503510} will return the correct instance, but we need some more extra code to make this work for all preset cars.          ||| ref
+
+.popmode section
+.pushmode section
+
+{Showing the preset cars instead of stock cars} ||| h id=usepresetinsteadofstock
+
+In the previous code, instead of using the {STOCK_%s} hash,                                                           ||| code
+I'm gonna simply use the index of the preset car as 'hash':
+
+.controlchars ´` .pushmode pre
+  static
+  ´struct InventoryCar` *                                                                                             ||| ref
+  __stdcall
+  FindPresetCarAfterGivenCar(´enum INVENTORY_CAR_FLAGS` flagsToCheck, ´struct InventoryCar` *givenCar)                ||| ref,ref
+  {
+  	´struct SponsorCar` *s;                                                                                     ||| ref
+  	´struct CarPreset` *p;                                                                                      ||| ref
+  	int i;
+´- 	char buf[32];`                                                                                              ||| span style=background:#c004
+  
+  	// initialize our SponsorCar instances with CarPreset data, this is only needed once
+  	// so use the numPresetCars variables as a check to see if this was done already or not.
+  	if (!numPresetCars) {
+  		p = (void*) ´8A31E4`;                                                                               ||| ref
+  		for (i = 0;
+  			(p = (void*) p->´struct CarPreset+0.0`) != (void*) ´8A31E4` &&                              ||| ref,ref
+  			i < MAX_PRESET_CARS;
+  			i++)
+  		{
+´- 			sprintf(buf, "STOCK_%s", p->´struct CarPreset+8`);`                                         ||| span style=background:#c004,ref
+  			s = presetCarAsInventoryCar + numPresetCars++;
+  			s->´struct SponsorCar+0.0` = (void*) ´79AD18`;                                              ||| ref,ref
+  			s->´struct SponsorCar+4` = 0;                                                               ||| ref
+´-  			s->´struct SponsorCar+8` = ´505450`(buf);`                                                  ||| span style=background:#c004,ref,ref
+´+  			s->´struct SponsorCar+8` = i;`                                                              ||| span style=background:#0804,ref
+  			s->´struct SponsorCar+C` = 0.0f;                                                            ||| ref
+  			s->´struct SponsorCar+10` = 0;                                                              ||| ref
+  			s->´struct SponsorCar+14` = CUSTOM_IS_PRESET_CAR;                                           ||| ref
+  			s->´struct SponsorCar+18` = ´505450`(p->´struct CarPreset+28`);                             ||| ref,ref,ref
+  		}
+  	}
+  	if (!givenCar) {
+  		return &presetCarAsInventoryCar->´struct SponsorCar+0`;                                             ||| ref
+  	}
+  	p = (void*) ´8A31E4`; // (CarPreset's link is at offset 0)                                                  ||| ref
+  	for (i = 0; i < numPresetCars - 1; i++) {
+  		if (presetCarAsInventoryCar + i == (void*) givenCar) {
+  			return (void*) (presetCarAsInventoryCar + i + 1);
+  		}
+  	}
+  	return NULL;
+  }
+.controlchars {} .popmode pre
+
+This will make the game crash when browing preset cars because at some point {503510} will be called with that     ||| ref
+hash and it will return {NULL} which is not supposed to happen. So let's fix that.                                 ||| code
+
+.controlchars ´` .pushmode pre
+static
+__declspec(naked)
+´struct SponsorCar` *                                                                                              ||| ref
+fun_car_customize_preset_CarCollection__GetCarForSlot_hook(unsigned int slotHash)
+{
+	_asm {
+		mov eax, [numPresetCars]
+		cmp [esp+4], eax
+		jb its_preset
+		push esi
+		push edi
+		mov edi, [esp+0xC]
+		mov eax, 0x503516
+		jmp eax
+its_preset:
+		mov eax, [esp+4]
+		imul eax, 0x1C // sizeof(´struct SponsorCar`)                                                      ||| ref
+		add eax, offset presetCarAsInventoryCar
+		retn 4
+	}
+}
+
+mkjmp(´503510`, fun_car_customize_preset_CarCollection__GetCarForSlot_hook);                                       ||| ref
+.controlchars {} .popmode pre
+
+And we have correctly tuned cars, yay :D
+
+.popmode section
+.pushmode section
+
+{Making the game not crash when choosing a preset car} ||| h id=crashfix
+
+Currently the game will crash when actually choosing a preset car to customize. Let's fix that.
+This code is basically almost exactly the same as what I did for customizing sponsor cars in
+{BLOGx02-customizing-sponsor-cars.html#crashfix} and updated in {BLOGx02-customizing-sponsor-cars.html#makingsimpler}. ||| href,href
+
+.controlchars [] .pushmode pre
+static
+[struct TunedCar]*                                                                                                      ||| ref
+__stdcall
+fun_car_customize_preset_CustomizeCar_set_car_instance_if_missing([struct CarCollection] *this, unsigned int slotNameHash) ||| ref
+{
+	[struct MenuCarInstance] *menuCarInstance;                                                                      ||| ref
+	[struct SponsorCar] *sponsorCar;                                                                                ||| ref
+	[struct TunedCar]* tunedCar;                                                                                    ||| ref
+	char buf[32];
+	int i;
+
+	// if car instance is missing, just assume it's a preset car. Not checking if slotNameHash actually is
+	// our custom slotNameHash. Game will crash anyways if we can't create an instance here.
+	presetCar = presetCarAsInventoryCar + slotNameHash;
+
+	sprintf(buf, "STOCK_%s", [61C460](presetCar->[struct SponsorCar+18])->[struct CarPreset+8]);  ||| ref,ref,ref
+	tunedCar = [52A710](this, [43DB50](buf));                                                                                 ||| ref,ref
+	// (3rd param is MenuCarInstance, using an instance in the data section that
+	//  gets overridden later in the Customize process anyways)
+	// (4th param is unknown, but unused in SponsorCar's ApplyTuning
+	[5039D0](sponsorCar, [83A9D0]->[struct ProfileData+20358], &[8389D0], 0);                                                 ||| ref,ref,ref,ref
+	// copy tuning back from MenuCarInstance to tuned car instance
+	[503950](&tunedCar->[struct TunedCar+18], &[8389D0]);                                                                     ||| ref,ref,ref
+	return tunedCar;
+}
+
+static
+__declspec(naked)
+void
+fun_car_customize_preset_CustomizeCar_set_car_instance_if_missing_hook()
+{
+	_asm {
+		test esi, esi
+		jnz allgood
+		// oh yey, no car instance, we're probably trying to customize a sponsor car. LEHDOTHIS
+		// only need to retain esi here (value in ebx is not used from the hooked point)
+		push ebx // slotNameHash
+		push ecx // this
+		call fun_car_customize_preset_CustomizeCar_set_car_instance_if_missing
+		mov esi, eax
+		mov byte ptr [ebp+8+3], 1 // this happens when a new tuned car is created from stock car, so lets do that
+allgood:
+		mov cl, byte ptr [ebp+8+3] // overwrote this
+		push 0 // overwrote this
+		mov eax, 0x552DC0
+		jmp eax
+	}
+}
+
+mkjmp(0x552DBB, fun_car_customize_preset_CustomizeCar_set_car_instance_if_missing_hook);
+.controlchars {} .popmode pre
+
+Yay :D
+
+.popmode section
+.pushmode section
+
+{Fixing the category label text}  ||| h id=fixingcategorylabeltext
+
+While everything works functionally now, there's still the issue that the category label shows
+"Stock cars" when the preset cars category is selected. That's because we added that category
+and the game only knows its predefined categories and the code happens to fall back to using
+"Stock cars" as text if the current category doesn't match any known values. Let's fix.
+
+.controlchars [] .pushmode pre
+#define hashof_carselect_category_label 0x3E81DE59
+
+static
+void
+__stdcall
+fun_car_customize_preset_PostUpdateUI([struct CarSelectFNGObject] *this)                                                               ||| ref
+{
+	struct UIElement *el;
+	char *str;
+
+	if ([7F444C] == CUSTOM_IS_PRESET_CAR) {                                                                                        ||| ref
+		[537B80]("UI_QRCarSelect.fng", hashof_carselect_category_label, "Preset cars", NULL);                                  ||| ref
+	}
+}
+
+static
+__declspec(naked)
+void
+fun_car_customize_preset_CarSelectFNGObject__UpdateUI_hook()
+{
+	_asm {
+		pushad
+		push ecx
+		call fun_car_customize_preset_PostUpdateUI
+		popad
+		// we overwrote a jmp so just execute that to get back
+		mov eax, 0x497CD0
+		jmp eax
+	}
+}
+
+mkjmp(0x4B2855, fun_car_customize_preset_CarSelectFNGObject__UpdateUI_hook);
+.controlchars {} .popmode pre
+
+.popmode section
+.pushmode section
+
+{Showing the preset car name}  ||| h id=showingpresetcarname
+
+And as cherry on top of the pie: let's show the name of the preset car while browsing.
+
+For this I'll re-use the UI elements that exist to show what kind of race the currently selected
+ranked car is for. There are 6 ranked cars (for online play), and each car is only for a specific
+race mode (circuit, sprint, etc). When selecting a ranked car, this mode is shown in the UI. This
+UI is almost perfect to use for our usecase. Here are its UI Elements that will be used:
+
+{UI Elements in 'OL_CarMode_Group' that we will use}                                               ||| img src=BLOGx03-OL_CarMode_Group.PNG
+
+Only one label is needed, so the 'Circuit' label will be hidden, and the 'Race Mode' label will
+be repositioned to the right (because its text is right aligned) and used to display the preset car name.
+
+.controlchars [] .pushmode pre
+#define hashof_carselect_category_label 0x3E81DE59
+#define hashof_OL_CarMode_Group 0x2043ABA0
+#define hashof_racemode 0x6578FB3F
+#define hashof_racemodevalue 0xA9205BD8
+
+static
+void
+__stdcall
+fun_car_customize_preset_PostUpdateUI([struct CarSelectFNGObject] *this)                                                               ||| ref
+{
+	[struct UIElement] *el;                                                                                                        ||| ref
+	char *str;
+
+	if ([7F444C] == CUSTOM_IS_PRESET_CAR) {                                                                                        ||| ref
+		[537B80]("UI_QRCarSelect.fng", hashof_carselect_category_label, "Preset cars", NULL);                                  ||| ref
+		el = [5379C0]("UI_QRCarSelect.fng", hashof_OL_CarMode_Group);                                                          ||| ref
+		[50CA50](el);                                                                                                          ||| ref
+		// the function above removes the "hidden" flag from the UI elements, but this group can still be hidden
+		// because there's an "animation" active named "HIDE". Ensure the "SHOW" "animation" is active.
+		[51CF70](el, "SHOW", 0);                                                                                               ||| ref
+		[4954E0]("UI_QRCarSelect.fng", hashof_racemodevalue);                                                                  ||| ref
+		str = [61C460]((presetCarAsInventoryCar + this->[struct CarSelectFNGObject+58]->[struct CareerCarLotFNGObject_50+920])->[struct SponsorCar+18])->[struct CarPreset+28];  ||| ref,ref,ref,ref,ref
+		[537B80]("UI_QRCarSelect.fng", hashof_racemode, str, NULL);                                                            ||| ref
+		[5379C0]("UI_QRCarSelect.fng", hashof_racemode)->[struct UIElement+2C]->[struct UIElement_Field2C+1C] = 85.0f;         ||| ref,ref,ref
+	} else {
+		[4954E0]("UI_QRCarSelect.fng", hashof_OL_CarMode_Group);                                                               ||| ref
+	}
+}
+.controlchars {} .popmode pre
+
+.popmode section
+.popmode section

@@ -23,3 +23,4 @@ struct PathsData *pathsData = (void*) 0x88F298;
 char **careerStringPool838428 = (char**) 0x838428;
 struct ProfileData *profileData = (void*) 0x83A9D0;
 enum INVENTORY_CAR_FLAGS *carSelectCategory = (void*) 0x7F444C;
+struct ObjectLink *carPresets = (void*) 0x8A31E4;
