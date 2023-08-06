@@ -284,7 +284,7 @@ pre.ida span.hi {
 <a href='cheatsheet.html'>cheatsheet</a></nav>
 </header>
 <div class='func'>
-<h2>Functions (1632)</h2>
+<h2>Functions (1639)</h2>
 <ul>
 <li><a href=#4012B0>
 ??SomeUpdatePosition</a>
@@ -578,6 +578,8 @@ EngageMessageDialogFNGObject::ctor</a>
 EngageMessageDialogFNGObject::MessageHandler</a>
 <li><a href=#497BF0>
 CarSelectFNGObject::InitializeProgressBars</a>
+<li><a href=#497CD0>
+CarSelectFNGObject::UpdateTopspeedAccelerationHandlingIndicators</a>
 <li><a href=#497DA0>
 GetUnlockTypeToCheckBasedOnMenuState</a>
 <li><a href=#497EE0>
@@ -1368,6 +1370,10 @@ IsAllowedCharacterInChatTextbox</a>
 TextboxData::CanAppendChar</a>
 <li><a href=#4FF430>
 UIProgressBar::ctor</a>
+<li><a href=#4FF480>
+UIProgressBar::4FF480</a>
+<li><a href=#4FF530>
+UIProgressBar::UpdateUI</a>
 <li><a href=#4FF550>
 UIProgressBar::SetValue</a>
 <li><a href=#4FF640>
@@ -2048,6 +2054,10 @@ CareerD24_54_30::CopyFrom</a>
 GetFNGInfoForCurrentlyShownDialogIfDialogIdMatches</a>
 <li><a href=#526C40>
 GetFNGforDialog</a>
+<li><a href=#526D90>
+UIProgressBar::526D90</a>
+<li><a href=#526F80>
+UIProgressBar::526F80</a>
 <li><a href=#527780>
 Career::FindValidRaceForMarker</a>
 <li><a href=#527800>
@@ -2342,6 +2352,10 @@ DismissDialog</a>
 FocusedTextbox::UpdateDisplayedText</a>
 <li><a href=#540C10>
 UIProgressBar::InitializeElements</a>
+<li><a href=#540D20>
+UIProgressBar::UpdateUIHorizontal</a>
+<li><a href=#540E90>
+UIProgressBar::UpdateUIVertical</a>
 <li><a href=#541090>
 CareerStage::OnShowcaseDone</a>
 <li><a href=#5410E0>
@@ -3964,6 +3978,8 @@ See <code><a class='ext' href='https://github.com/yugecin/nfsu2-re/blob/master/n
 <div><i>497B00</i> <h3><a href=structs.html#struc_EngageMessageDialogFNGObject>EngageMessageDialogFNGObject</a>::MessageHandler</h3></div>
 <a id=497BF0></a>
 <div><i>497BF0</i> void __thiscall <h3><a href=structs.html#struc_CarSelectFNGObject>CarSelectFNGObject</a>::InitializeProgressBars</h3>(<a href=structs.html#struc_CarSelectFNGObject>struct CarSelectFNGObject</a> *this);</div>
+<a id=497CD0></a>
+<div><i>497CD0</i> void __thiscall <h3><a href=structs.html#struc_CarSelectFNGObject>CarSelectFNGObject</a>::UpdateTopspeedAccelerationHandlingIndicators</h3>(<a href=structs.html#struc_CarSelectFNGObject>struct CarSelectFNGObject</a> *this);</div>
 <a id=497DA0></a>
 <div class=mm><p>to use for <a href=funcs.html#534850>CarCollection::CountAvailableCars</a> and/or <a href=funcs.html#534180>IsCarUnlocked</a></div>
 <div><i>497DA0</i> int __cdecl <h3>GetUnlockTypeToCheckBasedOnMenuState</h3>();</div>
@@ -4788,6 +4804,11 @@ If it's found in the primary controls link: return its index, if it's found in t
 <div><i>4FF310</i> int __thiscall <h3><a href=structs.html#struc_TextboxData>TextboxData</a>::CanAppendChar</h3>(<a href=structs.html#struc_TextboxData>struct TextboxData</a> *this, char character);</div>
 <a id=4FF430></a>
 <div><i>4FF430</i> void __thiscall <h3><a href=structs.html#struc_UIProgressBar>UIProgressBar</a>::ctor</h3>(<a href=structs.html#struc_UIProgressBar>struct UIProgressBar</a> *this);</div>
+<a id=4FF480></a>
+<div><i>4FF480</i> <h3><a href=structs.html#struc_UIProgressBar>UIProgressBar</a>::4FF480</h3></div>
+<a id=4FF530></a>
+<div class=mm><p>will delegate to <a href=structs.html#struc_UIProgressBar$vtable@1C>procUpdateUIVertical</a> or <a href=structs.html#struc_UIProgressBar$vtable@20>procUpdateUIHorizontal</a> based on <a href=structs.html#struc_UIProgressBar@4>isVertical</a></div>
+<div><i>4FF530</i> void __thiscall <h3><a href=structs.html#struc_UIProgressBar>UIProgressBar</a>::UpdateUI</h3>(<a href=structs.html#struc_UIProgressBar>struct UIProgressBar</a> *this);</div>
 <a id=4FF550></a>
 <div class=mm><p>value [0,1]</div>
 <div><i>4FF550</i> void __thiscall <h3><a href=structs.html#struc_UIProgressBar>UIProgressBar</a>::SetValue</h3>(<a href=structs.html#struc_UIProgressBar>struct UIProgressBar</a> *this, float value);</div>
@@ -5748,6 +5769,10 @@ but instead all fields are copied separately</div>
 <div class=mm><p>Returns the name of what FNG to display for the dialog that was passed.
 See <code><a class='ext' href='https://github.com/yugecin/nfsu2-re/blob/master/nfsu2-re-hooks/replace-526C40-GetFNGForDialog.c'>nfsu2-re-hooks/replace-526C40-GetFNGForDialog.c</a></code></div>
 <div><i>526C40</i> char *__cdecl <h3>GetFNGforDialog</h3>(<a href=structs.html#struc_DialogInfo>struct DialogInfo</a> *dialog);</div>
+<a id=526D90></a>
+<div><i>526D90</i> <h3><a href=structs.html#struc_UIProgressBar>UIProgressBar</a>::526D90</h3></div>
+<a id=526F80></a>
+<div><i>526F80</i> <h3><a href=structs.html#struc_UIProgressBar>UIProgressBar</a>::526F80</h3></div>
 <a id=527780></a>
 <div class=mm><p>"valid" because it checks if the race hash is also present in <a href=structs.html#struc_Career>struct Career</a>.<a href=structs.html#struc_Career@7148>field_7148</a>.<a href=structs.html#struc_Career7148@80>raceHash</a></div>
 <div><i>527780</i> <a href=structs.html#struc_CareerRace>struct CareerRace</a> *__thiscall <h3><a href=structs.html#struc_Career>Career</a>::FindValidRaceForMarker</h3>(<a href=structs.html#struc_Career>struct Career</a> *this, <a href=structs.html#struc_Marker>struct Marker</a> *marker);</div>
@@ -6132,6 +6157,10 @@ Delegates to <a href=funcs.html#537B30>SetUILabelFormattedString</a></div>
 <div><i>540AB0</i> void __thiscall <h3><a href=structs.html#struc_FocusedTextbox>FocusedTextbox</a>::UpdateDisplayedText</h3>(<a href=structs.html#struc_FocusedTextbox>struct FocusedTextbox</a> *this, char showCaret);</div>
 <a id=540C10></a>
 <div><i>540C10</i> void __thiscall <h3><a href=structs.html#struc_UIProgressBar>UIProgressBar</a>::InitializeElements</h3>(<a href=structs.html#struc_UIProgressBar>struct UIProgressBar</a> *this, <a href=structs.html#struc_UIProgressBarInitializeElementsConfig>struct UIProgressBarInitializeElementsConfig</a> *config, char toBePutInField4);</div>
+<a id=540D20></a>
+<div><i>540D20</i> void __thiscall <h3><a href=structs.html#struc_UIProgressBar>UIProgressBar</a>::UpdateUIHorizontal</h3>(<a href=structs.html#struc_UIProgressBar>struct UIProgressBar</a> *this);</div>
+<a id=540E90></a>
+<div><i>540E90</i> void __thiscall <h3><a href=structs.html#struc_UIProgressBar>UIProgressBar</a>::UpdateUIVertical</h3>(<a href=structs.html#struc_UIProgressBar>struct UIProgressBar</a> *this);</div>
 <a id=541090></a>
 <div class=mm><p>magazine/dvd showcase (picture) done</div>
 <div><i>541090</i> int __thiscall <h3><a href=structs.html#struc_CareerStage>CareerStage</a>::OnShowcaseDone</h3>(<a href=structs.html#struc_CareerStage>struct CareerStage</a> *this, void *);</div>

@@ -2993,7 +2993,7 @@ return amount of bytes actually read*/</span>
 <i id=struc_CareerCarLotFNGObject_50@10></i><i>/*10*/	</i><a href=#struc_ObjectLink>struct ObjectLink</a> link;
 <i>/*18*/	int field_18;</i>
 <i>/*1C*/	int field_1C;</i>
-<i>/*20*/	</i><a href=#struc_MenuCarInstance>struct MenuCarInstance</a> carInstance;
+<i id=struc_CareerCarLotFNGObject_50@20></i><i>/*20*/	</i><a href=#struc_MenuCarInstance>struct MenuCarInstance</a> carInstance;
 <span class='mm'>/**1 or 2*/</span>
 <i>/*910*/	</i>unsigned int playerId;
 <span class='mm'>/**just a guess*/</span>
@@ -3184,22 +3184,22 @@ return amount of bytes actually read*/</span>
 <a id=struc_UIProgressBar$vtable></a>
 <div>struct <h3>UIProgressBar$vtable</h3> { <i>/*9 members, size 24h*/</i>
 <i>/*0*/	int field_0;</i>
-<span class='mm'>/**4FF480*/</span>
+<span class='mm'>/**<a href=funcs.html#4FF480>UIProgressBar::4FF480</a>*/</span>
 <i>/*4*/	int field_4;</i>
-<span class='mm'>/**540C10*/</span>
+<span class='mm'>/**<a href=funcs.html#540C10>UIProgressBar::InitializeElements</a>*/</span>
 <i>/*8*/	</i>void (__thiscall *procInitializeElements)(<a href=structs.html#struc_UIProgressBar>struct UIProgressBar</a> *this, <a href=structs.html#struc_UIProgressBarInitializeElementsConfig>struct UIProgressBarInitializeElementsConfig</a> *config, char toBePutInField4);
-<span class='mm'>/**512240*/</span>
+<span class='mm'>/**<a href=funcs.html#512240>UIProgressBar::ShowOrHideElements</a>*/</span>
 <i>/*C*/	</i>void (__thiscall *procHideOrShowElements)(<a href=structs.html#struc_UIProgressBar>struct UIProgressBar</a> *this, char doShow);
-<span class='mm'>/**526D90*/</span>
+<span class='mm'>/**<a href=funcs.html#526D90>UIProgressBar::526D90</a>*/</span>
 <i>/*10*/	int field_10;</i>
-<span class='mm'>/**526F80*/</span>
+<span class='mm'>/**<a href=funcs.html#526F80>UIProgressBar::526F80</a>*/</span>
 <i>/*14*/	int field_14;</i>
-<span class='mm'>/**4FF530*/</span>
-<i>/*18*/	</i>int procUpdateUIToReflectCurrentValue <u></u>;
-<span class='mm'>/**540E90*/</span>
-<i>/*1C*/	int field_1C;</i>
-<span class='mm'>/**540D20*/</span>
-<i>/*20*/	int field_20;</i>
+<span class='mm'>/**<a href=funcs.html#4FF530>UIProgressBar::UpdateUI</a>*/</span>
+<i>/*18*/	</i>int procUpdateUI <u></u>;
+<i id=struc_UIProgressBar$vtable@1C></i><span class='mm'>/**<a href=funcs.html#540E90>UIProgressBar::UpdateUIVertical</a>*/</span>
+<i>/*1C*/	</i>int procUpdateUIVertical <u></u>;
+<i id=struc_UIProgressBar$vtable@20></i><span class='mm'>/**<a href=funcs.html#540D20>UIProgressBar::UpdateUIHorizontal</a>*/</span>
+<i>/*20*/	</i>int procUpdateUIHorizontal <u></u>;
 };
 <i>EXPECT_SIZE(struct UIProgressBar$vtable, 0x24);</i></div>
 <a id=struc_UIProgressBarInitializeElementsConfig></a>
@@ -3222,14 +3222,15 @@ return amount of bytes actually read*/</span>
 <div>struct <h3>UIProgressBar</h3> { <i>/*17 members, size 44h*/</i> <em></em>
 <span class='mm'>/**78F544*/</span>
 <i>/*0*/	</i><a href=structs.html#struc_UIProgressBar$vtable>struct UIProgressBar$vtable</a> *vtable;
-<i>/*4*/	char field_4;</i>
+<i id=struc_UIProgressBar@4></i><span class='mm'>/**can be handled as an int because of padding (probably)*/</span>
+<i>/*4*/	</i>char isVertical;
 <i>/*5*/	char _pad5[0x3];</i>
 <i>/*8*/	</i>int parentFngName <u></u>;
 <span class='mm'>/**like top_speed_backing*/</span>
 <i>/*C*/	</i><a href=structs.html#struc_UIElement>struct UIElement</a> *backingUIElement;
 <span class='mm'>/**like top_speed_handle*/</span>
 <i>/*10*/	</i><a href=structs.html#struc_UIElement>struct UIElement</a> *handleUIElement;
-<span class='mm'>/**like top_speed_value*/</span>
+<span class='mm'>/**like top_speed_value, an element that will show a number (text)*/</span>
 <i>/*14*/	</i><a href=structs.html#struc_UIElement>struct UIElement</a> *valueUIElement;
 <span class='mm'>/**like top_speed_curr*/</span>
 <i>/*18*/	</i><a href=structs.html#struc_UIElement>struct UIElement</a> *currUIElement;
@@ -3237,26 +3238,38 @@ return amount of bytes actually read*/</span>
 <i>/*1C*/	</i><a href=structs.html#struc_UIElement>struct UIElement</a> *endCapUIElement;
 <span class='mm'>/**like top_speed_end*/</span>
 <i>/*20*/	</i><a href=structs.html#struc_UIElement>struct UIElement</a> *endUIElement;
-<i>/*24*/	int field_24;</i>
-<i>/*28*/	int field_28;</i>
+<i>/*24*/	float floatField_24;</i>
+<i>/*28*/	float floatField_28;</i>
 <i>/*2C*/	int field_2C;</i>
-<i>/*30*/	int field_30;</i>
-<i>/*34*/	int floatField_34;</i>
+<i>/*30*/	float floatField_30;</i>
+<i>/*34*/	float floatField_34;</i>
 <i>/*38*/	int field_38;</i>
-<i>/*3C*/	int floatField_3C;</i>
+<i>/*3C*/	float floatField_3C;</i>
 <span class='mm'>/**initialized to 46.0*/</span>
-<i>/*40*/	int floatField_40;</i>
+<i>/*40*/	float floatField_40;</i>
 };
 <i>EXPECT_SIZE(struct UIProgressBar, 0x44);</i></div>
 <ul>
 <li><!--4FF430-->
 <pre><i>4FF430</i> <a href=funcs.html#4FF430 title='void __thiscall UIProgressBar__ctor(struct UIProgressBar *this);'>UIProgressBar::ctor</a></pre>
+<li><!--4FF480-->
+<pre><i>4FF480</i> <a href=funcs.html#4FF480 title='UIProgressBar::4FF480'>UIProgressBar::4FF480</a></pre>
+<li><!--4FF530-->
+<pre><i>4FF530</i> <a href=funcs.html#4FF530 title='void __thiscall UIProgressBar__UpdateUI(struct UIProgressBar *this);'>UIProgressBar::UpdateUI</a></pre>
 <li><!--4FF550-->
 <pre><i>4FF550</i> <a href=funcs.html#4FF550 title='void __thiscall UIProgressBar__SetValue(struct UIProgressBar *this, float value);'>UIProgressBar::SetValue</a></pre>
 <li><!--512240-->
 <pre><i>512240</i> <a href=funcs.html#512240 title='void __thiscall UIProgressBar__ShowOrHideElements(struct UIProgressBar *this, char doShow);'>UIProgressBar::ShowOrHideElements</a></pre>
+<li><!--526D90-->
+<pre><i>526D90</i> <a href=funcs.html#526D90 title='UIProgressBar::526D90'>UIProgressBar::526D90</a></pre>
+<li><!--526F80-->
+<pre><i>526F80</i> <a href=funcs.html#526F80 title='UIProgressBar::526F80'>UIProgressBar::526F80</a></pre>
 <li><!--540C10-->
 <pre><i>540C10</i> <a href=funcs.html#540C10 title='void __thiscall UIProgressBar__InitializeElements(struct UIProgressBar *this, struct UIProgressBarInitializeElementsConfig *config, char toBePutInField4);'>UIProgressBar::InitializeElements</a></pre>
+<li><!--540D20-->
+<pre><i>540D20</i> <a href=funcs.html#540D20 title='void __thiscall UIProgressBar__UpdateUIHorizontal(struct UIProgressBar *this);'>UIProgressBar::UpdateUIHorizontal</a></pre>
+<li><!--540E90-->
+<pre><i>540E90</i> <a href=funcs.html#540E90 title='void __thiscall UIProgressBar__UpdateUIVertical(struct UIProgressBar *this);'>UIProgressBar::UpdateUIVertical</a></pre>
 </ul>
 <a id=struc_CareerCarSelectFNGObject></a>
 <div>struct <h3>CareerCarSelectFNGObject</h3> { <i>/*2 members, size 1B0h*/</i> <em></em>
@@ -5017,7 +5030,7 @@ return amount of bytes actually read*/</span>
 <i>/*4F*/	char _pad4F[0x1];</i>
 <span class='mm'>/**entries are <a href=structs.html#struc_CareerCarLotFNGObject_50>struct CareerCarLotFNGObject_50</a> (link offset 10h)*/</span>
 <i>/*50*/	</i><a href=#struc_ObjectLink>struct ObjectLink</a> selectableCars;
-<i>/*58*/	</i><a href=structs.html#struc_CareerCarLotFNGObject_50>struct CareerCarLotFNGObject_50</a> *currentSelectedCar;
+<i id=struc_CarSelectFNGObject@58></i><i>/*58*/	</i><a href=structs.html#struc_CareerCarLotFNGObject_50>struct CareerCarLotFNGObject_50</a> *currentSelectedCar;
 <span class='mm'>/**0/1*/</span>
 <i>/*5C*/	</i>int browsingPlayerIndex;
 <i>/*60*/	</i>int numSelectableCars;
@@ -5050,6 +5063,8 @@ return amount of bytes actually read*/</span>
 <ul>
 <li><!--497BF0-->
 <pre><i>497BF0</i> <a href=funcs.html#497BF0 title='void __thiscall CarSelectFNGObject__InitializeProgressBars(struct CarSelectFNGObject *this);'>CarSelectFNGObject::InitializeProgressBars</a></pre>
+<li><!--497CD0-->
+<pre><i>497CD0</i> <a href=funcs.html#497CD0 title='void __thiscall CarSelectFNGObject__UpdateTopspeedAccelerationHandlingIndicators(struct CarSelectFNGObject *this);'>CarSelectFNGObject::UpdateTopspeedAccelerationHandlingIndicators</a></pre>
 <li><!--497EE0-->
 <pre><i>497EE0</i> <a href=funcs.html#497EE0 title='int __thiscall CarSelectFNGObject__CountAvailableCars(struct CarSelectFNGObject *this, enum INVENTORY_CAR_FLAGS flagsToCheck);'>CarSelectFNGObject::CountAvailableCars</a></pre>
 <li><!--497F20-->
@@ -5719,7 +5734,7 @@ return amount of bytes actually read*/</span>
 <div class=mm><p>for example in <a href=structs.html#struc_BootflowEntry>struct BootflowEntry</a> this is at offset 4, so each element links to another <a href=structs.html#struc_BootflowEntry>struct BootflowEntry</a> but you'd need to subtract 4 to get to the base struct from the link pointer
 <p>often (if not always), the ObjectLink instance found in the struct that owns it, is a dummy entry that just serves as an entrypoint and the actual first entry is at this-&gt;link-&gt;next</div>
 <div>struct <h3>ObjectLink</h3> { <i>/*2 members, size 8h*/</i> <em></em>
-<i>/*0*/	</i><a href=structs.html#struc_ObjectLink>struct ObjectLink</a> *next;
+<i id=struc_ObjectLink@0></i><i>/*0*/	</i><a href=structs.html#struc_ObjectLink>struct ObjectLink</a> *next;
 <i>/*4*/	</i><a href=structs.html#struc_ObjectLink>struct ObjectLink</a> *prev;
 };
 <i>EXPECT_SIZE(struct ObjectLink, 0x8);</i></div>
@@ -6270,7 +6285,7 @@ size may be bigger, unknown</div>
 <i>/*10*/	int field_10;</i>
 <i>/*14*/	int field_14;</i>
 <i>/*18*/	int field_18;</i>
-<span class='mm'>/**maybe translate?*/</span>
+<i id=struc_UIElement_Field2C@1C></i><span class='mm'>/**maybe translate?*/</span>
 <i>/*1C*/	</i>float leftOffset;
 <span class='mm'>/**maybe translate?*/</span>
 <i>/*20*/	</i>float topOffset;
@@ -6320,7 +6335,7 @@ size may be bigger, unknown</div>
 <i id=struc_UIElement@24></i><span class='mm'>/**see 497414 (textureHash) and 566250 (movieName)*/</span>
 <i>/*24*/	</i>unsigned int textureHashOrMovieName;
 <i>/*28*/	int field_28;</i>
-<span class='mm'>/**some positioning (and maybe size) thing?*/</span>
+<i id=struc_UIElement@2C></i><span class='mm'>/**some positioning (and maybe size) thing?*/</span>
 <i>/*2C*/	</i>int ptrField_2C <u></u>;
 <i>/*30*/	int field_30;</i>
 <i>/*34*/	int field_34;</i>
@@ -7212,8 +7227,8 @@ unknown length, but max 16?*/</span>
 </ul>
 <a id=struc_InventoryCar></a>
 <div>struct <h3>InventoryCar</h3> { <i>/*6 members, size 18h*/</i> <em></em>
-<i>/*0*/	</i><a href=structs.html#struc_InventoryCar$vtable>struct InventoryCar$vtable</a> *vtable;
-<i>/*4*/	int field_4;</i>
+<i id=struc_InventoryCar@0></i><i>/*0*/	</i><a href=structs.html#struc_InventoryCar$vtable>struct InventoryCar$vtable</a> *vtable;
+<i id=struc_InventoryCar@4></i><i>/*4*/	int field_4;</i>
 <i id=struc_InventoryCar@8></i><span class='mm'>/**STOCK_PEUGEOT when stock,
 0 when unused tuned, TUNED_CAR_%d when used tuned,
 CAREER_SLOT_%d when career,
@@ -7221,10 +7236,10 @@ ONLINE_CAREER_CIRCUIT when online/ranked (DRAG, DRIFT, SPRINT, STREET_CROSS, URL
 SPONSOR_SNOOP_DOGG when sponsor
 sometimes this is also just hash of the car name? I wanna cry*/</span>
 <i>/*8*/	</i>int slotHash <u></u>;
-<i>/*C*/	int floatField_C;</i>
-<span class='mm'>/**sponsorcar: 1 after hash is assigned, career: inited to 1 | slotHasCar or something?, tunedcar: 1 after car is assigned?*/</span>
+<i id=struc_InventoryCar@C></i><i>/*C*/	int floatField_C;</i>
+<i id=struc_InventoryCar@10></i><span class='mm'>/**sponsorcar: 1 after hash is assigned, career: inited to 1 | slotHasCar or something?, tunedcar: 1 after car is assigned?*/</span>
 <i>/*10*/	int field_10;</i>
-<i>/*14*/	</i><a href=enums.html#enu_INVENTORY_CAR_FLAGS>enum INVENTORY_CAR_FLAGS</a> flags;
+<i id=struc_InventoryCar@14></i><i>/*14*/	</i><a href=enums.html#enu_INVENTORY_CAR_FLAGS>enum INVENTORY_CAR_FLAGS</a> flags;
 };
 <i>EXPECT_SIZE(struct InventoryCar, 0x18);</i></div>
 <ul>
@@ -7233,7 +7248,7 @@ sometimes this is also just hash of the car name? I wanna cry*/</span>
 </ul>
 <a id=struc_CarPreset></a>
 <div>struct <h3>CarPreset</h3> { <i>/*6 members, size 338h*/</i>
-<span class='mm'>/**sentinel node is <a href=vars.html#8A31E4>carPresets</a>*/</span>
+<i id=struc_CarPreset@0></i><span class='mm'>/**sentinel node is <a href=vars.html#8A31E4>carPresets</a>*/</span>
 <i>/*0*/	</i><a href=#struc_ObjectLink>struct ObjectLink</a> link;
 <i id=struc_CarPreset@8></i><span class='mm'>/**like <a href=structs.html#struc_Car>struct Car</a>.<a href=structs.html#struc_Car@0>name0</a>*/</span>
 <i>/*8*/	</i>char modelName[32];

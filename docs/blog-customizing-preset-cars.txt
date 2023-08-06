@@ -539,7 +539,7 @@ fun_car_customize_preset_PostUpdateUI([struct CarSelectFNGObject] *this)        
 		// because there's an "animation" active named "HIDE". Ensure the "SHOW" "animation" is active.
 		[51CF70](el, "SHOW", 0);                                                                                               ||| ref
 		[4954E0]("UI_QRCarSelect.fng", hashof_racemodevalue);                                                                  ||| ref
-		str = [61C460]((presetCarAsInventoryCar + this->[struct CarSelectFNGObject+58]->[struct CareerCarLotFNGObject_50+920])->[struct SponsorCar+18])->[struct CarPreset+28];  ||| ref,ref,ref,ref,ref
+		str = [61C460]((presetCarAsInventoryCar + this->[struct CarSelectFNGObject+58.20])->[struct SponsorCar+18])->[struct CarPreset+28];  ||| ref,ref,ref,ref
 		[537B80]("UI_QRCarSelect.fng", hashof_racemode, str, NULL);                                                            ||| ref
 		[5379C0]("UI_QRCarSelect.fng", hashof_racemode)->[struct UIElement+2C]->[struct UIElement_Field2C+1C] = 85.0f;         ||| ref,ref,ref
 	} else {
