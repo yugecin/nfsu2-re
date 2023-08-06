@@ -1922,9 +1922,9 @@ void docgen_mmparse(struct docgen *dg, struct mmparse **out_mm_index, struct mmp
 		sprintf(tmpbuf, "%s.txt", *blogname);
 		*mm_blogs = docgen_new_mmparse(dg, &mmpd, tmpbuf, blogfile, NULL, 0);
 		ud = (*mm_blogs)->config.userdata;
-		ud->mmpextras.config.section.no_breadcrumbs = 1;
-		ud->mmpextras.config.section.no_continuation_breadcrumbs = 1;
-		ud->mmpextras.config.section.no_end_index_links = 1;
+		ud->mmpextras.config.section.no_breadcrumbs = 0;
+		ud->mmpextras.config.section.no_continuation_breadcrumbs = 0;
+		ud->mmpextras.config.section.no_end_index_links = 0;
 		ud->mmpextras.config.paragraphed.print_closing_tags = 0;
 		ud->mmpextras.config.paragraphed.experimental_remove_last_lf = 1;
 		ud->blogpost.htmlfile = blogfile;

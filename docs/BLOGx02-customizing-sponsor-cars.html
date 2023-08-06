@@ -304,7 +304,9 @@ pre.ida span.hi {
 </ul>
 </li>
 </ul>
-</div><div><h2 id="whataresponsorcars">Sponsor cars? <a href='#whataresponsorcars'>#</a></h2>
+<p style='text-align:right'><small><a href='#index'>Index</a></small></p>
+</div>
+<div><h2 id="whataresponsorcars">Sponsor cars? <a href='#whataresponsorcars'>#</a></h2>
 <p>There are a few cheats that, when triggered, will unlock a sponsor car that you
 can select when choosing a car for quick races. These are cars with a preset
 tuning (though it seems like none of them has some performance tuning done).
@@ -320,7 +322,9 @@ just describe the cheat as "sponsor car" and some mention that it is in "quick
 race", but none mention this category filter thing you have to operate to
 actually get the cars.
 <p class='imgholder'><img src="img/BLOGx02-YODOGG.JPG" alt="Snoop Dogg's sponsor car shown in quick race car selection"><br>Snoop Dogg's sponsor car</p>
-</div><div><h2 id="theidea">The idea <a href='#theidea'>#</a></h2>
+<p style='text-align:right'><small><a href='#index'>Index</a></small></p>
+</div>
+<div><h2 id="theidea">The idea <a href='#theidea'>#</a></h2>
 <p>Since one can only access these cars during quick race, it's not possible to
 check their configuration. Body parts can be guessed, but normally it's not
 possible to see things like the trunk area, with trunk layout and components
@@ -330,9 +334,12 @@ the player to use.
 "customization" menu, so one can create a tuned car based off a sponsor car.
 Then it's possible to see and browse - and even change - the whole
 configuration.
-</div><div><h2 id="execution">Execution <a href='#execution'>#</a></h2>
+<p style='text-align:right'><small><a href='#index'>Index</a></small></p>
+</div>
+<div><h2 id="execution">Execution <a href='#execution'>#</a></h2>
 <p>See <code><a class='ext' href='https://github.com/yugecin/nfsu2-re/blob/master/nfsu2-re-hooks/fun-car-customize-sponsor.c'>nfsu2-re-hooks/fun-car-customize-sponsor.c</a></code> for all the code together.
-<div><h3 id="skippingcheats">Skipping the cheats <a href='#skippingcheats'>#</a></h3>
+<div><p id='skippingcheats'><small><a href='#execution'>Execution</a></small></p>
+<h3>Skipping the cheats <a href='#skippingcheats'>#</a></h3>
 <p>It's annoying to have to type the cheats every time you want to select sponsor
 cars. Especially since I changed the boot process so that the "press enter"
 screen is skipped (see <a href='docs.html#speedyboot'>Speedy boot</a>).
@@ -349,7 +356,10 @@ fun_car_customize_sponsor_replace_CheatScreenData__IsSponsorCarCheatTriggered(un
 
 mkjmp(0x579D70, fun_car_customize_sponsor_replace_CheatScreenData__IsSponsorCarCheatTriggered);
 </pre>
-</div><div><h3 id="selectingsponsorcars">Allow sponsor cars in customization <a href='#selectingsponsorcars'>#</a></h3>
+<p style='text-align:right'><small><a href='#index'>Index</a></small></p>
+</div>
+<div><p id='selectingsponsorcars'><small><a href='#execution'>Execution</a></small></p>
+<h3>Allow sponsor cars in customization <a href='#selectingsponsorcars'>#</a></h3>
 <p>Then it must be possible to choose sponsor cars from the car select
 menu when customizing. This can be done by hooking into function <a href=funcs.html#4EED10>CarSelectFNGObject::ChangeCategory</a>,
 which is used to determine what category of cars to show when the prev/next
@@ -428,7 +438,10 @@ mkjmp(0x4EED10, fun_car_customize_sponsor_CarSelectFNGObject__ChangeCategory_hoo
 
 </pre>
 <p>This will crash the game when continuing when a sponsor car is selected :D
-</div><div><h3 id="crashfix">Making the game not crash <a href='#crashfix'>#</a></h3>
+<p style='text-align:right'><small><a href='#index'>Index</a></small></p>
+</div>
+<div><p id='crashfix'><small><a href='#execution'>Execution</a></small></p>
+<h3>Making the game not crash <a href='#crashfix'>#</a></h3>
 <p><em>Note: following code can be seen in revision <a class="ext" href="https://github.com/yugecin/nfsu2-re/tree/c6786b6a7a59e3b31f20a41bcff108d4f2ec9982">c6786b6a7a59e3b31f20a41bcff108d4f2ec9982</a> but
 was changed afterwards, this is explained in the last section.</em>
 <p>The game crashes now when continuing when a sponsor car is selected, inside <a href=funcs.html#552CC0>CustomizeCar</a>.
@@ -490,7 +503,10 @@ allgood:
 mkjmp(0x552DBB, fun_car_customize_sponsor_set_car_instance_if_missing);
 </pre>
 <p>Crash fixed, but now we just get a stock car when we choose to customize a sponsor car.
-</div><div><h3 id="applysponsorcartuning">Applying sponsor car tuning <a href='#applysponsorcartuning'>#</a></h3>
+<p style='text-align:right'><small><a href='#index'>Index</a></small></p>
+</div>
+<div><p id='applysponsorcartuning'><small><a href='#execution'>Execution</a></small></p>
+<h3>Applying sponsor car tuning <a href='#applysponsorcartuning'>#</a></h3>
 <p><em>Note: following code can be seen in revision <a class="ext" href="https://github.com/yugecin/nfsu2-re/tree/c6786b6a7a59e3b31f20a41bcff108d4f2ec9982">c6786b6a7a59e3b31f20a41bcff108d4f2ec9982</a> but
 was changed afterwards, this is explained in the last section.</em>
 <p>In <a href=funcs.html#52A710>CarCollection::CreateNewTunedCarFromFromDataAtSlot</a>, right after the function we hooked in the previous section to fix the crash,
@@ -551,7 +567,10 @@ the stock car. Interesting behavior. Once changing and saving a component though
 it will always correctly show the tuning and the car will be saved to the tuned
 cars collection.
 <p class=center><video controls style=max-width:100%><source src=img/BLOGx02-WEIRD.MP4 type=video/mp4></video>
-</div><div><h3 id="finalfix">Fixing ghost stock car bug <a href='#finalfix'>#</a></h3>
+<p style='text-align:right'><small><a href='#index'>Index</a></small></p>
+</div>
+<div><p id='finalfix'><small><a href='#execution'>Execution</a></small></p>
+<h3>Fixing ghost stock car bug <a href='#finalfix'>#</a></h3>
 <p><em>Note: following code can be seen in revision <a class="ext" href="https://github.com/yugecin/nfsu2-re/tree/c6786b6a7a59e3b31f20a41bcff108d4f2ec9982">c6786b6a7a59e3b31f20a41bcff108d4f2ec9982</a> but
 was changed afterwards, this is explained in the last section.</em>
 <p>Thanks to more findings, I managed to fix the 'bug' from previous section.
@@ -566,8 +585,11 @@ after applying the stock car tuning:
 	call eax
 </pre>
 <p>sweet!
-</div></div><div><h2 id="updates">Updates <a href='#updates'>#</a></h2>
-<div><h3 id="makingsimpler">Making things simpler <a href='#makingsimpler'>#</a></h3>
+<p style='text-align:right'><small><a href='#index'>Index</a></small></p>
+</div>
+</div><div><h2 id="updates">Updates <a href='#updates'>#</a></h2>
+<div><p id='makingsimpler'><small><a href='#updates'>Updates</a></small></p>
+<h3>Making things simpler <a href='#makingsimpler'>#</a></h3>
 <p>Thanks to more findings when I managed to fix the ghost stock car bug, I also
 found <a href=funcs.html#503950>TunedCar18::CopyTuningFromMenuCarInstance</a>, so then the idea came up to use that to apply sponsor car
 tuning immediately when creating the tuned car instance. And that worked!
@@ -605,5 +627,7 @@ fun_car_customize_sponsor_CreateTunedCarFromSponsorCar(<a href=structs.html#stru
 }
 </pre>
 <p>See <code><a class='ext' href='https://github.com/yugecin/nfsu2-re/blob/master/nfsu2-re-hooks/fun-car-customize-sponsor.c'>nfsu2-re-hooks/fun-car-customize-sponsor.c</a></code> for all the code together.
-</div></div>
+<p style='text-align:right'><small><a href='#index'>Index</a></small></p>
+</div>
+</div>
 </div></body></html>

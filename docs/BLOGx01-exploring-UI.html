@@ -299,7 +299,8 @@ pre.ida span.hi {
 </ul>
 </li>
 </ul>
-<div><h3 id="uitreeview">The debug window UI treeview <a href='#uitreeview'>#</a></h3>
+<div><p id='uitreeview'><small><a href='#exploringui'>Exploring UI</a></small></p>
+<h3>The debug window UI treeview <a href='#uitreeview'>#</a></h3>
 <p>Near the end of 2020, <a class="ext" href="https://github.com/yugecin/nfsu2-re/commit/5059d4c1b4d1c07aa96673fd6daabe405fb23b69">I wrote some code to have "debug window" while the game
 is running</a>.
 I added some D3D stuff (to render normally/wireframes/points and toggle
@@ -321,7 +322,10 @@ If any element's <a href=structs.html#struc_UIElement@18>type</a> is 5, it's a <
 <p>A magenta rectangle will be drawn around the UI element that is selected:
 <p class='imgholder'><img src="img/BLOGx01-SETTINGS0.WEBP" alt="The game showing the 'Player' options screen"></p>
  
-</div><div><h3 id="labels">Labels <a href='#labels'>#</a></h3>
+<p style='text-align:right'><small><a href='#index'>Index</a></small></p>
+</div>
+<div><p id='labels'><small><a href='#exploringui'>Exploring UI</a></small></p>
+<h3>Labels <a href='#labels'>#</a></h3>
 <p>In the image of the previous section, the selected ui element was a label with
 a <a href=structs.html#struc_UILabel@60>textLanguageString</a> of <code>AC148579</code>, which is the hash
 (see <a href='docs.html#hashfuncs'>Hash functions</a>) of <code>OPT_PLAYER_GAUGES</code>, which, for English, results
@@ -331,7 +335,10 @@ the <a href=structs.html#struc_UILabel@64>customString</a> will be used (display
 I can also change this text to <code>custom text^and new line even</code>. The caret <code>^</code>
 symbol is interpreted by the game's text renderer as a linefeed.
 <p class='imgholder'><img src="img/BLOGx01-SETTINGS1.WEBP" alt="Same image as before but with custom text"></p>
-</div><div><h3 id="textureelements">Texture elements <a href='#textureelements'>#</a></h3>
+<p style='text-align:right'><small><a href='#index'>Index</a></small></p>
+</div>
+<div><p id='textureelements'><small><a href='#exploringui'>Exploring UI</a></small></p>
+<h3>Texture elements <a href='#textureelements'>#</a></h3>
 <p>Many of the UI elements seem to exist to draw textures that make the UI.
 Those elements are elements with <a href=structs.html#struc_UIElement@18>type</a> 1, they're of type
 <a href=structs.html#struc_UIElementType1>struct UIElementType1</a>. A the time of writing, this struct is a dummy because
@@ -349,7 +356,10 @@ yet. I've added the <a href=enums.html#enu_UIELEMENTFLAGS1>HIDDEN</a> flag to th
 element to "prove" that the red lines are factually showing each separate UI
 element.
 <p class='imgholder'><img src="img/BLOGx01-CONTAINER2.WEBP" alt="The game showing the 'Player' options screen, with red lines showing different UI elements"></p>
-</div><div><h3 id="eventhandler">Event Handler <a href='#eventhandler'>#</a></h3>
+<p style='text-align:right'><small><a href='#index'>Index</a></small></p>
+</div>
+<div><p id='eventhandler'><small><a href='#exploringui'>Exploring UI</a></small></p>
+<h3>Event Handler <a href='#eventhandler'>#</a></h3>
 <p>Nearly all FNG screens seem to have a label with the text 
 <code>Event Handler</code>.
 <p class='imgholder'><img src="img/BLOGx01-DBGW2.PNG" alt="Window with a treeview, having a 'label' selected with text 'Event Handler'"></p>
@@ -362,7 +372,10 @@ element.
 this game. I have no idea what this element does, but I guess it's pretty
 important. I also wonder why the element is positioned outside of the screen
 instead of having the <a href=enums.html#enu_UIELEMENTFLAGS1>HIDDEN</a> flag.
-</div><div><h3 id="animations">Animations <a href='#animations'>#</a></h3>
+<p style='text-align:right'><small><a href='#index'>Index</a></small></p>
+</div>
+<div><p id='animations'><small><a href='#exploringui'>Exploring UI</a></small></p>
+<h3>Animations <a href='#animations'>#</a></h3>
 <p>Elements can have animations, such as zooming or fading in/out and others.
 <code><a href=structs.html#struc_UIElement>struct UIElement</a>.<a href=structs.html#struc_UIElement@4C>firstAnimation</a></code> stores all animation things per
 element. There is also <code><a href=structs.html#struc_UIElement>struct UIElement</a>.<a href=structs.html#struc_UIElement@54>currentAnimation?</a></code>.
@@ -405,7 +418,10 @@ animation@17D2FA70 hash 7069F5AC (&lt;unknown&gt;)
 They don't really sound like names for animations, so perhaps these things
 are more than just animations? Some are definitely animations though,
 because elements fade out when calling <code><a href=funcs.html#51CF70>SetUIElementAnimationByName</a>(element, "Fade_Out", 1);</code>.
-</div><div><h3 id="pchelpbar">PC help bar <a href='#pchelpbar'>#</a></h3>
+<p style='text-align:right'><small><a href='#index'>Index</a></small></p>
+</div>
+<div><p id='pchelpbar'><small><a href='#exploringui'>Exploring UI</a></small></p>
+<h3>PC help bar <a href='#pchelpbar'>#</a></h3>
 <p>The PC help bar is the bar at the bottom that has a bunch of buttons and your
 profile name/bank. See also <a href='docs.html#pc_help_bar'>PC help bar</a>.
 One tab in the debug window has a checkbox for each value in
@@ -413,5 +429,7 @@ One tab in the debug window has a checkbox for each value in
 is changed.
 <p class='imgholder'><img src="img/BLOGx01-DBGW1.PNG" alt="Window with a lot of checkboxes"></p>
 <p class='imgholder'><img src="img/BLOGx01-HELPBAR.WEBP" alt="The game showing the 'Player' options screen, with random buttons at the bottom"></p>
-</div></div>
+<p style='text-align:right'><small><a href='#index'>Index</a></small></p>
+</div>
+</div>
 </div></body></html>

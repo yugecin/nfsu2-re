@@ -306,7 +306,9 @@ pre.ida span.hi {
 </ul>
 </li>
 </ul>
-</div><div><h2 id="whatarepresetcars">Preset cars? <a href='#whatarepresetcars'>#</a></h2>
+<p style='text-align:right'><small><a href='#index'>Index</a></small></p>
+</div>
+<div><h2 id="whatarepresetcars">Preset cars? <a href='#whatarepresetcars'>#</a></h2>
 <p>The game data files include some cars with predefined tuning. Examples of these
 are Rachel's car you start career mode with, Caleb's car, sponsor cars... Each
 preset also has a name (<a href=structs.html#struc_CarPreset@28>name</a>), here are all of them that are
@@ -349,15 +351,20 @@ present in my game (I expect this to be the same in every game version):
 when the "press enter to continue" Rachel screen is shown. A sound effect will play
 after entering succesfully. Then the "SPONSOR CARS" category can be chosing in the
 quick race menu, where they will be available to use for a single race.
-</div><div><h2 id="theidea">The idea <a href='#theidea'>#</a></h2>
+<p style='text-align:right'><small><a href='#index'>Index</a></small></p>
+</div>
+<div><h2 id="theidea">The idea <a href='#theidea'>#</a></h2>
 <p>These preset cars are cool things one can never really access in the game (at least
 not the ones that are unused), so it would be cool to be able to add them to your
 car collection like I did with <a href='BLOGx02-customizing-sponsor-cars.html#customizingsponsorcars'>Customizing sponsor cars</a>.
 <p>Using them in quick race immediately without having to add them to your car collection
 would also be cool, but is for a future time.
-</div><div><h2 id="execution">Execution <a href='#execution'>#</a></h2>
+<p style='text-align:right'><small><a href='#index'>Index</a></small></p>
+</div>
+<div><h2 id="execution">Execution <a href='#execution'>#</a></h2>
 <p>See <code><a class='ext' href='https://github.com/yugecin/nfsu2-re/blob/master/nfsu2-re-hooks/fun-car-customize-preset.c'>nfsu2-re-hooks/fun-car-customize-preset.c</a></code> for all the code together.
-<div><h3 id="addingpresetcarcategory">Adding the preset car category in the car browser <a href='#addingpresetcarcategory'>#</a></h3>
+<div><p id='addingpresetcarcategory'><small><a href='#execution'>Execution</a></small></p>
+<h3>Adding the preset car category in the car browser <a href='#addingpresetcarcategory'>#</a></h3>
 <p>To do this, we'll have to add entries for the preset cars when selecting
 a car to customize. The idea is to add a separate category which will contain
 all preset cars. This can be done by hooking into function <a href=funcs.html#4EED10>CarSelectFNGObject::ChangeCategory</a>,
@@ -439,7 +446,10 @@ Because we're using a car flag that doesn't exist, no cars will be matched so th
 would have no cars. The <a href=funcs.html#4EEC90>CarSelectFNGObject::ResetBrowableCars</a> function takes care of such situations and makes the category
 fall back to "all cars" should this happen, because empty categories should not be possible to
 be selected (the game would crash if there's no car to show).
-</div><div><h3 id="fillingpresetcarcategory">Filling the preset car category with car entries <a href='#fillingpresetcarcategory'>#</a></h3>
+<p style='text-align:right'><small><a href='#index'>Index</a></small></p>
+</div>
+<div><p id='fillingpresetcarcategory'><small><a href='#execution'>Execution</a></small></p>
+<h3>Filling the preset car category with car entries <a href='#fillingpresetcarcategory'>#</a></h3>
 <p>Two things need to happen to do this:
 <ul>
 <li><a href=funcs.html#534850>CarCollection::CountAvailableCars</a> needs to return a non-zero number when invoked with our custom flag, or it will not be
@@ -447,7 +457,8 @@ possible to select the category
 </li><li><a href=funcs.html#5162D0>CarCollection::FindCarWithFlagAfterGivenCar</a> needs to return at least one car for our custom flag or the game will crash when
 selecting the category (given we already took care of the previous point)
 </li></ul>
-<div><h4 id="countingnumberofpresetcars">Returning the correct amount of preset cars <a href='#countingnumberofpresetcars'>#</a></h4>
+<div><p id='countingnumberofpresetcars'><small><a href='#execution'>Execution</a> &gt; <a href='#fillingpresetcarcategory'>Filling the preset car category with car entries</a></small></p>
+<h4>Returning the correct amount of preset cars <a href='#countingnumberofpresetcars'>#</a></h4>
 <p><a href=funcs.html#534850>CarCollection::CountAvailableCars</a> counts the amount of available cars in the player's <a href=structs.html#struc_CarCollection>struct CarCollection</a>. Since preset cars
 are of course not part of this, we'll have to add some code here to make sure it works for preset cars.
 <pre>
@@ -479,7 +490,10 @@ next:
 
 mkjmp(<a href=funcs.html#534850>CarCollection::CountAvailableCars</a>, fun_car_customize_preset_CarCollection__CountAvailableCars_hook);
 </pre>
-</div><div><h4 id="iteratingpresetcars">Iterating preset cars <a href='#iteratingpresetcars'>#</a></h4>
+<p style='text-align:right'><small><a href='#index'>Index</a></small></p>
+</div>
+<div><p id='iteratingpresetcars'><small><a href='#execution'>Execution</a> &gt; <a href='#fillingpresetcarcategory'>Filling the preset car category with car entries</a></small></p>
+<h4>Iterating preset cars <a href='#iteratingpresetcars'>#</a></h4>
 <p><a href=funcs.html#5162D0>CarCollection::FindCarWithFlagAfterGivenCar</a> is used to iterate cars. Only cars with the given flag should be considered, and it should return the first car if
 the <code>givenCar</code> argument is <code>NULL</code>, otherwise the car that comes after it or <code>NULL</code> if it was the last available car.
 <pre>
@@ -554,10 +568,16 @@ mkjmp(<a href=funcs.html#5162D0>CarCollection::FindCarWithFlagAfterGivenCar</a>,
 </pre>
 <p>I'm making instances here of <a href=structs.html#struc_SponsorCar>struct SponsorCar</a> to return, because it seems like the best fit as sponsor cars
 are also created from preset cars.
-</div><p>Now preset cars can be selected but you'll see it will not have tuning applied and just give you a stock car instance.
+<p style='text-align:right'><small><a href='#index'>Index</a></small></p>
+</div>
+<p><small><a href='#execution'>Execution</a> &gt; <a href='#fillingpresetcarcategory'>Filling the preset car category with car entries</a> (continuation)</small></p>
+<p>Now preset cars can be selected but you'll see it will not have tuning applied and just give you a stock car instance.
 This is because <a href=structs.html#struc_SponsorCar>struct SponsorCar</a>.<a href=structs.html#struc_SponsorCar@0>__parent</a>.<a href=structs.html#struc_InventoryCar@8>slotHash</a> is being set to <code>STOCK_%s</code>. Sponsor cars would have this set to <code>SPONSOR_%s</code>,
 so <a href=funcs.html#503510>CarCollection::GetCarForSlot</a> will return the correct instance, but we need some more extra code to make this work for all preset cars.
-</div><div><h3 id="usepresetinsteadofstock">Showing the preset cars instead of stock cars <a href='#usepresetinsteadofstock'>#</a></h3>
+<p style='text-align:right'><small><a href='#index'>Index</a></small></p>
+</div>
+<div><p id='usepresetinsteadofstock'><small><a href='#execution'>Execution</a></small></p>
+<h3>Showing the preset cars instead of stock cars <a href='#usepresetinsteadofstock'>#</a></h3>
 <p>In the previous code, instead of using the <code>STOCK_%s</code> hash,
 I'm gonna simply use the index of the preset car as 'hash':
 <pre>
@@ -632,7 +652,10 @@ its_preset:
 mkjmp(<a href=funcs.html#503510>CarCollection::GetCarForSlot</a>, fun_car_customize_preset_CarCollection__GetCarForSlot_hook);
 </pre>
 <p>And we have correctly tuned cars, yay :D
-</div><div><h3 id="crashfix">Making the game not crash when choosing a preset car <a href='#crashfix'>#</a></h3>
+<p style='text-align:right'><small><a href='#index'>Index</a></small></p>
+</div>
+<div><p id='crashfix'><small><a href='#execution'>Execution</a></small></p>
+<h3>Making the game not crash when choosing a preset car <a href='#crashfix'>#</a></h3>
 <p>Currently the game will crash when actually choosing a preset car to customize. Let's fix that.
 This code is basically almost exactly the same as what I did for customizing sponsor cars in
 <a href='BLOGx02-customizing-sponsor-cars.html#crashfix'>Making the game not crash</a> and updated in <a href='BLOGx02-customizing-sponsor-cars.html#makingsimpler'>Making things simpler</a>.
@@ -689,7 +712,10 @@ allgood:
 mkjmp(0x552DBB, fun_car_customize_preset_CustomizeCar_set_car_instance_if_missing_hook);
 </pre>
 <p>Yay :D
-</div><div><h3 id="fixingcategorylabeltext">Fixing the category label text <a href='#fixingcategorylabeltext'>#</a></h3>
+<p style='text-align:right'><small><a href='#index'>Index</a></small></p>
+</div>
+<div><p id='fixingcategorylabeltext'><small><a href='#execution'>Execution</a></small></p>
+<h3>Fixing the category label text <a href='#fixingcategorylabeltext'>#</a></h3>
 <p>While everything works functionally now, there's still the issue that the category label shows
 "Stock cars" when the preset cars category is selected. That's because we added that category
 and the game only knows its predefined categories and the code happens to fall back to using
@@ -728,7 +754,10 @@ fun_car_customize_preset_CarSelectFNGObject__UpdateUI_hook()
 
 mkjmp(0x4B2855, fun_car_customize_preset_CarSelectFNGObject__UpdateUI_hook);
 </pre>
-</div><div><h3 id="showingpresetcarname">Showing the preset car name <a href='#showingpresetcarname'>#</a></h3>
+<p style='text-align:right'><small><a href='#index'>Index</a></small></p>
+</div>
+<div><p id='showingpresetcarname'><small><a href='#execution'>Execution</a></small></p>
+<h3>Showing the preset car name <a href='#showingpresetcarname'>#</a></h3>
 <p>And as cherry on top of the pie: let's show the name of the preset car while browsing.
 <p>For this I'll re-use the UI elements that exist to show what kind of race the currently selected
 ranked car is for. There are 6 ranked cars (for online play), and each car is only for a specific
@@ -767,5 +796,7 @@ fun_car_customize_preset_PostUpdateUI(<a href=structs.html#struc_CarSelectFNGObj
 	}
 }
 </pre>
-</div></div>
+<p style='text-align:right'><small><a href='#index'>Index</a></small></p>
+</div>
+</div>
 </div></body></html>
