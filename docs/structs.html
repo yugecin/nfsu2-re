@@ -657,8 +657,8 @@ pre.ida span.hi {
 <li><a href=#struc_SoundIdBanks>SoundIdBanks</a>
 <li><a href=#struc_SoundIdBank>SoundIdBank</a>
 <li><a href=#struc_Car>Car</a> <em></em>
-<li><a href=#struc_CarCollectionNoPointers>CarCollectionNoPointers</a> <em></em>
 <li><a href=#struc_CarCollection>CarCollection</a> <em></em>
+<li><a href=#struc_CarCollectionWithPointers>CarCollectionWithPointers</a> <em></em>
 <li><a href=#struc_InventoryCar>InventoryCar</a> <em></em>
 <li><a href=#struc_CarPreset>CarPreset</a>
 <li><a href=#struc_OLCarSlotData_Slot>OLCarSlotData_Slot</a>
@@ -7136,26 +7136,8 @@ unknown length, but max 16?*/</span>
 <li><!--610180-->
 <pre><i>610180</i> <a href=funcs.html#610180 title='int __thiscall Car__DoesItsGeometryFileExist(struct Car *this);'>Car::DoesItsGeometryFileExist</a></pre>
 </ul>
-<a id=struc_CarCollectionNoPointers></a>
-<div class=mm><p>wtfff, but unsure if the usage is actually not the same as the normal version of this struct, could be</div>
-<div>struct <h3>CarCollectionNoPointers</h3> { <i>/*9 members, size 9BD8h*/</i> <em></em>
-<i>/*0*/	</i><a href=#struc_StockCar>struct StockCar</a> stockCars[48];
-<i>/*540*/	</i>int numStockCars <u></u>;
-<i>/*544*/	</i><a href=#struc_TunedCar>struct TunedCar</a> tunedCars[20];
-<i>/*5954*/</i><a href=#struc_CareerCar>struct CareerCar</a> careerCars[5];
-<i>/*812C*/</i>int numCareerCarSlots <u></u>;
-<i>/*8130*/</i><a href=#struc_OnlineCar>struct OnlineCar</a> onlineCars[6];
-<i>/*9A80*/</i>int numOnlineCarSlots <u></u>;
-<i>/*9A84*/</i><a href=#struc_SponsorCar>struct SponsorCar</a> sponsorCars[12];
-<i>/*9BD4*/</i>int numSponsorCars <u></u>;
-};
-<i>EXPECT_SIZE(struct CarCollectionNoPointers, 0x9BD8);</i></div>
-<ul>
-<li><!--531D20-->
-<pre><i>531D20</i> <a href=funcs.html#531D20 title='int __thiscall CarCollectionNoPointers__ctor(struct CarCollectionNoPointers *this);'>CarCollectionNoPointers::ctor</a></pre>
-</ul>
 <a id=struc_CarCollection></a>
-<div>struct <h3>CarCollection</h3> { <i>/*14 members, size 9D44h*/</i> <em></em>
+<div>struct <h3>CarCollection</h3> { <i>/*9 members, size 9BD8h*/</i> <em></em>
 <i>/*0*/	</i><a href=#struc_StockCar>struct StockCar</a> stockCars[48];
 <i>/*540*/	</i>int numStockCars;
 <i>/*544*/	</i><a href=#struc_TunedCar>struct TunedCar</a> tunedCars[20];
@@ -7167,21 +7149,9 @@ unknown length, but max 16?*/</span>
 <i>/*9A80*/</i>int numOnlineCarSlots;
 <i id=struc_CarCollection@9A84></i><i>/*9A84*/</i><a href=#struc_SponsorCar>struct SponsorCar</a> sponsorCars[12];
 <i id=struc_CarCollection@9BD4></i><i>/*9BD4*/</i>int numSponsorCars;
-<span class='mm'>/**initialized to <code>&amp;this-&gt;stockCars + i</code>*/</span>
-<i>/*9BD8*/</i><a href=structs.html#struc_StockCar>struct StockCar</a> *ptrStockCars[48];
-<span class='mm'>/**initialized to <code>&amp;this-&gt;tunedCars + i</code>*/</span>
-<i>/*9C98*/</i><a href=structs.html#struc_TunedCar>struct TunedCar</a> *ptrTunedCars[20];
-<span class='mm'>/**initialized to <code>&amp;this-&gt;careerCars + i</code>*/</span>
-<i>/*9CE8*/</i><a href=structs.html#struc_CareerCar>struct CareerCar</a> *ptrCareerCars[5];
-<span class='mm'>/**initialized to <code>&amp;this-&gt;SponsorCars + i</code>*/</span>
-<i>/*9CFC*/</i><a href=structs.html#struc_SponsorCar>struct SponsorCar</a> *ptrSponsorCars[12];
-<span class='mm'>/**initialized to <code>&amp;this-&gt;onlineCars + i</code>*/</span>
-<i>/*9D2C*/</i><a href=structs.html#struc_OnlineCar>struct OnlineCar</a> *ptrOnlineCars[6];
 };
-<i>EXPECT_SIZE(struct CarCollection, 0x9D44);</i></div>
+<i>EXPECT_SIZE(struct CarCollection, 0x9BD8);</i></div>
 <ul>
-<li><!--503510-->
-<pre><i>503510</i> <a href=funcs.html#503510 title='struct InventoryCar *__thiscall CarCollection__GetCarForSlot(struct CarCollection *this, unsigned int slotHash);'>CarCollection::GetCarForSlot</a></pre>
 <li><!--503550-->
 <pre><i>503550</i> <a href=funcs.html#503550 title='struct StockCar *__thiscall CarCollection__FindStockCar(struct CarCollection *this, unsigned int stockCarHash);'>CarCollection::FindStockCar</a></pre>
 <li><!--503590-->
@@ -7194,18 +7164,14 @@ unknown length, but max 16?*/</span>
 <pre><i>503680</i> <a href=funcs.html#503680 title='struct CareerCar *__thiscall CarCollection__GetCareerCarForSlotHash(struct CarCollection *this, unsigned int slotHash);'>CarCollection::GetCareerCarForSlotHash</a></pre>
 <li><!--5036C0-->
 <pre><i>5036C0</i> <a href=funcs.html#5036C0 title='struct TunedCar *__thiscall CarCollection__GetFreeTunedCarSlot(struct CarCollection *this);'>CarCollection::GetFreeTunedCarSlot</a></pre>
-<li><!--5036F0-->
-<pre><i>5036F0</i> <a href=funcs.html#5036F0 title='void __thiscall CarCollection__ClearSlotPointers(struct CarCollection *this);'>CarCollection::ClearSlotPointers</a></pre>
 <li><!--511820-->
 <pre><i>511820</i> <a href=funcs.html#511820 title='void __thiscall CarCollection__dtor(struct CarCollection *this);'>CarCollection::dtor</a></pre>
-<li><!--5162D0-->
-<pre><i>5162D0</i> <a href=funcs.html#5162D0 title='struct InventoryCar *__thiscall CarCollection__FindCarWithFlagAfterGivenCar(struct CarCollection *this, enum INVENTORY_CAR_FLAGS flag, struct InventoryCar *givenCar);'>CarCollection::FindCarWithFlagAfterGivenCar</a></pre>
 <li><!--516340-->
 <pre><i>516340</i> <a href=funcs.html#516340 title='int __thiscall CarCollection__IsCareerSlot(struct CarCollection *this, unsigned int slotNameHash);'>CarCollection::IsCareerSlot</a></pre>
 <li><!--516360-->
 <pre><i>516360</i> <a href=funcs.html#516360 title='int __thiscall CarCollection__IsStockCar(struct CarCollection *this, unsigned int slotHash);'>CarCollection::IsStockCar</a></pre>
 <li><!--5163A0-->
-<pre><i>5163A0</i> <a href=funcs.html#5163A0 title='int __thiscall CarCollection__IsSlotUsed(struct CarCollection *this, unsigned int slotNameHash);'>CarCollection::IsSlotUsed</a></pre>
+<pre><i>5163A0</i> <a href=funcs.html#5163A0 title='int __thiscall CarCollection__IsTunedOrCareerSlotUsed(struct CarCollection *this, unsigned int slotNameHash);'>CarCollection::IsTunedOrCareerSlotUsed</a></pre>
 <li><!--5163C0-->
 <pre><i>5163C0</i> <a href=funcs.html#5163C0 title='void __thiscall CarCollection__ClearSponsorCarData(struct CarCollection *this);'>CarCollection::ClearSponsorCarData</a></pre>
 <li><!--516480-->
@@ -7216,18 +7182,43 @@ unknown length, but max 16?*/</span>
 <pre><i>5165E0</i> <a href=funcs.html#5165E0 title='int __thiscall CarCollection__HasFreeEntryInTunedCars(struct CarCollection *this);'>CarCollection::HasFreeEntryInTunedCars</a></pre>
 <li><!--5166B0-->
 <pre><i>5166B0</i> <a href=funcs.html#5166B0 title='int __thiscall CarCollection__WriteToSaveData(struct CarCollection *this, int, int);'>CarCollection::WriteToSaveData</a></pre>
-<li><!--52A5D0-->
-<pre><i>52A5D0</i> <a href=funcs.html#52A5D0 title='void __thiscall CarCollection__ctor(struct CarCollection *this);'>CarCollection::ctor</a></pre>
 <li><!--52A710-->
 <pre><i>52A710</i> <a href=funcs.html#52A710 title='struct TunedCar *__thiscall CarCollection__CreateNewTunedCarFromFromDataAtSlot(struct CarCollection *this, unsigned int slotNamehash);'>CarCollection::CreateNewTunedCarFromFromDataAtSlot</a></pre>
 <li><!--52A7F0-->
 <pre><i>52A7F0</i> <a href=funcs.html#52A7F0 title='void __thiscall CarCollection__ClearOnlineCarData(struct CarCollection *this);'>CarCollection::ClearOnlineCarData</a></pre>
-<li><!--52A8A0-->
-<pre><i>52A8A0</i> <a href=funcs.html#52A8A0 title='void __thiscall CarCollection__Clear(struct CarCollection *this, int someNumber);'>CarCollection::Clear</a></pre>
-<li><!--534850-->
-<pre><i>534850</i> <a href=funcs.html#534850 title='int __thiscall CarCollection__CountAvailableCars(struct CarCollection *this, enum INVENTORY_CAR_FLAGS flagsToCheck, int typeToCheck);'>CarCollection::CountAvailableCars</a></pre>
+<li><!--531D20-->
+<pre><i>531D20</i> <a href=funcs.html#531D20 title='int __thiscall CarCollection__ctor(struct CarCollection *this);'>CarCollection::ctor</a></pre>
 <li><!--5348E0-->
 <pre><i>5348E0</i> <a href=funcs.html#5348E0 title='void __thiscall CarCollection__5348E0(struct CarCollection *this, int slotIndex, unsigned int stockCarHash);'>CarCollection::5348E0</a></pre>
+</ul>
+<a id=struc_CarCollectionWithPointers></a>
+<div>struct <h3>CarCollectionWithPointers</h3> { <i>/*6 members, size 9D44h*/</i> <em></em>
+<i id=struc_CarCollectionWithPointers@0></i><i>/*0*/	</i><a href=#struc_CarCollection>struct CarCollection</a> __parent;
+<span class='mm'>/**initialized to <code>&amp;this-&gt;__parent.stockCars + i</code>*/</span>
+<i>/*9BD8*/</i><a href=structs.html#struc_StockCar>struct StockCar</a> *ptrStockCars[48];
+<span class='mm'>/**initialized to <code>&amp;this-&gt;__parent.tunedCars + i</code>*/</span>
+<i>/*9C98*/</i><a href=structs.html#struc_TunedCar>struct TunedCar</a> *ptrTunedCars[20];
+<span class='mm'>/**initialized to <code>&amp;this-&gt;__parent.careerCars + i</code>*/</span>
+<i>/*9CE8*/</i><a href=structs.html#struc_CareerCar>struct CareerCar</a> *ptrCareerCars[5];
+<span class='mm'>/**initialized to <code>&amp;this-&gt;__parent.SponsorCars + i</code>*/</span>
+<i>/*9CFC*/</i><a href=structs.html#struc_SponsorCar>struct SponsorCar</a> *ptrSponsorCars[12];
+<span class='mm'>/**initialized to <code>&amp;this-&gt;__parent.onlineCars + i</code>*/</span>
+<i>/*9D2C*/</i><a href=structs.html#struc_OnlineCar>struct OnlineCar</a> *ptrOnlineCars[6];
+};
+<i>EXPECT_SIZE(struct CarCollectionWithPointers, 0x9D44);</i></div>
+<ul>
+<li><!--503510-->
+<pre><i>503510</i> <a href=funcs.html#503510 title='struct InventoryCar *__thiscall CarCollectionWithPointers__GetCarForSlot(struct CarCollectionWithPointers *this, unsigned int slotHash);'>CarCollectionWithPointers::GetCarForSlot</a></pre>
+<li><!--5036F0-->
+<pre><i>5036F0</i> <a href=funcs.html#5036F0 title='void __thiscall CarCollectionWithPointers__ClearSlotPointers(struct CarCollectionWithPointers *this);'>CarCollectionWithPointers::ClearSlotPointers</a></pre>
+<li><!--5162D0-->
+<pre><i>5162D0</i> <a href=funcs.html#5162D0 title='struct InventoryCar *__thiscall CarCollectionWithPointers__FindCarWithFlagAfterGivenCar(struct CarCollectionWithPointers *this, enum INVENTORY_CAR_FLAGS flag, struct InventoryCar *givenCar);'>CarCollectionWithPointers::FindCarWithFlagAfterGivenCar</a></pre>
+<li><!--52A5D0-->
+<pre><i>52A5D0</i> <a href=funcs.html#52A5D0 title='void __thiscall CarCollectionWithPointers__ctor(struct CarCollectionWithPointers *this);'>CarCollectionWithPointers::ctor</a></pre>
+<li><!--52A8A0-->
+<pre><i>52A8A0</i> <a href=funcs.html#52A8A0 title='void __thiscall CarCollectionWithPointers__Clear(struct CarCollectionWithPointers *this, int someNumber);'>CarCollectionWithPointers::Clear</a></pre>
+<li><!--534850-->
+<pre><i>534850</i> <a href=funcs.html#534850 title='int __thiscall CarCollectionWithPointers__CountAvailableCars(struct CarCollectionWithPointers *this, enum INVENTORY_CAR_FLAGS flagsToCheck, int typeToCheck);'>CarCollectionWithPointers::CountAvailableCars</a></pre>
 </ul>
 <a id=struc_InventoryCar></a>
 <div>struct <h3>InventoryCar</h3> { <i>/*6 members, size 18h*/</i> <em></em>
@@ -7751,7 +7742,7 @@ usually a stock car, often STOCK_RX8. some kind of "default car to pick"*/</span
 <i>/*254*/	int field_254;</i>
 <i>/*258*/	char field_258[128];</i>
 <i>/*2D8*/	</i><a href=#struc_TraxConfig>struct TraxConfig</a> traxConfig[27];
-<i id=struc_Player@3B0></i><i>/*3B0*/	</i><a href=#struc_CarCollection>struct CarCollection</a> carCollection;
+<i id=struc_Player@3B0></i><i>/*3B0*/	</i><a href=#struc_CarCollectionWithPointers>struct CarCollectionWithPointers</a> carCollection;
 <i>/*A0F4*/int field_A0F4;</i>
 <i>/*A0F8*/char field_A0F8;</i>
 <i>/*A0F9*/char field_A0F9;</i>
@@ -7931,8 +7922,8 @@ usually a stock car, often STOCK_RX8. some kind of "default car to pick"*/</span
 <i>/*16770*/int field_16770;</i>
 <i>/*16774*/char _pad16774[0x4];</i>
 <i>/*16778*/</i>void *memForWritingSaveData;
-<i>/*1677C*/int field_1677C;</i>
-<i>/*16780*/char _pad16780[0x9BD8];</i>
+<i>/*1677C*/</i><a href=#struc_CarCollection>struct CarCollection</a> carCollection;
+<i>/*20354*/char _pad20354[0x4];</i>
 <i id=struc_ProfileData@20358></i><span class='mm'>/**0 or 1*/</span>
 <i>/*20358*/</i>int currentPlayerIndex?;
 <i>/*2035C*/int field_2035C;</i>
@@ -8010,7 +8001,7 @@ usually a stock car, often STOCK_RX8. some kind of "default car to pick"*/</span
 <i>EXPECT_SIZE(struct ProfileData, 0x29DD8);</i></div>
 <ul>
 <li><!--495240-->
-<pre><i>495240</i> <a href=funcs.html#495240 title='struct CarCollection *__thiscall ProfileData__GetCarCollection(struct ProfileData *this, int playerIndex);'>ProfileData::GetCarCollection</a></pre>
+<pre><i>495240</i> <a href=funcs.html#495240 title='struct CarCollectionWithPointers *__thiscall ProfileData__GetCarCollection(struct ProfileData *this, int playerIndex);'>ProfileData::GetCarCollection</a></pre>
 <li><!--531CC0-->
 <pre><i>531CC0</i> <a href=funcs.html#531CC0 title='void __thiscall ProfileData__dtor(struct ProfileData *this);'>ProfileData::dtor</a></pre>
 <li><!--5346F0-->

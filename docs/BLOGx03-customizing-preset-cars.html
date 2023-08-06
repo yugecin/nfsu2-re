@@ -452,14 +452,14 @@ be selected (the game would crash if there's no car to show).
 <h3>Filling the preset car category with car entries <a href='#fillingpresetcarcategory'>#</a></h3>
 <p>Two things need to happen to do this:
 <ul>
-<li><a href=funcs.html#534850>CarCollection::CountAvailableCars</a> needs to return a non-zero number when invoked with our custom flag, or it will not be
+<li><a href=funcs.html#534850>CarCollectionWithPointers::CountAvailableCars</a> needs to return a non-zero number when invoked with our custom flag, or it will not be
 possible to select the category
-</li><li><a href=funcs.html#5162D0>CarCollection::FindCarWithFlagAfterGivenCar</a> needs to return at least one car for our custom flag or the game will crash when
+</li><li><a href=funcs.html#5162D0>CarCollectionWithPointers::FindCarWithFlagAfterGivenCar</a> needs to return at least one car for our custom flag or the game will crash when
 selecting the category (given we already took care of the previous point)
 </li></ul>
 <div><p id='countingnumberofpresetcars'><small><a href='#execution'>Execution</a> &gt; <a href='#fillingpresetcarcategory'>Filling the preset car category with car entries</a></small></p>
 <h4>Returning the correct amount of preset cars <a href='#countingnumberofpresetcars'>#</a></h4>
-<p><a href=funcs.html#534850>CarCollection::CountAvailableCars</a> counts the amount of available cars in the player's <a href=structs.html#struc_CarCollection>struct CarCollection</a>. Since preset cars
+<p><a href=funcs.html#534850>CarCollectionWithPointers::CountAvailableCars</a> counts the amount of available cars in the player's <a href=structs.html#struc_CarCollection>struct CarCollection</a>. Since preset cars
 are of course not part of this, we'll have to add some code here to make sure it works for preset cars.
 <pre>
 static
@@ -488,13 +488,13 @@ next:
 	}
 }
 
-mkjmp(<a href=funcs.html#534850>CarCollection::CountAvailableCars</a>, fun_car_customize_preset_CarCollection__CountAvailableCars_hook);
+mkjmp(<a href=funcs.html#534850>CarCollectionWithPointers::CountAvailableCars</a>, fun_car_customize_preset_CarCollection__CountAvailableCars_hook);
 </pre>
 <p style='text-align:right'><small><a href='#index'>Index</a></small></p>
 </div>
 <div><p id='iteratingpresetcars'><small><a href='#execution'>Execution</a> &gt; <a href='#fillingpresetcarcategory'>Filling the preset car category with car entries</a></small></p>
 <h4>Iterating preset cars <a href='#iteratingpresetcars'>#</a></h4>
-<p><a href=funcs.html#5162D0>CarCollection::FindCarWithFlagAfterGivenCar</a> is used to iterate cars. Only cars with the given flag should be considered, and it should return the first car if
+<p><a href=funcs.html#5162D0>CarCollectionWithPointers::FindCarWithFlagAfterGivenCar</a> is used to iterate cars. Only cars with the given flag should be considered, and it should return the first car if
 the <code>givenCar</code> argument is <code>NULL</code>, otherwise the car that comes after it or <code>NULL</code> if it was the last available car.
 <pre>
 // my game has 32, assuming all versions will have the same ones
@@ -564,7 +564,7 @@ its_preset:
 	}
 }
 
-mkjmp(<a href=funcs.html#5162D0>CarCollection::FindCarWithFlagAfterGivenCar</a>, fun_car_customize_preset_CarCollection__FindCarWithFlagAfterGivenCar_hook);
+mkjmp(<a href=funcs.html#5162D0>CarCollectionWithPointers::FindCarWithFlagAfterGivenCar</a>, fun_car_customize_preset_CarCollection__FindCarWithFlagAfterGivenCar_hook);
 </pre>
 <p>I'm making instances here of <a href=structs.html#struc_SponsorCar>struct SponsorCar</a> to return, because it seems like the best fit as sponsor cars
 are also created from preset cars.
@@ -573,7 +573,7 @@ are also created from preset cars.
 <p><small><a href='#execution'>Execution</a> &gt; <a href='#fillingpresetcarcategory'>Filling the preset car category with car entries</a> (continuation)</small></p>
 <p>Now preset cars can be selected but you'll see it will not have tuning applied and just give you a stock car instance.
 This is because <a href=structs.html#struc_SponsorCar>struct SponsorCar</a>.<a href=structs.html#struc_SponsorCar@0>__parent</a>.<a href=structs.html#struc_InventoryCar@8>slotHash</a> is being set to <code>STOCK_%s</code>. Sponsor cars would have this set to <code>SPONSOR_%s</code>,
-so <a href=funcs.html#503510>CarCollection::GetCarForSlot</a> will return the correct instance, but we need some more extra code to make this work for all preset cars.
+so <a href=funcs.html#503510>CarCollectionWithPointers::GetCarForSlot</a> will return the correct instance, but we need some more extra code to make this work for all preset cars.
 <p style='text-align:right'><small><a href='#index'>Index</a></small></p>
 </div>
 <div><p id='usepresetinsteadofstock'><small><a href='#execution'>Execution</a></small></p>
@@ -624,7 +624,7 @@ I'm gonna simply use the index of the preset car as 'hash':
   	return NULL;
   }
 </pre>
-<p>This will make the game crash when browing preset cars because at some point <a href=funcs.html#503510>CarCollection::GetCarForSlot</a> will be called with that
+<p>This will make the game crash when browing preset cars because at some point <a href=funcs.html#503510>CarCollectionWithPointers::GetCarForSlot</a> will be called with that
 hash and it will return <code>NULL</code> which is not supposed to happen. So let's fix that.
 <pre>
 static
@@ -649,7 +649,7 @@ its_preset:
 	}
 }
 
-mkjmp(<a href=funcs.html#503510>CarCollection::GetCarForSlot</a>, fun_car_customize_preset_CarCollection__GetCarForSlot_hook);
+mkjmp(<a href=funcs.html#503510>CarCollectionWithPointers::GetCarForSlot</a>, fun_car_customize_preset_CarCollection__GetCarForSlot_hook);
 </pre>
 <p>And we have correctly tuned cars, yay :D
 <p style='text-align:right'><small><a href='#index'>Index</a></small></p>

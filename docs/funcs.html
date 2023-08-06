@@ -1555,7 +1555,7 @@ SponsorCar::GetCarIndex</a>
 <li><a href=#503490>
 SponsorCar::GetCarNameHash</a>
 <li><a href=#503510>
-CarCollection::GetCarForSlot</a>
+CarCollectionWithPointers::GetCarForSlot</a>
 <li><a href=#503550>
 CarCollection::FindStockCar</a>
 <li><a href=#503590>
@@ -1569,7 +1569,7 @@ CarCollection::GetCareerCarForSlotHash</a>
 <li><a href=#5036C0>
 CarCollection::GetFreeTunedCarSlot</a>
 <li><a href=#5036F0>
-CarCollection::ClearSlotPointers</a>
+CarCollectionWithPointers::ClearSlotPointers</a>
 <li><a href=#5037F0>
 CareerCar::5037F0</a>
 <li><a href=#503950>
@@ -1877,13 +1877,13 @@ Player::Clear</a>
 <li><a href=#515BF0>
 ProfileData_156B0::WriteToSaveData</a>
 <li><a href=#5162D0>
-CarCollection::FindCarWithFlagAfterGivenCar</a>
+CarCollectionWithPointers::FindCarWithFlagAfterGivenCar</a>
 <li><a href=#516340>
 CarCollection::IsCareerSlot</a>
 <li><a href=#516360>
 CarCollection::IsStockCar</a>
 <li><a href=#5163A0>
-CarCollection::IsSlotUsed</a>
+CarCollection::IsTunedOrCareerSlotUsed</a>
 <li><a href=#5163C0>
 CarCollection::ClearSponsorCarData</a>
 <li><a href=#516480>
@@ -2139,13 +2139,13 @@ Player_D4::ctor</a>
 <li><a href=#52A280>
 Player::WriteToSaveData</a>
 <li><a href=#52A5D0>
-CarCollection::ctor</a>
+CarCollectionWithPointers::ctor</a>
 <li><a href=#52A710>
 CarCollection::CreateNewTunedCarFromFromDataAtSlot</a>
 <li><a href=#52A7F0>
 CarCollection::ClearOnlineCarData</a>
 <li><a href=#52A8A0>
-CarCollection::Clear</a>
+CarCollectionWithPointers::Clear</a>
 <li><a href=#52C2F0>
 UILabel::SetStringToDialogText</a>
 <li><a href=#52C390>
@@ -2203,7 +2203,7 @@ Career887C::InitOnProfileLoad</a>
 <li><a href=#531CC0>
 ProfileData::dtor</a>
 <li><a href=#531D20>
-CarCollectionNoPointers::ctor</a>
+CarCollection::ctor</a>
 <li><a href=#532670>
 WideCharString::SetFromCharString</a>
 <li><a href=#532740>
@@ -2261,7 +2261,7 @@ Player::ctor</a>
 <li><a href=#5346F0>
 ProfileData::Clear</a>
 <li><a href=#534850>
-CarCollection::CountAvailableCars</a>
+CarCollectionWithPointers::CountAvailableCars</a>
 <li><a href=#5348E0>
 CarCollection::5348E0</a>
 <li><a href=#535610>
@@ -3908,7 +3908,7 @@ Implementation <code><a class='ext' href='https://github.com/yugecin/nfsu2-re/bl
 <a id=495040></a>
 <div><i>495040</i> int __cdecl <h3>UnloadBinSectionB3300000_B332000_B0300100</h3>(<a href=structs.html#struc_BinSection>struct BinSection</a> *binsection);</div>
 <a id=495240></a>
-<div><i>495240</i> <a href=structs.html#struc_CarCollection>struct CarCollection</a> *__thiscall <h3><a href=structs.html#struc_ProfileData>ProfileData</a>::GetCarCollection</h3>(<a href=structs.html#struc_ProfileData>struct ProfileData</a> *this, int playerIndex);</div>
+<div><i>495240</i> <a href=structs.html#struc_CarCollectionWithPointers>struct CarCollectionWithPointers</a> *__thiscall <h3><a href=structs.html#struc_ProfileData>ProfileData</a>::GetCarCollection</h3>(<a href=structs.html#struc_ProfileData>struct ProfileData</a> *this, int playerIndex);</div>
 <a id=495270></a>
 <div class=mm><p><code>return this-&gt;<a href=structs.html#struc_Career@8704>field_8704</a> ? this-&gt;<a href=structs.html#struc_Career@8710>field_8710</a> : 0;</code></div>
 <div><i>495270</i> int __thiscall <h3><a href=structs.html#struc_Career>Career</a>::495270</h3>(<a href=structs.html#struc_Career>struct Career</a> *this);</div>
@@ -3985,7 +3985,7 @@ See <code><a class='ext' href='https://github.com/yugecin/nfsu2-re/blob/master/n
 <a id=497CD0></a>
 <div><i>497CD0</i> void __thiscall <h3><a href=structs.html#struc_CarSelectFNGObject>CarSelectFNGObject</a>::UpdateTopspeedAccelerationHandlingIndicators</h3>(<a href=structs.html#struc_CarSelectFNGObject>struct CarSelectFNGObject</a> *this);</div>
 <a id=497DA0></a>
-<div class=mm><p>to use for <a href=funcs.html#534850>CarCollection::CountAvailableCars</a> and/or <a href=funcs.html#534180>IsCarUnlocked</a></div>
+<div class=mm><p>to use for <a href=funcs.html#534850>CarCollectionWithPointers::CountAvailableCars</a> and/or <a href=funcs.html#534180>IsCarUnlocked</a></div>
 <div><i>497DA0</i> int __cdecl <h3>GetUnlockTypeToCheckBasedOnMenuState</h3>();</div>
 <a id=497EE0></a>
 <div><i>497EE0</i> int __thiscall <h3><a href=structs.html#struc_CarSelectFNGObject>CarSelectFNGObject</a>::CountAvailableCars</h3>(<a href=structs.html#struc_CarSelectFNGObject>struct CarSelectFNGObject</a> *this, <a href=enums.html#enu_INVENTORY_CAR_FLAGS>enum INVENTORY_CAR_FLAGS</a> flagsToCheck);</div>
@@ -5082,7 +5082,7 @@ sms-&gt;<a href=structs.html#struc_SmsMessage@4>read</a> = 1;
 <a id=503490></a>
 <div><i>503490</i> unsigned int __thiscall <h3><a href=structs.html#struc_SponsorCar>SponsorCar</a>::GetCarNameHash</h3>(<a href=structs.html#struc_SponsorCar>struct SponsorCar</a> *this);</div>
 <a id=503510></a>
-<div><i>503510</i> <a href=structs.html#struc_InventoryCar>struct InventoryCar</a> *__thiscall <h3><a href=structs.html#struc_CarCollection>CarCollection</a>::GetCarForSlot</h3>(<a href=structs.html#struc_CarCollection>struct CarCollection</a> *this, unsigned int slotHash);</div>
+<div><i>503510</i> <a href=structs.html#struc_InventoryCar>struct InventoryCar</a> *__thiscall <h3><a href=structs.html#struc_CarCollectionWithPointers>CarCollectionWithPointers</a>::GetCarForSlot</h3>(<a href=structs.html#struc_CarCollectionWithPointers>struct CarCollectionWithPointers</a> *this, unsigned int slotHash);</div>
 <a id=503550></a>
 <div class=mm><p>stockCarHash like STOCK_PEUGOT</div>
 <div><i>503550</i> <a href=structs.html#struc_StockCar>struct StockCar</a> *__thiscall <h3><a href=structs.html#struc_CarCollection>CarCollection</a>::FindStockCar</h3>(<a href=structs.html#struc_CarCollection>struct CarCollection</a> *this, unsigned int stockCarHash);</div>
@@ -5098,7 +5098,7 @@ sms-&gt;<a href=structs.html#struc_SmsMessage@4>read</a> = 1;
 <a id=5036C0></a>
 <div><i>5036C0</i> <a href=structs.html#struc_TunedCar>struct TunedCar</a> *__thiscall <h3><a href=structs.html#struc_CarCollection>CarCollection</a>::GetFreeTunedCarSlot</h3>(<a href=structs.html#struc_CarCollection>struct CarCollection</a> *this);</div>
 <a id=5036F0></a>
-<div><i>5036F0</i> void __thiscall <h3><a href=structs.html#struc_CarCollection>CarCollection</a>::ClearSlotPointers</h3>(<a href=structs.html#struc_CarCollection>struct CarCollection</a> *this);</div>
+<div><i>5036F0</i> void __thiscall <h3><a href=structs.html#struc_CarCollectionWithPointers>CarCollectionWithPointers</a>::ClearSlotPointers</h3>(<a href=structs.html#struc_CarCollectionWithPointers>struct CarCollectionWithPointers</a> *this);</div>
 <a id=5037F0></a>
 <div><i>5037F0</i> int __thiscall <h3><a href=structs.html#struc_CareerCar>CareerCar</a>::5037F0</h3>(<a href=structs.html#struc_CareerCar>struct CareerCar</a> *this);</div>
 <a id=503950></a>
@@ -5540,14 +5540,14 @@ TODO check other xref, probably for displaying icon ingame</div>
 <div><i>515BF0</i> <h3><a href=structs.html#struc_ProfileData_156B0>ProfileData_156B0</a>::WriteToSaveData</h3></div>
 <a id=5162D0></a>
 <div class=mm><p>searches all cars (stock/tuned/career/online/sponsor)</div>
-<div><i>5162D0</i> <a href=structs.html#struc_InventoryCar>struct InventoryCar</a> *__thiscall <h3><a href=structs.html#struc_CarCollection>CarCollection</a>::FindCarWithFlagAfterGivenCar</h3>(<a href=structs.html#struc_CarCollection>struct CarCollection</a> *this, <a href=enums.html#enu_INVENTORY_CAR_FLAGS>enum INVENTORY_CAR_FLAGS</a> flag, <a href=structs.html#struc_InventoryCar>struct InventoryCar</a> *givenCar);</div>
+<div><i>5162D0</i> <a href=structs.html#struc_InventoryCar>struct InventoryCar</a> *__thiscall <h3><a href=structs.html#struc_CarCollectionWithPointers>CarCollectionWithPointers</a>::FindCarWithFlagAfterGivenCar</h3>(<a href=structs.html#struc_CarCollectionWithPointers>struct CarCollectionWithPointers</a> *this, <a href=enums.html#enu_INVENTORY_CAR_FLAGS>enum INVENTORY_CAR_FLAGS</a> flag, <a href=structs.html#struc_InventoryCar>struct InventoryCar</a> *givenCar);</div>
 <a id=516340></a>
 <div><i>516340</i> int __thiscall <h3><a href=structs.html#struc_CarCollection>CarCollection</a>::IsCareerSlot</h3>(<a href=structs.html#struc_CarCollection>struct CarCollection</a> *this, unsigned int slotNameHash);</div>
 <a id=516360></a>
 <div class=mm><p>may not modify ecx! see 52A7A5</div>
 <div><i>516360</i> int __thiscall <h3><a href=structs.html#struc_CarCollection>CarCollection</a>::IsStockCar</h3>(<a href=structs.html#struc_CarCollection>struct CarCollection</a> *this, unsigned int slotHash);</div>
 <a id=5163A0></a>
-<div><i>5163A0</i> int __thiscall <h3><a href=structs.html#struc_CarCollection>CarCollection</a>::IsSlotUsed</h3>(<a href=structs.html#struc_CarCollection>struct CarCollection</a> *this, unsigned int slotNameHash);</div>
+<div><i>5163A0</i> int __thiscall <h3><a href=structs.html#struc_CarCollection>CarCollection</a>::IsTunedOrCareerSlotUsed</h3>(<a href=structs.html#struc_CarCollection>struct CarCollection</a> *this, unsigned int slotNameHash);</div>
 <a id=5163C0></a>
 <div><i>5163C0</i> void __thiscall <h3><a href=structs.html#struc_CarCollection>CarCollection</a>::ClearSponsorCarData</h3>(<a href=structs.html#struc_CarCollection>struct CarCollection</a> *this);</div>
 <a id=516480></a>
@@ -5810,7 +5810,7 @@ See <code><a class='ext' href='https://github.com/yugecin/nfsu2-re/blob/master/n
 <div><i>528410</i> float __thiscall <h3><a href=structs.html#struc_Career>Career</a>::528410</h3>(<a href=structs.html#struc_Career>struct Career</a> *this);</div>
 <a id=5284D0></a>
 <div class=mm><p>'this' is unused; can be treated as a normal __stdcall (__cdecl even)
-<p>finds first career car in <a href=vars.html#83A9D0>profileData</a>.<a href=structs.html#struc_ProfileData@10>player1</a>.<a href=structs.html#struc_Player@3B0>carCollection</a>.<a href=structs.html#struc_CarCollection@5954>careerCars</a> with nonzero <a href=structs.html#struc_CareerCar@7F4>isLocked</a> and puts it on zero</div>
+<p>finds first career car in <a href=vars.html#83A9D0>profileData</a>.<a href=structs.html#struc_ProfileData@10>player1</a>.<a href=structs.html#struc_Player@3B0>carCollection</a>.<a href=structs.html#struc_CarCollectionWithPointers@0>__parent</a>.<a href=structs.html#struc_CarCollection@5954>careerCars</a> with nonzero <a href=structs.html#struc_CareerCar@7F4>isLocked</a> and puts it on zero</div>
 <div><i>5284D0</i> void __thiscall <h3><a href=structs.html#struc_Career>Career</a>::UnlockNextLockedCarSlot</h3>(<a href=structs.html#struc_Career>struct Career</a> *this);</div>
 <a id=528500></a>
 <div><i>528500</i> int __thiscall <h3><a href=structs.html#struc_Career>Career</a>::528500</h3>(<a href=structs.html#struc_Career>struct Career</a> *this, unsigned int hash);</div>
@@ -5887,7 +5887,8 @@ TODO xref to explore outrun code</div>
 <div class=mm><p>also does <a href=vars.html#83A9D0>profileData</a>.<a href=structs.html#struc_ProfileData@156B0>field_156B0</a> and <a href=vars.html#874C40>controllerStruct874C40</a></div>
 <div><i>52A280</i> <h3><a href=structs.html#struc_Player>Player</a>::WriteToSaveData</h3></div>
 <a id=52A5D0></a>
-<div><i>52A5D0</i> void __thiscall <h3><a href=structs.html#struc_CarCollection>CarCollection</a>::ctor</h3>(<a href=structs.html#struc_CarCollection>struct CarCollection</a> *this);</div>
+<div class=mm><p>has <a href=funcs.html#531D20>CarCollection::ctor</a> inlined (at least it looks like that from a distance, I haven't looked very closely but seems reasonable to think)</div>
+<div><i>52A5D0</i> void __thiscall <h3><a href=structs.html#struc_CarCollectionWithPointers>CarCollectionWithPointers</a>::ctor</h3>(<a href=structs.html#struc_CarCollectionWithPointers>struct CarCollectionWithPointers</a> *this);</div>
 <a id=52A710></a>
 <div class=mm><p>slotNameHash like STOCK_PEUGOT or CAREER_SLOT_%d or TUNED_CAR_%d
 it supports creating from existing tuned/career car, but that is never actually possible to invoke with UI?</div>
@@ -5895,7 +5896,7 @@ it supports creating from existing tuned/career car, but that is never actually 
 <a id=52A7F0></a>
 <div><i>52A7F0</i> void __thiscall <h3><a href=structs.html#struc_CarCollection>CarCollection</a>::ClearOnlineCarData</h3>(<a href=structs.html#struc_CarCollection>struct CarCollection</a> *this);</div>
 <a id=52A8A0></a>
-<div><i>52A8A0</i> void __thiscall <h3><a href=structs.html#struc_CarCollection>CarCollection</a>::Clear</h3>(<a href=structs.html#struc_CarCollection>struct CarCollection</a> *this, int someNumber);</div>
+<div><i>52A8A0</i> void __thiscall <h3><a href=structs.html#struc_CarCollectionWithPointers>CarCollectionWithPointers</a>::Clear</h3>(<a href=structs.html#struc_CarCollectionWithPointers>struct CarCollectionWithPointers</a> *this, int someNumber);</div>
 <a id=52C2F0></a>
 <div><i>52C2F0</i> int __thiscall <h3><a href=structs.html#struc_UILabel>UILabel</a>::SetStringToDialogText</h3>(<a href=structs.html#struc_UILabel>struct UILabel</a> *this, <a href=structs.html#struc_DialogInfo>struct DialogInfo</a> *dialogInfo);</div>
 <a id=52C390></a>
@@ -5969,8 +5970,7 @@ mask is just <code>(1 &lt;&lt; x)</code></div>
 <a id=531CC0></a>
 <div><i>531CC0</i> void __thiscall <h3><a href=structs.html#struc_ProfileData>ProfileData</a>::dtor</h3>(<a href=structs.html#struc_ProfileData>struct ProfileData</a> *this);</div>
 <a id=531D20></a>
-<div class=mm><p>wtf</div>
-<div><i>531D20</i> int __thiscall <h3><a href=structs.html#struc_CarCollectionNoPointers>CarCollectionNoPointers</a>::ctor</h3>(<a href=structs.html#struc_CarCollectionNoPointers>struct CarCollectionNoPointers</a> *this);</div>
+<div><i>531D20</i> int __thiscall <h3><a href=structs.html#struc_CarCollection>CarCollection</a>::ctor</h3>(<a href=structs.html#struc_CarCollection>struct CarCollection</a> *this);</div>
 <a id=532670></a>
 <div class=mm><p>Converts language aware, like <a href=funcs.html#512530>LanguageAwareStrcpyCharToWchar</a> does. Calls <a href=funcs.html#51DE90>WideCharString::EnsureAllocatedSize</a>.
 Returns itself.</div>
@@ -6054,7 +6054,7 @@ TODO</div>
 - if &amp; 0x1FF, check if unlocked by career progress or if sponsor car, check cheat
 - if &amp; 0x1F9, check if unlocked from the start
 <p>checks all cars (stock, tuned, career, online, sponsor), depending on flagsToCheck</div>
-<div><i>534850</i> int __thiscall <h3><a href=structs.html#struc_CarCollection>CarCollection</a>::CountAvailableCars</h3>(<a href=structs.html#struc_CarCollection>struct CarCollection</a> *this, <a href=enums.html#enu_INVENTORY_CAR_FLAGS>enum INVENTORY_CAR_FLAGS</a> flagsToCheck, int typeToCheck);</div>
+<div><i>534850</i> int __thiscall <h3><a href=structs.html#struc_CarCollectionWithPointers>CarCollectionWithPointers</a>::CountAvailableCars</h3>(<a href=structs.html#struc_CarCollectionWithPointers>struct CarCollectionWithPointers</a> *this, <a href=enums.html#enu_INVENTORY_CAR_FLAGS>enum INVENTORY_CAR_FLAGS</a> flagsToCheck, int typeToCheck);</div>
 <a id=5348E0></a>
 <div class=mm><p>stockCarHash like STOCK_PEUGEOT</div>
 <div><i>5348E0</i> void __thiscall <h3><a href=structs.html#struc_CarCollection>CarCollection</a>::5348E0</h3>(<a href=structs.html#struc_CarCollection>struct CarCollection</a> *this, int slotIndex, unsigned int stockCarHash);</div>

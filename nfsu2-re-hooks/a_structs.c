@@ -1237,7 +1237,7 @@ struct SponsorCar { /*2 members, size 1Ch*/
 };
 EXPECT_SIZE(struct SponsorCar, 0x1C);
 
-struct CarCollection { /*14 members, size 9D44h*/ 
+struct CarCollection { /*9 members, size 9BD8h*/ 
 /*0*/	struct StockCar stockCars[48];
 /*540*/	int numStockCars;
 /*544*/	struct TunedCar tunedCars[20];
@@ -1249,18 +1249,23 @@ struct CarCollection { /*14 members, size 9D44h*/
 /*9A80*/int numOnlineCarSlots;
 /*9A84*/struct SponsorCar sponsorCars[12];
 /*9BD4*/int numSponsorCars;
-/**initialized to &this->stockCars + i*/
+};
+EXPECT_SIZE(struct CarCollection, 0x9BD8);
+
+struct CarCollectionWithPointers { /*6 members, size 9D44h*/ 
+/*0*/	struct CarCollection __parent;
+/**initialized to &this->__parent.stockCars + i*/
 /*9BD8*/struct StockCar *ptrStockCars[48];
-/**initialized to &this->tunedCars + i*/
+/**initialized to &this->__parent.tunedCars + i*/
 /*9C98*/struct TunedCar *ptrTunedCars[20];
-/**initialized to &this->careerCars + i*/
+/**initialized to &this->__parent.careerCars + i*/
 /*9CE8*/struct CareerCar *ptrCareerCars[5];
-/**initialized to &this->SponsorCars + i*/
+/**initialized to &this->__parent.SponsorCars + i*/
 /*9CFC*/struct SponsorCar *ptrSponsorCars[12];
-/**initialized to &this->onlineCars + i*/
+/**initialized to &this->__parent.onlineCars + i*/
 /*9D2C*/struct OnlineCar *ptrOnlineCars[6];
 };
-EXPECT_SIZE(struct CarCollection, 0x9D44);
+EXPECT_SIZE(struct CarCollectionWithPointers, 0x9D44);
 
 struct Player { /*14 members, size AB4Ch*/ 
 /*0*/	char name[32];
@@ -1272,7 +1277,7 @@ struct Player { /*14 members, size AB4Ch*/
 /*254*/	int field_254;
 /*258*/	char field_258[128];
 /*2D8*/	struct TraxConfig traxConfig[27];
-/*3B0*/	struct CarCollection carCollection;
+/*3B0*/	struct CarCollectionWithPointers carCollection;
 /*A0F4*/int field_A0F4;
 /*A0F8*/char field_A0F8;
 /*A0F9*/char field_A0F9;
@@ -1327,8 +1332,9 @@ struct ProfileData { /*84 members, size 29DD8h*/
 /*16770*/int field_16770;
 /*16774*/char _pad16774[0x4];
 /*16778*/void *memForWritingSaveData;
-/*1677C*/int field_1677C;
-/*16780*/char _pad16780[0x9BD8];
+/*1677C*/struct CarCollection carCollection;
+/*20354*/char _pad20354[0x4];
 /**0 or 1*/
 /*20358*/int currentPlayerIndex;
 };
+EXPECT_SIZE(struct ProfileData, 0x2035C);
