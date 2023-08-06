@@ -1891,6 +1891,7 @@ static char *blogposts[] = {
 	"blog-docs-rework",
 	"blog-exploring-UI",
 	"blog-customizing-sponsor-cars",
+	"blog-customizing-preset-cars",
 	NULL
 };
 static

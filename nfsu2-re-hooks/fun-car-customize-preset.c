@@ -28,6 +28,7 @@ FindCarPreset(unsigned int nameHash)
 #define SponsorCar__ApplyTuningToInstance 0x5039D0 /*(int playerIndex, struct MenuCarInstance*, int)*/
 #define TunedCar18__CopyTuningFromMenuCarInstance 0x503950 /*(struct MenuCarInstance*)*/
 
+// make up a new unique value that doesn't exist in 'enum INVENTORY_CAR_FLAGS' for our category
 #define CUSTOM_IS_PRESET_CAR 0x20
 
 // copied from replace-4EED10-CarSelectFNGObject__ChangeCategory.c and stripped to just do what we need
@@ -165,8 +166,9 @@ FindPresetCarAfterGivenCar(enum INVENTORY_CAR_FLAGS flagsToCheck, struct Invento
 	struct SponsorCar *s;
 	struct CarPreset *p;
 	int i;
-	char buf[32];
 
+	// initialize our SponsorCar instances with CarPreset data, this is only needed once
+	// so use the numPresetCars variables as a check to see if this was done already or not.
 	if (!numPresetCars) {
 		p = (void*) carPresets;
 		for (i = 0;
@@ -174,11 +176,10 @@ FindPresetCarAfterGivenCar(enum INVENTORY_CAR_FLAGS flagsToCheck, struct Invento
 			i < MAX_PRESET_CARS;
 			i++)
 		{
-			sprintf(buf, "STOCK_%s", p->modelName);
 			s = presetCarAsInventoryCar + numPresetCars++;
 			s->__parent.vtable = (void*) 0x79AD18;
 			s->__parent.field_4 = 0;
-			s->__parent.slotHash = i; //cihash(buf); // HELP
+			s->__parent.slotHash = i;
 			s->__parent.floatField_C = 0.0f;
 			s->__parent.field_10 = 0;
 			s->__parent.flags14 = CUSTOM_IS_PRESET_CAR;
