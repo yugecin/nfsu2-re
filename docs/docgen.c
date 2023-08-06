@@ -418,7 +418,7 @@ findstrucmember:
 									ref_element = docgen_resolve_ref_get_next_ref_element(result, ref_element);
 									if (IDC_is_struct(strumem->flag)) {
 										struc = dg->idcp->structs + strumem->typeid;
-									} else if ((structinfo = docgen_find_struct_from_text_type(dg, strumem->type, strlen(strumem->type)))) {
+									} else if (strumem->type && (structinfo = docgen_find_struct_from_text_type(dg, strumem->type, strlen(strumem->type)))) {
 										struc = structinfo->struc;
 										ref_element->is_from_pointer = 1;
 									} else {
@@ -584,7 +584,6 @@ err:
 	}
 	result->elements[0].type = UNRESOLVED;
 }
-/*jeanine:s:a:t;i:39;*/
 /*jeanine:p:i:14;p:0;a:b;y:12.13;*/
 struct docgen_tmpbuf {
 	char used;
