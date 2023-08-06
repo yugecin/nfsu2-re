@@ -84,6 +84,7 @@ static void stub() {}
 //#include "fun-car-customize-preset.c"
 //#include "fun-car-customize-sponsor.c"
 //#include "fun-destroy-garage-backdrop.c"
+//#include "fun-use-preset-cars-in-quickrace.c"
 
 #include "dbgw_a_main.c"
 

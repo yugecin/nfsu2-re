@@ -1,0 +1,88 @@
+{Use preset cars in quickrace} ||| blog date="2023 August 7"
+
+.pushmode section
+
+{Use preset cars in quickrace} ||| h id=usepresetcarsinquickrace
+
+Well this didn't take long after last blogpost
+({BLOGx03-customizing-preset-cars.html#customizingpresetcars}).                ||| href
+(you may want to read/skim that one first before going here, as this post
+is a continuation really)
+
+Just chasing xrefs to {83A9D0.E8} led me to the code that                      ||| ref
+initializes the car stuff to use in game. I suspected that that field
+would lead me to there because, well, it's the "current selected car".
+
+.pushmode plain
+<p class=center><video controls style=max-width:100%><source src=img/BLOGx04-USE-PRESET-CARS-IN-QUICKRACE.MP4 type=video/mp4></video>
+.popmode plain
+
+{} ||| index
+
+.popmode section
+.pushmode section
+
+{Reusing code from customizing preset cars} ||| h id=reusingcustomizingpresetcars
+
+I'm not gonna copy everything in here again, most of it is the same/similar to the
+code as in previous blog post.
+
+See {nfsu2-re-hooks/fun-use-preset-cars-in-quickrace.c} for all the code together.     ||| hookfileref
+
+Though important implementation notes: because I also don't just wanna copy all code,
+I'm relying on the existing code from {nfsu2-re-hooks/fun-car-customize-preset.c}.     ||| hookfileref
+
+That means the hook for ChangeCategory in this new file will also call the old hook
+(because the new hook file relies on the old hook file and I don't want to break the
+functionality of the old hook file by including the new hook file, youwithme?)
+
+Also we'll have to override CountAvailableCars_hook again, because we added something
+so it returns 0 if we're not in the customization menu. Of course it shouldn't do that
+anymore, we need a real count in the quickrace menu too now.
+
+.popmode section
+.pushmode section
+
+{The only really important code} ||| h id=the importantcode
+
+So the game crashes if we select a preset car for quick race. The reason is still
+the same as we've seen so many times before; it tried to find a car based on its
+slot hash. Since the slot hash for our custom preset car entries does not resolve
+to a real slot in the car collection, the car will not be found.
+
+The code skips over that and just doesn't call the ApplyTuning method then, but
+apparently that is vital because the game crashes... maybe it does more than
+ApplyTuning and it sets important things that are not solely tuning things.
+Maybe there's no car info at all and it just gets a very empty car instance...
+
+Anyways, we just need to hook in there once more and return the inventory car
+instance for the preset cars we made before.
+
+.controlchars [] .pushmode pre
+static
+__declspec(naked)
+void
+fun_use_preset_cars_in_quickrace_FindPresetCarWhenTuningForIngameCar()
+{
+	_asm {
+		cmp edi, [numPresetCars]
+		jb its_preset
+		// this is what we overwrote
+		add edx, 0x9BD8 // sizeof(struct CarCollection)
+		mov ecx, 0x525FC1
+		jmp ecx
+
+its_preset:
+		imul edi, 0x1C // sizeof(SponsorCar)
+		add edi, offset presetCarAsInventoryCar
+		mov eax, 0x525FE6
+		jmp eax
+	}
+}
+
+mkjmp(0x525FBB, fun_use_preset_cars_in_quickrace_FindPresetCarWhenTuningForIngameCar);
+.controlchars {} .popmode pre
+
+so simple!
+
+.popmode section

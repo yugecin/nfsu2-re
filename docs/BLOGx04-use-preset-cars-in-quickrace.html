@@ -1,5 +1,5 @@
 <!DOCTYPE html><html lang='en'><head><meta charset=utf-8>
-<title>nfsu2-re/blog</title>
+<title>nfsu2-re/BLOGx04: Use preset cars in quickrace</title>
 <style>
 body {
 	font-family: Tahoma,Arial,sans-serif;
@@ -283,10 +283,74 @@ pre.ida span.hi {
 <a href='vars.html' class='var'>variables</a>
 <a href='cheatsheet.html'>cheatsheet</a></nav>
 </header>
-<div><h2>Blog</h2><ul>
-<li><a href='BLOGx04-use-preset-cars-in-quickrace.html'>Use preset cars in quickrace (2023 August 7)</a></li>
-<li><a href='BLOGx03-customizing-preset-cars.html'>Customizing preset cars (2023 August 6)</a></li>
-<li><a href='BLOGx02-customizing-sponsor-cars.html'>Customizing sponsor cars (2023 July 15)</a></li>
-<li><a href='BLOGx01-exploring-UI.html'>Exploring UI (2022 Apr 23)</a></li>
-<li><a href='BLOGx00-docs-rework.html'>Docs rework (2022 Apr 23)</a></li>
-</ul></div></body></html>
+<div class='mm'>
+<p><a href='blog.html'>blog</a> &gt; Use preset cars in quickrace (2023 August 7)</p><div><h2 id="usepresetcarsinquickrace">Use preset cars in quickrace <a href='#usepresetcarsinquickrace'>#</a></h2>
+<p>Well this didn't take long after last blogpost
+(<a href='BLOGx03-customizing-preset-cars.html#customizingpresetcars'>Customizing preset cars</a>).
+(you may want to read/skim that one first before going here, as this post
+is a continuation really)
+<p>Just chasing xrefs to <a href=vars.html#83A9D0>profileData</a>.<a href=structs.html#struc_ProfileData@10>player1</a>.<a href=structs.html#struc_Player@D4>d4</a>.<a href=structs.html#struc_Player_D4@4>currentCarSelectionSlotHash?</a> led me to the code that
+initializes the car stuff to use in game. I suspected that that field
+would lead me to there because, well, it's the "current selected car".
+<p class=center><video controls style=max-width:100%><source src=img/BLOGx04-USE-PRESET-CARS-IN-QUICKRACE.MP4 type=video/mp4></video>
+<ul>
+<li><a href='#usepresetcarsinquickrace'>Use preset cars in quickrace</a></li>
+<li><a href='#reusingcustomizingpresetcars'>Reusing code from customizing preset cars</a></li>
+<li><a href='#the'>The only really important code</a></li>
+</ul>
+<p style='text-align:right'><small><a href='#index'>Index</a></small></p>
+</div>
+<div><h2 id="reusingcustomizingpresetcars">Reusing code from customizing preset cars <a href='#reusingcustomizingpresetcars'>#</a></h2>
+<p>I'm not gonna copy everything in here again, most of it is the same/similar to the
+code as in previous blog post.
+<p>See <code><a class='ext' href='https://github.com/yugecin/nfsu2-re/blob/master/nfsu2-re-hooks/fun-use-preset-cars-in-quickrace.c'>nfsu2-re-hooks/fun-use-preset-cars-in-quickrace.c</a></code> for all the code together.
+<p>Though important implementation notes: because I also don't just wanna copy all code,
+I'm relying on the existing code from <code><a class='ext' href='https://github.com/yugecin/nfsu2-re/blob/master/nfsu2-re-hooks/fun-car-customize-preset.c'>nfsu2-re-hooks/fun-car-customize-preset.c</a></code>.
+<p>That means the hook for ChangeCategory in this new file will also call the old hook
+(because the new hook file relies on the old hook file and I don't want to break the
+functionality of the old hook file by including the new hook file, youwithme?)
+<p>Also we'll have to override CountAvailableCars_hook again, because we added something
+so it returns 0 if we're not in the customization menu. Of course it shouldn't do that
+anymore, we need a real count in the quickrace menu too now.
+<p style='text-align:right'><small><a href='#index'>Index</a></small></p>
+</div>
+<div><h2 id="the" importantcode="">The only really important code <a href='#the'>#</a></h2>
+<p>So the game crashes if we select a preset car for quick race. The reason is still
+the same as we've seen so many times before; it tried to find a car based on its
+slot hash. Since the slot hash for our custom preset car entries does not resolve
+to a real slot in the car collection, the car will not be found.
+<p>The code skips over that and just doesn't call the ApplyTuning method then, but
+apparently that is vital because the game crashes... maybe it does more than
+ApplyTuning and it sets important things that are not solely tuning things.
+Maybe there's no car info at all and it just gets a very empty car instance...
+<p>Anyways, we just need to hook in there once more and return the inventory car
+instance for the preset cars we made before.
+<pre>
+static
+__declspec(naked)
+void
+fun_use_preset_cars_in_quickrace_FindPresetCarWhenTuningForIngameCar()
+{
+	_asm {
+		cmp edi, [numPresetCars]
+		jb its_preset
+		// this is what we overwrote
+		add edx, 0x9BD8 // sizeof(struct CarCollection)
+		mov ecx, 0x525FC1
+		jmp ecx
+
+its_preset:
+		imul edi, 0x1C // sizeof(SponsorCar)
+		add edi, offset presetCarAsInventoryCar
+		mov eax, 0x525FE6
+		jmp eax
+	}
+}
+
+mkjmp(0x525FBB, fun_use_preset_cars_in_quickrace_FindPresetCarWhenTuningForIngameCar);
+</pre>
+<p>so simple!
+<p style='text-align:right'><small><a href='#index'>Index</a></small></p>
+</div>
+
+</div></body></html>
