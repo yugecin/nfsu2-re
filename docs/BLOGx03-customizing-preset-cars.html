@@ -788,7 +788,7 @@ fun_car_customize_preset_PostUpdateUI(<a href=structs.html#struc_CarSelectFNGObj
 		// because there's an "animation" active named "HIDE". Ensure the "SHOW" "animation" is active.
 		<a href=funcs.html#51CF70>SetUIElementAnimationByName</a>(el, "SHOW", 0);
 		<a href=funcs.html#4954E0>HideUIElementAndChildrenByHash</a>("UI_QRCarSelect.fng", hashof_racemodevalue);
-		str = <a href=funcs.html#61C460>FindCarPreset</a>((presetCarAsInventoryCar + this-&gt;<a href=structs.html#struc_CarSelectFNGObject@58>currentSelectedCar</a>-><a href=structs.html#struc_CareerCarLotFNGObject_50@20>carInstance</a>)-&gt;<a href=structs.html#struc_SponsorCar@18>carPresetHash</a>)-&gt;<a href=structs.html#struc_CarPreset@28>name</a>;
+		str = <a href=funcs.html#61C460>FindCarPreset</a>((presetCarAsInventoryCar + this-&gt;<a href=structs.html#struc_CarSelectFNGObject@58>currentSelectedCar</a>-><a href=structs.html#struc_CareerCarLotFNGObject_50@920>slotHash</a>)-&gt;<a href=structs.html#struc_SponsorCar@18>carPresetHash</a>)-&gt;<a href=structs.html#struc_CarPreset@28>name</a>;
 		<a href=funcs.html#537B80>SetUILabelByHashFormattedString</a>("UI_QRCarSelect.fng", hashof_racemode, str, NULL);
 		<a href=funcs.html#5379C0>FindUIElementByHash</a>("UI_QRCarSelect.fng", hashof_racemode)-&gt;<a href=structs.html#struc_UIElement@2C>pos</a>-&gt;<a href=structs.html#struc_UIPos@1C>leftOffset</a> = 85.0f;
 	} else {
