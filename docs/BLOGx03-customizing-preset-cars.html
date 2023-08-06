@@ -297,6 +297,7 @@ pre.ida span.hi {
 <ul>
 <li><a href='#countingnumberofpresetcars'>Returning the correct amount of preset cars</a></li>
 <li><a href='#iteratingpresetcars'>Iterating preset cars</a></li>
+<li><a href='#constraincategory'>Constraining the category to customization menu only</a></li>
 </ul>
 </li>
 <li><a href='#usepresetinsteadofstock'>Showing the preset cars instead of stock cars</a></li>
@@ -568,6 +569,61 @@ mkjmp(<a href=funcs.html#5162D0>CarCollectionWithPointers::FindCarWithFlagAfterG
 </pre>
 <p>I'm making instances here of <a href=structs.html#struc_SponsorCar>struct SponsorCar</a> to return, because it seems like the best fit as sponsor cars
 are also created from preset cars.
+<p style='text-align:right'><small><a href='#index'>Index</a></small></p>
+</div>
+<div><p id='constraincategory'><small><a href='#execution'>Execution</a> &gt; <a href='#fillingpresetcarcategory'>Filling the preset car category with car entries</a></small></p>
+<h4>Constraining the category to customization menu only <a href='#constraincategory'>#</a></h4>
+<p>If you now go to the customization menu, select the preset car category, escape and go to quick race car select,
+you see the preset car category is still selected. This is because the last selected category (and car even)
+gets remembered. This is bad because selecting a preset car in the quick race menu will make the game crash
+when continuing.
+<p>I don't know/remember where exactly it gets reset when different menus are shown, but it sure looks like this
+isn't being reset, possibly because we added a totally new category. So let's ensure we reset the category,
+and the easiest place to do this - I think - is in the CountAvailableCars function.
+<pre>
+  static
+  __declspec(naked)
+  void fun_car_customize_preset_CarCollection__CountAvailableCars_hook(<a href=enums.html#enu_INVENTORY_CAR_FLAGS>enum INVENTORY_CAR_FLAGS</a> flagsToCheck, int typeToCheck)
+  {
+  	_asm {
+  		test [esp+4], CUSTOM_IS_PRESET_CAR
+  		jnz its_preset
+  		// not preset, return back where we hooked from (but do the things we overwrote first)
+  		sub esp, 8
+  		push ebx
+  		mov ebx, [esp+0xC+8]
+  		mov eax, 0x534858
+  		jmp eax
+  its_preset:
+<span style="background:#0804">+
++ 		// Need to ensure that our custom "preset cars" category cannot be selected unless we're in the
++ 		// customize menu. Otherwise one can go to customize, select preset cars, escape, go to quick
++ 		// race, and preset cars will still be selected which is no good (we don't handle that so it will
++ 		// crash the game once chosen). And once we're in our custom category, there's no way out (in the
++ 		// non-customize menus), because they cycle between known values and our custom category is not a
++ 		// known value. This is a good place, because the car select will fall back to the "all cars" category
++ 		// if the CountAvailableCars function returns 0 with the initially applied car filter.
++ 		mov eax, offset <a href=vars.html#83A9D0>profileData</a>
++ 		test [eax+0x156A8], MENU_STATE_CAR_CUSTOMIZE // <a href=structs.html#struc_ProfileData>struct ProfileData</a>.<a href=structs.html#struc_ProfileData@156A8>menuState</a>
++ 		jnz ok
++ 		// uh-oh, we're not in customize menu. Return zero to trigger the fallback that will reset the
++ 		// category to "all cars".
++ 		xor eax, eax
++ 		retn 8
++ ok:</span>
+
+  		// not sure if we really need to count or just return nonzero to make things happy, but lets do a real count
+  		or eax, 0xFFFFFFFF
+  		mov ecx, offset <a href=vars.html#8A31E4>carPresets</a>
+  next:
+  		inc eax
+  		mov ecx, [ecx] // <a href=structs.html#struc_CarPreset>struct CarPreset</a>.<a href=structs.html#struc_CarPreset@0>link</a>.<a href=structs.html#struc_ObjectLink@0>next</a>
+  		cmp ecx, offset <a href=vars.html#8A31E4>carPresets</a>
+  		jnz next
+  		retn 8
+  	}
+  }
+</pre>
 <p style='text-align:right'><small><a href='#index'>Index</a></small></p>
 </div>
 <p><small><a href='#execution'>Execution</a> &gt; <a href='#fillingpresetcarcategory'>Filling the preset car category with car entries</a> (continuation)</small></p>
