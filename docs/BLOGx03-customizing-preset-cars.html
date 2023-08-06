@@ -511,11 +511,11 @@ FindPresetCarAfterGivenCar(<a href=enums.html#enu_INVENTORY_CAR_FLAGS>enum INVEN
 			s = presetCarAsInventoryCar + numPresetCars++;
 			s-&gt;<a href=structs.html#struc_SponsorCar@0>__parent</a>.<a href=structs.html#struc_InventoryCar@0>vtable</a> = (void*) <a href=vars.html#79AD18>sponsorCar$vtable</a>;
 			s-&gt;<a href=structs.html#struc_SponsorCar@0>__parent</a>.<a href=structs.html#struc_InventoryCar@4>field_4</a> = 0;
-			s-&gt;<a href=structs.html#struc_SponsorCar@0>__parent</a>.<a href=structs.html#struc_InventoryCar@8>slotHash</a> = <a href=funcs.html#505450>SomeHashCI505450</a>(buf);
+			s-&gt;<a href=structs.html#struc_SponsorCar@0>__parent</a>.<a href=structs.html#struc_InventoryCar@8>slotHash</a> = <a href=funcs.html#505450>cihash</a>(buf);
 			s-&gt;<a href=structs.html#struc_SponsorCar@0>__parent</a>.<a href=structs.html#struc_InventoryCar@C>floatField_C</a> = 0.0f;
 			s-&gt;<a href=structs.html#struc_SponsorCar@0>__parent</a>.<a href=structs.html#struc_InventoryCar@10>field_10</a> = 0;
 			s-&gt;<a href=structs.html#struc_SponsorCar@0>__parent</a>.<a href=structs.html#struc_InventoryCar@14>flags</a> = CUSTOM_IS_PRESET_CAR;
-			s-&gt;<a href=structs.html#struc_SponsorCar@18>carPresetHash</a> = <a href=funcs.html#505450>SomeHashCI505450</a>(p-&gt;<a href=structs.html#struc_CarPreset@28>name</a>);
+			s-&gt;<a href=structs.html#struc_SponsorCar@18>carPresetHash</a> = <a href=funcs.html#505450>cihash</a>(p-&gt;<a href=structs.html#struc_CarPreset@28>name</a>);
 		}
 	}
 	if (!givenCar) {
@@ -584,12 +584,12 @@ I'm gonna simply use the index of the preset car as 'hash':
   			s = presetCarAsInventoryCar + numPresetCars++;
   			s-&gt;<a href=structs.html#struc_SponsorCar@0>__parent</a>.<a href=structs.html#struc_InventoryCar@0>vtable</a> = (void*) <a href=vars.html#79AD18>sponsorCar$vtable</a>;
   			s-&gt;<a href=structs.html#struc_SponsorCar@0>__parent</a>.<a href=structs.html#struc_InventoryCar@4>field_4</a> = 0;
-<span style="background:#c004">-  			s-&gt;<a href=structs.html#struc_SponsorCar@0>__parent</a>.<a href=structs.html#struc_InventoryCar@8>slotHash</a> = <a href=funcs.html#505450>SomeHashCI505450</a>(buf);</span>
+<span style="background:#c004">-  			s-&gt;<a href=structs.html#struc_SponsorCar@0>__parent</a>.<a href=structs.html#struc_InventoryCar@8>slotHash</a> = <a href=funcs.html#505450>cihash</a>(buf);</span>
 <span style="background:#0804">+  			s-&gt;<a href=structs.html#struc_SponsorCar@0>__parent</a>.<a href=structs.html#struc_InventoryCar@8>slotHash</a> = i;</span>
   			s-&gt;<a href=structs.html#struc_SponsorCar@0>__parent</a>.<a href=structs.html#struc_InventoryCar@C>floatField_C</a> = 0.0f;
   			s-&gt;<a href=structs.html#struc_SponsorCar@0>__parent</a>.<a href=structs.html#struc_InventoryCar@10>field_10</a> = 0;
   			s-&gt;<a href=structs.html#struc_SponsorCar@0>__parent</a>.<a href=structs.html#struc_InventoryCar@14>flags</a> = CUSTOM_IS_PRESET_CAR;
-  			s-&gt;<a href=structs.html#struc_SponsorCar@18>carPresetHash</a> = <a href=funcs.html#505450>SomeHashCI505450</a>(p-&gt;<a href=structs.html#struc_CarPreset@28>name</a>);
+  			s-&gt;<a href=structs.html#struc_SponsorCar@18>carPresetHash</a> = <a href=funcs.html#505450>cihash</a>(p-&gt;<a href=structs.html#struc_CarPreset@28>name</a>);
   		}
   	}
   	if (!givenCar) {
@@ -653,7 +653,7 @@ fun_car_customize_preset_CustomizeCar_set_car_instance_if_missing(<a href=struct
 	presetCar = presetCarAsInventoryCar + slotNameHash;
 
 	sprintf(buf, "STOCK_%s", <a href=funcs.html#61C460>FindCarPreset</a>(presetCar-&gt;<a href=structs.html#struc_SponsorCar@18>carPresetHash</a>)-&gt;<a href=structs.html#struc_CarPreset@8>modelName</a>);
-	tunedCar = <a href=funcs.html#52A710>CarCollection::CreateNewTunedCarFromFromDataAtSlot</a>(this, <a href=funcs.html#43DB50>SomeHashCS43DB50</a>(buf));
+	tunedCar = <a href=funcs.html#52A710>CarCollection::CreateNewTunedCarFromFromDataAtSlot</a>(this, <a href=funcs.html#43DB50>cshash</a>(buf));
 	// (3rd param is MenuCarInstance, using an instance in the data section that
 	//  gets overridden later in the Customize process anyways)
 	// (4th param is unknown, but unused in SponsorCar's ApplyTuning

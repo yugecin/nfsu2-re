@@ -1887,7 +1887,7 @@ TODO please reconfirm*/</span>
 </ul>
 <a id=struc_CheatScreenData></a>
 <div>struct <h3>CheatScreenData</h3> { <i>/*11 members, size 3Ch*/</i> <em></em>
-<i id=struc_CheatScreenData@0></i><i>/*0*/	</i>void **ppFunction;
+<i id=struc_CheatScreenData@0></i><i>/*0*/	</i>void **vtable;
 <i id=struc_CheatScreenData@4></i><span class='mm'>/**only 1 when in the 'press enter key' screen*/</span>
 <i>/*4*/	</i>char doCheatCheck;
 <i>/*5*/	</i>char cheatExecuted;
@@ -1912,6 +1912,8 @@ TODO please reconfirm*/</span>
 <pre><i>576050</i> <a href=funcs.html#576050 title='void __thiscall CheatScreenData__UndoCheat__(struct CheatScreenData *this, int cheatdata_field28);'>CheatScreenData::UndoCheat??</a></pre>
 <li><!--5760A0-->
 <pre><i>5760A0</i> <a href=funcs.html#5760A0 title='int __thiscall CheatScreenData__DoCareerCheat(struct CheatScreenData *this, int careerCheatIdx);'>CheatScreenData::DoCareerCheat</a></pre>
+<li><!--579CA0-->
+<pre><i>579CA0</i> <a href=funcs.html#579CA0 title='CheatScreenData::Disable'>CheatScreenData::Disable</a></pre>
 <li><!--579CB0-->
 <pre><i>579CB0</i> <a href=funcs.html#579CB0 title='void __thiscall CheatScreenData__CheatMatched(struct CheatScreenData *this, int cheat_index);'>CheatScreenData::CheatMatched</a></pre>
 <li><!--579D30-->
@@ -5083,6 +5085,8 @@ return amount of bytes actually read*/</span>
 <pre><i>4EED10</i> <a href=funcs.html#4EED10 title='void __thiscall CarSelectFNGObject__ChangeCategory(struct CarSelectFNGObject *this, unsigned int message);'>CarSelectFNGObject::ChangeCategory</a></pre>
 <li><!--4F9D90-->
 <pre><i>4F9D90</i> <a href=funcs.html#4F9D90 title='struct CarSelectFNGObject *__thiscall CarSelectFNGObject__ctor(struct CarSelectFNGObject *this, int);'>CarSelectFNGObject::ctor</a></pre>
+<li><!--4FA2A0-->
+<pre><i>4FA2A0</i> <a href=funcs.html#4FA2A0 title='void __thiscall CarSelectFNGObject__UseCurrentCarForPlayer(struct CarSelectFNGObject *this, int playerIndex);'>CarSelectFNGObject::UseCurrentCarForPlayer</a></pre>
 <li><!--4FC1F0-->
 <pre><i>4FC1F0</i> <a href=funcs.html#4FC1F0 title='CarSelectFNGObject::MessageHandler'>CarSelectFNGObject::MessageHandler</a></pre>
 </ul>

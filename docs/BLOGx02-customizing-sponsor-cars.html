@@ -458,7 +458,7 @@ fun_car_customize_sponsor_GetSponsorCar(<a href=structs.html#struc_CarCollection
 	while (i-- &gt; 0) {
 		if (this-&gt;<a href=structs.html#struc_CarCollection@9A84>sponsorCars</a>[i].<a href=structs.html#struc_SponsorCar@0>__parent</a>.<a href=structs.html#struc_InventoryCar@8>slotHash</a> == slotNameHash) {
 			sprintf(buf, "STOCK_%s", <a href=funcs.html#61C460>FindCarPreset</a>(this-&gt;<a href=structs.html#struc_CarCollection@9A84>sponsorCars</a>[i].<a href=structs.html#struc_SponsorCar@18>carPresetHash</a>)-&gt;<a href=structs.html#struc_CarPreset@8>modelName</a>);
-			return <a href=funcs.html#52A710>CarCollection::CreateNewTunedCarFromFromDataAtSlot</a>(this, <a href=funcs.html#43DB50>SomeHashCS43DB50</a>(buf));
+			return <a href=funcs.html#52A710>CarCollection::CreateNewTunedCarFromFromDataAtSlot</a>(this, <a href=funcs.html#43DB50>cshash</a>(buf));
 		}
 	}
 	return NULL;
@@ -590,7 +590,7 @@ fun_car_customize_sponsor_CreateTunedCarFromSponsorCar(<a href=structs.html#stru
 	while (i-- &gt; 0) {
 		if (this-&gt;<a href=structs.html#struc_CarCollection@9A84>sponsorCars</a>[i].<a href=structs.html#struc_SponsorCar@0>__parent</a>.<a href=structs.html#struc_InventoryCar@8>slotHash</a> == slotNameHash) {
 			sprintf(buf, "STOCK_%s", <a href=funcs.html#61C460>FindCarPreset</a>(this-&gt;<a href=structs.html#struc_CarCollection@9A84>sponsorCars</a>[i].<a href=structs.html#struc_SponsorCar@18>carPresetHash</a>)-&gt;<a href=structs.html#struc_CarPreset@8>modelName</a>);
-			tunedCar = <a href=funcs.html#52A710>CarCollection::CreateNewTunedCarFromFromDataAtSlot</a>(this, <a href=funcs.html#43DB50>SomeHashCS43DB50</a>(buf));
+			tunedCar = <a href=funcs.html#52A710>CarCollection::CreateNewTunedCarFromFromDataAtSlot</a>(this, <a href=funcs.html#43DB50>cshash</a>(buf));
 			// (need a temp instance of MenuCarInstance to use for code below, the <a href=vars.html#8389D0>customizingCarInstanceB</a> variable
 			//  is a simple instance to use because it gets overridden later in the Customize process
 			//  anyways so we can do as we please)

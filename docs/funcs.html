@@ -284,7 +284,7 @@ pre.ida span.hi {
 <a href='cheatsheet.html'>cheatsheet</a></nav>
 </header>
 <div class='func'>
-<h2>Functions (1639)</h2>
+<h2>Functions (1641)</h2>
 <ul>
 <li><a href=#4012B0>
 ??SomeUpdatePosition</a>
@@ -393,9 +393,9 @@ Pool::UngetEntry</a>
 <li><a href=#43D890>
 IsMarkerInRange</a>
 <li><a href=#43DB50>
-SomeHashCS43DB50</a>
+cshash</a>
 <li><a href=#43DB80>
-SomeHashCS_WithStartValue</a>
+cshashWithStartValue</a>
 <li><a href=#43DBB0>
 strlenWithNullcheck</a>
 <li><a href=#43DBD0>
@@ -707,11 +707,11 @@ LSLangSelectFNGObject::MessageHandler</a>
 <li><a href=#4A90F0>
 LSSplashFNGObject::ctor</a>
 <li><a href=#4A9310>
-LoadPCLoadingFNGDoSomethingWithIt</a>
+UnloadPCLoadingFNGIfLoaded</a>
 <li><a href=#4A9330>
-LoadPCLoadingFNG</a>
+IsPCLoadingFNGLoaded</a>
 <li><a href=#4A9340>
-LoadPCLoadingFNGReturnSomeHash</a>
+GetPCLoadingFNGIfLoaded</a>
 <li><a href=#4A9360>
 ??EnterProfileManagerMenu</a>
 <li><a href=#4A93E0>
@@ -1302,6 +1302,8 @@ FNGINIT_UI_InGame_WorldMap.fng</a>
 FNGINIT_UI_CareerWorldMap.fng</a>
 <li><a href=#4F9D90>
 CarSelectFNGObject::ctor</a>
+<li><a href=#4FA2A0>
+CarSelectFNGObject::UseCurrentCarForPlayer</a>
 <li><a href=#4FA550>
 FNGINIT_UI_QRModeOptions.fng</a>
 <li><a href=#4FA5B0>
@@ -1609,7 +1611,7 @@ stricmp2</a>
 <li><a href=#505400>
 List::RemoveEntry</a>
 <li><a href=#505450>
-SomeHashCI505450</a>
+cihash</a>
 <li><a href=#50B460>
 RenderCursor</a>
 <li><a href=#50B790>
@@ -2834,6 +2836,8 @@ SetupJoystickEventNodeSlotPool</a>
 GetQueuedFileSlotPoolEntryByHandle</a>
 <li><a href=#5798F0>
 FindSomeExistingPoolEntryWithFilename</a>
+<li><a href=#579CA0>
+CheatScreenData::Disable</a>
 <li><a href=#579CB0>
 CheatScreenData::CheatMatched</a>
 <li><a href=#579D30>
@@ -3739,12 +3743,12 @@ Same as <a href=funcs.html#43F920>UngetPoolEntry</a>, but a thiscall.</div>
 radius is always a <a href=structs.html#struc_Marker@40>radius</a>, so it's usually <code>4-14</code></div>
 <div><i>43D890</i> int __cdecl <h3>IsMarkerInRange</h3>(<a href=structs.html#struc_vec2>struct vec2</a> *position, <a href=structs.html#struc_vec2>struct vec2</a> *markerPosition, int radius);</div>
 <a id=43DB50></a>
-<div class=mm><p>Case sensitive hash function.</div>
-<div><i>43DB50</i> int __cdecl <h3>SomeHashCS43DB50</h3>(char *str);</div>
+<div class=mm><p>Case sensitive hash function. see also <a href=funcs.html#43DB80>cshashWithStartValue</a> and <a href=funcs.html#505450>cihash</a></div>
+<div><i>43DB50</i> unsigned int __cdecl <h3>cshash</h3>(char *str);</div>
 <a id=43DB80></a>
-<div class=mm><p>Like <a href=funcs.html#43DB50>SomeHashCS43DB50</a>, but starts with given <code>startValue</code> instead of <code>-1</code>.
-TODO where used?</div>
-<div><i>43DB80</i> unsigned int __cdecl <h3>SomeHashCS_WithStartValue</h3>(char *str, unsigned int startValue);</div>
+<div class=mm><p>Like <a href=funcs.html#43DB50>cshash</a>, but starts with given <code>startValue</code> instead of <code>-1</code>.
+TODO where used? and why</div>
+<div><i>43DB80</i> unsigned int __cdecl <h3>cshashWithStartValue</h3>(char *str, unsigned int startValue);</div>
 <a id=43DBB0></a>
 <div><i>43DBB0</i> int __cdecl <h3>strlenWithNullcheck</h3>(char *str);</div>
 <a id=43DBD0></a>
@@ -3919,15 +3923,15 @@ Implementation <code><a class='ext' href='https://github.com/yugecin/nfsu2-re/bl
 <a id=495460></a>
 <div><i>495460</i> int __cdecl <h3>SetUILabelByHashLanguageString</h3>(char *fngName, unsigned int hash, unsigned int languageString);</div>
 <a id=495490></a>
-<div class=mm><p>Uses <a href=funcs.html#505450>SomeHashCI505450</a>.</div>
+<div class=mm><p>Uses <a href=funcs.html#505450>cihash</a>.</div>
 <div><i>495490</i> int __cdecl <h3>SetUILabelByNameLanguageString</h3>(char *fngName, char *name, unsigned int languageString);</div>
 <a id=4954C0></a>
-<div class=mm><p>Uses <a href=funcs.html#505450>SomeHashCI505450</a>.</div>
+<div class=mm><p>Uses <a href=funcs.html#505450>cihash</a>.</div>
 <div><i>4954C0</i> int __cdecl <h3>HideUIElementAndChildrenByName</h3>(char *fngName, char *name);</div>
 <a id=4954E0></a>
 <div><i>4954E0</i> void __cdecl <h3>HideUIElementAndChildrenByHash</h3>(char *fngName, unsigned int hash);</div>
 <a id=495500></a>
-<div class=mm><p>Uses <a href=funcs.html#505450>SomeHashCI505450</a>.</div>
+<div class=mm><p>Uses <a href=funcs.html#505450>cihash</a>.</div>
 <div><i>495500</i> int __cdecl <h3>ShowUIElementAndChildrenByName</h3>(char *fngName, char *name);</div>
 <a id=495520></a>
 <div><i>495520</i> void __cdecl <h3>ShowUIElementAndChildrenByHash</h3>(char *fngName, unsigned int hash);</div>
@@ -4113,11 +4117,12 @@ See <code><a class='ext' href='https://github.com/yugecin/nfsu2-re/blob/master/n
 <a id=4A90F0></a>
 <div><i>4A90F0</i> <a href=structs.html#struc_LSSplashFNGObject>struct LSSplashFNGObject</a> *__thiscall <h3><a href=structs.html#struc_LSSplashFNGObject>LSSplashFNGObject</a>::ctor</h3>(<a href=structs.html#struc_LSSplashFNGObject>struct LSSplashFNGObject</a> *this, int);</div>
 <a id=4A9310></a>
-<div><i>4A9310</i> <h3>LoadPCLoadingFNGDoSomethingWithIt</h3></div>
+<div><i>4A9310</i> void __cdecl <h3>UnloadPCLoadingFNGIfLoaded</h3>();</div>
 <a id=4A9330></a>
-<div><i>4A9330</i> <h3>LoadPCLoadingFNG</h3></div>
+<div><i>4A9330</i> <h3>IsPCLoadingFNGLoaded</h3></div>
 <a id=4A9340></a>
-<div><i>4A9340</i> <h3>LoadPCLoadingFNGReturnSomeHash</h3></div>
+<div class=mm><p>return IsFNGLoaded("PC_Loading.fng") ? "PC_Loading.fng" : 0;</div>
+<div><i>4A9340</i> char *__cdecl <h3>GetPCLoadingFNGIfLoaded</h3>();</div>
 <a id=4A9360></a>
 <div><i>4A9360</i> <h3>??EnterProfileManagerMenu</h3></div>
 <a id=4A93E0></a>
@@ -4733,6 +4738,8 @@ If it's found in the primary controls link: return its index, if it's found in t
 <div><i>4F9D30</i> <h3>FNGINIT_UI_CareerWorldMap.fng</h3></div>
 <a id=4F9D90></a>
 <div><i>4F9D90</i> <a href=structs.html#struc_CarSelectFNGObject>struct CarSelectFNGObject</a> *__thiscall <h3><a href=structs.html#struc_CarSelectFNGObject>CarSelectFNGObject</a>::ctor</h3>(<a href=structs.html#struc_CarSelectFNGObject>struct CarSelectFNGObject</a> *this, int);</div>
+<a id=4FA2A0></a>
+<div><i>4FA2A0</i> void __thiscall <h3><a href=structs.html#struc_CarSelectFNGObject>CarSelectFNGObject</a>::UseCurrentCarForPlayer</h3>(<a href=structs.html#struc_CarSelectFNGObject>struct CarSelectFNGObject</a> *this, int playerIndex);</div>
 <a id=4FA550></a>
 <div><i>4FA550</i> <h3>FNGINIT_UI_QRModeOptions.fng</h3></div>
 <a id=4FA5B0></a>
@@ -4810,7 +4817,7 @@ If it's found in the primary controls link: return its index, if it's found in t
 <div class=mm><p>will delegate to <a href=structs.html#struc_UIProgressBar$vtable@1C>procUpdateUIVertical</a> or <a href=structs.html#struc_UIProgressBar$vtable@20>procUpdateUIHorizontal</a> based on <a href=structs.html#struc_UIProgressBar@4>isVertical</a></div>
 <div><i>4FF530</i> void __thiscall <h3><a href=structs.html#struc_UIProgressBar>UIProgressBar</a>::UpdateUI</h3>(<a href=structs.html#struc_UIProgressBar>struct UIProgressBar</a> *this);</div>
 <a id=4FF550></a>
-<div class=mm><p>value [0,1]</div>
+<div class=mm><p>does not update ui elements, need to do that separately. value [0,1]</div>
 <div><i>4FF550</i> void __thiscall <h3><a href=structs.html#struc_UIProgressBar>UIProgressBar</a>::SetValue</h3>(<a href=structs.html#struc_UIProgressBar>struct UIProgressBar</a> *this, float value);</div>
 <a id=4FF640></a>
 <div><i>4FF640</i> <h3>GetLanguageFileCode</h3></div>
@@ -5150,8 +5157,8 @@ set <code>this-&gt;<a href=structs.html#struc_UIElementVisitor_FindByHash@8>foun
 <a id=505400></a>
 <div><i>505400</i> void __thiscall <h3><a href=structs.html#struc_List>List</a>::RemoveEntry</h3>(<a href=structs.html#struc_List>struct List</a> *this, void *entry);</div>
 <a id=505450></a>
-<div class=mm><p>Case insensitive hash function.</div>
-<div><i>505450</i> int __cdecl <h3>SomeHashCI505450</h3>(char *str);</div>
+<div class=mm><p>Case insensitive hash function. see also <a href=funcs.html#43DB50>cshash</a></div>
+<div><i>505450</i> unsigned int __cdecl <h3>cihash</h3>(char *str);</div>
 <a id=50B460></a>
 <div><i>50B460</i> int __cdecl <h3>RenderCursor</h3>(int x, int y);</div>
 <a id=50B790></a>
@@ -5168,7 +5175,7 @@ set <code>this-&gt;<a href=structs.html#struc_UIElementVisitor_FindByHash@8>foun
 <p>works with data with binsection header 30203 &amp; 30210</div>
 <div><i>50B920</i> unsigned int __thiscall <h3><a href=structs.html#struc_SomethingUIImpl>SomethingUIImpl</a>::GetPackageHash?</h3>(<a href=structs.html#struc_SomethingUIImpl>struct SomethingUIImpl</a> *this);</div>
 <a id=50B990></a>
-<div class=mm><p>Delegates hashing to <a href=funcs.html#43DB50>SomeHashCS43DB50</a>.</div>
+<div class=mm><p>Delegates hashing to <a href=funcs.html#43DB50>cshash</a>.</div>
 <div><i>50B990</i> int __cdecl <h3>FormatWithSinglePlaceholderAndHashCS43DB50</h3>(char *src, void *param);</div>
 <a id=50B9C0></a>
 <div class=mm><p>Does its own hashing.</div>
@@ -6771,6 +6778,8 @@ this-&gt;<a href=structs.html#struc_ResourceFileSlotPoolEntry@C4>field_C4</a> = 
 <div class=mm><p>what type of pool entry is this?
 also seems to move the entry in the list?</div>
 <div><i>5798F0</i> int __cdecl <h3>FindSomeExistingPoolEntryWithFilename</h3>(int filename);</div>
+<a id=579CA0></a>
+<div><i>579CA0</i> <h3><a href=structs.html#struc_CheatScreenData>CheatScreenData</a>::Disable</h3></div>
 <a id=579CB0></a>
 <div class=mm><p>Called from <a href=funcs.html#57B8B0>CheatScreenData::CheatCheck</a> when a cheat matched.</div>
 <div><i>579CB0</i> void __thiscall <h3><a href=structs.html#struc_CheatScreenData>CheatScreenData</a>::CheatMatched</h3>(<a href=structs.html#struc_CheatScreenData>struct CheatScreenData</a> *this, int cheat_index);</div>
