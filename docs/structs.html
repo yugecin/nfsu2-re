@@ -616,7 +616,7 @@ pre.ida span.hi {
 <li><a href=#struc_ControllerStruct874C40>ControllerStruct874C40</a> <em></em>
 <li><a href=#struc_ControllerStruct835930>ControllerStruct835930</a>
 <li><a href=#struc_U2RECT>U2RECT</a> <em></em>
-<li><a href=#struc_UIElement_Field2C>UIElement_Field2C</a>
+<li><a href=#struc_UIPos>UIPos</a>
 <li><a href=#struc_UIElement_Animation>UIElement_Animation</a>
 <li><a href=#struc_UIElement>UIElement</a> <em></em>
 <li><a href=#struc_UIElementType1>UIElementType1</a>
@@ -6280,8 +6280,8 @@ size may be bigger, unknown</div>
 <li><!--4FDAD0-->
 <pre><i>4FDAD0</i> <a href=funcs.html#4FDAD0 title='void __thiscall U2RECT__Add(struct U2RECT *this, struct U2RECT *rect);'>U2RECT::Add</a></pre>
 </ul>
-<a id=struc_UIElement_Field2C></a>
-<div>struct <h3>UIElement_Field2C</h3> { <i>/*16 members, size 40h*/</i>
+<a id=struc_UIPos></a>
+<div>struct <h3>UIPos</h3> { <i>/*16 members, size 40h*/</i>
 <i>/*0*/	int field_0;</i>
 <i>/*4*/	int field_4;</i>
 <i>/*8*/	int field_8;</i>
@@ -6289,7 +6289,7 @@ size may be bigger, unknown</div>
 <i>/*10*/	int field_10;</i>
 <i>/*14*/	int field_14;</i>
 <i>/*18*/	int field_18;</i>
-<i id=struc_UIElement_Field2C@1C></i><span class='mm'>/**maybe translate?*/</span>
+<i id=struc_UIPos@1C></i><span class='mm'>/**maybe translate?*/</span>
 <i>/*1C*/	</i>float leftOffset;
 <span class='mm'>/**maybe translate?*/</span>
 <i>/*20*/	</i>float topOffset;
@@ -6303,7 +6303,7 @@ size may be bigger, unknown</div>
 <span class='mm'>/**somehting with y position*/</span>
 <i>/*3C*/	int floatField_3C;</i>
 };
-<i>EXPECT_SIZE(struct UIElement_Field2C, 0x40);</i></div>
+<i>EXPECT_SIZE(struct UIPos, 0x40);</i></div>
 <a id=struc_UIElement_Animation></a>
 <div>struct <h3>UIElement_Animation</h3> { <i>/*13 members, size 34h*/</i>
 <i>/*0*/	</i>int vtable <u></u>;
@@ -6340,7 +6340,7 @@ size may be bigger, unknown</div>
 <i>/*24*/	</i>unsigned int textureHashOrMovieName;
 <i>/*28*/	int field_28;</i>
 <i id=struc_UIElement@2C></i><span class='mm'>/**some positioning (and maybe size) thing?*/</span>
-<i>/*2C*/	</i>int ptrField_2C <u></u>;
+<i>/*2C*/	</i><a href=structs.html#struc_UIPos>struct UIPos</a> *pos;
 <i>/*30*/	int field_30;</i>
 <i>/*34*/	int field_34;</i>
 <span class='mm'>/**guessing this may be the width (for some types), based on <a href=funcs.html#51D730>GetUIElementSize??</a>
