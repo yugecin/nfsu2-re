@@ -657,7 +657,8 @@ I'm gonna simply use the index of the preset car as 'hash':
   			s-&gt;<a href=structs.html#struc_SponsorCar@0>__parent</a>.<a href=structs.html#struc_InventoryCar@0>vtable</a> = (void*) <a href=vars.html#79AD18>sponsorCar$vtable</a>;
   			s-&gt;<a href=structs.html#struc_SponsorCar@0>__parent</a>.<a href=structs.html#struc_InventoryCar@4>field_4</a> = 0; // not sure what this is
 <span style="background:#c004">-  			s-&gt;<a href=structs.html#struc_SponsorCar@0>__parent</a>.<a href=structs.html#struc_InventoryCar@8>slotHash</a> = <a href=funcs.html#505450>cihash</a>(buf);</span>
-<span style="background:#0804">+  			s-&gt;<a href=structs.html#struc_SponsorCar@0>__parent</a>.<a href=structs.html#struc_InventoryCar@8>slotHash</a> = numPresetCars;</span>
+<span style="background:#0804">+ 			// doing +1 because car entries with slotHash of 0 will be skipped.</span>
+<span style="background:#0804">+  			s-&gt;<a href=structs.html#struc_SponsorCar@0>__parent</a>.<a href=structs.html#struc_InventoryCar@8>slotHash</a> = numPresetCars + 1;</span>
   			s-&gt;<a href=structs.html#struc_SponsorCar@0>__parent</a>.<a href=structs.html#struc_InventoryCar@C>floatField_C</a> = 0.0f; // not sure what this is
   			s-&gt;<a href=structs.html#struc_SponsorCar@0>__parent</a>.<a href=structs.html#struc_InventoryCar@10>field_10</a> = 0; // not sure what this is
   			s-&gt;<a href=structs.html#struc_SponsorCar@0>__parent</a>.<a href=structs.html#struc_InventoryCar@14>flags</a> = CUSTOM_IS_PRESET_CAR;
@@ -695,6 +696,7 @@ fun_car_customize_preset_CarCollection__GetCarForSlot_hook(unsigned int slotHash
 		jmp eax
 its_preset:
 		mov eax, [esp+4]
+		dec eax
 		imul eax, 0x1C // sizeof(<a href=structs.html#struc_SponsorCar>struct SponsorCar</a>)
 		add eax, offset presetCarAsInventoryCar
 		retn 4
@@ -725,7 +727,7 @@ fun_car_customize_preset_CustomizeCar_set_car_instance_if_missing(<a href=struct
 
 	// if car instance is missing, just assume it's a preset car. Not checking if slotNameHash actually is
 	// our custom slotNameHash. Game will crash anyways if we can't create an instance here.
-	presetCar = presetCarAsInventoryCar + slotNameHash;
+	presetCar = presetCarAsInventoryCar + slotNameHash - 1;
 
 	sprintf(buf, "STOCK_%s", <a href=funcs.html#61C460>FindCarPreset</a>(presetCar-&gt;<a href=structs.html#struc_SponsorCar@18>carPresetHash</a>)-&gt;<a href=structs.html#struc_CarPreset@8>modelName</a>);
 	tunedCar = <a href=funcs.html#52A710>CarCollection::CreateNewTunedCarFromFromDataAtSlot</a>(this, <a href=funcs.html#43DB50>cshash</a>(buf));
@@ -840,7 +842,7 @@ fun_car_customize_preset_PostUpdateUI(<a href=structs.html#struc_CarSelectFNGObj
 		// because there's an "animation" active named "HIDE". Ensure the "SHOW" "animation" is active.
 		<a href=funcs.html#51CF70>SetUIElementAnimationByName</a>(el, "SHOW", 0);
 		<a href=funcs.html#4954E0>HideUIElementAndChildrenByHash</a>("UI_QRCarSelect.fng", hashof_racemodevalue);
-		str = <a href=funcs.html#61C460>FindCarPreset</a>((presetCarAsInventoryCar + this-&gt;<a href=structs.html#struc_CarSelectFNGObject@58>currentSelectedCar</a>-><a href=structs.html#struc_CareerCarLotFNGObject_50@920>slotHash</a>)-&gt;<a href=structs.html#struc_SponsorCar@18>carPresetHash</a>)-&gt;<a href=structs.html#struc_CarPreset@28>name</a>;
+		str = <a href=funcs.html#61C460>FindCarPreset</a>((presetCarAsInventoryCar + this-&gt;<a href=structs.html#struc_CarSelectFNGObject@58>currentSelectedCar</a>-><a href=structs.html#struc_CareerCarLotFNGObject_50@920>slotHash</a> - 1)-&gt;<a href=structs.html#struc_SponsorCar@18>carPresetHash</a>)-&gt;<a href=structs.html#struc_CarPreset@28>name</a>;
 		<a href=funcs.html#537B80>SetUILabelByHashFormattedString</a>("UI_QRCarSelect.fng", hashof_racemode, str, NULL);
 		<a href=funcs.html#5379C0>FindUIElementByHash</a>("UI_QRCarSelect.fng", hashof_racemode)-&gt;<a href=structs.html#struc_UIElement@2C>pos</a>-&gt;<a href=structs.html#struc_UIPos@1C>leftOffset</a> = 85.0f;
 	} else {

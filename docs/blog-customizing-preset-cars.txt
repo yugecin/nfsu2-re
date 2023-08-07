@@ -395,7 +395,8 @@ I'm gonna simply use the index of the preset car as 'hash':
   			s->´struct SponsorCar+0.0` = (void*) ´79AD18`;                                              ||| ref,ref
   			s->´struct SponsorCar+4` = 0; // not sure what this is                                      ||| ref
 ´-  			s->´struct SponsorCar+8` = ´505450`(buf);`                                                  ||| span style=background:#c004,ref,ref
-´+  			s->´struct SponsorCar+8` = numPresetCars;`                                                  ||| span style=background:#0804,ref
+´+ 			// doing +1 because car entries with slotHash of 0 will be skipped.`                        ||| span style=background:#0804
+´+  			s->´struct SponsorCar+8` = numPresetCars + 1;`                                              ||| span style=background:#0804,ref
   			s->´struct SponsorCar+C` = 0.0f; // not sure what this is                                   ||| ref
   			s->´struct SponsorCar+10` = 0; // not sure what this is                                     ||| ref
   			s->´struct SponsorCar+14` = CUSTOM_IS_PRESET_CAR;                                           ||| ref
@@ -435,6 +436,7 @@ fun_car_customize_preset_CarCollection__GetCarForSlot_hook(unsigned int slotHash
 		jmp eax
 its_preset:
 		mov eax, [esp+4]
+		dec eax
 		imul eax, 0x1C // sizeof(´struct SponsorCar`)                                                      ||| ref
 		add eax, offset presetCarAsInventoryCar
 		retn 4
@@ -469,7 +471,7 @@ fun_car_customize_preset_CustomizeCar_set_car_instance_if_missing([struct CarCol
 
 	// if car instance is missing, just assume it's a preset car. Not checking if slotNameHash actually is
 	// our custom slotNameHash. Game will crash anyways if we can't create an instance here.
-	presetCar = presetCarAsInventoryCar + slotNameHash;
+	presetCar = presetCarAsInventoryCar + slotNameHash - 1;
 
 	sprintf(buf, "STOCK_%s", [61C460](presetCar->[struct SponsorCar+18])->[struct CarPreset+8]);  ||| ref,ref,ref
 	tunedCar = [52A710](this, [43DB50](buf));                                                                                 ||| ref,ref
@@ -594,7 +596,7 @@ fun_car_customize_preset_PostUpdateUI([struct CarSelectFNGObject] *this)        
 		// because there's an "animation" active named "HIDE". Ensure the "SHOW" "animation" is active.
 		[51CF70](el, "SHOW", 0);                                                                                               ||| ref
 		[4954E0]("UI_QRCarSelect.fng", hashof_racemodevalue);                                                                  ||| ref
-		str = [61C460]((presetCarAsInventoryCar + this->[struct CarSelectFNGObject+58.920])->[struct SponsorCar+18])->[struct CarPreset+28];  ||| ref,ref,ref,ref
+		str = [61C460]((presetCarAsInventoryCar + this->[struct CarSelectFNGObject+58.920] - 1)->[struct SponsorCar+18])->[struct CarPreset+28];  ||| ref,ref,ref,ref
 		[537B80]("UI_QRCarSelect.fng", hashof_racemode, str, NULL);                                                            ||| ref
 		[5379C0]("UI_QRCarSelect.fng", hashof_racemode)->[struct UIElement+2C]->[struct UIPos+1C] = 85.0f;                     ||| ref,ref,ref
 	} else {

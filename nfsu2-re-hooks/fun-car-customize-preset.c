@@ -177,7 +177,8 @@ FindPresetCarAfterGivenCar(enum INVENTORY_CAR_FLAGS flagsToCheck, struct Invento
 		{
 			s->__parent.vtable = (void*) 0x79AD18;
 			s->__parent.field_4 = 0; // not sure what this is
-			s->__parent.slotHash = numPresetCars;
+			// doing +1 because car entries with slotHash of 0 will be skipped.
+			s->__parent.slotHash = numPresetCars + 1;
 			s->__parent.floatField_C = 0.0f; // not sure what this is
 			s->__parent.field_10 = 0; // not sure what this is
 			s->__parent.flags14 = CUSTOM_IS_PRESET_CAR;
@@ -235,7 +236,7 @@ fun_car_customize_preset_PostUpdateUI(struct CarSelectFNGObject *this)
 		ShowNullableUIElementAndChildren(el);
 		SetUIElementAnimationByName(el, "SHOW", 0);
 		HideUIElementAndChildrenByHash("UI_QRCarSelect.fng", hashof_racemodevalue);
-		str = FindCarPreset((presetCarAsInventoryCar + this->currentSelectedCar->slotHash)->carPresetHash)->name;
+		str = FindCarPreset((presetCarAsInventoryCar + this->currentSelectedCar->slotHash - 1)->carPresetHash)->name;
 		SetUILabelByHashFormattedString("UI_QRCarSelect.fng", hashof_racemode, str, NULL);
 		FindUIElementByHash("UI_QRCarSelect.fng", hashof_racemode)->pos->leftOffset = 85.0f;
 	} else {
@@ -267,7 +268,7 @@ fun_car_customize_preset_CarCollection__GetCarForSlot_hook(unsigned int slotHash
 	_asm {
 		mov eax, [numPresetCars]
 		cmp [esp+4], eax
-		jb its_preset
+		jbe its_preset
 		push esi
 		push edi
 		mov edi, [esp+0xC]
@@ -275,6 +276,7 @@ fun_car_customize_preset_CarCollection__GetCarForSlot_hook(unsigned int slotHash
 		jmp eax
 its_preset:
 		mov eax, [esp+4]
+		dec eax
 		imul eax, 0x1C // sizeof(SponsorCar)
 		add eax, offset presetCarAsInventoryCar
 		retn 4
@@ -294,7 +296,7 @@ fun_car_customize_preset_CustomizeCar_set_car_instance_if_missing(struct CarColl
 
 	// if car instance is missing, just assume it's a preset car. Not checking if slotNameHash actually is
 	// our custom slotNameHash. Game will crash anyways if we can't create an instance here.
-	presetCar = presetCarAsInventoryCar + slotNameHash;
+	presetCar = presetCarAsInventoryCar + slotNameHash - 1;
 
 	// skipping null check on the result of FindCarPreset
 	sprintf(buf, "STOCK_%s", FindCarPreset(presetCar->carPresetHash)->modelName);

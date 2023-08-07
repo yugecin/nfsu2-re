@@ -141,13 +141,14 @@ fun_use_preset_cars_in_quickrace_FindPresetCarWhenTuningForIngameCar()
 {
 	_asm {
 		cmp edi, [numPresetCars]
-		jb its_preset
+		jbe its_preset
 		// this is what we overwrote
 		add edx, 0x9BD8 // sizeof(struct CarCollection)
 		mov ecx, 0x525FC1
 		jmp ecx
 
 its_preset:
+		dec edi
 		imul edi, 0x1C // sizeof(SponsorCar)
 		add edi, offset presetCarAsInventoryCar
 		mov eax, 0x525FE6

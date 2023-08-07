@@ -340,6 +340,7 @@ fun_use_preset_cars_in_quickrace_FindPresetCarWhenTuningForIngameCar()
 		jmp ecx
 
 its_preset:
+		dec edi
 		imul edi, 0x1C // sizeof(SponsorCar)
 		add edi, offset presetCarAsInventoryCar
 		mov eax, 0x525FE6
