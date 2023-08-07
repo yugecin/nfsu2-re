@@ -516,19 +516,17 @@ FindPresetCarAfterGivenCar(<a href=enums.html#enu_INVENTORY_CAR_FLAGS>enum INVEN
 	// initialize our SponsorCar instances with CarPreset data, this is only needed once
 	// so use the numPresetCars variables as a check to see if this was done already or not.
 	if (!numPresetCars) {
-		p = (void*) <a href=vars.html#8A31E4>carPresets</a>;
-		for (i = 0;
+		for (p = (void*) <a href=vars.html#8A31E4>carPresets</a>, s = presetCarAsInventoryCar;
 			(p = (void*) p-&gt;<a href=structs.html#struc_CarPreset@0>link</a>.<a href=structs.html#struc_ObjectLink@0>next</a>) != (void*) <a href=vars.html#8A31E4>carPresets</a> &amp;&amp;
-			i &lt; MAX_PRESET_CARS;
-			i++)
+			numPresetCars &lt; MAX_PRESET_CARS;
+			numPresetCars++, s++)
 		{
 			sprintf(buf, "STOCK_%s", p-&gt;<a href=structs.html#struc_CarPreset@8>modelName</a>);
-			s = presetCarAsInventoryCar + numPresetCars++;
 			s-&gt;<a href=structs.html#struc_SponsorCar@0>__parent</a>.<a href=structs.html#struc_InventoryCar@0>vtable</a> = (void*) <a href=vars.html#79AD18>sponsorCar$vtable</a>;
-			s-&gt;<a href=structs.html#struc_SponsorCar@0>__parent</a>.<a href=structs.html#struc_InventoryCar@4>field_4</a> = 0;
+			s-&gt;<a href=structs.html#struc_SponsorCar@0>__parent</a>.<a href=structs.html#struc_InventoryCar@4>field_4</a> = 0; // not sure what this is
 			s-&gt;<a href=structs.html#struc_SponsorCar@0>__parent</a>.<a href=structs.html#struc_InventoryCar@8>slotHash</a> = <a href=funcs.html#505450>cihash</a>(buf);
-			s-&gt;<a href=structs.html#struc_SponsorCar@0>__parent</a>.<a href=structs.html#struc_InventoryCar@C>floatField_C</a> = 0.0f;
-			s-&gt;<a href=structs.html#struc_SponsorCar@0>__parent</a>.<a href=structs.html#struc_InventoryCar@10>field_10</a> = 0;
+			s-&gt;<a href=structs.html#struc_SponsorCar@0>__parent</a>.<a href=structs.html#struc_InventoryCar@C>floatField_C</a> = 0.0f; // not sure what this is
+			s-&gt;<a href=structs.html#struc_SponsorCar@0>__parent</a>.<a href=structs.html#struc_InventoryCar@10>field_10</a> = 0; // not sure what this is
 			s-&gt;<a href=structs.html#struc_SponsorCar@0>__parent</a>.<a href=structs.html#struc_InventoryCar@14>flags</a> = CUSTOM_IS_PRESET_CAR;
 			s-&gt;<a href=structs.html#struc_SponsorCar@18>carPresetHash</a> = <a href=funcs.html#505450>cihash</a>(p-&gt;<a href=structs.html#struc_CarPreset@28>name</a>);
 		}
@@ -650,20 +648,18 @@ I'm gonna simply use the index of the preset car as 'hash':
   	// initialize our SponsorCar instances with CarPreset data, this is only needed once
   	// so use the numPresetCars variables as a check to see if this was done already or not.
   	if (!numPresetCars) {
-  		p = (void*) <a href=vars.html#8A31E4>carPresets</a>;
-  		for (i = 0;
+  		for (p = (void*) <a href=vars.html#8A31E4>carPresets</a>, s = presetCarAsInventoryCar;
   			(p = (void*) p-&gt;<a href=structs.html#struc_CarPreset@0>link</a>.<a href=structs.html#struc_ObjectLink@0>next</a>) != (void*) <a href=vars.html#8A31E4>carPresets</a> &amp;&amp;
-  			i &lt; MAX_PRESET_CARS;
-  			i++)
+  			numPresetCars &lt; MAX_PRESET_CARS;
+  			numPresetCars++, s++)
   		{
 <span style="background:#c004">- 			sprintf(buf, "STOCK_%s", p-&gt;<a href=structs.html#struc_CarPreset@8>modelName</a>);</span>
-  			s = presetCarAsInventoryCar + numPresetCars++;
   			s-&gt;<a href=structs.html#struc_SponsorCar@0>__parent</a>.<a href=structs.html#struc_InventoryCar@0>vtable</a> = (void*) <a href=vars.html#79AD18>sponsorCar$vtable</a>;
-  			s-&gt;<a href=structs.html#struc_SponsorCar@0>__parent</a>.<a href=structs.html#struc_InventoryCar@4>field_4</a> = 0;
+  			s-&gt;<a href=structs.html#struc_SponsorCar@0>__parent</a>.<a href=structs.html#struc_InventoryCar@4>field_4</a> = 0; // not sure what this is
 <span style="background:#c004">-  			s-&gt;<a href=structs.html#struc_SponsorCar@0>__parent</a>.<a href=structs.html#struc_InventoryCar@8>slotHash</a> = <a href=funcs.html#505450>cihash</a>(buf);</span>
-<span style="background:#0804">+  			s-&gt;<a href=structs.html#struc_SponsorCar@0>__parent</a>.<a href=structs.html#struc_InventoryCar@8>slotHash</a> = i;</span>
-  			s-&gt;<a href=structs.html#struc_SponsorCar@0>__parent</a>.<a href=structs.html#struc_InventoryCar@C>floatField_C</a> = 0.0f;
-  			s-&gt;<a href=structs.html#struc_SponsorCar@0>__parent</a>.<a href=structs.html#struc_InventoryCar@10>field_10</a> = 0;
+<span style="background:#0804">+  			s-&gt;<a href=structs.html#struc_SponsorCar@0>__parent</a>.<a href=structs.html#struc_InventoryCar@8>slotHash</a> = numPresetCars;</span>
+  			s-&gt;<a href=structs.html#struc_SponsorCar@0>__parent</a>.<a href=structs.html#struc_InventoryCar@C>floatField_C</a> = 0.0f; // not sure what this is
+  			s-&gt;<a href=structs.html#struc_SponsorCar@0>__parent</a>.<a href=structs.html#struc_InventoryCar@10>field_10</a> = 0; // not sure what this is
   			s-&gt;<a href=structs.html#struc_SponsorCar@0>__parent</a>.<a href=structs.html#struc_InventoryCar@14>flags</a> = CUSTOM_IS_PRESET_CAR;
   			s-&gt;<a href=structs.html#struc_SponsorCar@18>carPresetHash</a> = <a href=funcs.html#505450>cihash</a>(p-&gt;<a href=structs.html#struc_CarPreset@28>name</a>);
   		}

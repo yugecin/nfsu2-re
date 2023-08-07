@@ -170,18 +170,16 @@ FindPresetCarAfterGivenCar(enum INVENTORY_CAR_FLAGS flagsToCheck, struct Invento
 	// initialize our SponsorCar instances with CarPreset data, this is only needed once
 	// so use the numPresetCars variables as a check to see if this was done already or not.
 	if (!numPresetCars) {
-		p = (void*) carPresets;
-		for (i = 0;
+		for (p = (void*) carPresets, s = presetCarAsInventoryCar;
 			(p = (void*) p->link.next) != (void*) carPresets &&
-			i < MAX_PRESET_CARS;
-			i++)
+			numPresetCars < MAX_PRESET_CARS;
+			numPresetCars++, s++)
 		{
-			s = presetCarAsInventoryCar + numPresetCars++;
 			s->__parent.vtable = (void*) 0x79AD18;
-			s->__parent.field_4 = 0;
-			s->__parent.slotHash = i;
-			s->__parent.floatField_C = 0.0f;
-			s->__parent.field_10 = 0;
+			s->__parent.field_4 = 0; // not sure what this is
+			s->__parent.slotHash = numPresetCars;
+			s->__parent.floatField_C = 0.0f; // not sure what this is
+			s->__parent.field_10 = 0; // not sure what this is
 			s->__parent.flags14 = CUSTOM_IS_PRESET_CAR;
 			s->carPresetHash = cihash(p->name);
 		}

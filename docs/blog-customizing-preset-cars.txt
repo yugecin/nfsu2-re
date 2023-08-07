@@ -246,19 +246,17 @@ FindPresetCarAfterGivenCar(´enum INVENTORY_CAR_FLAGS` flagsToCheck, ´struct Inve
 	// initialize our SponsorCar instances with CarPreset data, this is only needed once
 	// so use the numPresetCars variables as a check to see if this was done already or not.
 	if (!numPresetCars) {
-		p = (void*) ´8A31E4`;                                                                               ||| ref
-		for (i = 0;
+		for (p = (void*) ´8A31E4`, s = presetCarAsInventoryCar;                                             ||| ref
 			(p = (void*) p->´struct CarPreset+0.0`) != (void*) ´8A31E4` &&                              ||| ref,ref
-			i < MAX_PRESET_CARS;
-			i++)
+			numPresetCars < MAX_PRESET_CARS;
+			numPresetCars++, s++)
 		{
 			sprintf(buf, "STOCK_%s", p->´struct CarPreset+8`);                                          ||| ref
-			s = presetCarAsInventoryCar + numPresetCars++;
 			s->´struct SponsorCar+0.0` = (void*) ´79AD18`;                                              ||| ref,ref
-			s->´struct SponsorCar+4` = 0;                                                               ||| ref
+			s->´struct SponsorCar+4` = 0; // not sure what this is                                      ||| ref
 			s->´struct SponsorCar+8` = ´505450`(buf);                                                   ||| ref,ref
-			s->´struct SponsorCar+C` = 0.0f;                                                            ||| ref
-			s->´struct SponsorCar+10` = 0;                                                              ||| ref
+			s->´struct SponsorCar+C` = 0.0f; // not sure what this is                                   ||| ref
+			s->´struct SponsorCar+10` = 0; // not sure what this is                                     ||| ref
 			s->´struct SponsorCar+14` = CUSTOM_IS_PRESET_CAR;                                           ||| ref
 			s->´struct SponsorCar+18` = ´505450`(p->´struct CarPreset+28`);                             ||| ref,ref,ref
 		}
@@ -388,20 +386,18 @@ I'm gonna simply use the index of the preset car as 'hash':
   	// initialize our SponsorCar instances with CarPreset data, this is only needed once
   	// so use the numPresetCars variables as a check to see if this was done already or not.
   	if (!numPresetCars) {
-  		p = (void*) ´8A31E4`;                                                                               ||| ref
-  		for (i = 0;
+  		for (p = (void*) ´8A31E4`, s = presetCarAsInventoryCar;                                             ||| ref
   			(p = (void*) p->´struct CarPreset+0.0`) != (void*) ´8A31E4` &&                              ||| ref,ref
-  			i < MAX_PRESET_CARS;
-  			i++)
+  			numPresetCars < MAX_PRESET_CARS;
+  			numPresetCars++, s++)
   		{
 ´- 			sprintf(buf, "STOCK_%s", p->´struct CarPreset+8`);`                                         ||| span style=background:#c004,ref
-  			s = presetCarAsInventoryCar + numPresetCars++;
   			s->´struct SponsorCar+0.0` = (void*) ´79AD18`;                                              ||| ref,ref
-  			s->´struct SponsorCar+4` = 0;                                                               ||| ref
+  			s->´struct SponsorCar+4` = 0; // not sure what this is                                      ||| ref
 ´-  			s->´struct SponsorCar+8` = ´505450`(buf);`                                                  ||| span style=background:#c004,ref,ref
-´+  			s->´struct SponsorCar+8` = i;`                                                              ||| span style=background:#0804,ref
-  			s->´struct SponsorCar+C` = 0.0f;                                                            ||| ref
-  			s->´struct SponsorCar+10` = 0;                                                              ||| ref
+´+  			s->´struct SponsorCar+8` = numPresetCars;`                                                  ||| span style=background:#0804,ref
+  			s->´struct SponsorCar+C` = 0.0f; // not sure what this is                                   ||| ref
+  			s->´struct SponsorCar+10` = 0; // not sure what this is                                     ||| ref
   			s->´struct SponsorCar+14` = CUSTOM_IS_PRESET_CAR;                                           ||| ref
   			s->´struct SponsorCar+18` = ´505450`(p->´struct CarPreset+28`);                             ||| ref,ref,ref
   		}
