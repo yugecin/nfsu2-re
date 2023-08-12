@@ -284,7 +284,7 @@ pre.ida span.hi {
 <a href='cheatsheet.html'>cheatsheet</a></nav>
 </header>
 <div class='func'>
-<h2>Functions (1641)</h2>
+<h2>Functions (1643)</h2>
 <ul>
 <li><a href=#4012B0>
 ??SomeUpdatePosition</a>
@@ -658,6 +658,10 @@ SponsorPopupFNGObject::ctor</a>
 SponsorshipnewFNGObject::SelectedIconChanged</a>
 <li><a href=#4A58C0>
 GarageMainFNGObject_1D8::4A58C0</a>
+<li><a href=#4A78B0>
+LoadGarageMainFNGIfNotLoadedAlready</a>
+<li><a href=#4A78E0>
+UnloadGarageMainFNGIfLoaded</a>
 <li><a href=#4A7D60>
 PauseOptionsMainFNGObject::MessageHandler</a>
 <li><a href=#4A8010>
@@ -1303,7 +1307,7 @@ FNGINIT_UI_CareerWorldMap.fng</a>
 <li><a href=#4F9D90>
 CarSelectFNGObject::ctor</a>
 <li><a href=#4FA2A0>
-CarSelectFNGObject::UseCurrentCarForPlayer</a>
+CarSelectFNGObject::ResetBrowsableCarsAndSelectPreviouslySelectedCarForPlayer</a>
 <li><a href=#4FA550>
 FNGINIT_UI_QRModeOptions.fng</a>
 <li><a href=#4FA5B0>
@@ -4067,6 +4071,10 @@ See <code><a class='ext' href='https://github.com/yugecin/nfsu2-re/blob/master/n
 <div><i>4A5300</i> void __thiscall <h3><a href=structs.html#struc_SponsorshipnewFNGObject>SponsorshipnewFNGObject</a>::SelectedIconChanged</h3>(<a href=structs.html#struc_SponsorshipnewFNGObject>struct SponsorshipnewFNGObject</a> *this);</div>
 <a id=4A58C0></a>
 <div><i>4A58C0</i> void __thiscall <h3><a href=structs.html#struc_GarageMainFNGObject_1D8>GarageMainFNGObject_1D8</a>::4A58C0</h3>(<a href=structs.html#struc_GarageMainFNGObject_1D8>struct GarageMainFNGObject_1D8</a> *this, <a href=structs.html#struc_UIElement>struct UIElement</a> *uiElement1, <a href=structs.html#struc_UIElement>struct UIElement</a> *uiElement2);</div>
+<a id=4A78B0></a>
+<div><i>4A78B0</i> void __cdecl <h3>LoadGarageMainFNGIfNotLoadedAlready</h3>();</div>
+<a id=4A78E0></a>
+<div><i>4A78E0</i> void __cdecl <h3>UnloadGarageMainFNGIfLoaded</h3>();</div>
 <a id=4A7D60></a>
 <div><i>4A7D60</i> <h3><a href=structs.html#struc_PauseOptionsMainFNGObject>PauseOptionsMainFNGObject</a>::MessageHandler</h3></div>
 <a id=4A8010></a>
@@ -4739,7 +4747,7 @@ If it's found in the primary controls link: return its index, if it's found in t
 <a id=4F9D90></a>
 <div><i>4F9D90</i> <a href=structs.html#struc_CarSelectFNGObject>struct CarSelectFNGObject</a> *__thiscall <h3><a href=structs.html#struc_CarSelectFNGObject>CarSelectFNGObject</a>::ctor</h3>(<a href=structs.html#struc_CarSelectFNGObject>struct CarSelectFNGObject</a> *this, int);</div>
 <a id=4FA2A0></a>
-<div><i>4FA2A0</i> void __thiscall <h3><a href=structs.html#struc_CarSelectFNGObject>CarSelectFNGObject</a>::UseCurrentCarForPlayer</h3>(<a href=structs.html#struc_CarSelectFNGObject>struct CarSelectFNGObject</a> *this, int playerIndex);</div>
+<div><i>4FA2A0</i> void __thiscall <h3><a href=structs.html#struc_CarSelectFNGObject>CarSelectFNGObject</a>::ResetBrowsableCarsAndSelectPreviouslySelectedCarForPlayer</h3>(<a href=structs.html#struc_CarSelectFNGObject>struct CarSelectFNGObject</a> *this, int playerIndex);</div>
 <a id=4FA550></a>
 <div><i>4FA550</i> <h3>FNGINIT_UI_QRModeOptions.fng</h3></div>
 <a id=4FA5B0></a>
@@ -6398,7 +6406,7 @@ will show fng for customizing the car</div>
 <div><i>555860</i> int __thiscall <h3><a href=structs.html#struc_UIData_field8>UIData_field8</a>::555860</h3>(<a href=structs.html#struc_UIData_field8>struct UIData_field8</a> *this, char *fngName, char, int);</div>
 <a id=555D00></a>
 <div class=mm><p><code>parentFngName</code> may be null.</div>
-<div><i>555D00</i> int __thiscall <h3><a href=structs.html#struc_UIData>UIData</a>::AddFNGToUIObject</h3>(<a href=structs.html#struc_UIData>struct UIData</a> *this, int flagsMaybe, char *fngName, char *parentFngName, int controlMask, void *data);</div>
+<div><i>555D00</i> void __thiscall <h3><a href=structs.html#struc_UIData>UIData</a>::AddFNGToUIObject</h3>(<a href=structs.html#struc_UIData>struct UIData</a> *this, int flagsMaybe, char *fngName, char *parentFngName, int controlMask, void *data);</div>
 <a id=555E80></a>
 <div class=mm><p>Does more stuff.</div>
 <div><i>555E80</i> void __cdecl <h3>AddFngToUIObject_1</h3>(char *fngName, void *data);</div>

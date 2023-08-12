@@ -5053,7 +5053,7 @@ return amount of bytes actually read*/</span>
 <i>/*1A5*/	char field_1A5;</i>
 <i>/*1A6*/	char field_1A6;</i>
 <i>/*1A7*/	char field_1A7;</i>
-<span class='mm'>/**initialized to <a href=vars.html#83A9D0>profileData</a>.<a href=structs.html#struc_ProfileData@10>player1</a>.<a href=structs.html#struc_Player@D4>d4</a>.<a href=structs.html#struc_Player_D4@4>currentCarSelectionSlotHash?</a>*/</span>
+<span class='mm'>/**initialized to <a href=vars.html#83A9D0>profileData</a>.<a href=structs.html#struc_ProfileData@10>player1</a>.<a href=structs.html#struc_Player@D4>d4</a>.<a href=structs.html#struc_Player_D4@4>currentCarSelectionSlotHash</a>*/</span>
 <i>/*1A8*/	</i>unsigned int slotHash;
 <i>/*1AC*/	int field_1AC;</i>
 <i>/*1B0*/	int field_1B0;</i>
@@ -5086,7 +5086,7 @@ return amount of bytes actually read*/</span>
 <li><!--4F9D90-->
 <pre><i>4F9D90</i> <a href=funcs.html#4F9D90 title='struct CarSelectFNGObject *__thiscall CarSelectFNGObject__ctor(struct CarSelectFNGObject *this, int);'>CarSelectFNGObject::ctor</a></pre>
 <li><!--4FA2A0-->
-<pre><i>4FA2A0</i> <a href=funcs.html#4FA2A0 title='void __thiscall CarSelectFNGObject__UseCurrentCarForPlayer(struct CarSelectFNGObject *this, int playerIndex);'>CarSelectFNGObject::UseCurrentCarForPlayer</a></pre>
+<pre><i>4FA2A0</i> <a href=funcs.html#4FA2A0 title='void __thiscall CarSelectFNGObject__ResetBrowsableCarsAndSelectPreviouslySelectedCarForPlayer(struct CarSelectFNGObject *this, int playerIndex);'>CarSelectFNGObject::ResetBrowsableCarsAndSelectPreviouslySelectedCarForPlayer</a></pre>
 <li><!--4FC1F0-->
 <pre><i>4FC1F0</i> <a href=funcs.html#4FC1F0 title='CarSelectFNGObject::MessageHandler'>CarSelectFNGObject::MessageHandler</a></pre>
 </ul>
@@ -6456,7 +6456,7 @@ although if this element is a label, the measured text height (which is also a g
 <li><!--54E4A0-->
 <pre><i>54E4A0</i> <a href=funcs.html#54E4A0 title='int __thiscall UIData__InitFNGPackage(struct UIData *this, struct FNGInfo *fngInfo);'>UIData::InitFNGPackage</a></pre>
 <li><!--555D00-->
-<pre><i>555D00</i> <a href=funcs.html#555D00 title='int __thiscall UIData__AddFNGToUIObject(struct UIData *this, int flagsMaybe, char *fngName, char *parentFngName, int controlMask, void *data);'>UIData::AddFNGToUIObject</a></pre>
+<pre><i>555D00</i> <a href=funcs.html#555D00 title='void __thiscall UIData__AddFNGToUIObject(struct UIData *this, int flagsMaybe, char *fngName, char *parentFngName, int controlMask, void *data);'>UIData::AddFNGToUIObject</a></pre>
 <li><!--5662C0-->
 <pre><i>5662C0</i> <a href=funcs.html#5662C0 title='void __thiscall UIData__5662C0(struct UIData *this);'>UIData::5662C0</a></pre>
 </ul>
@@ -7711,12 +7711,14 @@ could just be char[9]</div>
 </ul>
 <a id=struc_Player_D4></a>
 <div>struct <h3>Player_D4</h3> { <i>/*5 members, size 17Ch*/</i> <em></em>
+<span class='mm'>/**number. compared against 2,3,4,8,9,C*/</span>
 <i>/*0*/	int field_0;</i>
-<i id=struc_Player_D4@4></i><span class='mm'>/**see 515985
-
-usually a stock car, often STOCK_RX8. some kind of "default car to pick"*/</span>
-<i>/*4*/	</i>unsigned int currentCarSelectionSlotHash?[2];
-<i id=struc_Player_D4@C></i><i>/*C*/	</i><a href=enums.html#enu_INVENTORY_CAR_FLAGS>enum INVENTORY_CAR_FLAGS</a> currentCarSelectionCategory;
+<i id=struc_Player_D4@4></i><span class='mm'>/**last selected car in car selection, used to select the same car again when going to car selection again (if possible), and also used as the car to use when starting a race.
+often defaults to STOCK_RX8.
+Array of 2, one for each player (for some reason?? I thought there already was a Player struct instance for each player??)*/</span>
+<i>/*4*/	</i>unsigned int currentCarSelectionSlotHash[2];
+<i id=struc_Player_D4@C></i><span class='mm'>/**last category in car selection, to initialize with the same category the next time car selection is shown again, if possible*/</span>
+<i>/*C*/	</i><a href=enums.html#enu_INVENTORY_CAR_FLAGS>enum INVENTORY_CAR_FLAGS</a> currentCarSelectionCategory;
 <i>/*10*/	<a href=#struc_Player_D4_10>struct Player_D4_10</a> field_10[12];</i>
 <i>/*100*/	<a href=#struc_Player_D4_100>struct Player_D4_100</a> field_100;</i>
 };
