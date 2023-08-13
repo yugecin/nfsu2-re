@@ -15,7 +15,7 @@ int fun_use_preset_cars_in_quickrace_CarSelectFNGObject__ChangeCategory(struct C
 	struct UIElement *olGroup;
 	enum INVENTORY_CAR_FLAGS newCarSelectCategory = *carSelectCategory;
 
-	if (profileData->menuState == MENU_STATE_MAIN_MENU || profileData->menuState == 4) {
+	if (profileData->menuState == MENU_STATE_MAIN_MENU || profileData->menuState == MENU_STATE_2P_SPLITSCREEN) {
 		if (message == MSG_PREV) {
 			// stock|tuned -> preset -> (sponsor ->) (career ->) (tuned ->) stock -> (loop)
 			switch (newCarSelectCategory) {

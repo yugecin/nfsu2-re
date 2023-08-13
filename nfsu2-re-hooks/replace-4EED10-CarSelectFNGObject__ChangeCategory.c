@@ -28,7 +28,7 @@ void Replace_CarSelectFNGObject__ChangeCategory(struct CarSelectFNGObject *this,
 	// figure out new category based on current menu and button pressed and previous category
 	switch (profileData->menuState) {
 	case MENU_STATE_MAIN_MENU: // car select from quick race menu
-	case MENU_STATE_4:
+	case MENU_STATE_2P_SPLITSCREEN:
 		if (message == MSG_PREV) {
 			// stock|tuned -> (sponsor ->) (career ->) (tuned ->) stock -> (loop)
 			switch (newCarSelectCategory) {
