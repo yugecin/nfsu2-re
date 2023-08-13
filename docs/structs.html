@@ -428,7 +428,7 @@ pre.ida span.hi {
 <li><a href=#struc_OptionsPCControllerFNGObject>OptionsPCControllerFNGObject</a> <em></em>
 <li><a href=#struc_BuyPerformancePartsFNGObject>BuyPerformancePartsFNGObject</a> <em></em>
 <li><a href=#struc_CareerCarLotFNGObject>CareerCarLotFNGObject</a> <em></em>
-<li><a href=#struc_CareerCarLotFNGObject_50>CareerCarLotFNGObject_50</a> <em></em>
+<li><a href=#struc_CarSelectCarEntry>CarSelectCarEntry</a> <em></em>
 <li><a href=#struc_s734>s734</a> <em></em>
 <li><a href=#struc_s735_100>s735_100</a>
 <li><a href=#struc_s735>s735</a> <em></em>
@@ -2927,10 +2927,10 @@ return amount of bytes actually read*/</span>
 <div>struct <h3>CareerCarLotFNGObject</h3> { <i>/*27 members, size 1C0h*/</i> <em></em>
 <i>/*0*/	</i><a href=#struc_FNGObject>struct FNGObject</a> __parent;
 <i>/*4C*/	int field_4C;</i>
-<span class='mm'>/**entries are <a href=structs.html#struc_CareerCarLotFNGObject_50>struct CareerCarLotFNGObject_50</a> (link offset 10h)*/</span>
+<i id=struc_CareerCarLotFNGObject@50></i><span class='mm'>/**entries are <a href=structs.html#struc_CarSelectCarEntry>struct CarSelectCarEntry</a> (link offset 10h)*/</span>
 <i>/*50*/	</i><a href=#struc_ObjectLink>struct ObjectLink</a> selectableCars;
-<span class='mm'>/**this is an entry that is in <a href=structs.html#struc_CareerCarLotFNGObject_50@10>link</a>*/</span>
-<i>/*58*/	</i><a href=structs.html#struc_CareerCarLotFNGObject_50>struct CareerCarLotFNGObject_50</a> *currentSelectedCar;
+<span class='mm'>/**this is an entry that is in <a href=structs.html#struc_CareerCarLotFNGObject@50>selectableCars</a>*/</span>
+<i>/*58*/	</i><a href=structs.html#struc_CarSelectCarEntry>struct CarSelectCarEntry</a> *currentSelectedCar;
 <i>/*5C*/	int field_5C;</i>
 <i>/*60*/	</i>unsigned int currentActiveSlotHash?;
 <i>/*64*/	int field_64;</i>
@@ -2985,14 +2985,14 @@ return amount of bytes actually read*/</span>
 <li><!--4F9930-->
 <pre><i>4F9930</i> <a href=funcs.html#4F9930 title='struct CareerCarLotFNGObject *__thiscall CareerCarLotFNGObject__ctor(struct CareerCarLotFNGObject *this, void *fngShowData);'>CareerCarLotFNGObject::ctor</a></pre>
 </ul>
-<a id=struc_CareerCarLotFNGObject_50></a>
-<div>struct <h3>CareerCarLotFNGObject_50</h3> { <i>/*16 members, size 930h*/</i> <em></em>
+<a id=struc_CarSelectCarEntry></a>
+<div>struct <h3>CarSelectCarEntry</h3> { <i>/*16 members, size 930h*/</i> <em></em>
 <span class='mm'>/**just a dtor*/</span>
 <i>/*0*/	</i>int vtable <u></u>;
 <i>/*4*/	int field_4;</i>
 <i>/*8*/	int field_8;</i>
 <i>/*C*/	int field_C;</i>
-<i id=struc_CareerCarLotFNGObject_50@10></i><i>/*10*/	</i><a href=#struc_ObjectLink>struct ObjectLink</a> link;
+<i>/*10*/	</i><a href=#struc_ObjectLink>struct ObjectLink</a> link;
 <i>/*18*/	int field_18;</i>
 <i>/*1C*/	int field_1C;</i>
 <i>/*20*/	</i><a href=#struc_MenuCarInstance>struct MenuCarInstance</a> carInstance;
@@ -3003,19 +3003,19 @@ return amount of bytes actually read*/</span>
 <i>/*915*/	char _pad915[0x3];</i>
 <i>/*918*/	</i><a href=structs.html#struc_Car>struct Car</a> *car;
 <i>/*91C*/	int field_91C;</i>
-<i id=struc_CareerCarLotFNGObject_50@920></i><span class='mm'>/**gets its value from <a href=structs.html#struc_InventoryCar>struct InventoryCar</a>.<a href=structs.html#struc_InventoryCar@8>slotHash</a>*/</span>
+<i id=struc_CarSelectCarEntry@920></i><span class='mm'>/**gets its value from <a href=structs.html#struc_InventoryCar>struct InventoryCar</a>.<a href=structs.html#struc_InventoryCar@8>slotHash</a>*/</span>
 <i>/*920*/	</i>unsigned int slotHash;
 <i>/*924*/	int field_924;</i>
 <i>/*928*/	int field_928;</i>
 <i>/*92C*/	char _pad92C[0x3];</i>
 <i>/*92F*/	</i>char __end <u></u>;
 };
-<i>EXPECT_SIZE(struct CareerCarLotFNGObject_50, 0x930);</i></div>
+<i>EXPECT_SIZE(struct CarSelectCarEntry, 0x930);</i></div>
 <ul>
 <li><!--511DB0-->
-<pre><i>511DB0</i> <a href=funcs.html#511DB0 title='int __thiscall CareerCarLotFNGObject_50__ctor(struct CareerCarLotFNGObject_50 *this, struct Car *car, int, unsigned int slotHash, int playerId, char);'>CareerCarLotFNGObject_50::ctor</a></pre>
+<pre><i>511DB0</i> <a href=funcs.html#511DB0 title='int __thiscall CarSelectCarEntry__ctor(struct CarSelectCarEntry *this, struct Car *car, int, unsigned int slotHash, int playerId, char);'>CarSelectCarEntry::ctor</a></pre>
 <li><!--511E00-->
-<pre><i>511E00</i> <a href=funcs.html#511E00 title='struct MenuCarInstance *__thiscall CareerCarLotFNGObject_50__ApplyTuningToCarInstanceIfNotDoneAlready(struct CareerCarLotFNGObject_50 *this);'>CareerCarLotFNGObject_50::ApplyTuningToCarInstanceIfNotDoneAlready</a></pre>
+<pre><i>511E00</i> <a href=funcs.html#511E00 title='struct MenuCarInstance *__thiscall CarSelectCarEntry__ApplyTuningToCarInstanceIfNotDoneAlready(struct CarSelectCarEntry *this);'>CarSelectCarEntry::ApplyTuningToCarInstanceIfNotDoneAlready</a></pre>
 </ul>
 <a id=struc_s734></a>
 <div>struct <h3>s734</h3> { <i>/*10 members, size E8h*/</i> <em></em>
@@ -5030,9 +5030,9 @@ return amount of bytes actually read*/</span>
 <i>/*4D*/	char field_4D;</i>
 <i>/*4E*/	char field_4E;</i>
 <i>/*4F*/	char _pad4F[0x1];</i>
-<span class='mm'>/**entries are <a href=structs.html#struc_CareerCarLotFNGObject_50>struct CareerCarLotFNGObject_50</a> (link offset 10h)*/</span>
+<span class='mm'>/**entries are <a href=structs.html#struc_CarSelectCarEntry>struct CarSelectCarEntry</a> (link offset 10h)*/</span>
 <i>/*50*/	</i><a href=#struc_ObjectLink>struct ObjectLink</a> selectableCars;
-<i id=struc_CarSelectFNGObject@58></i><i>/*58*/	</i><a href=structs.html#struc_CareerCarLotFNGObject_50>struct CareerCarLotFNGObject_50</a> *currentSelectedCar;
+<i id=struc_CarSelectFNGObject@58></i><i>/*58*/	</i><a href=structs.html#struc_CarSelectCarEntry>struct CarSelectCarEntry</a> *currentSelectedCar;
 <span class='mm'>/**0/1*/</span>
 <i>/*5C*/	</i>int browsingPlayerIndex;
 <i>/*60*/	</i>int numSelectableCars;
