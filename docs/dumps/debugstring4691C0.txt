@@ -1,0 +1,990 @@
+// NOTE: this file was long and repetitive so I did a |sort|uniq of it
+//       So: this dump does not list chronological messages, they're unique sorted messages.
+
+3dLookupID = 90010000  SFXOBJOUT ID 10000
+3dLookupID = 90010000  SFXOBJOUT ID 10010
+3dLookupID = 90010000  SFXOBJOUT ID 10020
+3dLookupID = 90010000  SFXOBJOUT ID 10030
+3dLookupID = 90010000  SFXOBJOUT ID 10040
+3dLookupID = 90010000  SFXOBJOUT ID 10080
+3dLookupID = 90010000  SFXOBJOUT ID 100b0
+3dLookupID = 90010001  SFXOBJOUT ID 100c0
+3dLookupID = 90010002  SFXOBJOUT ID 10050
+3dLookupID = 90010002  SFXOBJOUT ID 10060
+3dLookupID = 90010002  SFXOBJOUT ID 10070
+3dLookupID = 90010003  SFXOBJOUT ID 10050
+3dLookupID = 90010003  SFXOBJOUT ID 10060
+3dLookupID = 90010003  SFXOBJOUT ID 10070
+3dLookupID = 90010004  SFXOBJOUT ID 10010
+3dLookupID = 90020000  SFXOBJOUT ID 20000
+3dLookupID = 90020000  SFXOBJOUT ID 20050
+3dLookupID = 90020000  SFXOBJOUT ID 200f0
+3dLookupID = 90020001  SFXOBJOUT ID 20020
+3dLookupID = 90020001  SFXOBJOUT ID 20030
+3dLookupID = 90020800  SFXOBJOUT ID 20800
+3dLookupID = 90020800  SFXOBJOUT ID 20850
+3dLookupID = 90020800  SFXOBJOUT ID 208f0
+3dLookupID = 90020801  SFXOBJOUT ID 20820
+3dLookupID = 90020801  SFXOBJOUT ID 20830
+3dLookupID = 90021000  SFXOBJOUT ID 21000
+3dLookupID = 90021000  SFXOBJOUT ID 21050
+3dLookupID = 90021000  SFXOBJOUT ID 210f0
+3dLookupID = 90021001  SFXOBJOUT ID 21020
+3dLookupID = 90021001  SFXOBJOUT ID 21030
+3dLookupID = 90030000  SFXOBJOUT ID 30000
+3dLookupID = 90030000  SFXOBJOUT ID 30010
+3dLookupID = 90030000  SFXOBJOUT ID 30030
+3dLookupID = 90030000  SFXOBJOUT ID 30040
+3dLookupID = 90030001  SFXOBJOUT ID 30020
+3dLookupID = 90030800  SFXOBJOUT ID 30800
+3dLookupID = 90030800  SFXOBJOUT ID 30810
+3dLookupID = 90030800  SFXOBJOUT ID 30830
+3dLookupID = 90030800  SFXOBJOUT ID 30840
+3dLookupID = 90030801  SFXOBJOUT ID 30820
+3dLookupID = 90031000  SFXOBJOUT ID 31000
+3dLookupID = 90031000  SFXOBJOUT ID 31010
+3dLookupID = 90031000  SFXOBJOUT ID 31030
+3dLookupID = 90031000  SFXOBJOUT ID 31040
+3dLookupID = 90031001  SFXOBJOUT ID 31020
+3dLookupID = 90031800  SFXOBJOUT ID 31800
+3dLookupID = 90031800  SFXOBJOUT ID 31810
+3dLookupID = 90031800  SFXOBJOUT ID 31830
+3dLookupID = 90031800  SFXOBJOUT ID 31840
+3dLookupID = 90031801  SFXOBJOUT ID 31820
+3dLookupID = 90032000  SFXOBJOUT ID 32000
+3dLookupID = 90032000  SFXOBJOUT ID 32010
+3dLookupID = 90032000  SFXOBJOUT ID 32030
+3dLookupID = 90032000  SFXOBJOUT ID 32040
+3dLookupID = 90032001  SFXOBJOUT ID 32020
+3dLookupID = 90032800  SFXOBJOUT ID 32800
+3dLookupID = 90032800  SFXOBJOUT ID 32810
+3dLookupID = 90032800  SFXOBJOUT ID 32830
+3dLookupID = 90032800  SFXOBJOUT ID 32840
+3dLookupID = 90032801  SFXOBJOUT ID 32820
+3dLookupID = 90040000  SFXOBJOUT ID 40000
+3dLookupID = 90040800  SFXOBJOUT ID 40800
+3dLookupID = 90041000  SFXOBJOUT ID 41000
+3dLookupID = 90041800  SFXOBJOUT ID 41800
+3dLookupID = 90042000  SFXOBJOUT ID 42000
+3dLookupID = 90050000  SFXOBJOUT ID 50000
+3dLookupID = 90050001  SFXOBJOUT ID 50000
+3dLookupID = 90050002  SFXOBJOUT ID 50000
+3dLookupID = 90050800  SFXOBJOUT ID 50800
+3dLookupID = 90050801  SFXOBJOUT ID 50800
+3dLookupID = 90050802  SFXOBJOUT ID 50800
+3dLookupID = 90051000  SFXOBJOUT ID 51000
+3dLookupID = 90051001  SFXOBJOUT ID 51000
+3dLookupID = 90051002  SFXOBJOUT ID 51000
+3dLookupID = 90051800  SFXOBJOUT ID 51800
+3dLookupID = 90051801  SFXOBJOUT ID 51800
+3dLookupID = 90051802  SFXOBJOUT ID 51800
+3dLookupID = 90052000  SFXOBJOUT ID 52000
+3dLookupID = 90052001  SFXOBJOUT ID 52000
+3dLookupID = 90052002  SFXOBJOUT ID 52000
+3dLookupID = 90052800  SFXOBJOUT ID 52800
+3dLookupID = 90052801  SFXOBJOUT ID 52800
+3dLookupID = 90052802  SFXOBJOUT ID 52800
+3dLookupID = 90060000  SFXOBJOUT ID 60000
+3dLookupID = 90060800  SFXOBJOUT ID 60800
+3dLookupID = 90061000  SFXOBJOUT ID 61000
+3dLookupID = 90061800  SFXOBJOUT ID 61800
+3dLookupID = 90062000  SFXOBJOUT ID 62000
+3dLookupID = 90062800  SFXOBJOUT ID 62800
+3dLookupID = 90070000  SFXOBJOUT ID 70000
+3dLookupID = 90070001  SFXOBJOUT ID 70000
+3dLookupID = 90070800  SFXOBJOUT ID 70800
+3dLookupID = 90070801  SFXOBJOUT ID 70800
+3dLookupID = 90071000  SFXOBJOUT ID 71000
+3dLookupID = 90071001  SFXOBJOUT ID 71000
+3dLookupID = 90080000  SFXOBJOUT ID 80000
+3dLookupID = 90080800  SFXOBJOUT ID 80800
+3dLookupID = 90081000  SFXOBJOUT ID 81000
+3dLookupID = 90081800  SFXOBJOUT ID 81800
+3dLookupID = 90082000  SFXOBJOUT ID 82000
+3dLookupID = 90082800  SFXOBJOUT ID 82800
+COnnect SubChannel ID = d0000000
+COnnect SubChannel ID = d0000000 FINISHED
+COnnect SubChannel ID = d0000106
+COnnect SubChannel ID = d0000106 FINISHED
+COnnect SubChannel ID = d0000501
+COnnect SubChannel ID = d0000501 FINISHED
+COnnect SubChannel ID = d0010107
+COnnect SubChannel ID = d0010107 FINISHED
+COnnect SubChannel ID = d0020100
+COnnect SubChannel ID = d0020100 FINISHED
+COnnect SubChannel ID = d0020101
+COnnect SubChannel ID = d0020101 FINISHED
+COnnect SubChannel ID = d0020102
+COnnect SubChannel ID = d0020102 FINISHED
+COnnect SubChannel ID = d0020103
+COnnect SubChannel ID = d0020103 FINISHED
+COnnect SubChannel ID = d0020104
+COnnect SubChannel ID = d0020104 FINISHED
+COnnect SubChannel ID = d0020200
+COnnect SubChannel ID = d0020200 FINISHED
+COnnect SubChannel ID = d0020600
+COnnect SubChannel ID = d0020600 FINISHED
+COnnect SubChannel ID = d0020700
+COnnect SubChannel ID = d0020700 FINISHED
+COnnect SubChannel ID = d0020800
+COnnect SubChannel ID = d0020800 FINISHED
+COnnect SubChannel ID = d0030300
+COnnect SubChannel ID = d0030300 FINISHED
+COnnect SubChannel ID = d0030400
+COnnect SubChannel ID = d0030400 FINISHED
+COnnect SubChannel ID = d0030500
+COnnect SubChannel ID = d0030500 FINISHED
+COnnect SubChannel ID = d0090108
+COnnect SubChannel ID = d0090108 FINISHED
+COnnect SubChannel ID = d00b0001
+COnnect SubChannel ID = d00b0001 FINISHED
+COnnect SubChannel ID = d00c0105
+COnnect SubChannel ID = d00c0105 FINISHED
+COnnect SubChannel State = 0 Copy = 0 Num = 0 of 2 , Ptr= c45c330
+COnnect SubChannel State = 0 Copy = 0 Num = 0 of 2 , Ptr= c47bdb0
+COnnect SubChannel State = 0 Copy = 0 Num = 0 of 2 , Ptr= c4dce10
+COnnect SubChannel State = 0 Copy = 0 Num = 1 of 2 , Ptr= c45c378
+COnnect SubChannel State = 0 Copy = 0 Num = 1 of 2 , Ptr= c47bdf8
+COnnect SubChannel State = 0 Copy = 0 Num = 1 of 2 , Ptr= c4dce58
+COnnect SubChannel State = 1 Copy = 0 Num = 0 of 9 , Ptr= c45c3c0
+COnnect SubChannel State = 1 Copy = 0 Num = 0 of 9 , Ptr= c47be40
+COnnect SubChannel State = 1 Copy = 0 Num = 1 of 9 , Ptr= c45c408
+COnnect SubChannel State = 1 Copy = 0 Num = 1 of 9 , Ptr= c47be88
+COnnect SubChannel State = 1 Copy = 0 Num = 2 of 9 , Ptr= c45c450
+COnnect SubChannel State = 1 Copy = 0 Num = 2 of 9 , Ptr= c47bed0
+COnnect SubChannel State = 1 Copy = 0 Num = 3 of 9 , Ptr= c45c498
+COnnect SubChannel State = 1 Copy = 0 Num = 3 of 9 , Ptr= c47bf18
+COnnect SubChannel State = 1 Copy = 0 Num = 4 of 9 , Ptr= c45c4e0
+COnnect SubChannel State = 1 Copy = 0 Num = 4 of 9 , Ptr= c47bf60
+COnnect SubChannel State = 1 Copy = 0 Num = 5 of 9 , Ptr= c45c528
+COnnect SubChannel State = 1 Copy = 0 Num = 5 of 9 , Ptr= c47bfa8
+COnnect SubChannel State = 1 Copy = 0 Num = 6 of 9 , Ptr= c45c570
+COnnect SubChannel State = 1 Copy = 0 Num = 6 of 9 , Ptr= c47bff0
+COnnect SubChannel State = 1 Copy = 0 Num = 7 of 9 , Ptr= c45c5b8
+COnnect SubChannel State = 1 Copy = 0 Num = 7 of 9 , Ptr= c47c038
+COnnect SubChannel State = 1 Copy = 0 Num = 8 of 9 , Ptr= c45c600
+COnnect SubChannel State = 1 Copy = 0 Num = 8 of 9 , Ptr= c47c080
+COnnect SubChannel State = 2 Copy = 0 Num = 0 of 1 , Ptr= c45c648
+COnnect SubChannel State = 2 Copy = 0 Num = 0 of 1 , Ptr= c47c0c8
+COnnect SubChannel State = 2 Copy = 1 Num = 0 of 1 , Ptr= c45c690
+COnnect SubChannel State = 2 Copy = 1 Num = 0 of 1 , Ptr= c47c110
+COnnect SubChannel State = 2 Copy = 2 Num = 0 of 1 , Ptr= c45c6d8
+COnnect SubChannel State = 2 Copy = 2 Num = 0 of 1 , Ptr= c47c158
+COnnect SubChannel State = 3 Copy = 0 Num = 0 of 1 , Ptr= c45c720
+COnnect SubChannel State = 3 Copy = 0 Num = 0 of 1 , Ptr= c47c1a0
+COnnect SubChannel State = 3 Copy = 1 Num = 0 of 1 , Ptr= c45c768
+COnnect SubChannel State = 3 Copy = 1 Num = 0 of 1 , Ptr= c47c1e8
+COnnect SubChannel State = 3 Copy = 2 Num = 0 of 1 , Ptr= c45c7b0
+COnnect SubChannel State = 3 Copy = 2 Num = 0 of 1 , Ptr= c47c230
+COnnect SubChannel State = 3 Copy = 3 Num = 0 of 1 , Ptr= c45c7f8
+COnnect SubChannel State = 3 Copy = 3 Num = 0 of 1 , Ptr= c47c278
+COnnect SubChannel State = 3 Copy = 4 Num = 0 of 1 , Ptr= c45c840
+COnnect SubChannel State = 3 Copy = 4 Num = 0 of 1 , Ptr= c47c2c0
+COnnect SubChannel State = 3 Copy = 5 Num = 0 of 1 , Ptr= c45c888
+COnnect SubChannel State = 3 Copy = 5 Num = 0 of 1 , Ptr= c47c308
+COnnect SubChannel State = 4 Copy = 0 Num = 0 of 1 , Ptr= c45c8d0
+COnnect SubChannel State = 4 Copy = 0 Num = 0 of 1 , Ptr= c47c350
+COnnect SubChannel State = 4 Copy = 1 Num = 0 of 1 , Ptr= c45c918
+COnnect SubChannel State = 4 Copy = 1 Num = 0 of 1 , Ptr= c47c398
+COnnect SubChannel State = 4 Copy = 2 Num = 0 of 1 , Ptr= c45c960
+COnnect SubChannel State = 4 Copy = 2 Num = 0 of 1 , Ptr= c47c3e0
+COnnect SubChannel State = 4 Copy = 3 Num = 0 of 1 , Ptr= c45c9a8
+COnnect SubChannel State = 4 Copy = 3 Num = 0 of 1 , Ptr= c47c428
+COnnect SubChannel State = 4 Copy = 4 Num = 0 of 1 , Ptr= c45c9f0
+COnnect SubChannel State = 4 Copy = 4 Num = 0 of 1 , Ptr= c47c470
+COnnect SubChannel State = 5 Copy = 0 Num = 0 of 2 , Ptr= c45ca38
+COnnect SubChannel State = 5 Copy = 0 Num = 0 of 2 , Ptr= c47c4b8
+COnnect SubChannel State = 5 Copy = 0 Num = 1 of 2 , Ptr= c45ca80
+COnnect SubChannel State = 5 Copy = 0 Num = 1 of 2 , Ptr= c47c500
+COnnect SubChannel State = 5 Copy = 1 Num = 0 of 2 , Ptr= c45cac8
+COnnect SubChannel State = 5 Copy = 1 Num = 0 of 2 , Ptr= c47c548
+COnnect SubChannel State = 5 Copy = 1 Num = 1 of 2 , Ptr= c45cb10
+COnnect SubChannel State = 5 Copy = 1 Num = 1 of 2 , Ptr= c47c590
+COnnect SubChannel State = 5 Copy = 2 Num = 0 of 2 , Ptr= c45cb58
+COnnect SubChannel State = 5 Copy = 2 Num = 0 of 2 , Ptr= c47c5d8
+COnnect SubChannel State = 5 Copy = 2 Num = 1 of 2 , Ptr= c45cba0
+COnnect SubChannel State = 5 Copy = 2 Num = 1 of 2 , Ptr= c47c620
+COnnect SubChannel State = 5 Copy = 3 Num = 0 of 2 , Ptr= c45cbe8
+COnnect SubChannel State = 5 Copy = 3 Num = 0 of 2 , Ptr= c47c668
+COnnect SubChannel State = 5 Copy = 3 Num = 1 of 2 , Ptr= c45cc30
+COnnect SubChannel State = 5 Copy = 3 Num = 1 of 2 , Ptr= c47c6b0
+COnnect SubChannel State = 5 Copy = 4 Num = 0 of 2 , Ptr= c45cc78
+COnnect SubChannel State = 5 Copy = 4 Num = 0 of 2 , Ptr= c47c6f8
+COnnect SubChannel State = 5 Copy = 4 Num = 1 of 2 , Ptr= c45ccc0
+COnnect SubChannel State = 5 Copy = 4 Num = 1 of 2 , Ptr= c47c740
+COnnect SubChannel State = 5 Copy = 5 Num = 0 of 2 , Ptr= c45cd08
+COnnect SubChannel State = 5 Copy = 5 Num = 0 of 2 , Ptr= c47c788
+COnnect SubChannel State = 5 Copy = 5 Num = 1 of 2 , Ptr= c45cd50
+COnnect SubChannel State = 5 Copy = 5 Num = 1 of 2 , Ptr= c47c7d0
+COnnect SubChannel State = 6 Copy = 0 Num = 0 of 1 , Ptr= c45cd98
+COnnect SubChannel State = 6 Copy = 0 Num = 0 of 1 , Ptr= c47c818
+COnnect SubChannel State = 6 Copy = 1 Num = 0 of 1 , Ptr= c45cde0
+COnnect SubChannel State = 6 Copy = 1 Num = 0 of 1 , Ptr= c47c860
+COnnect SubChannel State = 6 Copy = 2 Num = 0 of 1 , Ptr= c45ce28
+COnnect SubChannel State = 6 Copy = 2 Num = 0 of 1 , Ptr= c47c8a8
+COnnect SubChannel State = 6 Copy = 3 Num = 0 of 1 , Ptr= c45ce70
+COnnect SubChannel State = 6 Copy = 3 Num = 0 of 1 , Ptr= c47c8f0
+COnnect SubChannel State = 6 Copy = 4 Num = 0 of 1 , Ptr= c45ceb8
+COnnect SubChannel State = 6 Copy = 4 Num = 0 of 1 , Ptr= c47c938
+COnnect SubChannel State = 6 Copy = 5 Num = 0 of 1 , Ptr= c45cf00
+COnnect SubChannel State = 6 Copy = 5 Num = 0 of 1 , Ptr= c47c980
+COnnect SubChannel State = 7 Copy = 0 Num = 0 of 1 , Ptr= c45cf48
+COnnect SubChannel State = 7 Copy = 0 Num = 0 of 1 , Ptr= c47c9c8
+COnnect SubChannel State = 7 Copy = 1 Num = 0 of 1 , Ptr= c45cf90
+COnnect SubChannel State = 7 Copy = 1 Num = 0 of 1 , Ptr= c47ca10
+COnnect SubChannel State = 7 Copy = 2 Num = 0 of 1 , Ptr= c45cfd8
+COnnect SubChannel State = 7 Copy = 2 Num = 0 of 1 , Ptr= c47ca58
+COnnect SubChannel State = 8 Copy = 0 Num = 0 of 1 , Ptr= c45d020
+COnnect SubChannel State = 8 Copy = 0 Num = 0 of 1 , Ptr= c47caa0
+COnnect SubChannel State = 8 Copy = 1 Num = 0 of 1 , Ptr= c45d068
+COnnect SubChannel State = 8 Copy = 1 Num = 0 of 1 , Ptr= c47cae8
+COnnect SubChannel State = 8 Copy = 2 Num = 0 of 1 , Ptr= c45d0b0
+COnnect SubChannel State = 8 Copy = 2 Num = 0 of 1 , Ptr= c47cb30
+COnnect SubChannel State = 8 Copy = 3 Num = 0 of 1 , Ptr= c45d0f8
+COnnect SubChannel State = 8 Copy = 3 Num = 0 of 1 , Ptr= c47cb78
+COnnect SubChannel State = 8 Copy = 4 Num = 0 of 1 , Ptr= c45d140
+COnnect SubChannel State = 8 Copy = 4 Num = 0 of 1 , Ptr= c47cbc0
+COnnect SubChannel State = 8 Copy = 5 Num = 0 of 1 , Ptr= c45d188
+COnnect SubChannel State = 8 Copy = 5 Num = 0 of 1 , Ptr= c47cc08
+ChannelID c0020002, State = 0, chid = 8006002,
+ChannelID c0020003, State = 0, chid = 8006002,
+ChannelID c0030000, State = 0, chid = 8006000,
+ChannelID c0030006, State = 0, chid = 8006003,
+ChannelID c0030008, State = 0, chid = 8006003,
+ChannelID c0030009, State = 0, chid = 8006003,
+ChannelID c003010e, State = 1, chid = 8016005,
+ChannelID c0030201, State = 0, chid = 8006003,
+ChannelID c0030202, State = 0, chid = 8006003,
+ChannelID c0030203, State = 0, chid = 8006004,
+ChannelID c0030204, State = 0, chid = 8006003,
+ChannelID c0030300, State = 1, chid = 8016005,
+ChannelID c0030301, State = 1, chid = 7016006,
+ChannelID c0040001, State = 0, chid = 8006001,
+ChannelID c0040007, State = 0, chid = 8006003,
+ChannelID c0040101, State = 1, chid = 8016004,
+ChannelID c0040200, State = 0, chid = 8006003,
+ChannelID c0040303, State = 0, chid = 9006006,
+ChannelID c0040800, State = 0, chid = 8006003,
+ChannelID c0050100, State = 1, chid = 8016005,
+ChannelID c0050102, State = 1, chid = 8016005,
+ChannelID c0050103, State = 1, chid = 8016005,
+ChannelID c0050105, State = 1, chid = 8016005,
+ChannelID c0050109, State = 1, chid = 16001,
+ChannelID c0050109, State = 1, chid = 8016005,
+ChannelID c005010f, State = 1, chid = 7016006,
+ChannelID c0050700, State = 0, chid = 8006003,
+ChannelID c006010d, State = 0, chid = 9006006,
+ChannelID c0060600, State = 0, chid = 8006003,
+ChannelID c0060600, State = 1, chid = 5016007,
+ChannelID c007010c, State = 0, chid = 9006007,
+ChannelID c007010c, State = 1, chid = 8016003,
+ChannelID c0080107, State = 0, chid = 9006008,
+ChannelID c0080107, State = 1, chid = 8016004,
+ChannelID c0090004, State = 0, chid = 8006003,
+ChannelID c0090004, State = 1, chid = 8016009,
+ChannelID d0020101, State = 0, chid = 8006005,
+ChannelID d0020102, State = 0, chid = 8006004,
+ChannelID d0020103, State = 0, chid = 8006003,
+ChannelID d0020104, State = 0, chid = 8006003,
+ChannelID d0030300, State = 0, chid = 8006003,
+ChannelID d0030400, State = 0, chid = 8006003,
+ChannelID d0030500, State = 0, chid = 8006003,
+ChannelID d0090108, State = 0, chid = 9006006,
+ChannelID d0090108, State = 1, chid = 8016004,
+ChannelID d0090108, State = 1, chid = 9016008,
+ChannelID d00b0001, State = 1, chid = 6016002,
+ChannelID d00c0105, State = 1, chid = 4016000,
+Cleaningup Backup Stream after 15 seconds
+Connect Mix Channel  c0020002
+Connect Mix Channel  c0020003
+Connect Mix Channel  c002010b
+Connect Mix Channel  c0020302
+Connect Mix Channel  c0020304
+Connect Mix Channel  c0020400
+Connect Mix Channel  c0020501
+Connect Mix Channel  c0020502
+Connect Mix Channel  c0030000
+Connect Mix Channel  c0030005
+Connect Mix Channel  c0030006
+Connect Mix Channel  c0030008
+Connect Mix Channel  c0030009
+Connect Mix Channel  c0030104
+Connect Mix Channel  c0030106
+Connect Mix Channel  c003010e
+Connect Mix Channel  c0030201
+Connect Mix Channel  c0030202
+Connect Mix Channel  c0030203
+Connect Mix Channel  c0030204
+Connect Mix Channel  c0030300
+Connect Mix Channel  c0030301
+Connect Mix Channel  c0030500
+Connect Mix Channel  c0040001
+Connect Mix Channel  c0040007
+Connect Mix Channel  c0040101
+Connect Mix Channel  c0040108
+Connect Mix Channel  c004010a
+Connect Mix Channel  c0040200
+Connect Mix Channel  c0040303
+Connect Mix Channel  c0040800
+Connect Mix Channel  c0050100
+Connect Mix Channel  c0050102
+Connect Mix Channel  c0050103
+Connect Mix Channel  c0050105
+Connect Mix Channel  c0050109
+Connect Mix Channel  c005010f
+Connect Mix Channel  c0050700
+Connect Mix Channel  c006010d
+Connect Mix Channel  c0060600
+Connect Mix Channel  c007010c
+Connect Mix Channel  c0080107
+Connect Mix Channel  c0090004
+Connect Mix Channel  d0010107
+Connect Mix Channel  d0020100
+Connect Mix Channel  d0020101
+Connect Mix Channel  d0020102
+Connect Mix Channel  d0020103
+Connect Mix Channel  d0020104
+Connect Mix Channel  d0020200
+Connect Mix Channel  d0020600
+Connect Mix Channel  d0020700
+Connect Mix Channel  d0020800
+Connect Mix Channel  d0030300
+Connect Mix Channel  d0030400
+Connect Mix Channel  d0030500
+Connect Mix Channel  d0090108
+Connect Mix Channel  d00b0001
+Connect Mix Channel  d00c0105
+Deleting Stream ID 7 m_queuedObject due to PurgeStreams
+Ext EVTMixCtl ID b0003006
+Ext EVTMixCtl ID b0003006 Connects OutPtr c458010, Out Val 0
+Ext EVTMixCtl ID b0003006 Connects OutPtr c477a90, Out Val 0
+Ext EVTMixCtl ID b0033000
+Ext EVTMixCtl ID b0033000 Connects OutPtr c4585bc, Out Val 0
+Ext EVTMixCtl ID b0033000 Connects OutPtr c458614, Out Val 0
+Ext EVTMixCtl ID b0033000 Connects OutPtr c45866c, Out Val 0
+Ext EVTMixCtl ID b0033000 Connects OutPtr c4586c4, Out Val 0
+Ext EVTMixCtl ID b0033000 Connects OutPtr c45871c, Out Val 0
+Ext EVTMixCtl ID b0033000 Connects OutPtr c458774, Out Val 0
+Ext EVTMixCtl ID b0033000 Connects OutPtr c47803c, Out Val 0
+Ext EVTMixCtl ID b0033000 Connects OutPtr c478094, Out Val 0
+Ext EVTMixCtl ID b0033000 Connects OutPtr c4780ec, Out Val 0
+Ext EVTMixCtl ID b0033000 Connects OutPtr c478144, Out Val 0
+Ext EVTMixCtl ID b0033000 Connects OutPtr c47819c, Out Val 0
+Ext EVTMixCtl ID b0033000 Connects OutPtr c4781f4, Out Val 0
+Ext EVTMixCtl ID b0063000
+Ext EVTMixCtl ID b0063000 Connects OutPtr c4589dc, Out Val 0
+Ext EVTMixCtl ID b0063000 Connects OutPtr c458a08, Out Val 0
+Ext EVTMixCtl ID b0063000 Connects OutPtr c458a34, Out Val 0
+Ext EVTMixCtl ID b0063000 Connects OutPtr c458a60, Out Val 0
+Ext EVTMixCtl ID b0063000 Connects OutPtr c458a8c, Out Val 0
+Ext EVTMixCtl ID b0063000 Connects OutPtr c458ab8, Out Val 0
+Ext EVTMixCtl ID b0063000 Connects OutPtr c47845c, Out Val 0
+Ext EVTMixCtl ID b0063000 Connects OutPtr c478488, Out Val 0
+Ext EVTMixCtl ID b0063000 Connects OutPtr c4784b4, Out Val 0
+Ext EVTMixCtl ID b0063000 Connects OutPtr c4784e0, Out Val 0
+Ext EVTMixCtl ID b0063000 Connects OutPtr c47850c, Out Val 0
+Ext EVTMixCtl ID b0063000 Connects OutPtr c478538, Out Val 0
+Ext EVTMixCtl ID b1013003
+Ext EVTMixCtl ID b1013003 Connects OutPtr c4581f4, Out Val 0
+Ext EVTMixCtl ID b1013003 Connects OutPtr c477c74, Out Val 0
+Ext EVTMixCtl ID b1053000
+Ext EVTMixCtl ID b1053000 Connects OutPtr c4587cc, Out Val 0
+Ext EVTMixCtl ID b1053000 Connects OutPtr c458824, Out Val 0
+Ext EVTMixCtl ID b1053000 Connects OutPtr c45887c, Out Val 0
+Ext EVTMixCtl ID b1053000 Connects OutPtr c4588d4, Out Val 0
+Ext EVTMixCtl ID b1053000 Connects OutPtr c45892c, Out Val 0
+Ext EVTMixCtl ID b1053000 Connects OutPtr c458984, Out Val 0
+Ext EVTMixCtl ID b1053000 Connects OutPtr c47824c, Out Val 0
+Ext EVTMixCtl ID b1053000 Connects OutPtr c4782a4, Out Val 0
+Ext EVTMixCtl ID b1053000 Connects OutPtr c4782fc, Out Val 0
+Ext EVTMixCtl ID b1053000 Connects OutPtr c478354, Out Val 0
+Ext EVTMixCtl ID b1053000 Connects OutPtr c4783ac, Out Val 0
+Ext EVTMixCtl ID b1053000 Connects OutPtr c478404, Out Val 0
+Ext EVTMixCtl ID b1053001
+Ext EVTMixCtl ID b1053001 Connects OutPtr c4587f8, Out Val 0
+Ext EVTMixCtl ID b1053001 Connects OutPtr c458850, Out Val 0
+Ext EVTMixCtl ID b1053001 Connects OutPtr c4588a8, Out Val 0
+Ext EVTMixCtl ID b1053001 Connects OutPtr c458900, Out Val 0
+Ext EVTMixCtl ID b1053001 Connects OutPtr c458958, Out Val 0
+Ext EVTMixCtl ID b1053001 Connects OutPtr c4589b0, Out Val 0
+Ext EVTMixCtl ID b1053001 Connects OutPtr c478278, Out Val 0
+Ext EVTMixCtl ID b1053001 Connects OutPtr c4782d0, Out Val 0
+Ext EVTMixCtl ID b1053001 Connects OutPtr c478328, Out Val 0
+Ext EVTMixCtl ID b1053001 Connects OutPtr c478380, Out Val 0
+Ext EVTMixCtl ID b1053001 Connects OutPtr c4783d8, Out Val 0
+Ext EVTMixCtl ID b1053001 Connects OutPtr c478430, Out Val 0
+Ext EVTMixCtl ID b2003000
+Ext EVTMixCtl ID b2003000 Connects OutPtr c457f08, Out Val 0
+Ext EVTMixCtl ID b2003000 Connects OutPtr c477988, Out Val 0
+Ext EVTMixCtl ID b2003002
+Ext EVTMixCtl ID b2003002 Connects OutPtr c457f60, Out Val 0
+Ext EVTMixCtl ID b2003002 Connects OutPtr c4779e0, Out Val 0
+Ext EVTMixCtl ID b2003003
+Ext EVTMixCtl ID b2003003 Connects OutPtr c457f8c, Out Val 0
+Ext EVTMixCtl ID b2003003 Connects OutPtr c477a0c, Out Val 0
+Ext EVTMixCtl ID b2003005
+Ext EVTMixCtl ID b2003005 Connects OutPtr c457fe4, Out Val 0
+Ext EVTMixCtl ID b2003005 Connects OutPtr c477a64, Out Val 0
+Ext EVTMixCtl ID b2003008
+Ext EVTMixCtl ID b2003008 Connects OutPtr c458068, Out Val 0
+Ext EVTMixCtl ID b2003008 Connects OutPtr c477ae8, Out Val 0
+Ext EVTMixCtl ID b200300c
+Ext EVTMixCtl ID b200300c Connects OutPtr c458118, Out Val 0
+Ext EVTMixCtl ID b200300c Connects OutPtr c477b98, Out Val 0
+Ext EVTMixCtl ID b201300f
+Ext EVTMixCtl ID b201300f Connects OutPtr c458404, Out Val 0
+Ext EVTMixCtl ID b201300f Connects OutPtr c477e84, Out Val 0
+Ext EVTMixCtl ID b2013010
+Ext EVTMixCtl ID b2013010 Connects OutPtr c458430, Out Val 0
+Ext EVTMixCtl ID b2013010 Connects OutPtr c477eb0, Out Val 0
+Ext EVTMixCtl ID b2013013
+Ext EVTMixCtl ID b2013013 Connects OutPtr c4584b4, Out Val 0
+Ext EVTMixCtl ID b2013013 Connects OutPtr c477f34, Out Val 0
+Ext EVTMixCtl ID b2013014
+Ext EVTMixCtl ID b2013014 Connects OutPtr c4584e0, Out Val 0
+Ext EVTMixCtl ID b2013014 Connects OutPtr c477f60, Out Val 0
+Ext EVTMixCtl ID b2013015
+Ext EVTMixCtl ID b2013015 Connects OutPtr c45850c, Out Val 0
+Ext EVTMixCtl ID b2013015 Connects OutPtr c477f8c, Out Val 0
+Ext EVTMixCtl ID b2013017
+Ext EVTMixCtl ID b2013017 Connects OutPtr c458564, Out Val 0
+Ext EVTMixCtl ID b2013017 Connects OutPtr c477fe4, Out Val 0
+Ext EVTMixCtl ID b2013018
+Ext EVTMixCtl ID b2013018 Connects OutPtr c458590, Out Val 0
+Ext EVTMixCtl ID b2013018 Connects OutPtr c478010, Out Val 0
+Ext EVTMixCtl ID b2033001
+Ext EVTMixCtl ID b2033001 Connects OutPtr c4585e8, Out Val 0
+Ext EVTMixCtl ID b2033001 Connects OutPtr c458640, Out Val 0
+Ext EVTMixCtl ID b2033001 Connects OutPtr c458698, Out Val 0
+Ext EVTMixCtl ID b2033001 Connects OutPtr c4586f0, Out Val 0
+Ext EVTMixCtl ID b2033001 Connects OutPtr c458748, Out Val 0
+Ext EVTMixCtl ID b2033001 Connects OutPtr c4587a0, Out Val 0
+Ext EVTMixCtl ID b2033001 Connects OutPtr c478068, Out Val 0
+Ext EVTMixCtl ID b2033001 Connects OutPtr c4780c0, Out Val 0
+Ext EVTMixCtl ID b2033001 Connects OutPtr c478118, Out Val 0
+Ext EVTMixCtl ID b2033001 Connects OutPtr c478170, Out Val 0
+Ext EVTMixCtl ID b2033001 Connects OutPtr c4781c8, Out Val 0
+Ext EVTMixCtl ID b2033001 Connects OutPtr c478220, Out Val 0
+Ext MixCtl ID 5016007 Connects OutPtr c4a2f3c, Out Val 0
+Ext MixCtl ID 5016007 Connects OutPtr c4dcd3c, Out Val 0
+Ext MixCtl ID 6016002 Connects OutPtr c4a2e60, Out Val 0
+Ext MixCtl ID 6016002 Connects OutPtr c4dcc60, Out Val 0
+Ext MixCtl ID 7016006 Connects OutPtr c4a2f10, Out Val 0
+Ext MixCtl ID 7016006 Connects OutPtr c4dcd10, Out Val 0
+Ext MixCtl ID 8006003 Connects OutPtr c4a2d00, Out Val 0
+Ext MixCtl ID 8006003 Connects OutPtr c4dcb00, Out Val 0
+Ext MixCtl ID 8006004 Connects OutPtr c4a2d2c, Out Val 0
+Ext MixCtl ID 8006004 Connects OutPtr c4dcb2c, Out Val 0
+Ext MixCtl ID 8006005 Connects OutPtr c4a2d58, Out Val 0
+Ext MixCtl ID 8006005 Connects OutPtr c4dcb58, Out Val 0
+Ext MixCtl ID 8016005 Connects OutPtr c4a2ee4, Out Val 0
+Ext MixCtl ID 8016005 Connects OutPtr c4dcce4, Out Val 0
+Ext MixCtl ID 8016009 Connects OutPtr c4a2f94, Out Val 0
+Ext MixCtl ID 8016009 Connects OutPtr c4dcd94, Out Val 0
+Ext MixCtl ID 9006006 Connects OutPtr c4a2d84, Out Val 0
+Ext MixCtl ID 9006006 Connects OutPtr c4dcb84, Out Val 0
+Ext MixCtl ID 9006007 Connects OutPtr c4a2db0, Out Val 0
+Ext MixCtl ID 9006007 Connects OutPtr c4dcbb0, Out Val 0
+Ext MixCtl ID 9006008 Connects OutPtr c4a2ddc, Out Val 0
+Ext MixCtl ID 9006008 Connects OutPtr c4dcbdc, Out Val 0
+FE MASK = 3f, IG Mask = 7ffffc0, NUMFE SOngs = 6, Num IG Songs = 21, PBMODE = 1
+Local EVTMixCtl ID b000300d Connects OutPtr c458144, Out Val 0
+Local EVTMixCtl ID b000300d Connects OutPtr c477bc4, Out Val 0
+Local EVTMixCtl ID b000300d Connects OutPtr c4dc914, Out Val 0
+Local EVTMixCtl ID b0013001 Connects OutPtr c45819c, Out Val 0
+Local EVTMixCtl ID b0013001 Connects OutPtr c477c1c, Out Val 0
+Local EVTMixCtl ID b0013002 Connects OutPtr c4581c8, Out Val 0
+Local EVTMixCtl ID b0013002 Connects OutPtr c477c48, Out Val 0
+Local EVTMixCtl ID b1013000 Connects OutPtr c458170, Out Val 0
+Local EVTMixCtl ID b1013000 Connects OutPtr c477bf0, Out Val 0
+Local EVTMixCtl ID b1013003 Connects OutPtr c4581f4, Out Val 0
+Local EVTMixCtl ID b1013003 Connects OutPtr c477c74, Out Val 0
+Local EVTMixCtl ID b2003001 Connects OutPtr c457f34, Out Val 0
+Local EVTMixCtl ID b2003001 Connects OutPtr c4779b4, Out Val 0
+Local EVTMixCtl ID b2003001 Connects OutPtr c4dc704, Out Val 0
+Local EVTMixCtl ID b2003002 Connects OutPtr c457f60, Out Val 0
+Local EVTMixCtl ID b2003002 Connects OutPtr c4779e0, Out Val 0
+Local EVTMixCtl ID b2003002 Connects OutPtr c4dc730, Out Val 0
+Local EVTMixCtl ID b2003004 Connects OutPtr c457fb8, Out Val 0
+Local EVTMixCtl ID b2003004 Connects OutPtr c477a38, Out Val 0
+Local EVTMixCtl ID b2003004 Connects OutPtr c4dc788, Out Val 0
+Local EVTMixCtl ID b2003005 Connects OutPtr c457fe4, Out Val 0
+Local EVTMixCtl ID b2003005 Connects OutPtr c477a64, Out Val 0
+Local EVTMixCtl ID b2003005 Connects OutPtr c4dc7b4, Out Val 0
+Local EVTMixCtl ID b2003007 Connects OutPtr c45803c, Out Val 0
+Local EVTMixCtl ID b2003007 Connects OutPtr c477abc, Out Val 0
+Local EVTMixCtl ID b2003007 Connects OutPtr c4dc80c, Out Val 0
+Local EVTMixCtl ID b2003009 Connects OutPtr c458094, Out Val 0
+Local EVTMixCtl ID b2003009 Connects OutPtr c477b14, Out Val 0
+Local EVTMixCtl ID b2003009 Connects OutPtr c4dc864, Out Val 0
+Local EVTMixCtl ID b200300a Connects OutPtr c4580c0, Out Val 0
+Local EVTMixCtl ID b200300a Connects OutPtr c477b40, Out Val 0
+Local EVTMixCtl ID b200300a Connects OutPtr c4dc890, Out Val 0
+Local EVTMixCtl ID b200300b Connects OutPtr c4580ec, Out Val 0
+Local EVTMixCtl ID b200300b Connects OutPtr c477b6c, Out Val 0
+Local EVTMixCtl ID b200300b Connects OutPtr c4dc8bc, Out Val 0
+Local EVTMixCtl ID b2013004 Connects OutPtr c458220, Out Val 0
+Local EVTMixCtl ID b2013004 Connects OutPtr c477ca0, Out Val 0
+Local EVTMixCtl ID b2013005 Connects OutPtr c45824c, Out Val 0
+Local EVTMixCtl ID b2013005 Connects OutPtr c477ccc, Out Val 0
+Local EVTMixCtl ID b2013006 Connects OutPtr c458278, Out Val 0
+Local EVTMixCtl ID b2013006 Connects OutPtr c477cf8, Out Val 0
+Local EVTMixCtl ID b2013007 Connects OutPtr c4582a4, Out Val 0
+Local EVTMixCtl ID b2013007 Connects OutPtr c477d24, Out Val 0
+Local EVTMixCtl ID b2013008 Connects OutPtr c4582d0, Out Val 0
+Local EVTMixCtl ID b2013008 Connects OutPtr c477d50, Out Val 0
+Local EVTMixCtl ID b2013009 Connects OutPtr c4582fc, Out Val 0
+Local EVTMixCtl ID b2013009 Connects OutPtr c477d7c, Out Val 0
+Local EVTMixCtl ID b201300a Connects OutPtr c458328, Out Val 0
+Local EVTMixCtl ID b201300a Connects OutPtr c477da8, Out Val 0
+Local EVTMixCtl ID b201300b Connects OutPtr c458354, Out Val 0
+Local EVTMixCtl ID b201300b Connects OutPtr c477dd4, Out Val 0
+Local EVTMixCtl ID b201300c Connects OutPtr c458380, Out Val 0
+Local EVTMixCtl ID b201300c Connects OutPtr c477e00, Out Val 0
+Local EVTMixCtl ID b2013011 Connects OutPtr c45845c, Out Val 0
+Local EVTMixCtl ID b2013011 Connects OutPtr c477edc, Out Val 0
+Local EVTMixCtl ID b2013012 Connects OutPtr c458488, Out Val 0
+Local EVTMixCtl ID b2013012 Connects OutPtr c477f08, Out Val 0
+Local EVTMixCtl ID b2013015 Connects OutPtr c45850c, Out Val 0
+Local EVTMixCtl ID b2013015 Connects OutPtr c477f8c, Out Val 0
+Local EVTMixCtl ID b2013016 Connects OutPtr c458538, Out Val 0
+Local EVTMixCtl ID b2013016 Connects OutPtr c477fb8, Out Val 0
+Local MixCtl ID 16001 Connects OutPtr c4a2e34, Out Val 0
+Local MixCtl ID 16001 Connects OutPtr c4dcc34, Out Val 0
+Local MixCtl ID 4016000 Connects OutPtr c4a2e08, Out Val 0
+Local MixCtl ID 4016000 Connects OutPtr c4dcc08, Out Val 0
+Local MixCtl ID 7016006 Connects OutPtr c4a2f10, Out Val 0
+Local MixCtl ID 7016006 Connects OutPtr c4dcd10, Out Val 0
+Local MixCtl ID 8006000 Connects OutPtr c4a2c7c, Out Val 0
+Local MixCtl ID 8006000 Connects OutPtr c4dca7c, Out Val 0
+Local MixCtl ID 8006000 Connects OutPtr c4dd0ac, Out Val 0
+Local MixCtl ID 8006001 Connects OutPtr c4a2ca8, Out Val 0
+Local MixCtl ID 8006001 Connects OutPtr c4dcaa8, Out Val 0
+Local MixCtl ID 8006001 Connects OutPtr c4dd0d8, Out Val 0
+Local MixCtl ID 8006002 Connects OutPtr c4a2cd4, Out Val 0
+Local MixCtl ID 8006002 Connects OutPtr c4dcad4, Out Val 0
+Local MixCtl ID 8006002 Connects OutPtr c4dd104, Out Val 0
+Local MixCtl ID 8006003 Connects OutPtr c4a2d00, Out Val 0
+Local MixCtl ID 8006003 Connects OutPtr c4dcb00, Out Val 0
+Local MixCtl ID 8006003 Connects OutPtr c4dd130, Out Val 0
+Local MixCtl ID 8016003 Connects OutPtr c4a2e8c, Out Val 0
+Local MixCtl ID 8016003 Connects OutPtr c4dcc8c, Out Val 0
+Local MixCtl ID 8016004 Connects OutPtr c4a2eb8, Out Val 0
+Local MixCtl ID 8016004 Connects OutPtr c4dccb8, Out Val 0
+Local MixCtl ID 8016005 Connects OutPtr c4a2ee4, Out Val 0
+Local MixCtl ID 8016005 Connects OutPtr c4dcce4, Out Val 0
+Local MixCtl ID 9016008 Connects OutPtr c4a2f68, Out Val 0
+Local MixCtl ID 9016008 Connects OutPtr c4dcd68, Out Val 0
+Local SUB ID c0020002 Connects OutPtr c459d70, Out Val 0
+Local SUB ID c0020002 Connects OutPtr c4797f0, Out Val 0
+Local SUB ID c0020002 Connects OutPtr c4dca60, Out Val 0
+Local SUB ID c0020003 Connects OutPtr c459d70, Out Val 0
+Local SUB ID c0020003 Connects OutPtr c4797f0, Out Val 0
+Local SUB ID c0020003 Connects OutPtr c4dca60, Out Val 0
+Local SUB ID c002010b Connects OutPtr c45a1e8, Out Val 0
+Local SUB ID c002010b Connects OutPtr c479c68, Out Val 0
+Local SUB ID c0020302 Connects OutPtr c45ab88, Out Val 0
+Local SUB ID c0020302 Connects OutPtr c47a608, Out Val 0
+Local SUB ID c0020304 Connects OutPtr c45ab88, Out Val 0
+Local SUB ID c0020304 Connects OutPtr c47a608, Out Val 0
+Local SUB ID c0020400 Connects OutPtr c45b5d8, Out Val 0
+Local SUB ID c0020400 Connects OutPtr c47b058, Out Val 0
+Local SUB ID c0020501 Connects OutPtr c45b790, Out Val 0
+Local SUB ID c0020501 Connects OutPtr c47b210, Out Val 0
+Local SUB ID c0020502 Connects OutPtr c45b790, Out Val 0
+Local SUB ID c0020502 Connects OutPtr c47b210, Out Val 0
+Local SUB ID c0030000 Connects OutPtr c459d70, Out Val 0
+Local SUB ID c0030000 Connects OutPtr c4797f0, Out Val 0
+Local SUB ID c0030000 Connects OutPtr c4dca60, Out Val 0
+Local SUB ID c0030005 Connects OutPtr c459d70, Out Val 0
+Local SUB ID c0030005 Connects OutPtr c4797f0, Out Val 0
+Local SUB ID c0030005 Connects OutPtr c4dca60, Out Val 0
+Local SUB ID c0030006 Connects OutPtr c459d70, Out Val 0
+Local SUB ID c0030006 Connects OutPtr c4797f0, Out Val 0
+Local SUB ID c0030006 Connects OutPtr c4dca60, Out Val 0
+Local SUB ID c0030008 Connects OutPtr c459d70, Out Val 0
+Local SUB ID c0030008 Connects OutPtr c4797f0, Out Val 0
+Local SUB ID c0030008 Connects OutPtr c4dca60, Out Val 0
+Local SUB ID c0030009 Connects OutPtr c459d70, Out Val 0
+Local SUB ID c0030009 Connects OutPtr c4797f0, Out Val 0
+Local SUB ID c0030009 Connects OutPtr c4dca60, Out Val 0
+Local SUB ID c0030104 Connects OutPtr c45a1e8, Out Val 0
+Local SUB ID c0030104 Connects OutPtr c479c68, Out Val 0
+Local SUB ID c0030106 Connects OutPtr c45a190, Out Val 0
+Local SUB ID c0030106 Connects OutPtr c479c10, Out Val 0
+Local SUB ID c003010e Connects OutPtr c45a1e8, Out Val 0
+Local SUB ID c003010e Connects OutPtr c479c68, Out Val 0
+Local SUB ID c0030201 Connects OutPtr c45a660, Out Val 0
+Local SUB ID c0030201 Connects OutPtr c47a0e0, Out Val 0
+Local SUB ID c0030202 Connects OutPtr c45a660, Out Val 0
+Local SUB ID c0030202 Connects OutPtr c47a0e0, Out Val 0
+Local SUB ID c0030203 Connects OutPtr c45a660, Out Val 0
+Local SUB ID c0030203 Connects OutPtr c47a0e0, Out Val 0
+Local SUB ID c0030204 Connects OutPtr c45a660, Out Val 0
+Local SUB ID c0030204 Connects OutPtr c47a0e0, Out Val 0
+Local SUB ID c0030300 Connects OutPtr c45ab88, Out Val 0
+Local SUB ID c0030300 Connects OutPtr c47a608, Out Val 0
+Local SUB ID c0030301 Connects OutPtr c45ab88, Out Val 0
+Local SUB ID c0030301 Connects OutPtr c47a608, Out Val 0
+Local SUB ID c0030500 Connects OutPtr c45b790, Out Val 0
+Local SUB ID c0030500 Connects OutPtr c45b7e8, Out Val 0
+Local SUB ID c0030500 Connects OutPtr c47b210, Out Val 0
+Local SUB ID c0030500 Connects OutPtr c47b268, Out Val 0
+Local SUB ID c0040001 Connects OutPtr c459d70, Out Val 0
+Local SUB ID c0040001 Connects OutPtr c459dc8, Out Val 0
+Local SUB ID c0040001 Connects OutPtr c4797f0, Out Val 0
+Local SUB ID c0040001 Connects OutPtr c479848, Out Val 0
+Local SUB ID c0040001 Connects OutPtr c4dca60, Out Val 0
+Local SUB ID c0040001 Connects OutPtr c4dcab8, Out Val 0
+Local SUB ID c0040007 Connects OutPtr c459d70, Out Val 0
+Local SUB ID c0040007 Connects OutPtr c4797f0, Out Val 0
+Local SUB ID c0040007 Connects OutPtr c4dca60, Out Val 0
+Local SUB ID c0040101 Connects OutPtr c45a138, Out Val 0
+Local SUB ID c0040101 Connects OutPtr c479bb8, Out Val 0
+Local SUB ID c0040108 Connects OutPtr c45a190, Out Val 0
+Local SUB ID c0040108 Connects OutPtr c479c10, Out Val 0
+Local SUB ID c004010a Connects OutPtr c45a1e8, Out Val 0
+Local SUB ID c004010a Connects OutPtr c45a3a0, Out Val 0
+Local SUB ID c004010a Connects OutPtr c479c68, Out Val 0
+Local SUB ID c004010a Connects OutPtr c479e20, Out Val 0
+Local SUB ID c0040200 Connects OutPtr c45a660, Out Val 0
+Local SUB ID c0040200 Connects OutPtr c47a0e0, Out Val 0
+Local SUB ID c0040303 Connects OutPtr c45ab88, Out Val 0
+Local SUB ID c0040303 Connects OutPtr c47a608, Out Val 0
+Local SUB ID c0040800 Connects OutPtr c45c0d8, Out Val 0
+Local SUB ID c0040800 Connects OutPtr c47bb58, Out Val 0
+Local SUB ID c0050100 Connects OutPtr c45a138, Out Val 0
+Local SUB ID c0050100 Connects OutPtr c45a298, Out Val 0
+Local SUB ID c0050100 Connects OutPtr c45a348, Out Val 0
+Local SUB ID c0050100 Connects OutPtr c479bb8, Out Val 0
+Local SUB ID c0050100 Connects OutPtr c479d18, Out Val 0
+Local SUB ID c0050100 Connects OutPtr c479dc8, Out Val 0
+Local SUB ID c0050102 Connects OutPtr c45a138, Out Val 0
+Local SUB ID c0050102 Connects OutPtr c479bb8, Out Val 0
+Local SUB ID c0050103 Connects OutPtr c45a138, Out Val 0
+Local SUB ID c0050103 Connects OutPtr c479bb8, Out Val 0
+Local SUB ID c0050105 Connects OutPtr c45a138, Out Val 0
+Local SUB ID c0050105 Connects OutPtr c479bb8, Out Val 0
+Local SUB ID c0050109 Connects OutPtr c45a190, Out Val 0
+Local SUB ID c0050109 Connects OutPtr c479c10, Out Val 0
+Local SUB ID c005010f Connects OutPtr c45a1e8, Out Val 0
+Local SUB ID c005010f Connects OutPtr c479c68, Out Val 0
+Local SUB ID c0050700 Connects OutPtr c45bfd0, Out Val 0
+Local SUB ID c0050700 Connects OutPtr c47ba50, Out Val 0
+Local SUB ID c006010d Connects OutPtr c45a240, Out Val 0
+Local SUB ID c006010d Connects OutPtr c479cc0, Out Val 0
+Local SUB ID c0060600 Connects OutPtr c45bdc0, Out Val 0
+Local SUB ID c0060600 Connects OutPtr c47b840, Out Val 0
+Local SUB ID c007010c Connects OutPtr c45a240, Out Val 0
+Local SUB ID c007010c Connects OutPtr c479cc0, Out Val 0
+Local SUB ID c0080107 Connects OutPtr c45a190, Out Val 0
+Local SUB ID c0080107 Connects OutPtr c479c10, Out Val 0
+Local SUB ID c0090004 Connects OutPtr c459d70, Out Val 0
+Local SUB ID c0090004 Connects OutPtr c4797f0, Out Val 0
+Local SUB ID c0090004 Connects OutPtr c4dca60, Out Val 0
+Local SUB ID d0020101 Connects OutPtr c45a0e0, Out Val 0
+Local SUB ID d0020101 Connects OutPtr c479b60, Out Val 0
+Local SUB ID d0020102 Connects OutPtr c45a0e0, Out Val 0
+Local SUB ID d0020102 Connects OutPtr c479b60, Out Val 0
+Local SUB ID d0020103 Connects OutPtr c45a0e0, Out Val 0
+Local SUB ID d0020103 Connects OutPtr c479b60, Out Val 0
+Local SUB ID d0020104 Connects OutPtr c45a0e0, Out Val 0
+Local SUB ID d0020104 Connects OutPtr c479b60, Out Val 0
+MASTER CH ID = c0020002, OutID = 40000010, dBUP = 450
+MASTER CH ID = c0020003, OutID = 40000010, dBUP = 300
+MASTER CH ID = c002010b, OutID = 40010080, dBUP = 950
+MASTER CH ID = c0020302, OutID = 40030020, dBUP = 1425
+MASTER CH ID = c0020304, OutID = 40030040, dBUP = 850
+MASTER CH ID = c0020400, OutID = 40040000, dBUP = 900
+MASTER CH ID = c0020501, OutID = 40050000, dBUP = 600
+MASTER CH ID = c0020502, OutID = 40050000, dBUP = 500
+MASTER CH ID = c0030000, OutID = 40000000, dBUP = 1100
+MASTER CH ID = c0030005, OutID = 40000040, dBUP = 200
+MASTER CH ID = c0030006, OutID = 40000050, dBUP = 200
+MASTER CH ID = c0030008, OutID = 40000050, dBUP = 350
+MASTER CH ID = c0030009, OutID = 40000060, dBUP = 1400
+MASTER CH ID = c0030104, OutID = 40010030, dBUP = 875
+MASTER CH ID = c0030106, OutID = 40010050, dBUP = 950
+MASTER CH ID = c003010e, OutID = 400100b0, dBUP = 150
+MASTER CH ID = c0030201, OutID = 40020020, dBUP = 1925
+MASTER CH ID = c0030202, OutID = 40020030, dBUP = 1575
+MASTER CH ID = c0030203, OutID = 40020050, dBUP = 1025
+MASTER CH ID = c0030204, OutID = 400200f0, dBUP = 1575
+MASTER CH ID = c0030300, OutID = 40030000, dBUP = 550
+MASTER CH ID = c0030301, OutID = 40030010, dBUP = 1100
+MASTER CH ID = c0030500, OutID = 40050000, dBUP = 600
+MASTER CH ID = c0040001, OutID = 40000000, dBUP = 900
+MASTER CH ID = c0040007, OutID = 40000050, dBUP = 550
+MASTER CH ID = c0040101, OutID = 40010010, dBUP = 300
+MASTER CH ID = c0040108, OutID = 40010060, dBUP = 10000
+MASTER CH ID = c004010a, OutID = 40010070, dBUP = 3350
+MASTER CH ID = c0040200, OutID = 40020000, dBUP = 1325
+MASTER CH ID = c0040303, OutID = 40030030, dBUP = 1925
+MASTER CH ID = c0040800, OutID = 40080000, dBUP = 1750
+MASTER CH ID = c0050100, OutID = 40010000, dBUP = 300
+MASTER CH ID = c0050102, OutID = 40010010, dBUP = 500
+MASTER CH ID = c0050103, OutID = 40010020, dBUP = 375
+MASTER CH ID = c0050105, OutID = 40010040, dBUP = 500
+MASTER CH ID = c0050109, OutID = 40010060, dBUP = 1075
+MASTER CH ID = c005010f, OutID = 400100c0, dBUP = 900
+MASTER CH ID = c0050700, OutID = 40070000, dBUP = 550
+MASTER CH ID = c006010d, OutID = 400100a0, dBUP = 3200
+MASTER CH ID = c0060600, OutID = 40060000, dBUP = 800
+MASTER CH ID = c007010c, OutID = 40010090, dBUP = 1800
+MASTER CH ID = c0080107, OutID = 40010060, dBUP = 1625
+MASTER CH ID = c0090004, OutID = 40000020, dBUP = 200
+Master CHannel c0020002, MIXCHIN ID 20000002, Num Fixed Inputs = 2
+Master CHannel c0020002, Num 3DConnections = 0
+Master CHannel c0020003, MIXCHIN ID 20000003, Num Fixed Inputs = 2
+Master CHannel c0020003, Num 3DConnections = 0
+Master CHannel c002010b, MIXCHIN ID 2001000b, Num Fixed Inputs = 1
+Master CHannel c002010b, Num 3DConnections = 1
+Master CHannel c0020302, MIXCHIN ID 20030002, Num Fixed Inputs = 1
+Master CHannel c0020302, Num 3DConnections = 1
+Master CHannel c0020304, MIXCHIN ID 20030004, Num Fixed Inputs = 1
+Master CHannel c0020304, Num 3DConnections = 1
+Master CHannel c0020400, MIXCHIN ID 20040000, Num Fixed Inputs = 1
+Master CHannel c0020400, Num 3DConnections = 1
+Master CHannel c0020501, MIXCHIN ID 20050001, Num Fixed Inputs = 1
+Master CHannel c0020501, Num 3DConnections = 1
+Master CHannel c0020502, MIXCHIN ID 20050002, Num Fixed Inputs = 1
+Master CHannel c0020502, Num 3DConnections = 1
+Master CHannel c0030000, MIXCHIN ID 20000000, Num Fixed Inputs = 3
+Master CHannel c0030000, Num 3DConnections = 0
+Master CHannel c0030005, MIXCHIN ID 20000005, Num Fixed Inputs = 3
+Master CHannel c0030005, Num 3DConnections = 0
+Master CHannel c0030006, MIXCHIN ID 20000006, Num Fixed Inputs = 3
+Master CHannel c0030006, Num 3DConnections = 0
+Master CHannel c0030008, MIXCHIN ID 20000008, Num Fixed Inputs = 3
+Master CHannel c0030008, Num 3DConnections = 0
+Master CHannel c0030009, MIXCHIN ID 20000009, Num Fixed Inputs = 3
+Master CHannel c0030009, Num 3DConnections = 0
+Master CHannel c0030104, MIXCHIN ID 20010004, Num Fixed Inputs = 2
+Master CHannel c0030104, Num 3DConnections = 1
+Master CHannel c0030106, MIXCHIN ID 20010006, Num Fixed Inputs = 1
+Master CHannel c0030106, Num 3DConnections = 2
+Master CHannel c003010e, MIXCHIN ID 2001000e, Num Fixed Inputs = 2
+Master CHannel c003010e, Num 3DConnections = 1
+Master CHannel c0030201, MIXCHIN ID 20020001, Num Fixed Inputs = 2
+Master CHannel c0030201, Num 3DConnections = 1
+Master CHannel c0030202, MIXCHIN ID 20020002, Num Fixed Inputs = 2
+Master CHannel c0030202, Num 3DConnections = 1
+Master CHannel c0030203, MIXCHIN ID 20020003, Num Fixed Inputs = 2
+Master CHannel c0030203, Num 3DConnections = 1
+Master CHannel c0030204, MIXCHIN ID 20020004, Num Fixed Inputs = 2
+Master CHannel c0030204, Num 3DConnections = 1
+Master CHannel c0030300, MIXCHIN ID 20030000, Num Fixed Inputs = 2
+Master CHannel c0030300, Num 3DConnections = 1
+Master CHannel c0030301, MIXCHIN ID 20030001, Num Fixed Inputs = 2
+Master CHannel c0030301, Num 3DConnections = 1
+Master CHannel c0030500, MIXCHIN ID 20050000, Num Fixed Inputs = 2
+Master CHannel c0030500, Num 3DConnections = 1
+Master CHannel c0040001, MIXCHIN ID 20000001, Num Fixed Inputs = 4
+Master CHannel c0040001, Num 3DConnections = 0
+Master CHannel c0040007, MIXCHIN ID 20000007, Num Fixed Inputs = 4
+Master CHannel c0040007, Num 3DConnections = 0
+Master CHannel c0040101, MIXCHIN ID 20010001, Num Fixed Inputs = 3
+Master CHannel c0040101, Num 3DConnections = 1
+Master CHannel c0040108, MIXCHIN ID 20010008, Num Fixed Inputs = 2
+Master CHannel c0040108, Num 3DConnections = 2
+Master CHannel c004010a, MIXCHIN ID 2001000a, Num Fixed Inputs = 2
+Master CHannel c004010a, Num 3DConnections = 2
+Master CHannel c0040200, MIXCHIN ID 20020000, Num Fixed Inputs = 3
+Master CHannel c0040200, Num 3DConnections = 1
+Master CHannel c0040303, MIXCHIN ID 20030003, Num Fixed Inputs = 3
+Master CHannel c0040303, Num 3DConnections = 1
+Master CHannel c0040800, MIXCHIN ID 20080000, Num Fixed Inputs = 3
+Master CHannel c0040800, Num 3DConnections = 1
+Master CHannel c0050100, MIXCHIN ID 20010000, Num Fixed Inputs = 4
+Master CHannel c0050100, Num 3DConnections = 1
+Master CHannel c0050102, MIXCHIN ID 20010002, Num Fixed Inputs = 4
+Master CHannel c0050102, Num 3DConnections = 1
+Master CHannel c0050103, MIXCHIN ID 20010003, Num Fixed Inputs = 4
+Master CHannel c0050103, Num 3DConnections = 1
+Master CHannel c0050105, MIXCHIN ID 20010005, Num Fixed Inputs = 4
+Master CHannel c0050105, Num 3DConnections = 1
+Master CHannel c0050109, MIXCHIN ID 20010009, Num Fixed Inputs = 3
+Master CHannel c0050109, Num 3DConnections = 2
+Master CHannel c005010f, MIXCHIN ID 2001000f, Num Fixed Inputs = 4
+Master CHannel c005010f, Num 3DConnections = 1
+Master CHannel c0050700, MIXCHIN ID 20070000, Num Fixed Inputs = 3
+Master CHannel c0050700, Num 3DConnections = 2
+Master CHannel c006010d, MIXCHIN ID 2001000d, Num Fixed Inputs = 6
+Master CHannel c006010d, Num 3DConnections = 0
+Master CHannel c0060600, MIXCHIN ID 20060000, Num Fixed Inputs = 5
+Master CHannel c0060600, Num 3DConnections = 1
+Master CHannel c007010c, MIXCHIN ID 2001000c, Num Fixed Inputs = 7
+Master CHannel c007010c, Num 3DConnections = 0
+Master CHannel c0080107, MIXCHIN ID 20010007, Num Fixed Inputs = 6
+Master CHannel c0080107, Num 3DConnections = 2
+Master CHannel c0090004, MIXCHIN ID 20000004, Num Fixed Inputs = 6
+Master CHannel c0090004, MIXCHIN ID 20000004, Num Fixed Inputs = 9
+Master CHannel c0090004, Num 3DConnections = 0
+NIS Audio Is REady to Play
+NIS Is Ready to Play
+Queue Button THrough
+SUB CH ID = d0000000, dBUP = 0, dbDown = -10000
+SUB CH ID = d0000106, dBUP = 0, dbDown = -442
+SUB CH ID = d0000501, dBUP = 522, dbDown = -522
+SUB CH ID = d0010107, dBUP = 0, dbDown = -209
+SUB CH ID = d0020100, dBUP = 0, dbDown = -10000
+SUB CH ID = d0020101, dBUP = 0, dbDown = -10000
+SUB CH ID = d0020102, dBUP = 0, dbDown = -10000
+SUB CH ID = d0020103, dBUP = 0, dbDown = -10000
+SUB CH ID = d0020104, dBUP = 0, dbDown = -10000
+SUB CH ID = d0020200, dBUP = 0, dbDown = -10000
+SUB CH ID = d0020600, dBUP = 0, dbDown = -10000
+SUB CH ID = d0020700, dBUP = 0, dbDown = -10000
+SUB CH ID = d0020800, dBUP = 0, dbDown = -10000
+SUB CH ID = d0030300, dBUP = 0, dbDown = -10000
+SUB CH ID = d0030400, dBUP = 0, dbDown = -10000
+SUB CH ID = d0030500, dBUP = 0, dbDown = -10000
+SUB CH ID = d0090108, dBUP = 10000, dbDown = -10000
+SUB CH ID = d00b0001, dBUP = 0, dbDown = -1320
+SUB CH ID = d00c0105, dBUP = 240, dbDown = -600
+Set c002010b InputMapPtr to Input Start 30010003
+Set c0020302 InputMapPtr to Input Start 30030000
+Set c0020304 InputMapPtr to Input Start 30030000
+Set c0020400 InputMapPtr to Input Start 30040000
+Set c0020501 InputMapPtr to Input Start 30050000
+Set c0020502 InputMapPtr to Input Start 30050000
+Set c0030104 InputMapPtr to Input Start 30010003
+Set c0030106 InputMapPtr to Input Start 30010002
+Set c003010e InputMapPtr to Input Start 30010003
+Set c0030201 InputMapPtr to Input Start 30020000
+Set c0030202 InputMapPtr to Input Start 30020000
+Set c0030203 InputMapPtr to Input Start 30020000
+Set c0030204 InputMapPtr to Input Start 30020000
+Set c0030300 InputMapPtr to Input Start 30030000
+Set c0030301 InputMapPtr to Input Start 30030000
+Set c0030500 InputMapPtr to Input Start 30050000
+Set c0040101 InputMapPtr to Input Start 30010001
+Set c0040108 InputMapPtr to Input Start 30010002
+Set c004010a InputMapPtr to Input Start 30010003
+Set c0040200 InputMapPtr to Input Start 30020000
+Set c0040303 InputMapPtr to Input Start 30030000
+Set c0040800 InputMapPtr to Input Start 30080000
+Set c0050100 InputMapPtr to Input Start 30010001
+Set c0050102 InputMapPtr to Input Start 30010001
+Set c0050103 InputMapPtr to Input Start 30010001
+Set c0050105 InputMapPtr to Input Start 30010001
+Set c0050109 InputMapPtr to Input Start 30010002
+Set c005010f InputMapPtr to Input Start 30010003
+Set c0050700 InputMapPtr to Input Start 30070000
+Set c0060600 InputMapPtr to Input Start 30060000
+Set c0080107 InputMapPtr to Input Start 30010002
+Sub Channel Array Ptr c474e00, Current Block Offset = 0
+Sub Channel Array Ptr c474e08, Current Block Offset = 8
+Sub Channel Array Ptr c474e2c, Current Block Offset = 2c
+Sub Channel Array Ptr c474e30, Current Block Offset = 30
+Sub Channel Array Ptr c474e34, Current Block Offset = 34
+Sub Channel Array Ptr c474e38, Current Block Offset = 38
+Sub Channel Array Ptr c474e3c, Current Block Offset = 3c
+Sub Channel Array Ptr c474e40, Current Block Offset = 40
+Sub Channel Array Ptr c474e44, Current Block Offset = 44
+Sub Channel Array Ptr c474e48, Current Block Offset = 48
+Sub Channel Array Ptr c474e4c, Current Block Offset = 4c
+Sub Channel Array Ptr c474e50, Current Block Offset = 50
+Sub Channel Array Ptr c474e54, Current Block Offset = 54
+Sub Channel Array Ptr c474e58, Current Block Offset = 58
+Sub Channel Array Ptr c474e5c, Current Block Offset = 5c
+Sub Channel Array Ptr c474e60, Current Block Offset = 60
+Sub Channel Array Ptr c474e64, Current Block Offset = 64
+Sub Channel Array Ptr c474e6c, Current Block Offset = 6c
+Sub Channel Array Ptr c474e74, Current Block Offset = 74
+Sub Channel Array Ptr c474e7c, Current Block Offset = 7c
+Sub Channel Array Ptr c474e84, Current Block Offset = 84
+Sub Channel Array Ptr c474e8c, Current Block Offset = 8c
+Sub Channel Array Ptr c474e94, Current Block Offset = 94
+Sub Channel Array Ptr c474e98, Current Block Offset = 98
+Sub Channel Array Ptr c474e9c, Current Block Offset = 9c
+Sub Channel Array Ptr c474ea0, Current Block Offset = a0
+Sub Channel Array Ptr c474ea4, Current Block Offset = a4
+Sub Channel Array Ptr c474ea8, Current Block Offset = a8
+Sub Channel Array Ptr c474eac, Current Block Offset = ac
+Sub Channel Array Ptr c474eb0, Current Block Offset = b0
+Sub Channel Array Ptr c474eb4, Current Block Offset = b4
+Sub Channel Array Ptr c474eb8, Current Block Offset = b8
+Sub Channel Array Ptr c474ebc, Current Block Offset = bc
+Sub Channel Array Ptr c474ec0, Current Block Offset = c0
+Sub Channel Array Ptr c474ec4, Current Block Offset = c4
+Sub Channel Array Ptr c474ec8, Current Block Offset = c8
+Sub Channel Array Ptr c474ecc, Current Block Offset = cc
+Sub Channel Array Ptr c4dbdc0, Current Block Offset = 0
+Sub Channel Array Ptr c4dbdc8, Current Block Offset = 8
+Sub Channel Array Ptr c4dbdec, Current Block Offset = 2c
+Sub Channel Array Ptr c4dbdf0, Current Block Offset = 30
+Sub Channel Array Ptr c4dbdf4, Current Block Offset = 34
+Sub Channel Array Ptr c4dbdf8, Current Block Offset = 38
+Sub Channel Array Ptr c4dbdfc, Current Block Offset = 3c
+Sub Channel Array Ptr c4dbe00, Current Block Offset = 40
+Sub Channel Array Ptr c4dbe04, Current Block Offset = 44
+Sub Channel Array Ptr c4dbe08, Current Block Offset = 48
+Sub Channel Array Ptr c4dbe0c, Current Block Offset = 4c
+Sub Channel Array Ptr c4dbe10, Current Block Offset = 50
+Sub Channel Array Ptr c4dbe14, Current Block Offset = 54
+Sub Channel Array Ptr c4dbe18, Current Block Offset = 58
+Sub Channel Array Ptr c4dbe1c, Current Block Offset = 5c
+Sub Channel Array Ptr c4dbe20, Current Block Offset = 60
+Sub Channel Array Ptr c4dbe24, Current Block Offset = 64
+Sub Channel Array Ptr c4dbe2c, Current Block Offset = 6c
+Sub Channel Array Ptr c4dbe34, Current Block Offset = 74
+Sub Channel Array Ptr c4dbe3c, Current Block Offset = 7c
+Sub Channel Array Ptr c4dbe44, Current Block Offset = 84
+Sub Channel Array Ptr c4dbe4c, Current Block Offset = 8c
+Sub Channel Array Ptr c4dbe54, Current Block Offset = 94
+Sub Channel Array Ptr c4dbe58, Current Block Offset = 98
+Sub Channel Array Ptr c4dbe5c, Current Block Offset = 9c
+Sub Channel Array Ptr c4dbe60, Current Block Offset = a0
+Sub Channel Array Ptr c4dbe64, Current Block Offset = a4
+Sub Channel Array Ptr c4dbe68, Current Block Offset = a8
+Sub Channel Array Ptr c4dbe6c, Current Block Offset = ac
+Sub Channel Array Ptr c4dbe70, Current Block Offset = b0
+Sub Channel Array Ptr c4dbe74, Current Block Offset = b4
+Sub Channel Array Ptr c4dbe78, Current Block Offset = b8
+Sub Channel Array Ptr c4dbe7c, Current Block Offset = bc
+Sub Channel Array Ptr c4dbe80, Current Block Offset = c0
+Sub Channel Array Ptr c4dbe84, Current Block Offset = c4
+Sub Channel Array Ptr c4dbe88, Current Block Offset = c8
+Sub Channel Array Ptr c4dbe8c, Current Block Offset = cc
+Sub Channel Array Ptr c4dc4c0, Current Block Offset = 0
+Sub Channel d0000000, Num 3DConnections = 0
+Sub Channel d0000000, Num Fixed Inputs = 0
+Sub Channel d0000106, Num 3DConnections = 0
+Sub Channel d0000106, Num Fixed Inputs = 0
+Sub Channel d0000501, Num 3DConnections = 0
+Sub Channel d0000501, Num Fixed Inputs = 0
+Sub Channel d0010107, Num 3DConnections = 0
+Sub Channel d0010107, Num Fixed Inputs = 6
+Sub Channel d0020100, Num 3DConnections = 0
+Sub Channel d0020100, Num Fixed Inputs = 2
+Sub Channel d0020101, Num 3DConnections = 0
+Sub Channel d0020101, Num Fixed Inputs = 2
+Sub Channel d0020102, Num 3DConnections = 0
+Sub Channel d0020102, Num Fixed Inputs = 2
+Sub Channel d0020103, Num 3DConnections = 0
+Sub Channel d0020103, Num Fixed Inputs = 2
+Sub Channel d0020104, Num 3DConnections = 0
+Sub Channel d0020104, Num Fixed Inputs = 2
+Sub Channel d0020200, Num 3DConnections = 0
+Sub Channel d0020200, Num Fixed Inputs = 2
+Sub Channel d0020600, Num 3DConnections = 0
+Sub Channel d0020600, Num Fixed Inputs = 2
+Sub Channel d0020700, Num 3DConnections = 0
+Sub Channel d0020700, Num Fixed Inputs = 2
+Sub Channel d0020800, Num 3DConnections = 0
+Sub Channel d0020800, Num Fixed Inputs = 2
+Sub Channel d0030300, Num 3DConnections = 0
+Sub Channel d0030300, Num Fixed Inputs = 3
+Sub Channel d0030400, Num 3DConnections = 0
+Sub Channel d0030400, Num Fixed Inputs = 3
+Sub Channel d0030500, Num 3DConnections = 0
+Sub Channel d0030500, Num Fixed Inputs = 3
+Sub Channel d0090108, Num 3DConnections = 0
+Sub Channel d0090108, Num Fixed Inputs = 14
+Sub Channel d00b0001, Num 3DConnections = 0
+Sub Channel d00b0001, Num Fixed Inputs = 21
+Sub Channel d00b0001, Num Fixed Inputs = 3
+Sub Channel d00c0105, Num 3DConnections = 0
+Sub Channel d00c0105, Num Fixed Inputs = 32
+Track Handle 11000001, Track Overhead 4192, BufferOverhead = 77981

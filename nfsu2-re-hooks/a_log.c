@@ -8,14 +8,16 @@ void log(char *msg, int len)
 {
 #ifdef LOG_TO_LOGFILE
 	fwrite(msg, len, 1, logfile);
-	fwrite(&newline, 1, 1, logfile);
+	if (len && msg[len - 1] != '\n') {
+		fwrite(&newline, 1, 1, logfile);
+	}
 	fflush(logfile);
 #endif
 #ifdef LOG_TO_DEBUGSTRING
 	OutputDebugString(msg);
 #endif
 #ifdef LOG_TO_PRINTF
-	printf("%s\n", msg);
+	printf(len && msg[len - 1] != '\n' ? "%s\n" : "%s", msg);
 #endif
 }
 

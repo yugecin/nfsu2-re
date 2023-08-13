@@ -551,6 +551,18 @@
 			</FileConfiguration>
 		</File>
 		<File
+			RelativePath=".\hook-4691C0-DebugPrint.c"
+			>
+			<FileConfiguration
+				Name="Debug|Win32"
+				ExcludedFromBuild="true"
+				>
+				<Tool
+					Name="VCCLCompilerTool"
+				/>
+			</FileConfiguration>
+		</File>
+		<File
 			RelativePath=".\hook-505450-hash-ci.c"
 			>
 			<FileConfiguration

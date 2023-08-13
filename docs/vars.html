@@ -284,7 +284,7 @@ pre.ida span.hi {
 <a href='cheatsheet.html'>cheatsheet</a></nav>
 </header>
 <div class='var'>
-<h2>Variables (970)</h2>
+<h2>Variables (971)</h2>
 <ul>
 <li><a href=#5CCFFC>
 WndProcMsgJumpTable</a>
@@ -1560,8 +1560,10 @@ elementSize</a>
 soundEffectSystem?</a>
 <li><a href=#82B984>
 ptr</a>
+<li><a href=#82BC4C>
+doPrintAudioDebugLog</a>
 <li><a href=#82C738>
-dst</a>
+audioDebugString</a>
 <li><a href=#82DBA0>
 binSectionHandlerMagicMapEntryB3300000</a>
 <li><a href=#82DBB0>
@@ -3699,8 +3701,10 @@ see <a href=funcs.html#43C100>FindBinSectionHandler</a></div>
 <div><i>82B884</i> int <h3>soundEffectSystem?</h3> <u></u></div>
 <a id=82B984></a>
 <div><i>82B984</i> int <h3>ptr</h3> <u></u></div>
+<a id=82BC4C></a>
+<div><i>82BC4C</i> int <h3>doPrintAudioDebugLog</h3> <u></u></div>
 <a id=82C738></a>
-<div><i>82C738</i> char <h3>dst</h3>[512] <u></u></div>
+<div><i>82C738</i> char <h3>audioDebugString</h3>[512] <u></u></div>
 <a id=82DBA0></a>
 <div><i>82DBA0</i> <a href=structs.html#struc_BinSectionMagicMapEntry>struct BinSectionMagicMapEntry</a> <h3>binSectionHandlerMagicMapEntryB3300000</h3></div>
 <a id=82DBB0></a>
@@ -3894,7 +3898,7 @@ Loaded in <a href=funcs.html#5012F0>StoreSmsDatas</a>.</div>
 <span class='mt'>.text:00551F0A</span>      push    offset <a href=vars.html#8384E0>gCallingScreenPackageName</a>
 <span class='mt'>.text:00551F0F</span>      push    esi
 <span class='mt'>.text:00551F10</span>      push    offset <span class='ident'>aGcallingscreen</span> <span class='comment'>; "gCallingScreenPackageName SETTING %s.  Previously : %s."</span>
-<span class='mt'>.text:00551F15</span>      call    <a href=funcs.html#50D510>SomeDebugPrint</a>
+<span class='mt'>.text:00551F15</span>      call    <a href=funcs.html#50D510>DebugPrint50D510</a>
 <span class='mt'>.text:00551F1A</span>      mov     edx, [ebp+4]
 <span class='mt'>.text:00551F1D</span>      push    edx             <span class='comment'>; src</span>
 <span class='mt'>.text:00551F1E</span>      push    offset <a href=vars.html#8384E0>gCallingScreenPackageName</a> <span class='comment'>; dest</span>

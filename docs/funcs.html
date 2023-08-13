@@ -284,7 +284,7 @@ pre.ida span.hi {
 <a href='cheatsheet.html'>cheatsheet</a></nav>
 </header>
 <div class='func'>
-<h2>Functions (1643)</h2>
+<h2>Functions (1644)</h2>
 <ul>
 <li><a href=#4012B0>
 ??SomeUpdatePosition</a>
@@ -476,6 +476,8 @@ SoundEffectSystem::PlaySound?</a>
 ptrsomefunc</a>
 <li><a href=#465180>
 funcptr</a>
+<li><a href=#4691C0>
+DebugPrint4691C0</a>
 <li><a href=#479100>
 ObjectLink::EmptyAndFreeAll_Offset10</a>
 <li><a href=#47BC30>
@@ -1681,7 +1683,7 @@ ConstructFNGControlMask</a>
 <li><a href=#50D3C0>
 LanguageConversionTable::StrcpyCharToWchar</a>
 <li><a href=#50D510>
-SomeDebugPrint</a>
+DebugPrint50D510</a>
 <li><a href=#50D820>
 ScrollingThing::SetArrowVisibility</a>
 <li><a href=#50D980>
@@ -3864,6 +3866,9 @@ Implementation <code><a class='ext' href='https://github.com/yugecin/nfsu2-re/bl
 <div><i>461550</i> void __cdecl <h3>ptrsomefunc</h3>(void *);</div>
 <a id=465180></a>
 <div><i>465180</i> int __cdecl <h3>funcptr</h3>(int);</div>
+<a id=4691C0></a>
+<div class=mm><p>doesn't actually print; formats it into <a href=vars.html#82C738>audioDebugString</a> (as long as arg0 is non-zero)</div>
+<div><i>4691C0</i> void __cdecl <h3>DebugPrint4691C0</h3>(int doPrint, char *format, void *param);</div>
 <a id=479100></a>
 <div class=mm><p>empties and frees all entries, entries where their link is at +10h</div>
 <div><i>479100</i> void __cdecl <h3><a href=structs.html#struc_ObjectLink>ObjectLink</a>::EmptyAndFreeAll_Offset10</h3>(<a href=structs.html#struc_ObjectLink>struct ObjectLink</a> *this);</div>
@@ -5281,7 +5286,7 @@ and return its <code><a href=structs.html#struc_FNGInfo@C>fngName</a></code>.</d
 <div class=mm><p>A nop function.
 It seems like many calls to different functions that got nopped all redirect here.
 Some of the calls are used as a debug print, see <a href='docs.html#debugprint'>Debug print</a>.</div>
-<div><i>50D510</i> <h3>SomeDebugPrint</h3></div>
+<div><i>50D510</i> <h3>DebugPrint50D510</h3></div>
 <a id=50D820></a>
 <div class=mm><p>arrow: 1 (left) or 2 (right)</div>
 <div><i>50D820</i> void __thiscall <h3><a href=structs.html#struc_ScrollingThing>ScrollingThing</a>::SetArrowVisibility</h3>(<a href=structs.html#struc_ScrollingThing>struct ScrollingThing</a> *this, int arrow, char visible);</div>

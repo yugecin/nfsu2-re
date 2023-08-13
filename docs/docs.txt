@@ -1248,6 +1248,55 @@ package[GenericDialog_SMALL.fng] will unload
 Most of the messages seem to be about dialogs, joy (keyboard) events,
 FEng/fng packages (I'm guessing those are ui resources/designs?).
 
+.pushmode section
+
+{Audio debug print} ||| h id=audiodebugprint
+
+And later I found another one: {4691C0}. This one only formats the given string and parameters      ||| ref
+into {82C738}. It doesn't print it. This one's implementation seem to be fully present, but it      ||| ref
+is disabled in the way that the first argument passed is always 0 which causes the function
+to return immediately. Just changing it to anything else will make it actually do the formatting.
+Sometimes (instead of hardcoded 0), {82BC4C} is passed, but its value is also always 0.             ||| ref
+
+
+With a few little hooks ({nfsu2-re-hooks/hook-4691C0-DebugPrint.c}), we get following output:       ||| hookfileref
+{debugstring4691C0.txt}.                                                                            ||| dumpfileref
+
+It's a lot of the same, so here are the few unique strings that comes out of it (after removing
+the duplicates, ignoring variable parameter values):
+
+.pushmode pre
+3dLookupID = 90082800  SFXOBJOUT ID 82800
+COnnect SubChannel ID = d0000000
+COnnect SubChannel ID = d0000000 FINISHED
+COnnect SubChannel State = 0 Copy = 0 Num = 0 of 2 , Ptr= c45c330
+ChannelID c0020002, State = 0, chid = 8006002,
+Cleaningup Backup Stream after 15 seconds
+Connect Mix Channel  d00c0105
+Deleting Stream ID 7 m_queuedObject due to PurgeStreams
+Ext EVTMixCtl ID b0003006
+Ext EVTMixCtl ID b0003006 Connects OutPtr c458010, Out Val 0
+Ext MixCtl ID 9006008 Connects OutPtr c4dcbdc, Out Val 0
+FE MASK = 3f, IG Mask = 7ffffc0, NUMFE SOngs = 6, Num IG Songs = 21, PBMODE = 1
+Local EVTMixCtl ID b2013016 Connects OutPtr c477fb8, Out Val 0
+Local MixCtl ID 9016008 Connects OutPtr c4dcd68, Out Val 0
+Local SUB ID d0020104 Connects OutPtr c479b60, Out Val 0
+MASTER CH ID = c0090004, OutID = 40000020, dBUP = 200
+Master CHannel c0020002, MIXCHIN ID 20000002, Num Fixed Inputs = 2
+Master CHannel c0020002, Num 3DConnections = 0
+NIS Audio Is REady to Play
+NIS Is Ready to Play
+Queue Button THrough
+SUB CH ID = d0000501, dBUP = 522, dbDown = -522
+Set c0080107 InputMapPtr to Input Start 30010002
+Sub Channel Array Ptr c4dbe8c, Current Block Offset = cc
+Sub Channel d0000000, Num 3DConnections = 0
+Sub Channel d00b0001, Num Fixed Inputs = 21
+Sub Channel d00b0001, Num Fixed Inputs = 3
+Track Handle 11000001, Track Overhead 4192, BufferOverhead = 77981
+.popmode pre
+
+.popmode section
 .popmode section
 .pushmode section
 

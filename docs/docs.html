@@ -320,7 +320,11 @@ pre.ida span.hi {
 <li><a href='#ABADCAFE'>0xABADCAFE</a></li>
 </ul>
 </li>
-<li><a href='#debugprint'>Debug print</a></li>
+<li><a href='#debugprint'>Debug print</a>
+<ul>
+<li><a href='#audiodebugprint'>Audio debug print</a></li>
+</ul>
+</li>
 <li><a href='#ui'>UI</a>
 <ul>
 <li><a href='#ui_dialog'>Dialogs</a>
@@ -1403,7 +1407,7 @@ followed by a call to a specific proc that looks like this:
 <span class='mt'>.text:0050D512</span> <span class='ident'>sub_50D510  endp</span>
 </pre>
 <p>It appears as if this used to be some kind of debug printf function, so I named it
-<a href=funcs.html#50D510>SomeDebugPrint</a>. I hooked the function and made it output to a log file,
+<a href=funcs.html#50D510>DebugPrint50D510</a>. I hooked the function and made it output to a log file,
 see <code><a class='ext' href='https://github.com/yugecin/nfsu2-re/blob/master/nfsu2-re-hooks/replace-50D510-DebugPrint.c'>nfsu2-re-hooks/replace-50D510-DebugPrint.c</a></code>.
 <p>It also seems to pass data that is not a pointer to a string. I'm guessing since the
 implementation of this function was removed (and now just returns zero), and there
@@ -1444,9 +1448,50 @@ package[GenericDialog_SMALL.fng] will unload
 </pre>
 <p>Most of the messages seem to be about dialogs, joy (keyboard) events,
 FEng/fng packages (I'm guessing those are ui resources/designs?).
+<div><p id='audiodebugprint'><small><a href='#debugprint'>Debug print</a></small></p>
+<h3>Audio debug print <a href='#audiodebugprint'>#</a></h3>
+<p>And later I found another one: <a href=funcs.html#4691C0>DebugPrint4691C0</a>. This one only formats the given string and parameters
+into <a href=vars.html#82C738>audioDebugString</a>. It doesn't print it. This one's implementation seem to be fully present, but it
+is disabled in the way that the first argument passed is always 0 which causes the function
+to return immediately. Just changing it to anything else will make it actually do the formatting.
+Sometimes (instead of hardcoded 0), <a href=vars.html#82BC4C>doPrintAudioDebugLog</a> is passed, but its value is also always 0.
+<p>With a few little hooks (<code><a class='ext' href='https://github.com/yugecin/nfsu2-re/blob/master/nfsu2-re-hooks/hook-4691C0-DebugPrint.c'>nfsu2-re-hooks/hook-4691C0-DebugPrint.c</a></code>), we get following output:
+<a href='dumps/debugstring4691C0.txt'>debugstring4691C0.txt</a> (52KB).
+<p>It's a lot of the same, so here are the few unique strings that comes out of it (after removing
+the duplicates, ignoring variable parameter values):
+<pre>
+3dLookupID = 90082800  SFXOBJOUT ID 82800
+COnnect SubChannel ID = d0000000
+COnnect SubChannel ID = d0000000 FINISHED
+COnnect SubChannel State = 0 Copy = 0 Num = 0 of 2 , Ptr= c45c330
+ChannelID c0020002, State = 0, chid = 8006002,
+Cleaningup Backup Stream after 15 seconds
+Connect Mix Channel  d00c0105
+Deleting Stream ID 7 m_queuedObject due to PurgeStreams
+Ext EVTMixCtl ID b0003006
+Ext EVTMixCtl ID b0003006 Connects OutPtr c458010, Out Val 0
+Ext MixCtl ID 9006008 Connects OutPtr c4dcbdc, Out Val 0
+FE MASK = 3f, IG Mask = 7ffffc0, NUMFE SOngs = 6, Num IG Songs = 21, PBMODE = 1
+Local EVTMixCtl ID b2013016 Connects OutPtr c477fb8, Out Val 0
+Local MixCtl ID 9016008 Connects OutPtr c4dcd68, Out Val 0
+Local SUB ID d0020104 Connects OutPtr c479b60, Out Val 0
+MASTER CH ID = c0090004, OutID = 40000020, dBUP = 200
+Master CHannel c0020002, MIXCHIN ID 20000002, Num Fixed Inputs = 2
+Master CHannel c0020002, Num 3DConnections = 0
+NIS Audio Is REady to Play
+NIS Is Ready to Play
+Queue Button THrough
+SUB CH ID = d0000501, dBUP = 522, dbDown = -522
+Set c0080107 InputMapPtr to Input Start 30010002
+Sub Channel Array Ptr c4dbe8c, Current Block Offset = cc
+Sub Channel d0000000, Num 3DConnections = 0
+Sub Channel d00b0001, Num Fixed Inputs = 21
+Sub Channel d00b0001, Num Fixed Inputs = 3
+Track Handle 11000001, Track Overhead 4192, BufferOverhead = 77981
+</pre>
 <p style='text-align:right'><small><a href='#index'>Index</a></small></p>
 </div>
-<div><h2 id="ui">UI <a href='#ui'>#</a></h2>
+</div><div><h2 id="ui">UI <a href='#ui'>#</a></h2>
 <p>Names with <code>.FNG</code> seem to be occuring a lot, it seems like that are UI
 resources or some kind of UI widget descriptors.
 <p>In text strings, <code>^</code> is a line feed (but <code>\n</code> might work as well, TODO).
@@ -1482,7 +1527,7 @@ by something that looked like dialog code. These leftover debug strings helped s
 <pre class='ida'>
 <span class='mt'>.text:005541FC</span>                 call    <a href=funcs.html#4FF250>DialogInfo::ctor</a>
 <span class='mt'>.text:00554201</span>                 push    offset <span class='ident'>aDialogConstruc</span> <span class='comment'>; "DIALOG :: Constructor\n"</span>
-<span class='mt'>.text:00554206</span>                 call    <a href=funcs.html#50D510>SomeDebugPrint</a>
+<span class='mt'>.text:00554206</span>                 call    <a href=funcs.html#50D510>DebugPrint50D510</a>
 </pre>
 <p>One of the first thing <a href=funcs.html#558020>ShowDialog</a> does is calling <a href=funcs.html#526C40>GetFNGforDialog</a>,
 which looks like initializes the dialog maybe? One argument is passed, seemingly the
@@ -4080,7 +4125,7 @@ which is in file <code>GLOBAL/GLOBALB.BUN</code>).
 <li><a href=funcs.html#43E950>bPrintf</a></li>
 <li><a href=funcs.html#43FBC0>FormatWithSinglePlaceholderPtrTimed</a></li>
 <li><a href=funcs.html#5047C0>unnamed_5047C0</a></li>
-<li><a href=funcs.html#50D510>SomeDebugPrint</a></li>
+<li><a href=funcs.html#50D510>DebugPrint50D510</a></li>
 <li><a href=funcs.html#50DC70>CommonFNGObjectStructA::FindNewlineW</a></li>
 <li><a href=funcs.html#50DCB0>CommonFNGObjectStructA::GetEndOfStringW</a></li>
 <li><a href=funcs.html#511630>strcpyW</a></li>
