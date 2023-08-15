@@ -712,7 +712,7 @@ pre.ida span.hi {
 <li><a href=#struc_Bin34A11_38>Bin34A11_38</a>
 <li><a href=#struc_CareerRace>CareerRace</a> <em></em>
 <li><a href=#struc_BinSection34A11>BinSection34A11</a>
-<li><a href=#struc_CareerStats34>CareerStats34</a>
+<li><a href=#struc_CareerStatsHiddenShopsDiscovered>CareerStatsHiddenShopsDiscovered</a>
 <li><a href=#struc_CareerStatsDvdCover>CareerStatsDvdCover</a>
 <li><a href=#struc_CareerStatsRegionDvdCovers>CareerStatsRegionDvdCovers</a>
 <li><a href=#struc_CareerStats>CareerStats</a>
@@ -739,7 +739,7 @@ pre.ida span.hi {
 <li><a href=#struc_Bin34A1B>Bin34A1B</a>
 <li><a href=#struc_Bin34A16>Bin34A16</a>
 <li><a href=#struc_Bin34A14>Bin34A14</a>
-<li><a href=#struc_Bin34A12>Bin34A12</a>
+<li><a href=#struc_CareerShop>CareerShop</a>
 <li><a href=#struc_Bin34A15_C>Bin34A15_C</a>
 <li><a href=#struc_Bin34A15>Bin34A15</a>
 <li><a href=#struc_CareerSponsorPtrOrHash>CareerSponsorPtrOrHash</a> <b></b>
@@ -8303,13 +8303,13 @@ but this value is also compared to 2 and 3*/</span>
 <i>/*0*/	<a href=#struc_CareerRace>struct CareerRace</a> field_0[224];</i>
 };
 <i>EXPECT_SIZE(struct BinSection34A11, 0x7700);</i></div>
-<a id=struc_CareerStats34></a>
+<a id=struc_CareerStatsHiddenShopsDiscovered></a>
 <div class=mm><p>size 4</div>
-<div>struct <h3>CareerStats34</h3> { <i>/*2 members, size 4h*/</i>
-<i>/*0*/	short field_0;</i>
-<i>/*2*/	short field_2;</i>
+<div>struct <h3>CareerStatsHiddenShopsDiscovered</h3> { <i>/*2 members, size 4h*/</i>
+<i>/*0*/	</i>__int16 numDiscovered;
+<i>/*2*/	</i>__int16 numShops;
 };
-<i>EXPECT_SIZE(struct CareerStats34, 0x4);</i></div>
+<i>EXPECT_SIZE(struct CareerStatsHiddenShopsDiscovered, 0x4);</i></div>
 <a id=struc_CareerStatsDvdCover></a>
 <div>struct <h3>CareerStatsDvdCover</h3> { <i>/*3 members, size 8h*/</i>
 <i>/*0*/	</i>float requiredStarRating;
@@ -8343,7 +8343,7 @@ but this value is also compared to 2 and 3*/</span>
 <i>/*28*/	</i>int magazinesWon;
 <i>/*2C*/	</i>int magazinesToWin;
 <i>/*30*/	</i>int sponsorsSigned;
-<i>/*34*/	<a href=#struc_CareerStats34>struct CareerStats34</a> field_34[8];</i>
+<i>/*34*/	</i><a href=#struc_CareerStatsHiddenShopsDiscovered>struct CareerStatsHiddenShopsDiscovered</a> hiddenShopsDiscovered[8];
 <span class='mm'>/**[0-1]*/</span>
 <i>/*54*/	</i>float partsUnlocked;
 <i>/*58*/	char _pad58[0xC];</i>
@@ -9010,12 +9010,19 @@ When canceling at that point, it's set back to 1
 <i>/*43*/	</i>char __end <u></u>;
 };
 <i>EXPECT_SIZE(struct Bin34A14, 0x44);</i></div>
-<a id=struc_Bin34A12></a>
-<div>struct <h3>Bin34A12</h3> { <i>/*1 members, size A0h*/</i>
-<i>/*0*/	char _pad0[0x9F];</i>
+<a id=struc_CareerShop></a>
+<div>struct <h3>CareerShop</h3> { <i>/*5 members, size A0h*/</i>
+<i>/*0*/	char _pad0[0x38];</i>
+<i>/*38*/	</i>unsigned int hash;
+<i>/*3C*/	</i>unsigned int markerHash;
+<i>/*40*/	char _pad40[0x11];</i>
+<i>/*51*/	</i>char isHiddenShop;
+<i>/*52*/	char _pad52[0x4B];</i>
+<i>/*9D*/	</i>char stageIndex;
+<i>/*9E*/	char _pad9E[0x1];</i>
 <i>/*9F*/	</i>char __end <u></u>;
 };
-<i>EXPECT_SIZE(struct Bin34A12, 0xA0);</i></div>
+<i>EXPECT_SIZE(struct CareerShop, 0xA0);</i></div>
 <a id=struc_Bin34A15_C></a>
 <div>struct <h3>Bin34A15_C</h3> { <i>/*3 members, size 5Ch*/</i>
 <span class='mm'>/**index because <a href=vars.html#837B90>bin34A15_C</a>[index] = this;*/</span>
