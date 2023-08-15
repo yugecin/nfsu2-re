@@ -434,15 +434,15 @@ findstrucmember:
 								return;
 							}
 							num_members--;
-							if (!num_members) {
-								break;
-							}
-							if ((strumem + 1)->offset > addr && IDC_is_struct(strumem->flag)) {
+							if (((!num_members && strumem->offset + strumem->nbytes > addr) || (strumem + 1)->offset > addr) && IDC_is_struct(strumem->flag)) {
 								addr -= strumem->offset;
 								ref_element->member.struc = strumem;
 								ref_element = docgen_resolve_ref_get_next_ref_element(result, ref_element);
 								ref_element->el.struc = struc = dg->idcp->structs + strumem->typeid;
 								goto findstrucmember;
+							}
+							if (!num_members) {
+								break;
 							}
 							strumem++;
 						}
