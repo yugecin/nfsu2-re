@@ -311,7 +311,7 @@ properties.
 <p>The UI treeview shows all FNG screens that are displayed, and all their child
 UI elements. The top FNG screen is read from
 <code><a href=vars.html#8384C4>pUIData</a>-><a href=structs.html#struc_UIData@8>field_8</a>-><a href=structs.html#struc_UIData_field8@DC>fngPackagesDC</a>.<a href=structs.html#struc_FNGInfoList@0>__parent</a>.<a href=structs.html#struc_List@8>first</a></code> and
-its <a href=structs.html#struc_FNGInfo@4>child</a> is followed until the next <a href=structs.html#struc_FNGInfo@4>child</a> is unset.
+its <a href=structs.html#struc_FNGInfo@0>__parent</a>.<a href=structs.html#struc_ListEntry@4>next</a> is followed until the next <a href=structs.html#struc_FNGInfo@0>__parent</a>.<a href=structs.html#struc_ListEntry@4>next</a> is unset.
 For each <a href=structs.html#struc_FNGInfo>struct FNGInfo</a>, its <a href=structs.html#struc_FNGInfo@4C>rootUIElement</a> is read and its
 <a href=structs.html#struc_UIElement@4>nextSibling</a> is followed until the next <a href=structs.html#struc_UIElement@4>nextSibling</a> is unset.
 If any element's <a href=structs.html#struc_UIElement@18>type</a> is 5, it's a <a href=structs.html#struc_UIContainer>struct UIContainer</a> so its

@@ -1829,11 +1829,9 @@ TODO please reconfirm*/</span>
 <i>EXPECT_SIZE(struct FNGShowData_Arg2, 0x4);</i></div>
 <a id=struc_FNGInfo></a>
 <div class=mm><p>size unknown</div>
-<div>struct <h3>FNGInfo</h3> { <i>/*29 members, size 98h*/</i> <em></em>
-<i>/*0*/	</i>int vtable <u></u>;
-<i id=struc_FNGInfo@4></i><span class='mm'>/**could also just be an <a href=structs.html#struc_ObjectLink>struct ObjectLink</a> :')*/</span>
-<i>/*4*/	</i><a href=structs.html#struc_FNGInfo>struct FNGInfo</a> *child;
-<i>/*8*/	</i><a href=structs.html#struc_FNGInfo>struct FNGInfo</a> *parent;
+<div>struct <h3>FNGInfo</h3> { <i>/*27 members, size 98h*/</i> <em></em>
+<i id=struc_FNGInfo@0></i><span class='mm'>/**'next' is child fng, 'prev' is parent fng*/</span>
+<i>/*0*/	</i><a href=#struc_ListEntry>struct ListEntry</a> __parent;
 <i id=struc_FNGInfo@C></i><i>/*C*/	</i>char *fngName;
 <i id=struc_FNGInfo@10></i><i>/*10*/	</i>unsigned int hash;
 <i>/*14*/	char field_14;</i>
@@ -6698,7 +6696,7 @@ vtable is only a dtor</div>
 <a id=struc_ListEntry></a>
 <div>struct <h3>ListEntry</h3> { <i>/*3 members, size Ch*/</i>
 <i>/*0*/	</i>void *vtable;
-<i>/*4*/	</i>void *next;
+<i id=struc_ListEntry@4></i><i>/*4*/	</i>void *next;
 <i>/*8*/	</i>void *prev;
 };
 <i>EXPECT_SIZE(struct ListEntry, 0xC);</i></div>
@@ -6706,13 +6704,17 @@ vtable is only a dtor</div>
 <div>struct <h3>List</h3> { <i>/*4 members, size 10h*/</i> <em></em>
 <i>/*0*/	</i>void *vtable;
 <i>/*4*/	</i>int numEntries;
-<i id=struc_List@8></i><i>/*8*/	</i>void *first;
+<i id=struc_List@8></i><span class='mm'>/**NULL when list is empty*/</span>
+<i>/*8*/	</i>void *first;
+<span class='mm'>/**NULL when list is empty*/</span>
 <i>/*C*/	</i>void *last;
 };
 <i>EXPECT_SIZE(struct List, 0x10);</i></div>
 <ul>
+<li><!--5053B0-->
+<pre><i>5053B0</i> <a href=funcs.html#5053B0 title='void __thiscall List__AddAfter(struct List *this, struct ListEntry *after, struct ListEntry *entry);'>List::AddAfter</a></pre>
 <li><!--505400-->
-<pre><i>505400</i> <a href=funcs.html#505400 title='void __thiscall List__RemoveEntry(struct List *this, void *entry);'>List::RemoveEntry</a></pre>
+<pre><i>505400</i> <a href=funcs.html#505400 title='void __thiscall List__RemoveEntry(struct List *this, struct ListEntry *entry);'>List::RemoveEntry</a></pre>
 <li><!--517520-->
 <pre><i>517520</i> <a href=funcs.html#517520 title='int __thiscall List__517520(struct List *this, int);'>List::517520</a></pre>
 </ul>

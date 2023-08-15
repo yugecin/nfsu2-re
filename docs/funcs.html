@@ -284,7 +284,7 @@ pre.ida span.hi {
 <a href='cheatsheet.html'>cheatsheet</a></nav>
 </header>
 <div class='func'>
-<h2>Functions (1644)</h2>
+<h2>Functions (1645)</h2>
 <ul>
 <li><a href=#4012B0>
 ??SomeUpdatePosition</a>
@@ -1614,6 +1614,8 @@ UIElementVisitor_FindByHash::acceptElement</a>
 UIElementVisitor_FindByFieldC::acceptElement</a>
 <li><a href=#505310>
 stricmp2</a>
+<li><a href=#5053B0>
+List::AddAfter</a>
 <li><a href=#505400>
 List::RemoveEntry</a>
 <li><a href=#505450>
@@ -5167,8 +5169,10 @@ set <code>this-&gt;<a href=structs.html#struc_UIElementVisitor_FindByHash@8>foun
 <a id=505310></a>
 <div class=mm><p>same as the other stricmp, just implemented slightly differently (removes one redundant condition and does the 'case insensitive' calculation differently but equally correct)</div>
 <div><i>505310</i> int __cdecl <h3>stricmp2</h3>(char *a, char *b);</div>
+<a id=5053B0></a>
+<div><i>5053B0</i> void __thiscall <h3><a href=structs.html#struc_List>List</a>::AddAfter</h3>(<a href=structs.html#struc_List>struct List</a> *this, <a href=structs.html#struc_ListEntry>struct ListEntry</a> *after, <a href=structs.html#struc_ListEntry>struct ListEntry</a> *entry);</div>
 <a id=505400></a>
-<div><i>505400</i> void __thiscall <h3><a href=structs.html#struc_List>List</a>::RemoveEntry</h3>(<a href=structs.html#struc_List>struct List</a> *this, void *entry);</div>
+<div><i>505400</i> void __thiscall <h3><a href=structs.html#struc_List>List</a>::RemoveEntry</h3>(<a href=structs.html#struc_List>struct List</a> *this, <a href=structs.html#struc_ListEntry>struct ListEntry</a> *entry);</div>
 <a id=505450></a>
 <div class=mm><p>Case insensitive hash function. see also <a href=funcs.html#43DB50>cshash</a></div>
 <div><i>505450</i> unsigned int __cdecl <h3>cihash</h3>(char *str);</div>
@@ -5617,7 +5621,7 @@ return visitor.<a href=structs.html#struc_UIElementVisitor_FindByHash@8>foundUIE
 <div class=mm><p>frees <a href=structs.html#struc_NamedLinkNode>struct NamedLinkNode</a>.<a href=structs.html#struc_NamedLinkNode@C>name</a> if not empty, then allocate just enough memory to fit name into it, copy it, cihash it and put it into <a href=structs.html#struc_NamedLinkNode>struct NamedLinkNode</a>.<a href=structs.html#struc_NamedLinkNode@10>cihashOfName</a></div>
 <div><i>519DE0</i> void __thiscall <h3><a href=structs.html#struc_NamedLinkNode>NamedLinkNode</a>::CopyNameIntoCAndHashInto10</h3>(<a href=structs.html#struc_NamedLinkNode>struct NamedLinkNode</a> *this, char *name);</div>
 <a id=519E50></a>
-<div class=mm><p>Goes through <code><a href=structs.html#struc_FNGInfo@4>child</a></code> until the next one is null or its
+<div class=mm><p>Goes through <code><a href=structs.html#struc_FNGInfo@0>__parent</a>.<a href=structs.html#struc_ListEntry@4>next</a></code> until the next one is null or its
 <code><a href=structs.html#struc_FNGInfo@C>fngName</a></code> and <code><a href=structs.html#struc_FNGInfo@10>hash</a></code> matches.
 <code>this</code> is unused.</div>
 <div><i>519E50</i> <a href=structs.html#struc_FNGInfo>struct FNGInfo</a> *__thiscall <h3><a href=structs.html#struc_FNGInfoList>FNGInfoList</a>::GetFNGInfoByNameByHierarchy</h3>(<a href=structs.html#struc_FNGInfoList>struct FNGInfoList</a> *thisUnused, char *fngName, <a href=structs.html#struc_FNGInfo>struct FNGInfo</a> *fnginfo);</div>
