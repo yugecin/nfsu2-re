@@ -722,7 +722,6 @@ pre.ida span.hi {
 <li><a href=#struc_Career887C_D>Career887C_D</a>
 <li><a href=#struc_Career887C>Career887C</a> <em></em>
 <li><a href=#struc_Career887C_A8>Career887C_A8</a>
-<li><a href=#struc_Career_8724>Career_8724</a> <em></em>
 <li><a href=#struc_Career7148_180>Career7148_180</a>
 <li><a href=#struc_Career7148>Career7148</a> <em></em>
 <li><a href=#struc_Career_0>Career_0</a>
@@ -731,6 +730,7 @@ pre.ida span.hi {
 <li><a href=#struc_Career4210>Career4210</a> <em></em>
 <li><a href=#struc_CareerBank>CareerBank</a> <em></em>
 <li><a href=#struc_Career>Career</a> <em></em>
+<li><a href=#struc_MarkerQueryResult>MarkerQueryResult</a>
 <li><a href=#struc_CareerSponsor>CareerSponsor</a> <em></em>
 <li><a href=#struc_CarUnlockEntry>CarUnlockEntry</a>
 <li><a href=#struc_Bin34A1E>Bin34A1E</a>
@@ -739,7 +739,7 @@ pre.ida span.hi {
 <li><a href=#struc_Bin34A1B>Bin34A1B</a>
 <li><a href=#struc_Bin34A16>Bin34A16</a>
 <li><a href=#struc_Bin34A14>Bin34A14</a>
-<li><a href=#struc_CareerShop>CareerShop</a>
+<li><a href=#struc_CareerShop>CareerShop</a> <em></em>
 <li><a href=#struc_Bin34A15_C>Bin34A15_C</a>
 <li><a href=#struc_Bin34A15>Bin34A15</a>
 <li><a href=#struc_CareerSponsorPtrOrHash>CareerSponsorPtrOrHash</a> <b></b>
@@ -8389,7 +8389,7 @@ but this value is also compared to 2 and 3*/</span>
 <li><!--5016A0-->
 <pre><i>5016A0</i> <a href=funcs.html#5016A0 title='int __thiscall CareerC00__5016A0(struct CareerC00 *this);'>CareerC00::5016A0</a></pre>
 <li><!--514FD0-->
-<pre><i>514FD0</i> <a href=funcs.html#514FD0 title='int __thiscall CareerC00__514FD0(struct CareerC00 *this, struct Career_8724 *);'>CareerC00::514FD0</a></pre>
+<pre><i>514FD0</i> <a href=funcs.html#514FD0 title='int __thiscall CareerC00__514FD0(struct CareerC00 *this, struct CareerShop *shop);'>CareerC00::514FD0</a></pre>
 <li><!--515060-->
 <pre><i>515060</i> <a href=funcs.html#515060 title='int __thiscall CareerC00__515060(struct CareerC00 *this, struct Career_0 *into);'>CareerC00::515060</a></pre>
 <li><!--533A90-->
@@ -8504,25 +8504,6 @@ but this value is also compared to 2 and 3*/</span>
 <i>/*8*/	int field_8;</i>
 };
 <i>EXPECT_SIZE(struct Career887C_A8, 0xC);</i></div>
-<a id=struc_Career_8724></a>
-<div class=mm><p>size unknown</div>
-<div>struct <h3>Career_8724</h3> { <i>/*6 members, size 9Eh*/</i> <em></em>
-<i>/*0*/	char _pad0[0x38];</i>
-<i>/*38*/	</i>unsigned int hash38;
-<i>/*3C*/	</i>unsigned int markerHash3C;
-<i>/*40*/	char _pad40[0x11];</i>
-<i>/*51*/	char field_51;</i>
-<i>/*52*/	char _pad52[0x22];</i>
-<i>/*74*/	int field_74;</i>
-<i>/*78*/	char _pad78[0x24];</i>
-<i>/*9C*/	char field_9C;</i>
-<i>/*9D*/	</i>char stage;
-};
-<i>EXPECT_SIZE(struct Career_8724, 0x9E);</i></div>
-<ul>
-<li><!--512870-->
-<pre><i>512870</i> <a href=funcs.html#512870 title='int __thiscall Career_8724__512870(struct Career_8724 *this);'>Career_8724::512870</a></pre>
-</ul>
 <a id=struc_Career7148_180></a>
 <div>struct <h3>Career7148_180</h3> { <i>/*3 members, size 10h*/</i>
 <span class='mm'>/**counter (are field8/fieldC part of this too?)*/</span>
@@ -8552,7 +8533,7 @@ but this value is also compared to 2 and 3*/</span>
 <li><!--500910-->
 <pre><i>500910</i> <a href=funcs.html#500910 title='int __thiscall Career7148__CountAmountOfField0AreUsed(struct Career7148 *this);'>Career7148::CountAmountOfField0AreUsed</a></pre>
 <li><!--5135A0-->
-<pre><i>5135A0</i> <a href=funcs.html#5135A0 title='int __thiscall Career7148__5135A0(struct Career7148 *this, int);'>Career7148::5135A0</a></pre>
+<pre><i>5135A0</i> <a href=funcs.html#5135A0 title='int __thiscall Career7148__5135A0(struct Career7148 *this, __int16 *ptrOffsetInCareerStringPool);'>Career7148::5135A0</a></pre>
 <li><!--513600-->
 <pre><i>513600</i> <a href=funcs.html#513600 title='int __thiscall Career7148__513600(struct Career7148 *this, struct CareerRace *race, int);'>Career7148::513600</a></pre>
 <li><!--513770-->
@@ -8569,7 +8550,7 @@ but this value is also compared to 2 and 3*/</span>
 <div>struct <h3>Career_0</h3> { <i>/*6 members, size 18h*/</i>
 <i>/*0*/	int field_0;</i>
 <i>/*4*/	int field_4;</i>
-<i>/*8*/	</i><a href=structs.html#struc_Career_8724>struct Career_8724</a> *ptrField_8;
+<i>/*8*/	</i><a href=structs.html#struc_CareerShop>struct CareerShop</a> *careerShop8;
 <i>/*C*/	void *field_C;</i>
 <i>/*10*/	int field_10;</i>
 <i>/*14*/	int field_14;</i>
@@ -8706,13 +8687,13 @@ nulling entries removes discovered shops from the map*/</span>
 <i id=struc_Career@8700></i><i>/*8700*/int field_8700;</i>
 <i id=struc_Career@8704></i><i>/*8704*/void *field_8704;</i>
 <i id=struc_Career@8708></i><i>/*8708*/int field_8708;</i>
-<i id=struc_Career@870C></i><i>/*870C*/<a href=structs.html#struc_Career_8724>struct Career_8724</a> *field_870C;</i>
+<i id=struc_Career@870C></i><i>/*870C*/</i><a href=structs.html#struc_CareerShop>struct CareerShop</a> *someCareerShop870C;
 <i id=struc_Career@8710></i><i>/*8710*/int field_8710;</i>
 <i id=struc_Career@8714></i><i>/*8714*/int field_8714;</i>
 <i>/*8718*/char _pad8718[0x4];</i>
 <i id=struc_Career@871C></i><i>/*871C*/int field_871C;</i>
 <i id=struc_Career@8720></i><i>/*8720*/int field_8720;</i>
-<i id=struc_Career@8724></i><i>/*8724*/<a href=structs.html#struc_Career_8724>struct Career_8724</a> *field_8724;</i>
+<i id=struc_Career@8724></i><i>/*8724*/</i><a href=structs.html#struc_CareerShop>struct CareerShop</a> *someCareerShop8724;
 <i id=struc_Career@8728></i><i>/*8728*/int field_8728;</i>
 <span class='mm'>/**counter*/</span>
 <i>/*872C*/int field_872C;</i>
@@ -8753,7 +8734,7 @@ When canceling at that point, it's set back to 1
 <li><!--430560-->
 <pre><i>430560</i> <a href=funcs.html#430560 title='int __thiscall Career__430560(struct Career *this);'>Career::430560</a></pre>
 <li><!--458340-->
-<pre><i>458340</i> <a href=funcs.html#458340 title='struct Career_8724 *__thiscall Career__458340(struct Career *this);'>Career::458340</a></pre>
+<pre><i>458340</i> <a href=funcs.html#458340 title='struct CareerShop *__thiscall Career__458340(struct Career *this);'>Career::458340</a></pre>
 <li><!--495270-->
 <pre><i>495270</i> <a href=funcs.html#495270 title='int __thiscall Career__495270(struct Career *this);'>Career::495270</a></pre>
 <li><!--495290-->
@@ -8805,13 +8786,13 @@ When canceling at that point, it's set back to 1
 <li><!--512F70-->
 <pre><i>512F70</i> <a href=funcs.html#512F70 title='int __thiscall Career__512F70(struct Career *this, int, int);'>Career::512F70</a></pre>
 <li><!--512FF0-->
-<pre><i>512FF0</i> <a href=funcs.html#512FF0 title='int __thiscall Career__512FF0(struct Career *this, int, int);'>Career::512FF0</a></pre>
+<pre><i>512FF0</i> <a href=funcs.html#512FF0 title='int __thiscall Career__512FF0(struct Career *this, struct Marker *marker, struct CareerShop *shop);'>Career::512FF0</a></pre>
 <li><!--513050-->
 <pre><i>513050</i> <a href=funcs.html#513050 title='int __thiscall Career__513050(struct Career *this, int);'>Career::513050</a></pre>
 <li><!--5130A0-->
 <pre><i>5130A0</i> <a href=funcs.html#5130A0 title='int __thiscall Career__5130A0(struct Career *this, int);'>Career::5130A0</a></pre>
 <li><!--513110-->
-<pre><i>513110</i> <a href=funcs.html#513110 title='int __thiscall Career__513110(struct Career *this, struct Career_8724 *);'>Career::513110</a></pre>
+<pre><i>513110</i> <a href=funcs.html#513110 title='int __thiscall Career__513110(struct Career *this, struct CareerShop *shop);'>Career::513110</a></pre>
 <li><!--513160-->
 <pre><i>513160</i> <a href=funcs.html#513160 title='int __thiscall Career__513160(struct Career *this, int, int, int);'>Career::513160</a></pre>
 <li><!--5137C0-->
@@ -8849,7 +8830,7 @@ When canceling at that point, it's set back to 1
 <li><!--527780-->
 <pre><i>527780</i> <a href=funcs.html#527780 title='struct CareerRace *__thiscall Career__FindValidRaceForMarker(struct Career *this, struct Marker *marker);'>Career::FindValidRaceForMarker</a></pre>
 <li><!--527800-->
-<pre><i>527800</i> <a href=funcs.html#527800 title='int __thiscall Career__527800(struct Career *this, int, struct Marker *);'>Career::527800</a></pre>
+<pre><i>527800</i> <a href=funcs.html#527800 title='void __thiscall Career__QueryMarker(struct Career *this, struct MarkerQueryResult *result, struct Marker *marker);'>Career::QueryMarker</a></pre>
 <li><!--527890-->
 <pre><i>527890</i> <a href=funcs.html#527890 title='int __thiscall Career__527890(struct Career *this);'>Career::527890</a></pre>
 <li><!--5278F0-->
@@ -8885,7 +8866,7 @@ When canceling at that point, it's set back to 1
 <li><!--532830-->
 <pre><i>532830</i> <a href=funcs.html#532830 title='void __thiscall Career__InitOnProfileLoad(struct Career *this, char);'>Career::InitOnProfileLoad</a></pre>
 <li><!--532A50-->
-<pre><i>532A50</i> <a href=funcs.html#532A50 title='int __thiscall Career__532A50(struct Career *this, struct Career_8724 *);'>Career::532A50</a></pre>
+<pre><i>532A50</i> <a href=funcs.html#532A50 title='int __thiscall Career__532A50(struct Career *this, void *);'>Career::532A50</a></pre>
 <li><!--532B10-->
 <pre><i>532B10</i> <a href=funcs.html#532B10 title='int __thiscall Career__532B10(struct Career *this, int);'>Career::532B10</a></pre>
 <li><!--532C20-->
@@ -8943,6 +8924,15 @@ When canceling at that point, it's set back to 1
 <li><!--551320-->
 <pre><i>551320</i> <a href=funcs.html#551320 title='int __thiscall Career__551320(struct Career *this);'>Career::551320</a></pre>
 </ul>
+<a id=struc_MarkerQueryResult></a>
+<div>struct <h3>MarkerQueryResult</h3> { <i>/*5 members, size 14h*/</i>
+<i>/*0*/	</i><a href=structs.html#struc_Marker>struct Marker</a> *marker;
+<i>/*4*/	</i><a href=structs.html#struc_CareerRace>struct CareerRace</a> *foundRace;
+<i>/*8*/	</i><a href=structs.html#struc_CareerShop>struct CareerShop</a> *foundShop;
+<i>/*C*/	</i><a href=structs.html#struc_Bin34A16>struct Bin34A16</a> *found34A16;
+<i>/*10*/	</i><a href=structs.html#struc_Bin34A1B>struct Bin34A1B</a> *found34A1B;
+};
+<i>EXPECT_SIZE(struct MarkerQueryResult, 0x14);</i></div>
 <a id=struc_CareerSponsor></a>
 <div>struct <h3>CareerSponsor</h3> { <i>/*8 members, size 10h*/</i> <em></em>
 <span class='mm'>/**offset in string table <a href=vars.html#838428>careerStringPool</a>, which will point to something like <code>STREETGLOW</code>, which is then used to get name and info like <code>SPONSOR_%S</code> <code>SPONSOR_INFO_%S</code>*/</span>
@@ -8993,14 +8983,25 @@ When canceling at that point, it's set back to 1
 };
 <i>EXPECT_SIZE(struct Bin34A1A, 0x18);</i></div>
 <a id=struc_Bin34A1B></a>
-<div>struct <h3>Bin34A1B</h3> { <i>/*1 members, size 18h*/</i>
-<i>/*0*/	char _pad0[0x17];</i>
+<div>struct <h3>Bin34A1B</h3> { <i>/*2 members, size 18h*/</i>
+<i>/*0*/	char _pad0[0x2];</i>
+<span class='mm'>/**this value is an offset in <a href=vars.html#838428>careerStringPool</a>
+example values:
+TRIGGER_START_STAGE_2_SHOW_1
+TRIGGER_START_STAGE_2_SHOW_2
+EVENT_LOCATOR_01
+TRIGGER_START_STAGE_3_PERF_1
+TRIGGER_START_STAGE_3_VISUAL_2*/</span>
+<i>/*2*/	</i>short careerStringpoolOffset <u></u>;
+<i>/*4*/	char _pad4[0x13];</i>
 <i>/*17*/	</i>char __end <u></u>;
 };
 <i>EXPECT_SIZE(struct Bin34A1B, 0x18);</i></div>
 <a id=struc_Bin34A16></a>
-<div>struct <h3>Bin34A16</h3> { <i>/*1 members, size 40h*/</i>
-<i>/*0*/	char _pad0[0x3F];</i>
+<div>struct <h3>Bin34A16</h3> { <i>/*2 members, size 40h*/</i>
+<i>/*0*/	char _pad0[0x2C];</i>
+<i>/*2C*/	</i>unsigned int markerHash;
+<i>/*30*/	char _pad30[0xF];</i>
 <i>/*3F*/	</i>char __end <u></u>;
 };
 <i>EXPECT_SIZE(struct Bin34A16, 0x40);</i></div>
@@ -9011,18 +9012,25 @@ When canceling at that point, it's set back to 1
 };
 <i>EXPECT_SIZE(struct Bin34A14, 0x44);</i></div>
 <a id=struc_CareerShop></a>
-<div>struct <h3>CareerShop</h3> { <i>/*5 members, size A0h*/</i>
+<div>struct <h3>CareerShop</h3> { <i>/*7 members, size A0h*/</i> <em></em>
 <i>/*0*/	char _pad0[0x38];</i>
 <i>/*38*/	</i>unsigned int hash;
 <i>/*3C*/	</i>unsigned int markerHash;
 <i>/*40*/	char _pad40[0x11];</i>
 <i>/*51*/	</i>char isHiddenShop;
-<i>/*52*/	char _pad52[0x4B];</i>
+<i>/*52*/	char _pad52[0x22];</i>
+<i>/*74*/	int field_74;</i>
+<i>/*78*/	char _pad78[0x24];</i>
+<i>/*9C*/	char field_9C;</i>
 <i>/*9D*/	</i>char stageIndex;
 <i>/*9E*/	char _pad9E[0x1];</i>
 <i>/*9F*/	</i>char __end <u></u>;
 };
 <i>EXPECT_SIZE(struct CareerShop, 0xA0);</i></div>
+<ul>
+<li><!--512870-->
+<pre><i>512870</i> <a href=funcs.html#512870 title='int __thiscall CareerShop__512870(struct CareerShop *this);'>CareerShop::512870</a></pre>
+</ul>
 <a id=struc_Bin34A15_C></a>
 <div>struct <h3>Bin34A15_C</h3> { <i>/*3 members, size 5Ch*/</i>
 <span class='mm'>/**index because <a href=vars.html#837B90>bin34A15_C</a>[index] = this;*/</span>
