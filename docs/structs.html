@@ -8328,7 +8328,7 @@ but this value is also compared to 2 and 3*/</span>
 <i>EXPECT_SIZE(struct CareerStatsRegionDvdCovers, 0x28);</i></div>
 <a id=struc_CareerStats></a>
 <div class=mm><p>see <a href=vars.html#835C00>careerStats</a></div>
-<div>struct <h3>CareerStats</h3> { <i>/*46 members, size 21Ch*/</i>
+<div>struct <h3>CareerStats</h3> { <i>/*32 members, size 21Ch*/</i>
 <i>/*0*/	</i>int money;
 <i>/*4*/	</i>int racesEntered;
 <i>/*8*/	</i>int overallWins;
@@ -8363,25 +8363,9 @@ but this value is also compared to 2 and 3*/</span>
 <i>/*94*/	</i>int regionDVDCoversMax;
 <span class='mm'>/**[0-1]*/</span>
 <i>/*98*/	</i>float regionCompletion;
-<span class='mm'>/**6 or 7 entries? stage 6 has no dvds (game end), so guessing 6*/</span>
-<i>/*9C*/	</i><a href=#struc_CareerStatsRegionDvdCovers>struct CareerStatsRegionDvdCovers</a> regionDvdCovers[6];
-<i>/*18C*/	char _pad18C[0x50];</i>
-<i>/*1DC*/	</i>float totalReputation_stage0;
-<i>/*1E0*/	</i>float totalReputation_stage1;
-<i>/*1E4*/	</i>float totalReputation_stage2;
-<i>/*1E8*/	</i>float totalReputation_stage3;
-<i>/*1EC*/	</i>float totalReputation_stage4;
-<i>/*1F0*/	</i>float totalReputation_stage5;
-<i>/*1F4*/	float floatField_1F4;</i>
-<i>/*1F8*/	float floatField_1F8;</i>
-<i>/*1FC*/	</i>float averageReputationPerRace_stage0;
-<i>/*200*/	</i>float averageReputationPerRace_stage1;
-<i>/*204*/	</i>float averageReputationPerRace_stage2;
-<i>/*208*/	</i>float averageReputationPerRace_stage3;
-<i>/*20C*/	</i>float averageReputationPerRace_stage4;
-<i>/*210*/	</i>float averageReputationPerRace_stage5;
-<i>/*214*/	float floatField_214;</i>
-<i>/*218*/	float floatField_218;</i>
+<i>/*9C*/	</i><a href=#struc_CareerStatsRegionDvdCovers>struct CareerStatsRegionDvdCovers</a> regionDvdCovers[8];
+<i>/*1DC*/	</i>float stageTotalReputation[8];
+<i>/*1FC*/	</i>float stageAverageReputationPerRaceForStage[8];
 };
 <i>EXPECT_SIZE(struct CareerStats, 0x21C);</i></div>
 <a id=struc_CareerC00></a>
