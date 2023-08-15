@@ -6683,18 +6683,15 @@ although if this element is a label, the measured text height (which is also a g
 };
 <i>EXPECT_SIZE(struct UIDLA_ENTRY, 0x24);</i></div>
 <a id=struc_FNGInfoList></a>
-<div>struct <h3>FNGInfoList</h3> { <i>/*4 members, size 10h*/</i> <em></em>
-<span class='mm'>/**only a dtor*/</span>
-<i>/*0*/	</i>void *vtable;
-<i>/*4*/	</i>int numPackages <u></u>;
-<i id=struc_FNGInfoList@8></i><span class='mm'>/**could also just be an <a href=structs.html#struc_ObjectLink>struct ObjectLink</a> :^)*/</span>
-<i>/*8*/	</i><a href=structs.html#struc_FNGInfo>struct FNGInfo</a> *topPackage;
-<i>/*C*/	</i><a href=structs.html#struc_FNGInfo>struct FNGInfo</a> *bottomPackage;
+<div class=mm><p>entries are <a href=structs.html#struc_FNGInfo>struct FNGInfo</a>
+vtable is only a dtor</div>
+<div>struct <h3>FNGInfoList</h3> { <i>/*1 members, size 10h*/</i> <em></em>
+<i id=struc_FNGInfoList@0></i><i>/*0*/	</i><a href=#struc_List>struct List</a> __parent;
 };
 <i>EXPECT_SIZE(struct FNGInfoList, 0x10);</i></div>
 <ul>
 <li><!--518280-->
-<pre><i>518280</i> <a href=funcs.html#518280 title='int __thiscall FNGInfoList__AddEntry(struct FNGInfoList *this, struct FNGInfo *fngInfo);'>FNGInfoList::AddEntry</a></pre>
+<pre><i>518280</i> <a href=funcs.html#518280 title='void __thiscall FNGInfoList__AddEntry(struct FNGInfoList *this, struct FNGInfo *fngInfo);'>FNGInfoList::AddEntry</a></pre>
 <li><!--519E50-->
 <pre><i>519E50</i> <a href=funcs.html#519E50 title='struct FNGInfo *__thiscall FNGInfoList__GetFNGInfoByNameByHierarchy(struct FNGInfoList *thisUnused, char *fngName, struct FNGInfo *fnginfo);'>FNGInfoList::GetFNGInfoByNameByHierarchy</a></pre>
 </ul>
@@ -6709,7 +6706,7 @@ although if this element is a label, the measured text height (which is also a g
 <div>struct <h3>List</h3> { <i>/*4 members, size 10h*/</i> <em></em>
 <i>/*0*/	</i>void *vtable;
 <i>/*4*/	</i>int numEntries;
-<i>/*8*/	</i>void *first;
+<i id=struc_List@8></i><i>/*8*/	</i>void *first;
 <i>/*C*/	</i>void *last;
 };
 <i>EXPECT_SIZE(struct List, 0x10);</i></div>

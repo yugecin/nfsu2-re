@@ -5251,8 +5251,7 @@ Not in Main/Career/QR menus... TODO</div>
 <a id=50CE20></a>
 <div><i>50CE20</i> <a href=structs.html#struc_UIDataC>struct UIDataC</a> *__cdecl <h3>GetUIDataFieldC</h3>();</div>
 <a id=50CE30></a>
-<div class=mm><p>Checks if any of the given hashes conform with
-<code><a href=vars.html#8384C4>pUIData</a>-><a href=structs.html#struc_UIData@8>field_8</a>-><a href=structs.html#struc_UIData_field8@DC>fngPackagesDC</a>.<a href=structs.html#struc_FNGInfoList@8>topPackage</a>-><a href=structs.html#struc_FNGInfo@10>hash</a></code>
+<div class=mm><p>Checks if any of the given hashes conform with <a href=structs.html#struc_FNGInfo>struct FNGInfo</a>.<a href=structs.html#struc_FNGInfo@10>hash</a> of entries in <code><a href=vars.html#8384C4>pUIData</a>-><a href=structs.html#struc_UIData@8>field_8</a>-><a href=structs.html#struc_UIData_field8@DC>fngPackagesDC</a>.<a href=structs.html#struc_FNGInfoList@0>__parent</a>.<a href=structs.html#struc_List@8>first</a></code>
 and return its <code><a href=structs.html#struc_FNGInfo@C>fngName</a></code>.</div>
 <div><i>50CE30</i> char *__cdecl <h3>FindTopPackage</h3>(unsigned int *hashes, int numHashes);</div>
 <a id=50CEA0></a>
@@ -5611,7 +5610,7 @@ return visitor.<a href=structs.html#struc_UIElementVisitor_FindByHash@8>foundUIE
 <a id=517FE0></a>
 <div><i>517FE0</i> int __thiscall <h3><a href=structs.html#struc_FNGInfo>FNGInfo</a>::FindElementByFieldC</h3>(<a href=structs.html#struc_FNGInfo>struct FNGInfo</a> *this, int searchingUIElementFieldC);</div>
 <a id=518280></a>
-<div><i>518280</i> int __thiscall <h3><a href=structs.html#struc_FNGInfoList>FNGInfoList</a>::AddEntry</h3>(<a href=structs.html#struc_FNGInfoList>struct FNGInfoList</a> *this, <a href=structs.html#struc_FNGInfo>struct FNGInfo</a> *fngInfo);</div>
+<div><i>518280</i> void __thiscall <h3><a href=structs.html#struc_FNGInfoList>FNGInfoList</a>::AddEntry</h3>(<a href=structs.html#struc_FNGInfoList>struct FNGInfoList</a> *this, <a href=structs.html#struc_FNGInfo>struct FNGInfo</a> *fngInfo);</div>
 <a id=519AE0></a>
 <div><i>519AE0</i> void __thiscall <h3><a href=structs.html#struc_UIData_field8_8>UIData_field8_8</a>::ctor</h3>(<a href=structs.html#struc_UIData_field8_8>struct UIData_field8_8</a> *this);</div>
 <a id=519DE0></a>
@@ -5917,8 +5916,8 @@ it supports creating from existing tuned/career car, but that is never actually 
 <a id=52C3A0></a>
 <div><i>52C3A0</i> void __thiscall <h3><a href=structs.html#struc_FERenderObject>FERenderObject</a>::FreeAllRenderEPolys_0</h3>(<a href=structs.html#struc_FERenderObject>struct FERenderObject</a> *this, void *unused);</div>
 <a id=52C570></a>
-<div class=mm><p>When <code>fngName</code> is null, searches every FNG in <code>this-&gt;<a href=structs.html#struc_UIData_field8@DC>fngPackagesDC</a>.<a href=structs.html#struc_FNGInfoList@8>topPackage</a></code> for the given hash.
-Otherwise, limit the search to the FNG that is in the hierarchy of <code>this-&gt;<a href=structs.html#struc_UIData_field8@DC>fngPackagesDC</a>.<a href=structs.html#struc_FNGInfoList@8>topPackage</a></code>
+<div class=mm><p>When <code>fngName</code> is null, searches every FNG in <code>this-&gt;<a href=structs.html#struc_UIData_field8@DC>fngPackagesDC</a>.<a href=structs.html#struc_FNGInfoList@0>__parent</a>.<a href=structs.html#struc_List@8>first</a></code> for the given hash.
+Otherwise, limit the search to the FNG that is in the hierarchy of <code>this-&gt;<a href=structs.html#struc_UIData_field8@DC>fngPackagesDC</a>.<a href=structs.html#struc_FNGInfoList@0>__parent</a>.<a href=structs.html#struc_List@8>first</a></code>
 (by using <a href=funcs.html#519E50>FNGInfoList::GetFNGInfoByNameByHierarchy</a>).</div>
 <div class=mm><p>fngName is nullable</div>
 <div><i>52C570</i> <a href=structs.html#struc_UIElement>struct UIElement</a> *__thiscall <h3><a href=structs.html#struc_UIData_field8>UIData_field8</a>::GetUIElementByHashInFngName</h3>(<a href=structs.html#struc_UIData_field8>struct UIData_field8</a> *this, unsigned int hash, char *fngName);</div>
