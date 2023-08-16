@@ -284,7 +284,7 @@ pre.ida span.hi {
 <a href='cheatsheet.html'>cheatsheet</a></nav>
 </header>
 <div class='func'>
-<h2>Functions (1699)</h2>
+<h2>Functions (1701)</h2>
 <ul>
 <li><a href=#4012B0>
 ??SomeUpdatePosition</a>
@@ -499,7 +499,7 @@ LoadBinSection3B700</a>
 <li><a href=#48A2B0>
 UnloadBinSection3B700</a>
 <li><a href=#48B1E0>
-SomeMathOp_??GetCarStructFromHandle</a>
+GetDByIndex</a>
 <li><a href=#48B4A0>
 LoadBinSection34202</a>
 <li><a href=#48B740>
@@ -514,6 +514,8 @@ Render3DLODPoles??</a>
 GetOrLoadTextureMaybe</a>
 <li><a href=#491860>
 RenderLightReflectionsOnRoad</a>
+<li><a href=#491940>
+D::ctor</a>
 <li><a href=#491C70>
 LoadBinSection80035000_80035010_35021_35020</a>
 <li><a href=#491D50>
@@ -3026,6 +3028,8 @@ UpdateD3DWindow</a>
 Create3D9Device</a>
 <li><a href=#5B9C20>
 RenderWorld</a>
+<li><a href=#5BC5B0>
+Get873380AtIndex</a>
 <li><a href=#5BE190>
 StoreOptLightGlowSetToZero</a>
 <li><a href=#5BE1B0>
@@ -4002,7 +4006,8 @@ Implementation <code><a class='ext' href='https://github.com/yugecin/nfsu2-re/bl
 <a id=48A2B0></a>
 <div><i>48A2B0</i> int __cdecl <h3>UnloadBinSection3B700</h3>(<a href=structs.html#struc_BinSection>struct BinSection</a> *bindata);</div>
 <a id=48B1E0></a>
-<div><i>48B1E0</i> <h3>SomeMathOp_??GetCarStructFromHandle</h3></div>
+<div class=mm><p>returns <a href=vars.html#832DE0>d</a> at requested index</div>
+<div><i>48B1E0</i> <a href=structs.html#struc_D>struct D</a> *__cdecl <h3>GetDByIndex</h3>(int index);</div>
 <a id=48B4A0></a>
 <div><i>48B4A0</i> int __cdecl <h3>LoadBinSection34202</h3>(<a href=structs.html#struc_BinSection>struct BinSection</a> *bindata);</div>
 <a id=48B740></a>
@@ -4018,6 +4023,8 @@ Implementation <code><a class='ext' href='https://github.com/yugecin/nfsu2-re/bl
 <div><i>4901D0</i> unsigned int __cdecl <h3>GetOrLoadTextureMaybe</h3>(unsigned int hash, int, int);</div>
 <a id=491860></a>
 <div><i>491860</i> <h3>RenderLightReflectionsOnRoad</h3></div>
+<a id=491940></a>
+<div><i>491940</i> void __thiscall <h3><a href=structs.html#struc_D>D</a>::ctor</h3>(<a href=structs.html#struc_D>struct D</a> *this);</div>
 <a id=491C70></a>
 <div><i>491C70</i> int __cdecl <h3>LoadBinSection80035000_80035010_35021_35020</h3>(<a href=structs.html#struc_BinSection>struct BinSection</a> *bindata);</div>
 <a id=491D50></a>
@@ -7145,6 +7152,8 @@ def:
 <div><i>5B9B70</i> <h3>Create3D9Device</h3></div>
 <a id=5B9C20></a>
 <div><i>5B9C20</i> <h3>RenderWorld</h3></div>
+<a id=5BC5B0></a>
+<div><i>5BC5B0</i> <a href=structs.html#struc_E>struct E</a> *__cdecl <h3>Get873380AtIndex</h3>(int index);</div>
 <a id=5BE190></a>
 <div class=mm><p><a href=vars.html#8709D4>tempStoredOptLightGlow</a> = <a href=vars.html#870CE4>_optLightGlow</a>;
 <a href=vars.html#870CE4>_optLightGlow</a> = 0;

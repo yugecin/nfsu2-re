@@ -284,7 +284,7 @@ pre.ida span.hi {
 <a href='cheatsheet.html'>cheatsheet</a></nav>
 </header>
 <div class='struc'>
-<h2>Structs (498)</h2>
+<h2>Structs (500)</h2>
 <ul>
 <li><a href=#struc_FuncInfo_V1>FuncInfo_V1</a>
 <li><a href=#struc_UnwindMapEntry>UnwindMapEntry</a>
@@ -751,6 +751,8 @@ pre.ida span.hi {
 <li><a href=#struc_C4>C4</a>
 <li><a href=#struc_vec3>vec3</a>
 <li><a href=#struc_C>C</a> <em></em>
+<li><a href=#struc_D>D</a> <em></em>
+<li><a href=#struc_E>E</a>
 <li><a href=#struc_struct890020>struct890020</a>
 <li><a href=#struc_PathsData>PathsData</a> <em></em>
 <li><a href=#struc_NeighbourhoodName>NeighbourhoodName</a>
@@ -9491,6 +9493,34 @@ for money: hash of sound effect to play!?*/</span>
 <li><!--60A2A0-->
 <pre><i>60A2A0</i> <a href=funcs.html#60A2A0 title='int __thiscall C__60A2A0(struct C *this, int);'>C::60A2A0</a></pre>
 </ul>
+<a id=struc_D></a>
+<div>struct <h3>D</h3> { <i>/*9 members, size 70h*/</i> <em></em>
+<i>/*0*/	</i><a href=structs.html#struc_E>struct E</a> *e;
+<i>/*4*/	int field_4;</i>
+<i>/*8*/	char field_8;</i>
+<i>/*9*/	char _pad9[0xF];</i>
+<i>/*18*/	float floatField_18;</i>
+<i>/*1C*/	char _pad1C[0x28];</i>
+<i>/*44*/	</i><a href=#struc_ObjectLink>struct ObjectLink</a> link44;
+<i>/*4C*/	char _pad4C[0xC];</i>
+<i>/*58*/	int field_58;</i>
+<i>/*5C*/	char _pad5C[0x4];</i>
+<i>/*60*/	int field_60;</i>
+<i>/*64*/	void *field_64;</i>
+<i>/*68*/	char _pad68[0x7];</i>
+<i>/*6F*/	</i>char __end <u></u>;
+};
+<i>EXPECT_SIZE(struct D, 0x70);</i></div>
+<ul>
+<li><!--491940-->
+<pre><i>491940</i> <a href=funcs.html#491940 title='void __thiscall D__ctor(struct D *this);'>D::ctor</a></pre>
+</ul>
+<a id=struc_E></a>
+<div>struct <h3>E</h3> { <i>/*1 members, size 120h*/</i>
+<i>/*0*/	char _pad0[0x11F];</i>
+<i>/*11F*/	</i>char __end <u></u>;
+};
+<i>EXPECT_SIZE(struct E, 0x120);</i></div>
 <a id=struc_struct890020></a>
 <div>struct <h3>struct890020</h3> { <i>/*2 members, size 8h*/</i>
 <i>/*0*/	</i><a href=structs.html#struc_Marker>struct Marker</a> *marker;
