@@ -284,7 +284,7 @@ pre.ida span.hi {
 <a href='cheatsheet.html'>cheatsheet</a></nav>
 </header>
 <div class='struc'>
-<h2>Structs (492)</h2>
+<h2>Structs (498)</h2>
 <ul>
 <li><a href=#struc_FuncInfo_V1>FuncInfo_V1</a>
 <li><a href=#struc_UnwindMapEntry>UnwindMapEntry</a>
@@ -745,6 +745,12 @@ pre.ida span.hi {
 <li><a href=#struc_CareerSponsorPtrOrHash>CareerSponsorPtrOrHash</a> <b></b>
 <li><a href=#struc_CareerStageSettings>CareerStageSettings</a>
 <li><a href=#struc_Marker>Marker</a> <em></em>
+<li><a href=#struc_C2D4>C2D4</a> <em></em>
+<li><a href=#struc_C64C>C64C</a> <em></em>
+<li><a href=#struc_C20>C20</a>
+<li><a href=#struc_C4>C4</a>
+<li><a href=#struc_vec3>vec3</a>
+<li><a href=#struc_C>C</a> <em></em>
 <li><a href=#struc_struct890020>struct890020</a>
 <li><a href=#struc_PathsData>PathsData</a> <em></em>
 <li><a href=#struc_NeighbourhoodName>NeighbourhoodName</a>
@@ -8643,7 +8649,7 @@ but this value is also compared to 2 and 3*/</span>
 <div class=mm><p>this may be way more than just careerdata.. maybe profiledata?
 <p>size unknown</div>
 <div class=mm><p>probably incomplete</div>
-<div>struct <h3>Career</h3> { <i>/*56 members, size 8A0Ch*/</i> <em></em>
+<div>struct <h3>Career</h3> { <i>/*54 members, size 8A0Ch*/</i> <em></em>
 <i id=struc_Career@0></i><i>/*0*/	<a href=#struc_Career_0>struct Career_0</a> field_0[64];</i>
 <i id=struc_Career@600></i><span class='mm'>/**see <a href=funcs.html#528980>Career::RecalculateCollectedEngageMarkers</a>
 extra ref: 605880*/</span>
@@ -8713,11 +8719,11 @@ When canceling at that point, it's set back to 1
 <i>/*8740*/</i>unsigned int activeCarSlotHash;
 <i>/*8744*/char field_8744;</i>
 <i>/*8745*/char _pad8745[0xB];</i>
-<i>/*8750*/int field_8750;</i>
-<i>/*8754*/float floatField_8754;</i>
-<i>/*8758*/float floatField_8758;</i>
+<i id=struc_Career@8750></i><span class='mm'>/**car position is stored here at some points*/</span>
+<i>/*8750*/</i><a href=#struc_vec3>struct vec3</a> carPosition;
 <i>/*875C*/int field_875C;</i>
-<i>/*8760*/short field_8760;</i>
+<i id=struc_Career@8760></i><span class='mm'>/**same as <a href=structs.html#struc_Career@8750>carPosition</a>*/</span>
+<i>/*8760*/</i>short carAngle <u></u>;
 <i>/*8762*/char _pad8762[0x2];</i>
 <i>/*8764*/float floatField_8764;</i>
 <span class='mm'>/**size 64 see 532A1E*/</span>
@@ -8758,7 +8764,7 @@ When canceling at that point, it's set back to 1
 <li><!--500AA0-->
 <pre><i>500AA0</i> <a href=funcs.html#500AA0 title='int __thiscall Career__500AA0(struct Career *this);'>Career::500AA0</a></pre>
 <li><!--500AB0-->
-<pre><i>500AB0</i> <a href=funcs.html#500AB0 title='int __thiscall Career__500AB0(struct Career *this, int);'>Career::500AB0</a></pre>
+<pre><i>500AB0</i> <a href=funcs.html#500AB0 title='void __thiscall Career__StoreP1PositionIntoCareerData(struct Career *this, int unused);'>Career::StoreP1PositionIntoCareerData</a></pre>
 <li><!--500B00-->
 <pre><i>500B00</i> <a href=funcs.html#500B00 title='void __thiscall Career__500B00(struct Career *this);'>Career::500B00</a></pre>
 <li><!--500B40-->
@@ -8788,7 +8794,7 @@ When canceling at that point, it's set back to 1
 <li><!--512FF0-->
 <pre><i>512FF0</i> <a href=funcs.html#512FF0 title='int __thiscall Career__512FF0(struct Career *this, struct Marker *marker, struct CareerShop *shop);'>Career::512FF0</a></pre>
 <li><!--513050-->
-<pre><i>513050</i> <a href=funcs.html#513050 title='int __thiscall Career__513050(struct Career *this, int);'>Career::513050</a></pre>
+<pre><i>513050</i> <a href=funcs.html#513050 title='void __thiscall Career__513050(struct Career *this, struct MarkerQueryResult *markerQueryResult);'>Career::513050</a></pre>
 <li><!--5130A0-->
 <pre><i>5130A0</i> <a href=funcs.html#5130A0 title='int __thiscall Career__5130A0(struct Career *this, int);'>Career::5130A0</a></pre>
 <li><!--513110-->
@@ -8998,8 +9004,10 @@ TRIGGER_START_STAGE_3_VISUAL_2*/</span>
 };
 <i>EXPECT_SIZE(struct Bin34A1B, 0x18);</i></div>
 <a id=struc_Bin34A16></a>
-<div>struct <h3>Bin34A16</h3> { <i>/*2 members, size 40h*/</i>
-<i>/*0*/	char _pad0[0x2C];</i>
+<div>struct <h3>Bin34A16</h3> { <i>/*3 members, size 40h*/</i>
+<i>/*0*/	char _pad0[0x20];</i>
+<i>/*20*/	int field_20;</i>
+<i>/*24*/	char _pad24[0x8];</i>
 <i>/*2C*/	</i>unsigned int markerHash;
 <i>/*30*/	char _pad30[0xF];</i>
 <i>/*3F*/	</i>char __end <u></u>;
@@ -9129,6 +9137,359 @@ for money: hash of sound effect to play!?*/</span>
 <ul>
 <li><!--4ABFE0-->
 <pre><i>4ABFE0</i> <a href=funcs.html#4ABFE0 title='int __thiscall Marker__4ABFE0(struct Marker *this);'>Marker::4ABFE0</a></pre>
+</ul>
+<a id=struc_C2D4></a>
+<div>struct <h3>C2D4</h3> { <i>/*15 members, size 370h*/</i> <em></em>
+<span class='mm'>/**just a dtor*/</span>
+<i>/*0*/	</i>void *vtable;
+<i>/*4*/	int field_4;</i>
+<span class='mm'>/**maybe stdcall?*/</span>
+<i>/*8*/	void (__cdecl **[40])(int) field_8;</i>
+<i>/*A8*/	void *field_A8;</i>
+<i>/*AC*/	char field_AC;</i>
+<i>/*AD*/	char field_AD;</i>
+<i>/*AE*/	char field_AE;</i>
+<i>/*AF*/	char _padAF[0x1];</i>
+<i>/*B0*/	int field_B0;</i>
+<i>/*B4*/	int field_B4;</i>
+<i>/*B8*/	char _padB8[0xC];</i>
+<i>/*C4*/	int field_C4;</i>
+<i>/*C8*/	char field_C8;</i>
+<i>/*C9*/	char _padC9[0x3];</i>
+<i>/*CC*/	int field_CC;</i>
+<i>/*D0*/	int field_D0;</i>
+<i>/*D4*/	char _padD4[0x280];</i>
+<i>/*354*/	int field_354;</i>
+<i>/*358*/	char _pad358[0x17];</i>
+<span class='mm'>/**maybe? ctor just empties 220*4 bytes*/</span>
+<i>/*36F*/	</i>char __end? <u></u>;
+};
+<i>EXPECT_SIZE(struct C2D4, 0x370);</i></div>
+<ul>
+<li><!--411740-->
+<pre><i>411740</i> <a href=funcs.html#411740 title='void __thiscall C2D4__dtor_(struct C2D4 *this);'>C2D4::dtor?</a></pre>
+<li><!--4189F0-->
+<pre><i>4189F0</i> <a href=funcs.html#4189F0 title='void __thiscall C2D4__ctor(struct C2D4 *this, int);'>C2D4::ctor</a></pre>
+</ul>
+<a id=struc_C64C></a>
+<div>struct <h3>C64C</h3> { <i>/*20 members, size 314h*/</i> <em></em>
+<i>/*0*/	</i><a href=#struc_ObjectLink>struct ObjectLink</a> link;
+<i>/*8*/	int field_8;</i>
+<i>/*C*/	int field_C;</i>
+<i>/*10*/	int field_10;</i>
+<i>/*14*/	int field_14;</i>
+<i>/*18*/	int field_18;</i>
+<i>/*1C*/	int field_1C;</i>
+<i>/*20*/	char _pad20[0x4];</i>
+<i>/*24*/	int field_24;</i>
+<i>/*28*/	char _pad28[0x4];</i>
+<i>/*2C*/	int field_2C;</i>
+<i>/*30*/	char _pad30[0x4];</i>
+<i>/*34*/	int field_34;</i>
+<i>/*38*/	char _pad38[0x284];</i>
+<i>/*2BC*/	int field_2BC;</i>
+<i>/*2C0*/	char _pad2C0[0x20];</i>
+<i>/*2E0*/	int field_2E0;</i>
+<i>/*2E4*/	int field_2E4;</i>
+<i>/*2E8*/	int field_2E8;</i>
+<i>/*2EC*/	int field_2EC;</i>
+<i>/*2F0*/	int field_2F0;</i>
+<i>/*2F4*/	char _pad2F4[0x10];</i>
+<i>/*304*/	int field_304;</i>
+<i>/*308*/	int field_308;</i>
+<i>/*30C*/	int field_30C;</i>
+<i>/*310*/	int field_310;</i>
+};
+<i>EXPECT_SIZE(struct C64C, 0x314);</i></div>
+<ul>
+<li><!--5E0B40-->
+<pre><i>5E0B40</i> <a href=funcs.html#5E0B40 title='C64C::ctor'>C64C::ctor</a></pre>
+</ul>
+<a id=struc_C20></a>
+<div>struct <h3>C20</h3> { <i>/*13 members, size 30h*/</i>
+<i>/*0*/	char field_0;</i>
+<i>/*1*/	char field_1;</i>
+<i>/*2*/	char _pad2[0x2];</i>
+<i>/*4*/	float floatField_4;</i>
+<i>/*8*/	char field_8;</i>
+<i>/*9*/	char field_9;</i>
+<i>/*A*/	char field_A;</i>
+<i>/*B*/	char field_B;</i>
+<i>/*C*/	int field_C;</i>
+<i>/*10*/	</i>char playerName[16];
+<i>/*20*/	int field_20;</i>
+<i>/*24*/	int field_24;</i>
+<i>/*28*/	int field_28;</i>
+<i>/*2C*/	int field_2C;</i>
+};
+<i>EXPECT_SIZE(struct C20, 0x30);</i></div>
+<a id=struc_C4></a>
+<div>struct <h3>C4</h3> { <i>/*2 members, size 40Eh*/</i>
+<i>/*0*/	char _pad0[0x60];</i>
+<span class='mm'>/**x/y writable, z doesn't seem to be writable (or needs special handling)*/</span>
+<i>/*60*/	</i><a href=#struc_vec3>struct vec3</a> carPosition;
+<i>/*6C*/	char _pad6C[0x3A0];</i>
+<i>/*40C*/	</i>short carAngle? <u></u>;
+};
+<i>EXPECT_SIZE(struct C4, 0x40E);</i></div>
+<a id=struc_vec3></a>
+<div>struct <h3>vec3</h3> { <i>/*3 members, size Ch*/</i>
+<i>/*0*/	</i>float x;
+<i>/*4*/	</i>float y;
+<i>/*8*/	</i>float z;
+};
+<i>EXPECT_SIZE(struct vec3, 0xC);</i></div>
+<a id=struc_C></a>
+<div class=mm><p>I think it's career related and I'm sick of long temp struct names so C it is.</div>
+<div>struct <h3>C</h3> { <i>/*115 members, size 9C0h*/</i> <em></em>
+<i>/*0*/	int field_0;</i>
+<span class='mm'>/**due to lack of better name*/</span>
+<i>/*4*/	</i><a href=structs.html#struc_C4>struct C4</a> *playerInstance;
+<i>/*8*/	void *field_8;</i>
+<i>/*C*/	int field_C;</i>
+<i>/*10*/	int field_10;</i>
+<span class='mm'>/**there may be max 2 instances of this struct, and this field links to the other instance*/</span>
+<i>/*14*/	</i><a href=structs.html#struc_C>struct C</a> *otherInstance;
+<i>/*18*/	int field_18;</i>
+<i>/*1C*/	int field_1C;</i>
+<i>/*20*/	<a href=#struc_C20>struct C20</a> field_20;</i>
+<i>/*50*/	int field_50;</i>
+<i>/*54*/	int field_54;</i>
+<i>/*58*/	int field_58;</i>
+<i>/*5C*/	int field_5C;</i>
+<i>/*60*/	char field_60[8];</i>
+<i>/*68*/	char field_68[32];</i>
+<i>/*88*/	int field_88;</i>
+<i>/*8C*/	int field_8C;</i>
+<i>/*90*/	char field_90;</i>
+<i>/*91*/	char _pad91[0x3];</i>
+<i>/*94*/	int field_94;</i>
+<i>/*98*/	float floatField_98;</i>
+<i>/*9C*/	int field_9C;</i>
+<span class='mm'>/**allocated memory, see ctor for details*/</span>
+<i>/*A0*/	void *field_A0;</i>
+<i>/*A4*/	int field_A4;</i>
+<i>/*A8*/	float floatField_A8;</i>
+<i>/*AC*/	int field_AC;</i>
+<i>/*B0*/	int field_B0;</i>
+<i>/*B4*/	float floatField_B4;</i>
+<i>/*B8*/	int field_B8;</i>
+<i>/*BC*/	int field_BC;</i>
+<i>/*C0*/	char field_C0[64];</i>
+<i>/*100*/	int field_100;</i>
+<i>/*104*/	char _pad104[0x4];</i>
+<i>/*108*/	int field_108;</i>
+<i>/*10C*/	int field_10C;</i>
+<i>/*110*/	int field_110;</i>
+<i>/*114*/	char field_114;</i>
+<i>/*115*/	char _pad115[0x1B];</i>
+<i>/*130*/	int field_130;</i>
+<i>/*134*/	int field_134;</i>
+<i>/*138*/	char _pad138[0x8];</i>
+<i>/*140*/	int field_140;</i>
+<i>/*144*/	int field_144;</i>
+<i>/*148*/	int field_148;</i>
+<i>/*14C*/	void *floatField_14C;</i>
+<i>/*150*/	float floatField_150;</i>
+<i>/*154*/	int field_154;</i>
+<i>/*158*/	int field_158;</i>
+<i>/*15C*/	char _pad15C[0x4];</i>
+<i>/*160*/	int field_160;</i>
+<i>/*164*/	short field_164;</i>
+<i>/*166*/	short field_166;</i>
+<i>/*168*/	short field_168;</i>
+<i>/*16A*/	char _pad16A[0x2];</i>
+<i>/*16C*/	float floatField_16C;</i>
+<i>/*170*/	float floatField_170;</i>
+<i>/*174*/	int field_174;</i>
+<i>/*178*/	float floatField_178;</i>
+<i>/*17C*/	int field_17C;</i>
+<span class='mm'>/**allocated memory, see ctor for details*/</span>
+<i>/*180*/	void *field_180;</i>
+<span class='mm'>/**allocated memory, see ctor for details*/</span>
+<i>/*184*/	void *field_184;</i>
+<i>/*188*/	char _pad188[0x8];</i>
+<i>/*190*/	int field_190;</i>
+<i>/*194*/	char _pad194[0x3C];</i>
+<i>/*1D0*/	int field_1D0;</i>
+<i>/*1D4*/	char _pad1D4[0x4];</i>
+<i>/*1D8*/	float floatField_1D8;</i>
+<i>/*1DC*/	char _pad1DC[0x34];</i>
+<i>/*210*/	int field_210;</i>
+<i>/*214*/	int field_214;</i>
+<i>/*218*/	int field_218;</i>
+<i>/*21C*/	int field_21C;</i>
+<i>/*220*/	int field_220;</i>
+<i>/*224*/	char field_224;</i>
+<i>/*225*/	char field_225;</i>
+<i>/*226*/	char _pad226[0x2];</i>
+<i>/*228*/	int field_228;</i>
+<i>/*22C*/	int field_22C;</i>
+<i>/*230*/	int field_230;</i>
+<i>/*234*/	int field_234;</i>
+<i>/*238*/	int field_238;</i>
+<i>/*23C*/	int field_23C;</i>
+<i>/*240*/	int field_240;</i>
+<i>/*244*/	int field_244;</i>
+<i>/*248*/	char field_248;</i>
+<i>/*249*/	char field_249;</i>
+<i>/*24A*/	char field_24A;</i>
+<i>/*24B*/	char _pad24B[0x1];</i>
+<i>/*24C*/	int field_24C;</i>
+<i>/*250*/	int field_250;</i>
+<i>/*254*/	char _pad254[0x4];</i>
+<i>/*258*/	int field_258;</i>
+<i>/*25C*/	int field_25C;</i>
+<i>/*260*/	int field_260;</i>
+<i>/*264*/	int field_264;</i>
+<span class='mm'>/**allocated memory, see ctor for details*/</span>
+<i>/*268*/	void *field_268;</i>
+<i>/*26C*/	char _pad26C[0x4];</i>
+<i>/*270*/	int field_270;</i>
+<i>/*274*/	int field_274;</i>
+<i>/*278*/	int field_278;</i>
+<i>/*27C*/	char _pad27C[0x4];</i>
+<i>/*280*/	int field_280;</i>
+<i>/*284*/	int field_284;</i>
+<i>/*288*/	int field_288;</i>
+<i>/*28C*/	char _pad28C[0x4];</i>
+<i>/*290*/	int field_290;</i>
+<i>/*294*/	int field_294;</i>
+<i>/*298*/	float floatField_298;</i>
+<i>/*29C*/	char _pad29C[0x4];</i>
+<i>/*2A0*/	int field_2A0;</i>
+<i>/*2A4*/	char _pad2A4[0xC];</i>
+<i>/*2B0*/	int field_2B0;</i>
+<i>/*2B4*/	int field_2B4;</i>
+<i>/*2B8*/	int field_2B8;</i>
+<i>/*2BC*/	char _pad2BC[0x4];</i>
+<i>/*2C0*/	int field_2C0;</i>
+<i>/*2C4*/	int field_2C4;</i>
+<i>/*2C8*/	int field_2C8;</i>
+<i>/*2CC*/	char _pad2CC[0x4];</i>
+<span class='mm'>/**allocated memory, see ctor for details*/</span>
+<i>/*2D0*/	void *field_2D0;</i>
+<i>/*2D4*/	<a href=#struc_C2D4>struct C2D4</a> field_2D4;</i>
+<i>/*644*/	int field_644;</i>
+<i>/*648*/	int field_648;</i>
+<i>/*64C*/	<a href=#struc_C64C>struct C64C</a> field_64C;</i>
+<i>/*960*/	char _pad960[0x38];</i>
+<i>/*998*/	int field_998;</i>
+<i>/*99C*/	int field_99C;</i>
+<i>/*9A0*/	char field_9A0;</i>
+<i>/*9A1*/	char field_9A1;</i>
+<i>/*9A2*/	char _pad9A2[0x2];</i>
+<span class='mm'>/**allocated memory, see ctor for details*/</span>
+<i>/*9A4*/	void *field_9A4;</i>
+<i>/*9A8*/	char field_9A8;</i>
+<i>/*9A9*/	char _pad9A9[0x3];</i>
+<i>/*9AC*/	int field_9AC;</i>
+<i>/*9B0*/	int field_9B0;</i>
+<i>/*9B4*/	int field_9B4;</i>
+<i>/*9B8*/	int field_9B8;</i>
+<i>/*9BC*/	char _pad9BC[0x3];</i>
+<i>/*9BF*/	</i>char __end <u></u>;
+};
+<i>EXPECT_SIZE(struct C, 0x9C0);</i></div>
+<ul>
+<li><!--5EA150-->
+<pre><i>5EA150</i> <a href=funcs.html#5EA150 title='float __thiscall C__5EA150(struct C *this);'>C::5EA150</a></pre>
+<li><!--5EA650-->
+<pre><i>5EA650</i> <a href=funcs.html#5EA650 title='void __thiscall C__5EA650(struct C *this);'>C::5EA650</a></pre>
+<li><!--5EA7C0-->
+<pre><i>5EA7C0</i> <a href=funcs.html#5EA7C0 title='int __thiscall C__5EA7C0(struct C *this);'>C::5EA7C0</a></pre>
+<li><!--5EA8C0-->
+<pre><i>5EA8C0</i> <a href=funcs.html#5EA8C0 title='int __thiscall C__5EA8C0(struct C *this);'>C::5EA8C0</a></pre>
+<li><!--5EA8E0-->
+<pre><i>5EA8E0</i> <a href=funcs.html#5EA8E0 title='int __thiscall C__5EA8E0(struct C *this);'>C::5EA8E0</a></pre>
+<li><!--5EA930-->
+<pre><i>5EA930</i> <a href=funcs.html#5EA930 title='int __thiscall C__5EA930(struct C *this);'>C::5EA930</a></pre>
+<li><!--5EA980-->
+<pre><i>5EA980</i> <a href=funcs.html#5EA980 title='void __thiscall C__5EA980(struct C *this);'>C::5EA980</a></pre>
+<li><!--5EA9A0-->
+<pre><i>5EA9A0</i> <a href=funcs.html#5EA9A0 title='int __thiscall C__5EA9A0(struct C *this);'>C::5EA9A0</a></pre>
+<li><!--5EAC70-->
+<pre><i>5EAC70</i> <a href=funcs.html#5EAC70 title='int __thiscall C__5EAC70(struct C *this);'>C::5EAC70</a></pre>
+<li><!--5EAF30-->
+<pre><i>5EAF30</i> <a href=funcs.html#5EAF30 title='void __thiscall C__5EAF30(struct C *this, struct Marker *marker);'>C::5EAF30</a></pre>
+<li><!--5EAFB0-->
+<pre><i>5EAFB0</i> <a href=funcs.html#5EAFB0 title='void __thiscall C__5EAFB0(struct C *this, struct MarkerQueryResult *markerQueryResult);'>C::5EAFB0</a></pre>
+<li><!--5EB040-->
+<pre><i>5EB040</i> <a href=funcs.html#5EB040 title='void __thiscall C__5EB040(struct C *this);'>C::5EB040</a></pre>
+<li><!--5EB280-->
+<pre><i>5EB280</i> <a href=funcs.html#5EB280 title='void __thiscall C__5EB280(struct C *this);'>C::5EB280</a></pre>
+<li><!--5EB400-->
+<pre><i>5EB400</i> <a href=funcs.html#5EB400 title='int __thiscall C__5EB400(struct C *this);'>C::5EB400</a></pre>
+<li><!--5EB450-->
+<pre><i>5EB450</i> <a href=funcs.html#5EB450 title='int __thiscall C__WriteHotPositionFileIfRequested(struct C *this);'>C::WriteHotPositionFileIfRequested</a></pre>
+<li><!--5F1670-->
+<pre><i>5F1670</i> <a href=funcs.html#5F1670 title='void __thiscall C__ctor(struct C *this, int, struct Player *player);'>C::ctor</a></pre>
+<li><!--5F1CC0-->
+<pre><i>5F1CC0</i> <a href=funcs.html#5F1CC0 title='int __thiscall C__5F1CC0(struct C *this);'>C::5F1CC0</a></pre>
+<li><!--5F1E10-->
+<pre><i>5F1E10</i> <a href=funcs.html#5F1E10 title='int __thiscall C__5F1E10(struct C *this, int);'>C::5F1E10</a></pre>
+<li><!--5F1FD0-->
+<pre><i>5F1FD0</i> <a href=funcs.html#5F1FD0 title='int __thiscall C__5F1FD0(struct C *this, int, char);'>C::5F1FD0</a></pre>
+<li><!--5F2FA0-->
+<pre><i>5F2FA0</i> <a href=funcs.html#5F2FA0 title='int __thiscall C__5F2FA0(struct C *this, int);'>C::5F2FA0</a></pre>
+<li><!--5F3010-->
+<pre><i>5F3010</i> <a href=funcs.html#5F3010 title='int __thiscall C__5F3010(struct C *this);'>C::5F3010</a></pre>
+<li><!--5F3080-->
+<pre><i>5F3080</i> <a href=funcs.html#5F3080 title='void __cdecl C__5F3080(struct C *this);'>C::5F3080</a></pre>
+<li><!--5F30F0-->
+<pre><i>5F30F0</i> <a href=funcs.html#5F30F0 title='void __thiscall C__5F30F0(struct C *this);'>C::5F30F0</a></pre>
+<li><!--5F32A0-->
+<pre><i>5F32A0</i> <a href=funcs.html#5F32A0 title='int __thiscall C__5F32A0(struct C *this);'>C::5F32A0</a></pre>
+<li><!--5F3550-->
+<pre><i>5F3550</i> <a href=funcs.html#5F3550 title='void __thiscall C__5F3550(struct C *this, float);'>C::5F3550</a></pre>
+<li><!--5F39D0-->
+<pre><i>5F39D0</i> <a href=funcs.html#5F39D0 title='int __thiscall C__5F39D0(struct C *this);'>C::5F39D0</a></pre>
+<li><!--5F3E10-->
+<pre><i>5F3E10</i> <a href=funcs.html#5F3E10 title='void __thiscall C__SetPlayerInstance(struct C *this, struct C4 *playerInstance);'>C::SetPlayerInstance</a></pre>
+<li><!--5F41B0-->
+<pre><i>5F41B0</i> <a href=funcs.html#5F41B0 title='char *__thiscall C__GetCurrectRacerName(struct C *this);'>C::GetCurrectRacerName</a></pre>
+<li><!--5FA820-->
+<pre><i>5FA820</i> <a href=funcs.html#5FA820 title='int __thiscall C__5FA820(struct C *this, int);'>C::5FA820</a></pre>
+<li><!--5FAA60-->
+<pre><i>5FAA60</i> <a href=funcs.html#5FAA60 title='void __thiscall C__5FAA60(struct C *this, int, int, int);'>C::5FAA60</a></pre>
+<li><!--5FABC0-->
+<pre><i>5FABC0</i> <a href=funcs.html#5FABC0 title='void __thiscall C__5FABC0(struct C *this);'>C::5FABC0</a></pre>
+<li><!--5FAE20-->
+<pre><i>5FAE20</i> <a href=funcs.html#5FAE20 title='void __thiscall C__5FAE20(struct C *this);'>C::5FAE20</a></pre>
+<li><!--5FAF10-->
+<pre><i>5FAF10</i> <a href=funcs.html#5FAF10 title='void __thiscall C__5FAF10(struct C *this);'>C::5FAF10</a></pre>
+<li><!--5FAF80-->
+<pre><i>5FAF80</i> <a href=funcs.html#5FAF80 title='void __thiscall C__5FAF80(struct C *this);'>C::5FAF80</a></pre>
+<li><!--5FAFD0-->
+<pre><i>5FAFD0</i> <a href=funcs.html#5FAFD0 title='void __thiscall C__5FAFD0(struct C *this);'>C::5FAFD0</a></pre>
+<li><!--5FB050-->
+<pre><i>5FB050</i> <a href=funcs.html#5FB050 title='void __thiscall C__5FB050(struct C *this);'>C::5FB050</a></pre>
+<li><!--5FFDD0-->
+<pre><i>5FFDD0</i> <a href=funcs.html#5FFDD0 title='void __thiscall C__5FFDD0(struct C *this);'>C::5FFDD0</a></pre>
+<li><!--5FFE70-->
+<pre><i>5FFE70</i> <a href=funcs.html#5FFE70 title='void __thiscall C__5FFE70(struct C *this, int);'>C::5FFE70</a></pre>
+<li><!--5FFF50-->
+<pre><i>5FFF50</i> <a href=funcs.html#5FFF50 title='int __thiscall C__5FFF50(struct C *this);'>C::5FFF50</a></pre>
+<li><!--600090-->
+<pre><i>600090</i> <a href=funcs.html#600090 title='void __thiscall C__600090(struct C *this);'>C::600090</a></pre>
+<li><!--600590-->
+<pre><i>600590</i> <a href=funcs.html#600590 title='void __thiscall C__600590(struct C *this);'>C::600590</a></pre>
+<li><!--6005F0-->
+<pre><i>6005F0</i> <a href=funcs.html#6005F0 title='void __thiscall C__6005F0(struct C *this);'>C::6005F0</a></pre>
+<li><!--600710-->
+<pre><i>600710</i> <a href=funcs.html#600710 title='int __thiscall C__600710(struct C *this, int);'>C::600710</a></pre>
+<li><!--600E10-->
+<pre><i>600E10</i> <a href=funcs.html#600E10 title='void __thiscall C__600E10(struct C *this);'>C::600E10</a></pre>
+<li><!--600F30-->
+<pre><i>600F30</i> <a href=funcs.html#600F30 title='void __thiscall C__600F30(struct C *this);'>C::600F30</a></pre>
+<li><!--602650-->
+<pre><i>602650</i> <a href=funcs.html#602650 title='void __thiscall C__ProcessCareerMarkersAndZoneMessages(struct C *this);'>C::ProcessCareerMarkersAndZoneMessages</a></pre>
+<li><!--605C70-->
+<pre><i>605C70</i> <a href=funcs.html#605C70 title='int __thiscall C__SetupCareerJoys_(struct C *this, int);'>C::SetupCareerJoys?</a></pre>
+<li><!--6063B0-->
+<pre><i>6063B0</i> <a href=funcs.html#6063B0 title='int __thiscall C__6063B0(struct C *this);'>C::6063B0</a></pre>
+<li><!--60A2A0-->
+<pre><i>60A2A0</i> <a href=funcs.html#60A2A0 title='int __thiscall C__60A2A0(struct C *this, int);'>C::60A2A0</a></pre>
 </ul>
 <a id=struc_struct890020></a>
 <div>struct <h3>struct890020</h3> { <i>/*2 members, size 8h*/</i>
