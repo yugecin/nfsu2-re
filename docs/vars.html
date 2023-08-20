@@ -284,7 +284,7 @@ pre.ida span.hi {
 <a href='cheatsheet.html'>cheatsheet</a></nav>
 </header>
 <div class='var'>
-<h2>Variables (979)</h2>
+<h2>Variables (982)</h2>
 <ul>
 <li><a href=#5CCFFC>
 WndProcMsgJumpTable</a>
@@ -1320,6 +1320,8 @@ aTapi</a>
 someInitFunctions</a>
 <li><a href=#7EA56C>
 a5S8gx</a>
+<li><a href=#7EA624>
+prngstate</a>
 <li><a href=#7EB3F4>
 binSectionHandlerMagicMapEntry0</a>
 <li><a href=#7EB578>
@@ -1676,6 +1678,10 @@ numBin34A1E</a>
 carUnlockEntries</a>
 <li><a href=#83843C>
 numCarUnlockEntries</a>
+<li><a href=#838440>
+setCareerBankToOneMillion</a>
+<li><a href=#838441>
+showAllHiddenShops</a>
 <li><a href=#838450>
 numSmsDatas</a>
 <li><a href=#838454>
@@ -3322,6 +3328,8 @@ Some of them are constructors being called.</div>
 <div><i>7E8000</i> int <h3>someInitFunctions</h3>[821] <u></u></div>
 <a id=7EA56C></a>
 <div><i>7EA56C</i> int <h3>a5S8gx</h3> <u></u></div>
+<a id=7EA624></a>
+<div><i>7EA624</i> int <h3>prngstate</h3> <u></u></div>
 <a id=7EB3F4></a>
 <div class=mm><p>Map entry with <a href=funcs.html#43C0A0>LoadUnloadBinSection0</a> as both <a href=structs.html#struc_BinSectionHandler@4>loadfunc</a> and <a href=structs.html#struc_BinSectionHandler@8>unloadfunc</a>.</div>
 <div><i>7EB3F4</i> <a href=structs.html#struc_BinSectionMagicMapEntry>struct BinSectionMagicMapEntry</a> <h3>binSectionHandlerMagicMapEntry0</h3></div>
@@ -3807,7 +3815,7 @@ It has one XREF, surrounded by some language stuff? TODO</div>
 <div><i>8383E4</i> int <h3>numCareerRaces</h3> <u></u></div>
 <a id=8383F0></a>
 <div class=mm><p>entrytype <a href=structs.html#struc_CareerShop>struct CareerShop</a>, num entries <a href=vars.html#8383F4>numCareerShops</a></div>
-<div><i>8383F0</i> int <h3>careerShops</h3> <u></u></div>
+<div><i>8383F0</i> <a href=structs.html#struc_CareerShop>struct CareerShop</a> *<h3>careerShops</h3></div>
 <a id=8383F4></a>
 <div class=mm><p>num entries in <a href=vars.html#8383F0>careerShops</a></div>
 <div><i>8383F4</i> int <h3>numCareerShops</h3> <u></u></div>
@@ -3868,6 +3876,12 @@ bin section 34A18, size 50h, see 5001B8</div>
 <a id=83843C></a>
 <div class=mm><p>num entries in <a href=vars.html#838438>carUnlockEntries</a></div>
 <div><i>83843C</i> int <h3>numCarUnlockEntries</h3> <u></u></div>
+<a id=838440></a>
+<div class=mm><p>sets bank to $1M and resets variable back to 0</div>
+<div><i>838440</i> char <h3>setCareerBankToOneMillion</h3> <u></u></div>
+<a id=838441></a>
+<div class=mm><p>does not reset. Once set back to 0, all previously undiscovered shops will be hidden again</div>
+<div><i>838441</i> char <h3>showAllHiddenShops</h3> <u></u></div>
 <a id=838450></a>
 <div class=mm><p>Number of stuffs in <a href=vars.html#838454>smsDatas</a>.
 Loaded in <a href=funcs.html#5012F0>StoreSmsDatas</a>.</div>

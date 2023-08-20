@@ -3669,6 +3669,31 @@ void __thiscall {575770}({struct CheatScreenData} *this)                        
 .popmode pre
 
 .popmode section
+.pushmode section
+
+{Unused cheats or dev cheats} ||| h id=devcheats
+
+These are things that look like cheat functionality, but is not present in the game's
+cheats and don't seem accessible. Possibly dev functionality?
+
+.pushmode section
+
+{Set career bank to 1 million} ||| h id=careerbank
+
+Putting {838440} to non-zero will set your career bank to $1M. It will happen          ||| ref
+on the next game loop (render?) and the variable will autoreset back to 0.
+
+.popmode section
+.pushmode section
+
+{Reveal undiscovered hidden shops on the map} ||| h id=showhiddenshops
+
+Putting {838441} to non-zero will show all shops on the map, even undiscovered hidden  ||| ref
+shops. Putting it back to zero will reset this behavior and all undiscovered hidden
+shops will not be shown anymore.
+
+.popmode section
+.popmode section
 
 .pushmode symbols
 - enum CHEATTYPE

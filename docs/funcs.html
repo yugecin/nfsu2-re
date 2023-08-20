@@ -284,7 +284,7 @@ pre.ida span.hi {
 <a href='cheatsheet.html'>cheatsheet</a></nav>
 </header>
 <div class='func'>
-<h2>Functions (1701)</h2>
+<h2>Functions (1704)</h2>
 <ul>
 <li><a href=#4012B0>
 ??SomeUpdatePosition</a>
@@ -386,6 +386,10 @@ LoadUnloadBinSection0</a>
 BinSectionMagicMapEntry::RegisterBinSectionHandler</a>
 <li><a href=#43C100>
 FindBinSectionHandler</a>
+<li><a href=#43C1C0>
+RandomInt</a>
+<li><a href=#43C1F0>
+RandomFloat</a>
 <li><a href=#43CAE0>
 func</a>
 <li><a href=#43CD40>
@@ -1803,7 +1807,7 @@ Career::513050</a>
 <li><a href=#5130A0>
 Career::5130A0</a>
 <li><a href=#513110>
-Career::513110</a>
+Career::ShouldShowShopOnMap</a>
 <li><a href=#513160>
 Career::513160</a>
 <li><a href=#5132E0>
@@ -2404,6 +2408,8 @@ Career::541540</a>
 Career::5415E0</a>
 <li><a href=#541680>
 Career::541680</a>
+<li><a href=#5417F0>
+Career::SignRandomSponsorForSomeReason</a>
 <li><a href=#542340>
 SomethingUIImpl::Unload</a>
 <li><a href=#542390>
@@ -3827,6 +3833,10 @@ return NULL;
 </pre>
 </div>
 <div><i>43C100</i> <a href=structs.html#struc_BinSectionMagicMapEntry>struct BinSectionMagicMapEntry</a> *__cdecl <h3>FindBinSectionHandler</h3>(int binMagic);</div>
+<a id=43C1C0></a>
+<div><i>43C1C0</i> int __cdecl <h3>RandomInt</h3>(int maxExclusive);</div>
+<a id=43C1F0></a>
+<div><i>43C1F0</i> float __cdecl <h3>RandomFloat</h3>(float maxExclusive);</div>
 <a id=43CAE0></a>
 <div><i>43CAE0</i> int __cdecl <h3>func</h3>(int, int);</div>
 <a id=43CD40></a>
@@ -5104,7 +5114,7 @@ this-&gt;<a href=structs.html#struc_Career@8710>field_8710</a> = 0;
 <div class=mm><p>is doing pure freeroam stuff in career I guess</div>
 <div><i>500B60</i> int __thiscall <h3><a href=structs.html#struc_Career>Career</a>::IsInCareerAndTotallyFreeroaming??</h3>(<a href=structs.html#struc_Career>struct Career</a> *this);</div>
 <a id=500B80></a>
-<div class=mm><p>checks if something is collected</div>
+<div class=mm><p>checks if something is collected (<a href=structs.html#struc_Career7B00>struct Career7B00</a>.<a href=structs.html#struc_Career7B00@6>field_6</a>)</div>
 <div><i>500B80</i> int __thiscall <h3><a href=structs.html#struc_Career>Career</a>::500B80</h3>(<a href=structs.html#struc_Career>struct Career</a> *this, unsigned int hash);</div>
 <a id=500BD0></a>
 <div class=mm><p>also sets <code>this-&gt;<a href=structs.html#struc_Career@873D>field_873D</a> = 1</code></div>
@@ -5567,7 +5577,7 @@ The data in this section is more sections, with magic <code>0x34A11-0x34A1F</cod
 <a id=5130A0></a>
 <div><i>5130A0</i> int __thiscall <h3><a href=structs.html#struc_Career>Career</a>::5130A0</h3>(<a href=structs.html#struc_Career>struct Career</a> *this, int);</div>
 <a id=513110></a>
-<div><i>513110</i> int __thiscall <h3><a href=structs.html#struc_Career>Career</a>::513110</h3>(<a href=structs.html#struc_Career>struct Career</a> *this, <a href=structs.html#struc_CareerShop>struct CareerShop</a> *shop);</div>
+<div><i>513110</i> int __thiscall <h3><a href=structs.html#struc_Career>Career</a>::ShouldShowShopOnMap</h3>(<a href=structs.html#struc_Career>struct Career</a> *this, <a href=structs.html#struc_CareerShop>struct CareerShop</a> *shop);</div>
 <a id=513160></a>
 <div><i>513160</i> int __thiscall <h3><a href=structs.html#struc_Career>Career</a>::513160</h3>(<a href=structs.html#struc_Career>struct Career</a> *this, int, int, int);</div>
 <a id=5132E0></a>
@@ -6134,6 +6144,7 @@ Returns itself.</div>
 <a id=532C60></a>
 <div><i>532C60</i> int __thiscall <h3><a href=structs.html#struc_CareerStage>CareerStage</a>::IncrementStageIfFinished</h3>(<a href=structs.html#struc_CareerStage>struct CareerStage</a> *this);</div>
 <a id=532CF0></a>
+<div class=mm><p>what's the difference with <a href=funcs.html#5417F0>Career::SignRandomSponsorForSomeReason</a>?</div>
 <div><i>532CF0</i> void __thiscall <h3><a href=structs.html#struc_Career>Career</a>::SignSponsor</h3>(<a href=structs.html#struc_Career>struct Career</a> *this, <a href=structs.html#struc_CareerSponsor>struct CareerSponsor</a> *sponsor);</div>
 <a id=532D40></a>
 <div class=mm><p>Implementation:
@@ -6341,6 +6352,10 @@ also sets <code>this-&gt;<a href=structs.html#struc_Career@873D>field_873D</a> =
 <div><i>5415E0</i> int __thiscall <h3><a href=structs.html#struc_Career>Career</a>::5415E0</h3>(<a href=structs.html#struc_Career>struct Career</a> *this, int, int, int, int);</div>
 <a id=541680></a>
 <div><i>541680</i> <h3><a href=structs.html#struc_Career>Career</a>::541680</h3></div>
+<a id=5417F0></a>
+<div class=mm><p>what's the difference with <a href=funcs.html#532CF0>Career::SignSponsor</a>?
+this one does a lot more...</div>
+<div><i>5417F0</i> <h3><a href=structs.html#struc_Career>Career</a>::SignRandomSponsorForSomeReason</h3></div>
 <a id=542340></a>
 <div><i>542340</i> void __thiscall <h3><a href=structs.html#struc_SomethingUIImpl>SomethingUIImpl</a>::Unload</h3>(<a href=structs.html#struc_SomethingUIImpl>struct SomethingUIImpl</a> *this);</div>
 <a id=542390></a>

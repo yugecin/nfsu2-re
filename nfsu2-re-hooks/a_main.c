@@ -103,6 +103,7 @@ static void stub() {}
 //#include "debug-custom-getkeyname.c"
 //#include "debug-custom-iterate-carpresets.c"
 //#include "debug-custom-iterate-races.c"
+//#include "debug-custom-iterate-shops.c"
 //#include "debug-custom-iterate-somethingui.c"
 //#include "debug-custom-uielementvisitor.c"
 //#include "debug-custom-send-instruction-sms.c"

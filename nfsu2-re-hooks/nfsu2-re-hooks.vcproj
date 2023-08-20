@@ -323,6 +323,18 @@
 			</FileConfiguration>
 		</File>
 		<File
+			RelativePath=".\debug-custom-iterate-shops.c"
+			>
+			<FileConfiguration
+				Name="Debug|Win32"
+				ExcludedFromBuild="true"
+				>
+				<Tool
+					Name="VCCLCompilerTool"
+				/>
+			</FileConfiguration>
+		</File>
+		<File
 			RelativePath=".\debug-custom-iterate-somethingui.c"
 			>
 			<FileConfiguration

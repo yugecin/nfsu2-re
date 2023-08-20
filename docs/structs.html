@@ -8021,9 +8021,12 @@ Array of 2, one for each player (for some reason?? I thought there already was a
 <a id=struc_Career7B00></a>
 <div class=mm><p>size 8</div>
 <div>struct <h3>Career7B00</h3> { <i>/*5 members, size 8h*/</i>
-<i>/*0*/	</i>unsigned int hash_0;
+<span class='mm'>/**hash of race, shop, ...*/</span>
+<i>/*0*/	</i>unsigned int hash;
+<span class='mm'>/**if this entry is a hidden shop, this must be 1 for it to be visible on the map*/</span>
 <i>/*4*/	char field_4;</i>
 <i>/*5*/	char field_5;</i>
+<i id=struc_Career7B00@6></i><span class='mm'>/**put to 1 when this entry is for a race and the race is finished (won?)*/</span>
 <i>/*6*/	char field_6;</i>
 <i>/*7*/	char field_7;</i>
 };
@@ -8800,7 +8803,7 @@ When canceling at that point, it's set back to 1
 <li><!--5130A0-->
 <pre><i>5130A0</i> <a href=funcs.html#5130A0 title='int __thiscall Career__5130A0(struct Career *this, int);'>Career::5130A0</a></pre>
 <li><!--513110-->
-<pre><i>513110</i> <a href=funcs.html#513110 title='int __thiscall Career__513110(struct Career *this, struct CareerShop *shop);'>Career::513110</a></pre>
+<pre><i>513110</i> <a href=funcs.html#513110 title='int __thiscall Career__ShouldShowShopOnMap(struct Career *this, struct CareerShop *shop);'>Career::ShouldShowShopOnMap</a></pre>
 <li><!--513160-->
 <pre><i>513160</i> <a href=funcs.html#513160 title='int __thiscall Career__513160(struct Career *this, int, int, int);'>Career::513160</a></pre>
 <li><!--5137C0-->
@@ -8915,6 +8918,8 @@ When canceling at that point, it's set back to 1
 <pre><i>5415E0</i> <a href=funcs.html#5415E0 title='int __thiscall Career__5415E0(struct Career *this, int, int, int, int);'>Career::5415E0</a></pre>
 <li><!--541680-->
 <pre><i>541680</i> <a href=funcs.html#541680 title='Career::541680'>Career::541680</a></pre>
+<li><!--5417F0-->
+<pre><i>5417F0</i> <a href=funcs.html#5417F0 title='Career::SignRandomSponsorForSomeReason'>Career::SignRandomSponsorForSomeReason</a></pre>
 <li><!--54C940-->
 <pre><i>54C940</i> <a href=funcs.html#54C940 title='int __thiscall Career__54C940(struct Career *this);'>Career::54C940</a></pre>
 <li><!--54C9D0-->
@@ -9029,7 +9034,8 @@ TRIGGER_START_STAGE_3_VISUAL_2*/</span>
 <i>/*40*/	char _pad40[0x11];</i>
 <i>/*51*/	</i>char isHiddenShop;
 <i>/*52*/	char _pad52[0x22];</i>
-<i>/*74*/	int field_74;</i>
+<span class='mm'>/**some sort of condition variable for this shop to be visible on the map (if hidden shop); sometimes a hash (race hash?), sometimes a number. see 512870*/</span>
+<i>/*74*/	unsigned int field_74;</i>
 <i>/*78*/	char _pad78[0x24];</i>
 <i>/*9C*/	char field_9C;</i>
 <i>/*9D*/	</i>char stageIndex;

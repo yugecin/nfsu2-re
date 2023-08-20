@@ -1338,3 +1338,19 @@ struct ProfileData { /*84 members, size 29DD8h*/
 /*20358*/int currentPlayerIndex;
 };
 EXPECT_SIZE(struct ProfileData, 0x2035C);
+
+struct CareerShop { /*7 members, size A0h*/
+/*0*/	char _pad0[0x38];
+/*38*/	unsigned int hash;
+/*3C*/	unsigned int markerHash;
+/*40*/	char _pad40[0x11];
+/*51*/	char isHiddenShop;
+/*52*/	char _pad52[0x22];
+/*74*/	unsigned int field_74;
+/*78*/	char _pad78[0x24];
+/*9C*/	char field_9C;
+/*9D*/	char stageIndex;
+/*9E*/	char _pad9E[0x1];
+/*9F*/	char __end ;
+};
+EXPECT_SIZE(struct CareerShop, 0xA0);

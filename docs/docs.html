@@ -352,6 +352,12 @@ pre.ida span.hi {
 <li><a href='#cheats'>Cheats</a>
 <ul>
 <li><a href='#cheatsconfigdata'>Cheat configuration data</a></li>
+<li><a href='#devcheats'>Unused cheats or dev cheats</a>
+<ul>
+<li><a href='#careerbank'>Set career bank to 1 million</a></li>
+<li><a href='#showhiddenshops'>Reveal undiscovered hidden shops on the map</a></li>
+</ul>
+</li>
 </ul>
 </li>
 <li><a href='#carmodeldata'>Car model data</a></li>
@@ -3759,7 +3765,24 @@ void __thiscall <a href=funcs.html#575770>CheatScreenData::InitCheats?</a>(<a hr
 </pre>
 <p style='text-align:right'><small><a href='#index'>Index</a></small></p>
 </div>
-<p><small><a href='#cheats'>Cheats</a> (continuation)</small></p>
+<div><p id='devcheats'><small><a href='#cheats'>Cheats</a></small></p>
+<h3>Unused cheats or dev cheats <a href='#devcheats'>#</a></h3>
+<p>These are things that look like cheat functionality, but is not present in the game's
+cheats and don't seem accessible. Possibly dev functionality?
+<div><p id='careerbank'><small><a href='#cheats'>Cheats</a> &gt; <a href='#devcheats'>Unused cheats or dev cheats</a></small></p>
+<h4>Set career bank to 1 million <a href='#careerbank'>#</a></h4>
+<p>Putting <a href=vars.html#838440>setCareerBankToOneMillion</a> to non-zero will set your career bank to $1M. It will happen
+on the next game loop (render?) and the variable will autoreset back to 0.
+<p style='text-align:right'><small><a href='#index'>Index</a></small></p>
+</div>
+<div><p id='showhiddenshops'><small><a href='#cheats'>Cheats</a> &gt; <a href='#devcheats'>Unused cheats or dev cheats</a></small></p>
+<h4>Reveal undiscovered hidden shops on the map <a href='#showhiddenshops'>#</a></h4>
+<p>Putting <a href=vars.html#838441>showAllHiddenShops</a> to non-zero will show all shops on the map, even undiscovered hidden
+shops. Putting it back to zero will reset this behavior and all undiscovered hidden
+shops will not be shown anymore.
+<p style='text-align:right'><small><a href='#index'>Index</a></small></p>
+</div>
+</div><p><small><a href='#cheats'>Cheats</a> (continuation)</small></p>
 <p><strong>Symbols:</strong></p>
 <ul>
 <li><a href=enums.html#enu_CHEATTYPE>enum CHEATTYPE</a></li>
