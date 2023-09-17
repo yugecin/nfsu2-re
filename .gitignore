@@ -4,3 +4,6 @@
 **.ncb
 **.user
 **/Debug/
+**.class
+**.project
+**.classpath
