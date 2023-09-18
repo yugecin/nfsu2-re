@@ -31,6 +31,22 @@ static final int T_HASH = 0xA000000;
 static final int T_PADDING = 0xB000000;
 static final int T_CAREERSTRPOOL = 0xC000000;
 static final int T_CAREERSTRPOOLREF = 0xD000000;
+static final int T_ARR = 0xE000000;
+
+static final int arr_entrytype(int type)
+{
+	if (type > 0xFF) {
+		throw new RuntimeException();
+	}
+	return type << 16;
+}
+static final int arr_count(int count)
+{
+	if (count > 0xFFFF) {
+		throw new RuntimeException();
+	}
+	return count;
+}
 
 static HashMap<Integer, Object[]> structures;
 
@@ -83,7 +99,27 @@ static ArrayList<Object> parse(BinFile file, int magic, byte data[], int offset,
 	for (int i = 1; i < struct.length; i += 2) {
 		int typeinfo = (int) struct[i + 1];
 		int fieldsize = typeinfo & 0xffffff;
-		if (fieldoffset + fieldsize > size) {
+		int fieldtype = typeinfo & 0xff000000;
+		int arr_entrymagic = 0;
+		int arr_numentries = 0;
+		int arr_entrysize = 0;
+		switch (fieldtype) {
+		case T_ARR_REPEATING:
+			arr_entrymagic = fieldsize;
+			arr_entrysize = struct_size(structures.get(arr_entrymagic));
+			arr_numentries = (size - fieldoffset) / arr_entrysize;
+			fieldsize = 0; // for the check below
+			break;
+		case T_ARR:
+			arr_entrymagic = (fieldsize >>> 16) & 0xFF;
+			arr_numentries = fieldsize & 0xFFFF;
+			arr_entrysize = struct_size(structures.get(arr_entrymagic));
+			fieldsize = 0; // for the check below
+			break;
+		}
+		if (fieldoffset + fieldsize > size &&
+			fieldtype != T_ARR_REPEATING && fieldtype != T_ARR)
+		{
 			result.add("unexpected end of data");
 			result.add(T_UNK);
 			result.add(offset + fieldoffset);
@@ -92,7 +128,6 @@ static ArrayList<Object> parse(BinFile file, int magic, byte data[], int offset,
 			result.add(PARSE_RESULT_UNEXPECTED_END);
 			return result;
 		}
-		int fieldtype = typeinfo & 0xff000000;
 		switch (fieldtype) {
 		case T_HASH:
 			fieldsize = 4;
@@ -118,12 +153,12 @@ static ArrayList<Object> parse(BinFile file, int magic, byte data[], int offset,
 			result.add(offset + fieldoffset);
 			result.add(offset + fieldoffset + fieldsize);
 			break;
+		case T_ARR:
 		case T_ARR_REPEATING:
-			int entrymagic = fieldsize;
-			int entrysize = struct_size(structures.get(entrymagic));
-			for (int numentries = (size - fieldoffset) / entrysize; numentries > 0; numentries--) {
-				result.addAll(parse(file, entrymagic, data, offset + fieldoffset, entrysize));
-				fieldoffset += entrysize;
+			for (; arr_numentries > 0; arr_numentries--) {
+				int offs = offset + fieldoffset;
+				result.addAll(parse(file, arr_entrymagic, data, offs, arr_entrysize));
+				fieldoffset += arr_entrysize;
 			}
 			continue;
 		default:
@@ -177,10 +212,18 @@ static int struct_size(Object struct[])
 {
 	int size = 0;
 	for (int i= 2; i < struct.length; i += 2) {
-		if (((int) struct[i] & 0xff000000) == T_ARR_REPEATING) {
+		int type = (int) struct[i] & 0xff000000;
+		switch (type) {
+		case T_ARR_REPEATING:
 			throw new RuntimeException("can't get size of an arr_repeating struct");
+		case T_ARR:
+			int entrymagic = ((int) struct[i] >>> 16) & 0xFF;
+			int numentries = (int) struct[i] & 0xFF;
+			size += struct_size(structures.get(entrymagic)) * numentries;
+			break;
+		default:
+			size += (int) struct[i] & 0xffffff;
 		}
-		size += (int) struct[i] & 0xffffff;
 	}
 	return size;
 }
@@ -224,6 +267,55 @@ static void init()
 	structures.put(0x30220, new Object[] {
 		"car presets",
 		"entries", T_ARR_REPEATING | _30220_entry,
+	});
+
+	int _34A11_18 = ++x;
+	structures.put(_34A11_18, new Object[] {
+		"career race field 18",
+		null, WORD,
+		null, BYTE,
+		null, BYTE,
+	});
+	int _34A11_38 = ++x;
+	structures.put(_34A11_38, new Object[] {
+		"career race field 38",
+		null, BYTE,
+		null, T_PADDING | 3,
+		null, HASHREF,
+	});
+	int _34A11_entry = ++x;
+	structures.put(_34A11_entry, new Object[] {
+		"career race",
+		null, T_UNK | 4,
+		"post race movie name", T_CAREERSTRPOOLREF | 2,
+		null, T_PADDING | 2,
+		"hash", HASH,
+		null, T_UNK | 1,
+		null, T_UNK | 1,
+		null, T_PADDING | 1,
+		"race type", BYTE, // TODO: enum types
+		null, T_UNK | 4,
+		null, T_UNK | 4,
+		"field 18", T_ARR | arr_entrytype(_34A11_18) | arr_count(4),
+		"marker", HASHREF,
+		null, T_UNK | 4,
+		"bank reward", T_UNK | 4,
+		"bank reward type", BYTE,
+		"num entries in 38", BYTE,
+		null, T_PADDING | 1,
+		"stage index", BYTE,
+		"field 38", T_ARR | arr_entrytype(_34A11_38) | arr_count(8),
+		null, T_UNK | 4,
+		null, BYTE,
+		null, T_PADDING | 1,
+		"num entries in 18", BYTE,
+		null, BYTE,
+		null, T_UNK | 8,
+	});
+	validate_size(structures.get(_34A11_entry), 0x88);
+	structures.put(0x34A11, new Object[] {
+		"career races",
+		"entries", T_ARR_REPEATING | _34A11_entry,
 	});
 
 	int _34A18_entry = ++x;
