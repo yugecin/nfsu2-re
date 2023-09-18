@@ -5,21 +5,23 @@ import java.awt.BorderLayout;
 
 import javax.swing.JPanel;
 import javax.swing.JScrollBar;
+import javax.swing.JScrollPane;
 
-class TabBinFile extends JPanel
+class TabBinFile extends JScrollPane
 {
 TabBinFile(BinFile file, int scrollToOffset)
 {
-	super(new BorderLayout());
+	super(new JPanel(new BorderLayout()));
 
+	JPanel root = (JPanel) this.getViewport().getView();
 	if (!file.errors.isEmpty()) {
-		this.add(new TabBinFileHeaderErrorList(file.errors), BorderLayout.NORTH);
+		root.add(new TabBinFileHeaderErrorList(file.errors), BorderLayout.NORTH);
 	}
 
 	JScrollBar sbv = new JScrollBar(), sbh = new JScrollBar(Adjustable.HORIZONTAL);
 
-	this.add(sbv, BorderLayout.EAST);
-	this.add(sbh, BorderLayout.SOUTH);
-	this.add(new PanelBinFile(file, sbh, sbv, scrollToOffset));
+	root.add(sbv, BorderLayout.EAST);
+	root.add(sbh, BorderLayout.SOUTH);
+	root.add(new PanelBinFile(file, sbh, sbv, scrollToOffset));
 }
 }
