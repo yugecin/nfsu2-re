@@ -46,7 +46,7 @@ static int gridy(int grid) { return grid & 0xFFFF; }
 BinFile file;
 JScrollBar scrollHoriz, scrollVert;
 /** This is not displayed; its children are (in {@link #lines}) */
-SectionPart rootSection;
+CollapsibleSection rootSection;
 ArrayList<Part> lines;
 HashMap<Integer, String[]> hoverData = new HashMap<>();
 HashMap<Integer, Part> clickData = new HashMap<>();
@@ -82,7 +82,7 @@ PanelBinFile(BinFile file, JScrollBar scrollHoriz, JScrollBar scrollVert, int sc
 	this.addMouseWheelListener(this);
 	this.addMouseListener(this);
 
-	this.rootSection = new SectionPart(null);
+	this.rootSection = new CollapsibleSection(null);
 	this.rootSection.nestLevel = -1;
 	for (Section section : file.sections) {
 		addSection(this.rootSection, section);
@@ -93,14 +93,14 @@ PanelBinFile(BinFile file, JScrollBar scrollHoriz, JScrollBar scrollVert, int sc
 	this.timer.start();
 }
 
-void addSection(SectionPart parent, Section section)
+void addSection(CollapsibleSection parent, Section section)
 {
 	String text = String.format("section %Xh (size %Xh)", section.magic, section.size);
 	String name = Structures.get_name(section.magic);
 	if (name != null) {
 		text += ": " + name;
 	}
-	SectionPart s = new SectionPart(new Label(text));
+	CollapsibleSection s = new CollapsibleSection(new Label(text));
 	s.startOffset = section.offset - 8;
 	s.endOffset = section.offset;
 	s.nestLevel = parent.nestLevel + 1;
@@ -115,7 +115,7 @@ void addSection(SectionPart parent, Section section)
 	}
 }
 
-int addFields(SectionPart parent, Object fields[], int fromIndex)
+int addFields(CollapsibleSection parent, Object fields[], int fromIndex)
 {
 	// skip MARK_STRUCT_START
 	// skip size as parent should've used it already
@@ -130,7 +130,7 @@ int addFields(SectionPart parent, Object fields[], int fromIndex)
 			int size = (int) fields[fromIndex + 1];
 			String structName = (String) fields[fromIndex + 2];
 			String text = String.format("%s (%Xh)", structName, size);
-			SectionPart s = new SectionPart(new Label(text));
+			CollapsibleSection s = new CollapsibleSection(new Label(text));
 			s.nestLevel = parent.nestLevel + 1;
 			s.size = size;
 			s.parent = parent;
@@ -230,6 +230,10 @@ int addFields(SectionPart parent, Object fields[], int fromIndex)
 
 void updateScrollbars()
 {
+	if (fx == 0 || fy == 0) {
+		// if called while this component hasn't been painted yet
+		return;
+	}
 	int w = this.getWidth(), h = this.getHeight();
 	int fullRowsVisible = h / fy, fullColsVisible = w / fx - HEX_CHARS_PER_ROW - 1;
 
@@ -245,13 +249,13 @@ void updateScrollbars()
 				// gotcha
 				this.highlightedPart = p;
 				int lineOffset = 0;
-				SectionPart parent = p.parent;
+				CollapsibleSection parent = p.parent;
 				ArrayDeque<Integer> childIndices = new ArrayDeque<>();
 				while (parent != null) {
 					for (int i = 0; i < parent.children.size(); i++) {
 						Part child = parent.children.get(i);
 						if (child == p) {
-							if (child instanceof SectionPart) {
+							if (child instanceof CollapsibleSection) {
 								childIndices.push(i);
 							}
 							break;
@@ -267,7 +271,7 @@ void updateScrollbars()
 				while (!childIndices.isEmpty()) {
 					int idx = childIndices.pop();
 					absoluteIdx += idx;
-					parent = (SectionPart) parent.children.get(idx);
+					parent = (CollapsibleSection) parent.children.get(idx);
 					if (!parent.isExpanded) {
 						parent.isExpanded = true;
 						this.lines.addAll(++absoluteIdx, parent.children);
@@ -275,8 +279,8 @@ void updateScrollbars()
 				}
 				break;
 			}
-			if (p instanceof SectionPart) {
-				parts.addAll(((SectionPart) p).children);
+			if (p instanceof CollapsibleSection) {
+				parts.addAll(((CollapsibleSection) p).children);
 			}
 		}
 	}
@@ -602,20 +606,20 @@ public void mouseReleased(MouseEvent e)
 	}
 	int x = e.getX() / fx, y = e.getY() / fy;
 	Part clickedPart = this.clickData.get(grid(x, y));
-	if (clickedPart instanceof SectionPart) {
-		SectionPart cs = (SectionPart) clickedPart;
+	if (clickedPart instanceof CollapsibleSection) {
+		CollapsibleSection cs = (CollapsibleSection) clickedPart;
 		int idx = this.lines.indexOf(cs);
 		if (idx != -1) {
 			if (cs.isExpanded) {
-				ArrayDeque<SectionPart> csToRemove = new ArrayDeque<>();
+				ArrayDeque<CollapsibleSection> csToRemove = new ArrayDeque<>();
 				csToRemove.push(cs);
 				while (!csToRemove.isEmpty()) {
-					SectionPart c = csToRemove.pop();
+					CollapsibleSection c = csToRemove.pop();
 					c.isExpanded = false;
 					this.lines.removeAll(c.children);
 					for (Part child : c.children) {
-						if (child instanceof SectionPart) {
-							csToRemove.push((SectionPart) child);
+						if (child instanceof CollapsibleSection) {
+							csToRemove.push((CollapsibleSection) child);
 						}
 					}
 				}
@@ -688,7 +692,7 @@ abstract class Part
 {
 int nestLevel;
 int startOffset, endOffset, size;
-SectionPart parent;
+CollapsibleSection parent;
 
 abstract void render(Graphics g, int x, int y, Point mouse, HashMap<Integer, String[]> hoverData, HashMap<Integer, Part> clickData);
 abstract int getWidth();
@@ -715,14 +719,14 @@ boolean isLastChild()
 
 // ---
 
-class SectionPart extends Part
+class CollapsibleSection extends Part
 {
 static Color expanded = new Color(0xff8888), collapsed = new Color(0xaaffaa), hovered = new Color(0xaaaaff);
 ArrayList<Part> children = new ArrayList<>();
 Part label;
 boolean isExpanded;
 
-SectionPart(Part label)
+CollapsibleSection(Part label)
 {
 	this.label = label;
 }
@@ -752,7 +756,7 @@ public int getStructuredContentHeight()
 {
 	return this.label.getHeight();
 }
-} /*SectionPart*/
+} /*CollapsibleSection*/
 
 // ---
 
@@ -795,7 +799,7 @@ LabelCareerString(String baseText, int offset)
 {
 	this.offset = offset;
 	String str = CareerStringPool.get(offset);
-	this.contents = String.format("%s: %s", baseText, str);
+	this.contents = String.format("%s: \"%s\"", baseText, str);
 	this.w = this.contents.length();
 	this.isResolved = str != null;
 	if (this.isResolved) {
