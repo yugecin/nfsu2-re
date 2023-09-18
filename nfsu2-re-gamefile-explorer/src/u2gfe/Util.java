@@ -16,6 +16,15 @@ class Util
 {
 static ByteBuffer bb = ByteBuffer.allocate(4).order(ByteOrder.LITTLE_ENDIAN);
 
+static int i(byte data[], int at, int nbytes)
+{
+	int val = 0, n = 0;
+	while (nbytes-- > 0) {
+		val |= (data[at++] & 0xFF) << (n++ * 8);
+	}
+	return val;
+}
+
 static int i32(byte data[], int at)
 {
 	bb.rewind();

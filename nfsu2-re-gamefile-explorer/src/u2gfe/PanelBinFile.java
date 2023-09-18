@@ -27,6 +27,7 @@ import java.awt.event.MouseWheelListener;
 import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 
 import javax.swing.JComponent;
 import javax.swing.JScrollBar;
@@ -148,7 +149,7 @@ int addFields(CollapsibleSection parent, Object fields[], int fromIndex)
 			text = String.format("%3Xh %s", endOffset - startOffset, text);
 			String data = null;
 
-			switch (fieldtype) {
+			switch (fieldtype & 0xFF000000) {
 			case T_STR:
 				data = "\"" + cstr(file.data, startOffset, endOffset) + "\"";
 				break;
@@ -179,6 +180,11 @@ int addFields(CollapsibleSection parent, Object fields[], int fromIndex)
 			case T_HASH:
 				int h = i32(file.data, startOffset);
 				data = String.format("HASH %08X", h, h);
+				break;
+			case T_ENUM:
+				int enumid = (fieldtype & 0xFFFF00) >> 8;
+				int eval = i(file.data, startOffset, endOffset - startOffset);
+				s = new LabelEnumEntry(text, enumid, eval);
 				break;
 			case T_CAREERSTRPOOL:
 			{
@@ -831,5 +837,57 @@ public int getWidth()
 	return this.w;
 }
 } /*LabelCareerString*/
+
+// ---
+
+class LabelEnumEntry extends Part
+{
+static Color bg = new Color(0xdddddd);
+
+String contents1;
+String contents2;
+String hovertext[];
+int w;
+
+LabelEnumEntry(String baseText, int enumid, int value)
+{
+	Enum e = Enum.registry.get(enumid);
+	String valueName = e.get(value);
+	this.contents1 = baseText;
+	this.contents2 = String.format("%s: \"%s\" (%d) (%Xh)", e.name, valueName, value, value);
+	this.w = this.contents1.length() + 1 + this.contents2.length();
+	ArrayList<String> hovertext = new ArrayList<>();
+	hovertext.add(String.format("%s values:", e.name));
+	for (Map.Entry<Integer, String> v : e.entrySet()) {
+		int val = v.getKey();
+		String name = v.getValue();
+		hovertext.add(String.format("%s\"%s\" (%d) (%Xh)", val == value ? "> " : "  ", name, val, val));
+	}
+	this.hovertext = hovertext.toArray(new String[0]);
+}
+
+@Override
+public void render(Graphics g, int x, int y, Point mouse, HashMap<Integer, String[]> hoverData, HashMap<Integer, Part> clickData)
+{
+	g.translate(x * fx, y * fy);
+	g.drawString(this.contents1, 0, fmaxascend);
+	g.translate((this.contents1.length() + 1) * fx, 0);
+	g.setColor(bg);
+	g.fillRect(0, 0, this.contents2.length() * fx, fy);
+	g.setColor(Color.black);
+	g.drawString(this.contents2, 0, fmaxascend);
+	g.translate(-(this.contents1.length() + 1) * fx, 0);
+	g.translate(-x * fx, -y * fy);
+	for (int i = 0; i < this.contents2.length(); i++) {
+		hoverData.put(grid(x + this.contents1.length() + 1 + i, y), this.hovertext);
+	}
+}
+
+@Override
+public int getWidth()
+{
+	return this.w;
+}
+} /*LabelEnumEntry*/
 
 // ---

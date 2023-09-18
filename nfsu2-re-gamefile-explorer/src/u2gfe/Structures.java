@@ -1,6 +1,7 @@
 package u2gfe;
 
 import static u2gfe.Util.*;
+import static u2gfe.Enum.*;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -32,6 +33,7 @@ static final int T_PADDING = 0xB000000;
 static final int T_CAREERSTRPOOL = 0xC000000;
 static final int T_CAREERSTRPOOLREF = 0xD000000;
 static final int T_ARR = 0xE000000;
+static final int T_ENUM = 0xF000000;
 
 static final int arr_entrytype(int type)
 {
@@ -47,6 +49,8 @@ static final int arr_count(int count)
 	}
 	return count;
 }
+static final int enum_entrytype(int type) { return type << 8; }
+static final int enum_width(int width) { return width; }
 
 static HashMap<Integer, Object[]> structures;
 
@@ -116,6 +120,9 @@ static ArrayList<Object> parse(BinFile file, int magic, byte data[], int offset,
 			arr_entrysize = struct_size(structures.get(arr_entrymagic));
 			fieldsize = 0; // for the check below
 			break;
+		case T_ENUM:
+			fieldsize &= 0xFF;
+			break;
 		}
 		if (fieldoffset + fieldsize > size &&
 			fieldtype != T_ARR_REPEATING && fieldtype != T_ARR)
@@ -130,13 +137,16 @@ static ArrayList<Object> parse(BinFile file, int magic, byte data[], int offset,
 		}
 		switch (fieldtype) {
 		case T_HASH:
-			fieldsize = 4;
 			int h = i32(data, offset + fieldoffset);
 			Symbol.put(h, file, offset + fieldoffset, (String) struct[0]);
 		case T_CAREERSTRPOOL:
 			if (fieldtype == T_CAREERSTRPOOL) { // if only Java had goto statements...
 				fieldsize = size;
 				CareerStringPool.put(file, data, offset + fieldoffset, fieldsize);
+			}
+		case T_ENUM:
+			if (fieldtype == T_ENUM) {
+				fieldtype |= typeinfo & 0xFFFF00;
 			}
 		case T_UNK:
 		case T_STR:
@@ -212,17 +222,20 @@ static int struct_size(Object struct[])
 {
 	int size = 0;
 	for (int i= 2; i < struct.length; i += 2) {
-		int type = (int) struct[i] & 0xff000000;
-		switch (type) {
+		int v = (int) struct[i];
+		switch (v & 0xff000000) {
 		case T_ARR_REPEATING:
 			throw new RuntimeException("can't get size of an arr_repeating struct");
 		case T_ARR:
-			int entrymagic = ((int) struct[i] >>> 16) & 0xFF;
-			int numentries = (int) struct[i] & 0xFF;
+			int entrymagic = (v >>> 16) & 0xFF;
+			int numentries = v & 0xFF;
 			size += struct_size(structures.get(entrymagic)) * numentries;
 			break;
+		case T_ENUM:
+			size += v & 0xFF;
+			break;
 		default:
-			size += (int) struct[i] & 0xffffff;
+			size += v & 0xffffff;
 		}
 	}
 	return size;
@@ -251,7 +264,7 @@ static void init()
 	final int BYTE = T_I8 | 1, WORD = T_I16 | 2, DWORD = T_I32 | 4;
 	final int HASHREF = T_HASHREF | 4, HASH = T_HASH | 4;
 	structures = new HashMap<>();
-	int x = 0;
+	int x = 0, enumid = 0;
 
 	int _30220_entry = ++x;
 	structures.put(_30220_entry, new Object[] {
@@ -283,6 +296,8 @@ static void init()
 		null, T_PADDING | 3,
 		null, HASHREF,
 	});
+	int enum_racetype = ++enumid;
+	Enum.registry.put(enum_racetype, E_RACETYPE);
 	int _34A11_entry = ++x;
 	structures.put(_34A11_entry, new Object[] {
 		"career race",
@@ -293,7 +308,7 @@ static void init()
 		null, T_UNK | 1,
 		null, T_UNK | 1,
 		null, T_PADDING | 1,
-		"race type", BYTE, // TODO: enum types
+		"race type", T_ENUM | enum_entrytype(enum_racetype) | enum_width(1),
 		null, T_UNK | 4,
 		null, T_UNK | 4,
 		"field 18", T_ARR | arr_entrytype(_34A11_18) | arr_count(4),
