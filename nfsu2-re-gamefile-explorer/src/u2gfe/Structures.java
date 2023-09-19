@@ -49,7 +49,7 @@ static final int arr_count(int count)
 	}
 	return count;
 }
-static final int enum_entrytype(int type) { return type << 8; }
+static final int enum_type(int type) { return type << 8; }
 static final int enum_width(int width) { return width; }
 
 static HashMap<Integer, Object[]> structures;
@@ -308,7 +308,7 @@ static void init()
 		null, T_UNK | 1,
 		null, T_UNK | 1,
 		null, T_PADDING | 1,
-		"race type", T_ENUM | enum_entrytype(enum_racetype) | enum_width(1),
+		"race type", T_ENUM | enum_type(enum_racetype) | enum_width(1),
 		null, T_UNK | 4,
 		null, T_UNK | 4,
 		"field 18", T_ARR | arr_entrytype(_34A11_18) | arr_count(4),
@@ -331,6 +331,30 @@ static void init()
 	structures.put(0x34A11, new Object[] {
 		"career races",
 		"entries", T_ARR_REPEATING | _34A11_entry,
+	});
+
+	int enum_shop_show_condition = ++enumid;
+	Enum.registry.put(enum_shop_show_condition, E_SHOP_SHOW_CONDITION_TYPE);
+	int _34A12_entry = ++x;
+	structures.put(_34A12_entry, new Object[] {
+		"career shop",
+		null, T_UNK | 0x38,
+		"hash", HASH,
+		"marker", HASHREF,
+		null, T_UNK | 0x11,
+		"is hidden shop", BYTE,
+		null, T_UNK | 0x22,
+		"extra map show condition value", HASHREF,
+		null, T_UNK | 0x24,
+		"extra map show condition type", T_ENUM | enum_type(enum_shop_show_condition) | enum_width(1),
+		"stage index", BYTE,
+		null, T_UNK | 0x2,
+
+	});
+	validate_size(structures.get(_34A12_entry), 0xA0);
+	structures.put(0x34A12, new Object[] {
+		"career shops",
+		"entries", T_ARR_REPEATING | _34A12_entry,
 	});
 
 	int _34A18_entry = ++x;
@@ -368,7 +392,7 @@ static void init()
 	validate_size(structures.get(_34A18_entry), 0x50);
 	structures.put(0x34A18, new Object[] {
 		"career stage settings",
-		"entries", T_ARR_REPEATING | 0x2,
+		"entries", T_ARR_REPEATING | _34A18_entry,
 	});
 
 	int _34A19_entry = ++x;
