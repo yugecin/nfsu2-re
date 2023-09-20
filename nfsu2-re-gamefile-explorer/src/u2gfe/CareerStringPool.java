@@ -4,6 +4,8 @@ import static u2gfe.Util.cstr;
 
 class CareerStringPool
 {
+static final String DEFAULT_STRING = "(no career string pool)";
+
 static BinFile originFile;
 static byte pool[];
 static int baseOffset;
@@ -21,7 +23,7 @@ static void put(BinFile file, byte data[], int from, int len)
 static String get(int offset)
 {
 	if (pool == null || offset > pool.length) {
-		return null;
+		return "(no career string pool)";
 	}
 	return cstr(pool, offset, pool.length);
 }

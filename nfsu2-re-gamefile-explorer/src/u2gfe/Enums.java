@@ -4,7 +4,6 @@ import java.util.HashMap;
 
 class Enum extends HashMap<Integer, String>
 {
-static HashMap<Integer, Enum> registry;
 static Enum E_RACETYPE;
 static Enum E_SHOP_SHOW_CONDITION_TYPE;
 
@@ -12,8 +11,6 @@ String name;
 
 static void init()
 {
-	registry = new HashMap<>();
-
 	E_RACETYPE = new Enum("E_RACETYPE");
 	E_RACETYPE.put(0, "circuit");
 	E_RACETYPE.put(1, "sprint");

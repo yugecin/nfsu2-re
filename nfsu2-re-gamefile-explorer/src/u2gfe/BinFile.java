@@ -77,10 +77,10 @@ Section(BinFile file, byte data[], int offset, int magic, int size)
 			String msg = String.format("%Xh trailing bytes from offset %Xh", this.size - offset, offset);
 			this.errors.add(new Throwable(msg));
 		}
-	} else {
-		this.fields = Structures.parse(file, magic, data, offset, size).toArray();
-		this.errors.addAll(Structures.get_parse_result_errors(this.fields));
 	}
+	ParseState ps = Structures.parse(file, this.magic, this.data, this.offset, this.size);
+	this.fields = ps.result.toArray();
+	this.errors.addAll(ps.errors);
 }
 
 @Override

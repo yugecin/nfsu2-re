@@ -1,28 +1,19 @@
 package u2gfe;
 
-import static u2gfe.Util.*;
 import static u2gfe.Enum.*;
+import static u2gfe.Structures.*;
+import static u2gfe.Util.*;
+import static java.lang.String.format;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 
-/**
- * structures are Object[] with entries:
- * - name (string, nullable)
- * - field, repeated x times:
- * 	- name (string, nullable)
- * 	- type_size (int, msbyte is a T_* constant, three lowest bytes are size of the field or other data)
- *
- * for all types (T_*), only the most significant byte is used as type id.
- */
 class Structures
 {
 static final int T_UNK = 0x1000000;
 static final int T_STR = 0x2000000;
-static final int T_I32 = 0x3000000;
-static final int T_I16 = 0x4000000;
-static final int T_I8 = 0x5000000;
-static final int T_F32 = 0x6000000;
+static final int T_INT = 0x3000000;
+static final int T_FLOAT = 0x6000000;
 static final int T_OBJLINK = 0x7000000;
 /** data bytes are an id that is the elementtype struct */
 static final int T_ARR_REPEATING = 0x8000000;
@@ -57,366 +48,302 @@ static HashMap<Integer, Object[]> structures;
 static final Object MARK_STRUCT_START = new Object();
 static final Object MARK_STRUCT_END = new Object();
 
-static final int PARSE_RESULT_OK = 1;
-static final int PARSE_RESULT_UNEXPECTED_END = 2;
-static final int PARSE_RESULT_EXTRA_DATA = 3;
-
+private static ParseState ps0 = new ParseState(), ps1 = new ParseState(), ps2 = new ParseState();
 /**
  * offset and size should not include header!
  *
- * @return Object[] with entries:
+ * @return Object[] with fields:
  *         - MARK_STRUCT_START
+ *         - offset (start offset in data)
  *         - (actual size of struct instance)
  *         - name (string, nullable)
- *         - field, repeated x times:
+ *         - repeated x times:
  *            either again MARK_STRUCT_START which starts a nested entry, or:
  *              - name (string, nullable)
- *              - type (int, one of the (non complex) T_* constants)
- *              - start (int, start offset in data)
- *              - end (int, end offset in data)
+ *              - type (int, one of the T_* constants)
+ *              - free data field for more info tied to type
+ *              - startOffset (int, start offset in data)
+ *              - endOffset (int, end offset in data)
  *         - MARK_STRUCT_END
- *         - parse result status (int, PARSE_RESULT_* constants)
  */
-static ArrayList<Object> parse(BinFile file, int magic, byte data[], int offset, int size)
+static ParseState parse(BinFile file, int magic, byte data[], int offset, int size)
 {
-	Object[] struct = structures.get(magic);
-	if (struct == null) {
-		String name = magic == 0 ? "padding" : null;
-		ArrayList<Object> result = new ArrayList<>(10);
-		result.add(MARK_STRUCT_START);
-		result.add(size);
-		result.add(name);
-		result.add(null);
-		result.add(T_UNK);
-		result.add(offset);
-		result.add(offset + size);
-		result.add(MARK_STRUCT_END);
-		result.add(PARSE_RESULT_OK);
-		return result;
+	switch (magic) {
+	case 0x30220: {
+		int entrySize = 0x338;
+		int numEntries = size / entrySize;
+		ps0.start(format("car presets (%d)", numEntries), offset, size);
+		for (; numEntries > 0; numEntries--) {
+			String model = cstr(data, ps0.offset + 0x8, Integer.MAX_VALUE);
+			String name = cstr(data, ps0.offset + 0x28, Integer.MAX_VALUE);
+			ps1.start(format("car preset %s (%s)", name, model), ps0.offset, entrySize);
+			ps1.put("link", T_OBJLINK, 8, null);
+			ps1.put("model name", T_STR, 32, null);
+			ps1.put("preset name", T_STR, 32, null);
+			ps1.put(null, T_INT, 4, null);
+			ps1.put(null, T_UNK, 680, null);
+			ps1.put(null, T_UNK, 68, null);
+			ps1.finish();
+			ps0.add(ps1);
+		}
+		ps0.finish();
+		break;
 	}
-	ArrayList<Object> result = new ArrayList<>(struct.length * 2);
-
-	result.add(MARK_STRUCT_START);
-	result.add(size);
-	result.add(struct[0]); // name
-	int fieldoffset = 0;
-	for (int i = 1; i < struct.length; i += 2) {
-		int typeinfo = (int) struct[i + 1];
-		int fieldsize = typeinfo & 0xffffff;
-		int fieldtype = typeinfo & 0xff000000;
-		int arr_entrymagic = 0;
-		int arr_numentries = 0;
-		int arr_entrysize = 0;
-		switch (fieldtype) {
-		case T_ARR_REPEATING:
-			arr_entrymagic = fieldsize;
-			arr_entrysize = struct_size(structures.get(arr_entrymagic));
-			arr_numentries = (size - fieldoffset) / arr_entrysize;
-			fieldsize = 0; // for the check below
-			break;
-		case T_ARR:
-			arr_entrymagic = (fieldsize >>> 16) & 0xFF;
-			arr_numentries = fieldsize & 0xFFFF;
-			arr_entrysize = struct_size(structures.get(arr_entrymagic));
-			fieldsize = 0; // for the check below
-			break;
-		case T_ENUM:
-			fieldsize &= 0xFF;
-			break;
-		}
-		if (fieldoffset + fieldsize > size &&
-			fieldtype != T_ARR_REPEATING && fieldtype != T_ARR)
-		{
-			result.add("unexpected end of data");
-			result.add(T_UNK);
-			result.add(offset + fieldoffset);
-			result.add(offset + fieldoffset);
-			result.add(MARK_STRUCT_END);
-			result.add(PARSE_RESULT_UNEXPECTED_END);
-			return result;
-		}
-		switch (fieldtype) {
-		case T_HASH:
-			int h = i32(data, offset + fieldoffset);
-			Symbol.put(h, file, offset + fieldoffset, (String) struct[0]);
-		case T_CAREERSTRPOOL:
-			if (fieldtype == T_CAREERSTRPOOL) { // if only Java had goto statements...
-				fieldsize = size;
-				CareerStringPool.put(file, data, offset + fieldoffset, fieldsize);
+	case 0x80034A10:
+		ps0.start("career block", offset, 0);
+		ps0.finish();
+		break;
+	case 0x34A11: {
+		int entrySize = 0x88;
+		int numEntries = size / entrySize;
+		ps0.start(format("career races (%d)", numEntries), offset, size);
+		for (; numEntries > 0; numEntries--) {
+			int stageIdx = i8(data, ps0.offset + 0x37);
+			String name = format("career race (stage %d)", stageIdx);
+			ps1.start(name, ps0.offset, entrySize);
+			ps1.put(null, T_UNK, 4, null);
+			ps1.put("post race movie name", T_CAREERSTRPOOLREF, 2, null);
+			ps1.put(null, T_PADDING, 2, null);
+			Symbol.put(file, ps1.offset, ps1.name);
+			ps1.put("hash", T_HASH, 4, null);
+			ps1.put(null, T_UNK, 1, null);
+			ps1.put(null, T_UNK, 1, null);
+			ps1.put(null, T_PADDING, 1, null);
+			ps1.put("race type", T_ENUM, 1, E_RACETYPE);
+			ps1.put(null, T_INT, 4, null);
+			ps1.put(null, T_UNK, 4, null);
+			for (int i = 0; i < 4; i++) {
+				ps2.start("career race field 18", ps1.offset, 4);
+				ps2.put(null, T_INT, 2, null);
+				ps2.put(null, T_INT, 1, null);
+				ps2.put(null, T_INT, 1, null);
+				ps2.finish();
+				ps1.add(ps2);
 			}
-		case T_ENUM:
-			if (fieldtype == T_ENUM) {
-				fieldtype |= typeinfo & 0xFFFF00;
+			ps1.put("marker", T_HASHREF, 4, null);
+			ps1.put(null, T_UNK, 4, null);
+			ps1.put("bank reward value", T_UNK, 4, null);
+			ps1.put("bank reward type", T_INT, 1, null);
+			ps1.put("num entries in 38", T_INT, 1, null);
+			ps1.put(null, T_PADDING, 1, null);
+			ps1.put("stage index", T_INT, 1, null);
+			for (int i = 0; i < 8; i++) {
+				ps2.start("career race field 38", ps1.offset, 8);
+				ps2.put(null, T_INT, 1, null);
+				ps2.put(null, T_PADDING, 3, null);
+				ps2.put(null, T_HASHREF, 4, null);
+				ps2.finish();
+				ps1.add(ps2);
 			}
-		case T_UNK:
-		case T_STR:
-		case T_I32:
-		case T_I16:
-		case T_I8:
-		case T_F32:
-		case T_PADDING:
-		case T_HASHREF:
-		case T_OBJLINK:
-		case T_CAREERSTRPOOLREF:
-			result.add(struct[i]);
-			result.add(fieldtype);
-			result.add(offset + fieldoffset);
-			result.add(offset + fieldoffset + fieldsize);
-			break;
-		case T_ARR:
-		case T_ARR_REPEATING:
-			for (; arr_numentries > 0; arr_numentries--) {
-				int offs = offset + fieldoffset;
-				result.addAll(parse(file, arr_entrymagic, data, offs, arr_entrysize));
-				fieldoffset += arr_entrysize;
-			}
-			continue;
-		default:
-			throw new RuntimeException(String.format("unk type: %X", fieldtype));
+			ps1.put(null, T_UNK, 4, null);
+			ps1.put(null, T_INT, 1, null);
+			ps1.put(null, T_PADDING, 1, null);
+			ps1.put("num entries in 18", T_INT, 1, null);
+			ps1.put(null, T_INT, 1, null);
+			ps1.put(null, T_UNK, 8, null);
+			ps1.finish();
+			ps0.add(ps1);
 		}
-		fieldoffset += fieldsize;
+		ps0.finish();
+		break;
 	}
-
-	if (fieldoffset == size) {
-		result.add(MARK_STRUCT_END);
-		result.add(PARSE_RESULT_OK);
-	} else {
-		result.add("unexpected extra data");
-		result.add(T_UNK);
-		result.add(offset + fieldoffset);
-		result.add(offset + size);
-		result.add(MARK_STRUCT_END);
-		result.add(PARSE_RESULT_EXTRA_DATA);
-	}
-
-	return result;
-}
-
-static ArrayList<Throwable> get_parse_result_errors(Object fields[])
-{
-	ArrayList<Throwable> errors = new ArrayList<>();
-
-	for (int i = 0; i < fields.length; i++) {
-		Object entry = fields[i];
-		if (entry == MARK_STRUCT_START) {
-			i += 2;
-		} else if (entry == MARK_STRUCT_END) {
-			int result = (int) fields[i + 1];
-			if (result == Structures.PARSE_RESULT_EXTRA_DATA) {
-				int from = (int) fields[i - 2];
-				int extrasize = (int) fields[i - 1] - from;
-				String msg = String.format("%Xh trailing bytes from offset %Xh", extrasize, from);
-				errors.add(new Throwable(msg));
-			} else if (result == Structures.PARSE_RESULT_UNEXPECTED_END) {
-				errors.add(new Throwable("unexpected end"));
-			}
-		} else {
-			i += 2;
+	case 0x34A12: {
+		int entrySize = 0xA0;
+		int numEntries = size / entrySize;
+		ps0.start(format("career shops (%d)", numEntries), offset, size);
+		for (; numEntries > 0; numEntries--) {
+			int stageIdx = i8(data, ps0.offset + 0x9D);
+			String name = format("career shop (stage %d)", stageIdx);
+			ps1.start(name, ps0.offset, entrySize);
+			ps1.put(null, T_UNK, 0x38, null);
+			Symbol.put(file, ps1.offset, ps1.name);
+			ps1.put("hash", T_HASH, 4, null);
+			ps1.put("marker", T_HASHREF, 4, null);
+			ps1.put(null, T_UNK, 0x11, null);
+			ps1.put("is hidden shop", T_INT, 1, null);
+			ps1.put(null, T_UNK, 0x22, null);
+			ps1.put("extra map show condition value", T_HASHREF, 4, null);
+			ps1.put(null, T_UNK, 0x24, null);
+			ps1.put("extra map show condition type", T_ENUM, 1, E_SHOP_SHOW_CONDITION_TYPE);
+			ps1.put("stage index", T_INT, 1, null);
+			ps1.put(null, T_UNK, 0x2, null);
+			ps1.finish();
+			ps0.add(ps1);
 		}
+		ps0.finish();
+		break;
 	}
-
-	return errors;
-}
-
-static int struct_size(Object struct[])
-{
-	int size = 0;
-	for (int i= 2; i < struct.length; i += 2) {
-		int v = (int) struct[i];
-		switch (v & 0xff000000) {
-		case T_ARR_REPEATING:
-			throw new RuntimeException("can't get size of an arr_repeating struct");
-		case T_ARR:
-			int entrymagic = (v >>> 16) & 0xFF;
-			int numentries = v & 0xFF;
-			size += struct_size(structures.get(entrymagic)) * numentries;
-			break;
-		case T_ENUM:
-			size += v & 0xFF;
-			break;
-		default:
-			size += v & 0xffffff;
+	case 0x34A18: {
+		int entrySize = 0x50;
+		int numEntries = size / entrySize;
+		ps0.start(format("career stage settings (%d)", numEntries), offset, size);
+		for (; numEntries > 0; numEntries--) {
+			int stageIdx = i8(data, ps0.offset);
+			String name = format("career stage settings (stage %d)", stageIdx);
+			ps1.start(name, ps0.offset, entrySize);
+			ps1.put("stage index", T_INT, 1, null);
+			ps1.put("num sponsors", T_INT, 1, null);
+			ps1.put("outrun stakes", T_INT, 2, null);
+			ps1.put("showcase reward multiplier", T_INT, 2, null);
+			ps1.put(null, T_PADDING, 2, null);
+			ps1.put("sponsor 1", T_HASHREF, 4, null);
+			ps1.put("sponsor 2", T_HASHREF, 4, null);
+			ps1.put("sponsor 3", T_HASHREF, 4, null);
+			ps1.put("sponsor 4", T_HASHREF, 4, null);
+			ps1.put("sponsor 5", T_HASHREF, 4, null);
+			ps1.put(null, T_UNK, 10, null);
+			ps1.put(null, T_PADDING, 2, null);
+			ps1.put(null, T_HASHREF, 4, null);
+			ps1.put(null, T_UNK, 4, null);
+			ps1.put(null, T_UNK, 1, null);
+			ps1.put(null, T_UNK, 1, null);
+			ps1.put(null, T_UNK, 1, null);
+			ps1.put(null, T_UNK, 1, null);
+			ps1.put(null, T_UNK, 1, null);
+			ps1.put(null, T_UNK, 2, null);
+			ps1.put(null, T_UNK, 1, null);
+			ps1.put(null, T_UNK, 8, null);
+			ps1.put("(outrun related)", T_INT, 1, null);
+			ps1.put(null, T_UNK, 1, null);
+			ps1.put(null, T_UNK, 2, null);
+			ps1.put(null, T_UNK, 4, null);
+			ps1.put(null, T_UNK, 4, null);
+			ps1.put(null, T_UNK, 4, null);
+			ps1.finish();
+			ps0.add(ps1);
 		}
+		ps0.finish();
+		break;
 	}
-	return size;
+	case 0x34A19: {
+		int entrySize = 0x10;
+		int numEntries = size / entrySize;
+		ps0.start(format("career sponsors (%d)", numEntries), offset, size);
+		for (; numEntries > 0; numEntries--) {
+			String sponsorname = CareerStringPool.get(i16(data, ps0.offset));
+			int reqavgrep = i16(data, ps0.offset + 0xE);
+			String name = format("career sponsor %s (reqavgrep %s)", sponsorname, reqavgrep);
+			ps1.start(name, ps0.offset, entrySize);
+			ps1.put("name", T_CAREERSTRPOOLREF, 2, null);
+			ps1.put("bank reward per sponsor race", T_INT, 2, null);
+			ps1.put(null, T_UNK, 1, null);
+			ps1.put(null, T_UNK, 1, null);
+			ps1.put(null, T_UNK, 1, null);
+			ps1.put(null, T_UNK, 1, null);
+			Symbol.put(file, ps1.offset, ps1.name);
+			ps1.put("hash", T_HASH, 4, null);
+			ps1.put("signing bonus", T_INT, 2, null);
+			ps1.put("required average reputation", T_INT, 2, null);
+			ps1.finish();
+			ps0.add(ps1);
+		}
+		ps0.finish();
+		break;
+	}
+	case 0x34A1D: {
+		CareerStringPool.put(file, data, offset, size);
+		ps0.start("career string pool", offset, size);
+		ps0.put("entries", T_CAREERSTRPOOL, size, 0);
+		ps0.finish();
+		break;
+	}
+	default: {
+		ps0.start(magic == 0 ? "padding" : null, offset, size);
+		ps0.put(null, T_UNK, size, null);
+		ps0.finish();
+		break;
+	}
+	}
+	return ps0;
+}
+} /*Structures*/
+
+// ---
+
+class ParseState
+{
+ArrayList<Object> result = new ArrayList<>(1000);
+ArrayList<Throwable> errors = new ArrayList<>();
+int startOffset;
+int offset;
+int size;
+int sizeLeft;
+int expectedSize;
+String name;
+boolean didAddUnexpectedEndError;
+
+void start(String name, int offset, int size)
+{
+	this.name = name;
+	this.offset = offset;
+	this.startOffset = offset;
+	this.sizeLeft = size;
+	this.expectedSize = size;
+	this.size = 0;
+	this.errors.clear();
+	this.result.clear();
+	this.result.add(MARK_STRUCT_START);
+	this.result.add(offset);
+	this.result.add(size);
+	this.result.add(name);
 }
 
-static void validate_size(Object struct[], int expected_size)
+void put(String name, int type, int size, Object data)
 {
-	int size = struct_size(struct);
-	if (size != expected_size) {
-		String msg = String.format("%s: expected size %Xh got %Xh", struct[0], expected_size, size);
-		throw new RuntimeException(msg);
+	if (size <= this.sizeLeft) {
+		if (size > 0xFFFFFF) {
+			throw new RuntimeException("well shit");
+		}
+		this.size += size;
+		this.sizeLeft -= size;
+		this.result.add(name);
+		this.result.add(type);
+		this.result.add(data);
+		this.result.add(this.offset);
+		this.result.add(this.offset += size);
+	} else if (!this.didAddUnexpectedEndError) {
+		this.didAddUnexpectedEndError = true;
+		this.sizeLeft = 0;
+		this.result.add("unexpected end of data");
+		this.result.add(T_UNK);
+		this.result.add(null);
+		this.result.add(offset);
+		this.result.add(offset);
+		errors.add(new Throwable("unexpected end"));
+		errors.add(new Throwable(String.format(
+			"unexpected end at offset %Xh (relative %Xh). expected %Xh read %Xh tried reading %Xh",
+			this.offset,
+			this.offset - this.startOffset,
+			this.expectedSize,
+			this.size,
+			size
+		)));
 	}
 }
 
-static String get_name(int magic)
+void add(ParseState inner)
 {
-	if (magic == 0) {
-		return "padding";
+	this.offset = inner.offset;
+	this.sizeLeft -= inner.size;
+	this.size += inner.size;
+	this.result.addAll(inner.result);
+	this.errors.addAll(inner.errors);
+}
+
+void finish()
+{
+	if (this.sizeLeft > 0) {
+		errors.add(new Throwable(String.format(
+			"%Xh trailing bytes from offset %Xh (relative %Xh). expected %Xh read %Xh trailing %Xh",
+			this.sizeLeft,
+			this.offset,
+			this.offset - this.startOffset,
+			this.expectedSize,
+			this.size,
+			this.sizeLeft
+		)));
+		this.put("unexpected extra data", T_UNK, this.sizeLeft, null);
 	}
-	Object[] definition = structures.get(magic);
-	return definition != null ? (String) definition[0] : null;
+	this.result.add(MARK_STRUCT_END);
 }
-
-static void init()
-{
-	final int BYTE = T_I8 | 1, WORD = T_I16 | 2, DWORD = T_I32 | 4;
-	final int HASHREF = T_HASHREF | 4, HASH = T_HASH | 4;
-	structures = new HashMap<>();
-	int x = 0, enumid = 0;
-
-	int _30220_entry = ++x;
-	structures.put(_30220_entry, new Object[] {
-		"car preset",
-		"link", T_OBJLINK | 8,
-		"modelName", T_STR | 32,
-		"name", T_STR | 32,
-		null, DWORD,
-		null, T_UNK | 680,
-		null, T_UNK | 68,
-	});
-	validate_size(structures.get(_30220_entry), 0x338);
-	structures.put(0x30220, new Object[] {
-		"car presets",
-		"entries", T_ARR_REPEATING | _30220_entry,
-	});
-
-	int _34A11_18 = ++x;
-	structures.put(_34A11_18, new Object[] {
-		"career race field 18",
-		null, WORD,
-		null, BYTE,
-		null, BYTE,
-	});
-	int _34A11_38 = ++x;
-	structures.put(_34A11_38, new Object[] {
-		"career race field 38",
-		null, BYTE,
-		null, T_PADDING | 3,
-		null, HASHREF,
-	});
-	int enum_racetype = ++enumid;
-	Enum.registry.put(enum_racetype, E_RACETYPE);
-	int _34A11_entry = ++x;
-	structures.put(_34A11_entry, new Object[] {
-		"career race",
-		null, T_UNK | 4,
-		"post race movie name", T_CAREERSTRPOOLREF | 2,
-		null, T_PADDING | 2,
-		"hash", HASH,
-		null, T_UNK | 1,
-		null, T_UNK | 1,
-		null, T_PADDING | 1,
-		"race type", T_ENUM | enum_type(enum_racetype) | enum_width(1),
-		null, T_UNK | 4,
-		null, T_UNK | 4,
-		"field 18", T_ARR | arr_entrytype(_34A11_18) | arr_count(4),
-		"marker", HASHREF,
-		null, T_UNK | 4,
-		"bank reward", T_UNK | 4,
-		"bank reward type", BYTE,
-		"num entries in 38", BYTE,
-		null, T_PADDING | 1,
-		"stage index", BYTE,
-		"field 38", T_ARR | arr_entrytype(_34A11_38) | arr_count(8),
-		null, T_UNK | 4,
-		null, BYTE,
-		null, T_PADDING | 1,
-		"num entries in 18", BYTE,
-		null, BYTE,
-		null, T_UNK | 8,
-	});
-	validate_size(structures.get(_34A11_entry), 0x88);
-	structures.put(0x34A11, new Object[] {
-		"career races",
-		"entries", T_ARR_REPEATING | _34A11_entry,
-	});
-
-	int enum_shop_show_condition = ++enumid;
-	Enum.registry.put(enum_shop_show_condition, E_SHOP_SHOW_CONDITION_TYPE);
-	int _34A12_entry = ++x;
-	structures.put(_34A12_entry, new Object[] {
-		"career shop",
-		null, T_UNK | 0x38,
-		"hash", HASH,
-		"marker", HASHREF,
-		null, T_UNK | 0x11,
-		"is hidden shop", BYTE,
-		null, T_UNK | 0x22,
-		"extra map show condition value", HASHREF,
-		null, T_UNK | 0x24,
-		"extra map show condition type", T_ENUM | enum_type(enum_shop_show_condition) | enum_width(1),
-		"stage index", BYTE,
-		null, T_UNK | 0x2,
-
-	});
-	validate_size(structures.get(_34A12_entry), 0xA0);
-	structures.put(0x34A12, new Object[] {
-		"career shops",
-		"entries", T_ARR_REPEATING | _34A12_entry,
-	});
-
-	int _34A18_entry = ++x;
-	structures.put(_34A18_entry, new Object[] {
-		"career stage settings entry",
-		"stage index", BYTE,
-		"num sponsors", BYTE,
-		"outrun stakes", WORD,
-		"showcase reward multiplier", WORD,
-		null, T_PADDING | 2,
-		"sponsor 1", HASHREF,
-		"sponsor 2", HASHREF,
-		"sponsor 3", HASHREF,
-		"sponsor 4", HASHREF,
-		"sponsor 5", HASHREF,
-		null, T_UNK | 10,
-		null, T_PADDING | 2,
-		null, HASHREF,
-		null, T_UNK | 4,
-		null, T_UNK | 1,
-		null, T_UNK | 1,
-		null, T_UNK | 1,
-		null, T_UNK | 1,
-		null, T_UNK | 1,
-		null, T_UNK | 2,
-		null, T_UNK | 1,
-		null, T_UNK | 8,
-		"(outrun related)", BYTE,
-		null, T_UNK | 1,
-		null, T_UNK | 2,
-		null, T_UNK | 4,
-		null, T_UNK | 4,
-		null, T_UNK | 4,
-	});
-	validate_size(structures.get(_34A18_entry), 0x50);
-	structures.put(0x34A18, new Object[] {
-		"career stage settings",
-		"entries", T_ARR_REPEATING | _34A18_entry,
-	});
-
-	int _34A19_entry = ++x;
-	structures.put(_34A19_entry, new Object[] {
-		"career sponsor",
-		"name", T_CAREERSTRPOOLREF | 2,
-		"bank per race won", WORD,
-		null, T_UNK | 1,
-		null, T_UNK | 1,
-		null, T_UNK | 1,
-		null, T_UNK | 1,
-		"hash", HASH,
-		"signing bonus", WORD,
-		"required average reputation", WORD,
-	});
-	validate_size(structures.get(_34A19_entry), 0x10);
-	structures.put(0x34A19, new Object[] {
-		"career sponsors",
-		"entries", T_ARR_REPEATING | _34A19_entry,
-	});
-
-	structures.put(0x34A1D, new Object[] {
-		"career string pool",
-		"entries", T_CAREERSTRPOOL,
-	});
-}
-}
+} /*ParseState*/

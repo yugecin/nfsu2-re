@@ -1,5 +1,7 @@
 package u2gfe;
 
+import static u2gfe.Util.*;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -8,8 +10,9 @@ class Symbol implements Comparable<Symbol>
 static HashMap<Integer, Symbol> symbols = new HashMap<>();
 static ArrayList<Symbol> symbolsInNaturalOrder = new ArrayList<>();
 
-static void put(int id, BinFile file, int offset, String kind)
+static void put(BinFile file, int offset, String kind)
 {
+	int id = i32(file.data, offset);
 	Symbol sym = new Symbol(id, file, offset, kind);
 	Symbol previous = symbols.put(id, sym);
 	if (previous != null) {

@@ -97,9 +97,8 @@ PanelBinFile(BinFile file, JScrollBar scrollHoriz, JScrollBar scrollVert, int sc
 void addSection(CollapsibleSection parent, Section section)
 {
 	String text = String.format("section %Xh (size %Xh)", section.magic, section.size);
-	String name = Structures.get_name(section.magic);
-	if (name != null) {
-		text += ": " + name;
+	if (section.fields != null && section.fields[3] != null) {
+		text += ": " + (String) section.fields[3];
 	}
 	CollapsibleSection s = new CollapsibleSection(new Label(text));
 	s.startOffset = section.offset - 8;
@@ -119,55 +118,53 @@ void addSection(CollapsibleSection parent, Section section)
 int addFields(CollapsibleSection parent, Object fields[], int fromIndex)
 {
 	// skip MARK_STRUCT_START
+	// skip offset as parent should've used it already
 	// skip size as parent should've used it already
 	// skip name as parent should've used it already
-	fromIndex += 3;
+	fromIndex += 4;
 	while (fromIndex < fields.length) {
 		Object next = fields[fromIndex];
 		if (next == MARK_STRUCT_END) {
-			// skip result (TODO: add a field if it's UNEXPECTED END?)
-			return fromIndex + 2;
+			return fromIndex + 1;
 		} else if (next == MARK_STRUCT_START) {
-			int size = (int) fields[fromIndex + 1];
-			String structName = (String) fields[fromIndex + 2];
+			int size = (int) fields[fromIndex + 2];
+			String structName = (String) fields[fromIndex + 3];
 			String text = String.format("%s (%Xh)", structName, size);
 			CollapsibleSection s = new CollapsibleSection(new Label(text));
 			s.nestLevel = parent.nestLevel + 1;
 			s.size = size;
 			s.parent = parent;
+			s.startOffset = (int) fields[fromIndex + 1];
 			parent.children.add(s);
 			fromIndex = this.addFields(s, fields, fromIndex);
 		} else {
 			Part s = null;
 			boolean didAdd = false;
 			int fieldtype = (int) fields[fromIndex + 1];
-			int startOffset = (int) fields[fromIndex + 2];
-			int endOffset = (int) fields[fromIndex + 3];
+			Object extradata = fields[fromIndex + 2];
+			int startOffset = (int) fields[fromIndex + 3];
+			int endOffset = (int) fields[fromIndex + 4];
+			int size = endOffset - startOffset;
 
 			String text = (String) next;
 			if (text == null) text = "(noname)";
 			text = String.format("%3Xh %s", endOffset - startOffset, text);
 			String data = null;
 
-			switch (fieldtype & 0xFF000000) {
+			switch (fieldtype) {
 			case T_STR:
 				data = "\"" + cstr(file.data, startOffset, endOffset) + "\"";
 				break;
-			case T_I32:
-				int i = i32(file.data, startOffset);
-				data = String.format("%d (%Xh)", i, i);
+			case T_INT:
+				int ih = i(file.data, startOffset, size);
+				int ii = ih;
+				// ensure negative words are shown as negative number
+				if (size == 2 && (ii & 0x8000) == 0x8000) {
+					ii |= 0xFFFF0000;
+				}
+				data = String.format("%d (%Xh)", ii, ih);
 				break;
-			case T_I16:
-				int sh = i16(file.data, startOffset);
-				data = String.format("%d (%Xh)", sh, sh);
-				break;
-			case T_I8:
-			{
-				int c = i8(file.data, startOffset);
-				data = String.format("%d (%Xh)", c, c);
-				break;
-			}
-			case T_F32:
+			case T_FLOAT:
 				data = String.valueOf(f32(file.data, startOffset));
 				break;
 			case T_PADDING:
@@ -182,9 +179,8 @@ int addFields(CollapsibleSection parent, Object fields[], int fromIndex)
 				data = String.format("HASH %08X", h, h);
 				break;
 			case T_ENUM:
-				int enumid = (fieldtype & 0xFFFF00) >> 8;
-				int eval = i(file.data, startOffset, endOffset - startOffset);
-				s = new LabelEnumEntry(text, enumid, eval);
+				int enumvalue = i(file.data, startOffset, endOffset - startOffset);
+				s = new LabelEnumEntry(text, (Enum) extradata, enumvalue);
 				break;
 			case T_CAREERSTRPOOL:
 			{
@@ -228,7 +224,7 @@ int addFields(CollapsibleSection parent, Object fields[], int fromIndex)
 				s.parent = parent;
 				parent.children.add(s);
 			}
-			fromIndex += 4;
+			fromIndex += 5;
 		}
 	}
 	return fromIndex;
@@ -807,7 +803,7 @@ LabelCareerString(String baseText, int offset)
 	String str = CareerStringPool.get(offset);
 	this.contents = String.format("%s: \"%s\"", baseText, str);
 	this.w = this.contents.length();
-	this.isResolved = str != null;
+	this.isResolved = str != CareerStringPool.DEFAULT_STRING;
 	if (this.isResolved) {
 		this.w += 5;
 	}
@@ -849,9 +845,8 @@ String contents2;
 String hovertext[];
 int w;
 
-LabelEnumEntry(String baseText, int enumid, int value)
+LabelEnumEntry(String baseText, Enum e, int value)
 {
-	Enum e = Enum.registry.get(enumid);
 	String valueName = e.get(value);
 	this.contents1 = baseText;
 	this.contents2 = String.format("%s: \"%s\" (%d) (%Xh)", e.name, valueName, value, value);

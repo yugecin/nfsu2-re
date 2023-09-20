@@ -26,7 +26,6 @@ public void run()
 	File gamedir = this.gamedir;
 	try {
 		Enum.init();
-		Structures.init();
 		for (String relPath : files) {
 			File file = new File(gamedir, relPath);
 			byte content[] = Files.readAllBytes(file.toPath());
