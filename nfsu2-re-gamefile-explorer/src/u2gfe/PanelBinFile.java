@@ -376,6 +376,7 @@ protected void paintComponent(Graphics g)
 						String.format("rel offset %X", off - line.parent.startOffset),
 						String.format("byte %d (%Xh) word %d (%Xh)", i8, i8, i16, i16 & 0xFFFF),
 						String.format("dword %d (%Xh)", i32, i32),
+						String.format("float %f", f32(this.file.data, off)),
 						String.format("resolved hash: %s", sym == null ? "no" : sym.kind)
 					};
 					g.setColor(Color.CYAN);

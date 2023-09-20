@@ -89,6 +89,53 @@ static ParseState parse(BinFile file, int magic, byte data[], int offset, int si
 		ps0.finish();
 		break;
 	}
+	case 0x80034147: {
+		ps0.start("paths data", offset, 0);
+		ps0.finish();
+		break;
+	}
+	case 0x3414A: {
+		ps0.start("to be filled in below", offset, size);
+		int entries = 0;
+		while (ps0.sizeLeft > 0x43) {
+			entries++;
+			int markerSize = i16(data, ps0.offset + 0x42);
+			int itype = i32(data, ps0.offset);
+			String stype = E_MARKER_TYPE.get(itype);
+			if (stype == null) {
+				stype = format("%Xh", itype);
+			}
+			String name = format("marker (%s)", stype);
+			ps1.start(name, ps0.offset, markerSize);
+			ps1.put("type", T_ENUM, 4, E_MARKER_TYPE);
+			ps1.put(null, T_FLOAT, 4, null);
+			ps1.put(null, T_FLOAT, 4, null);
+			ps1.put(null, T_UNK, 4, null);
+			ps1.put(null, T_UNK, 4, null);
+			ps1.put(null, T_UNK, 4, null);
+			ps1.put(null, T_UNK, 4, null);
+			ps1.put(null, T_UNK, 4, null);
+			ps1.put(null, T_UNK, 4, null);
+			ps1.put(null, T_UNK, 4, null);
+			ps1.put(null, T_UNK, 4, null);
+			ps1.put(null, T_UNK, 4, null);
+			Symbol.put(file, ps1.offset, ps1.name);
+			ps1.put("hash", T_HASH, 4, null);
+			ps1.put(null, T_UNK, 4, null);
+			ps1.put(null, T_UNK, 4, null);
+			ps1.put(null, T_UNK, 4, null);
+			ps1.put("radius", T_INT, 2, null);
+			ps1.put("marker struct size", T_INT, 2, null);
+			ps1.put("pos x", T_FLOAT, 4, null);
+			ps1.put("pos y", T_FLOAT, 4, null);
+			ps1.put(null, T_UNK, ps1.sizeLeft, null);
+			ps1.finish();
+			ps0.add(ps1);
+		}
+		ps0.name = format("markers (%d)", entries);
+		ps0.finish();
+		break;
+	}
 	case 0x80034A10:
 		ps0.start("career block", offset, 0);
 		ps0.finish();
@@ -332,6 +379,7 @@ void add(ParseState inner)
 
 void finish()
 {
+	this.result.set(3, this.name); // in case it was modified afterwards
 	if (this.sizeLeft > 0) {
 		errors.add(new Throwable(String.format(
 			"%Xh trailing bytes from offset %Xh (relative %Xh). expected %Xh read %Xh trailing %Xh",

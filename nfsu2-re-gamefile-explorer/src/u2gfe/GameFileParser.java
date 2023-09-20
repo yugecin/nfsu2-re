@@ -8,6 +8,7 @@ class GameFileParser implements Runnable
 private String files[] = {
 	"GLOBAL/GLOBALB.BUN",
 	"GLOBAL/InGameRace.bun",
+	"TRACKS/ROUTESL4RA/Paths4001.bin",
 };
 private File gamedir;
 

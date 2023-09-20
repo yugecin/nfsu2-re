@@ -6,6 +6,7 @@ class Enum extends HashMap<Integer, String>
 {
 static Enum E_RACETYPE;
 static Enum E_SHOP_SHOW_CONDITION_TYPE;
+static Enum E_MARKER_TYPE;
 
 String name;
 
@@ -25,6 +26,15 @@ static void init()
 	E_SHOP_SHOW_CONDITION_TYPE.put(2, "stage 9C count <=");
 	E_SHOP_SHOW_CONDITION_TYPE.put(3, "stage 0 count <=");
 	E_SHOP_SHOW_CONDITION_TYPE.put(4, "stage 8C count <=");
+
+	E_MARKER_TYPE = new Enum("E_MARKER_TYPE");
+	E_MARKER_TYPE.put(0x4, "bodyshop area");
+	E_MARKER_TYPE.put(0xD, "type D");
+	E_MARKER_TYPE.put(0xE, "type E");
+	E_MARKER_TYPE.put(0xF, "type F");
+	E_MARKER_TYPE.put(0x11, "neighbourhood");
+	E_MARKER_TYPE.put(0x12, "engage tip");
+	E_MARKER_TYPE.put(0x13, "money pickup");
 }
 
 private Enum(String name)
