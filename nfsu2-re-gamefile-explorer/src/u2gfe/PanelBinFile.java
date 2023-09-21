@@ -172,7 +172,7 @@ int addFields(CollapsibleSection parent, Object fields[], int fromIndex)
 				break;
 			case T_HASHREF:
 				int hr = i32(file.data, startOffset);
-				data = String.format("HASH REF %08X", hr, hr);
+				s = new LabelHashRef(text, hr);
 				break;
 			case T_HASH:
 				int h = i32(file.data, startOffset);
@@ -377,7 +377,7 @@ protected void paintComponent(Graphics g)
 						String.format("byte %d (%Xh) word %d (%Xh)", i8, i8, i16, i16 & 0xFFFF),
 						String.format("dword %d (%Xh)", i32, i32),
 						String.format("float %f", f32(this.file.data, off)),
-						String.format("resolved hash: %s", sym == null ? "no" : sym.kind)
+						String.format("resolved hash: %s", sym == null ? "no" : sym.name)
 					};
 					g.setColor(Color.CYAN);
 					g.fillRect((xx * 3) * fx, y * fy, fx * 2, fy);
@@ -639,6 +639,12 @@ public void mouseReleased(MouseEvent e)
 		String title = String.format("careerstringpool@%X", offset);
 		offset += CareerStringPool.baseOffset;
 		Messages.SHOW_BINFILE_AT_OFFSET.send(new Messages.ShowBinFileAtOffset(file, offset, title));
+	} else if (clickedPart instanceof LabelHashRef) {
+		Symbol symbol = ((LabelHashRef) clickedPart).symbol;
+		BinFile file = symbol.file;
+		String title = String.format("hash definition %X", symbol.id);
+		int offset = symbol.definitionOffset;
+		Messages.SHOW_BINFILE_AT_OFFSET.send(new Messages.ShowBinFileAtOffset(file, offset, title));
 	} else if (clickedPart != null) {
 		throw new RuntimeException();
 	}
@@ -876,6 +882,59 @@ public void render(Graphics g, int x, int y, Point mouse, HashMap<Integer, Strin
 	g.translate(-x * fx, -y * fy);
 	for (int i = 0; i < this.contents2.length(); i++) {
 		hoverData.put(grid(x + this.contents1.length() + 1 + i, y), this.hovertext);
+	}
+}
+
+@Override
+public int getWidth()
+{
+	return this.w;
+}
+} /*LabelEnumEntry*/
+
+// ---
+
+class LabelHashRef extends Part
+{
+static Color buttonbg = new Color(0x99ffff), hovered = new Color(0x66cccc), unresolved = new Color(0xdddddd);
+
+String contents1;
+String contents2;
+String hovertext[];
+Symbol symbol;
+int w;
+
+LabelHashRef(String baseText, int id)
+{
+	this.contents1 = baseText;
+	this.symbol = Symbol.symbols.get(id);
+	if (this.symbol == null) {
+		contents2 = "(unresolved hash ref)";
+	} else {
+		contents2 = this.symbol.name;
+	}
+	this.w = this.contents1.length() + 1 + this.contents2.length();
+}
+
+@Override
+public void render(Graphics g, int x, int y, Point mouse, HashMap<Integer, String[]> hoverData, HashMap<Integer, Part> clickData)
+{
+	g.translate(x * fx, y * fy);
+	g.drawString(this.contents1, 0, fmaxascend);
+	int c2start = this.contents1.length() + 1;
+	int mx = mouse.x - x;
+	g.translate(c2start * fx, 0);
+	boolean isHovered = c2start <= mx && mx <= c2start + this.contents2.length() && mouse.y == y;
+	g.setColor(this.symbol == null ? unresolved : isHovered ? hovered : buttonbg);
+	g.fillRect(0, 0, this.contents2.length() * fx, fy);
+	g.setColor(Color.black);
+	g.drawString(this.contents2, 0, fmaxascend);
+	g.translate(-(this.contents1.length() + 1) * fx, 0);
+	g.translate(-x * fx, -y * fy);
+	if (this.symbol != null) {
+		for (int i = 0; i < this.contents2.length(); i++) {
+			clickData.put(grid(x + this.contents1.length() + 1 + i, y), this);
+		}
 	}
 }
 

@@ -209,7 +209,12 @@ static ParseState parse(BinFile file, int magic, byte data[], int offset, int si
 			ps1.put(null, T_UNK, 0x11, null);
 			ps1.put("is hidden shop", T_INT, 1, null);
 			ps1.put(null, T_UNK, 0x22, null);
-			ps1.put("extra map show condition value", T_HASHREF, 4, null);
+			int type = i8(data, ps1.offset + 0x28);
+			if (type == 1) {
+				ps1.put("extra map show condition value (race)", T_HASHREF, 4, null);
+			} else {
+				ps1.put("extra map show condition value (not a race)", T_INT, 4, null);
+			}
 			ps1.put(null, T_UNK, 0x24, null);
 			ps1.put("extra map show condition type", T_ENUM, 1, E_SHOP_SHOW_CONDITION_TYPE);
 			ps1.put("stage index", T_INT, 1, null);

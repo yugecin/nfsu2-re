@@ -28,20 +28,20 @@ static void put(BinFile file, int offset, String kind)
 int id;
 BinFile file;
 int definitionOffset;
-String kind;
+String name;
 
-Symbol(int id, BinFile file, int definitionOffset, String kind)
+Symbol(int id, BinFile file, int definitionOffset, String name)
 {
 	this.id = id;
 	this.file = file;
 	this.definitionOffset = definitionOffset;
-	this.kind = kind;
+	this.name = name;
 }
 
 @Override
 public String toString()
 {
-	return String.format("%8X: %s", this.id, this.kind);
+	return String.format("%8X: %s", this.id, this.name);
 }
 
 /*Comparable*/
