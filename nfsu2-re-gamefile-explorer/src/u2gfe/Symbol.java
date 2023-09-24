@@ -7,12 +7,16 @@ import java.util.HashMap;
 
 class Symbol implements Comparable<Symbol>
 {
+static ArrayList<Reference> refs = new ArrayList<>();
 static HashMap<Integer, Symbol> symbols = new HashMap<>();
 static ArrayList<Symbol> symbolsInNaturalOrder = new ArrayList<>();
 
 static void put(BinFile file, int offset, String kind)
 {
 	int id = i32(file.data, offset);
+	if (id == 0) {
+		return;
+	}
 	Symbol sym = new Symbol(id, file, offset, kind);
 	Symbol previous = symbols.put(id, sym);
 	if (previous != null) {
@@ -25,6 +29,23 @@ static void put(BinFile file, int offset, String kind)
 	}
 }
 
+static void reference(String referencerName, BinFile file, int offset)
+{
+	int to = i32(file.data, offset);
+	refs.add(new Reference(to, referencerName, file, offset));
+}
+
+static void distribute_references()
+{
+	for (Reference ref : refs) {
+		Symbol sym = symbols.get(ref.to);
+		if (sym != null) {
+			sym.references.add(ref);
+		}
+	}
+}
+
+ArrayList<Reference> references = new ArrayList<>();
 int id;
 BinFile file;
 int definitionOffset;
@@ -41,7 +62,7 @@ Symbol(int id, BinFile file, int definitionOffset, String name)
 @Override
 public String toString()
 {
-	return String.format("%8X: %s", this.id, this.name);
+	return String.format("%8X: %s (%d refs)", this.id, this.name, this.references.size());
 }
 
 /*Comparable*/
@@ -51,4 +72,25 @@ public int compareTo(Symbol o)
 	// unsiged compare yay
 	return (this.id & 0xFFFFFFFFL) > (o.id & 0xFFFFFFFFL) ? 1 : -1;
 }
+
+static class Reference
+{
+String referencerName;
+BinFile file;
+int offset;
+int to;
+Reference(int to, String referencerName, BinFile file, int offset)
+{
+	this.to = to;
+	this.referencerName = referencerName;
+	this.file = file;
+	this.offset = offset;
+}
+
+@Override
+public String toString()
+{
+	return this.referencerName;
+}
+} /*Reference*/
 }

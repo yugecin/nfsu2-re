@@ -105,7 +105,8 @@ static ParseState parse(BinFile file, int magic, byte data[], int offset, int si
 			if (stype == null) {
 				stype = format("%Xh", itype);
 			}
-			String name = format("marker (%s)", stype);
+			int hash = i32(data, ps0.offset + 0x30);
+			String name = format("marker %8Xh (%s)", hash, stype);
 			ps1.start(name, ps0.offset, markerSize);
 			ps1.put("type", T_ENUM, 4, E_MARKER_TYPE);
 			ps1.put(null, T_FLOAT, 4, null);
@@ -119,7 +120,7 @@ static ParseState parse(BinFile file, int magic, byte data[], int offset, int si
 			ps1.put(null, T_UNK, 4, null);
 			ps1.put(null, T_UNK, 4, null);
 			ps1.put(null, T_UNK, 4, null);
-			Symbol.put(file, ps1.offset, ps1.name);
+			Symbol.put(file, ps1.offset, ps1.name); // TODO: this might not be marker hash but a hashref
 			ps1.put("hash", T_HASH, 4, null);
 			ps1.put(null, T_UNK, 4, null);
 			ps1.put(null, T_UNK, 4, null);
@@ -146,7 +147,8 @@ static ParseState parse(BinFile file, int magic, byte data[], int offset, int si
 		ps0.start(format("career races (%d)", numEntries), offset, size);
 		for (; numEntries > 0; numEntries--) {
 			int stageIdx = i8(data, ps0.offset + 0x37);
-			String name = format("career race (stage %d)", stageIdx);
+			int hash = i32(data, ps0.offset + 8);
+			String name = format("career race %8Xh (stage %d)", hash, stageIdx);
 			ps1.start(name, ps0.offset, entrySize);
 			ps1.put(null, T_UNK, 4, null);
 			ps1.put("post race movie name", T_CAREERSTRPOOLREF, 2, null);
@@ -167,6 +169,7 @@ static ParseState parse(BinFile file, int magic, byte data[], int offset, int si
 				ps2.finish();
 				ps1.add(ps2);
 			}
+			Symbol.reference(name, file, ps1.offset);
 			ps1.put("marker", T_HASHREF, 4, null);
 			ps1.put(null, T_UNK, 4, null);
 			ps1.put("bank reward value", T_UNK, 4, null);
@@ -178,6 +181,7 @@ static ParseState parse(BinFile file, int magic, byte data[], int offset, int si
 				ps2.start("career race field 38", ps1.offset, 8);
 				ps2.put(null, T_INT, 1, null);
 				ps2.put(null, T_PADDING, 3, null);
+				Symbol.reference(name + " field 38." + i, file, ps2.offset);
 				ps2.put(null, T_HASHREF, 4, null);
 				ps2.finish();
 				ps1.add(ps2);
@@ -200,17 +204,22 @@ static ParseState parse(BinFile file, int magic, byte data[], int offset, int si
 		ps0.start(format("career shops (%d)", numEntries), offset, size);
 		for (; numEntries > 0; numEntries--) {
 			int stageIdx = i8(data, ps0.offset + 0x9D);
-			String name = format("career shop (stage %d)", stageIdx);
+			int hash = i32(data, ps0.offset + 0x38);
+			String name = format("career shop %8Xh (stage %d)", hash, stageIdx);
 			ps1.start(name, ps0.offset, entrySize);
-			ps1.put(null, T_UNK, 0x38, null);
+			ps1.put("name (and then some)", T_STR, 32, null);
+			ps1.put("movie name", T_STR, 24, null);
 			Symbol.put(file, ps1.offset, ps1.name);
 			ps1.put("hash", T_HASH, 4, null);
+			Symbol.reference(name, file, ps1.offset);
 			ps1.put("marker", T_HASHREF, 4, null);
-			ps1.put(null, T_UNK, 0x11, null);
+			ps1.put("platform bin name", T_STR, 16, null);
+			ps1.put(null, T_UNK, 1, null);
 			ps1.put("is hidden shop", T_INT, 1, null);
 			ps1.put(null, T_UNK, 0x22, null);
 			int type = i8(data, ps1.offset + 0x28);
 			if (type == 1) {
+				Symbol.reference(name, file, ps1.offset);
 				ps1.put("extra map show condition value (race)", T_HASHREF, 4, null);
 			} else {
 				ps1.put("extra map show condition value (not a race)", T_INT, 4, null);
@@ -238,13 +247,19 @@ static ParseState parse(BinFile file, int magic, byte data[], int offset, int si
 			ps1.put("outrun stakes", T_INT, 2, null);
 			ps1.put("showcase reward multiplier", T_INT, 2, null);
 			ps1.put(null, T_PADDING, 2, null);
+			Symbol.reference(name, file, ps1.offset);
 			ps1.put("sponsor 1", T_HASHREF, 4, null);
+			Symbol.reference(name, file, ps1.offset);
 			ps1.put("sponsor 2", T_HASHREF, 4, null);
+			Symbol.reference(name, file, ps1.offset);
 			ps1.put("sponsor 3", T_HASHREF, 4, null);
+			Symbol.reference(name, file, ps1.offset);
 			ps1.put("sponsor 4", T_HASHREF, 4, null);
+			Symbol.reference(name, file, ps1.offset);
 			ps1.put("sponsor 5", T_HASHREF, 4, null);
 			ps1.put(null, T_UNK, 10, null);
 			ps1.put(null, T_PADDING, 2, null);
+			Symbol.reference(name, file, ps1.offset);
 			ps1.put(null, T_HASHREF, 4, null);
 			ps1.put(null, T_UNK, 4, null);
 			ps1.put(null, T_UNK, 1, null);
@@ -274,7 +289,8 @@ static ParseState parse(BinFile file, int magic, byte data[], int offset, int si
 		for (; numEntries > 0; numEntries--) {
 			String sponsorname = CareerStringPool.get(i16(data, ps0.offset));
 			int reqavgrep = i16(data, ps0.offset + 0xE);
-			String name = format("career sponsor %s (reqavgrep %s)", sponsorname, reqavgrep);
+			int hash = i32(data, ps0.offset + 8);
+			String name = format("career sponsor %8Xh %s (reqavgrep %s)", hash, sponsorname, reqavgrep);
 			ps1.start(name, ps0.offset, entrySize);
 			ps1.put("name", T_CAREERSTRPOOLREF, 2, null);
 			ps1.put("bank reward per sponsor race", T_INT, 2, null);

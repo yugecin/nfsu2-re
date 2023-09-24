@@ -35,6 +35,7 @@ public void run()
 	} catch (Throwable t) {
 		Messages.SHOW_ERROR.send(new Exception("Parse failure", t));
 	}
+	Symbol.distribute_references();
 	Messages.DONE_PARSING.send(null);
 }
 }

@@ -5,12 +5,14 @@ import java.awt.event.MouseListener;
 import java.util.ArrayList;
 
 import javax.swing.JLabel;
-import javax.swing.JList;
 import javax.swing.JScrollPane;
+import javax.swing.JTree;
+import javax.swing.tree.DefaultMutableTreeNode;
+import javax.swing.tree.TreePath;
 
 class TabSymbols extends JScrollPane implements MouseListener
 {
-JList<Symbol> list;
+JTree tree;
 
 TabSymbols(boolean ordered)
 {
@@ -27,22 +29,42 @@ TabSymbols(boolean ordered)
 		symbols.sort(null);
 	};
 
-	this.list = new JList<>(symbols.toArray(new Symbol[0]));
-	this.list.setFont(WindowMain.monospace);
-	this.list.addMouseListener(this);
-	this.setViewportView(this.list);
+	DefaultMutableTreeNode root = new DefaultMutableTreeNode();
+	for (Symbol sym : symbols) {
+		DefaultMutableTreeNode node = new DefaultMutableTreeNode(sym);
+		root.add(node);
+		for (Symbol.Reference ref : sym.references) {
+			node.add(new DefaultMutableTreeNode(ref));
+		}
+	}
+	this.tree = new JTree(root);
+	this.tree.setToggleClickCount(1);
+	this.tree.setRootVisible(false);
+	this.tree.setFont(WindowMain.monospace);
+	this.tree.addMouseListener(this);
+	this.setViewportView(this.tree);
 }
 
 /*MouseListener*/
 @Override
 public void mouseClicked(MouseEvent e)
 {
-	Symbol symbol = this.list.getSelectedValue();
-	if (e.getClickCount() == 2 && symbol != null) {
-		BinFile file = symbol.file;
-		int offset = symbol.definitionOffset;
-		String title = String.format("hash definition %X", symbol.id);
-		Messages.SHOW_BINFILE_AT_OFFSET.send(new Messages.ShowBinFileAtOffset(file, offset, title));
+	TreePath path = this.tree.getSelectionPath();
+	if (e.getClickCount() == 2 && path != null) {
+		Object o = ((DefaultMutableTreeNode) path.getLastPathComponent()).getUserObject();
+		if (o instanceof Symbol) {
+			Symbol symbol = (Symbol) o;
+			BinFile file = symbol.file;
+			int offset = symbol.definitionOffset;
+			String title = String.format("hash definition %X", symbol.id);
+			Messages.SHOW_BINFILE_AT_OFFSET.send(new Messages.ShowBinFileAtOffset(file, offset, title));
+		} else if (o instanceof Symbol.Reference) {
+			Symbol.Reference ref = (Symbol.Reference) o;
+			BinFile file = ref.file;
+			int offset = ref.offset;
+			String title = String.format("hash ref @%X", ref.offset);
+			Messages.SHOW_BINFILE_AT_OFFSET.send(new Messages.ShowBinFileAtOffset(file, offset, title));
+		}
 	}
 }
 
