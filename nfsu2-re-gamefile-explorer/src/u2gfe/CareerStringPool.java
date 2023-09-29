@@ -23,7 +23,7 @@ static void put(BinFile file, byte data[], int from, int len)
 static String get(int offset)
 {
 	if (pool == null || offset > pool.length) {
-		return "(no career string pool)";
+		return DEFAULT_STRING;
 	}
 	return cstr(pool, offset, pool.length);
 }

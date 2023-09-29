@@ -23,7 +23,7 @@ static final int T_HASH = 0xA000000;
 static final int T_PADDING = 0xB000000;
 static final int T_CAREERSTRPOOL = 0xC000000;
 static final int T_CAREERSTRPOOLREF = 0xD000000;
-static final int T_ARR = 0xE000000;
+static final int T_LITSTR = 0xE000000;
 static final int T_ENUM = 0xF000000;
 
 static final int arr_entrytype(int type)
@@ -204,8 +204,8 @@ static ParseState parse(BinFile file, int magic, byte data[], int offset, int si
 		ps0.start(format("career shops (%d)", numEntries), offset, size);
 		for (; numEntries > 0; numEntries--) {
 			int stageIdx = i8(data, ps0.offset + 0x9D);
-			int hash = i32(data, ps0.offset + 0x38);
-			String name = format("career shop %8Xh (stage %d)", hash, stageIdx);
+			String n = cstr(data, ps0.offset, offset + size);
+			String name = format("career shop %s (stage %d)", n, stageIdx);
 			ps1.start(name, ps0.offset, entrySize);
 			ps1.put("name (and then some)", T_STR, 32, null);
 			ps1.put("movie name", T_STR, 24, null);
@@ -228,6 +228,69 @@ static ParseState parse(BinFile file, int magic, byte data[], int offset, int si
 			ps1.put("extra map show condition type", T_ENUM, 1, E_SHOP_SHOW_CONDITION_TYPE);
 			ps1.put("stage index", T_INT, 1, null);
 			ps1.put(null, T_UNK, 0x2, null);
+			ps1.finish();
+			ps0.add(ps1);
+		}
+		ps0.finish();
+		break;
+	}
+	case 0x34A17: {
+		int entrySize = 0x14;
+		int numEntries = size / entrySize;
+		ps0.start(format("sms data (%d entries)", numEntries), offset, size);
+		for (; numEntries > 0; numEntries--) {
+			int type = i8(data, ps0.offset + 2);
+			String smsname = CareerStringPool.get(i16(data, ps0.offset));
+			String name = format("sms (type %d): %s", type, smsname);
+			ps1.start(name, ps0.offset, entrySize);
+			ps1.put("name", T_CAREERSTRPOOLREF, 2, null);
+			ps1.put("type", T_ENUM, 1, E_SMS_TYPE);
+			ps1.put("mailbox", T_ENUM, 1, E_MAILBOX);
+			ps1.put(null, T_UNK, 1, null);
+			ps1.put(null, T_UNK, 3, null);
+			switch (type) {
+			case 1:
+				Symbol.reference(name, file, ps1.offset);
+				ps1.put("(type specific data): race", T_HASHREF, 4, null);
+				break;
+			case 9:
+				ps1.put("(type specific data): stage index", T_INT, 2, null);
+				ps1.put("(type specific data): unk", T_UNK, 2, null);
+				break;
+			case 0xA:
+				ps1.put("(type specific data): stage index", T_INT, 2, null);
+				ps1.put("(type specific data): unk", T_UNK, 2, null);
+				break;
+			case 0xC:
+				ps1.put("(type specific data): stage index", T_INT, 2, null);
+				ps1.put("(type specific data): unk", T_UNK, 2, null);
+				break;
+			case 0xF:
+				Symbol.reference(name, file, ps1.offset);
+				ps1.put("(type specific data): marker", T_HASHREF, 4, null);
+				break;
+			default:
+				ps1.put("(type specific data): unknown", T_UNK, 4, null);
+				break;
+			}
+			ps1.put("money reward", T_INT, 4, null);
+			String sender = LanguageStringPool.get(i32(data, ps1.offset));
+			ps1.put(format("sender (resolved to %s)", sender), T_INT, 4, null);
+			{
+				if (smsname.startsWith("SMS_CAR_UNLOCK_")) {
+					// game does this too
+					smsname = "SMS_CAR_UNLOCK_1";
+				}
+				ps2.start("sms subject/body", ps1.offset, 0);
+				String subjkey = format("%s_SUBJECT", smsname);
+				String bodykey = format("%s_BODY", smsname);
+				String subject = LanguageStringPool.get(cihash(subjkey));
+				String body = LanguageStringPool.get(cihash(bodykey));
+				ps2.put(subjkey, T_LITSTR, 0, subject);
+				ps2.put(bodykey, T_LITSTR, 0, body);
+				ps2.finish();
+				ps1.add(ps2);
+			}
 			ps1.finish();
 			ps0.add(ps1);
 		}
@@ -312,6 +375,52 @@ static ParseState parse(BinFile file, int magic, byte data[], int offset, int si
 		CareerStringPool.put(file, data, offset, size);
 		ps0.start("career string pool", offset, size);
 		ps0.put("entries", T_CAREERSTRPOOL, size, 0);
+		ps0.finish();
+		break;
+	}
+	case 0x39000: {
+		ps0.start("language data", offset, size);
+
+		ps1.start("header", ps0.offset, 4 * 4);
+		ps1.put("char conversion table offset", T_INT, 4, null);
+		int numStrings = i32(data, ps1.offset);
+		ps1.put("number of strings", T_INT, 4, null);
+		int tableOffset = offset + i32(data, ps1.offset);
+		ps1.put("string table offset", T_INT, 4, null);
+		int strBlock = offset + i32(data, ps1.offset);
+		ps1.put("strings offset", T_INT, 4, null);
+		ps1.finish();
+		ps0.add(ps1);
+
+		int charConversionEntries = i32(data, ps0.offset);
+		ps1.start("char conversion table", ps0.offset, 4 + 2 * charConversionEntries);
+		ps1.put("numEntries", T_INT, 4, null);
+		ps1.put("table", T_UNK, 2 * charConversionEntries, null);
+		ps1.finish();
+		ps0.add(ps1);
+
+		// remove this when the previous block is figured out because this shouldn't be here
+		int pad = tableOffset - ps0.offset;
+		ps1.start("pad", ps0.offset, pad);
+		ps1.put(null, T_UNK, pad, null);
+		ps1.finish();
+		ps0.add(ps1);
+
+		ps1.start("string table", ps0.offset, 8 * numStrings);
+		for (int i = 0; i < numStrings; i++) {
+			int hash = i32(data, ps1.offset);
+			int stroff = i32(data, ps1.offset + 4);
+			LanguageStringPool.put(hash, cstr(data, strBlock + stroff, offset + size));
+			ps1.put("hash", T_INT, 4, null);
+			ps1.put("offset in strings block", T_INT, 4, null);
+		}
+		ps1.finish();
+		ps0.add(ps1);
+
+		ps1.start("strings block", ps0.offset, ps0.sizeLeft);
+		ps1.put(null, T_UNK, ps1.sizeLeft, null);
+		ps1.finish();
+		ps0.add(ps1);
 		ps0.finish();
 		break;
 	}

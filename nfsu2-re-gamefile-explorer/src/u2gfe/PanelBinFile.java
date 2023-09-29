@@ -210,6 +210,9 @@ int addFields(CollapsibleSection parent, Object fields[], int fromIndex)
 			case T_UNK:
 			case T_OBJLINK:
 				break;
+			case T_LITSTR:
+				s = new LabelLitString(text, (String) extradata);
+				break;
 			default:
 				throw new RuntimeException(String.format("unexpected type: %X", fieldtype));
 			}
@@ -943,6 +946,52 @@ public int getWidth()
 {
 	return this.w;
 }
-} /*LabelEnumEntry*/
+} /*LabelHashRef*/
+
+// ---
+
+class LabelLitString extends Part
+{
+String label;
+ArrayList<String> lines = new ArrayList<>();
+int w;
+
+LabelLitString(String baseText, String value)
+{
+	this.label = baseText;
+	while (value.length() > 80) {
+		lines.add(value.substring(0, 80));
+		value = value.substring(80);
+		this.w = 80;
+	}
+	lines.add(value);
+	this.w = Math.max(this.w, value.length()) + 1 + baseText.length();
+}
+
+@Override
+public void render(Graphics g, int x, int y, Point mouse, HashMap<Integer, String[]> hoverData, HashMap<Integer, Part> clickData)
+{
+	g.translate(x * fx, y * fy);
+	g.drawString(this.label, 0, fmaxascend);
+	g.translate(this.label.length() * fx + fx, 0);
+	for (String line : this.lines) {
+		g.drawString(line, 0, fmaxascend);
+		g.translate(0, fy);
+	}
+	g.translate(-this.label.length() * fx - fx - x * fx, -fy * this.lines.size() - y * fy);
+}
+
+@Override
+public int getWidth()
+{
+	return this.w;
+}
+
+@Override
+int getStructuredContentHeight()
+{
+	return Math.max(1, lines.size());
+}
+} /*LabelLitString*/
 
 // ---

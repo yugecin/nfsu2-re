@@ -6,6 +6,7 @@ import java.nio.file.Files;
 class GameFileParser implements Runnable
 {
 private String files[] = {
+	"Languages/English.bin", // should be first so we have strings :)
 	"GLOBAL/GLOBALB.BUN",
 	"GLOBAL/InGameRace.bun",
 	"TRACKS/ROUTESL4RA/Paths4001.bin",

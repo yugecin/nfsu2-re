@@ -72,8 +72,8 @@ void read_language_strings(FILE *in, int size)
 {
 #if defined PRINT_LANGUAGE_STRINGS
 	struct {
-		int something;
-		short entries[256];
+		int numEntries;
+		short entries[];
 	} *wchar_table;
 	struct {
 		unsigned int hash;

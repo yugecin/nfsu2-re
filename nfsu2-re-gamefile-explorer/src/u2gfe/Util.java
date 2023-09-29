@@ -56,9 +56,27 @@ static float f32(byte data[], int at)
 
 static String cstr(byte data[], int at, int to)
 {
+	if (at >= data.length) {
+		throw new IndexOutOfBoundsException();
+	}
 	int end = at;
 	for (; end < to && end < data.length && data[end] != 0; end++);
 	return new String(data, at, end - at, StandardCharsets.US_ASCII);
+}
+
+static int cihash(String str)
+{
+	int v = -1;
+	for (int i = 0; i < str.length(); i++) {
+		v *= 33;
+		char c = str.charAt(i);
+		if (c < 'a' || 'z' < c) {
+			v += c;
+		} else {
+			v += c - 0x20;
+		}
+	}
+	return v;
 }
 
 static <T extends JComponent> T bordered(T component, Border border)
