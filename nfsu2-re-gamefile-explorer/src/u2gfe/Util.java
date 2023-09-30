@@ -79,6 +79,15 @@ static int cihash(String str)
 	return v;
 }
 
+static int cshash(String str)
+{
+	int v = -1;
+	for (int i = 0; i < str.length(); i++) {
+		v = v * 33 + str.charAt(i);
+	}
+	return v;
+}
+
 static <T extends JComponent> T bordered(T component, Border border)
 {
 	component.setBorder(border);

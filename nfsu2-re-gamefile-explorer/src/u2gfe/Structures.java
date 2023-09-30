@@ -49,6 +49,7 @@ static final Object MARK_STRUCT_START = new Object();
 static final Object MARK_STRUCT_END = new Object();
 
 private static ParseState ps0 = new ParseState(), ps1 = new ParseState(), ps2 = new ParseState();
+private static ParseState ps3 = new ParseState();
 /**
  * offset and size should not include header!
  *
@@ -234,6 +235,73 @@ static ParseState parse(BinFile file, int magic, byte data[], int offset, int si
 		ps0.finish();
 		break;
 	}
+	case 0x34A14: {
+		int entrySize = 0x44;
+		int numEntries = size / entrySize;
+		ps0.start(format("bin34A14 (%d)", numEntries), offset, size);
+		for (; numEntries > 0; numEntries--) {
+			ps1.start("entry", ps0.offset, entrySize);
+			ps1.put(null, T_UNK, entrySize, null);
+			ps1.finish();
+			ps0.add(ps1);
+		}
+		ps0.finish();
+		break;
+	}
+	case 0x34A15: {
+		int entrySize = 0x17C;
+		int numEntries = size / entrySize;
+		ps0.start(format("bin34A15 (%d)", numEntries), offset, size);
+		for (; numEntries > 0; numEntries--) {
+			ps1.start("entry", ps0.offset, entrySize);
+			ps1.put(null, T_UNK, 4, null);
+			ps1.put(null, T_UNK, 4, null);
+			ps1.put("num entries in field C", T_INT, 4, null);
+			for (int i = 0; i < 3; i++) {
+				ps2.start("field C entry " + i, ps1.offset, 0x5C);
+				ps2.put("index", T_INT, 4, null);
+				ps2.put(null, T_UNK, 0x3C, null);
+				ps3.start("more indices 40", ps2.offset, 5 * 4);
+				for (int j = 0; j < 5; j++) {
+					ps3.put("0", T_INT, 4, null);
+				}
+				ps3.finish();
+				ps2.add(ps3);
+				ps3.start("more indices 54", ps2.offset, 2 * 4);
+				for (int j = 0; j < 2; j++) {
+					ps3.put("0", T_INT, 4, null);
+				}
+				ps3.finish();
+				ps2.add(ps3);
+				ps2.finish();
+				ps1.add(ps2);
+			}
+			ps1.put(null, T_UNK, 0x17C - 0x120, null);
+			ps1.finish();
+			ps0.add(ps1);
+		}
+		ps0.finish();
+		break;
+	}
+	case 0x34A16: {
+		int entrySize = 0x40;
+		int numEntries = size / entrySize;
+		ps0.start(format("career dvds/zines (%d)", numEntries), offset, size);
+		for (; numEntries > 0; numEntries--) {
+			String name = format("34A16 entry %s", cstr(data, ps0.offset, offset + size));
+			ps1.start(name, ps0.offset, entrySize);
+			ps1.put("name", T_STR, 32, null);
+			ps1.put(null, T_UNK, 4, null);
+			ps1.put(null, T_UNK, 8, null);
+			Symbol.reference(name, file, ps1.offset);
+			ps1.put("marker", T_HASHREF, 4, null);
+			ps1.put(null, T_UNK, 16, null);
+			ps1.finish();
+			ps0.add(ps1);
+		}
+		ps0.finish();
+		break;
+	}
 	case 0x34A17: {
 		int entrySize = 0x14;
 		int numEntries = size / entrySize;
@@ -365,6 +433,80 @@ static ParseState parse(BinFile file, int magic, byte data[], int offset, int si
 			ps1.put("hash", T_HASH, 4, null);
 			ps1.put("signing bonus", T_INT, 2, null);
 			ps1.put("required average reputation", T_INT, 2, null);
+			ps1.finish();
+			ps0.add(ps1);
+		}
+		ps0.finish();
+		break;
+	}
+	case 0x34A1A: {
+		int entrySize = 0x18;
+		int numEntries = size / entrySize;
+		ps0.start(format("34A1A (%d)", numEntries), offset, size);
+		for (; numEntries > 0; numEntries--) {
+			ps1.start("entry", ps0.offset, entrySize);
+			ps1.put(null, T_UNK, entrySize, null);
+			ps1.finish();
+			ps0.add(ps1);
+		}
+		ps0.finish();
+		break;
+	}
+	case 0x34A1B: {
+		int entrySize = 0x18;
+		int numEntries = size / entrySize;
+		ps0.start(format("34A1B (%d)", numEntries), offset, size);
+		for (; numEntries > 0; numEntries--) {
+			String name = format("entry %s", CareerStringPool.get(i16(data, ps0.offset + 2)));
+			ps1.start(name, ps0.offset, entrySize);
+			ps1.put(null, T_UNK, 2, null);
+			ps1.put(null, T_CAREERSTRPOOLREF, 2, null);
+			ps1.put(null, T_UNK, 0x14, null);
+			ps1.finish();
+			ps0.add(ps1);
+		}
+		ps0.finish();
+		break;
+	}
+	case 0x34A1C: {
+		int entrySize = 0x28;
+		int numEntries = size / entrySize;
+		ps0.start(format("34A1C (%d)", numEntries), offset, size);
+		for (; numEntries > 0; numEntries--) {
+			ps1.start("entry", ps0.offset, entrySize);
+			ps1.put(null, T_UNK, entrySize, null);
+			ps1.finish();
+			ps0.add(ps1);
+		}
+		ps0.finish();
+		break;
+	}
+	case 0x34A1E: {
+		int entrySize = 0xC;
+		int numEntries = size / entrySize;
+		ps0.start(format("34A1E (%d)", numEntries), offset, size);
+		for (; numEntries > 0; numEntries--) {
+			ps1.start("entry", ps0.offset, entrySize);
+			ps1.put(null, T_UNK, entrySize, null);
+			ps1.finish();
+			ps0.add(ps1);
+		}
+		ps0.finish();
+		break;
+	}
+	case 0x34A1F: {
+		int entrySize = 0xC;
+		int numEntries = size / entrySize;
+		ps0.start(format("car unlock entries (%d)", numEntries), offset, size);
+		for (; numEntries > 0; numEntries--) {
+			String car = Common.carNameByHash(i32(data, ps1.offset));
+			String name = format("car unlock entry %s", car);
+			ps1.start("entry", ps0.offset, entrySize);
+			ps1.put(format("car name hash (resolves to %s)", car), T_INT, 4, null);
+			Symbol.reference(name, file, ps1.offset);
+			ps1.put("unlocking race (US region)", T_HASHREF, 4, null);
+			Symbol.reference(name, file, ps1.offset);
+			ps1.put("unlocking race (EU region)", T_HASHREF, 4, null);
 			ps1.finish();
 			ps0.add(ps1);
 		}
