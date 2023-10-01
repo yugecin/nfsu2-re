@@ -53,7 +53,7 @@ HashMap<Integer, String[]> hoverData = new HashMap<>();
 HashMap<Integer, Part> clickData = new HashMap<>();
 int mouseX = -100, mouseY = -100;
 String tooltipText[];
-int lastHoveredGrid;
+int lastHoveredGrid = grid(-100, -100);
 int offsetToHighlightOnOpen;
 boolean needScrollToOffsetToHighlightOnOpen;
 Part highlightedPart;
@@ -398,7 +398,7 @@ protected void paintComponent(Graphics g)
 				for (int i = 0; i < linebytes; i++) {
 					byte b = this.file.data[offset + i];
 					String bb = ".";
-					if (b > 32 && b < 127) {
+					if (32 <= b && b < 127) {
 						bb = String.format("%c", b);
 					}
 					g.drawString(bb, (HEX_BYTES_PER_ROW * 3 + 1 + i) * fx, row * fy + fmaxascend);
@@ -665,6 +665,8 @@ public void mouseExited(MouseEvent e)
 {
 	this.mouseX = -100;
 	this.mouseY = -100;
+	this.tooltipText = null;
+	this.lastHoveredGrid = grid(-100, -100);
 	this.repaint();
 }
 
