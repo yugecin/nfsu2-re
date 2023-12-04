@@ -36,6 +36,8 @@ import javax.swing.Timer;
 
 import u2gfe.BinFile.Section;
 
+import static java.lang.String.format;
+
 class PanelBinFile extends JComponent implements
 	ComponentListener, AdjustmentListener, MouseListener, MouseMotionListener,
 	MouseWheelListener, ActionListener
@@ -83,7 +85,7 @@ PanelBinFile(BinFile file, JScrollBar scrollHoriz, JScrollBar scrollVert, int sc
 	this.addMouseWheelListener(this);
 	this.addMouseListener(this);
 
-	this.rootSection = new CollapsibleSection(null);
+	this.rootSection = new CollapsibleSection("(root)");
 	this.rootSection.nestLevel = -1;
 	for (Section section : file.sections) {
 		addSection(this.rootSection, section);
@@ -100,7 +102,7 @@ void addSection(CollapsibleSection parent, Section section)
 	if (section.fields != null && section.fields[3] != null) {
 		text += ": " + (String) section.fields[3];
 	}
-	CollapsibleSection s = new CollapsibleSection(new Label(text));
+	CollapsibleSection s = new CollapsibleSection(text);
 	s.startOffset = section.offset - 8;
 	s.endOffset = section.offset;
 	s.nestLevel = parent.nestLevel + 1;
@@ -130,7 +132,7 @@ int addFields(CollapsibleSection parent, Object fields[], int fromIndex)
 			int size = (int) fields[fromIndex + 2];
 			String structName = (String) fields[fromIndex + 3];
 			String text = String.format("%s (%Xh)", structName, size);
-			CollapsibleSection s = new CollapsibleSection(new Label(text));
+			CollapsibleSection s = new CollapsibleSection(text);
 			s.nestLevel = parent.nestLevel + 1;
 			s.size = size;
 			s.parent = parent;
@@ -377,14 +379,20 @@ protected void paintComponent(Graphics g)
 					int i32 = i32(this.file.data, off);
 					Symbol sym = Symbol.symbols.get(i32);
 					this.hoveringSymbol = sym;
-					this.tooltipText = new String[] {
-						String.format("abs offset %X", off),
-						String.format("rel offset %X", off - line.parent.startOffset),
-						String.format("byte %d (%Xh) word %d (%Xh)", i8, i8, i16, i16 & 0xFFFF),
-						String.format("dword %d (%Xh)", i32, i32),
-						String.format("float %f", f32(this.file.data, off)),
-						String.format("resolved hash: %s", sym == null ? "no" : sym.name)
-					};
+					ArrayList<String> ttlines = new ArrayList<>(50);
+					CollapsibleSection section = line.parent;
+					while (section != null) {
+						int tto = off - section.startOffset;
+						String ttn = section.text;
+						ttlines.add(format("offset %X (%s)", tto, ttn));
+						section = section.parent;
+					}
+					ttlines.add(format("abs offset %X", off));
+					ttlines.add(format("byte %d (%Xh) word %d (%Xh)", i8, i8, i16, i16 & 0xFFFF));
+					ttlines.add(format("dword %d (%Xh)", i32, i32));
+					ttlines.add(format("float %f", f32(this.file.data, off)));
+					ttlines.add(format("resolved hash: %s", sym == null ? "no" : sym.name));
+					this.tooltipText = ttlines.toArray(new String[0]);
 					g.setColor(Color.CYAN);
 					g.fillRect((xx * 3) * fx, y * fy, fx * 2, fy);
 					g.fillRect((HEX_BYTES_PER_ROW * 3 + 1 + xx) * fx, y * fy, fx, fy);
@@ -740,12 +748,14 @@ class CollapsibleSection extends Part
 {
 static Color expanded = new Color(0xff8888), collapsed = new Color(0xaaffaa), hovered = new Color(0xaaaaff);
 ArrayList<Part> children = new ArrayList<>();
-Part label;
+String text;
+int w;
 boolean isExpanded;
 
-CollapsibleSection(Part label)
+CollapsibleSection(String text)
 {
-	this.label = label;
+	this.text = text;
+	this.w = text.length();
 }
 
 @Override
@@ -759,19 +769,19 @@ public void render(Graphics g, int x, int y, Point mouse, HashMap<Integer, Strin
 	clickData.put(grid(x, y), this);
 	clickData.put(grid(x + 1, y), this);
 	clickData.put(grid(x + 2, y), this);
-	this.label.render(g, x + 3, y, mouse, hoverData, clickData);
+	g.drawString(this.text, (x + 3) * fx, y * fy + fmaxascend);
 }
 
 @Override
 public int getWidth()
 {
-	return 3 + this.label.getWidth();
+	return 3 + this.w;
 }
 
 @Override
 public int getStructuredContentHeight()
 {
-	return this.label.getHeight();
+	return 1;
 }
 } /*CollapsibleSection*/
 
