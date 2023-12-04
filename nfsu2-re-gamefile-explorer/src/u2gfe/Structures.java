@@ -7,6 +7,7 @@ import static java.lang.String.format;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Set;
 
 class Structures
 {
@@ -566,6 +567,15 @@ static ParseState parse(BinFile file, int magic, byte data[], int offset, int si
 		ps0.finish();
 		break;
 	}
+	case 0xE34009:
+	case 0xE34010: {
+		ps0.start(null, offset, size);
+		ps0.put("preamble?", T_PADDING, 8, null);
+		ELFData.readIntoParseState(ps1, data, ps0.offset, ps0.sizeLeft);
+		ps0.add(ps1);
+		ps0.finish();
+		break;
+	}
 	default: {
 		ps0.start(magic == 0 ? "padding" : null, offset, size);
 		ps0.put(null, T_UNK, size, null);
@@ -583,7 +593,9 @@ class ParseState
 {
 ArrayList<Object> result = new ArrayList<>(1000);
 ArrayList<Throwable> errors = new ArrayList<>();
+/** absolute offset in data where this instance starts */
 int startOffset;
+/** absolute offset in data where the next field would start */
 int offset;
 int size;
 int sizeLeft;
@@ -667,3 +679,139 @@ void finish()
 	this.result.add(MARK_STRUCT_END);
 }
 } /*ParseState*/
+
+class ELFData
+{
+// I probably don't even need all this, but this was fun to make
+static void readIntoParseState(ParseState ps, byte[] data, int offset, int sizeLeft)
+{
+	ParseState psA = new ParseState(), psB = new ParseState();
+
+	ps.start("ELF binary", offset, sizeLeft);
+	ps.put("e_ident[EI_MAG0-3]", T_INT, 4, null);
+	ps.put("e_ident[EI_CLASS]", T_INT, 1, null);
+	ps.put("e_ident[EI_DATA]", T_INT, 1, null);
+	ps.put("e_ident[EI_VERSION]", T_INT, 1, null);
+	ps.put("e_ident[EI_OSABI]", T_INT, 1, null);
+	ps.put("e_ident[EI_ABIVERSION]", T_INT, 1, null);
+	ps.put("e_ident[EI_PAD]", T_PADDING, 7, null);
+	ps.put("e_type", T_INT, 2, null);
+	ps.put("e_machine", T_INT, 2, null);
+	ps.put("e_version", T_INT, 4, null);
+	ps.put("e_entry", T_INT, 4, null);
+	ps.put("e_phoff", T_INT, 4, null);
+	int shoff = i32(data, ps.offset);
+	ps.put("e_shoff", T_INT, 4, null);
+	ps.put("e_flags", T_INT, 4, null);
+	ps.put("e_ehsize", T_INT, 2, null);
+	ps.put("e_phentsize", T_INT, 2, null);
+	ps.put("e_phnum", T_INT, 2, null);
+	ps.put("e_shentsize", T_INT, 2, null);
+	int shnum = i16(data, ps.offset);
+	ps.put("e_shnum", T_INT, 2, null);
+	ps.put("e_shstrndx", T_INT, 2, null);
+	// there never seem to be no program headers only section headers, so skip program headers.
+
+	// the section header is at the bottom, so skip ahead so we know what sections we're going through
+	// (we also first need to find the shstring section anyways so we have the section names)
+	// (also find string section for other data while we're at it)
+	// k=abs_dataoff v=abs_sectionoff
+	HashMap<Integer, Integer> sections = new HashMap<>();
+	int shstroffs = 0, stroffs = 0;
+	{
+		int offs = offset + shoff;
+		for (int i = 0; i < shnum; i++) {
+			int abs_sh_offset = offset + i32(data, offs + 0x10 /*sh_offset*/);
+			// note: sometimes there are multiple string tables, but we can't
+			//       know which one is .shstrtab.... because we'd need the name
+			//       but that name is also just set in the .shstrtab..... grrr
+			//       just assume the first one is the .shstrtab
+			if (i32(data, offs + 4 /*sh_type*/) == 3 /*SHT_STRTAB*/) {
+				if (shstroffs == 0) {
+					shstroffs = abs_sh_offset;
+				} else if (stroffs == 0) {
+					stroffs = abs_sh_offset;
+				}
+			}
+			sections.put(abs_sh_offset, offs);
+			offs += 0x28; /*section header size*/
+		}
+	}
+
+	// fields for each section
+	Set<Integer> addrs = sections.keySet();
+	while (!addrs.isEmpty()) {
+		int dataoff = Integer.MAX_VALUE;
+		for (int a : addrs) {
+			dataoff = Math.min(dataoff, a);
+		}
+		int hoff = sections.remove(dataoff);
+		if (ps.offset < dataoff) {
+			ps.put(null, T_PADDING, dataoff - ps.offset, null);
+		}
+		String name = null;
+		if (shstroffs > 0) {
+			int sh_name = i32(data, hoff + 0 /*sh_name*/);
+			name = cstr(data, shstroffs + sh_name, offset + sizeLeft);
+		}
+		int sh_type = i32(data, hoff + 0x4 /*sh_type*/);
+		int sh_size = i32(data, hoff + 0x14 /*sh_size*/);
+		int sh_entsize = i32(data, hoff + 0x24 /*sh_entsize*/);
+		if (sh_type == 2 /*SHT_SYMTAB*/ && sh_entsize != 0 && sh_size != 0) {
+			// structures symtab section
+			psA.start(format("section %s", name), ps.offset, sh_size);
+			for (int i = 0; i < sh_size / sh_entsize; i++) {
+				String symname = null;
+				if (stroffs > 0) {
+					int st_name = i32(data, psA.offset);
+					symname = cstr(data, stroffs + st_name, offset + sizeLeft);
+				}
+				psB.start(format("symbol %s", symname), psA.offset, sh_entsize);
+				psB.put("st_name", T_INT, 4, null);
+				psB.put("st_value", T_INT, 4, null);
+				psB.put("st_size", T_INT, 4, null);
+				psB.put("st_info", T_INT, 1, null);
+				psB.put("st_other", T_INT, 1, null);
+				psB.put("st_shndx", T_INT, 2, null);
+				psB.finish();
+				psA.add(psB);
+			}
+			psA.finish();
+			ps.add(psA);
+		} else {
+			ps.put(format("section %s", name), T_UNK, sh_size, null);
+		}
+	}
+
+	// and the section header now
+	if (ps.offset - ps.startOffset < shoff) {
+		ps.put(null, T_PADDING, shoff - (ps.offset - ps.startOffset), null);
+	}
+	psA.start("section header table", ps.offset, shnum * 0x28);
+	for (int i = 0; i < shnum; i++) {
+		String name = null;
+		if (shstroffs > 0) {
+			int sh_name = i32(data, psA.offset);
+			name = cstr(data, shstroffs + sh_name, offset + sizeLeft);
+		}
+		psB.start(format("section header (%s)", name), psA.offset, 0x28);
+		psB.put("sh_name", T_INT, 4, name);
+		psB.put("sh_type", T_INT, 4, null);
+		psB.put("sh_flags", T_INT, 4, null);
+		psB.put("sh_addr", T_INT, 4, null);
+		psB.put("sh_offset", T_INT, 4, null);
+		psB.put("sh_size", T_INT, 4, null);
+		psB.put("sh_link", T_INT, 4, null);
+		psB.put("sh_info", T_INT, 4, null);
+		psB.put("sh_addralign", T_INT, 4, null);
+		psB.put("sh_entsize", T_INT, 4, null);
+		psB.finish();
+		psA.add(psB);
+	}
+	psA.finish();
+	ps.add(psA);
+
+	ps.put(null, T_PADDING, ps.sizeLeft, null);
+	ps.finish();
+}
+} /*ELFData*/

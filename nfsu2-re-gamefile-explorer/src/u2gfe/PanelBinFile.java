@@ -163,6 +163,9 @@ int addFields(CollapsibleSection parent, Object fields[], int fromIndex)
 					ii |= 0xFFFF0000;
 				}
 				data = String.format("%d (%Xh)", ii, ih);
+				if (extradata instanceof String) {
+					data += " " + (String) extradata;
+				}
 				break;
 			case T_FLOAT:
 				data = String.valueOf(f32(file.data, startOffset));
@@ -211,7 +214,7 @@ int addFields(CollapsibleSection parent, Object fields[], int fromIndex)
 			case T_OBJLINK:
 				break;
 			case T_LITSTR:
-				s = new LabelLitString(text, (String) extradata);
+				s = new LabelLitString(text + ':', (String) extradata);
 				break;
 			default:
 				throw new RuntimeException(String.format("unexpected type: %X", fieldtype));
