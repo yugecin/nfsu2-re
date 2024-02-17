@@ -71,6 +71,15 @@ private static ParseState ps3 = new ParseState();
 static ParseState parse(BinFile file, int magic, byte data[], int offset, int size)
 {
 	switch (magic) {
+	case 0x30201: {
+		String fontname = cstr(data, offset, offset + size);
+		ps0.start(format("font data things %s", fontname), offset, size);
+		ps0.put("bin name", T_STR, 256, null);
+		ps0.put("bmp name", T_STR, 256, null);
+		ps0.put(null, T_UNK, ps0.sizeLeft, null);
+		ps0.finish();
+		break;
+	}
 	case 0x30220: {
 		int entrySize = 0x338;
 		int numEntries = size / entrySize;
@@ -518,6 +527,49 @@ static ParseState parse(BinFile file, int magic, byte data[], int offset, int si
 		CareerStringPool.put(file, data, offset, size);
 		ps0.start("career string pool", offset, size);
 		ps0.put("entries", T_CAREERSTRPOOL, size, 0);
+		ps0.finish();
+		break;
+	}
+	case 0x35020: {
+		ps0.start("35020", offset, size);
+		int aligned = (offset + 0x17) & 0xFFFFFFF0;
+		ps0.put("alignment", T_PADDING, aligned - offset, null);
+		ps0.put(null, T_UNK, 8, null);
+		ps0.put("type (always 6)", T_INT, 4, null);
+		int numEntries = i32(data, ps0.offset);
+		ps0.put("numEntries", T_INT, 4, null);
+		while (numEntries-- > 0) {
+			ps1.start("entry", ps0.offset, 0xD0);
+			ps1.put(null, T_UNK, 0xC, null);
+			ps1.put("linksTo35021fiel8", T_INT, 4, null);
+			ps1.put(null, T_UNK, 0xC, null);
+			ps1.put("matching35021", T_PADDING, 4, null);
+			ps1.put(null, T_UNK, 0xB0, null);
+			ps1.finish();
+			ps0.add(ps1);
+		}
+		ps0.finish();
+		break;
+	}
+	case 0x35021: {
+		ps0.start("35021", offset, size);
+		int aligned = (offset + 0x17) & 0xFFFFFFF0;
+		ps0.put("alignment", T_PADDING, aligned - offset, null);
+		ps0.put(null, T_UNK, 8, null);
+		ps0.put("type (always 4)", T_INT, 4, null);
+		int numEntries = i32(data, ps0.offset);
+		ps0.put("numEntries", T_INT, 4, null);
+		while (numEntries-- > 0) {
+			ps1.start("entry", ps0.offset, 0x220);
+			ps1.put("link", T_OBJLINK, 8, null);
+			ps1.put("field8", T_INT, 4, null);
+			ps1.put("hash", T_HASH, 4, null);
+			ps1.put(null, T_UNK, 4, null);
+			ps1.put("loadedTextureHash", T_INT, 4, null);
+			ps1.put(null, T_UNK, 0x208, null);
+			ps1.finish();
+			ps0.add(ps1);
+		}
 		ps0.finish();
 		break;
 	}
