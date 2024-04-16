@@ -3,29 +3,17 @@ package u2gfe;
 import java.io.File;
 import java.nio.file.Files;
 
-class GameFileParser implements Runnable
+class GameFileParser
 {
-private String files[] = {
+private static String files[] = {
 	"Languages/English.bin", // should be first so we have strings :)
 	"GLOBAL/GLOBALB.BUN",
 	"GLOBAL/InGameRace.bun",
 	"TRACKS/ROUTESL4RA/Paths4001.bin",
 };
-private File gamedir;
 
-GameFileParser()
+public static void parse(File gamedir)
 {
-	Messages.GAME_DIR_SELECTED.subscribe(dir -> {
-		this.gamedir = dir;
-		Messages.START_PARSING.send(null);
-		new Thread(this).start();
-	});
-}
-
-@Override
-public void run()
-{
-	File gamedir = this.gamedir;
 	try {
 		Enum.init();
 		for (String relPath : files) {
@@ -37,6 +25,5 @@ public void run()
 		Messages.SHOW_ERROR.send(new Exception("Parse failure", t));
 	}
 	Symbol.distribute_references();
-	Messages.DONE_PARSING.send(null);
 }
 }
