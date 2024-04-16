@@ -7,7 +7,7 @@ import java.util.HashMap;
 
 class Symbol implements Comparable<Symbol>
 {
-static ArrayList<Reference> refs = new ArrayList<>();
+static ArrayList<Reference> outstandingRefs = new ArrayList<>();
 static HashMap<Integer, Symbol> symbols = new HashMap<>();
 static ArrayList<Symbol> symbolsInNaturalOrder = new ArrayList<>();
 
@@ -32,17 +32,18 @@ static void put(BinFile file, int offset, String kind)
 static void reference(String referencerName, BinFile file, int offset)
 {
 	int to = i32(file.data, offset);
-	refs.add(new Reference(to, referencerName, file, offset));
+	outstandingRefs.add(new Reference(to, referencerName, file, offset));
 }
 
 static void distribute_references()
 {
-	for (Reference ref : refs) {
+	for (Reference ref : outstandingRefs) {
 		Symbol sym = symbols.get(ref.to);
 		if (sym != null) {
 			sym.references.add(ref);
 		}
 	}
+	outstandingRefs.clear();
 }
 
 ArrayList<Reference> references = new ArrayList<>();

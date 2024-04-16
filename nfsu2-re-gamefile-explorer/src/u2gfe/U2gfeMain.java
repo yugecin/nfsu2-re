@@ -14,10 +14,12 @@ public static void main(String args[])
 
 	new WindowMain();
 
+	Enum.init();
 	Messages.GAME_DIR_SELECTED.subscribe(dir -> {
 		scheduleTask(() -> {
 			Messages.START_PARSING.send(null);
-			GameFileParser.parse(dir);
+			GameFileParser.parseEssentialFiles(dir);
+			GameFileParser.collectFiles(dir);
 			Messages.DONE_PARSING.send(null);
 		});
 	});

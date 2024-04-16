@@ -7,14 +7,16 @@ import static u2gfe.Util.i32;
 class BinFile
 {
 String name;
+String path;
 byte data[];
 ArrayList<Section> sections = new ArrayList<>();
 /** Also contains errors of all {@link #sections} */
 ArrayList<Throwable> errors = new ArrayList<>();
 
-BinFile(String name, byte data[])
+BinFile(String name, String path, byte data[])
 {
 	this.name = name;
+	this.path = path;
 	this.data = data;
 
 	int offset = 0;
