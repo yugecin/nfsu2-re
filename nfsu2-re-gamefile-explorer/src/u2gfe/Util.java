@@ -6,6 +6,8 @@ import java.awt.event.MouseEvent;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.nio.charset.StandardCharsets;
+import java.util.Formatter;
+import java.util.Locale;
 
 import javax.swing.JComponent;
 import javax.swing.JLabel;
@@ -86,6 +88,12 @@ static int cshash(String str)
 		v = v * 33 + str.charAt(i);
 	}
 	return v;
+}
+
+@SuppressWarnings("resource")
+static String f(String format, Object...args)
+{
+	return new Formatter(Locale.ENGLISH).format(format, args).toString();
 }
 
 static <T extends JComponent> T bordered(T component, Border border)

@@ -387,11 +387,11 @@ protected void paintComponent(Graphics g)
 						ttlines.add(format("offset %X (%s)", tto, ttn));
 						section = section.parent;
 					}
-					ttlines.add(format("abs offset %X", off));
-					ttlines.add(format("byte %d (%Xh) word %d (%Xh)", i8, i8, i16, i16 & 0xFFFF));
-					ttlines.add(format("dword %d (%Xh)", i32, i32));
-					ttlines.add(format("float %f", f32(this.file.data, off)));
-					ttlines.add(format("resolved hash: %s", sym == null ? "no" : sym.name));
+					ttlines.add(f("byte (%Xh) %d %d", i8, (int) (byte) i8, i8));
+					ttlines.add(f("word (%Xh) %d %d", i16 & 0xFFFF, i16, i16 & 0xFFFF));
+					ttlines.add(f("dword (%Xh) %d %d", i32, i32, i32 & 0xFFFFFFFFL));
+					ttlines.add(f("float %f", f32(this.file.data, off)));
+					ttlines.add(f("resolved hash: %s", sym == null ? "no" : sym.name));
 					this.tooltipText = ttlines.toArray(new String[0]);
 					g.setColor(Color.CYAN);
 					g.fillRect((xx * 3) * fx, y * fy, fx * 2, fy);
