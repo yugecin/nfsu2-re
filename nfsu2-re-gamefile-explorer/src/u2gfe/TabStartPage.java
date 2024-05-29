@@ -71,7 +71,7 @@ public void actionPerformed(ActionEvent e)
 	}
 	if (files[0].isFile() &&
 		(file = files[0].getParentFile()) != null &&
-		new File(file, "speed2.exe").isFile())
+		(new File(file, "speed2.exe").isFile() || new File(file, "speed2demo.exe").isFile()))
 	{
 		this.setVisible(false);
 		Messages.GAME_DIR_SELECTED.send(file);
