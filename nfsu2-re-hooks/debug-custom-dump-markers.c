@@ -27,11 +27,31 @@ void dump_marker(struct Marker *marker)
 {
 	struct NeighbourhoodName *nbhn;
 	struct SmsData *sms;
-	char *name;
-	int i;
+	char *name, *b, tempBuf[20], *spaces = "             ";
+	int i, tempBufLen;
 
-	log(buf, sprintf(buf, "  structsize %d x %f y %f radius %d",
-		marker->markerStructSize, marker->pos_x, marker->pos_y, marker->radius));
+#define PADDEDF(V) \
+	tempBufLen = sprintf(tempBuf, "%.2f", V);\
+	i = 8 - tempBufLen; i = i < 0 ? 0 : i;\
+	memcpy(b, spaces, i); b += i;\
+	memcpy(b, tempBuf, tempBufLen); b += tempBufLen;
+
+	b = buf;
+	b += sprintf(b, "  structsize %3d areaMin (", marker->markerStructSize);
+	PADDEDF(marker->squarePositionMin.x);
+	*(b++) = ','; *(b++) = ' ';
+	PADDEDF(marker->squarePositionMin.y);
+	b += sprintf(b, ") areaMax (");
+	PADDEDF(marker->squarePositionMax.x);
+	*(b++) = ','; *(b++) = ' ';
+	PADDEDF(marker->squarePositionMax.y);
+	b += sprintf(b, ") position (");
+	PADDEDF(marker->pos_x);
+	*(b++) = ','; *(b++) = ' ';
+	PADDEDF(marker->pos_y);
+	b += sprintf(b, ") radius %d", marker->radius);
+	log(buf, b - buf);
+
 	switch (marker->type) {
 	case 0x11:
 		nbhn = GetNeighbourhoodNameForHash(marker->hash);
@@ -72,20 +92,18 @@ void debug_custom_dump_markers(int wparam)
 	if (wparam == 121) { // y
 		log(buf, sprintf(buf, "%d markers:", pathsData->numMarkers));
 		for (type = 0; type <= 20; type++) {
-			pointer = (void*) pathsData->markers[type];
-			end = pathsData->markers[type + 1];
-			num = 0;
-			while (pointer < end) {
+			pointer = (void*) pathsData->markersOfType_Start[type];
+			end = pathsData->markersOfType_Start[type + 1];
+			for (num = 0; pointer < end; num++) {
 				marker = (void*) pointer;
-				num++;
 				pointer += marker->markerStructSize;
 			}
 			log(buf, sprintf(buf, "  type %d (%s): %d markers", type, markerTypeName[type], num));
 		}
 		for (type = 0; type <= 20; type++) {
 			log(buf, sprintf(buf, "type %d (%s) markers:", type, markerTypeName[type]));
-			pointer = (void*) pathsData->markers[type];
-			end = pathsData->markers[type + 1];
+			pointer = (void*) pathsData->markersOfType_Start[type];
+			end = pathsData->markersOfType_Start[type + 1];
 			while (pointer < end) {
 				marker = (void*) pointer;
 				dump_marker(marker);

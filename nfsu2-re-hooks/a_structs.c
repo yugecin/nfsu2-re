@@ -319,6 +319,10 @@ struct U2RECT {
 	float left, top, right, bottom;
 };
 
+struct vec2 {
+	float x, y;
+};
+
 struct UIData_Field8 {
 	char pad[0xE4];
 	struct FNGInfo *topPackage;
@@ -642,41 +646,48 @@ struct PathsData { /*17 members, size 4A0h*/
 
 size of allMarkers*/
 /*438*/	int allMarkersSize;
+/**array of all markers, this is sorted by marker type (first come all markers with type 0, then 1, ..)*/
 /*43C*/	struct Marker *allMarkers;
-/**note that, while this array is of size 22,
-entry 21 does not point to an array of markers,
-rather it points to where the end of the array on entry 20 is
-
-array of ptrs to markers with the arrayindex as marker type (ie markers[3] points to an array of markers with type 3*/
-/*440*/	struct Marker *markers[22];
+/**each entry points to the marker in array {struct PathsData+43C} that is the first marker of the type indicated by the entry index.
+(ie {{struct PathsData+440}[3]} points to the first entry in {struct PathsData+43C} where the type is 3)
+that also means accessing element type+1 points to the end of the series of markers of that type (exclusive)
+that's also why there are 22 entries, index 21 simply points to the end of type 20 markers (there is no marker type 21)*/
+/*440*/	struct Marker *markersOfType_Start[22];
 /*498*/	int field_498;
 /*49C*/	int field_49C;
 };
+EXPECT_SIZE(struct PathsData, 0x4A0);
 
-struct Marker { /*20 members, size 4Ch*/
+struct Marker { /*19 members, size 51h*/
 /*0*/	enum MARKER_TYPE type;
-/*4*/	int field_4;
-/*8*/	int field_8;
+/*4*/	float floatField_4;
+/*8*/	float floatField_8;
 /*C*/	int field_C;
 /*10*/	int field_10;
 /*14*/	int field_14;
 /*18*/	int field_18;
 /*1C*/	int field_1C;
-/*20*/	int field_20;
-/*24*/	int field_24;
-/*28*/	int field_28;
-/*2C*/	int field_2C;
-/**for type neighbourhood: hash of name, for type engage tip: hash of sms name*/
+/**x & y minimum of the square that denotes the hitposition*/
+/*20*/	struct vec2 squarePositionMin;
+/**x & y maximum of the square that denotes the hitposition*/
+/*28*/	struct vec2 squarePositionMax;
+/**for type neighbourhood: hash of name
+for type engage tip: hash of sms name
+for money: hash of sound effect to play!?*/
 /*30*/	unsigned int hash;
 /*34*/	int field_34;
 /*38*/	int field_38;
 /*3C*/	int field_3C;
+/**usually 4-14*/
 /*40*/	__int16 radius;
 /**seems like there are marker subtypes with different sizes*/
 /*42*/	__int16 markerStructSize;
 /*44*/	float pos_x;
 /*48*/	float pos_y;
+/*4C*/	char _pad4C[0x4];
+/*50*/	char field_50;
 };
+EXPECT_SIZE(struct Marker, 0x51);
 
 struct FNGObject {
 	int *vtable;
