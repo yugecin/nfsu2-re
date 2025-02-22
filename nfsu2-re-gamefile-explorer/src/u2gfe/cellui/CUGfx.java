@@ -47,6 +47,7 @@ private final ArrayDeque<Point> translateStack;
 private final ArrayDeque<Rectangle> clipStack;
 private final HashMap<Integer, String[]> hoverData;
 private final HashMap<Integer, Object> clickData;
+private final HashMap<Integer, Object> linkData;
 
 public final boolean isTimerTick;
 public final int tickCount;
@@ -57,7 +58,8 @@ public boolean requireTimerRepaint;
 
 CUGfx(
 	Graphics awtg, Point mouse, HashMap<Integer, String[]> hoverData,
-	HashMap<Integer, Object> clickData, int tickCount, boolean isTimerTick
+	HashMap<Integer, Object> clickData, HashMap<Integer, Object> linkData,
+	int tickCount, boolean isTimerTick
 ) {
 	this.awtg = awtg;
 	this.awtg.setFont(monospace);
@@ -67,6 +69,7 @@ CUGfx(
 	this.clipStack = new ArrayDeque<>();
 	this.hoverData = hoverData;
 	this.clickData = clickData;
+	this.linkData = linkData;
 	this.tickCount = tickCount;
 	this.isTimerTick = isTimerTick;
 }
@@ -184,10 +187,14 @@ private <T> void putdata(HashMap<Integer, T> target, int w, int h, T data)
 	}
 }
 
-public void clickable(int w, int h, Object clickdata)
+public void clickable(HashMap<Integer, Object> into, int w, int h, CUComponent.Clickable owner, Object clickuserdata)
 {
-	assert clickdata instanceof CUComponent.Clickable || clickdata instanceof ClickData;
-	this.putdata(this.clickData, w, h, clickdata);
+	this.putdata(into, w, h, clickuserdata == null ? owner : new ClickData(owner, clickuserdata));
+}
+
+public void clickable(int w, int h, CUComponent.Clickable owner)
+{
+	this.clickable(this.clickData, w, h, owner, null);
 }
 
 public void tooltip(int w, int h, String[] text)
@@ -215,8 +222,24 @@ public void button(CUComponent.Clickable owner, Object clickuserdata, String tex
 	this.setColor(Color.black);
 	this.drawString(1, 0, text);
 	if (enabled) {
-		this.clickable(w, 1, clickuserdata == null ? owner : new ClickData(owner, clickuserdata));
+		this.clickable(this.clickData, w, 1, owner, clickuserdata);
 	}
+}
+
+public void link(CUComponent.Clickable owner, Object clickuserdata, String text)
+{
+	int w = text.length();
+	this.clickable(this.linkData, w, 1, owner, clickuserdata);
+	var colorToRestore = this.awtg.getColor();
+	this.awtg.setColor(Color.blue);
+	if (this.isHovered(0, 0, w, 1)) {
+		this.awtg.setColor(colAccent);
+		this.fillRect(0, 0, w, 1);
+		this.awtg.setColor(Color.white);
+	}
+	this.drawString(0, 0, text);
+	this.awtg.drawLine(0, fmaxascend + 2, w * fx, fmaxascend + 2);
+	this.awtg.setColor(colorToRestore);
 }
 
 class ClickData

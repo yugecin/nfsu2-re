@@ -1,15 +1,25 @@
 package u2gfe;
 
-import java.awt.*;
-import java.io.*;
-import java.util.*;
-import javax.swing.*;
-import u2gfe.cellui.*;
+import static u2gfe.cellui.CURoot.CLOSABLE;
+import static u2gfe.cellui.CURoot.NOT_CLOSABLE;
 
-import static u2gfe.cellui.CURoot.*;
+import java.awt.Dimension;
+import java.awt.EventQueue;
+import java.awt.FileDialog;
+import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
+
+import javax.swing.JFrame;
+import javax.swing.WindowConstants;
+
+import u2gfe.cellui.CURoot;
+import u2gfe.cellui.CUText;
 
 class WindowMain extends JFrame
 {
+private ArrayList<Listener> listeners;
+
 /** {@link GamefileParser#parseFileSync} should not be used by any other class; they should use {@link #parseFileAsync} instead */
 GamefileParser gamefileParser;
 TabNewstartpage tabStartpage;
@@ -60,6 +70,16 @@ WindowMain()
 	this.getContentPane().add(this.root);
 	this.pack();
 	this.setVisible(true);
+}
+
+void addListener(Listener listener)
+{
+	this.listeners.add(listener);
+}
+
+void removeListener(Listener listener)
+{
+	this.listeners.remove(listener);
 }
 
 void showError(Throwable error)
@@ -119,13 +139,26 @@ void parseFileAsync(BinFile binfile)
 		} catch (InterruptedException e) {
 		}
 		var result = this.gamefileParser.parseFileSync(binfile);
-		if (!result.isOk) {
-			EventQueue.invokeLater(() -> this.showError(result.err));
-		}
+		EventQueue.invokeLater(() -> {
+			if (!result.isOk) {
+				this.showError(result.err);
+			}
+			for (Listener listener : this.listeners) {
+				listener.onBinFileParseResult(binfile, result);
+			}
+		});
 	});
 }
 
 void openFile(String path)
 {
+	var file = new File(this.gamefileParser.gamedir, path);
+	var binfile = this.gamefileParser.getOrCreateBinFileFor(file);
+	this.root.addTab(new CUText(path), new TabNewBinFile(this, binfile), CLOSABLE);
 }
+
+interface Listener
+{
+default void onBinFileParseResult(BinFile file, Result<BinFile, Throwable> result) {}
+} /*Listener*/
 }

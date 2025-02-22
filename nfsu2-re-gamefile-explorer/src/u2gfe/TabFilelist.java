@@ -26,7 +26,8 @@ TabFilelist(WindowMain main, ArrayList<String> essentialFiles)
 	this.maxLineLength = TXT_HDR.length();
 	this.essentialFileLines = new ArrayList<>(essentialFiles.size());
 	for (var iter = essentialFiles.iterator(); iter.hasNext();) {
-		var fileline = new FileLine(iter.next(), 1, !iter.hasNext());
+		var isLast = !iter.hasNext();
+		var fileline = new FileLine(iter.next(), 1, isLast);
 		this.essentialFileLines.add(fileline);
 		this.maxLineLength = max(this.maxLineLength, fileline.width);
 	}
@@ -146,9 +147,13 @@ public void paint(CUGfx g, int givenWidth, int givenHeight)
 		g.awtg.drawLine(fx / 2, fy / 2, fx, fy / 2);
 		g.translate(1, 0);
 	}
+	g.translate(1, 0);
+	g.link(this, null, path);
+	/*
 	g.drawString(1, 0, path);
 	g.translate(2 + path.length(), 0);
 	g.button(this, null, TXT_OPEN, colBtnDefBg, colBtnHovBg, true);
+	*/
 	g.popTranslate();
 }
 

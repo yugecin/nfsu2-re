@@ -24,10 +24,12 @@ int lastHoveredGrid = grid(-100, -100), mousePressedGrid = grid(-100, -100);
 Point awtExtraSize;
 HashMap<Integer, String[]> hoverData = new HashMap<>();
 HashMap<Integer, Object> clickData = new HashMap<>();
+HashMap<Integer, Object> linkData = new HashMap<>();
 Timer timer;
 int tickCount;
 int lastPaintTickCount;
 boolean requiresTimerRepaint;
+Cursor cursorPoint, cursorDefault;
 
 public CURoot()
 {
@@ -41,6 +43,8 @@ public CURoot()
 	this.lastHoveredGrid = grid(-100, -100);
 	this.timer = new Timer(20, this);
 	this.timer.start();
+	this.cursorPoint = Cursor.getPredefinedCursor(Cursor.HAND_CURSOR);
+	this.cursorDefault = Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR);
 }
 
 /**
@@ -65,6 +69,12 @@ public void removeTab(CUComponent withContent)
 	for (var iter = this.tabs.listIterator(this.tabs.size()); iter.hasPrevious();) {
 		var tab = iter.previous();
 		if (tab.content == withContent) {
+			if (withContent instanceof Disposable) {
+				((Disposable) withContent).dispose();
+			}
+			if (tab.header instanceof Disposable) {
+				((Disposable) tab.header).dispose();
+			}
 			iter.remove();
 			if (tab == this.activeTab) {
 				if (iter.hasPrevious()) {
@@ -101,12 +111,13 @@ protected void paintComponent(Graphics _awtg)
 	updateFontMetrics(_awtg);
 	this.clickData.clear();
 	this.hoverData.clear();
+	this.linkData.clear();
 
 	int awtw = this.getWidth(), awth = this.getHeight();
 	awtExtraSize.x = awtw % fx; awtExtraSize.y = awth % fy;
 	int w = (awtw - awtExtraSize.x) / fx, h = (awth - awtExtraSize.y) / fy;
 	var isTimerTick = this.lastPaintTickCount != this.tickCount;
-	var g = new CUGfx(_awtg, gridmouse, this.hoverData, this.clickData, this.tickCount, isTimerTick);
+	var g = new CUGfx(_awtg, gridmouse, this.hoverData, this.clickData, this.linkData, this.tickCount, isTimerTick);
 	this.lastPaintTickCount = this.tickCount;
 
 	g.pushTranslate();
@@ -210,6 +221,9 @@ public void mouseReleased(MouseEvent e)
 	int grid = grid(this.gridmouse.x, this.gridmouse.y);
 	if (grid == this.mousePressedGrid) {
 		Object clickData = this.clickData.get(grid);
+		if (clickData == null) {
+			clickData = this.linkData.get(grid);
+		}
 		CUComponent.Clickable comp = null;
 		Object data = null;
 		if (clickData instanceof CUComponent.Clickable) {
@@ -218,7 +232,7 @@ public void mouseReleased(MouseEvent e)
 			comp = ((CUGfx.ClickData) clickData).owner;
 			data = ((CUGfx.ClickData) clickData).userdata;
 		} else if (clickData != null) {
-			throw new RuntimeException("invalid click listener");
+			throw new RuntimeException("invalid click/link listener");
 		}
 		if (comp != null && (comp.onClick(grid, e.getButton(), data) & CUComponent.Clickable.ONCLICK_REPAINT) != 0) {
 			this.repaint();
@@ -258,8 +272,14 @@ public void mouseMoved(MouseEvent e)
 	updateMousePosition(e);
 
 	int grid = grid(this.gridmouse.x, this.gridmouse.y);
+	if (this.linkData.get(grid) != null) {
+		this.setCursor(this.cursorPoint);
+	} else if (this.getCursor() == this.cursorPoint) {
+		this.setCursor(this.cursorDefault);
+	}
 	String[] tooltipText = this.hoverData.get(grid);
 	if (tooltipText != null) {
+		// always allow fallthrough because mouseposition could be different and rendered tooltip is not aligned to grid
 		this.tooltipText = tooltipText;
 	} else if (this.tooltipText != null) {
 		this.tooltipText = null;
