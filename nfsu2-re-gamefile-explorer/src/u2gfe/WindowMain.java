@@ -1,49 +1,30 @@
 package u2gfe;
 
-import java.awt.Dimension;
-import java.awt.Font;
-import java.awt.FontMetrics;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
+import java.awt.*;
+import java.io.*;
+import java.util.*;
+import javax.swing.*;
+import u2gfe.cellui.*;
 
-import javax.swing.JFrame;
-import javax.swing.JTabbedPane;
-import javax.swing.WindowConstants;
+import static u2gfe.cellui.CURoot.*;
 
 class WindowMain extends JFrame
 {
-static Font monospace;
-static int fx, fy, fmaxascend;
-static boolean hasFontMetrics;
-
-static void updateFontMetrics(Graphics g)
-{
-	if (!hasFontMetrics) {
-		hasFontMetrics = true;
-		FontMetrics metrics = ((Graphics2D) g).getFontMetrics(monospace);
-		fx = metrics.charWidth('m');
-		fy = metrics.getHeight();
-		fmaxascend = metrics.getMaxAscent();
-	}
-}
-
-final JTabbedPane tabbedPane;
+/** {@link GamefileParser#parseFileSync} should not be used by any other class; they should use {@link #parseFileAsync} instead */
+GamefileParser gamefileParser;
+TabNewstartpage tabStartpage;
+TabFilelist tabFilelist;
+CURoot root;
 
 WindowMain()
 {
 	super("nfsu2-re-gamefile-explorer");
 
-	monospace = new Font("Courier New", Font.PLAIN, 12);
-
 	this.setLocationByPlatform(true);
+
+	/*
 	this.tabbedPane = new JTabbedPane();
 	this.tabbedPane.addTab("Start Page", new TabStartPage());
-
-	Messages.SHOW_ERROR.subscribe(error -> {
-		this.tabbedPane.addTab(error.getMessage(), new TabError(error));
-		this.tabbedPane.setSelectedIndex(this.tabbedPane.getTabCount() - 1);
-		Util.makeTabLabelMMBClosable(this.tabbedPane, this.tabbedPane.getTabCount() - 1);
-	});
 
 	Messages.SHOW_SYMBOLS.subscribe(ordered -> {
 		this.tabbedPane.addTab("Hash list", new TabSymbols(ordered.booleanValue()));
@@ -63,11 +44,88 @@ WindowMain()
 		this.tabbedPane.setSelectedIndex(this.tabbedPane.getTabCount() - 1);
 		Util.makeTabLabelMMBClosable(this.tabbedPane, this.tabbedPane.getTabCount() - 1);
 	});
+	*/
+
+	this.tabStartpage = new TabNewstartpage(this);
+	this.root = new CURoot();
+	this.root.addTab(new CUText("Start Page"), this.tabStartpage, NOT_CLOSABLE);
+
+	var dir = System.getProperty("U2GFE_INIT_WITH_DIRECTORY");
+	if (dir != null) {
+		EventQueue.invokeLater(() -> this.loadGamedir(new File(dir)));
+	}
 
 	this.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 	this.setPreferredSize(new Dimension(1100, 880));
-	this.getContentPane().add(this.tabbedPane);
+	this.getContentPane().add(this.root);
 	this.pack();
 	this.setVisible(true);
+}
+
+void showError(Throwable error)
+{
+	this.root.addTab(new CUText(error.toString()), new TabError(error), CLOSABLE);
+}
+
+void showGamedirSelectorFiledialog()
+{
+	var fd = new FileDialog(this, "Select SPEED2.EXE (or any file in the game directory)");
+	fd.setVisible(true);
+	var files = fd.getFiles();
+	if (files.length == 0) {
+		return;
+	}
+	File dir;
+	try {
+		dir = files[0].getParentFile().getCanonicalFile();
+	} catch (IOException e) {
+		this.showError(new Exception("failed to get game directory canonical file", e));
+		return;
+	}
+	if (new File(dir, "speed2.exe").isFile() || new File(dir, "speed2demo.exe").isFile()) {
+		this.loadGamedir(dir);
+	} else {
+		this.tabStartpage.badGameDirSelected = true;
+		this.root.repaintIfActiveTab(this.tabStartpage);
+	}
+}
+
+void loadGamedir(File dir)
+{
+	this.root.removeTab(this.tabStartpage);
+	this.tabStartpage = null;
+	Symbol.clearSymbols();
+	this.gamefileParser = new GamefileParser(dir);
+	Tasks.scheduleTask(() -> {
+		//this.gamefileParser.collectFiles();
+		//EventQueue.invokeLater(this.tabFilelist::onFilesCollected);
+	});
+	var filelistEssentialFiles = new ArrayList<String>(GamefileParser.ESSENTIAL_FILES_RELATIVEPATHS.length);
+	for (String relativePath : GamefileParser.ESSENTIAL_FILES_RELATIVEPATHS) {
+		var file = this.gamefileParser.gamedir.toPath().resolve(relativePath).toFile();
+		var binfile = this.gamefileParser.getOrCreateBinFileFor(file);
+		this.parseFileAsync(binfile);
+		filelistEssentialFiles.add(binfile.path);
+	}
+	this.tabFilelist = new TabFilelist(this, filelistEssentialFiles);
+	this.root.addTab(new CUText("File list"), this.tabFilelist, NOT_CLOSABLE);
+}
+
+void parseFileAsync(BinFile binfile)
+{
+	Tasks.scheduleTask(() -> {
+		try {
+			Thread.sleep(2000); // TODO remove me
+		} catch (InterruptedException e) {
+		}
+		var result = this.gamefileParser.parseFileSync(binfile);
+		if (!result.isOk) {
+			EventQueue.invokeLater(() -> this.showError(result.err));
+		}
+	});
+}
+
+void openFile(String path)
+{
 }
 }

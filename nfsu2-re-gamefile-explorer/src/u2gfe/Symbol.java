@@ -1,15 +1,21 @@
 package u2gfe;
 
-import static u2gfe.Util.*;
+import java.util.*;
 
-import java.util.ArrayList;
-import java.util.HashMap;
+import static u2gfe.Util.*;
 
 class Symbol implements Comparable<Symbol>
 {
 static ArrayList<Reference> outstandingRefs = new ArrayList<>();
 static HashMap<Integer, Symbol> symbols = new HashMap<>();
 static ArrayList<Symbol> symbolsInNaturalOrder = new ArrayList<>();
+
+static void clearSymbols()
+{
+	outstandingRefs.clear();
+	symbols.clear();
+	symbolsInNaturalOrder.clear();
+}
 
 static void put(BinFile file, int offset, String kind)
 {
@@ -35,7 +41,7 @@ static void reference(String referencerName, BinFile file, int offset)
 	outstandingRefs.add(new Reference(to, referencerName, file, offset));
 }
 
-static void distribute_references()
+static void distributeReferences()
 {
 	for (Reference ref : outstandingRefs) {
 		Symbol sym = symbols.get(ref.to);
@@ -94,4 +100,4 @@ public String toString()
 	return this.referencerName;
 }
 } /*Reference*/
-}
+} /*Symbol*/

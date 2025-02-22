@@ -1,8 +1,7 @@
 package u2gfe;
 
-import java.awt.EventQueue;
-
-import javax.swing.UIManager;
+import java.awt.*;
+import javax.swing.*;
 
 public class U2gfeMain
 {
@@ -12,23 +11,29 @@ public static void main(String args[])
 		UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
 	} catch (Throwable t) {}
 
-	new WindowMain();
-
+	Tasks.init();
 	Enum.init();
-	Messages.GAME_DIR_SELECTED.subscribe(dir -> {
-		scheduleTask(() -> {
-			Messages.START_PARSING.send(null);
-			GameFileParser.parseEssentialFiles(dir);
-			GameFileParser.collectFiles(dir);
-			Messages.DONE_PARSING.send(null);
-		});
-	});
+	new WindowMain();
+	Tasks.execPump();
+}
+} /*U2gfeMain*/
 
-	// task mechanism below
+class Tasks
+{
+static Thread taskThread;
+static ScheduledTask lastTask, currentTask;
 
+static void init()
+{
+	taskThread = Thread.currentThread();
 	currentTask = new ScheduledTask(null);
 	currentTask.done = true;
 	lastTask = currentTask;
+}
+
+/** takes over the current thread to become the task thread */
+static void execPump()
+{
 	for (;;) {
 		if (!currentTask.done) {
 			currentTask.done = true;
@@ -37,6 +42,7 @@ public static void main(String args[])
 			} catch (Throwable t) {
 				System.err.printf("task error (%s)%n", currentTask.task);
 				t.printStackTrace();
+				currentTask.scheduleStack.printStackTrace();
 			}
 		}
 		if (currentTask.next != null) {
@@ -49,10 +55,7 @@ public static void main(String args[])
 	}
 }
 
-static Thread taskThread = Thread.currentThread();
-static ScheduledTask currentTask, lastTask;
-
-private static void scheduleTask(Runnable body)
+static void scheduleTask(Runnable body)
 {
 	assert EventQueue.isDispatchThread();
 	lastTask.next = new ScheduledTask(body);
@@ -62,13 +65,15 @@ private static void scheduleTask(Runnable body)
 
 private static class ScheduledTask
 {
-	Runnable task;
-	boolean done;
-	ScheduledTask next;
+Runnable task;
+boolean done;
+ScheduledTask next;
+Throwable scheduleStack;
 
-	ScheduledTask(Runnable task)
-	{
-		this.task = task;
-	}
+ScheduledTask(Runnable task)
+{
+	this.task = task;
+	this.scheduleStack = new Exception("<task schedule stacktrace>");
 }
-}
+} /*ScheduledTask*/
+} /*Tasks*/

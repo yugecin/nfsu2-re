@@ -126,4 +126,44 @@ static final MouseAdapter tabLabelMMBCloseMouseListener = new MouseAdapter() {
 		}
 	}
 };
+
+public static int max(int a, int b)
+{
+	return a > b ? a : b;
+}
+
+public static int max(int...v)
+{
+	int m = v[0];
+	for (int i = 1; i < v.length; i++) {
+		if (v[i] > m) {
+			m = v[i];
+		}
+	}
+	return m;
+}
+} /*Util*/
+
+class Result<Ok, Err>
+{
+boolean isOk;
+Ok ok;
+Err err;
+
+private Result(boolean isOk, Ok ok, Err err)
+{
+	this.isOk = isOk;
+	this.ok = ok;
+	this.err = err;
+}
+
+static <Ok, Err> Result<Ok, Err> ok(Ok ok)
+{
+	return new Result<>(true, ok, null);
+}
+
+static <Ok, Err> Result<Ok, Err> err(Err err)
+{
+	return new Result<>(false, null, err);
+}
 }

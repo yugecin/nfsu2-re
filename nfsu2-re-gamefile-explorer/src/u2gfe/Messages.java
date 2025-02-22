@@ -1,7 +1,6 @@
 package u2gfe;
 
 import java.awt.EventQueue;
-import java.io.File;
 import java.util.ArrayList;
 
 import javax.swing.SwingUtilities;
@@ -13,10 +12,10 @@ interface Subscriber<T>
 	void receiveMessage(T arg);
 }
 
-static final Messages<File> GAME_DIR_SELECTED = new Messages<>();
-static final Messages<Void> START_PARSING = new Messages<>();
-static final Messages<Void> DONE_PARSING = new Messages<>();
-static final Messages<BinFile> GAME_FILE_PARSED = new Messages<>();
+static final Messages<Void> ROOT_REPAINT = new Messages<>();
+static final Messages<Void> PARSER_COLLECT_FILES_START = new Messages<>();
+static final Messages<Result<FileWrapper, Throwable>> PARSER_COLLECT_FILES_DONE = new Messages<>();
+static final Messages<BinFile> PARSER_PARSE_FILE_START = new Messages<>();
 static final Messages<Throwable> SHOW_ERROR = new Messages<>();
 static final Messages<BinFile> SHOW_BINFILE = new Messages<>();
 static final Messages<Boolean> SHOW_SYMBOLS = new Messages<>();

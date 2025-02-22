@@ -1,24 +1,35 @@
 package u2gfe;
 
-import java.util.ArrayList;
+import java.io.*;
+import java.util.*;
 
-import static u2gfe.Util.i32;
+import static u2gfe.Util.*;
 
 class BinFile
 {
+File file;
 String name;
+/** relative path */
 String path;
 byte data[];
 ArrayList<Section> sections = new ArrayList<>();
 /** Also contains errors of all {@link #sections} */
 ArrayList<Throwable> errors = new ArrayList<>();
+boolean isParsed;
 
-BinFile(String name, String path, byte data[])
+/**
+ * @param path should be path relative to game dir
+ */
+BinFile(File file, String path)
 {
-	this.name = name;
+	this.file = file;
+	this.name = file.getName();
 	this.path = path;
-	this.data = data;
+}
 
+void parse(byte data[])
+{
+	this.data = data;
 	int offset = 0;
 	while (offset < data.length - 8) {
 		int magic = i32(data, offset);
@@ -34,6 +45,7 @@ BinFile(String name, String path, byte data[])
 	if (offset != data.length) {
 		this.errors.add(new Throwable(String.format("%Xh trailing bytes from offset %Xh", data.length - offset, offset)));
 	}
+	this.isParsed = true;
 }
 
 @Override

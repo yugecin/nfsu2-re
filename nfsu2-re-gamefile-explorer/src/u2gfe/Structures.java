@@ -1,13 +1,11 @@
 package u2gfe;
 
+import java.util.*;
+
 import static u2gfe.Enum.*;
 import static u2gfe.Structures.*;
 import static u2gfe.Util.*;
 import static java.lang.String.format;
-
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Set;
 
 class Structures
 {
@@ -26,23 +24,6 @@ static final int T_CAREERSTRPOOL = 0xC000000;
 static final int T_CAREERSTRPOOLREF = 0xD000000;
 static final int T_LITSTR = 0xE000000;
 static final int T_ENUM = 0xF000000;
-
-static final int arr_entrytype(int type)
-{
-	if (type > 0xFF) {
-		throw new RuntimeException();
-	}
-	return type << 16;
-}
-static final int arr_count(int count)
-{
-	if (count > 0xFFFF) {
-		throw new RuntimeException();
-	}
-	return count;
-}
-static final int enum_type(int type) { return type << 8; }
-static final int enum_width(int width) { return width; }
 
 static HashMap<Integer, Object[]> structures;
 
