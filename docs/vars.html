@@ -284,7 +284,7 @@ pre.ida span.hi {
 <a href='cheatsheet.html'>cheatsheet</a></nav>
 </header>
 <div class='var'>
-<h2>Variables (982)</h2>
+<h2>Variables (989)</h2>
 <ul>
 <li><a href=#5CCFFC>
 WndProcMsgJumpTable</a>
@@ -1388,6 +1388,8 @@ sponsorNames</a>
 message</a>
 <li><a href=#7F7DC8>
 fngdata</a>
+<li><a href=#7F918C>
+aZhe</a>
 <li><a href=#7F91C4>
 drawHud</a>
 <li><a href=#7F91C8>
@@ -1566,6 +1568,14 @@ ptr</a>
 doPrintAudioDebugLog</a>
 <li><a href=#82C738>
 audioDebugString</a>
+<li><a href=#82DA4C>
+ePolySlotPool</a>
+<li><a href=#82DA84>
+streamingPackSlotPool</a>
+<li><a href=#82DA88>
+eModelSlotPool</a>
+<li><a href=#82DB0C>
+texturePackSlotPool</a>
 <li><a href=#82DBA0>
 binSectionHandlerMagicMapEntryB3300000</a>
 <li><a href=#82DBB0>
@@ -1574,6 +1584,8 @@ binSectionHandlerMagicMapEntry80135000</a>
 binSectionHandlerMagicMapEntry80135100</a>
 <li><a href=#830B08>
 binSectionHandlerMagicMapEntryB0300100</a>
+<li><a href=#830D08>
+b35021entries</a>
 <li><a href=#832DE0>
 d</a>
 <li><a href=#835784>
@@ -1902,6 +1914,8 @@ _useD24S8autoStencilFormat</a>
 _textureHeaderPool</a>
 <li><a href=#870820>
 _vertexBufferHeaderPool</a>
+<li><a href=#8708B8>
+eLightMaterialPlatInfoSlotPool</a>
 <li><a href=#87090C>
 _areShaders87090CAlreadyCompiled</a>
 <li><a href=#870914>
@@ -3403,6 +3417,15 @@ Some of them are constructors being called.</div>
 <div><i>7F7D50</i> int <h3>message</h3> <u></u></div>
 <a id=7F7DC8></a>
 <div><i>7F7DC8</i> <a href=structs.html#struc_FNGData>struct FNGData</a> <h3>fngdata</h3>[180]</div>
+<a id=7F918C></a>
+<div class=mm><pre>
+0xDCA5485A, 18.0, 2.0 (hash resolves to conduitmditc_tt14i_korean)
+0x833A8678, 21.5, 2.0 (hash resolves to conduitmditc_tt21i_korean)
+0xF88A75F9, 18.0, 1.0 (hash resolves to conduitmditc_tt14i_chinese)
+0x71C777D7, 23.0, 1.0 (hash resolves to conduitmditc_tt21i_chinese)
+</pre>
+</div>
+<div><i>7F918C</i> <a href=structs.html#struc_FontAZHE>struct FontAZHE</a> <h3>aZhe</h3>[4]</div>
 <a id=7F91C4></a>
 <div><i>7F91C4</i> int <h3>drawHud</h3> <u></u></div>
 <a id=7F91C8></a>
@@ -3729,6 +3752,18 @@ see <a href=funcs.html#43C100>FindBinSectionHandler</a></div>
 <div><i>82BC4C</i> int <h3>doPrintAudioDebugLog</h3> <u></u></div>
 <a id=82C738></a>
 <div><i>82C738</i> char <h3>audioDebugString</h3>[512] <u></u></div>
+<a id=82DA4C></a>
+<div class=mm><p>32 slots; 128 bytes per slot</div>
+<div><i>82DA4C</i> int <h3>ePolySlotPool</h3> <u></u></div>
+<a id=82DA84></a>
+<div class=mm><p>64 items of 192 bytes</div>
+<div><i>82DA84</i> int <h3>streamingPackSlotPool</h3> <u></u></div>
+<a id=82DA88></a>
+<div class=mm><p>5000 items of 24 bytes</div>
+<div><i>82DA88</i> int <h3>eModelSlotPool</h3> <u></u></div>
+<a id=82DB0C></a>
+<div class=mm><p>128 slots of 124 bytes</div>
+<div><i>82DB0C</i> int <h3>texturePackSlotPool</h3> <u></u></div>
 <a id=82DBA0></a>
 <div><i>82DBA0</i> <a href=structs.html#struc_BinSectionMagicMapEntry>struct BinSectionMagicMapEntry</a> <h3>binSectionHandlerMagicMapEntryB3300000</h3></div>
 <a id=82DBB0></a>
@@ -3737,6 +3772,8 @@ see <a href=funcs.html#43C100>FindBinSectionHandler</a></div>
 <div><i>830AF8</i> <a href=structs.html#struc_BinSectionMagicMapEntry>struct BinSectionMagicMapEntry</a> <h3>binSectionHandlerMagicMapEntry80135100</h3></div>
 <a id=830B08></a>
 <div><i>830B08</i> <a href=structs.html#struc_BinSectionMagicMapEntry>struct BinSectionMagicMapEntry</a> <h3>binSectionHandlerMagicMapEntryB0300100</h3></div>
+<a id=830D08></a>
+<div><i>830D08</i> <a href=structs.html#struc_PoolEntry>struct PoolEntry</a> <h3>b35021entries</h3></div>
 <a id=832DE0></a>
 <div><i>832DE0</i> <a href=structs.html#struc_D>struct D</a> <h3>d</h3>[22]</div>
 <a id=835784></a>
@@ -3842,7 +3879,8 @@ It has one XREF, surrounded by some language stuff? TODO</div>
 <div class=mm><p>number of entries in <a href=vars.html#838414>careerSponsors</a></div>
 <div><i>838410</i> int <h3>numCareerSponsors</h3> <u></u></div>
 <a id=838414></a>
-<div class=mm><p><a href=vars.html#838410>numCareerSponsors</a> num entries, entries of <a href=structs.html#struc_CareerSponsor>struct CareerSponsor</a>
+<div class=mm><p>@docgen:type:struct CareerSponsor *
+<a href=vars.html#838410>numCareerSponsors</a> num entries, entries of <a href=structs.html#struc_CareerSponsor>struct CareerSponsor</a>
 bin section 34A19</div>
 <div><i>838414</i> int <h3>careerSponsors</h3> <u></u></div>
 <a id=838418></a>
@@ -3851,7 +3889,7 @@ bin section 34A19</div>
 <a id=83841C></a>
 <div class=mm><p><a href=vars.html#838418>numCareerStageSettingsEntries</a> num entries
 bin section 34A18, size 50h, see 5001B8</div>
-<div><i>83841C</i> int <h3>careerStageSettingsEntries</h3> <u></u></div>
+<div><i>83841C</i> <a href=structs.html#struc_CareerStageSettings>struct CareerStageSettings</a> *<h3>careerStageSettingsEntries</h3></div>
 <a id=838420></a>
 <div class=mm><p>num entries in <a href=vars.html#838424>bin34A1B</a></div>
 <div><i>838420</i> int <h3>numBin34A1B</h3> <u></u></div>
@@ -3859,7 +3897,8 @@ bin section 34A18, size 50h, see 5001B8</div>
 <div class=mm><p>entrytype <a href=structs.html#struc_Bin34A1B>struct Bin34A1B</a>, num entries <a href=vars.html#838420>numBin34A1B</a></div>
 <div><i>838424</i> int <h3>bin34A1B</h3> <u></u></div>
 <a id=838428></a>
-<div class=mm><p>bunch of zero term strings after each other. Other data will have an offset and sum it to this pointer, to get the actual required string</div>
+<div class=mm><p>bin section 34A1D
+bunch of zero term strings after each other. Other data will have an offset and sum it to this pointer, to get the actual required string</div>
 <div><i>838428</i> int <h3>careerStringPool</h3> <u></u></div>
 <a id=83842C></a>
 <div class=mm><p>size of data in <a href=vars.html#838428>careerStringPool</a></div>
@@ -4160,6 +4199,9 @@ interesting when setting that var to 5 (same as 0, 1, 2) while in freeroam (shou
 <div><i>87081C</i> int <h3>_textureHeaderPool</h3> <u></u></div>
 <a id=870820></a>
 <div><i>870820</i> int <h3>_vertexBufferHeaderPool</h3> <u></u></div>
+<a id=8708B8></a>
+<div class=mm><p>220 items of 128 bytes</div>
+<div><i>8708B8</i> int <h3>eLightMaterialPlatInfoSlotPool</h3> <u></u></div>
 <a id=87090C></a>
 <div><i>87090C</i> char <h3>_areShaders87090CAlreadyCompiled</h3> <u></u></div>
 <a id=870914></a>

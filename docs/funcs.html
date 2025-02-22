@@ -284,7 +284,7 @@ pre.ida span.hi {
 <a href='cheatsheet.html'>cheatsheet</a></nav>
 </header>
 <div class='func'>
-<h2>Functions (1704)</h2>
+<h2>Functions (1710)</h2>
 <ul>
 <li><a href=#4012B0>
 ??SomeUpdatePosition</a>
@@ -498,16 +498,24 @@ RenderWorld_</a>
 ??SetSomeByteFlagsFromStruct_ecx28_29</a>
 <li><a href=#488B70>
 ??GetSomeByteFlagFromStruct_ecx28</a>
+<li><a href=#488EF0>
+CreateModelSlotPool</a>
 <li><a href=#48A280>
 LoadBinSection3B700</a>
 <li><a href=#48A2B0>
 UnloadBinSection3B700</a>
 <li><a href=#48B1E0>
 GetDByIndex</a>
+<li><a href=#48B1F0>
+CreateTexturePackSlotPool</a>
 <li><a href=#48B4A0>
 LoadBinSection34202</a>
 <li><a href=#48B740>
 UnloadBinSection34202</a>
+<li><a href=#48BC00>
+B35020::LinkMatchingB30521</a>
+<li><a href=#48DE90>
+CreateStreamingPackSlotPool</a>
 <li><a href=#48E070>
 LoadBinSection135200_80135100_80135000</a>
 <li><a href=#48E270>
@@ -1781,7 +1789,7 @@ LanguageAwareStrcpyCharToWchar</a>
 <li><a href=#5125B0>
 LoadLanguageBinSection39000</a>
 <li><a href=#512870>
-CareerShop::512870</a>
+CareerShop::IsExtraMapVisibilityConditionFulfilled</a>
 <li><a href=#512990>
 FindCareerSponsorBySponsorNameHash</a>
 <li><a href=#5129F0>
@@ -1996,6 +2004,8 @@ FindFNGInEntriesOfSomethingUI</a>
 LoadBinSection30203_30210</a>
 <li><a href=#51BD70>
 GetFontData?</a>
+<li><a href=#51BDC0>
+Font30201::ctor</a>
 <li><a href=#51C610>
 UnloadBinSection39020</a>
 <li><a href=#51C860>
@@ -3034,6 +3044,8 @@ UpdateD3DWindow</a>
 Create3D9Device</a>
 <li><a href=#5B9C20>
 RenderWorld</a>
+<li><a href=#5BB700>
+CreateLightMaterialPlatInfoSlotPool</a>
 <li><a href=#5BC5B0>
 Get873380AtIndex</a>
 <li><a href=#5BE190>
@@ -3131,7 +3143,7 @@ MarkCarToRenderHeadlightBeams</a>
 <li><a href=#5D8470>
 LoadBinSection34146</a>
 <li><a href=#5D84D0>
-UnoadBinSection34146</a>
+UnloadBinSection34146</a>
 <li><a href=#5D9A90>
 PathsData::ReadFromBinData</a>
 <li><a href=#5D9BF0>
@@ -4011,6 +4023,8 @@ Implementation <code><a class='ext' href='https://github.com/yugecin/nfsu2-re/bl
 <div><i>488B60</i> <h3>??SetSomeByteFlagsFromStruct_ecx28_29</h3></div>
 <a id=488B70></a>
 <div><i>488B70</i> <h3>??GetSomeByteFlagFromStruct_ecx28</h3></div>
+<a id=488EF0></a>
+<div><i>488EF0</i> void __cdecl <h3>CreateModelSlotPool</h3>();</div>
 <a id=48A280></a>
 <div><i>48A280</i> int __cdecl <h3>LoadBinSection3B700</h3>(<a href=structs.html#struc_BinSection>struct BinSection</a> *bindata);</div>
 <a id=48A2B0></a>
@@ -4018,10 +4032,16 @@ Implementation <code><a class='ext' href='https://github.com/yugecin/nfsu2-re/bl
 <a id=48B1E0></a>
 <div class=mm><p>returns <a href=vars.html#832DE0>d</a> at requested index</div>
 <div><i>48B1E0</i> <a href=structs.html#struc_D>struct D</a> *__cdecl <h3>GetDByIndex</h3>(int index);</div>
+<a id=48B1F0></a>
+<div><i>48B1F0</i> void __cdecl <h3>CreateTexturePackSlotPool</h3>();</div>
 <a id=48B4A0></a>
 <div><i>48B4A0</i> int __cdecl <h3>LoadBinSection34202</h3>(<a href=structs.html#struc_BinSection>struct BinSection</a> *bindata);</div>
 <a id=48B740></a>
 <div><i>48B740</i> int __cdecl <h3>UnloadBinSection34202</h3>(<a href=structs.html#struc_BinSection>struct BinSection</a> *bindata);</div>
+<a id=48BC00></a>
+<div><i>48BC00</i> <h3><a href=structs.html#struc_B35020>B35020</a>::LinkMatchingB30521</h3></div>
+<a id=48DE90></a>
+<div><i>48DE90</i> void __cdecl <h3>CreateStreamingPackSlotPool</h3>();</div>
 <a id=48E070></a>
 <div><i>48E070</i> int __cdecl <h3>LoadBinSection135200_80135100_80135000</h3>(<a href=structs.html#struc_BinSection>struct BinSection</a> *binsection);</div>
 <a id=48E270></a>
@@ -4303,7 +4323,7 @@ message should only be <a href=enums.html#enu_UIMESSAGES9120409E>UIMSG_GO_LEFT</
 <div class=mm><p>related to <a href=structs.html#struc_OptionsPCControllerFNGObject>struct OptionsPCControllerFNGObject</a>, updates the text of a row in the controls list</div>
 <div><i>4ACF40</i> void __cdecl <h3>UpdateControllerLabelText</h3>(<a href=structs.html#struc_UIElement>struct UIElement</a> *uielement, int keyIndex, int isSecondary, int controllerIndex);</div>
 <a id=4AE8B0></a>
-<div class=mm><p><code>return this-&gt;<a href=structs.html#struc_CareerRace@34>field_34</a> == 3 &amp;&amp; this-&gt;<a href=structs.html#struc_CareerRace@D>field_D</a> == 1;</code></div>
+<div class=mm><p><code>return this-&gt;<a href=structs.html#struc_CareerRace@34>raceRewardType</a> == 3 &amp;&amp; this-&gt;<a href=structs.html#struc_CareerRace@D>field_D</a> == 1;</code></div>
 <div><i>4AE8B0</i> int __thiscall <h3><a href=structs.html#struc_CareerRace>CareerRace</a>::Is_34_3_And_D_1</h3>(<a href=structs.html#struc_CareerRace>struct CareerRace</a> *this);</div>
 <a id=4AF2C0></a>
 <div><i>4AF2C0</i> <h3><a href=structs.html#struc_StartCareerFNGObject>StartCareerFNGObject</a>::MessageHandler</h3></div>
@@ -5544,7 +5564,7 @@ if (section-&gt;<a href=structs.html#struc_BinSection@0>header</a>.<a href=struc
 </div>
 <div><i>5125B0</i> int __cdecl <h3>LoadLanguageBinSection39000</h3>(<a href=structs.html#struc_BinSection>struct BinSection</a> *bindata);</div>
 <a id=512870></a>
-<div><i>512870</i> int __thiscall <h3><a href=structs.html#struc_CareerShop>CareerShop</a>::512870</h3>(<a href=structs.html#struc_CareerShop>struct CareerShop</a> *this);</div>
+<div><i>512870</i> int __thiscall <h3><a href=structs.html#struc_CareerShop>CareerShop</a>::IsExtraMapVisibilityConditionFulfilled</h3>(<a href=structs.html#struc_CareerShop>struct CareerShop</a> *this);</div>
 <a id=512990></a>
 <div class=mm><p>searches in <a href=vars.html#838414>careerSponsors</a> with use of <a href=vars.html#838428>careerStringPool</a></div>
 <div><i>512990</i> <a href=structs.html#struc_CareerSponsor>struct CareerSponsor</a> *__cdecl <h3>FindCareerSponsorBySponsorNameHash</h3>(unsigned int sponsorNameHash);</div>
@@ -5823,6 +5843,9 @@ frees <code>this-&gt;<a href=structs.html#struc_SomethingUIImpl@C>data30203</a><
 <div><i>51BD30</i> int __cdecl <h3>LoadBinSection30203_30210</h3>(<a href=structs.html#struc_BinSection>struct BinSection</a> *bindata);</div>
 <a id=51BD70></a>
 <div><i>51BD70</i> <a href=structs.html#struc_FontData>struct FontData</a> *__cdecl <h3>GetFontData?</h3>(int);</div>
+<a id=51BDC0></a>
+<div class=mm><p>bin is <a href=structs.html#struc_Bin30201>struct Bin30201</a></div>
+<div><i>51BDC0</i> void __thiscall <h3><a href=structs.html#struc_Font30201>Font30201</a>::ctor</h3>(<a href=structs.html#struc_Font30201>struct Font30201</a> *this, <a href=structs.html#struc_BinSection>struct BinSection</a> *bin);</div>
 <a id=51C610></a>
 <div><i>51C610</i> int __cdecl <h3>UnloadBinSection39020</h3>(<a href=structs.html#struc_BinSection>struct BinSection</a> *bindata);</div>
 <a id=51C860></a>
@@ -7167,6 +7190,8 @@ def:
 <div><i>5B9B70</i> <h3>Create3D9Device</h3></div>
 <a id=5B9C20></a>
 <div><i>5B9C20</i> <h3>RenderWorld</h3></div>
+<a id=5BB700></a>
+<div><i>5BB700</i> void __cdecl <h3>CreateLightMaterialPlatInfoSlotPool</h3>();</div>
 <a id=5BC5B0></a>
 <div><i>5BC5B0</i> <a href=structs.html#struc_E>struct E</a> *__cdecl <h3>Get873380AtIndex</h3>(int index);</div>
 <a id=5BE190></a>
@@ -7322,7 +7347,7 @@ See <code><a class='ext' href='https://github.com/yugecin/nfsu2-re/blob/master/n
 <a id=5D8470></a>
 <div><i>5D8470</i> int __cdecl <h3>LoadBinSection34146</h3>(<a href=structs.html#struc_BinSection>struct BinSection</a> *binsection);</div>
 <a id=5D84D0></a>
-<div><i>5D84D0</i> int __cdecl <h3>UnoadBinSection34146</h3>(<a href=structs.html#struc_BinSection>struct BinSection</a> *binsection);</div>
+<div><i>5D84D0</i> int __cdecl <h3>UnloadBinSection34146</h3>(<a href=structs.html#struc_BinSection>struct BinSection</a> *binsection);</div>
 <a id=5D9A90></a>
 <div><i>5D9A90</i> int __thiscall <h3><a href=structs.html#struc_PathsData>PathsData</a>::ReadFromBinData</h3>(<a href=structs.html#struc_PathsData>struct PathsData</a> *this, <a href=structs.html#struc_BinSection>struct BinSection</a> *binsection);</div>
 <a id=5D9BF0></a>

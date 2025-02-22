@@ -284,7 +284,7 @@ pre.ida span.hi {
 <a href='cheatsheet.html'>cheatsheet</a></nav>
 </header>
 <div class='struc'>
-<h2>Structs (500)</h2>
+<h2>Structs (507)</h2>
 <ul>
 <li><a href=#struc_FuncInfo_V1>FuncInfo_V1</a>
 <li><a href=#struc_UnwindMapEntry>UnwindMapEntry</a>
@@ -344,6 +344,12 @@ pre.ida span.hi {
 <li><a href=#struc_CCarHeadlightsPosition>CCarHeadlightsPosition</a>
 <li><a href=#struc_LanguageData>LanguageData</a>
 <li><a href=#struc_LanguageFileData>LanguageFileData</a>
+<li><a href=#struc_Font7F9184>Font7F9184</a>
+<li><a href=#struc_FontAZHE>FontAZHE</a>
+<li><a href=#struc_B35021>B35021</a>
+<li><a href=#struc_B35021_Entry>B35021_Entry</a>
+<li><a href=#struc_B35020_Entry>B35020_Entry</a>
+<li><a href=#struc_B35020>B35020</a> <em></em>
 <li><a href=#struc_LanguageStruct7F6DE8>LanguageStruct7F6DE8</a>
 <li><a href=#struc_LanguageFontData>LanguageFontData</a>
 <li><a href=#struc_LoadedLanguage>LoadedLanguage</a>
@@ -709,15 +715,14 @@ pre.ida span.hi {
 <li><a href=#struc_CareerD24_8>CareerD24_8</a> <em></em>
 <li><a href=#struc_CareerD24>CareerD24</a> <em></em>
 <li><a href=#struc_CareerStage>CareerStage</a> <em></em>
-<li><a href=#struc_Bin34A11_38>Bin34A11_38</a>
+<li><a href=#struc_CareerRace_38>CareerRace_38</a>
 <li><a href=#struc_CareerRace>CareerRace</a> <em></em>
-<li><a href=#struc_BinSection34A11>BinSection34A11</a>
 <li><a href=#struc_CareerStatsHiddenShopsDiscovered>CareerStatsHiddenShopsDiscovered</a>
 <li><a href=#struc_CareerStatsDvdCover>CareerStatsDvdCover</a>
 <li><a href=#struc_CareerStatsRegionDvdCovers>CareerStatsRegionDvdCovers</a>
 <li><a href=#struc_CareerStats>CareerStats</a>
 <li><a href=#struc_CareerC00>CareerC00</a> <em></em>
-<li><a href=#struc_Bin34A11_18>Bin34A11_18</a>
+<li><a href=#struc_CareerRace_18>CareerRace_18</a>
 <li><a href=#struc_Career887C_2A>Career887C_2A</a>
 <li><a href=#struc_Career887C_D>Career887C_D</a>
 <li><a href=#struc_Career887C>Career887C</a> <em></em>
@@ -738,6 +743,8 @@ pre.ida span.hi {
 <li><a href=#struc_Bin34A1A>Bin34A1A</a>
 <li><a href=#struc_Bin34A1B>Bin34A1B</a>
 <li><a href=#struc_Bin34A16>Bin34A16</a>
+<li><a href=#struc_Bin30201>Bin30201</a>
+<li><a href=#struc_Font30201>Font30201</a> <em></em>
 <li><a href=#struc_Bin34A14>Bin34A14</a>
 <li><a href=#struc_CareerShop>CareerShop</a> <em></em>
 <li><a href=#struc_Bin34A15_C>Bin34A15_C</a>
@@ -835,7 +842,7 @@ pre.ida span.hi {
 <div><b>union</b> <h3>LARGE_INTEGER</h3> { <i>/*4 members, size 8h*/</i>
 <i>/*0*/	</i><a href=#struc__LARGE_INTEGER::$837407842DC9087486FDFA5FEB63B74E>struct _LARGE_INTEGER::$837407842DC9087486FDFA5FEB63B74E</a> s;
 <i>/*0*/	</i><a href=#struc__LARGE_INTEGER::$837407842DC9087486FDFA5FEB63B74E>struct _LARGE_INTEGER::$837407842DC9087486FDFA5FEB63B74E</a> u;
-<i>/*0*/	</i>char QuadPart[8] <u></u>;
+<i>/*0*/	</i>LONGLONG QuadPart;
 <i>/*0*/	</i><a href=#struc__LARGE_INTEGER::$837407842DC9087486FDFA5FEB63B74E>struct _LARGE_INTEGER::$837407842DC9087486FDFA5FEB63B74E</a> anonymous_0;
 };
 <i>EXPECT_SIZE(struct LARGE_INTEGER, 0x8);</i></div>
@@ -980,7 +987,7 @@ pre.ida span.hi {
 <i>EXPECT_SIZE(struct _SYSTEM_INFO, 0x24);</i></div>
 <a id=struc__SYSTEM_INFO::$058745E319A46827965CDE7F37238831></a>
 <div><b>union</b> <h3>_SYSTEM_INFO::$058745E319A46827965CDE7F37238831</h3> { <i>/*2 members, size 4h*/</i>
-<i>/*0*/	</i>_SYSTEM_INFO::$058745E319A46827965CDE7F37238831::$AA04DEB0C6383F89F13D312A174572A9 dwOemId;
+<i>/*0*/	</i>DWORD dwOemId;
 <i>/*0*/	</i><a href=#struc__SYSTEM_INFO::$058745E319A46827965CDE7F37238831::$AA04DEB0C6383F89F13D312A174572A9>struct _SYSTEM_INFO::$058745E319A46827965CDE7F37238831::$AA04DEB0C6383F89F13D312A174572A9</a> s;
 };
 <i>EXPECT_SIZE(struct _SYSTEM_INFO::$058745E319A46827965CDE7F37238831, 0x4);</i></div>
@@ -1350,7 +1357,7 @@ pre.ida span.hi {
 <div><b>union</b> <h3>ULARGE_INTEGER</h3> { <i>/*3 members, size 8h*/</i>
 <i>/*0*/	</i><a href=#struc__ULARGE_INTEGER::$0354AA9C204208F00D0965D07BBE7FAC>struct _ULARGE_INTEGER::$0354AA9C204208F00D0965D07BBE7FAC</a> anonymous_0;
 <i>/*0*/	</i><a href=#struc__ULARGE_INTEGER::$0354AA9C204208F00D0965D07BBE7FAC>struct _ULARGE_INTEGER::$0354AA9C204208F00D0965D07BBE7FAC</a> u;
-<i>/*0*/	</i>char QuadPart[8] <u></u>;
+<i>/*0*/	</i>ULONGLONG QuadPart;
 };
 <i>EXPECT_SIZE(struct ULARGE_INTEGER, 0x8);</i></div>
 <a id=struc__ULARGE_INTEGER::$0354AA9C204208F00D0965D07BBE7FAC></a>
@@ -1438,11 +1445,74 @@ pre.ida span.hi {
 <a id=struc_LanguageFileData></a>
 <div>struct <h3>LanguageFileData</h3> { <i>/*4 members, size 10h*/</i>
 <i>/*0*/	</i>int id;
+<span class='mm'>/**like "ENGLISH"*/</span>
 <i>/*4*/	</i>char *pFilecode;
+<span class='mm'>/**like "LANGUAGES\ENGLISH.BIN"*/</span>
 <i>/*8*/	</i>char *pBinfile;
 <i id=struc_LanguageFileData@C></i><i>/*C*/	</i><a href=structs.html#struc_LanguageFontData>struct LanguageFontData</a> *fontdata;
 };
 <i>EXPECT_SIZE(struct LanguageFileData, 0x10);</i></div>
+<a id=struc_Font7F9184></a>
+<div>struct <h3>Font7F9184</h3> { <i>/*2 members, size 8h*/</i>
+<i>/*0*/	int field_0;</i>
+<i>/*4*/	int field_4;</i>
+};
+<i>EXPECT_SIZE(struct Font7F9184, 0x8);</i></div>
+<a id=struc_FontAZHE></a>
+<div class=mm><p>rodata <a href=vars.html#7F918C>aZhe</a> has 4 instances of this</div>
+<div>struct <h3>FontAZHE</h3> { <i>/*3 members, size Ch*/</i>
+<i id=struc_FontAZHE@0></i><i>/*0*/	</i>unsigned int nameHash;
+<i id=struc_FontAZHE@4></i><i>/*4*/	float floatField_4;</i>
+<i id=struc_FontAZHE@8></i><i>/*8*/	float floatField_8;</i>
+};
+<i>EXPECT_SIZE(struct FontAZHE, 0xC);</i></div>
+<a id=struc_B35021></a>
+<div>struct <h3>B35021</h3> { <i>/*3 members, size 230h*/</i>
+<i>/*0*/	char _pad0[0x8];</i>
+<span class='mm'>/**always 4? otherwise it's rejected at 491C9C*/</span>
+<i>/*8*/	</i>int type <u></u>;
+<i>/*C*/	</i>int numEntries <u></u>;
+<i>/*10*/	</i><a href=#struc_B35021_Entry>struct B35021_Entry</a> entries;
+};
+<i>EXPECT_SIZE(struct B35021, 0x230);</i></div>
+<a id=struc_B35021_Entry></a>
+<div class=mm><p>size 220</div>
+<div>struct <h3>B35021_Entry</h3> { <i>/*5 members, size 220h*/</i>
+<i>/*0*/	</i><a href=#struc_ObjectLink>struct ObjectLink</a> link;
+<i>/*8*/	int field_8;</i>
+<i id=struc_B35021_Entry@C></i><i>/*C*/	</i>unsigned int hash;
+<i>/*10*/	char _pad10[0x4];</i>
+<span class='mm'>/**result of calling <code><a href=funcs.html#4901D0>GetOrLoadTextureMaybe</a>(this-&gt;<a href=structs.html#struc_B35021_Entry@C>hash</a>, 0, 0)</code>*/</span>
+<i>/*14*/	</i>unsigned int loadedTextureHash;
+<i>/*18*/	char _pad18[0x207];</i>
+<i>/*21F*/	</i>char __end <u></u>;
+};
+<i>EXPECT_SIZE(struct B35021_Entry, 0x220);</i></div>
+<a id=struc_B35020_Entry></a>
+<div class=mm><p>size D0</div>
+<div>struct <h3>B35020_Entry</h3> { <i>/*3 members, size D0h*/</i>
+<i>/*0*/	char _pad0[0xC];</i>
+<i>/*C*/	</i>int linksTo35021fiel8 <u></u>;
+<i>/*10*/	char _pad10[0xC];</i>
+<i>/*1C*/	</i><a href=structs.html#struc_B35021_Entry>struct B35021_Entry</a> *matching35021;
+<i>/*20*/	char _pad20[0xAF];</i>
+<i>/*CF*/	</i>char __end <u></u>;
+};
+<i>EXPECT_SIZE(struct B35020_Entry, 0xD0);</i></div>
+<a id=struc_B35020></a>
+<div>struct <h3>B35020</h3> { <i>/*4 members, size E0h*/</i> <em></em>
+<i>/*0*/	char _pad0[0x4];</i>
+<i>/*4*/	int field_4;</i>
+<span class='mm'>/**always 6*/</span>
+<i>/*8*/	</i>int type <u></u>;
+<i>/*C*/	</i>int numEntries <u></u>;
+<i>/*10*/	</i><a href=#struc_B35020_Entry>struct B35020_Entry</a> entries;
+};
+<i>EXPECT_SIZE(struct B35020, 0xE0);</i></div>
+<ul>
+<li><!--48BC00-->
+<pre><i>48BC00</i> <a href=funcs.html#48BC00 title='B35020::LinkMatchingB30521'>B35020::LinkMatchingB30521</a></pre>
+</ul>
 <a id=struc_LanguageStruct7F6DE8></a>
 <div>struct <h3>LanguageStruct7F6DE8</h3> { <i>/*2 members, size 8h*/</i>
 <i>/*0*/	</i>unsigned int fonthash;
@@ -1830,9 +1900,9 @@ TODO please reconfirm*/</span>
 <i>EXPECT_SIZE(struct FNGShowData, 0x14);</i></div>
 <a id=struc_FNGShowData_Arg2></a>
 <div><b>union</b> <h3>FNGShowData_Arg2</h3> { <i>/*3 members, size 4h*/</i>
-<i>/*0*/	</i><a href=structs.html#struc_DialogInfo>struct DialogInfo</a> *unk;
-<i>/*0*/	</i>int MessageDialogFNGObject_ptrSms <u></u>;
-<i>/*0*/	</i>int DialogFNGObject_ptrDialogInfo <u></u>;
+<i>/*0*/	</i>int unk <u></u>;
+<i>/*0*/	</i><a href=structs.html#struc_SmsMessage>struct SmsMessage</a> *MessageDialogFNGObject_ptrSms;
+<i>/*0*/	</i><a href=structs.html#struc_DialogInfo>struct DialogInfo</a> *DialogFNGObject_ptrDialogInfo;
 };
 <i>EXPECT_SIZE(struct FNGShowData_Arg2, 0x4);</i></div>
 <a id=struc_FNGInfo></a>
@@ -5757,6 +5827,7 @@ return amount of bytes actually read*/</span>
 <pre><i>4DEF30</i> <a href=funcs.html#4DEF30 title='void __thiscall ObjectLink__dtor(struct ObjectLink *this);'>ObjectLink::dtor</a></pre>
 </ul>
 <a id=struc_SmsData></a>
+<div class=mm><p>bin section 34A17</div>
 <div>struct <h3>SmsData</h3> { <i>/*7 members, size 14h*/</i> <em></em>
 <i id=struc_SmsData@0></i><span class='mm'>/**offset in language table <a href=vars.html#838428>careerStringPool</a>*/</span>
 <i>/*0*/	</i>__int16 careerTextLanguageTableOffset;
@@ -5776,13 +5847,13 @@ return amount of bytes actually read*/</span>
 <a id=struc_SmsDataData></a>
 <div><b>union</b> <h3>SmsDataData</h3> { <i>/*10 members, size 4h*/</i>
 <span class='mm'>/**stage index in hi16*/</span>
-<i>/*0*/	</i>unsigned int typeAstageIndex;
+<i>/*0*/	</i>int typeAstageIndex;
 <span class='mm'>/**hash matching marker data <a href=structs.html#struc_Marker@30>hash</a>*/</span>
-<i>/*0*/	</i>int typeFmarkerHash <u></u>;
+<i>/*0*/	</i>unsigned int typeFmarkerHash;
 <i>/*0*/	</i>int unk <u></u>;
 <span class='mm'>/**stage index in hi16*/</span>
 <i>/*0*/	</i>int typeCstageIndex <u></u>;
-<i>/*0*/	</i>int type1raceHash <u></u>;
+<i>/*0*/	</i>unsigned int type1raceHash;
 <span class='mm'>/**stage index in hi16*/</span>
 <i>/*0*/	</i>int type9stageIndex <u></u>;
 <i>/*0*/	</i>int type3unk <u></u>;
@@ -8250,14 +8321,15 @@ extra refs: 500FBC 51441E*/</span>
 <li><!--541090-->
 <pre><i>541090</i> <a href=funcs.html#541090 title='int __thiscall CareerStage__OnShowcaseDone(struct CareerStage *this, void *);'>CareerStage::OnShowcaseDone</a></pre>
 </ul>
-<a id=struc_Bin34A11_38></a>
-<div>struct <h3>Bin34A11_38</h3> { <i>/*2 members, size 8h*/</i>
+<a id=struc_CareerRace_38></a>
+<div>struct <h3>CareerRace_38</h3> { <i>/*2 members, size 8h*/</i>
 <i>/*0*/	char field_0;</i>
 <i>/*1*/	char _pad1[0x3];</i>
 <i>/*4*/	</i>unsigned int hash4;
 };
-<i>EXPECT_SIZE(struct Bin34A11_38, 0x8);</i></div>
+<i>EXPECT_SIZE(struct CareerRace_38, 0x8);</i></div>
 <a id=struc_CareerRace></a>
+<div class=mm><p>bin section 34A11</div>
 <div>struct <h3>CareerRace</h3> { <i>/*18 members, size 88h*/</i> <em></em>
 <i>/*0*/	char _pad0[0x4];</i>
 <span class='mm'>/**if not 0, this if offset in <a href=vars.html#838428>careerStringPool</a> that will point to a movie name.
@@ -8271,31 +8343,31 @@ this is at some point compared to field8 of sms data SMS_END_OF_GAME_MESSAGE*/</
 <i id=struc_CareerRace@D></i><i>/*D*/	char field_D;</i>
 <i>/*E*/	char _padE[0x1];</i>
 <i>/*F*/	</i><a href=enums.html#enu_RACE_TYPE>enum RACE_TYPE</a> raceType;
-<span class='mm'>/**hash*/</span>
 <i>/*10*/	unsigned int field_10;</i>
 <i>/*14*/	char _pad14[0x4];</i>
 <span class='mm'>/**this is an array; but what size? guessing 4 for now*/</span>
-<i>/*18*/	<a href=#struc_Bin34A11_18>struct Bin34A11_18</a> field_18[4];</i>
+<i>/*18*/	<a href=#struc_CareerRace_18>struct CareerRace_18</a> field_18[4];</i>
 <span class='mm'>/**<a href=structs.html#struc_Marker@30>hash</a>*/</span>
 <i>/*28*/	</i>unsigned int markerHash;
 <i>/*2C*/	int field_2C;</i>
 <span class='mm'>/**see 5414D7, -1 means no money? see 500A8F*/</span>
-<i>/*30*/	</i>int bankToWinFromRace <u></u>;
-<i id=struc_CareerRace@34></i><span class='mm'>/**see <a href=funcs.html#532E50>Career::GetBankWonFromRace</a>
-<a href=structs.html#struc_CareerSponsor@2>bankPerRaceWon</a> will be added to race bank reward if this is 1
+<i>/*30*/	</i>int bankToWinFromRace;
+<i id=struc_CareerRace@34></i><span class='mm'>/**if 1: race reward is "sponsor bank per race" value
+see <a href=funcs.html#532E50>Career::GetBankWonFromRace</a>
+<a href=structs.html#struc_CareerSponsor@2>bankRewardPerSponsorRace</a> will be added to race bank reward if this is 1
 but this value is also compared to 2 and 3*/</span>
-<i>/*34*/	char field_34;</i>
-<i>/*35*/	</i>char numField38 <u></u>;
+<i>/*34*/	</i>char raceRewardType <u></u>;
+<i>/*35*/	</i>char numField38;
 <i>/*36*/	char _pad36[0x1];</i>
-<span class='mm'>/**index for <a href=structs.html#struc_Career@72D8>stage0</a>*/</span>
-<i>/*37*/	</i>char stageIndex <u></u>;
+<span class='mm'>/**index for <a href=structs.html#struc_Career>struct Career</a>.<a href=structs.html#struc_Career@72D8>stage0</a>*/</span>
+<i>/*37*/	</i>char stageIndex;
 <span class='mm'>/**how big is this array? 8 is a guess*/</span>
-<i>/*38*/	<a href=#struc_Bin34A11_38>struct Bin34A11_38</a> field_38[8];</i>
+<i>/*38*/	<a href=#struc_CareerRace_38>struct CareerRace_38</a> field_38[8];</i>
 <i>/*78*/	char _pad78[0x4];</i>
 <i>/*7C*/	char field_7C;</i>
 <i>/*7D*/	char _pad7D[0x1];</i>
 <span class='mm'>/**entries in field_18*/</span>
-<i>/*7E*/	</i>char numField18 <u></u>;
+<i>/*7E*/	</i>char numField18;
 <i>/*7F*/	char field_7F;</i>
 <i>/*80*/	char _pad80[0x7];</i>
 <i>/*87*/	</i>char __end <u></u>;
@@ -8307,13 +8379,6 @@ but this value is also compared to 2 and 3*/</span>
 <li><!--4FFDE0-->
 <pre><i>4FFDE0</i> <a href=funcs.html#4FFDE0 title='int __thiscall CareerRace__4FFDE0(struct CareerRace *this, void *);'>CareerRace::4FFDE0</a></pre>
 </ul>
-<a id=struc_BinSection34A11></a>
-<div class=mm><p>in GLOBALB.BUN section 80034A10, size 7700</div>
-<div>struct <h3>BinSection34A11</h3> { <i>/*1 members, size 7700h*/</i>
-<span class='mm'>/**since the section in my file is size 7700, I'm assuming this array has 224 entries*/</span>
-<i>/*0*/	<a href=#struc_CareerRace>struct CareerRace</a> field_0[224];</i>
-};
-<i>EXPECT_SIZE(struct BinSection34A11, 0x7700);</i></div>
 <a id=struc_CareerStatsHiddenShopsDiscovered></a>
 <div class=mm><p>size 4</div>
 <div>struct <h3>CareerStatsHiddenShopsDiscovered</h3> { <i>/*2 members, size 4h*/</i>
@@ -8412,13 +8477,13 @@ but this value is also compared to 2 and 3*/</span>
 <li><!--533D20-->
 <pre><i>533D20</i> <a href=funcs.html#533D20 title='int __thiscall CareerC00__533D20(struct CareerC00 *this);'>CareerC00::533D20</a></pre>
 </ul>
-<a id=struc_Bin34A11_18></a>
-<div>struct <h3>Bin34A11_18</h3> { <i>/*3 members, size 4h*/</i>
+<a id=struc_CareerRace_18></a>
+<div>struct <h3>CareerRace_18</h3> { <i>/*3 members, size 4h*/</i>
 <i>/*0*/	short field_0;</i>
 <i>/*2*/	char field_2;</i>
 <i>/*3*/	char field_3;</i>
 };
-<i>EXPECT_SIZE(struct Bin34A11_18, 0x4);</i></div>
+<i>EXPECT_SIZE(struct CareerRace_18, 0x4);</i></div>
 <a id=struc_Career887C_2A></a>
 <div class=mm><p>size C</div>
 <div>struct <h3>Career887C_2A</h3> { <i>/*2 members, size Ch*/</i>
@@ -8947,15 +9012,17 @@ When canceling at that point, it's set back to 1
 };
 <i>EXPECT_SIZE(struct MarkerQueryResult, 0x14);</i></div>
 <a id=struc_CareerSponsor></a>
-<div>struct <h3>CareerSponsor</h3> { <i>/*8 members, size 10h*/</i> <em></em>
+<div class=mm><p>bin section 34A19
+see also <a href=vars.html#838414>careerSponsors</a></div>
+<div>struct <h3>CareerSponsor</h3> { <i>/*9 members, size 10h*/</i> <em></em>
 <span class='mm'>/**offset in string table <a href=vars.html#838428>careerStringPool</a>, which will point to something like <code>STREETGLOW</code>, which is then used to get name and info like <code>SPONSOR_%S</code> <code>SPONSOR_INFO_%S</code>*/</span>
 <i>/*0*/	</i>__int16 sponsorNameStrpoolOffset;
-<i id=struc_CareerSponsor@2></i><i>/*2*/	</i>__int16 bankPerRaceWon;
+<i id=struc_CareerSponsor@2></i><i>/*2*/	</i>__int16 bankRewardPerSponsorRace;
 <i>/*4*/	char field_4;</i>
 <i>/*5*/	char field_5;</i>
 <i>/*6*/	char field_6;</i>
 <i>/*7*/	char field_7;</i>
-<i>/*8*/	char _pad8[0x4];</i>
+<i>/*8*/	</i>unsigned int hash;
 <span class='mm'>/**money amount*/</span>
 <i>/*C*/	</i>__int16 signingBonus;
 <span class='mm'>/**this sponsor will only be available when player's average reputation per race in the previous stage was equal or higher than this*/</span>
@@ -8969,6 +9036,7 @@ When canceling at that point, it's set back to 1
 <pre><i>5129F0</i> <a href=funcs.html#5129F0 title='unsigned int __thiscall CareerSponsor__GetSponsorNameLanguageKey(struct CareerSponsor *this);'>CareerSponsor::GetSponsorNameLanguageKey</a></pre>
 </ul>
 <a id=struc_CarUnlockEntry></a>
+<div class=mm><p>bin section 34A1F</div>
 <div>struct <h3>CarUnlockEntry</h3> { <i>/*3 members, size Ch*/</i>
 <i id=struc_CarUnlockEntry@0></i><i>/*0*/	</i>unsigned int carNameHash;
 <i id=struc_CarUnlockEntry@4></i><span class='mm'>/**to be matched with <a href=structs.html#struc_CareerRace>struct CareerRace</a>.<a href=structs.html#struc_CareerRace@8>hash</a> when game region is US*/</span>
@@ -9011,8 +9079,9 @@ TRIGGER_START_STAGE_3_VISUAL_2*/</span>
 };
 <i>EXPECT_SIZE(struct Bin34A1B, 0x18);</i></div>
 <a id=struc_Bin34A16></a>
-<div>struct <h3>Bin34A16</h3> { <i>/*3 members, size 40h*/</i>
-<i>/*0*/	char _pad0[0x20];</i>
+<div class=mm><p>dvds &amp; magazines</div>
+<div>struct <h3>Bin34A16</h3> { <i>/*4 members, size 40h*/</i>
+<i>/*0*/	</i>char name[32];
 <i>/*20*/	int field_20;</i>
 <i>/*24*/	char _pad24[0x8];</i>
 <i>/*2C*/	</i>unsigned int markerHash;
@@ -9020,6 +9089,36 @@ TRIGGER_START_STAGE_3_VISUAL_2*/</span>
 <i>/*3F*/	</i>char __end <u></u>;
 };
 <i>EXPECT_SIZE(struct Bin34A16, 0x40);</i></div>
+<a id=struc_Bin30201></a>
+<div>struct <h3>Bin30201</h3> { <i>/*2 members, size 200h*/</i>
+<i id=struc_Bin30201@0></i><i>/*0*/	</i>char binName[256];
+<i>/*100*/	</i>char bmpName[256];
+};
+<i>EXPECT_SIZE(struct Bin30201, 0x200);</i></div>
+<a id=struc_Font30201></a>
+<div class=mm><p>size 30
+instance of this is created when a bin section 30201 is parsed</div>
+<div>struct <h3>Font30201</h3> { <i>/*12 members, size 30h*/</i> <em></em>
+<i>/*0*/	int field_0;</i>
+<i>/*4*/	int field_4;</i>
+<i>/*8*/	int field_8;</i>
+<i>/*C*/	int field_C;</i>
+<i>/*10*/	int field_10;</i>
+<i>/*14*/	int field_14;</i>
+<i>/*18*/	int field_18;</i>
+<i id=struc_Font30201@1C></i><i>/*1C*/	</i><a href=structs.html#struc_Bin30201>struct Bin30201</a> *bin30201;
+<i>/*20*/	int field_20;</i>
+<i>/*24*/	float floatField_24;</i>
+<span class='mm'>/**set to <a href=structs.html#struc_FontAZHE>struct FontAZHE</a>.<a href=structs.html#struc_FontAZHE@4>floatField_4</a> of instance where <a href=structs.html#struc_FontAZHE>struct FontAZHE</a>.<a href=structs.html#struc_FontAZHE@0>nameHash</a> matches <code>cihash(<a href=structs.html#struc_Font30201@1C>bin30201</a>-><a href=structs.html#struc_Bin30201@0>binName</a>)</code>*/</span>
+<i>/*28*/	float floatField_28;</i>
+<span class='mm'>/**set to <a href=structs.html#struc_FontAZHE>struct FontAZHE</a>.<a href=structs.html#struc_FontAZHE@8>floatField_8</a> of instance where <a href=structs.html#struc_FontAZHE>struct FontAZHE</a>.<a href=structs.html#struc_FontAZHE@0>nameHash</a> matches <code>cihash(<a href=structs.html#struc_Font30201@1C>bin30201</a>-><a href=structs.html#struc_Bin30201@0>binName</a>)</code>*/</span>
+<i>/*2C*/	float floatField_2C;</i>
+};
+<i>EXPECT_SIZE(struct Font30201, 0x30);</i></div>
+<ul>
+<li><!--51BDC0-->
+<pre><i>51BDC0</i> <a href=funcs.html#51BDC0 title='void __thiscall Font30201__ctor(struct Font30201 *this, struct BinSection *bin);'>Font30201::ctor</a></pre>
+</ul>
 <a id=struc_Bin34A14></a>
 <div>struct <h3>Bin34A14</h3> { <i>/*1 members, size 44h*/</i>
 <i>/*0*/	char _pad0[0x43];</i>
@@ -9027,17 +9126,26 @@ TRIGGER_START_STAGE_3_VISUAL_2*/</span>
 };
 <i>EXPECT_SIZE(struct Bin34A14, 0x44);</i></div>
 <a id=struc_CareerShop></a>
-<div>struct <h3>CareerShop</h3> { <i>/*7 members, size A0h*/</i> <em></em>
-<i>/*0*/	char _pad0[0x38];</i>
+<div class=mm><p>bin section 34A12</div>
+<div>struct <h3>CareerShop</h3> { <i>/*10 members, size A0h*/</i> <em></em>
+<i id=struc_CareerShop@0></i><span class='mm'>/**unk length, sometimes multiple zero terminated strings after each other*/</span>
+<i>/*0*/	</i>char name[32];
+<span class='mm'>/**unk length*/</span>
+<i>/*20*/	</i>char movieName[24];
+<span class='mm'>/**cihash of <a href=structs.html#struc_CareerShop@0>name</a>*/</span>
 <i>/*38*/	</i>unsigned int hash;
 <i>/*3C*/	</i>unsigned int markerHash;
-<i>/*40*/	char _pad40[0x11];</i>
-<i>/*51*/	</i>char isHiddenShop;
+<span class='mm'>/**one of the file names in <code>\FRONTEND\PLATFORMS</code>, like <code>CarLot01.BIN</code>*/</span>
+<i>/*40*/	</i>char platformBinName[][16];
+<i>/*50*/	char _pad50[0x1];</i>
+<i id=struc_CareerShop@51></i><i>/*51*/	</i>char isHiddenShop;
 <i>/*52*/	char _pad52[0x22];</i>
-<span class='mm'>/**some sort of condition variable for this shop to be visible on the map (if hidden shop); sometimes a hash (race hash?), sometimes a number. see 512870*/</span>
-<i>/*74*/	unsigned int field_74;</i>
+<i id=struc_CareerShop@74></i><span class='mm'>/**condition data to check to know if this shop should be visible on the map, this is a separate extra thing besides the <a href=structs.html#struc_CareerShop@51>isHiddenShop</a> flag.
+This can be a career race hash or just a number, type depends on field <a href=structs.html#struc_CareerShop@9C>extraMapVisibilityConditionType</a>*/</span>
+<i>/*74*/	</i>unsigned int extraMapVisibilityConditionValue;
 <i>/*78*/	char _pad78[0x24];</i>
-<i>/*9C*/	char field_9C;</i>
+<i id=struc_CareerShop@9C></i><span class='mm'>/**determines what kind of condition to check with value <a href=structs.html#struc_CareerShop@74>extraMapVisibilityConditionValue</a>*/</span>
+<i>/*9C*/	</i>char extraMapVisibilityConditionType;
 <i>/*9D*/	</i>char stageIndex;
 <i>/*9E*/	char _pad9E[0x1];</i>
 <i>/*9F*/	</i>char __end <u></u>;
@@ -9045,7 +9153,7 @@ TRIGGER_START_STAGE_3_VISUAL_2*/</span>
 <i>EXPECT_SIZE(struct CareerShop, 0xA0);</i></div>
 <ul>
 <li><!--512870-->
-<pre><i>512870</i> <a href=funcs.html#512870 title='int __thiscall CareerShop__512870(struct CareerShop *this);'>CareerShop::512870</a></pre>
+<pre><i>512870</i> <a href=funcs.html#512870 title='int __thiscall CareerShop__IsExtraMapVisibilityConditionFulfilled(struct CareerShop *this);'>CareerShop::IsExtraMapVisibilityConditionFulfilled</a></pre>
 </ul>
 <a id=struc_Bin34A15_C></a>
 <div>struct <h3>Bin34A15_C</h3> { <i>/*3 members, size 5Ch*/</i>
@@ -9055,7 +9163,7 @@ TRIGGER_START_STAGE_3_VISUAL_2*/</span>
 <span class='mm'>/**also points to an index for this same kind of struct*/</span>
 <i>/*40*/	</i>char moreIndices40[20] <u></u>;
 <span class='mm'>/**also points to an index for this same kind of struct*/</span>
-<i>/*54*/	</i>char moreIndices50[8] <u></u>;
+<i>/*54*/	</i>char moreIndices54[8] <u></u>;
 };
 <i>EXPECT_SIZE(struct Bin34A15_C, 0x5C);</i></div>
 <a id=struc_Bin34A15></a>
@@ -9070,8 +9178,8 @@ TRIGGER_START_STAGE_3_VISUAL_2*/</span>
 <i>EXPECT_SIZE(struct Bin34A15, 0x17C);</i></div>
 <a id=struc_CareerSponsorPtrOrHash></a>
 <div><b>union</b> <h3>CareerSponsorPtrOrHash</h3> { <i>/*2 members, size 4h*/</i>
-<i>/*0*/	</i>unsigned int sponsor;
-<i>/*0*/	</i>int sponsorNameHash <u></u>;
+<i>/*0*/	</i><a href=structs.html#struc_CareerSponsor>struct CareerSponsor</a> *sponsor;
+<i>/*0*/	</i>unsigned int sponsorNameHash;
 };
 <i>EXPECT_SIZE(struct CareerSponsorPtrOrHash, 0x4);</i></div>
 <a id=struc_CareerStageSettings></a>
@@ -10165,7 +10273,7 @@ array of ptrs to markers with the arrayindex as marker type (ie <code><a href=st
 <div><b>union</b> <h3>in_addr::$C13EC994467D6E67044F092615EC7EA9</h3> { <i>/*3 members, size 4h*/</i>
 <i>/*0*/	</i><a href=#struc_in_addr::$C13EC994467D6E67044F092615EC7EA9::$01C175C1F0716DCA00314EDD79DBC0A0>struct in_addr::$C13EC994467D6E67044F092615EC7EA9::$01C175C1F0716DCA00314EDD79DBC0A0</a> S_un_b;
 <i>/*0*/	</i><a href=#struc_in_addr::$C13EC994467D6E67044F092615EC7EA9::$4DE764E669F663DACA3CBFDE73714CB5>struct in_addr::$C13EC994467D6E67044F092615EC7EA9::$4DE764E669F663DACA3CBFDE73714CB5</a> S_un_w;
-<i>/*0*/	</i>int S_addr <u></u>;
+<i>/*0*/	</i>u_long S_addr;
 };
 <i>EXPECT_SIZE(struct in_addr::$C13EC994467D6E67044F092615EC7EA9, 0x4);</i></div>
 <a id=struc_in_addr::$C13EC994467D6E67044F092615EC7EA9::$01C175C1F0716DCA00314EDD79DBC0A0></a>

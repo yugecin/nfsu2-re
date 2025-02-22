@@ -284,7 +284,7 @@ pre.ida span.hi {
 <a href='cheatsheet.html'>cheatsheet</a></nav>
 </header>
 <div class='enum'>
-<h2>Enums (48)</h2>
+<h2>Enums (49)</h2>
 <ul>
 <li><a href=#enu_MACRO_WA>MACRO_WA</a>
 <li><a href=#enu_DINPUT_GUIDS>DINPUT_GUIDS</a>
@@ -319,6 +319,7 @@ pre.ida span.hi {
 <li><a href=#enu_SMS_TYPE>SMS_TYPE</a>
 <li><a href=#enu_MAILBOX>MAILBOX</a>
 <li><a href=#enu_MARKER_TYPE>MARKER_TYPE</a>
+<li><a href=#enu_SHOP_SHOW_CONDITION>SHOP_SHOW_CONDITION</a>
 <li><a href=#enu_UIELEMENTFLAGS>UIELEMENTFLAGS</a>
 <li><a href=#enu_INVENTORY_CAR_FLAGS>INVENTORY_CAR_FLAGS</a>
 <li><a href=#enu_CAR_CUSTOMIZE_MODE>CAR_CUSTOMIZE_MODE</a>
@@ -5258,6 +5259,14 @@ Maybe this is used as the "discover" hitmarker (ie the map icon will show from t
 	MARKER_TYPE_NEIGHBOURHOOD = 0x11,
 <i id=enu_MARKER_TYPE12></i>	MARKER_TYPE_ENGAGE_TIP = 0x12,
 	MARKER_TYPE_MONEY_PICKUP = 0x13,
+};</div>
+<a id=enu_SHOP_SHOW_CONDITION></a>
+<div>enum <h3>SHOP_SHOW_CONDITION</h3> { <i>/*5 members*/</i>
+	SHOP_SHOW_CONDITION_NONE = 0x0,
+	SHOP_SHOW_CONDITION_RACE = 0x1,
+	SHOP_SHOW_CONDITION_STAGE9C_COUNT_LE = 0x2,
+	SHOP_SHOW_CONDITION_STAGE0_COUNT_LE = 0x3,
+	SHOP_SHOW_CONDITION_STAGE8C_COUNT_LE = 0x4,
 };</div>
 <a id=enu_UIELEMENTFLAGS></a>
 <div class=mm><p>for <a href=structs.html#struc_UIElement>struct UIElement</a>.<a href=structs.html#struc_UIElement@1C>flags</a></div>
