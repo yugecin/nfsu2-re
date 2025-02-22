@@ -4109,3 +4109,19 @@ which is in file {GLOBAL/GLOBALB.BUN}).                                         
 - 5CCD60
 .popmode symbols
 .popmode section
+.pushmode section
+
+{Fun facts} ||| h id=funfacts
+
+- uniques shop is assigned stage index 10
+
+globalb.bin contiains 2 sections that contian an ELF binary
+
+Buy ERTS at the end of bin section 30201 (not all of them though)
+
+bin section 30201 font related reveals some leftover strings that are overwritten;
+font_arial.bin\0\pc\font_arial.bin
+
+RX8 old default car? evidence because preset cars and also it's the default car to be shown on empty profile (altho somethimes it's a 350z)
+
+.popmode section
