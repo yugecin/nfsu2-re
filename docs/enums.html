@@ -5258,7 +5258,7 @@ Maybe this is used as the "discover" hitmarker (ie the map icon will show from t
 <i id=enu_MARKER_TYPEF></i>	MARKER_TYPE_F = 0xF,
 	MARKER_TYPE_NEIGHBOURHOOD = 0x11,
 <i id=enu_MARKER_TYPE12></i>	MARKER_TYPE_ENGAGE_TIP = 0x12,
-	MARKER_TYPE_MONEY_PICKUP = 0x13,
+<i id=enu_MARKER_TYPE13></i>	MARKER_TYPE_MONEY_PICKUP = 0x13,
 };</div>
 <a id=enu_SHOP_SHOW_CONDITION></a>
 <div>enum <h3>SHOP_SHOW_CONDITION</h3> { <i>/*5 members*/</i>
@@ -5275,10 +5275,12 @@ Maybe this is used as the "discover" hitmarker (ie the map icon will show from t
 <i id=enu_UIELEMENTFLAGS2></i><span class='mm'>/**if present on a <a href=structs.html#struc_UILabel>struct UILabel</a>'s <a href=structs.html#struc_UIElement@1C>flags</a>, its <a href=structs.html#struc_UILabel@64>customString</a> will be used to display text instead of its <a href=structs.html#struc_UILabel@60>textLanguageString</a>*/</span>
 	USE_CUSTOM_TEXT = 0x2,
 	CLICKABLE? = 0x10,
-	UIELEMENTFLAGS_40 = 0x40,
+<span class='mm'>/**see 54E571*/</span>
+	HIDE_HIERARCHY_ON_INIT = 0x40,
 <i id=enu_UIELEMENTFLAGS400000></i>	NEED_UPDATE_0 = 0x400000,
 	NEED_UPDATE_1 = 0x1000000,
 	NEED_UPDATE_2 = 0x2000000,
+<span class='mm'>/**if present, this will be removed on init (in 54E571)*/</span>
 	UIELEMENTFLAGS_10000000 = 0x10000000,
 };</div>
 <a id=enu_INVENTORY_CAR_FLAGS></a>

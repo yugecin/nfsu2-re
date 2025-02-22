@@ -3598,7 +3598,7 @@ masks. The lowest matching mask gets placed on button1, and so on.
 <li><a href=funcs.html#50CD00>IsPointInRect</a></li>
 <li><a href=funcs.html#517F80>FNGInfo::FindUIElementByHash</a></li>
 <li><a href=funcs.html#517FE0>FNGInfo::FindElementByFieldC</a></li>
-<li><a href=funcs.html#51CF70>SetUIElementAnimationByName</a></li>
+<li><a href=funcs.html#51CF70>SetNullableUIElementAnimationByName</a></li>
 <li><a href=funcs.html#51CFE0>SetUIElementAnimationByHash</a></li>
 <li><a href=funcs.html#51D040>IsUIElementAnimationOngoing</a></li>
 <li><a href=funcs.html#51D070>GetUIElementTopLeft</a></li>
@@ -3904,7 +3904,6 @@ car 45: HATCHBACK02 HATCHBACK02 GENERIC
 <li><a href=vars.html#82B884>soundEffectSystem?</a></li>
 <li><a href=funcs.html#458520>SoundEffectSystem::PlaySound?</a></li>
 <li><a href=funcs.html#51DE60>PlayUISoundEffect</a></li>
-<li><a href=funcs.html#528370>PlaySound528370</a></li>
 </ul>
 <p style='text-align:right'><small><a href='#index'>Index</a></small></p>
 </div>
@@ -3975,9 +3974,10 @@ Entries in there are of type <a href=structs.html#struc_CarUnlockEntry>struct Ca
 They are in bin section <code>0x3414A</code>, which is in bin section <code>0x80034147</code>, in <code>TRACKS\ROUTESL4R%c\Paths%d.bin</code>.
 Bin section <code>3414A</code> is loaded as part of <a href=funcs.html#5D9A90>PathsData::ReadFromBinData</a> and inited in <a href=funcs.html#5D5630>PathsData::InitAfterReadFromBinData</a>.
 <p>After reading, they are in <code><a href=vars.html#88F298>pathsData</a>.<a href=structs.html#struc_PathsData@43C>allMarkers</a></code>, which has <code><a href=vars.html#88F298>pathsData</a>.<a href=structs.html#struc_PathsData@434>numMarkers</a></code> entries.
-They are also in <code><a href=vars.html#88F298>pathsData</a>.<a href=structs.html#struc_PathsData@440>markers</a></code>, which is an array. Each entry points to an array of markers with
-their type matching the index of the array, except the last entry. The last entry at index 21 points to where the end
-of the array of index 20 is, it does not point to an array of markers itself.
+They are also in <code><a href=vars.html#88F298>pathsData</a>.<a href=structs.html#struc_PathsData@440>markersOfType_Start</a></code>, which is an array where entry points to where the markers of the
+type that matches the index start in <a href=structs.html#struc_PathsData@43C>allMarkers</a>. This also means the end of the series of markers with
+that type is pointed at by <code>index+1</code> (exclusive). This array has 22 entries, but the last entry is just a pointer
+to where the series of markers of type 20 ends, as type 21 does not exist.
 <p>This data is only loaded while in career/quickrace/freeroam.
 <p>Not loading bin section <code>0x3414A</code> results in no career markers at all, and no traffic (but other racers do still spawn).
 <p>See <a href='dumps/markerdump.txt'>markerdump.txt</a> (39KB) for a data dump as made by <code><a class='ext' href='https://github.com/yugecin/nfsu2-re/blob/master/nfsu2-re-hooks/debug-custom-dump-markers.c'>nfsu2-re-hooks/debug-custom-dump-markers.c</a></code>.
@@ -3992,7 +3992,7 @@ of the array of index 20 is, it does not point to an array of markers itself.
 <li><a href=vars.html#883D9C>neighbourhoodHashesCalculatedAlready</a></li>
 <li><a href=funcs.html#43D890>IsMarkerInRange</a></li>
 <li><a href=funcs.html#4FFC50>FindMarkerTypeD_E_FWithHash</a></li>
-<li><a href=funcs.html#5283C0>Career::MoneyMarkerHitPlaySound??</a></li>
+<li><a href=funcs.html#5283C0>Career::MoneyMarkerHit</a></li>
 <li><a href=funcs.html#5D3DE0>GetNeighbourhoodNameForHash</a></li>
 <li><a href=funcs.html#5D5630>PathsData::InitAfterReadFromBinData</a></li>
 <li><a href=funcs.html#5D9A90>PathsData::ReadFromBinData</a></li>

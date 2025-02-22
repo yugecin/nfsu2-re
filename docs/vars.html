@@ -284,7 +284,7 @@ pre.ida span.hi {
 <a href='cheatsheet.html'>cheatsheet</a></nav>
 </header>
 <div class='var'>
-<h2>Variables (989)</h2>
+<h2>Variables (995)</h2>
 <ul>
 <li><a href=#5CCFFC>
 WndProcMsgJumpTable</a>
@@ -804,6 +804,8 @@ __imp_WSAIoctl</a>
 __imp_WSACleanup</a>
 <li><a href=#783420>
 __imp_Direct3DCreate9</a>
+<li><a href=#783D3C>
+tolerance</a>
 <li><a href=#783FE5>
 emptyString</a>
 <li><a href=#784744>
@@ -1683,9 +1685,9 @@ careerStringPool</a>
 <li><a href=#83842C>
 careerStringPoolSize</a>
 <li><a href=#838430>
-bin34A1E</a>
+moneyMarkerConfigurations</a>
 <li><a href=#838434>
-numBin34A1E</a>
+numMoneyMarkerConfigurations</a>
 <li><a href=#838438>
 carUnlockEntries</a>
 <li><a href=#83843C>
@@ -1818,12 +1820,22 @@ network86A388</a>
 network86A388Inited</a>
 <li><a href=#86A858>
 ol86A858</a>
+<li><a href=#86B258>
+numCarCollisionBodySlotPoolEntryParentInstances</a>
+<li><a href=#86B260>
+numCarCollisionBodySlotPoolEntryInstance</a>
+<li><a href=#86B280>
+maxNumCarCollisionBodySlotPoolEntryParentInstancesActive</a>
+<li><a href=#86B288>
+maxNumCarCollisionBodySlotPoolEntryInstancesActive</a>
 <li><a href=#86B340>
 bin34A1A</a>
 <li><a href=#86B344>
 numBin34A1A</a>
 <li><a href=#86B4AC>
 binSectionHandlerMagicMapEntry34027</a>
+<li><a href=#86B4C8>
+carCollisionBodySlotPoolEntryParentParentLink</a>
 <li><a href=#86B580>
 binSectionHandlerMagicMapEntry34026</a>
 <li><a href=#86B790>
@@ -2807,6 +2819,8 @@ for an application or device driver</div>
 <div><i>783418</i> int <h3>__imp_WSACleanup</h3> <u></u></div>
 <a id=783420></a>
 <div><i>783420</i> int <h3>__imp_Direct3DCreate9</h3> <u></u></div>
+<a id=783D3C></a>
+<div><i>783D3C</i> int <h3>tolerance</h3> <u></u></div>
 <a id=783FE5></a>
 <div><i>783FE5</i> char <h3>emptyString</h3>[3] <u></u></div>
 <a id=784744></a>
@@ -3904,11 +3918,11 @@ bunch of zero term strings after each other. Other data will have an offset and 
 <div class=mm><p>size of data in <a href=vars.html#838428>careerStringPool</a></div>
 <div><i>83842C</i> int <h3>careerStringPoolSize</h3> <u></u></div>
 <a id=838430></a>
-<div class=mm><p>entrytype <a href=structs.html#struc_Bin34A1E>struct Bin34A1E</a>, <a href=vars.html#838434>numBin34A1E</a> amount of entries</div>
-<div><i>838430</i> int <h3>bin34A1E</h3> <u></u></div>
+<div class=mm><p>entrytype <a href=structs.html#struc_MoneyMarkerConfiguration>struct MoneyMarkerConfiguration</a>, <a href=vars.html#838434>numMoneyMarkerConfigurations</a> amount of entries</div>
+<div><i>838430</i> <a href=structs.html#struc_MoneyMarkerConfiguration>struct MoneyMarkerConfiguration</a> *<h3>moneyMarkerConfigurations</h3></div>
 <a id=838434></a>
-<div class=mm><p>num entries in <a href=vars.html#838430>bin34A1E</a></div>
-<div><i>838434</i> int <h3>numBin34A1E</h3> <u></u></div>
+<div class=mm><p>num entries in <a href=vars.html#838430>moneyMarkerConfigurations</a></div>
+<div><i>838434</i> int <h3>numMoneyMarkerConfigurations</h3> <u></u></div>
 <a id=838438></a>
 <div class=mm><p>entrytype <a href=structs.html#struc_CarUnlockEntry>struct CarUnlockEntry</a>, <a href=vars.html#83843C>numCarUnlockEntries</a> amount of entries entries</div>
 <div><i>838438</i> int <h3>carUnlockEntries</h3> <u></u></div>
@@ -4093,6 +4107,16 @@ interesting when setting that var to 5 (same as 0, 1, 2) while in freeroam (shou
 <div><i>86A450</i> int <h3>network86A388Inited</h3> <u></u></div>
 <a id=86A858></a>
 <div><i>86A858</i> <a href=structs.html#struc_OL86A858>struct OL86A858</a> <h3>ol86A858</h3></div>
+<a id=86B258></a>
+<div><i>86B258</i> int <h3>numCarCollisionBodySlotPoolEntryParentInstances</h3> <u></u></div>
+<a id=86B260></a>
+<div><i>86B260</i> int <h3>numCarCollisionBodySlotPoolEntryInstance</h3> <u></u></div>
+<a id=86B280></a>
+<div class=mm><p>the max amount of instances that were allocated at the same time</div>
+<div><i>86B280</i> int <h3>maxNumCarCollisionBodySlotPoolEntryParentInstancesActive</h3> <u></u></div>
+<a id=86B288></a>
+<div class=mm><p>the max amount of instances that were allocated at the same time</div>
+<div><i>86B288</i> int <h3>maxNumCarCollisionBodySlotPoolEntryInstancesActive</h3> <u></u></div>
 <a id=86B340></a>
 <div class=mm><p>entrytype <a href=structs.html#struc_Bin34A1A>struct Bin34A1A</a>, num entries <a href=vars.html#86B344>numBin34A1A</a></div>
 <div><i>86B340</i> int <h3>bin34A1A</h3> <u></u></div>
@@ -4101,6 +4125,8 @@ interesting when setting that var to 5 (same as 0, 1, 2) while in freeroam (shou
 <div><i>86B344</i> int <h3>numBin34A1A</h3> <u></u></div>
 <a id=86B4AC></a>
 <div><i>86B4AC</i> <a href=structs.html#struc_BinSectionMagicMapEntry>struct BinSectionMagicMapEntry</a> <h3>binSectionHandlerMagicMapEntry34027</h3></div>
+<a id=86B4C8></a>
+<div><i>86B4C8</i> <a href=structs.html#struc_PoolEntry>struct PoolEntry</a> <h3>carCollisionBodySlotPoolEntryParentParentLink</h3></div>
 <a id=86B580></a>
 <div><i>86B580</i> <a href=structs.html#struc_BinSectionMagicMapEntry>struct BinSectionMagicMapEntry</a> <h3>binSectionHandlerMagicMapEntry34026</h3></div>
 <a id=86B790></a>

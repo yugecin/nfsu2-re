@@ -3825,7 +3825,6 @@ car 45: HATCHBACK02 HATCHBACK02 GENERIC
 - 82B884
 - 458520
 - 51DE60
-- 528370
 .popmode symbols
 
 .popmode section
@@ -3911,9 +3910,10 @@ They are in bin section {0x3414A}, which is in bin section {0x80034147}, in {TRA
 Bin section {3414A} is loaded as part of {5D9A90} and inited in {5D5630}.                                               ||| code,ref,ref
 
 After reading, they are in {{88F298}.{struct PathsData+43C}}, which has {{88F298}.{struct PathsData+434}} entries.      ||| code,ref,ref,code,ref,ref
-They are also in {{88F298}.{struct PathsData+440}}, which is an array. Each entry points to an array of markers with    ||| code,ref,ref
-their type matching the index of the array, except the last entry. The last entry at index 21 points to where the end
-of the array of index 20 is, it does not point to an array of markers itself.
+They are also in {{88F298}.{struct PathsData+440}}, which is an array where entry points to where the markers of the    ||| code,ref,ref
+type that matches the index start in {struct PathsData+43C}. This also means the end of the series of markers with      ||| ref
+that type is pointed at by {index+1} (exclusive). This array has 22 entries, but the last entry is just a pointer       ||| code
+to where the series of markers of type 20 ends, as type 21 does not exist.
 
 This data is only loaded while in career/quickrace/freeroam.
 

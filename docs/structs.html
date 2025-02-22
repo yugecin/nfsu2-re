@@ -284,7 +284,7 @@ pre.ida span.hi {
 <a href='cheatsheet.html'>cheatsheet</a></nav>
 </header>
 <div class='struc'>
-<h2>Structs (507)</h2>
+<h2>Structs (511)</h2>
 <ul>
 <li><a href=#struc_FuncInfo_V1>FuncInfo_V1</a>
 <li><a href=#struc_UnwindMapEntry>UnwindMapEntry</a>
@@ -422,6 +422,9 @@ pre.ida span.hi {
 <li><a href=#struc_BinSectionMagicMapEntry>BinSectionMagicMapEntry</a> <em></em>
 <li><a href=#struc_OL850080>OL850080</a>
 <li><a href=#struc_OL86A858>OL86A858</a> <em></em>
+<li><a href=#struc_CarCollisionBodySlotPoolEntryParentParent>CarCollisionBodySlotPoolEntryParentParent</a> <em></em>
+<li><a href=#struc_CarCollisionBodySlotPoolEntryParent>CarCollisionBodySlotPoolEntryParent</a> <em></em>
+<li><a href=#struc_CarCollisionBodySlotPoolEntry>CarCollisionBodySlotPoolEntry</a> <em></em>
 <li><a href=#struc_OLMainStruct>OLMainStruct</a> <em></em>
 <li><a href=#struc_OL836370>OL836370</a> <em></em>
 <li><a href=#struc_OL138>OL138</a>
@@ -655,6 +658,7 @@ pre.ida span.hi {
 <li><a href=#struc_FERenderEPoly>FERenderEPoly</a>
 <li><a href=#struc_WorldAnimStuff>WorldAnimStuff</a> <em></em>
 <li><a href=#struc_AudioStuff>AudioStuff</a>
+<li><a href=#struc_struct836498_3C>struct836498_3C</a> <em></em>
 <li><a href=#struc_Struct836498>Struct836498</a>
 <li><a href=#struc_Bootflow>Bootflow</a> <em></em>
 <li><a href=#struc_BootflowEntry>BootflowEntry</a>
@@ -738,7 +742,7 @@ pre.ida span.hi {
 <li><a href=#struc_MarkerQueryResult>MarkerQueryResult</a>
 <li><a href=#struc_CareerSponsor>CareerSponsor</a> <em></em>
 <li><a href=#struc_CarUnlockEntry>CarUnlockEntry</a>
-<li><a href=#struc_Bin34A1E>Bin34A1E</a>
+<li><a href=#struc_MoneyMarkerConfiguration>MoneyMarkerConfiguration</a>
 <li><a href=#struc_Bin34A1C>Bin34A1C</a>
 <li><a href=#struc_Bin34A1A>Bin34A1A</a>
 <li><a href=#struc_Bin34A1B>Bin34A1B</a>
@@ -2623,6 +2627,73 @@ return amount of bytes actually read*/</span>
 <ul>
 <li><!--58D6B0-->
 <pre><i>58D6B0</i> <a href=funcs.html#58D6B0 title='int __thiscall OL86A858__OL_JoinGameFromBuddyInvite_(struct OL86A858 *this, int, int, int, int);'>OL86A858::OL_JoinGameFromBuddyInvite?</a></pre>
+</ul>
+<a id=struc_CarCollisionBodySlotPoolEntryParentParent></a>
+<div class=mm><p>vtable 7A1FE0</div>
+<div>struct <h3>CarCollisionBodySlotPoolEntryParentParent</h3> { <i>/*17 members, size 5Ch*/</i> <em></em>
+<i>/*0*/	</i>int vtable <u></u>;
+<i>/*4*/	</i><a href=#struc_ObjectLink>struct ObjectLink</a> link;
+<i>/*C*/	int field_C;</i>
+<i>/*10*/	char field_10;</i>
+<i>/*11*/	char field_11;</i>
+<i>/*12*/	char field_12;</i>
+<i>/*13*/	char _pad13[0x1];</i>
+<i>/*14*/	short field_14;</i>
+<i>/*16*/	char field_16;</i>
+<i>/*17*/	char field_17;</i>
+<i>/*18*/	char field_18;</i>
+<i>/*19*/	char field_19;</i>
+<i>/*1A*/	char _pad1A[0x6];</i>
+<i>/*20*/	int field_20;</i>
+<i>/*24*/	int field_24;</i>
+<i>/*28*/	int field_28;</i>
+<i>/*2C*/	int field_2C;</i>
+<i>/*30*/	</i>char szField_30[40] <u></u>;
+<i>/*58*/	</i>int __maybeEnd <u></u>;
+};
+<i>EXPECT_SIZE(struct CarCollisionBodySlotPoolEntryParentParent, 0x5C);</i></div>
+<ul>
+<li><!--5A04F0-->
+<pre><i>5A04F0</i> <a href=funcs.html#5A04F0 title='int __thiscall CarCollisionBodySlotPoolEntryParentParent__ctor(struct CarCollisionBodySlotPoolEntryParentParent *this, int, char);'>CarCollisionBodySlotPoolEntryParentParent::ctor</a></pre>
+</ul>
+<a id=struc_CarCollisionBodySlotPoolEntryParent></a>
+<div class=mm><p>vtable 7A2168</div>
+<div>struct <h3>CarCollisionBodySlotPoolEntryParent</h3> { <i>/*7 members, size 128h*/</i> <em></em>
+<i>/*0*/	</i><a href=#struc_CarCollisionBodySlotPoolEntryParentParent>struct CarCollisionBodySlotPoolEntryParentParent</a> __parent;
+<i>/*5C*/	int field_5C;</i>
+<i>/*60*/	int field_60;</i>
+<i>/*64*/	int field_64;</i>
+<i>/*68*/	int field_68;</i>
+<i>/*6C*/	char _pad6C[0xB4];</i>
+<i>/*120*/	int field_120;</i>
+<i>/*124*/	int field_124;</i>
+};
+<i>EXPECT_SIZE(struct CarCollisionBodySlotPoolEntryParent, 0x128);</i></div>
+<ul>
+<li><!--5A9CE0-->
+<pre><i>5A9CE0</i> <a href=funcs.html#5A9CE0 title='int __thiscall CarCollisionBodySlotPoolEntryParent__ctor(struct CarCollisionBodySlotPoolEntryParent *this, int, char, int);'>CarCollisionBodySlotPoolEntryParent::ctor</a></pre>
+</ul>
+<a id=struc_CarCollisionBodySlotPoolEntry></a>
+<div class=mm><p>vtable 7A2470</div>
+<div>struct <h3>CarCollisionBodySlotPoolEntry</h3> { <i>/*8 members, size 1A0h*/</i> <em></em>
+<i>/*0*/	</i><a href=#struc_CarCollisionBodySlotPoolEntryParent>struct CarCollisionBodySlotPoolEntryParent</a> __parent;
+<i>/*128*/	char _pad128[0x8];</i>
+<i>/*130*/	int field_130;</i>
+<i>/*134*/	int field_134;</i>
+<i>/*138*/	int field_138;</i>
+<i>/*13C*/	int field_13C;</i>
+<i>/*140*/	int field_140;</i>
+<i>/*144*/	char _pad144[0x4C];</i>
+<i>/*190*/	char field_190;</i>
+<i>/*191*/	char _pad191[0xE];</i>
+<i>/*19F*/	</i>char __end <u></u>;
+};
+<i>EXPECT_SIZE(struct CarCollisionBodySlotPoolEntry, 0x1A0);</i></div>
+<ul>
+<li><!--5A9F10-->
+<pre><i>5A9F10</i> <a href=funcs.html#5A9F10 title='void __thiscall CarCollisionBodySlotPoolEntry__5A9F10(struct CarCollisionBodySlotPoolEntry *this, int);'>CarCollisionBodySlotPoolEntry::5A9F10</a></pre>
+<li><!--5AEC20-->
+<pre><i>5AEC20</i> <a href=funcs.html#5AEC20 title='CarCollisionBodySlotPoolEntry::ctor'>CarCollisionBodySlotPoolEntry::ctor</a></pre>
 </ul>
 <a id=struc_OLMainStruct></a>
 <div>struct <h3>OLMainStruct</h3> { <i>/*16 members, size 1Ch*/</i> <em></em>
@@ -7026,6 +7097,20 @@ vtable is only a dtor</div>
 <i>/*AC*/	int field_AC;</i>
 };
 <i>EXPECT_SIZE(struct AudioStuff, 0xB0);</i></div>
+<a id=struc_struct836498_3C></a>
+<div class=mm><p>unknown size</div>
+<div>struct <h3>struct836498_3C</h3> { <i>/*3 members, size 20h*/</i> <em></em>
+<i>/*0*/	</i><a href=#struc_ObjectLink>struct ObjectLink</a> link;
+<i>/*8*/	</i><a href=structs.html#struc_Career_0>struct Career_0</a> *career_0;
+<i>/*C*/	char _padC[0x10];</i>
+<span class='mm'>/**ptr to struct that has UIElement* as field0*/</span>
+<i>/*1C*/	void *field_1C;</i>
+};
+<i>EXPECT_SIZE(struct struct836498_3C, 0x20);</i></div>
+<ul>
+<li><!--4AC620-->
+<pre><i>4AC620</i> <a href=funcs.html#4AC620 title='int __thiscall struct836498_3C__4AC620(struct struct836498_3C *this, struct Career_0 *career0);'>struct836498_3C::4AC620</a></pre>
+</ul>
 <a id=struc_Struct836498></a>
 <div>struct <h3>Struct836498</h3> { <i>/*36 members, size 6Ch*/</i>
 <i>/*0*/	</i>int ptrField0 <u></u>;
@@ -8467,7 +8552,7 @@ but this value is also compared to 2 and 3*/</span>
 <li><!--514FD0-->
 <pre><i>514FD0</i> <a href=funcs.html#514FD0 title='int __thiscall CareerC00__514FD0(struct CareerC00 *this, struct CareerShop *shop);'>CareerC00::514FD0</a></pre>
 <li><!--515060-->
-<pre><i>515060</i> <a href=funcs.html#515060 title='int __thiscall CareerC00__515060(struct CareerC00 *this, struct Career_0 *into);'>CareerC00::515060</a></pre>
+<pre><i>515060</i> <a href=funcs.html#515060 title='void __thiscall CareerC00__InitializeCareer0(struct CareerC00 *this, struct Career_0 *into);'>CareerC00::InitializeCareer0</a></pre>
 <li><!--533A90-->
 <pre><i>533A90</i> <a href=funcs.html#533A90 title='int __thiscall CareerC00__OnOutrunFinish(struct CareerC00 *this, int didWin);'>CareerC00::OnOutrunFinish</a></pre>
 <li><!--533B40-->
@@ -8624,10 +8709,11 @@ but this value is also compared to 2 and 3*/</span>
 <a id=struc_Career_0></a>
 <div class=mm><p>size 18</div>
 <div>struct <h3>Career_0</h3> { <i>/*6 members, size 18h*/</i>
-<i>/*0*/	int field_0;</i>
+<i>/*0*/	</i><a href=structs.html#struc_Marker>struct Marker</a> *marker;
 <i>/*4*/	int field_4;</i>
-<i>/*8*/	</i><a href=structs.html#struc_CareerShop>struct CareerShop</a> *careerShop8;
-<i>/*C*/	void *field_C;</i>
+<i>/*8*/	</i><a href=structs.html#struc_CareerShop>struct CareerShop</a> *shop;
+<span class='mm'>/**entry type is DVD/SHOW related*/</span>
+<i>/*C*/	</i><a href=structs.html#struc_Bin34A16>struct Bin34A16</a> *bin34A16;
 <i>/*10*/	int field_10;</i>
 <i>/*14*/	int field_14;</i>
 };
@@ -8724,9 +8810,8 @@ but this value is also compared to 2 and 3*/</span>
 <i id=struc_Career@600></i><span class='mm'>/**see <a href=funcs.html#528980>Career::RecalculateCollectedEngageMarkers</a>
 extra ref: 605880*/</span>
 <i>/*600*/	</i><a href=structs.html#struc_Marker>struct Marker</a> *collectedEngageMarkers[128];
-<i id=struc_Career@800></i><span class='mm'>/**why is there 256 of these? there aren't that many money pickups in the world...
-see <a href=funcs.html#5141B0>Career::CheckMoneyMarkers</a>*/</span>
-<i>/*800*/	</i><a href=structs.html#struc_Marker>struct Marker</a> *collectedMoneyMarkers?[256];
+<i id=struc_Career@800></i><span class='mm'>/**see <a href=funcs.html#5141B0>Career::UpdateCollectedMoneyMarkers</a>*/</span>
+<i>/*800*/	</i><a href=structs.html#struc_Marker>struct Marker</a> *collectedMoneyMarkers[256];
 <span class='mm'>/**unknown struct size*/</span>
 <i>/*C00*/	<a href=#struc_CareerC00>struct CareerC00</a> field_C00;</i>
 <i>/*D20*/	char _padD20[0x4];</i>
@@ -8757,8 +8842,7 @@ see <a href=funcs.html#5141B0>Career::CheckMoneyMarkers</a>*/</span>
 <i>/*7AF8*/</i>int currentStage;
 <i>/*7AFC*/</i>int numUsed7B00;
 <span class='mm'>/**384 elements, see 53286B
-
-nulling entries removes discovered shops from the map*/</span>
+collects discovered shops, (races?)*/</span>
 <i>/*7B00*/<a href=#struc_Career7B00>struct Career7B00</a> field_7B00[384];</i>
 <i id=struc_Career@8700></i><i>/*8700*/int field_8700;</i>
 <i id=struc_Career@8704></i><i>/*8704*/void *field_8704;</i>
@@ -8796,8 +8880,8 @@ When canceling at that point, it's set back to 1
 <i>/*8760*/</i>short carAngle <u></u>;
 <i>/*8762*/char _pad8762[0x2];</i>
 <i>/*8764*/float floatField_8764;</i>
-<span class='mm'>/**size 64 see 532A1E*/</span>
-<i>/*8768*/char field_8768[256];</i>
+<i id=struc_Career@8768></i><span class='mm'>/**index of matching <a href=structs.html#struc_MoneyMarkerConfiguration>struct MoneyMarkerConfiguration</a>.<a href=structs.html#struc_MoneyMarkerConfiguration@3>moneyMarkerId</a> is set to 1 when it's collected*/</span>
+<i>/*8768*/</i>char moneyMarkerIdCollected[256] <u></u>;
 <i>/*8868*/char field_8868;</i>
 <i id=struc_Career@8869></i><span class='mm'>/**all inited to 1*/</span>
 <i>/*8869*/char field_8869[8][2];</i>
@@ -8875,6 +8959,8 @@ When canceling at that point, it's set back to 1
 <pre><i>5137C0</i> <a href=funcs.html#5137C0 title='int __thiscall Career__5137C0(struct Career *this, int, int);'>Career::5137C0</a></pre>
 <li><!--513880-->
 <pre><i>513880</i> <a href=funcs.html#513880 title='int __thiscall Career__513880(struct Career *this);'>Career::513880</a></pre>
+<li><!--513890-->
+<pre><i>513890</i> <a href=funcs.html#513890 title='int __thiscall Career__CanMoneyMarkerBeCollected(struct Career *this, struct MoneyMarkerConfiguration *bin34A1E);'>Career::CanMoneyMarkerBeCollected</a></pre>
 <li><!--5138F0-->
 <pre><i>5138F0</i> <a href=funcs.html#5138F0 title='int __thiscall Career__5138F0(struct Career *this, void *);'>Career::5138F0</a></pre>
 <li><!--513910-->
@@ -8894,7 +8980,7 @@ When canceling at that point, it's set back to 1
 <li><!--513C50-->
 <pre><i>513C50</i> <a href=funcs.html#513C50 title='void __thiscall Career__GetAvailableStockCars(struct Career *this, struct ObjectLink *link);'>Career::GetAvailableStockCars</a></pre>
 <li><!--5141B0-->
-<pre><i>5141B0</i> <a href=funcs.html#5141B0 title='void __thiscall Career__CheckMoneyMarkers(struct Career *this);'>Career::CheckMoneyMarkers</a></pre>
+<pre><i>5141B0</i> <a href=funcs.html#5141B0 title='void __thiscall Career__UpdateCollectedMoneyMarkers(struct Career *this);'>Career::UpdateCollectedMoneyMarkers</a></pre>
 <li><!--514280-->
 <pre><i>514280</i> <a href=funcs.html#514280 title='int __thiscall Career__GetPartCost(struct Career *this, int, int);'>Career::GetPartCost</a></pre>
 <li><!--5142E0-->
@@ -8915,8 +9001,10 @@ When canceling at that point, it's set back to 1
 <pre><i>527D30</i> <a href=funcs.html#527D30 title='int __thiscall Career__527D30(struct Career *this);'>Career::527D30</a></pre>
 <li><!--528320-->
 <pre><i>528320</i> <a href=funcs.html#528320 title='int __thiscall Career__IncrementCurrentStage_(struct Career *this, int);'>Career::IncrementCurrentStage?</a></pre>
+<li><!--528370-->
+<pre><i>528370</i> <a href=funcs.html#528370 title='void __thiscall Career__CollectMoneyMarker(struct Career *this, struct MoneyMarkerConfiguration *moneyMarker);'>Career::CollectMoneyMarker</a></pre>
 <li><!--5283C0-->
-<pre><i>5283C0</i> <a href=funcs.html#5283C0 title='void __thiscall Career__MoneyMarkerHitPlaySound__(struct Career *this, struct Marker *marker);'>Career::MoneyMarkerHitPlaySound??</a></pre>
+<pre><i>5283C0</i> <a href=funcs.html#5283C0 title='void __thiscall Career__MoneyMarkerHit(struct Career *this, struct Marker *marker);'>Career::MoneyMarkerHit</a></pre>
 <li><!--528410-->
 <pre><i>528410</i> <a href=funcs.html#528410 title='float __thiscall Career__528410(struct Career *this);'>Career::528410</a></pre>
 <li><!--5284D0-->
@@ -9045,12 +9133,21 @@ see also <a href=vars.html#838414>careerSponsors</a></div>
 <i>/*8*/	</i>unsigned int unlockingRaceIfGameRegionIsNotUs;
 };
 <i>EXPECT_SIZE(struct CarUnlockEntry, 0xC);</i></div>
-<a id=struc_Bin34A1E></a>
-<div>struct <h3>Bin34A1E</h3> { <i>/*1 members, size Ch*/</i>
-<i>/*0*/	char _pad0[0xB];</i>
-<i>/*B*/	</i>char __end <u></u>;
+<a id=struc_MoneyMarkerConfiguration></a>
+<div class=mm><p>bin section 34A1E, loaded into <a href=vars.html#838430>moneyMarkerConfigurations</a>, size 0xC</div>
+<div>struct <h3>MoneyMarkerConfiguration</h3> { <i>/*5 members, size Ch*/</i>
+<i>/*0*/	</i>__int16 amount;
+<i id=struc_MoneyMarkerConfiguration@2></i><span class='mm'>/**this determines how <a href=structs.html#struc_MoneyMarkerConfiguration@4>availabilityConditionValue</a> is interpreted as available condition:
+1: value is the career stage in which it becomes available
+2: value is a hash of something that should be collected (race finished?)
+other: no special availability condition*/</span>
+<i>/*2*/	</i>char availabilityCondition;
+<i id=struc_MoneyMarkerConfiguration@3></i><span class='mm'>/**has to be unique, is used to check if it was collected already (stored in save game)*/</span>
+<i>/*3*/	</i>char moneyMarkerId;
+<i id=struc_MoneyMarkerConfiguration@4></i><i>/*4*/	</i>unsigned int availabilityConditionValue;
+<i>/*8*/	</i>unsigned int hash;
 };
-<i>EXPECT_SIZE(struct Bin34A1E, 0xC);</i></div>
+<i>EXPECT_SIZE(struct MoneyMarkerConfiguration, 0xC);</i></div>
 <a id=struc_Bin34A1C></a>
 <div>struct <h3>Bin34A1C</h3> { <i>/*1 members, size 28h*/</i>
 <i>/*0*/	char _pad0[0x27];</i>
@@ -9082,7 +9179,7 @@ TRIGGER_START_STAGE_3_VISUAL_2*/</span>
 <div class=mm><p>dvds &amp; magazines</div>
 <div>struct <h3>Bin34A16</h3> { <i>/*4 members, size 40h*/</i>
 <i>/*0*/	</i>char name[32];
-<i>/*20*/	int field_20;</i>
+<i>/*20*/	</i>unsigned int hash20;
 <i>/*24*/	char _pad24[0x8];</i>
 <i>/*2C*/	</i>unsigned int markerHash;
 <i>/*30*/	char _pad30[0xF];</i>
@@ -9144,8 +9241,8 @@ instance of this is created when a bin section 30201 is parsed</div>
 This can be a career race hash or just a number, type depends on field <a href=structs.html#struc_CareerShop@9C>extraMapVisibilityConditionType</a>*/</span>
 <i>/*74*/	</i>unsigned int extraMapVisibilityConditionValue;
 <i>/*78*/	char _pad78[0x24];</i>
-<i id=struc_CareerShop@9C></i><span class='mm'>/**determines what kind of condition to check with value <a href=structs.html#struc_CareerShop@74>extraMapVisibilityConditionValue</a>*/</span>
-<i>/*9C*/	</i>char extraMapVisibilityConditionType;
+<i id=struc_CareerShop@9C></i><span class='mm'>/**determines what kind of condition to check with value <a href=structs.html#struc_CareerShop@74>extraMapVisibilityConditionValue</a> (done in <a href=funcs.html#512870>CareerShop::IsExtraMapVisibilityConditionFulfilled</a>)*/</span>
+<i>/*9C*/	</i><a href=enums.html#enu_SHOP_SHOW_CONDITION>enum SHOP_SHOW_CONDITION</a> extraMapVisibilityConditionType;
 <i>/*9D*/	</i>char stageIndex;
 <i>/*9E*/	char _pad9E[0x1];</i>
 <i>/*9F*/	</i>char __end <u></u>;
@@ -9220,7 +9317,7 @@ size 50 (see 512AC9)</div>
 <i>EXPECT_SIZE(struct CareerStageSettings, 0x50);</i></div>
 <a id=struc_Marker></a>
 <div class=mm><p>size dynamic, but minimum 64?</div>
-<div>struct <h3>Marker</h3> { <i>/*21 members, size 51h*/</i> <em></em>
+<div>struct <h3>Marker</h3> { <i>/*19 members, size 51h*/</i> <em></em>
 <i>/*0*/	</i><a href=enums.html#enu_MARKER_TYPE>enum MARKER_TYPE</a> type;
 <i>/*4*/	float floatField_4;</i>
 <i>/*8*/	float floatField_8;</i>
@@ -9229,13 +9326,13 @@ size 50 (see 512AC9)</div>
 <i>/*14*/	int field_14;</i>
 <i>/*18*/	int field_18;</i>
 <i>/*1C*/	int field_1C;</i>
-<i>/*20*/	int field_20;</i>
-<i>/*24*/	int field_24;</i>
-<i>/*28*/	int field_28;</i>
-<i>/*2C*/	int field_2C;</i>
+<span class='mm'>/**x &amp; y minimum of the square that denotes the hitposition*/</span>
+<i>/*20*/	</i><a href=#struc_vec2>struct vec2</a> squarePositionMin;
+<span class='mm'>/**x &amp; y maximum of the square that denotes the hitposition*/</span>
+<i>/*28*/	</i><a href=#struc_vec2>struct vec2</a> squarePositionMax;
 <i id=struc_Marker@30></i><span class='mm'>/**for type neighbourhood: hash of name
 for type engage tip: hash of sms name
-for money: hash of sound effect to play!?*/</span>
+for money: matching hash in <a href=structs.html#struc_MoneyMarkerConfiguration>struct MoneyMarkerConfiguration</a>*/</span>
 <i>/*30*/	</i>unsigned int hash;
 <i>/*34*/	int field_34;</i>
 <i>/*38*/	int field_38;</i>
@@ -9495,7 +9592,7 @@ for money: hash of sound effect to play!?*/</span>
 <i>/*9A0*/	char field_9A0;</i>
 <i>/*9A1*/	char field_9A1;</i>
 <i>/*9A2*/	char _pad9A2[0x2];</i>
-<span class='mm'>/**allocated memory, see ctor for details*/</span>
+<span class='mm'>/**allocated memory, see ctor for details. has something to do with sounds I think, see usage at 5283A8*/</span>
 <i>/*9A4*/	void *field_9A4;</i>
 <i>/*9A8*/	char field_9A8;</i>
 <i>/*9A9*/	char _pad9A9[0x3];</i>
@@ -9665,13 +9762,13 @@ Markers is just section <code>3414A</code> but this func loads more than that</d
 
 size of <a href=structs.html#struc_PathsData@43C>allMarkers</a>*/</span>
 <i>/*438*/	</i>int allMarkersSize;
-<i id=struc_PathsData@43C></i><i>/*43C*/	</i><a href=structs.html#struc_Marker>struct Marker</a> *allMarkers;
-<i id=struc_PathsData@440></i><span class='mm'>/**note that, while this array is of size 22,
-entry 21 does not point to an array of markers,
-rather it points to where the end of the array on entry 20 is
-
-array of ptrs to markers with the arrayindex as marker type (ie <code><a href=structs.html#struc_PathsData@440>markers</a>[3]</code> points to an array of markers with type 3*/</span>
-<i>/*440*/	</i><a href=structs.html#struc_Marker>struct Marker</a> *markers[22];
+<i id=struc_PathsData@43C></i><span class='mm'>/**array of all markers, this is sorted by marker type (first come all markers with type 0, then 1, ..)*/</span>
+<i>/*43C*/	</i><a href=structs.html#struc_Marker>struct Marker</a> *allMarkers;
+<i id=struc_PathsData@440></i><span class='mm'>/**each entry points to the marker in array {struct PathsData+43C} that is the first marker of the type indicated by the entry index.
+(ie {{struct PathsData+440}[3]} points to the first entry in {struct PathsData+43C} where the type is 3)
+that also means accessing element type+1 points to the end of the series of markers of that type (exclusive)
+that's also why there are 22 entries, index 21 simply points to the end of type 20 markers (there is no marker type 21)*/</span>
+<i>/*440*/	</i><a href=structs.html#struc_Marker>struct Marker</a> *markersOfType_Start[22];
 <i>/*498*/	int field_498;</i>
 <i>/*49C*/	int field_49C;</i>
 };
@@ -9682,7 +9779,7 @@ array of ptrs to markers with the arrayindex as marker type (ie <code><a href=st
 <li><!--5D9A90-->
 <pre><i>5D9A90</i> <a href=funcs.html#5D9A90 title='int __thiscall PathsData__ReadFromBinData(struct PathsData *this, struct BinSection *binsection);'>PathsData::ReadFromBinData</a></pre>
 <li><!--5D9BF0-->
-<pre><i>5D9BF0</i> <a href=funcs.html#5D9BF0 title='struct Marker *__thiscall PathsData__FindMarkerAtPosWithTypeAfterIndex(struct PathsData *this, void *nearPosition, int type, struct Marker *after);'>PathsData::FindMarkerAtPosWithTypeAfterIndex</a></pre>
+<pre><i>5D9BF0</i> <a href=funcs.html#5D9BF0 title='struct Marker *__thiscall PathsData__FindMarkerAtPosWithTypeAfterIndex(struct PathsData *this, struct vec2 *atPosition, int type, struct Marker *after);'>PathsData::FindMarkerAtPosWithTypeAfterIndex</a></pre>
 <li><!--5D9C70-->
 <pre><i>5D9C70</i> <a href=funcs.html#5D9C70 title='struct Marker *__thiscall PathsData__FirstMarkerOfTypeAtPos(struct PathsData *this, void *nearPosition, int markerTypesToCheck, struct Marker *after);'>PathsData::FirstMarkerOfTypeAtPos</a></pre>
 </ul>

@@ -284,7 +284,7 @@ pre.ida span.hi {
 <a href='cheatsheet.html'>cheatsheet</a></nav>
 </header>
 <div class='func'>
-<h2>Functions (1710)</h2>
+<h2>Functions (1719)</h2>
 <ul>
 <li><a href=#4012B0>
 ??SomeUpdatePosition</a>
@@ -398,6 +398,8 @@ Pool::Init</a>
 Pool::GetIndexOfEntry</a>
 <li><a href=#43CDF0>
 Pool::UngetEntry</a>
+<li><a href=#43D410>
+IsPositionInSquare</a>
 <li><a href=#43D890>
 IsMarkerInRange</a>
 <li><a href=#43DB50>
@@ -744,6 +746,10 @@ DeleteprofileFNGObject::MessageHandler</a>
 GetPlayerInstanceFromC</a>
 <li><a href=#4ABFE0>
 Marker::4ABFE0</a>
+<li><a href=#4AC1B0>
+PlaySoundsAfterMoneyMarkerCollected</a>
+<li><a href=#4AC620>
+struct836498_3C::4AC620</a>
 <li><a href=#4AC6D0>
 CreateMinimapPools</a>
 <li><a href=#4AC730>
@@ -1434,6 +1440,8 @@ CareerRace::4FFDE0</a>
 FindCareerShopByHash</a>
 <li><a href=#4FFE60>
 FindShopForMarker</a>
+<li><a href=#4FFF80>
+FindBin34A16ByHash20</a>
 <li><a href=#4FFFC0>
 Find34A16ForMarker</a>
 <li><a href=#500000>
@@ -1838,6 +1846,8 @@ Career7148::513770</a>
 Career::5137C0</a>
 <li><a href=#513880>
 Career::513880</a>
+<li><a href=#513890>
+Career::CanMoneyMarkerBeCollected</a>
 <li><a href=#5138F0>
 Career::5138F0</a>
 <li><a href=#513910>
@@ -1867,7 +1877,7 @@ CareerD24::513EB0</a>
 <li><a href=#513FE0>
 CareerD24::513FE0</a>
 <li><a href=#5141B0>
-Career::CheckMoneyMarkers</a>
+Career::UpdateCollectedMoneyMarkers</a>
 <li><a href=#514280>
 Career::GetPartCost</a>
 <li><a href=#5142E0>
@@ -1903,7 +1913,7 @@ SmsMessageList::ReadFromSaveData</a>
 <li><a href=#514FD0>
 CareerC00::514FD0</a>
 <li><a href=#515060>
-CareerC00::515060</a>
+CareerC00::InitializeCareer0</a>
 <li><a href=#515750>
 Player_D4_100::Init</a>
 <li><a href=#515800>
@@ -2037,7 +2047,7 @@ SendUIMessageQueued?</a>
 <li><a href=#51CE80>
 AssignSomethingUIImplField1E</a>
 <li><a href=#51CF70>
-SetUIElementAnimationByName</a>
+SetNullableUIElementAnimationByName</a>
 <li><a href=#51CFE0>
 SetUIElementAnimationByHash</a>
 <li><a href=#51D040>
@@ -2117,9 +2127,9 @@ Career::527D30</a>
 <li><a href=#528320>
 Career::IncrementCurrentStage?</a>
 <li><a href=#528370>
-PlaySound528370</a>
+Career::CollectMoneyMarker</a>
 <li><a href=#5283C0>
-Career::MoneyMarkerHitPlaySound??</a>
+Career::MoneyMarkerHit</a>
 <li><a href=#528410>
 Career::528410</a>
 <li><a href=#5284D0>
@@ -2976,6 +2986,8 @@ StoreBin34A1A</a>
 TunedCar360::59AFE0</a>
 <li><a href=#59B060>
 s734::59B060</a>
+<li><a href=#5A04F0>
+CarCollisionBodySlotPoolEntryParentParent::ctor</a>
 <li><a href=#5A1750>
 LoadBinSection80034020</a>
 <li><a href=#5A1860>
@@ -2996,8 +3008,14 @@ TunedCar360::ctor</a>
 s734::ctor</a>
 <li><a href=#5A8BD0>
 UnloadBinSection34026_34027</a>
+<li><a href=#5A9CE0>
+CarCollisionBodySlotPoolEntryParent::ctor</a>
+<li><a href=#5A9F10>
+CarCollisionBodySlotPoolEntry::5A9F10</a>
 <li><a href=#5AC6E0>
 MenuCarInstance_10::ctor</a>
+<li><a href=#5AEC20>
+CarCollisionBodySlotPoolEntry::ctor</a>
 <li><a href=#5B0E30>
 LoadBinSection34026_34027</a>
 <li><a href=#5B4FC0>
@@ -3884,6 +3902,9 @@ do {
 <div class=mm><p>Mark the entry as free again. Returns the amount of used entries in the pool.
 Same as <a href=funcs.html#43F920>UngetPoolEntry</a>, but a thiscall.</div>
 <div><i>43CDF0</i> int __thiscall <h3><a href=structs.html#struc_Pool>Pool</a>::UngetEntry</h3>(<a href=structs.html#struc_Pool>struct Pool</a> *this, <a href=structs.html#struc_PoolEntry>struct PoolEntry</a> *entry);</div>
+<a id=43D410></a>
+<div class=mm><p>return min-&gt;x - tolerance &lt; position.x &amp;&amp; position.x &lt; max-&gt;x + tolerance &amp;&amp; ((same for y))</div>
+<div><i>43D410</i> int __cdecl <h3>IsPositionInSquare</h3>(<a href=structs.html#struc_vec2>struct vec2</a> *min, <a href=structs.html#struc_vec2>struct vec2</a> *max, <a href=structs.html#struc_vec2>struct vec2</a> *position, float tolerance);</div>
 <a id=43D890></a>
 <div class=mm><p>generic IsPointInRangeOfPoint, but this function is only used by marker func <a href=funcs.html#5D9BF0>PathsData::FindMarkerAtPosWithTypeAfterIndex</a>, hence its name
 radius is always a <a href=structs.html#struc_Marker@40>radius</a>, so it's usually <code>4-14</code></div>
@@ -4296,6 +4317,11 @@ See <code><a class='ext' href='https://github.com/yugecin/nfsu2-re/blob/master/n
 <a id=4ABFE0></a>
 <div class=mm><p>return B/C/D/E/F/10</div>
 <div><i>4ABFE0</i> int __thiscall <h3><a href=structs.html#struc_Marker>Marker</a>::4ABFE0</h3>(<a href=structs.html#struc_Marker>struct Marker</a> *this);</div>
+<a id=4AC1B0></a>
+<div><i>4AC1B0</i> <h3>PlaySoundsAfterMoneyMarkerCollected</h3></div>
+<a id=4AC620></a>
+<div class=mm><p>sets the animation of a ui element to "Static" or "Normal" or "Dramatic"</div>
+<div><i>4AC620</i> int __thiscall <h3><a href=structs.html#struc_struct836498_3C>struct836498_3C</a>::4AC620</h3>(<a href=structs.html#struc_struct836498_3C>struct struct836498_3C</a> *this, <a href=structs.html#struc_Career_0>struct Career_0</a> *career0);</div>
 <a id=4AC6D0></a>
 <div><i>4AC6D0</i> int __cdecl <h3>CreateMinimapPools</h3>();</div>
 <a id=4AC730></a>
@@ -5035,6 +5061,8 @@ if (section-&gt;<a href=structs.html#struc_BinSection@0>header</a>.<a href=struc
 <div><i>4FFE20</i> <a href=structs.html#struc_CareerShop>struct CareerShop</a> *__cdecl <h3>FindCareerShopByHash</h3>(unsigned int hash);</div>
 <a id=4FFE60></a>
 <div><i>4FFE60</i> <a href=structs.html#struc_CareerShop>struct CareerShop</a> *__cdecl <h3>FindShopForMarker</h3>(unsigned int markerHash);</div>
+<a id=4FFF80></a>
+<div><i>4FFF80</i> <a href=structs.html#struc_Bin34A16>struct Bin34A16</a> *__cdecl <h3>FindBin34A16ByHash20</h3>(unsigned int hash);</div>
 <a id=4FFFC0></a>
 <div><i>4FFFC0</i> <a href=structs.html#struc_Bin34A16>struct Bin34A16</a> *__cdecl <h3>Find34A16ForMarker</h3>(<a href=structs.html#struc_Marker>struct Marker</a> *marker);</div>
 <a id=500000></a>
@@ -5170,11 +5198,12 @@ stageIndex 0-7</div>
 <div class=mm><p><code>return this-&gt;<a href=structs.html#struc_Career4230@1AE8>field_1AE8</a> == 2</code></div>
 <div><i>500D80</i> int __thiscall <h3><a href=structs.html#struc_Career4230>Career4230</a>::500D80</h3>(<a href=structs.html#struc_Career4230>struct Career4230</a> *this);</div>
 <a id=500EA0></a>
+<div class=mm><p>but also sets {struct Career_0+14} to 0</div>
 <div><i>500EA0</i> void __thiscall <h3><a href=structs.html#struc_Career>Career</a>::CopyIntoFirstAvailableField0</h3>(<a href=structs.html#struc_Career>struct Career</a> *this, <a href=structs.html#struc_Career_0>struct Career_0</a> *from);</div>
 <a id=500EE0></a>
 <div><i>500EE0</i> int __thiscall <h3><a href=structs.html#struc_Career>Career</a>::500EE0</h3>(<a href=structs.html#struc_Career>struct Career</a> *this, int);</div>
 <a id=500F30></a>
-<div class=mm><p>nulls <a href=structs.html#struc_Career@0>field_0</a>, <a href=structs.html#struc_Career@600>collectedEngageMarkers</a>, <a href=structs.html#struc_Career@800>collectedMoneyMarkers?</a></div>
+<div class=mm><p>nulls <a href=structs.html#struc_Career@0>field_0</a>, <a href=structs.html#struc_Career@600>collectedEngageMarkers</a>, <a href=structs.html#struc_Career@800>collectedMoneyMarkers</a></div>
 <div><i>500F30</i> int __thiscall <h3><a href=structs.html#struc_Career>Career</a>::500F30</h3>(<a href=structs.html#struc_Career>struct Career</a> *this);</div>
 <a id=500F80></a>
 <div class=mm><p>Only used in the career money cheats.</div>
@@ -5597,6 +5626,7 @@ The data in this section is more sections, with magic <code>0x34A11-0x34A1F</cod
 <a id=5130A0></a>
 <div><i>5130A0</i> int __thiscall <h3><a href=structs.html#struc_Career>Career</a>::5130A0</h3>(<a href=structs.html#struc_Career>struct Career</a> *this, int);</div>
 <a id=513110></a>
+<div class=mm><p>this code is also inlined at 53340C</div>
 <div><i>513110</i> int __thiscall <h3><a href=structs.html#struc_Career>Career</a>::ShouldShowShopOnMap</h3>(<a href=structs.html#struc_Career>struct Career</a> *this, <a href=structs.html#struc_CareerShop>struct CareerShop</a> *shop);</div>
 <a id=513160></a>
 <div><i>513160</i> int __thiscall <h3><a href=structs.html#struc_Career>Career</a>::513160</h3>(<a href=structs.html#struc_Career>struct Career</a> *this, int, int, int);</div>
@@ -5622,6 +5652,8 @@ The data in this section is more sections, with magic <code>0x34A11-0x34A1F</cod
 <a id=513880></a>
 <div class=mm><p>check if something is collected</div>
 <div><i>513880</i> int __thiscall <h3><a href=structs.html#struc_Career>Career</a>::513880</h3>(<a href=structs.html#struc_Career>struct Career</a> *this);</div>
+<a id=513890></a>
+<div><i>513890</i> int __thiscall <h3><a href=structs.html#struc_Career>Career</a>::CanMoneyMarkerBeCollected</h3>(<a href=structs.html#struc_Career>struct Career</a> *this, <a href=structs.html#struc_MoneyMarkerConfiguration>struct MoneyMarkerConfiguration</a> *bin34A1E);</div>
 <a id=5138F0></a>
 <div><i>5138F0</i> int __thiscall <h3><a href=structs.html#struc_Career>Career</a>::5138F0</h3>(<a href=structs.html#struc_Career>struct Career</a> *this, void *);</div>
 <a id=513910></a>
@@ -5657,8 +5689,8 @@ return <a href=funcs.html#503680>CarCollection::GetCareerCarForSlotHash</a>(this
 <div class=mm><p>could be a reputation thing</div>
 <div><i>513FE0</i> float __thiscall <h3><a href=structs.html#struc_CareerD24>CareerD24</a>::513FE0</h3>(<a href=structs.html#struc_CareerD24>struct CareerD24</a> *this);</div>
 <a id=5141B0></a>
-<div class=mm><p>TODO: what does this actually do (RecalculateUncollectedMoneyMarkers?)</div>
-<div><i>5141B0</i> void __thiscall <h3><a href=structs.html#struc_Career>Career</a>::CheckMoneyMarkers</h3>(<a href=structs.html#struc_Career>struct Career</a> *this);</div>
+<div class=mm><p>zeros <a href=structs.html#struc_Career@800>collectedMoneyMarkers</a>, finds all <a href=enums.html#enu_MARKER_TYPE13>MARKER_TYPE_MONEY_PICKUP</a> and put them in <a href=structs.html#struc_Career@800>collectedMoneyMarkers</a> if they're available (stage unlocked or (race finished?), see <a href=structs.html#struc_MoneyMarkerConfiguration>struct MoneyMarkerConfiguration</a>.<a href=structs.html#struc_MoneyMarkerConfiguration@2>availabilityCondition</a>) and not collected (determined by <a href=structs.html#struc_Career>struct Career</a>.<a href=structs.html#struc_Career@8768>moneyMarkerIdCollected</a>)</div>
+<div><i>5141B0</i> void __thiscall <h3><a href=structs.html#struc_Career>Career</a>::UpdateCollectedMoneyMarkers</h3>(<a href=structs.html#struc_Career>struct Career</a> *this);</div>
 <a id=514280></a>
 <div><i>514280</i> int __thiscall <h3><a href=structs.html#struc_Career>Career</a>::GetPartCost</h3>(<a href=structs.html#struc_Career>struct Career</a> *this, int, int);</div>
 <a id=5142E0></a>
@@ -5705,7 +5737,7 @@ TODO check other xref, probably for displaying icon ingame</div>
 <a id=514FD0></a>
 <div><i>514FD0</i> int __thiscall <h3><a href=structs.html#struc_CareerC00>CareerC00</a>::514FD0</h3>(<a href=structs.html#struc_CareerC00>struct CareerC00</a> *this, <a href=structs.html#struc_CareerShop>struct CareerShop</a> *shop);</div>
 <a id=515060></a>
-<div><i>515060</i> int __thiscall <h3><a href=structs.html#struc_CareerC00>CareerC00</a>::515060</h3>(<a href=structs.html#struc_CareerC00>struct CareerC00</a> *this, <a href=structs.html#struc_Career_0>struct Career_0</a> *into);</div>
+<div><i>515060</i> void __thiscall <h3><a href=structs.html#struc_CareerC00>CareerC00</a>::InitializeCareer0</h3>(<a href=structs.html#struc_CareerC00>struct CareerC00</a> *this, <a href=structs.html#struc_Career_0>struct Career_0</a> *into);</div>
 <a id=515750></a>
 <div><i>515750</i> <h3><a href=structs.html#struc_Player_D4_100>Player_D4_100</a>::Init</h3></div>
 <a id=515800></a>
@@ -5880,7 +5912,7 @@ frees <code>this-&gt;<a href=structs.html#struc_SomethingUIImpl@C>data30203</a><
 <a id=51CE80></a>
 <div><i>51CE80</i> void __cdecl <h3>AssignSomethingUIImplField1E</h3>(char *fngName, char value);</div>
 <a id=51CF70></a>
-<div><i>51CF70</i> void __cdecl <h3>SetUIElementAnimationByName</h3>(<a href=structs.html#struc_UIElement>struct UIElement</a> *uielement, char *animationStr, char resetAnimationWhenThisAnimationAlreadyActive);</div>
+<div><i>51CF70</i> void __cdecl <h3>SetNullableUIElementAnimationByName</h3>(<a href=structs.html#struc_UIElement>struct UIElement</a> *uielement, char *animationStr, char resetAnimationWhenThisAnimationAlreadyActive);</div>
 <a id=51CFE0></a>
 <div><i>51CFE0</i> void __cdecl <h3>SetUIElementAnimationByHash</h3>(<a href=structs.html#struc_UIElement>struct UIElement</a> *element, unsigned int hash, char resetAnimationWhenThisAnimationAlreadyActive);</div>
 <a id=51D040></a>
@@ -5980,11 +6012,13 @@ See <code><a class='ext' href='https://github.com/yugecin/nfsu2-re/blob/master/n
 <a id=528320></a>
 <div><i>528320</i> int __thiscall <h3><a href=structs.html#struc_Career>Career</a>::IncrementCurrentStage?</h3>(<a href=structs.html#struc_Career>struct Career</a> *this, int);</div>
 <a id=528370></a>
-<div><i>528370</i> int __stdcall <h3>PlaySound528370</h3>(void *sound);</div>
+<div class=mm><p>adds marker amount to career bank, sets marker as collected in career data, plays sound</div>
+<div><i>528370</i> void __thiscall <h3><a href=structs.html#struc_Career>Career</a>::CollectMoneyMarker</h3>(<a href=structs.html#struc_Career>struct Career</a> *this, <a href=structs.html#struc_MoneyMarkerConfiguration>struct MoneyMarkerConfiguration</a> *moneyMarker);</div>
 <a id=5283C0></a>
-<div class=mm><p>param marker may be null
-<p>this func only plays some sound!?</div>
-<div><i>5283C0</i> void __thiscall <h3><a href=structs.html#struc_Career>Career</a>::MoneyMarkerHitPlaySound??</h3>(<a href=structs.html#struc_Career>struct Career</a> *this, <a href=structs.html#struc_Marker>struct Marker</a> *marker);</div>
+<div class=mm><p>param marker may be null.
+<p>finds the associated money marker data (<a href=vars.html#838430>moneyMarkerConfigurations</a>) and collects it (<a href=funcs.html#528370>Career::CollectMoneyMarker</a>), if it's (still) available (<a href=funcs.html#513890>Career::CanMoneyMarkerBeCollected</a>)
+<p>TODO: so what triggers the UI bank update animation? possibly a thing that checks if the money value is different from last frame?</div>
+<div><i>5283C0</i> void __thiscall <h3><a href=structs.html#struc_Career>Career</a>::MoneyMarkerHit</h3>(<a href=structs.html#struc_Career>struct Career</a> *this, <a href=structs.html#struc_Marker>struct Marker</a> *marker);</div>
 <a id=528410></a>
 <div><i>528410</i> float __thiscall <h3><a href=structs.html#struc_Career>Career</a>::528410</h3>(<a href=structs.html#struc_Career>struct Career</a> *this);</div>
 <a id=5284D0></a>
@@ -7065,7 +7099,8 @@ although that is done by <a href=funcs.html#57CA10>AllocateFileSystemPoolEntryFo
 <a id=58F740></a>
 <div><i>58F740</i> <a href=structs.html#struc_OL86A858>struct OL86A858</a> *__cdecl <h3>GetOL86A858</h3>();</div>
 <a id=598750></a>
-<div class=mm><p>this MIGHT be a more generic constructor.. right</div>
+<div class=mm><p>TODO: this is more ObjectLink initWrapper
+<p>this MIGHT be a more generic constructor.. right</div>
 <div><i>598750</i> int __thiscall <h3><a href=structs.html#struc_PoolEntry>PoolEntry</a>::InitWrapper</h3>(<a href=structs.html#struc_PoolEntry>struct PoolEntry</a> *this);</div>
 <a id=598EC0></a>
 <div><i>598EC0</i> int __cdecl <h3>j_SomeFree?</h3>(void *ptr);</div>
@@ -7083,6 +7118,8 @@ although that is done by <a href=funcs.html#57CA10>AllocateFileSystemPoolEntryFo
 <div><i>59AFE0</i> <h3><a href=structs.html#struc_TunedCar360>TunedCar360</a>::59AFE0</h3></div>
 <a id=59B060></a>
 <div><i>59B060</i> <h3><a href=structs.html#struc_s734>s734</a>::59B060</h3></div>
+<a id=5A04F0></a>
+<div><i>5A04F0</i> int __thiscall <h3><a href=structs.html#struc_CarCollisionBodySlotPoolEntryParentParent>CarCollisionBodySlotPoolEntryParentParent</a>::ctor</h3>(<a href=structs.html#struc_CarCollisionBodySlotPoolEntryParentParent>struct CarCollisionBodySlotPoolEntryParentParent</a> *this, int, char);</div>
 <a id=5A1750></a>
 <div><i>5A1750</i> int __cdecl <h3>LoadBinSection80034020</h3>(<a href=structs.html#struc_BinSection>struct BinSection</a> *bindata);</div>
 <a id=5A1860></a>
@@ -7103,8 +7140,14 @@ although that is done by <a href=funcs.html#57CA10>AllocateFileSystemPoolEntryFo
 <div><i>5A7970</i> <a href=structs.html#struc_s734>struct s734</a> *__thiscall <h3><a href=structs.html#struc_s734>s734</a>::ctor</h3>(<a href=structs.html#struc_s734>struct s734</a> *this);</div>
 <a id=5A8BD0></a>
 <div><i>5A8BD0</i> int __cdecl <h3>UnloadBinSection34026_34027</h3>(<a href=structs.html#struc_BinSection>struct BinSection</a> *binsection);</div>
+<a id=5A9CE0></a>
+<div><i>5A9CE0</i> int __thiscall <h3><a href=structs.html#struc_CarCollisionBodySlotPoolEntryParent>CarCollisionBodySlotPoolEntryParent</a>::ctor</h3>(<a href=structs.html#struc_CarCollisionBodySlotPoolEntryParent>struct CarCollisionBodySlotPoolEntryParent</a> *this, int, char, int);</div>
+<a id=5A9F10></a>
+<div><i>5A9F10</i> void __thiscall <h3><a href=structs.html#struc_CarCollisionBodySlotPoolEntry>CarCollisionBodySlotPoolEntry</a>::5A9F10</h3>(<a href=structs.html#struc_CarCollisionBodySlotPoolEntry>struct CarCollisionBodySlotPoolEntry</a> *this, int);</div>
 <a id=5AC6E0></a>
 <div><i>5AC6E0</i> int __thiscall <h3><a href=structs.html#struc_MenuCarInstance_10>MenuCarInstance_10</a>::ctor</h3>(<a href=structs.html#struc_MenuCarInstance_10>struct MenuCarInstance_10</a> *this);</div>
+<a id=5AEC20></a>
+<div><i>5AEC20</i> <h3><a href=structs.html#struc_CarCollisionBodySlotPoolEntry>CarCollisionBodySlotPoolEntry</a>::ctor</h3></div>
 <a id=5B0E30></a>
 <div><i>5B0E30</i> int __cdecl <h3>LoadBinSection34026_34027</h3>(<a href=structs.html#struc_BinSection>struct BinSection</a> *binsection);</div>
 <a id=5B4FC0></a>
@@ -7338,7 +7381,7 @@ See <code><a class='ext' href='https://github.com/yugecin/nfsu2-re/blob/master/n
 <div><i>5D3EF0</i> int __cdecl <h3>UnloadBinSection34201</h3>(<a href=structs.html#struc_BinSection>struct BinSection</a> *binsection);</div>
 <a id=5D5630></a>
 <div class=mm><p>called from <a href=funcs.html#5D9A90>PathsData::ReadFromBinData</a>
-<p>inits stuff and <a href=structs.html#struc_PathsData@440>markers</a></div>
+<p>inits stuff and <a href=structs.html#struc_PathsData@440>markersOfType_Start</a></div>
 <div><i>5D5630</i> void __thiscall <h3><a href=structs.html#struc_PathsData>PathsData</a>::InitAfterReadFromBinData</h3>(<a href=structs.html#struc_PathsData>struct PathsData</a> *this);</div>
 <a id=5D6440></a>
 <div><i>5D6440</i> int __cdecl <h3>UnloadBinSection34108</h3>(<a href=structs.html#struc_BinSection>struct BinSection</a> *binsection);</div>
@@ -7353,7 +7396,7 @@ See <code><a class='ext' href='https://github.com/yugecin/nfsu2-re/blob/master/n
 <a id=5D9BF0></a>
 <div class=mm><p><code>atPosition</code> can be null, then it'll just return the first marker.
 When <code>after</code> is not null, the search starts after that specific marker</div>
-<div><i>5D9BF0</i> <a href=structs.html#struc_Marker>struct Marker</a> *__thiscall <h3><a href=structs.html#struc_PathsData>PathsData</a>::FindMarkerAtPosWithTypeAfterIndex</h3>(<a href=structs.html#struc_PathsData>struct PathsData</a> *this, void *nearPosition, int type, <a href=structs.html#struc_Marker>struct Marker</a> *after);</div>
+<div><i>5D9BF0</i> <a href=structs.html#struc_Marker>struct Marker</a> *__thiscall <h3><a href=structs.html#struc_PathsData>PathsData</a>::FindMarkerAtPosWithTypeAfterIndex</h3>(<a href=structs.html#struc_PathsData>struct PathsData</a> *this, <a href=structs.html#struc_vec2>struct vec2</a> *atPosition, int type, <a href=structs.html#struc_Marker>struct Marker</a> *after);</div>
 <a id=5D9C70></a>
 <div class=mm><p>markerTypesToCheck: set bit 0 to check marker types 0, set bit 1 to check marker types 1, and so on
 if after is set, only markers of that type or higher will be checked</div>
