@@ -272,6 +272,18 @@ struct BinSection30203Data { /*4 members, size 32h*/
 /*28*/	char fngName[10] ;
 };
 
+enum MARKER_TYPE { /*7 members*/
+/**marks the entrance, ie where the road goes into private property, not the entrance aura itself.
+Maybe this is used as the "discover" hitmarker (ie the map icon will show from the first time you hit this marker)?*/
+	MARKER_TYPE_BODYSHOP_AREA = 0x4,
+	MARKER_TYPE_D = 0xD,
+	MARKER_TYPE_E = 0xE,
+	MARKER_TYPE_F = 0xF,
+	MARKER_TYPE_NEIGHBOURHOOD = 0x11,
+	MARKER_TYPE_ENGAGE_TIP = 0x12,
+	MARKER_TYPE_MONEY_PICKUP = 0x13,
+};
+
 struct DialogInfo {
 	char text[768];
 	int unused300;
@@ -688,6 +700,20 @@ for money: hash of sound effect to play!?*/
 /*50*/	char field_50;
 };
 EXPECT_SIZE(struct Marker, 0x51);
+
+struct MoneyMarkerConfiguration { /*5 members, size Ch*/
+/*0*/	__int16 amount;
+/**this determines how availabilityConditionValue is interpreted as available condition:
+1: value is the career stage in which it becomes available
+2: value is a hash of something that should be collected (race finished?)
+other: no special availability condition*/
+/*2*/	char availabilityCondition;
+/**has to be unique, is used to check if it was collected already (stored in save game)*/
+/*3*/	char moneyMarkerId;
+/*4*/	unsigned int availabilityConditionValue;
+/*8*/	unsigned int hash;
+};
+EXPECT_SIZE(struct MoneyMarkerConfiguration, 0xC);
 
 struct FNGObject {
 	int *vtable;
