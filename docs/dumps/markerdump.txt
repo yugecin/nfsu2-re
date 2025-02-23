@@ -722,62 +722,121 @@ type 18 (engage tip sms) markers:
     engage tip sms (not found)
 type 19 (money pickup) markers:
   structsize 100 areaMin ( 1714.00,  -755.00) areaMax ( 1722.00,  -747.00) position ( 1714.00,  -755.00) radius 4
+    matching config (34A1E): id 2 amount 50 availabilityType career stage unlocked: 0
   structsize 100 areaMin ( 1802.00,  -834.00) areaMax ( 1810.00,  -826.00) position ( 1802.00,  -834.00) radius 4
+    matching config (34A1E): id 47 amount 200 availabilityType career stage unlocked: 3
   structsize 100 areaMin ( 1887.00,  -737.00) areaMax ( 1895.00,  -729.00) position ( 1887.00,  -737.00) radius 4
+    matching config (34A1E): id 31 amount 100 availabilityType career stage unlocked: 2
   structsize 100 areaMin ( 1852.00,  -929.00) areaMax ( 1860.00,  -921.00) position ( 1852.00,  -929.00) radius 4
+    matching config (34A1E): id 3 amount 50 availabilityType career stage unlocked: 0
   structsize 100 areaMin (  497.00,  -812.00) areaMax (  505.00,  -804.00) position (  497.00,  -812.00) radius 4
+    matching config (34A1E): id 1 amount 50 availabilityType (always available)
   structsize 100 areaMin (  322.00,  -743.00) areaMax (  330.00,  -735.00) position (  322.00,  -743.00) radius 4
+    matching config (34A1E): id 7 amount 50 availabilityType career stage unlocked: 0
   structsize 100 areaMin ( -694.00,  -894.00) areaMax ( -686.00,  -886.00) position ( -694.00,  -894.00) radius 4
+    matching config (34A1E): id 0 amount 50 availabilityType (always available)
   structsize 100 areaMin (  412.00,  -392.00) areaMax (  420.00,  -384.00) position (  412.00,  -392.00) radius 4
+    matching config (34A1E): id 25 amount 50 availabilityType career stage unlocked: 1
   structsize 100 areaMin (  262.00,  -444.00) areaMax (  270.00,  -436.00) position (  262.00,  -444.00) radius 4
+    matching config (34A1E): id 14 amount 50 availabilityType career stage unlocked: 0
   structsize 100 areaMin (   67.00,  -532.00) areaMax (   75.00,  -524.00) position (   67.00,  -532.00) radius 4
+    matching config (34A1E): id 32 amount 100 availabilityType career stage unlocked: 2
   structsize 100 areaMin (  270.00,  -322.00) areaMax (  278.00,  -314.00) position (  270.00,  -322.00) radius 4
+    matching config (34A1E): id 48 amount 200 availabilityType career stage unlocked: 3
   structsize 100 areaMin (  126.00,  -824.00) areaMax (  134.00,  -816.00) position (  126.00,  -824.00) radius 4
+    matching config (34A1E): id 4 amount 50 availabilityType career stage unlocked: 0
   structsize 100 areaMin ( 1669.00,  -991.00) areaMax ( 1677.00,  -983.00) position ( 1669.00,  -991.00) radius 4
+    matching config (34A1E): id 26 amount 50 availabilityType career stage unlocked: 1
   structsize 100 areaMin (  213.00,  -411.00) areaMax (  221.00,  -403.00) position (  213.00,  -411.00) radius 4
+    matching config (34A1E): id 41 amount 200 availabilityType career stage unlocked: 3
   structsize 100 areaMin (  195.00,  -432.00) areaMax (  203.00,  -424.00) position (  195.00,  -432.00) radius 4
+    matching config (34A1E): id 5 amount 50 availabilityType career stage unlocked: 0
   structsize 100 areaMin (  170.00,  -450.00) areaMax (  178.00,  -442.00) position (  170.00,  -450.00) radius 4
+    matching config (34A1E): id 57 amount 400 availabilityType career stage unlocked: 4
   structsize 100 areaMin (  157.00,  -187.00) areaMax (  165.00,  -179.00) position (  157.00,  -187.00) radius 4
+    matching config (34A1E): id 27 amount 50 availabilityType career stage unlocked: 1
   structsize 100 areaMin (  419.00,   -92.00) areaMax (  427.00,   -84.00) position (  419.00,   -92.00) radius 4
+    matching config (34A1E): id 6 amount 50 availabilityType career stage unlocked: 0
   structsize 100 areaMin ( -896.00,  -872.00) areaMax ( -888.00,  -864.00) position ( -896.00,  -872.00) radius 4
+    matching config (34A1E): id 36 amount 100 availabilityType career stage unlocked: 2
   structsize 100 areaMin (-1171.00,  -563.00) areaMax (-1163.00,  -555.00) position (-1171.00,  -563.00) radius 4
+    matching config (34A1E): id 24 amount 50 availabilityType career stage unlocked: 1
   structsize 100 areaMin (-1066.00,  -165.00) areaMax (-1058.00,  -157.00) position (-1066.00,  -165.00) radius 4
+    matching config (34A1E): id 11 amount 50 availabilityType career stage unlocked: 0
   structsize 100 areaMin ( -530.00,   305.00) areaMax ( -522.00,   313.00) position ( -530.00,   305.00) radius 4
+    matching config (34A1E): id 33 amount 100 availabilityType career stage unlocked: 2
   structsize 100 areaMin ( -224.00,   300.00) areaMax ( -216.00,   308.00) position ( -224.00,   300.00) radius 4
+    matching config (34A1E): id 28 amount 50 availabilityType career stage unlocked: 1
   structsize 100 areaMin (  141.00,   391.00) areaMax (  149.00,   399.00) position (  141.00,   391.00) radius 4
+    matching config (34A1E): id 9 amount 50 availabilityType career stage unlocked: 0
   structsize 100 areaMin (  330.00,   481.00) areaMax (  338.00,   489.00) position (  330.00,   481.00) radius 4
+    matching config (34A1E): id 42 amount 200 availabilityType career stage unlocked: 3
   structsize 100 areaMin ( -229.00,    84.00) areaMax ( -221.00,    92.00) position ( -229.00,    84.00) radius 4
+    matching config (34A1E): id 13 amount 50 availabilityType career stage unlocked: 0
   structsize 100 areaMin ( -275.00,   104.00) areaMax ( -267.00,   112.00) position ( -275.00,   104.00) radius 4
+    matching config (34A1E): id 43 amount 200 availabilityType career stage unlocked: 3
   structsize 100 areaMin ( -365.00,    38.00) areaMax ( -357.00,    46.00) position ( -365.00,    38.00) radius 4
+    matching config (34A1E): id 10 amount 50 availabilityType career stage unlocked: 0
   structsize 100 areaMin ( -404.00,  -141.00) areaMax ( -396.00,  -133.00) position ( -404.00,  -141.00) radius 4
+    matching config (34A1E): id 21 amount 50 availabilityType career stage unlocked: 1
   structsize 100 areaMin ( -576.00,   493.00) areaMax ( -568.00,   501.00) position ( -576.00,   493.00) radius 4
+    matching config (34A1E): id 18 amount 50 availabilityType career stage unlocked: 1
   structsize 100 areaMin ( -669.00,   579.00) areaMax ( -661.00,   587.00) position ( -669.00,   579.00) radius 4
+    matching config (34A1E): id 34 amount 100 availabilityType career stage unlocked: 2
   structsize 100 areaMin (-1317.00,   205.00) areaMax (-1309.00,   213.00) position (-1317.00,   205.00) radius 4
+    matching config (34A1E): id 23 amount 50 availabilityType career stage unlocked: 1
   structsize 100 areaMin (-1300.00,   333.00) areaMax (-1292.00,   341.00) position (-1300.00,   333.00) radius 4
+    matching config (34A1E): id 16 amount 50 availabilityType career stage unlocked: 1
   structsize 100 areaMin ( -944.00,   852.00) areaMax ( -936.00,   860.00) position ( -944.00,   852.00) radius 4
+    matching config (34A1E): id 35 amount 100 availabilityType career stage unlocked: 2
   structsize 100 areaMin (-1017.00,   801.00) areaMax (-1009.00,   809.00) position (-1017.00,   801.00) radius 4
+    matching config (34A1E): id 15 amount 50 availabilityType career stage unlocked: 1
   structsize 100 areaMin (-1278.00,   773.00) areaMax (-1270.00,   781.00) position (-1278.00,   773.00) radius 4
+    matching config (34A1E): id 19 amount 50 availabilityType career stage unlocked: 1
   structsize 100 areaMin (-1431.00,   877.00) areaMax (-1423.00,   885.00) position (-1431.00,   877.00) radius 4
+    matching config (34A1E): id 46 amount 200 availabilityType career stage unlocked: 3
   structsize 100 areaMin (-1673.00,   508.00) areaMax (-1665.00,   516.00) position (-1673.00,   508.00) radius 4
+    matching config (34A1E): id 20 amount 50 availabilityType career stage unlocked: 1
   structsize 100 areaMin (-1583.00,   426.00) areaMax (-1575.00,   434.00) position (-1583.00,   426.00) radius 4
+    matching config (34A1E): id 45 amount 200 availabilityType career stage unlocked: 3
   structsize 100 areaMin (-2395.00,  2157.00) areaMax (-2387.00,  2165.00) position (-2395.00,  2157.00) radius 4
+    matching config (34A1E): id 44 amount 200 availabilityType career stage unlocked: 3
   structsize 100 areaMin (-2047.00,  2637.00) areaMax (-2039.00,  2645.00) position (-2047.00,  2637.00) radius 4
+    matching config (34A1E): id 29 amount 100 availabilityType career stage unlocked: 2
   structsize 100 areaMin (-1295.00,  1405.00) areaMax (-1287.00,  1413.00) position (-1295.00,  1405.00) radius 4
+    matching config (34A1E): id 50 amount 400 availabilityType career stage unlocked: 4
   structsize 100 areaMin (-1134.00, -1401.00) areaMax (-1126.00, -1393.00) position (-1134.00, -1401.00) radius 4
+    matching config (34A1E): id 49 amount 400 availabilityType career stage unlocked: 4
   structsize 100 areaMin (-1305.00, -1551.00) areaMax (-1297.00, -1543.00) position (-1305.00, -1551.00) radius 4
+    matching config (34A1E): id 51 amount 400 availabilityType career stage unlocked: 4
   structsize 100 areaMin (-1143.00, -1870.00) areaMax (-1135.00, -1862.00) position (-1143.00, -1870.00) radius 4
+    matching config (34A1E): id 52 amount 400 availabilityType career stage unlocked: 4
   structsize 100 areaMin ( -878.00, -1789.00) areaMax ( -870.00, -1781.00) position ( -878.00, -1789.00) radius 4
+    matching config (34A1E): id 53 amount 400 availabilityType career stage unlocked: 4
   structsize 100 areaMin ( -258.00, -1781.00) areaMax ( -250.00, -1773.00) position ( -258.00, -1781.00) radius 4
+    matching config (34A1E): id 37 amount 200 availabilityType career stage unlocked: 3
   structsize 100 areaMin ( -231.00, -1968.00) areaMax ( -223.00, -1960.00) position ( -231.00, -1968.00) radius 4
+    matching config (34A1E): id 54 amount 400 availabilityType career stage unlocked: 4
   structsize 100 areaMin (  -52.00, -1271.00) areaMax (  -44.00, -1263.00) position (  -52.00, -1271.00) radius 4
+    matching config (34A1E): id 55 amount 400 availabilityType career stage unlocked: 4
   structsize 100 areaMin (  132.00, -1348.00) areaMax (  140.00, -1340.00) position (  132.00, -1348.00) radius 4
+    matching config (34A1E): id 38 amount 200 availabilityType career stage unlocked: 3
   structsize 100 areaMin (  495.00, -1811.00) areaMax (  503.00, -1803.00) position (  495.00, -1811.00) radius 4
+    matching config (34A1E): id 39 amount 200 availabilityType career stage unlocked: 3
   structsize 100 areaMin (  477.00, -1841.00) areaMax (  485.00, -1833.00) position (  477.00, -1841.00) radius 4
+    matching config (34A1E): id 56 amount 400 availabilityType career stage unlocked: 4
   structsize 100 areaMin (  740.00, -1177.00) areaMax (  748.00, -1169.00) position (  740.00, -1177.00) radius 4
+    matching config (34A1E): id 40 amount 200 availabilityType career stage unlocked: 3
   structsize 100 areaMin (  502.00,   140.00) areaMax (  510.00,   148.00) position (  502.00,   140.00) radius 4
+    matching config (34A1E): id 8 amount 50 availabilityType career stage unlocked: 0
   structsize 100 areaMin ( -344.00,  -455.00) areaMax ( -336.00,  -447.00) position ( -344.00,  -455.00) radius 4
+    matching config (34A1E): id 12 amount 50 availabilityType career stage unlocked: 0
   structsize 100 areaMin (-1301.00,   660.00) areaMax (-1293.00,   668.00) position (-1301.00,   660.00) radius 4
+    matching config (34A1E): id 17 amount 50 availabilityType career stage unlocked: 1
   structsize 100 areaMin ( -372.00,  1170.00) areaMax ( -364.00,  1178.00) position ( -372.00,  1170.00) radius 4
+    matching config (34A1E): id 58 amount 400 availabilityType career stage unlocked: 4
   structsize 100 areaMin ( -181.00,  1590.00) areaMax ( -173.00,  1598.00) position ( -181.00,  1590.00) radius 4
+    matching config (34A1E): id 22 amount 50 availabilityType career stage unlocked: 1
   structsize 100 areaMin ( -492.00,  1159.00) areaMax ( -484.00,  1167.00) position ( -492.00,  1159.00) radius 4
+    matching config (34A1E): id 30 amount 100 availabilityType career stage unlocked: 2
 type 20 ((type 20)) markers:

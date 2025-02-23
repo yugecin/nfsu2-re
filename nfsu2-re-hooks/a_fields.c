@@ -26,3 +26,5 @@ enum INVENTORY_CAR_FLAGS *carSelectCategory = (void*) 0x7F444C;
 struct ObjectLink *carPresets = (void*) 0x8A31E4;
 struct CareerShop **careerShops = (void*) 0x8383F0;
 int *numCareerShops = (void*) 0x8383F4;
+struct MoneyMarkerConfiguration **moneyMarkerConfigurations = (void*) 0x838430;
+int *numMoneyMarkerConfigurations = (void*) 0x838434;

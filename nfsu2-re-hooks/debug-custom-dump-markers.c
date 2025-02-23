@@ -25,6 +25,7 @@ static char *markerTypeName[21] = {
 static
 void dump_marker(struct Marker *marker)
 {
+	struct MoneyMarkerConfiguration *moneyMarkerConfig;
 	struct NeighbourhoodName *nbhn;
 	struct SmsData *sms;
 	char *name, *b, tempBuf[20], *spaces = "             ";
@@ -53,7 +54,7 @@ void dump_marker(struct Marker *marker)
 	log(buf, b - buf);
 
 	switch (marker->type) {
-	case 0x11:
+	case MARKER_TYPE_NEIGHBOURHOOD:
 		nbhn = GetNeighbourhoodNameForHash(marker->hash);
 		if (nbhn) {
 			log(buf, sprintf(buf, "    neighbourhood: %s", nbhn->ptrName));
@@ -61,7 +62,7 @@ void dump_marker(struct Marker *marker)
 			log(buf, sprintf(buf, "    neighbourhood (not found)"));
 		}
 		break;
-	case 0x12:
+	case MARKER_TYPE_ENGAGE_TIP:
 		sms = NULL;
 		for (i = 0; i < *numSmsDatas; i++) {
 			if ((*smsDatas)[i].type == 15 /*ENGAGE TIP SMS TYPE*/ &&
@@ -76,6 +77,26 @@ void dump_marker(struct Marker *marker)
 			log(buf, sprintf(buf, "    engage tip sms: %s", name));
 		} else {
 			log(buf, sprintf(buf, "    engage tip sms (not found)"));
+		}
+		break;
+	case MARKER_TYPE_MONEY_PICKUP:
+		i = *numMoneyMarkerConfigurations;
+		moneyMarkerConfig = *moneyMarkerConfigurations;
+		while (i-- > 0) {
+			if (moneyMarkerConfig->hash == marker->hash) {
+				b = buf + sprintf(buf, "    matching config (34A1E): id %d amount %d availabilityType ",
+					moneyMarkerConfig->moneyMarkerId, moneyMarkerConfig->amount);
+				if (moneyMarkerConfig->availabilityCondition == 1) {
+					b += sprintf(b, "career stage unlocked: %d", moneyMarkerConfig->availabilityConditionValue);
+				} else if (moneyMarkerConfig->availabilityCondition == 2) {
+					b += sprintf(b, "race completed (TBC): %08X", moneyMarkerConfig->availabilityConditionValue);
+				} else {
+					b += sprintf(b, "(always available)");
+				}
+				log(buf, b - buf);
+				break;
+			}
+			moneyMarkerConfig++;
 		}
 		break;
 	}
