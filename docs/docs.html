@@ -3980,19 +3980,28 @@ that type is pointed at by <code>index+1</code> (exclusive). This array has 22 e
 to where the series of markers of type 20 ends, as type 21 does not exist.
 <p>This data is only loaded while in career/quickrace/freeroam.
 <p>Not loading bin section <code>0x3414A</code> results in no career markers at all, and no traffic (but other racers do still spawn).
+<p>Money markers have extra configuration in bin section <code>0x34A1E</code> (<a href=structs.html#struc_MoneyMarkerConfiguration>struct MoneyMarkerConfiguration</a>),
+containing the amount, markerId (used to see if it's already collected), and an availability condition
+which can be: minimum career stage unlocked, race finished (TBC) (this condition type is never actually used),
+or no extra condition.
+<p>I'm not sure why that information in stored separately from the marker, since the marker struct can be of any size
+(see <a href=structs.html#struc_Marker>struct Marker</a>.<a href=structs.html#struc_Marker@42>markerStructSize</a>), so money markers could've had this information embedded.
 <p>See <a href='dumps/markerdump.txt'>markerdump.txt</a> (80KB) for a data dump as made by <code><a class='ext' href='https://github.com/yugecin/nfsu2-re/blob/master/nfsu2-re-hooks/debug-custom-dump-markers.c'>nfsu2-re-hooks/debug-custom-dump-markers.c</a></code>.
 <p><strong>Symbols:</strong></p>
 <ul>
 <li><a href=enums.html#enu_MARKER_TYPE>enum MARKER_TYPE</a></li>
 <li><a href=structs.html#struc_Marker>struct Marker</a></li>
+<li><a href=structs.html#struc_MoneyMarkerConfiguration>struct MoneyMarkerConfiguration</a></li>
 <li><a href=structs.html#struc_NeighbourhoodName>struct NeighbourhoodName</a></li>
 <li><a href=structs.html#struc_PathsData>struct PathsData</a></li>
 <li><a href=vars.html#88F298>pathsData</a></li>
 <li><a href=vars.html#800C38>neighbourhoodData</a></li>
 <li><a href=vars.html#883D9C>neighbourhoodHashesCalculatedAlready</a></li>
+<li><a href=vars.html#838430>moneyMarkerConfigurations</a></li>
 <li><a href=funcs.html#43D890>IsMarkerInRange</a></li>
 <li><a href=funcs.html#4FFC50>FindMarkerTypeD_E_FWithHash</a></li>
 <li><a href=funcs.html#5283C0>Career::MoneyMarkerHit</a></li>
+<li><a href=funcs.html#532D40>Career::EngageTipMarkerHit</a></li>
 <li><a href=funcs.html#5D3DE0>GetNeighbourhoodNameForHash</a></li>
 <li><a href=funcs.html#5D5630>PathsData::InitAfterReadFromBinData</a></li>
 <li><a href=funcs.html#5D9A90>PathsData::ReadFromBinData</a></li>
@@ -4070,7 +4079,6 @@ which is in file <code>GLOBAL/GLOBALB.BUN</code>).
 <li><a href=funcs.html#5129F0>CareerSponsor::GetSponsorNameLanguageKey</a></li>
 <li><a href=funcs.html#528980>Career::RecalculateCollectedEngageMarkers</a></li>
 <li><a href=funcs.html#532830>Career::InitOnProfileLoad</a></li>
-<li><a href=funcs.html#532D40>Career::EngageTipMarkerHit</a></li>
 </ul>
 <p style='text-align:right'><small><a href='#index'>Index</a></small></p>
 </div>

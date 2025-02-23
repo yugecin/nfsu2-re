@@ -3919,19 +3919,30 @@ This data is only loaded while in career/quickrace/freeroam.
 
 Not loading bin section {0x3414A} results in no career markers at all, and no traffic (but other racers do still spawn).||| code
 
+Money markers have extra configuration in bin section {0x34A1E} ({struct MoneyMarkerConfiguration}),                    ||| code,ref
+containing the amount, markerId (used to see if it's already collected), and an availability condition
+which can be: minimum career stage unlocked, race finished (TBC) (this condition type is never actually used),
+or no extra condition.
+
+I'm not sure why that information in stored separately from the marker, since the marker struct can be of any size
+(see {struct Marker.42}), so money markers could've had this information embedded.                                      ||| ref
+
 See {markerdump.txt} for a data dump as made by {nfsu2-re-hooks/debug-custom-dump-markers.c}.                           ||| dumpfileref,hookfileref
 
 .pushmode symbols
 - enum MARKER_TYPE
 - struct Marker
+- struct MoneyMarkerConfiguration
 - struct NeighbourhoodName
 - struct PathsData
 - 88F298
 - 800C38
 - 883D9C
+- 838430
 - 43D890
 - 4FFC50
 - 5283C0
+- 532D40
 - 5D3DE0
 - 5D5630
 - 5D9A90
@@ -4010,7 +4021,6 @@ which is in file {GLOBAL/GLOBALB.BUN}).                                         
 - 5129F0
 - 528980
 - 532830
-- 532D40
 .popmode symbols
 
 .popmode section
